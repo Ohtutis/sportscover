@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import Image from "next/image";
 import { addOns, faqItems, packages, siteConfig, sports, styleOptions } from "./site-config";
@@ -136,9 +136,28 @@ function SectionHeading({ eyebrow, title, copy, center = false }: { eyebrow: str
   );
 }
 
-function ArrowIcon() {
-  return <span aria-hidden="true">↗</span>;
+function Svg({ children, className }: { children: ReactNode; className?: string }) {
+  return (
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{children}</svg>
+  );
 }
+const ArrowIcon = () => <Svg><path d="M7 7h10v10" /><path d="M7 17 17 7" /></Svg>;
+const ArrowDownIcon = () => <Svg><path d="M12 5v14" /><path d="m19 12-7 7-7-7" /></Svg>;
+const ArrowLeftIcon = () => <Svg><path d="M19 12H5" /><path d="m12 19-7-7 7-7" /></Svg>;
+const ArrowRightIcon = () => <Svg><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></Svg>;
+const SwapIcon = () => <Svg><path d="M8 3 4 7l4 4" /><path d="M4 7h16" /><path d="m16 21 4-4-4-4" /><path d="M20 17H4" /></Svg>;
+const CheckIcon = () => <Svg><path d="M20 6 9 17l-5-5" /></Svg>;
+const XIcon = () => <Svg><path d="M18 6 6 18" /><path d="m6 6 12 12" /></Svg>;
+const PlusIcon = () => <Svg><path d="M5 12h14" /><path d="M12 5v14" /></Svg>;
+const MenuIcon = () => <Svg><path d="M4 6h16" /><path d="M4 12h16" /><path d="M4 18h16" /></Svg>;
+const LockIcon = () => <Svg><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></Svg>;
+const UploadIcon = () => <Svg><path d="M12 13v8" /><path d="m8 17 4-4 4 4" /><path d="M20 16.7A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25" /></Svg>;
+const TargetIcon = () => <Svg><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="4" /></Svg>;
+const ImageIcon = () => <Svg><rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="9" cy="9" r="2" /><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21" /></Svg>;
+const ReviewIcon = () => <Svg><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /><path d="m8 11 2 2 4-4" /></Svg>;
+const BadgeCheckIcon = () => <Svg><circle cx="12" cy="12" r="9" /><path d="m8.5 12 2.5 2.5 4.5-5" /></Svg>;
+const PackageIcon = () => <Svg><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></Svg>;
+const processIcons = [TargetIcon, ImageIcon, ReviewIcon, BadgeCheckIcon, PackageIcon];
 
 export default function SiteClient({ turnstileSiteKey = "" }: { turnstileSiteKey?: string }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -371,7 +390,7 @@ export default function SiteClient({ turnstileSiteKey = "" }: { turnstileSiteKey
           <a href="#pricing" onClick={() => setMenuOpen(false)}>Pricing</a>
           <a href="#faq" onClick={() => setMenuOpen(false)}>FAQ</a>
         </nav>
-        <button className="menu-button" aria-expanded={menuOpen} aria-label="Toggle navigation" onClick={() => setMenuOpen((open) => !open)}>{menuOpen ? "Close" : "Menu"}</button>
+        <button className="menu-button" aria-expanded={menuOpen} aria-label="Toggle navigation" onClick={() => setMenuOpen((open) => !open)}>{menuOpen ? <XIcon /> : <MenuIcon />}{menuOpen ? "Close" : "Menu"}</button>
         <button className="button small header-cta" onClick={scrollToForm}>Create My Athlete <ArrowIcon /></button>
       </header>
 
@@ -382,9 +401,9 @@ export default function SiteClient({ turnstileSiteKey = "" }: { turnstileSiteKey
           <p>Upload real game-day photos and receive a complete athlete experience—custom artwork, a premium wall poster, collectible trading cards, and digital graphics made to share.</p>
           <div className="button-row">
             <button className="button" onClick={scrollToForm}>Create Their Collector Pack <ArrowIcon /></button>
-            <a className="text-link" href="#transformation">See Example Transformations <span>↓</span></a>
+            <a className="text-link" href="#transformation">See Example Transformations <ArrowDownIcon /></a>
           </div>
-          <div className="microcopy"><span>✓ No payment today</span><span>✓ Printed after approval</span><span>✓ US shipping included on physical packs</span></div>
+          <div className="microcopy"><span><CheckIcon /> No payment today</span><span><CheckIcon /> Printed after approval</span><span><CheckIcon /> US shipping included on physical packs</span></div>
         </div>
         <figure className="hero-art">
           <Image src="/images/hero-physical.webp" alt="Fictional basketball athlete holding a physical trading card beside a framed poster, collector card pack, and matching phone wallpaper" width={1536} height={960} sizes="(max-width: 820px) 100vw, 58vw" preload />
@@ -410,7 +429,7 @@ export default function SiteClient({ turnstileSiteKey = "" }: { turnstileSiteKey
         <div className="comparison" style={{ "--reveal": `${slider}%` } as React.CSSProperties}>
           <div className="comparison-pane before" role="img" aria-label="Natural parent-shot photo of a fictional basketball athlete" />
           <div className="comparison-pane after" role="img" aria-label="The same fictional athlete transformed into cinematic sports artwork" />
-          <div className="comparison-line" aria-hidden="true"><span>↔</span></div>
+          <div className="comparison-line" aria-hidden="true"><span><SwapIcon /></span></div>
           <span className="comparison-label left">Your original photo</span><span className="comparison-label right">Custom final artwork</span>
           <input type="range" min="8" max="92" value={slider} onChange={(event) => setSlider(Number(event.target.value))} aria-label="Compare original photo and final artwork" />
         </div>
@@ -422,7 +441,7 @@ export default function SiteClient({ turnstileSiteKey = "" }: { turnstileSiteKey
         <div className="sports-grid">{visibleSports.map((sport, index) => (
           <button key={sport} className="sport-card" onClick={() => { update("sport", sport); setExampleSport(sport); document.getElementById("sport-examples")?.scrollIntoView({ behavior: "smooth", block: "center" }); }}>
             <span className={`sport-media ${landscapeSheets.has(sport) ? "landscape-media" : ""}`} aria-hidden="true"><span className={`sport-image single-sport-image ${landscapeSheets.has(sport) ? "sheet-landscape" : "sheet-portrait"}`} style={{ backgroundImage: `url(/images/sport-examples/${sportSlug[sport]}.webp)`, backgroundSize: "300% 200%", backgroundPosition: "0 0" }} /></span>
-            <span className="sport-caption"><small>{String(index + 1).padStart(2, "0")}</small><strong>{sport}</strong><i>↗</i></span>
+            <span className="sport-caption"><small>{String(index + 1).padStart(2, "0")}</small><strong>{sport}</strong><i><ArrowIcon /></i></span>
           </button>
         ))}</div>
         <div className="sports-actions"><button type="button" className="outline-button" aria-expanded={showAllSports} onClick={() => setShowAllSports((current) => !current)}>{showAllSports ? "Show Fewer Sports" : `View All ${sports.length} Sports`} <ArrowIcon /></button></div>
@@ -455,7 +474,7 @@ export default function SiteClient({ turnstileSiteKey = "" }: { turnstileSiteKey
           ["Personal review", "We check every photo, confirm the package, then send a secure payment link."],
           ["Approve the proof", "After payment, we create a watermarked proof and complete the included revision."],
           ["Print & deliver", "Only approved artwork goes to print. Digital files arrive by email; tracking follows separately."],
-        ].map(([title, copy], index) => <article key={title}><span>0{index + 1}</span><div className="process-icon">{["◎", "▧", "◇", "✓", "↗"][index]}</div><h3>{title}</h3><p>{copy}</p></article>)}</div>
+        ].map(([title, copy], index) => { const Icon = processIcons[index]; return <article key={title}><span>0{index + 1}</span><div className="process-icon"><Icon /></div><h3>{title}</h3><p>{copy}</p></article>; })}</div>
         <p className="process-note">Most first proofs are delivered within 2 business days after payment. Print-carrier delivery dates and team-order timing are confirmed separately.</p>
       </section>
 
@@ -473,7 +492,7 @@ export default function SiteClient({ turnstileSiteKey = "" }: { turnstileSiteKey
         <div className="pricing-grid">{packages.map((item) => <article className={`price-card ${item.id === "signature" ? "featured" : ""}`} key={item.id}>
           {item.badge && <span className="price-badge">{item.badge}</span>}
           <div className="price-top"><h3>{item.name}</h3><strong>{item.price}</strong><p>{item.summary}</p></div>
-          <ul>{item.features.map((feature) => <li key={feature}><span>✓</span>{feature}</li>)}</ul>
+          <ul>{item.features.map((feature) => <li key={feature}><CheckIcon />{feature}</li>)}</ul>
           <button className={item.badge ? "button full" : "outline-button full"} onClick={() => { update("package_interest", `${item.name} — ${item.price.toLowerCase()}`); scrollToForm(); }}>{item.cta} <ArrowIcon /></button>
         </article>)}</div>
         <p className="pricing-note"><strong>No payment is required today.</strong> We review your photos first, confirm the right package by email, and collect the shipping address securely during payment. Physical products are sent to print only after artwork approval.</p>
@@ -487,9 +506,9 @@ export default function SiteClient({ turnstileSiteKey = "" }: { turnstileSiteKey
         <SectionHeading eyebrow="BETTER PHOTOS, BETTER ARTWORK" title="What Should You Upload?" copy="You do not need professional photography. These are ordinary phone-photo examples—the kind of clear, natural game-day images that work best." />
         <div className="guidelines-layout">
           <div className="guideline-visual">
-            {["Clear face", "Visible uniform", "Action pose", "Heavy blur", "Too dark", "Too far away"].map((label, index) => <div className={`guide-panel guide-${index}`} key={label}><span>{index < 3 ? "Good" : "Avoid"}</span><strong>{label}</strong></div>)}
+            {["Clear face", "Visible uniform", "Action pose", "Heavy blur", "Too dark", "Too far away"].map((label, index) => <div className={`guide-panel guide-${index}`} key={label}><span>{index < 3 ? <><CheckIcon /> Good</> : <><XIcon /> Avoid</>}</span><strong>{label}</strong></div>)}
           </div>
-          <div className="checklists"><div><h3>Photos that work well</h3>{["Face is clearly visible", "Athlete is reasonably well lit", "Uniform and number are visible", "Natural sports pose", "Original-resolution files"].map((item) => <p key={item}><span>✓</span>{item}</p>)}</div><div><h3>Try to avoid</h3>{["Social-media screenshots", "Extremely dark photos", "Heavy motion blur", "Face covered in every image", "Tiny athlete far away"].map((item) => <p key={item}><span>×</span>{item}</p>)}</div></div>
+          <div className="checklists"><div><h3>Photos that work well</h3>{["Face is clearly visible", "Athlete is reasonably well lit", "Uniform and number are visible", "Natural sports pose", "Original-resolution files"].map((item) => <p key={item}><CheckIcon />{item}</p>)}</div><div><h3>Try to avoid</h3>{["Social-media screenshots", "Extremely dark photos", "Heavy motion blur", "Face covered in every image", "Tiny athlete far away"].map((item) => <p key={item}><XIcon />{item}</p>)}</div></div>
         </div>
         <p className="trust-note">Not sure? Upload your best options. We review them before you pay.</p>
       </section>
@@ -501,9 +520,9 @@ export default function SiteClient({ turnstileSiteKey = "" }: { turnstileSiteKey
 
       <section className="section form-section" id="create">
         <SectionHeading eyebrow="START YOUR PROJECT" title="Tell Us About Your Athlete." copy="Submit the details and 3–5 photos. There is no payment today. We will personally review the request and email you with the next step." center />
-        <div className="trust-chips">{["Secure photo upload", "No payment today", "Personal review", "No public use without permission"].map((chip) => <span key={chip}>✓ {chip}</span>)}</div>
+        <div className="trust-chips">{["Secure photo upload", "No payment today", "Personal review", "No public use without permission"].map((chip) => <span key={chip}><CheckIcon /> {chip}</span>)}</div>
         <form className="form-card" id="form-card" onSubmit={submit} noValidate>
-          {successId ? <div className="success-card" role="status"><span className="success-icon">✓</span><span className="eyebrow">REQUEST RECEIVED</span><h3>We’ve Got the Photos.</h3><p>Your request has been stored securely. We will review the photos and contact you within 24 hours with confirmation, any questions, and a secure payment link if the project is accepted.</p><strong>Request ID: {successId}</strong><small>{emailDelayed ? `The request is safe, but automatic email delivery is delayed. Save this Request ID or contact ${siteConfig.supportEmail}.` : "Please check your spam or promotions folder if you do not see the confirmation email within a few minutes."}</small><a className="button" href="#examples">View More Examples</a></div> : <>
+          {successId ? <div className="success-card" role="status"><span className="success-icon"><CheckIcon /></span><span className="eyebrow">REQUEST RECEIVED</span><h3>We’ve Got the Photos.</h3><p>Your request has been stored securely. We will review the photos and contact you within 24 hours with confirmation, any questions, and a secure payment link if the project is accepted.</p><strong>Request ID: {successId}</strong><small>{emailDelayed ? `The request is safe, but automatic email delivery is delayed. Save this Request ID or contact ${siteConfig.supportEmail}.` : "Please check your spam or promotions folder if you do not see the confirmation email within a few minutes."}</small><a className="button" href="#examples">View More Examples</a></div> : <>
             <div className="form-progress"><div><span>Step {step} of 5</span><strong>{["Choose the project", "Athlete details", "Photo upload", "Contact details", "Review & consent"][step - 1]}</strong></div><div className="progress-track"><i style={{ width: `${step * 20}%` }} /></div></div>
             {errors.length > 0 && <div className="error-summary" ref={errorRef} tabIndex={-1} role="alert"><strong>Please check the following:</strong><ul>{errors.map((error) => <li key={error}>{error}</li>)}</ul></div>}
 
@@ -513,8 +532,8 @@ export default function SiteClient({ turnstileSiteKey = "" }: { turnstileSiteKey
 
             {step === 2 && <div className="form-step"><div className="field-grid"><label>Athlete first name<input value={fieldValue(form, "athlete_first_name")} onChange={(event) => update("athlete_first_name", event.target.value)} autoComplete="off" /></label><label>Last name or last initial<input value={fieldValue(form, "athlete_last_name")} onChange={(event) => update("athlete_last_name", event.target.value)} autoComplete="off" /></label><label>Jersey number<input value={fieldValue(form, "jersey_number")} onChange={(event) => update("jersey_number", event.target.value)} /></label><label>Position / event<input value={fieldValue(form, "position_event")} onChange={(event) => update("position_event", event.target.value)} /></label><label>Team name<input value={fieldValue(form, "team_name")} onChange={(event) => update("team_name", event.target.value)} /></label><label>Graduation year <em>Optional</em><input value={fieldValue(form, "graduation_year")} onChange={(event) => update("graduation_year", event.target.value)} inputMode="numeric" /></label><label>Primary team color<input value={fieldValue(form, "primary_color")} onChange={(event) => update("primary_color", event.target.value)} placeholder="Navy blue" /></label><label>Secondary team color<input value={fieldValue(form, "secondary_color")} onChange={(event) => update("secondary_color", event.target.value)} placeholder="Electric blue" /></label>{fieldValue(form, "order_type") === "Team Order" && <label>Approximate athletes<input value={fieldValue(form, "team_size")} onChange={(event) => update("team_size", event.target.value)} inputMode="numeric" /></label>}<label>Season / year <em>Optional</em><input value={fieldValue(form, "season_year")} onChange={(event) => update("season_year", event.target.value)} /></label><label className="full-field">Short headline <em>Optional</em><input value={fieldValue(form, "headline")} onChange={(event) => update("headline", event.target.value)} placeholder="Own the moment" /></label><label className="full-field">Stats <em>Optional · {fieldValue(form, "stats").length}/300</em><textarea value={fieldValue(form, "stats")} onChange={(event) => update("stats", event.target.value)} maxLength={300} /></label></div></div>}
 
-            {step === 3 && <div className="form-step"><div className="upload-intro"><h3>Add 3–5 clear photos.</h3><p>A close-up plus one or two action images usually creates the strongest result. Images are resized, converted, and stripped of embedded location metadata before upload.</p></div><label className="upload-zone"><input type="file" multiple accept=".jpg,.jpeg,.png,.webp,.heic,.heif,image/jpeg,image/png,image/webp,image/heic,image/heif" onChange={addPhotos} disabled={photos.length >= 5} /><span className="upload-icon">＋</span><strong>Add Athlete Photos</strong><small>JPG, PNG, WebP, HEIC or HEIF · 20 MB each · {photos.length}/5 selected</small></label>
-              <div className="photo-grid">{photos.map((photo, index) => <article className="photo-card" key={photo.id}><Image src={photo.preview} alt={`Selected athlete photo ${index + 1}`} width={photo.width} height={photo.height} sizes="90px" unoptimized /><div className="photo-meta"><strong>{index + 1}. {photo.name}</strong><select aria-label={`Role for ${photo.name}`} value={photo.role} onChange={(event) => setPhotoRole(photo.id, event.target.value as PhotoRole)}><option value="additional">Additional</option><option value="face">Best face photo</option><option value="action">Best action photo</option><option value="uniform">Uniform reference</option></select><div><button type="button" onClick={() => movePhoto(index, -1)} aria-label="Move photo earlier">←</button><button type="button" onClick={() => movePhoto(index, 1)} aria-label="Move photo later">→</button><button type="button" className="remove" onClick={() => removePhoto(photo.id)}>Remove</button></div>{photo.progress > 0 && <progress value={photo.progress} max="100">{photo.progress}%</progress>}</div></article>)}</div><p className="privacy-note">🔒 Photos remain private and are not used in our portfolio or advertising without separate permission.</p></div>}
+            {step === 3 && <div className="form-step"><div className="upload-intro"><h3>Add 3–5 clear photos.</h3><p>A close-up plus one or two action images usually creates the strongest result. Images are resized, converted, and stripped of embedded location metadata before upload.</p></div><label className="upload-zone"><input type="file" multiple accept=".jpg,.jpeg,.png,.webp,.heic,.heif,image/jpeg,image/png,image/webp,image/heic,image/heif" onChange={addPhotos} disabled={photos.length >= 5} /><span className="upload-icon"><UploadIcon /></span><strong>Add Athlete Photos</strong><small>JPG, PNG, WebP, HEIC or HEIF · 20 MB each · {photos.length}/5 selected</small></label>
+              <div className="photo-grid">{photos.map((photo, index) => <article className="photo-card" key={photo.id}><Image src={photo.preview} alt={`Selected athlete photo ${index + 1}`} width={photo.width} height={photo.height} sizes="90px" unoptimized /><div className="photo-meta"><strong>{index + 1}. {photo.name}</strong><select aria-label={`Role for ${photo.name}`} value={photo.role} onChange={(event) => setPhotoRole(photo.id, event.target.value as PhotoRole)}><option value="additional">Additional</option><option value="face">Best face photo</option><option value="action">Best action photo</option><option value="uniform">Uniform reference</option></select><div><button type="button" onClick={() => movePhoto(index, -1)} aria-label="Move photo earlier"><ArrowLeftIcon /></button><button type="button" onClick={() => movePhoto(index, 1)} aria-label="Move photo later"><ArrowRightIcon /></button><button type="button" className="remove" onClick={() => removePhoto(photo.id)}>Remove</button></div>{photo.progress > 0 && <progress value={photo.progress} max="100">{photo.progress}%</progress>}</div></article>)}</div><p className="privacy-note"><LockIcon /> Photos remain private and are not used in our portfolio or advertising without separate permission.</p></div>}
 
             {step === 4 && <div className="form-step"><div className="field-grid"><label>Parent / customer full name<input value={fieldValue(form, "customer_name")} onChange={(event) => update("customer_name", event.target.value)} autoComplete="name" /></label><label>Email address<input type="email" value={fieldValue(form, "customer_email")} onChange={(event) => update("customer_email", event.target.value)} autoComplete="email" /></label><label>Country<select value={fieldValue(form, "country")} onChange={(event) => update("country", event.target.value)}><option>United States</option><option>Canada</option><option>United Kingdom</option><option>Australia</option><option>Other</option></select></label>{fieldValue(form, "country") === "United States" && <label>State<input value={fieldValue(form, "state")} onChange={(event) => update("state", event.target.value)} autoComplete="address-level1" /></label>}<label>Phone <em>Optional</em><input type="tel" value={fieldValue(form, "phone")} onChange={(event) => update("phone", event.target.value)} autoComplete="tel" /></label><label>Instagram <em>Optional</em><input value={fieldValue(form, "instagram")} onChange={(event) => update("instagram", event.target.value)} placeholder="@handle" /></label><label>Deadline / event date <em>Optional</em><input type="date" value={fieldValue(form, "deadline_date")} onChange={(event) => update("deadline_date", event.target.value)} /></label><label className="full-field">What matters most about this design? <em>Optional</em><textarea value={fieldValue(form, "notes")} onChange={(event) => update("notes", event.target.value)} placeholder="Example: This is for Senior Night. He loves the black-and-gold uniform, and we would like the final poster to feel dramatic but clean." /></label></div></div>}
 
@@ -525,12 +544,12 @@ export default function SiteClient({ turnstileSiteKey = "" }: { turnstileSiteKey
               ["portfolio_contact_opt_in", "After the project is complete, you may contact me separately to request permission to feature the final artwork. Nothing will be published without additional approval."],
             ].map(([key, label], index) => <label key={key}><input type="checkbox" checked={Boolean(form[key])} onChange={(event) => update(key, event.target.checked)} /><span>{label}{index === 3 && <em> Optional</em>}</span></label>)}</div>{turnstileSiteKey && <div className="cf-turnstile" data-sitekey={turnstileSiteKey} data-callback="onCoverMomentTurnstile" />}</div>}
 
-            <div className="form-actions">{step > 1 && <button type="button" className="back-button" onClick={() => { setErrors([]); setStep((current) => current - 1); }}>← Back</button>} {step < 5 ? <button type="button" className="button" onClick={nextStep}>{["Continue to Athlete Details", "Continue to Photos", "Continue to Contact Details", "Review Request"][step - 1]} <ArrowIcon /></button> : <button type="submit" className="button" disabled={busy}>{busy ? status || "Sending Request…" : "Submit My Athlete"} <ArrowIcon /></button>}</div>
+            <div className="form-actions">{step > 1 && <button type="button" className="back-button" onClick={() => { setErrors([]); setStep((current) => current - 1); }}><ArrowLeftIcon /> Back</button>} {step < 5 ? <button type="button" className="button" onClick={nextStep}>{["Continue to Athlete Details", "Continue to Photos", "Continue to Contact Details", "Review Request"][step - 1]} <ArrowIcon /></button> : <button type="submit" className="button" disabled={busy}>{busy ? status || "Sending Request…" : "Submit My Athlete"} <ArrowIcon /></button>}</div>
           </>}
         </form>
       </section>
 
-      <section className="section faq-section" id="faq"><SectionHeading eyebrow="THE DETAILS" title="Questions, Answered." center /><div className="faq-list">{faqItems.map(([question, answer]) => <details key={question}><summary>{question}<span>＋</span></summary><p>{answer}</p></details>)}</div></section>
+      <section className="section faq-section" id="faq"><SectionHeading eyebrow="THE DETAILS" title="Questions, Answered." center /><div className="faq-list">{faqItems.map(([question, answer]) => <details key={question}><summary>{question}<span><PlusIcon /></span></summary><p>{answer}</p></details>)}</div></section>
 
       <section className="final-cta"><span className="eyebrow">HOLD IT · HANG IT · COLLECT IT · SHARE IT</span><h2>Make the Moment Feel <em>as Big as It Was.</em></h2><p>Turn their best game-day photos into a cinematic poster and a real pack of personalized trading cards.</p><button className="button" onClick={scrollToForm}>Create Their Collector Pack <ArrowIcon /></button><small>No payment today · Personal reply within 24 hours</small></section>
 
