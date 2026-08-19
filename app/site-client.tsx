@@ -126,6 +126,37 @@ async function preparePhoto(file: File): Promise<PreparedPhoto> {
   };
 }
 
+const heroSlides = [
+  { sport: "Basketball", src: "/images/hero-basketball.webp", alt: "Fictional basketball athlete in cinematic poster artwork" },
+  { sport: "Football", src: "/images/hero-football.webp", alt: "Fictional American football athlete in cinematic poster artwork" },
+  { sport: "Softball", src: "/images/hero-softball.webp", alt: "Fictional softball athlete in cinematic poster artwork" },
+] as const;
+
+function HeroShowcase() {
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = setInterval(() => setIndex((current) => (current + 1) % heroSlides.length), 3000);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <figure className="hero-art">
+      <div className="hero-stage">
+        {heroSlides.map((slide, idx) => (
+          <Image key={slide.sport} src={slide.src} alt={slide.alt} fill priority={idx === 0} sizes="(max-width: 960px) 88vw, 40vw" className={idx === index ? "hero-slide active" : "hero-slide"} />
+        ))}
+        <span className="hero-badge" key={heroSlides[index].sport}>{heroSlides[index].sport}</span>
+        <figcaption>Example artwork · Fictional athlete</figcaption>
+      </div>
+      <div className="hero-dots" role="tablist" aria-label="Sport showcase">
+        {heroSlides.map((slide, idx) => (
+          <button key={slide.sport} type="button" role="tab" aria-selected={idx === index} aria-label={`Show ${slide.sport} example`} className={idx === index ? "active" : ""} onClick={() => setIndex(idx)} />
+        ))}
+      </div>
+    </figure>
+  );
+}
+
 function SectionHeading({ eyebrow, title, copy, center = false }: { eyebrow: string; title: string; copy?: string; center?: boolean }) {
   return (
     <div className={`section-heading ${center ? "center" : ""}`}>
@@ -423,10 +454,7 @@ export default function SiteClient({ turnstileSiteKey = "" }: { turnstileSiteKey
           </div>
           <div className="microcopy"><span><CheckIcon /> No payment today</span><span><CheckIcon /> Printed after approval</span><span><CheckIcon /> US shipping included on physical packs</span></div>
         </div>
-        <figure className="hero-art">
-          <Image src="/images/hero-physical.webp" alt="Fictional basketball athlete holding a physical trading card beside a framed poster, collector card pack, and matching phone wallpaper" width={1536} height={960} sizes="(max-width: 820px) 100vw, 58vw" preload />
-          <figcaption>Example artwork · Fictional athlete</figcaption>
-        </figure>
+        <HeroShowcase />
       </section>
 
       <section className="trust-strip" aria-label="Service benefits">

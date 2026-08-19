@@ -39,3 +39,25 @@ yarn-error.log*
 /.wrangler/
 /outputs/
 /work/
+
+# --- Game Day Edition art pipeline -------------------------------------------
+# Heavy raw / intermediate art and regenerable renders stay out of git.
+# See docs/GAME-DAY-EDITION.md and print-sources/MANIFEST.md for what lives where
+# and how to regenerate any of it.
+print-sources/upscaled/
+print-sources/figma-ready/
+print-sources/chrome-allstar/
+print-sources/_qa_*.png
+print-sources/*.png
+!print-sources/pack-assets-foil-pinstripe-tile.png
+
+# poster print masters are 30 MB+ each — re-export from Figma (node 90:2 / 105:1218)
+print-sources/output/**/*poster-*.png
+
+# flip inputs are re-exported from Figma at 2x; GIFs are internal preview only
+card-flip/assets/
+card-flip/out/*.gif
+card-flip/out/frames/
+
+# athlete cutouts are per-order and large
+exports/shared-cutouts/
