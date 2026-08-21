@@ -1,0 +1,35 @@
+{
+  "verdict": "ok",
+  "usable": [
+    "art-pipeline/out/athletes/soccer-age-22/before/photo1.png",
+    "art-pipeline/out/athletes/soccer-age-22/before/photo2.png",
+    "art-pipeline/out/athletes/soccer-age-22/before/photo3.png",
+    "art-pipeline/out/athletes/soccer-age-22/before/photo4.png"
+  ],
+  "anchorOrder": [
+    "art-pipeline/out/athletes/soccer-age-22/before/photo1.png",
+    "art-pipeline/out/athletes/soccer-age-22/before/photo4.png",
+    "art-pipeline/out/athletes/soccer-age-22/before/photo2.png",
+    "art-pipeline/out/athletes/soccer-age-22/before/photo3.png"
+  ],
+  "identity": [
+    {
+      "path": "art-pipeline/out/athletes/soccer-age-22/before/photo1.png",
+      "similarityToOthers": 0.738
+    },
+    {
+      "path": "art-pipeline/out/athletes/soccer-age-22/before/photo2.png",
+      "similarityToOthers": 0.654
+    },
+    {
+      "path": "art-pipeline/out/athletes/soccer-age-22/before/photo3.png",
+      "similarityToOthers": 0.612
+    },
+    {
+      "path": "art-pipeline/out/athletes/soccer-age-22/before/photo4.png",
+      "similarityToOthers": 0.748
+    }
+  ],
+  "rejected": [],
+  "notes": []
+}

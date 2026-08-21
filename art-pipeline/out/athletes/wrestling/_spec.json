@@ -1,0 +1,85 @@
+{
+  "athlete": "wrestling",
+  "colourConflict": null,
+  "bestPortrait": "photo1.png",
+  "sport": "wrestling",
+  "generatedAt": "2026-08-21T21:17:07.158Z",
+  "judge": "gemini-3.1-pro-preview",
+  "source": {
+    "photos": [
+      "photo1.png",
+      "photo2.png",
+      "photo3.png",
+      "photo4.png"
+    ],
+    "formFields": {
+      "firstName": "Dawson",
+      "lastName": "Pryor",
+      "jerseyNumber": "1",
+      "team": "Foundry Hill Forge",
+      "ageYears": 17,
+      "primaryColor": "#C8102E",
+      "secondaryColor": "#1A1A1A"
+    }
+  },
+  "resolved": [
+    {
+      "item": "hair",
+      "source": "photos",
+      "value": "Ash blond hair, buzzed short at the sides and back with a little length left on top, brushed forward and slightly spiked. No fringe falling over the forehead.",
+      "partial": "",
+      "why": "read off all four photographs by hand (2026-08-22)."
+    },
+    {
+      "item": "build",
+      "source": "photos",
+      "value": "Lean and wiry with a lightweight wrestler's build: shoulders and arms clearly defined but not bulky, a flat hard midsection with very low body fat, strong forearms, a normal neck rather than a thick one. Short and compact rather than tall. Athletic and dense-looking WITHOUT heavy mass.",
+      "partial": "",
+      "why": "read off photo2/photo3 by hand (2026-08-22); the resolver wrote 'lean athletic', which loses the wrestler's density that is the whole read of this athlete. Aligned to the photographs 2026-08-22: the athletes.ts record described a heavyweight's density (thick neck and trapezius) and all four photographs show a lean, wiry lightweight. The anchor wins — a record describing a different body than the identity plate puts every pose in the middle of the argument, which is the same fix ice-hockey needed."
+    },
+    {
+      "item": "shirt",
+      "source": "photos",
+      "value": "A SOLID RED one-piece wrestling SINGLET — one garment covering torso and thighs together, with a deep scooped neckline and wide shoulder straps, and NO contrasting band across the chest. The club crest — the white octagon with its red border and the red-and-black hammer — sits LARGE and CENTRED on the chest. The number 1 sits on the LOWER LEG of the singlet on his LEFT thigh in WHITE with a dark navy outline — the left thigh in every frame — and his RIGHT leg carries only the small WHITE MAKER'S SCRIPT INITIAL that photo2.png shows low on that thigh — nothing else is printed on it. The BACK of the singlet is not visible in any photograph; the DECISION is that it stays plain red with NO number and NO lettering, because a wrestling singlet carries its number on the thigh and inventing one across the shoulders would put a mark on this kit that does not exist. No club name, no player name, no sponsor.",
+      "partial": "",
+      "why": "read off the zoomed crops of photo2.png by hand (2026-08-22). Two corrections to the resolver: it saw 'white and blue trim' around the neckline (the singlet is solid red — that was the medal ribbon lying across the chest), and it split the one-piece into 'top' and 'bottoms'. The plain back is recorded deliberately: wrestling singlets carry the number on the thigh, so nothing may be invented across the shoulders for the card back. Back-of-singlet claim reworded 2026-08-22 from a reading to a stated decision after art:spec:verify correctly pointed out that no photograph shows it. WORDING FIXED 2026-08-22: 'carrying the maker's mark it really has' is an instruction no model can follow — the mark in the photograph is too small and blurred to copy, so it invents a fictional brand and stamps it on every item. Either the mark is legible enough to name exactly, or the item is plain. An invented logo breaks the customer's own rule: real marks stay, we never create our own. LIMBS NAMED 2026-08-22 (§28/§30): the spec said 'one knee' and 'one thigh', so action2 came back with the pad on the LEFT knee and the number hidden on the far thigh while the hero has the pad on the RIGHT knee and the number on the LEFT thigh. Three of these frames sit side by side on one card, so the side is now named after the approved hero. Thigh mark restored 2026-08-22 under README §39: art:spec:verify found a white Champion C on that leg in photo2 and it is plainly there. His own kit's mark stays."
+    },
+    {
+      "item": "shorts",
+      "source": "photos",
+      "value": "There is NO separate lower garment: the singlet IS the whole kit and covers the thighs. Nothing else is worn on the legs except the knee pad.",
+      "partial": "",
+      "why": "the one-piece garment is described in the shirt line; this item exists only because the data model has the slot (2026-08-22)."
+    },
+    {
+      "item": "socks",
+      "source": "photos",
+      "value": "BLACK CREW-LENGTH socks that extend several inches ABOVE the collar of the wrestling shoes, exactly as photo3.png shows them — including the small WHITE MAKER'S SWOOSH on the outer ankle, which is legible in the photograph and is his own kit appearing as it is. Nothing else is printed on them.",
+      "partial": "",
+      "why": "read off a zoomed crop of photo3.png (2026-08-22) after art:spec:verify caught that I had only zoomed photo2 and declared the socks invisible. They are plainly there in the training frame. Length corrected 2026-08-22: I wrote 'low ankle socks' and the photograph shows crew length well above the shoe collar. WORDING FIXED 2026-08-22: 'carrying the maker's mark it really has' is an instruction no model can follow — the mark in the photograph is too small and blurred to copy, so it invents a fictional brand and stamps it on every item. Either the mark is legible enough to name exactly, or the item is plain. An invented logo breaks the customer's own rule: real marks stay, we never create our own. REVERSED 2026-08-22 under README §39 (the photograph wins): the line had declared the socks plain on the grounds that the mark was 'not legible enough to reproduce'. A 3x crop of photo3 shows a perfectly legible swoosh, and the hero frame had already drawn it. The prose was wrong, not the frame."
+    },
+    {
+      "item": "footwear",
+      "source": "photos",
+      "value": "His own wrestling shoes, exactly as photo3.png shows them: a HIGH-CUT wrestling shoe whose padded collar WRAPS THE ANKLE and rises above the ankle bone, with a wide pale-cream instep strap fastened across the very top of the shoe and a navy ankle section under it. Light grey and white upper with navy lacing, navy side panels and small red accents. The shoe carries its real maker's wordmark and side stripes on the panel, rendered legibly and correctly — that is his own equipment appearing as it is. Nothing else is printed on it. A flexible flat sole. A band of black crew sock shows above the collar. Clean and new in every shot.",
+      "partial": "",
+      "why": "read off photo3.png (2026-08-22). Real marks on his own equipment stay, per the branding rule; I had wrongly written them off as invisible. Colours corrected 2026-08-22 from a tighter crop: I first read the shoe as navy with a white strap, the verifier read it as light grey with a navy strap, and the close crop shows both were half right — a light grey and white boot with navy lacing and panels. Second time this athlete's spec was fixed by going back to the photograph instead of arguing. WORDING FIXED 2026-08-22: 'carrying the maker's mark it really has' is an instruction no model can follow — the mark in the photograph is too small and blurred to copy, so it invents a fictional brand and stamps it on every item. Either the mark is legible enough to name exactly, or the item is plain. An invented logo breaks the customer's own rule: real marks stay, we never create our own. Height corrected 2026-08-22 from the customer's own crop: the shoes are LOW-cut with the sock showing above them; I had written 'high-cut boot laced over the ankle' and the plate duly drew high-tops. Rewritten POSITIVELY 2026-08-22 after four failures (three art:fix edits and one fresh roll) all returned high-top boots with an invented Asics mark: the line had been built from negations — 'NOT high-top', 'NO maker's mark' — and README §5 says a negation hands the model exactly the picture you do not want. Now it describes what the shoe IS: a low court-cut shoe with sock showing above it and plain unbroken sides. Maker's mark ALLOWED BACK 2026-08-22 by the customer's rule, because this time the model rendered it legibly and correctly rather than as the garbled fake that caused the earlier strip-out. The standing rule: a real mark stays when it comes out RECOGNISABLE; when it comes out garbled the surface goes plain, because an unreadable smudge is neither their brand nor honest. HEIGHT PUT BACK TO HIGH-CUT 2026-08-22: art:spec:verify on gemini-3.1-pro-preview called the low-cut claim contradicted, and a 3x zoom of photo3 settles it — the navy collar wraps above the ankle bone with the cream strap over it, and only a band of sock shows. The four 'failures' that produced high-tops were the model drawing the photograph correctly against a wrong line. §33: the crop wins."
+    },
+    {
+      "item": "equipment",
+      "source": "photos",
+      "value": "BLACK wrestling HEADGEAR — ear guards over both ears held by pale grey-white straps over the crown and behind the head with a chin strap, exactly as photo2.png shows it. It covers the EARS ONLY and leaves the whole face open. A PLAIN BLACK KNEE PAD on his RIGHT knee — the right knee in every frame, never the left, with no maker's mark and no lettering on it. NO ball and NO implement of any kind — this sport has none, and nothing may be invented into his hands.",
+      "partial": "",
+      "why": "read off the zoomed crops of photo2.png by hand (2026-08-22). WORDING FIXED 2026-08-22: 'carrying the maker's mark it really has' is an instruction no model can follow — the mark in the photograph is too small and blurred to copy, so it invents a fictional brand and stamps it on every item. Either the mark is legible enough to name exactly, or the item is plain. An invented logo breaks the customer's own rule: real marks stay, we never create our own. LIMBS NAMED 2026-08-22 (§28/§30): the spec said 'one knee' and 'one thigh', so action2 came back with the pad on the LEFT knee and the number hidden on the far thigh while the hero has the pad on the RIGHT knee and the number on the LEFT thigh. Three of these frames sit side by side on one card, so the side is now named after the approved hero."
+    }
+  ],
+  "crest": {
+    "use": true,
+    "slug": "foundry-hill-forge",
+    "fromPhotos": true,
+    "note": "A large white octagon with a red border containing a black and red hammer graphic is clearly visible on the chest.",
+    "placement": "LARGE and CENTRED on the chest of the singlet, roughly two hand-widths across, exactly where and how large the kit photograph shows it.",
+    "placementWhy": "read off the zoomed crop of photo2.png by hand (2026-08-22)."
+  },
+  "defaults": "a red singlet with a contrasting band across the chest and trim at the leg openings, a knee pad on one knee, and red headgear. The kit fits properly and is clean and well kept.\nCONSISTENT ACROSS THE WHOLE SET — three of these frames sit side by side on one card, so\nthese must be identical in every shot and are not open to interpretation:\n- Socks are red, matching the kit. Never white, never a different colour.\n- Equipment: no ball or implement of any kind. The same one in every shot.\n- Footwear: plain black wrestling shoes with white soles. The same pair in every shot, clean and unmarked."
+}

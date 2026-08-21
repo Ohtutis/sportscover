@@ -1,0 +1,35 @@
+{
+  "verdict": "ok",
+  "usable": [
+    "art-pipeline/out/athletes/lacrosse/before/photo1.png",
+    "art-pipeline/out/athletes/lacrosse/before/photo2.png",
+    "art-pipeline/out/athletes/lacrosse/before/photo3.png",
+    "art-pipeline/out/athletes/lacrosse/before/photo4.png"
+  ],
+  "anchorOrder": [
+    "art-pipeline/out/athletes/lacrosse/before/photo4.png",
+    "art-pipeline/out/athletes/lacrosse/before/photo1.png",
+    "art-pipeline/out/athletes/lacrosse/before/photo3.png",
+    "art-pipeline/out/athletes/lacrosse/before/photo2.png"
+  ],
+  "identity": [
+    {
+      "path": "art-pipeline/out/athletes/lacrosse/before/photo1.png",
+      "similarityToOthers": 0.69
+    },
+    {
+      "path": "art-pipeline/out/athletes/lacrosse/before/photo2.png",
+      "similarityToOthers": 0.63
+    },
+    {
+      "path": "art-pipeline/out/athletes/lacrosse/before/photo3.png",
+      "similarityToOthers": 0.609
+    },
+    {
+      "path": "art-pipeline/out/athletes/lacrosse/before/photo4.png",
+      "similarityToOthers": 0.652
+    }
+  ],
+  "rejected": [],
+  "notes": []
+}

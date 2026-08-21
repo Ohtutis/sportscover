@@ -1,0 +1,83 @@
+{
+  "athlete": "soccer-age-50",
+  "colourConflict": null,
+  "bestPortrait": "photo1.png",
+  "sport": "soccer",
+  "generatedAt": "2026-08-20T19:16:11.263Z",
+  "judge": "gemini-2.5-pro",
+  "source": {
+    "photos": [
+      "photo1.png",
+      "photo2.png",
+      "photo3.png",
+      "photo4.png"
+    ],
+    "formFields": {
+      "firstName": "Teresa",
+      "lastName": "Aguilar",
+      "jerseyNumber": "11",
+      "team": "Sunfield Kestrels",
+      "ageYears": 50,
+      "primaryColor": "#1E7B3C",
+      "secondaryColor": "#F5F5F5"
+    }
+  },
+  "resolved": [
+    {
+      "item": "hair",
+      "source": "photos",
+      "value": "Dark brown hair with visible grey strands, shoulder-length, pulled back into a high textured ponytail. It is the SAME ponytail in every frame \u2014 never loose, never down.",
+      "partial": "",
+      "why": "written by hand from photo2.png (2026-08-20) \u2014 the resolver could not read the strip"
+    },
+    {
+      "item": "build",
+      "source": "photos",
+      "value": "The athlete has a lean, athletic build and appears to be of average height. She has defined musculature in her arms and legs, and a lean midsection.",
+      "partial": "",
+      "why": "clearly visible in photo2.png"
+    },
+    {
+      "item": "shirt",
+      "source": "photos",
+      "value": "Green short-sleeved shirt with a plain green body. A NARROW white binding follows the V-neck the whole way round the collar. Each short sleeve ends in a narrow white cuff band. Those two are the only white trim \u2014 no shoulder panels, no side stripes, no chest stripe. A small white NIKE SWOOSH sits on the wearer's RIGHT chest, level with the crest on the left. The collar binding and the cuffs are the same on the back. The crest is on the front left chest only; the back carries the number and nothing else.",
+      "partial": "",
+      "why": "read off photo2.png / photo3.png by hand (2026-08-20) \u2014 the resolver could not make them out"
+    },
+    {
+      "item": "shorts",
+      "source": "photos",
+      "value": "Green shorts, plain. The ONLY white on them is a short VERTICAL white binding along the small slit in the OUTSIDE SIDE SEAM just above the hem \u2014 about the length of a thumb, running up and down on the side of the leg. The bottom hem edge itself is plain green the whole way round: NO white band across the hem, NO white facing, no white on the front or the back of the leg. A short white drawstring at the waist.",
+      "partial": "",
+      "why": "written by hand from photo2.png (2026-08-20) \u2014 the resolver could not read the strip"
+    },
+    {
+      "item": "socks",
+      "source": "photos",
+      "value": "Green knee-high socks worn over shin guards, plain except for a small white Nike swoosh on the outer side of each sock.",
+      "partial": "",
+      "why": "read off photo2.png / photo3.png by hand (2026-08-20) \u2014 the resolver could not make them out"
+    },
+    {
+      "item": "footwear",
+      "source": "photos",
+      "value": "WHITE low-cut soccer cleats with a dark studded outsole and a white Nike swoosh on the outer side \u2014 the same boots she wears in the photographs but shown BRAND NEW and CLEAN: no mud, no dirt, no scuffing, no staining on the uppers or the soles. The same pair in every shot.",
+      "partial": "",
+      "why": "read off photo2.png / photo3.png by hand (2026-08-20) \u2014 the resolver could not make them out"
+    },
+    {
+      "item": "equipment",
+      "source": "photos",
+      "value": "The ball from the photographs: a WHITE soccer ball with red and dark blue panel graphics, shown BRAND NEW and CLEAN \u2014 no mud, no grass stains, no scuffing. The same ball in every shot; it never becomes a plain white ball and never changes colour.",
+      "partial": "",
+      "why": "read off photo2.png / photo3.png by hand (2026-08-20) \u2014 the resolver could not make them out"
+    }
+  ],
+  "crest": {
+    "use": true,
+    "slug": "sunfield-kestrels",
+    "fromPhotos": false,
+    "note": "A small white mark, possibly a crest or logo, is visible on the left breast of the green shirt, but its shape and details are not legible."
+  },
+  "defaults": "a kelly green soccer jersey with contrasting sleeve trim and collar, kelly green shorts, and shin guards under the socks. A recreational league kit worn for several seasons: clean and well kept, the fit generous rather than athletic. Nothing about it is sponsored.\nCONSISTENT ACROSS THE WHOLE SET \u2014 three of these frames sit side by side on one card, so\nthese must be identical in every shot and are not open to interpretation:\n- Socks are kelly green, matching the kit. Never white, never a different colour.\n- Equipment: a plain WHITE soccer ball with black pentagon panels \u2014 no coloured panels, no patterns, no markings, no branding. The same one in every shot.\n- Footwear: plain black SOCCER CLEATS \u2014 proper football boots with a studded outsole (moulded conical studs clearly visible), a low profile and a slim toe box. NOT sneakers, NOT trainers, NOT flat-soled shoes. The same pair in every shot, clean and unmarked."
+}

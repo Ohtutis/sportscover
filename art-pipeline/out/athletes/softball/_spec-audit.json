@@ -1,0 +1,59 @@
+{
+  "verifiedAt": "2026-08-21T19:03:35.533Z",
+  "photos": [
+    "photo1.png",
+    "photo2.png",
+    "photo3.png",
+    "photo4.png"
+  ],
+  "findings": [
+    {
+      "id": "hair",
+      "seen": "In all four photographs, the athlete has her dark blonde hair styled in a single, thick French braid that starts at the crown of her head. In some photos it is pulled forward over her right shoulder, and in others it hangs down her back. There are some fine, flyaway hairs visible around her hairline.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "build",
+      "seen": "The photographs, particularly those where she wears a sleeveless jersey and a t-shirt, show an athlete with a solid build, broad shoulders, and strong-looking arms that are not heavily muscular.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shirt",
+      "seen": "One photograph shows the athlete in a sleeveless maroon softball jersey. It has light grey panels over the shoulders in a racerback style and down the sides. The V-neck collar is also light grey. On the left chest, there is a white, rounded-square patch with a logo on it. The front of the jersey has no numbers or lettering. The back of the jersey is not visible. In other photos, she wears a grey hoodie, a grey t-shirt, and a blue t-shirt.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shorts",
+      "seen": "The athlete's uniform bottoms are not visible in any photograph. In one photo, she wears dark navy or black shorts for training.",
+      "verdict": "not_visible",
+      "note": ""
+    },
+    {
+      "id": "socks",
+      "seen": "The athlete's socks are not visible in any of the photographs.",
+      "verdict": "not_visible",
+      "note": ""
+    },
+    {
+      "id": "footwear",
+      "seen": "The athlete's footwear is not visible in any of the photographs.",
+      "verdict": "not_visible",
+      "note": ""
+    },
+    {
+      "id": "equipment",
+      "seen": "The athlete is not seen holding or wearing a visor, batting helmet, bat, or fielding glove in any of the photographs. No softball is visible in her possession.",
+      "verdict": "not_visible",
+      "note": ""
+    },
+    {
+      "id": "crest placement",
+      "seen": "In the photograph where the athlete wears her uniform, a crest is visible on her left chest. It is a white patch, squarish with rounded corners, and appears to be about the width of a hand.",
+      "verdict": "confirmed",
+      "note": ""
+    }
+  ]
+}

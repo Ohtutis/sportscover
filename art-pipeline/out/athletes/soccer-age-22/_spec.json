@@ -1,0 +1,82 @@
+{
+  "athlete": "soccer-age-22",
+  "colourConflict": null,
+  "bestPortrait": "photo1.png",
+  "sport": "soccer",
+  "generatedAt": "2026-08-20T18:25:36.767Z",
+  "judge": "gemini-2.5-pro",
+  "source": {
+    "photos": [
+      "photo1.png",
+      "photo2.png",
+      "photo3.png",
+      "photo4.png"
+    ],
+    "formFields": {
+      "firstName": "Sienna",
+      "lastName": "Okafor",
+      "jerseyNumber": "7",
+      "team": "Sunfield Kestrels",
+      "ageYears": 22,
+      "primaryColor": "#1E7B3C",
+      "secondaryColor": "#F5F5F5"
+    }
+  },
+  "resolved": [
+    {
+      "item": "hair",
+      "source": "photos",
+      "value": "Long black hair in many individual braids. The braids are gathered high on the crown and tied into a bun, and the remaining length falls LOOSE from that bun down past the shoulders \u2014 the bun does not contain all of it. Exactly as in the reference sheet.",
+      "partial": "",
+      "why": "clearly visible in photo1.png"
+    },
+    {
+      "item": "build",
+      "source": "photos",
+      "value": "Athletic and muscular build with broad shoulders, and well-defined muscles in the arms and legs. She appears lean through the middle.",
+      "partial": "",
+      "why": "clearly visible in photo2.png"
+    },
+    {
+      "item": "shirt",
+      "source": "photos",
+      "value": "Kelly green short-sleeved shirt, exactly as in the attached photographs. Plain green V-neck, no trim on the collar. Each side has TWO SEPARATE white elements that never touch each other: (1) a short straight white strip lying flat along the top of the shoulder, from the neckline to the armhole seam, and (2) a white band around the end of the sleeve. Between those two the sleeve is plain green \u2014 the shoulder strip must NOT run down the sleeve and must NOT join the cuff band. Same on the back. The crest is on the front left chest only; the back carries the number and nothing else.",
+      "partial": "",
+      "why": "clearly visible in photo2.png  [corrected by hand 2026-08-20: wording lost the PROPORTION of the white trim in photo2 \u2014 the plate drew wide blocks and a racing stripe]"
+    },
+    {
+      "item": "shorts",
+      "source": "photos",
+      "value": "Kelly green shorts with one thin white piping stripe down the outside seam of each leg, waistband to hem, exactly as in the attached photographs. Plain green waistband.",
+      "partial": "",
+      "why": "clearly visible in photo2.png  [corrected by hand 2026-08-20: wording lost the PROPORTION of the white trim in photo2 \u2014 the plate drew wide blocks and a racing stripe]"
+    },
+    {
+      "item": "socks",
+      "source": "photos",
+      "value": "Kelly green knee-high socks.",
+      "partial": "",
+      "why": "clearly visible in photo2.png"
+    },
+    {
+      "item": "footwear",
+      "source": "default",
+      "value": "",
+      "partial": "Black soccer boots with a gold swoosh logo on the side.",
+      "why": "partial in the photographs \u2014 falling back to the sport default"
+    },
+    {
+      "item": "equipment",
+      "source": "default",
+      "value": "",
+      "partial": "A white soccer ball with black and gold panel graphics, the same ball in every frame. It is NEVER a plain white ball and never changes colour.",
+      "why": "partial in the photographs \u2014 falling back to the sport default  [corrected by hand 2026-08-20: wording lost the PROPORTION of the white trim in photo2 \u2014 the plate drew wide blocks and a racing stripe]"
+    }
+  ],
+  "crest": {
+    "use": true,
+    "slug": "sunfield-kestrels",
+    "fromPhotos": false
+  },
+  "defaults": "a kelly green soccer jersey with contrasting sleeve trim and collar, kelly green shorts, and shin guards under the socks. An adult recreational league kit \u2014 fits, but plainly not a professional's: cut a little loose rather than athletic. Clean.\nCONSISTENT ACROSS THE WHOLE SET \u2014 three of these frames sit side by side on one card, so\nthese must be identical in every shot and are not open to interpretation:\n- Socks are kelly green, matching the kit. Never white, never a different colour.\n- Equipment: a plain WHITE soccer ball with black pentagon panels \u2014 no coloured panels, no patterns, no markings, no branding. The same one in every shot.\n- Footwear: plain black SOCCER CLEATS \u2014 proper football boots with a studded outsole (moulded conical studs clearly visible), a low profile and a slim toe box. NOT sneakers, NOT trainers, NOT flat-soled shoes. The same pair in every shot, clean and unmarked."
+}

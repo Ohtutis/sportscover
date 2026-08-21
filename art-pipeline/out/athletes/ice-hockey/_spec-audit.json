@@ -1,0 +1,59 @@
+{
+  "verifiedAt": "2026-08-20T23:30:43.820Z",
+  "photos": [
+    "photo1.png",
+    "photo2.png",
+    "photo3.png",
+    "photo4.png"
+  ],
+  "findings": [
+    {
+      "id": "hair",
+      "seen": "The photos show a young man with dark brown, wavy hair. It is cut to a medium length on top and appears shorter on the sides. It is styled in a messy fringe that falls forward over his forehead with no distinct parting.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "build",
+      "seen": "Across the photos, the individual has a lean, athletic build. In photos where his frame is visible, his shoulders appear broader than his hips.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shirt",
+      "seen": "Photo 2 shows a loose-fitting ice hockey jersey that is primarily navy blue but has large, prominent red sections covering the lower sleeves (from the elbow down) and the entire hem at the bottom. The V-neck collar has a red insert. The number 17, in white with a red outline, is visible on the left shoulder. A large crest is on the chest.",
+      "verdict": "contradicted",
+      "note": "The claim describes the jersey as 'NAVY', which is misleading. The jersey has large, prominent red sections on the lower sleeves and the hem."
+    },
+    {
+      "id": "shorts",
+      "seen": "Photos 2 and 3 show navy blue padded hockey pants (breezers) that end at the knee. They have a matte finish with some tonal paneling. A white 'CCM' wordmark is visible on the front of the left thigh.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "socks",
+      "seen": "The photos show plain navy blue knit hockey socks pulled up over pads to the thigh. A small, white 'CCM' wordmark is visible on the front of the right sock, just below the knee.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "footwear",
+      "seen": "The photos show black, stiff-booted ice hockey skates with white laces, a grey blade holder, and a steel blade. A white 'CCM' wordmark is visible on the outer side of the boot near the heel.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "equipment",
+      "seen": "Photo 2 shows a navy blue helmet with a clear visor and black straps. The chin cup attached to the straps is black. The gloves are navy with white detailing and a white 'CCM' wordmark on the cuffs. No stick or puck is visible.",
+      "verdict": "contradicted",
+      "note": "The claim states the helmet has a white chin cup, but the photograph clearly shows the chin cup is black."
+    },
+    {
+      "id": "crest placement",
+      "seen": "In photo 2, a large crest is positioned centrally on the chest of the jersey, located between the collar and the bottom hem. Its width appears to be approximately two hand-widths.",
+      "verdict": "confirmed",
+      "note": ""
+    }
+  ]
+}

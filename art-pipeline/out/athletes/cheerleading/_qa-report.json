@@ -1,0 +1,94 @@
+{
+  "judge": "gemini-3.1-pro-preview",
+  "generator": "gemini-3-pro-image",
+  "gradedAt": "2026-08-21T22:30:40.578Z",
+  "report": {
+    "_kit": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "none",
+      "failed": [],
+      "observations": {
+        "items": "Sleeveless cheer top, cheer skirt, hair bow, two pom-poms, two ankle socks, two sneakers.",
+        "badge": "A shield shape with a berry outline containing three upward-pointing berry chevrons on a white background. No lettering. No manufacturer's logo.",
+        "footwear": "White low-cut athletic sneakers with white laces and pale cream flat soles."
+      }
+    },
+    "_set": {
+      "verdict": "fail",
+      "worstIssue": "The '0' on the skirt inconsistently changes position or disappears across the images.",
+      "failed": [
+        "same_kit"
+      ],
+      "offending": [
+        "image 2",
+        "image 3"
+      ],
+      "observations": {
+        "footwear": "Image 1: white sneakers. Image 2: white sneakers. Image 3: white sneakers. Image 4: white sneakers.",
+        "equipment": "Image 1: maroon and white pom-poms. Image 2: maroon and white pom-poms. Image 3: maroon and white pom-poms. Image 4: maroon and white pom-poms.",
+        "kit": "Image 1: maroon sleeveless v-neck top with lighter insert and logo, maroon skirt with '0' on the right side, white socks. Image 2: maroon sleeveless v-neck top with lighter insert and logo, maroon skirt with no visible '0', white socks. Image 3: maroon sleeveless v-neck top with lighter insert and logo, maroon skirt with '0' on the left side, white socks. Image 4: maroon sleeveless top with lighter insert on back, maroon skirt with '0' on the right side, white socks."
+      }
+    },
+    "hero": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The athlete is wearing high crew socks instead of the specified low ankle socks.",
+      "failed": [
+        "kit_correct"
+      ],
+      "observations": {
+        "person": "The face strongly resembles the reference, with matching nose, brow, jawline, and skin tone. The apparent age is a teenager, and the build is athletic and compact.",
+        "pose": "The athlete is captured mid-air at the peak of a toe touch jump, legs split wide, arms in a T-shape holding pom-poms, facing directly at the camera.",
+        "backdrop": "A plain, seamless grey studio backdrop.",
+        "chest": "A small shield-shaped crest containing three chevrons is stitched on the wearer's left chest."
+      },
+      "approved": true
+    },
+    "action2": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The uniform is missing the required number 0 on the skirt hip and has an incorrect lighter trim on the V-neck.",
+      "failed": [
+        "kit_correct"
+      ],
+      "observations": {
+        "person": "Face matches reference well, with similar nose, brow, and jawline. Dark hair in a high ponytail. Apparent age is mid-teens. Compact, athletic build.",
+        "pose": "Deep side lunge to the right, right arm punched high, left arm low. Camera is at hip height.",
+        "backdrop": "Plain grey studio backdrop.",
+        "chest": "A berry and white shield crest with chevrons on the left chest."
+      },
+      "approved": true
+    },
+    "action3": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The athlete is facing the wrong direction (right shoulder nearest the lens instead of left) and her feet are apart instead of together.",
+      "failed": [
+        "kit_correct",
+        "pose_correct",
+        "facing_correct"
+      ],
+      "observations": {
+        "person": "Black female teenager, matching the reference facial features, skin tone, and compact build.",
+        "pose": "Standing on the balls of her feet with legs apart, arms raised in a high V holding pom-poms, mouth open.",
+        "backdrop": "Plain grey studio backdrop.",
+        "chest": "A stitched shield patch containing three chevrons on the wearer's left chest."
+      },
+      "approved": true
+    },
+    "back": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "none",
+      "failed": [],
+      "observations": {
+        "person": "Face not visible. Build is compact. Hair is dark in a high ponytail.",
+        "pose": "From behind, arms in high V with poms, head back, heels lifted.",
+        "backdrop": "Plain grey studio backdrop.",
+        "chest": "Not visible."
+      },
+      "approved": true
+    }
+  }
+}

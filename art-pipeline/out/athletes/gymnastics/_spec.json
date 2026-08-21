@@ -1,0 +1,85 @@
+{
+  "athlete": "gymnastics",
+  "colourConflict": null,
+  "bestPortrait": "photo1.png",
+  "sport": "gymnastics",
+  "generatedAt": "2026-08-21T22:40:43.568Z",
+  "judge": "gemini-3.1-pro-preview",
+  "source": {
+    "photos": [
+      "photo1.png",
+      "photo2.png",
+      "photo3.png",
+      "photo4.png"
+    ],
+    "formFields": {
+      "firstName": "Sofia",
+      "lastName": "Marchetti",
+      "jerseyNumber": "0",
+      "team": "Willow Bend Swifts",
+      "ageYears": 13,
+      "primaryColor": "#6FA8DC",
+      "secondaryColor": "#1B3A5C"
+    }
+  },
+  "resolved": [
+    {
+      "item": "hair",
+      "source": "photos",
+      "value": "Light brown hair pulled tightly back off the face with no parting and no fringe, smooth and flat against the scalp, gathered into a HIGH NEAT BUN on the crown and held with a plain hair tie. The same bun in every frame — she competes, trains and goes to the park in it.",
+      "partial": "",
+      "why": "read off all four photographs by hand (2026-08-22)."
+    },
+    {
+      "item": "build",
+      "source": "photos",
+      "value": "A THIRTEEN-YEAR-OLD's body, and it is not an adult woman's: small and short with a child's proportions — no length in the limbs yet, a flat straight torso, narrow hips barely wider than the waist, and no adult curves. Strong for her size, with real definition in the shoulders, upper back and thighs from the sport. Lean, dense and compact. Reproduce this body as it is: do NOT lengthen her, do NOT give her an adult figure, do NOT slim or thicken her.",
+      "partial": "",
+      "why": "read off photo2/photo3 by hand (2026-08-22). Stated at length because the failure mode here is specific and known: a leotard plus the word 'gymnast' pulls the model towards a grown woman's proportions."
+    },
+    {
+      "item": "shirt",
+      "source": "photos",
+      "value": "A POWDER BLUE LONG-SLEEVED gymnastics LEOTARD exactly as photo2.png shows it: a V-neck edged in ROYAL BLUE; across the chest a CHEVRON pointing DOWN to a point at the sternum, made of TWO parallel bands, and their order is not open to interpretation: the band that touches the powder blue CHEST above it is WHITE, and the band that touches the powder blue BELLY below it is ROYAL BLUE — white on the shoulder side, royal blue on the stomach side; the same white-then-royal-blue chevron repeated at each CUFF, so each wrist ends in a royal blue band. The body of the leotard is plain powder blue, high-cut at the legs. The number 0 sits on the OUTSIDE of her LEFT UPPER SLEEVE near the shoulder, drawn as a WHITE OUTLINE with the powder blue showing inside it. A small WHITE SCRIPT MAKER'S MARK sits low on her LEFT HIP — her own kit's mark, small and soft-edged, never enlarged and never redrawn. No club name, no player name, no sponsor. The BACK of the leotard is not visible in any photograph; the DECISION is that it stays PLAIN: the same chevron carries round across the upper back, and below it the back is smooth powder blue with NO number, NO name and NO lettering. This kit carries its number on the LEFT SLEEVE, and a second one across the shoulders would print a mark this leotard does not have.",
+      "partial": "",
+      "why": "read off zoomed crops of photo2.png by hand (2026-08-22). The resolver saw the chevron and the cuffs but not the sleeve number, the royal blue neckline edge or the hip mark. Back recorded as a decision 2026-08-22 after the kit plate invented a large 0 across it — third sport in a row to try it (README §36). Band ORDER restated 2026-08-22 in terms of what each band touches: 'a white band with a royal blue band below it' produced the inverse twice, once as a fresh plate and once as an edit. On a V-shaped chevron 'above/below' is ambiguous — 'the band touching the chest' is not."
+    },
+    {
+      "item": "shorts",
+      "source": "photos",
+      "value": "There is NO separate lower garment and NO tights with this kit: the leotard IS the whole competition uniform, and her LEGS ARE BARE from the high-cut hip to the floor, exactly as photo2.png shows her on the competition floor.",
+      "partial": "",
+      "why": "the one-piece garment is described in the shirt line; this item exists only because the data model has the slot (2026-08-22). REWRITTEN 2026-08-22 after art:spec:verify: the claim was true of the COMPETITION photograph and false of her ordinary clothes, or it was an instruction for the generated frames dressed up as a reading. §39 — a decision must say it is a decision. Parenthetical about her everyday clothes deleted 2026-08-22: the verifier graded it as a claim about the photographs and called it contradicted twice. A spec line describes the KIT — what she wears the rest of the week is not the spec's business and only gives the judge something wrong to find. §33: two runs is the budget."
+    },
+    {
+      "item": "socks",
+      "source": "photos",
+      "value": "NO SOCKS. Nothing on the feet or the ankles in any frame. No photograph shows her feet, so this is a stated DECISION and it follows the sport: artistic gymnasts compete and train barefoot.",
+      "partial": "",
+      "why": "read off photo2/photo3 (2026-08-22). Bare feet are a rule of the sport, not a preference. REWRITTEN 2026-08-22 after art:spec:verify: the claim was true of the COMPETITION photograph and false of her ordinary clothes, or it was an instruction for the generated frames dressed up as a reading. §39 — a decision must say it is a decision."
+    },
+    {
+      "item": "footwear",
+      "source": "photos",
+      "value": "NO FOOTWEAR OF ANY KIND — bare feet and bare ankles. No photograph shows her feet, so this is a stated DECISION, and it is the one the sport's own rules make: no shoes, no slippers, no beam shoes are drawn in any frame. Stated as an absolute because a sport whose athletes wear nothing on their feet is exactly where a model invents a shoe if the line stays silent.",
+      "partial": "",
+      "why": "stated as an absolute 2026-08-22: a sport whose athletes wear nothing on their feet is exactly where a model invents a shoe if the line merely stays silent. REWRITTEN 2026-08-22 after art:spec:verify: the claim was true of the COMPETITION photograph and false of her ordinary clothes, or it was an instruction for the generated frames dressed up as a reading. §39 — a decision must say it is a decision."
+    },
+    {
+      "item": "equipment",
+      "source": "photos",
+      "value": "CHALK, and nothing else on her: white gymnastics chalk dusted over both palms and fingers, with a little on the forearms and the sleeve cuffs, exactly as photo2.png shows. NO hand grips, NO wristbands, NO tape, NO jewellery — she wears none in any photograph. As for apparatus: her own photographs are taken in a gym full of it (she is sitting on a beam in photo3), but the DECISION for the generated frames is that she is photographed ALONE against a plain backdrop with NO beam, NO bars and NO vault in the picture, because these frames are cut out and dropped onto a card.",
+      "partial": "",
+      "why": "read off the zoomed crops of photo2.png (2026-08-22): her hands are chalked, and she wears no grips — a floor and beam gymnast of this age usually has none. REWRITTEN 2026-08-22 after art:spec:verify: the claim was true of the COMPETITION photograph and false of her ordinary clothes, or it was an instruction for the generated frames dressed up as a reading. §39 — a decision must say it is a decision."
+    }
+  ],
+  "crest": {
+    "use": true,
+    "slug": "willow-bend-swifts",
+    "fromPhotos": true,
+    "note": "A circular badge on the left chest featuring a dark blue silhouette of a bird in flight against a lighter blue background.",
+    "placement": "a CIRCULAR badge on HER LEFT CHEST — the wearer's left, high on the leotard above the white chevron and beside the neckline, about the width of two fingers, exactly where and how large photo2.png shows it. It is never centred on the chest and never enlarged.",
+    "placementWhy": "read off the zoomed crop of photo2.png by hand (2026-08-22)."
+  },
+  "defaults": "a powder blue long-sleeved gymnastics leotard with a contrasting chevron across the chest and contrasting cuffs, bare legs, bare feet, chalk on the palms. The kit fits properly and is clean and well kept.\nCONSISTENT ACROSS THE WHOLE SET — three of these frames sit side by side on one card, so\nthese must be identical in every shot and are not open to interpretation:\n- Socks are powder blue, matching the kit. Never white, never a different colour.\n- Equipment: no apparatus in frame. The same one in every shot.\n- Footwear: bare feet. The same pair in every shot, clean and unmarked."
+}

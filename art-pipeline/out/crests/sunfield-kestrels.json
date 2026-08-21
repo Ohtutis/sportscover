@@ -1,0 +1,8 @@
+{
+  "hash": "b694355f88987c84",
+  "model": "gemini-3-pro-image",
+  "size": "2K",
+  "refs": [],
+  "generatedAt": "2026-08-20T13:36:11.263Z",
+  "prompt": "A flat vector-style sports club crest, drawn as clean solid shapes.\n\nOutline: a pointed shield with a flat top.\nInside it: a kestrel head in profile facing right, filling the shield — hooked beak, one round eye, a few angular feather planes on the crown. NO bars, NO stripes, NO diagonal lines across the shield, nothing but the head.\nColours: #1E7B3C and #F5F5F5 only, plus white.\n\nHard requirements:\n- Absolutely NO text, no letters, no words, no numbers, no monogram, no banner or ribbon\n  for a name. The mark alone.\n- Flat solid colour with hard edges. No gradients, no gloss, no bevel, no drop shadow,\n  no 3D, no photographic texture, no mockup on a garment.\n- Centred on a plain pure white background, with even margin around it.\n- Bold and simple enough to still read as itself at 40 px wide.\n- Square image."
+}

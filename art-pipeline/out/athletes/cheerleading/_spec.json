@@ -1,0 +1,85 @@
+{
+  "athlete": "cheerleading",
+  "colourConflict": null,
+  "bestPortrait": "photo1.png",
+  "sport": "cheerleading",
+  "generatedAt": "2026-08-21T22:03:47.389Z",
+  "judge": "gemini-3.1-pro-preview",
+  "source": {
+    "photos": [
+      "photo1.png",
+      "photo2.png",
+      "photo3.png",
+      "photo4.png"
+    ],
+    "formFields": {
+      "firstName": "Amara",
+      "lastName": "Boyd",
+      "jerseyNumber": "0",
+      "team": "Vale Prep Vanguard",
+      "ageYears": 15,
+      "primaryColor": "#8E2C6B",
+      "secondaryColor": "#FFFFFF"
+    }
+  },
+  "resolved": [
+    {
+      "item": "hair",
+      "source": "photos",
+      "value": "Black hair pulled tightly back off the face with no parting and no fringe, gathered into a HIGH PONYTAIL at the crown that falls straight and smooth down the back. The ponytail is gathered in a plain BLACK hair tie — a soft black scrunchie, no colour and no pattern on it. The berry COMPETITION BOW is not part of her hair — it is a uniform item, worn only when she competes, and it is described with the kit.",
+      "partial": "",
+      "why": "read off all four photographs by hand (2026-08-22). The bow was moved out of this line the same day: it had been written into the athletes.ts hair field, so all four before-photos put a competition bow on her at home and at the seaside. A kit item in the identity record follows the athlete through her whole life — README §37. Hair tie named 2026-08-22 after the verifier read it as a scrunchie rather than a thin elastic: it is one, and a garment-level detail nobody should have to argue about twice."
+    },
+    {
+      "item": "build",
+      "source": "photos",
+      "value": "Solid and athletic, average height for fifteen, strong through the shoulders and thighs with a sturdy frame rather than a slight one. Broad shoulders relative to the hips, visible definition in the arms and legs, no length yet in the limbs. Reproduce this body as it is — neither slimmed nor thickened.",
+      "partial": "",
+      "why": "read off photo2/photo3 by hand (2026-08-22). The athletes.ts record says 5'2\" and small; the photographs show a taller, more solid girl, and the photographs are the anchor."
+    },
+    {
+      "item": "shirt",
+      "source": "photos",
+      "value": "A SLEEVELESS berry cheer SHELL exactly as photo2.png shows it: a deep V yoke in a DARKER PLUM across the chest and over both shoulders, coming to a point at the sternum, and the neckline edged in that SAME PLUM. The rest of the shell is solid berry — no white, no other trim, no contrasting side panel. The crest is the only mark on the front: no club name, no player name, no sponsor, no lettering. The BACK of the shell is not visible in any photograph; the DECISION is that it stays PLAIN — the plum yoke carries across the shoulders exactly as it does at the front, and below it the back is solid berry with NO number, NO club name and NO lettering. This kit carries its number on the SKIRT HIP, and putting a second one across her shoulders would print a mark this uniform does not have.",
+      "partial": "",
+      "why": "read off the zoomed crop of photo2.png by hand (2026-08-22). The resolver only saw 'a V-neck collar with darker maroon trim' and fell back to the sport default, which would have invented the rest. CORRECTED 2026-08-22 after art:spec:verify contradicted it and a 3x crop settled it: I had written a white neckline edge and white side panels; the crop shows the yoke and the neckline edge are both plum and the body is solid berry. The white I saw at the ribs is sunlit mat behind her. Back of the shell recorded as a decision 2026-08-22 after the kit plate invented a large number 0 across it — the same defect wrestling's back frame had, and the same fix: a surface no photograph shows needs a stated decision, or every stage invents its own. README §36/§37."
+    },
+    {
+      "item": "shorts",
+      "source": "photos",
+      "value": "This kit's lower garment is a SKIRT, not shorts. A berry cheer SKIRT exactly as photo2.png shows it: SMOOTH and flat-fronted — NOT pleated — cut straight with a slight A-line, its hem sitting on the mid thigh, in the same berry as the shell. The number 0 sits LOW on HER RIGHT HIP: a block digit outlined in crisp WHITE, its inside the SAME BERRY as the skirt fabric around it. The rest of the skirt is plain. Matching berry briefs are worn under it; no photograph shows them, and the DECISION is berry to match the skirt so nothing white or contrasting flashes in a tumbling frame.",
+      "partial": "",
+      "why": "read off the zoomed crops of photo2.png by hand (2026-08-22). Two corrections to the sport default: the skirt is not pleated, and the default said nothing about the number, which the photograph puts on the skirt hip rather than on the shell. Briefs recorded as a decision, not a reading — §27's rule for a thing no photograph shows. CORRECTED 2026-08-22 after art:spec:verify contradicted it and a 3x crop settled it: the digit is plum INSIDE a white outline — the verifier read the outline as the fill. Both are there; the line now names both so neither can drift. Fill settled 2026-08-22 in the verifier's favour: the crop reads dark only because the hip is in shade — the digit is berry inside a white outline, which is also the simpler thing to reproduce identically in four frames."
+    },
+    {
+      "item": "socks",
+      "source": "photos",
+      "value": "WHITE ANKLE SOCKS, low and plain, their cuff sitting just above the collar of the shoe with a little bare ankle showing above them. No mark and no lettering on them.",
+      "partial": "",
+      "why": "read off a zoomed crop of photo2.png by hand (2026-08-22). The sport default said 'socks are berry, matching the kit', which is not what she wears, and berry socks in three side-by-side frames would have been the first thing a parent noticed. CORRECTED 2026-08-22 after art:spec:verify contradicted it and a 3x crop settled it: I had written that no sock shows at all. A 4x crop of the ankles in photo2 shows a white cuff ringing the ankle above the shoe. White, not the berry the sport default assumes."
+    },
+    {
+      "item": "footwear",
+      "source": "photos",
+      "value": "PLAIN WHITE cheer sneakers exactly as photo2.png shows them: a low white athletic shoe cut below the ankle bone, laced white, with a PALE CREAM sole rather than a bright white one. Clean and new in every shot. No maker's mark is legible in any photograph, so the shoe stays plain — nothing is printed on it.",
+      "partial": "",
+      "why": "read off the zoomed crop of photo2.png by hand (2026-08-22). Plain rather than branded, by the standing rule: a mark too small to name exactly comes back as an invented logo. CORRECTED 2026-08-22 after art:spec:verify contradicted it and a 3x crop settled it: the sole reads pale cream/peach in the low evening sun, not white. Recorded as cream because a line that says white will be graded against white every time."
+    },
+    {
+      "item": "equipment",
+      "source": "photos",
+      "value": "POM-POMS, one in each hand: plain, full and round, in the club's two colours — BERRY AND WHITE mixed together — with plain handles and NO printed mark of any kind. They appear in no photograph (a parent's album has none), so this is a stated DECISION and it is the same pair in every frame. The large BERRY COMPETITION BOW is worn at the crown of the ponytail in every frame that shows the uniform, exactly as photo2.png shows it — a big double-loop bow in solid berry, no pattern and no lettering.",
+      "partial": "",
+      "why": "decided 2026-08-22, not read: the sport constant already fixes 'plain pom-poms in the team colours' and no photograph shows hers. The bow is recorded here rather than under hair because it belongs to the uniform — see §37."
+    }
+  ],
+  "crest": {
+    "use": true,
+    "slug": "vale-prep-vanguard",
+    "fromPhotos": true,
+    "note": "A white shield-shaped crest containing three stacked, upward-pointing chevrons is clearly visible on the left chest.",
+    "placement": "a stitched patch on HER LEFT CHEST — the wearer's left, high on the shell just below the shoulder and beside the V yoke, about a hand's width across, exactly where and how large photo2.png shows it. It is never centred on the chest.",
+    "placementWhy": "read off the zoomed crop of photo2.png by hand (2026-08-22)."
+  },
+  "defaults": "a berry sleeveless cheer top with a contrasting V panel across the chest and a matching berry pleated skirt. The kit fits properly and is clean and well kept.\nCONSISTENT ACROSS THE WHOLE SET — three of these frames sit side by side on one card, so\nthese must be identical in every shot and are not open to interpretation:\n- Socks are berry, matching the kit. Never white, never a different colour.\n- Equipment: plain pom-poms in the team colours. The same one in every shot.\n- Footwear: plain white cheer sneakers. The same pair in every shot, clean and unmarked."
+}

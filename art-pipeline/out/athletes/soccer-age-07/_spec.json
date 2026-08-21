@@ -1,0 +1,75 @@
+{
+  "athlete": "soccer-age-07",
+  "sport": "soccer",
+  "generatedAt": "2026-08-20T13:37:36.319Z",
+  "judge": "gemini-2.5-pro",
+  "source": {
+    "photos": [
+      "photo1.png",
+      "photo2.png",
+      "photo3.png",
+      "photo4.png"
+    ],
+    "formFields": {
+      "firstName": "Finn",
+      "lastName": "Halloran",
+      "jerseyNumber": "4",
+      "team": "Sunfield Kestrels",
+      "ageYears": 7,
+      "primaryColor": "#1E7B3C",
+      "secondaryColor": "#F5F5F5"
+    }
+  },
+  "resolved": [
+    {
+      "item": "hair",
+      "source": "photos",
+      "value": "Light blond-brown, straight and fine, cut in a neat blunt fringe straight across the forehead and lying flat against it, a little longer over the ears, with one small tuft standing up at the crown. Not textured, not tousled, no styled cowlick.",
+      "partial": "",
+      "why": "pinned by hand from photo1, the family's chosen likeness"
+    },
+    {
+      "item": "shirt",
+      "source": "default",
+      "value": "",
+      "partial": "Green long-sleeved soccer jersey with a white V-neck collar and white trim at the cuffs. The sleeves are pushed up slightly.",
+      "why": "partial in the photographs \u2014 falling back to the sport default"
+    },
+    {
+      "item": "shorts",
+      "source": "default",
+      "value": "",
+      "partial": "Green soccer shorts.",
+      "why": "partial in the photographs \u2014 falling back to the sport default"
+    },
+    {
+      "item": "socks",
+      "source": "default",
+      "value": "",
+      "partial": "Green knee-high soccer socks.",
+      "why": "partial in the photographs \u2014 falling back to the sport default"
+    },
+    {
+      "item": "footwear",
+      "source": "default",
+      "value": "",
+      "partial": "Black soccer cleats with an orange pattern on the side.",
+      "why": "corrected by hand \u2014 the earlier resolve read this from the photographs and it is the right call"
+    },
+    {
+      "item": "equipment",
+      "source": "default",
+      "value": "",
+      "partial": "A white soccer ball with black and red/orange patterned panels.",
+      "why": "partial in the photographs \u2014 falling back to the sport default"
+    }
+  ],
+  "crest": {
+    "use": true,
+    "slug": "sunfield-kestrels",
+    "fromPhotos": false,
+    "note": "A white crest is visible on the left chest of the green shirt, but its shape and details are not discernible."
+  },
+  "defaults": "a kelly green soccer jersey with contrasting sleeve trim and collar, kelly green shorts, and shin guards under the socks. The kit is CLEARLY TOO BIG, the way a small child's team kit always is: the jersey hangs to mid-thigh and the shoulder seams sit halfway down the upper arm, the sleeves reach past the elbows, the shorts come below the knee, the socks are bunched and folded over, any pads or guards are visibly oversized. The kit itself is clean. This loose fit is essential \u2014 a perfectly fitted kit makes a child look like a doll.\nCONSISTENT ACROSS THE WHOLE SET \u2014 three of these frames sit side by side on one card, so\nthese must be identical in every shot and are not open to interpretation:\n- Socks are kelly green, matching the kit. Never white, never a different colour.\n- Equipment: a plain WHITE soccer ball with black pentagon panels \u2014 no coloured panels, no patterns, no markings, no branding. The same one in every shot.\n- Footwear: plain black SOCCER CLEATS \u2014 proper football boots with a studded outsole (moulded conical studs clearly visible), a low profile and a slim toe box. NOT sneakers, NOT trainers, NOT flat-soled shoes. The same pair in every shot, clean and unmarked.",
+  "bestPortrait": "photo1.png"
+}

@@ -1,0 +1,8 @@
+{
+  "hash": "80ce02ce4dcdd548",
+  "model": "gemini-3-pro-image",
+  "size": "2K",
+  "refs": [],
+  "generatedAt": "2026-08-21T22:37:31.066Z",
+  "prompt": "A flat vector-style sports club crest, drawn as clean solid shapes.\n\nOutline: a circle with no border, the mark breaking the edge.\nInside it: a swift in flight reduced to ONE swept crescent shape with a forked tail, nothing else.\nColours: #6FA8DC and #1B3A5C only, plus white.\n\nHard requirements:\n- Absolutely NO text, no letters, no words, no numbers, no monogram, no banner or ribbon\n  for a name. The mark alone.\n- Flat solid colour with hard edges. No gradients, no gloss, no bevel, no drop shadow,\n  no 3D, no photographic texture, no mockup on a garment.\n- Centred on a plain pure white background, with even margin around it.\n- Bold and simple enough to still read as itself at 40 px wide.\n- Square image."
+}

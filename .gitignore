@@ -61,3 +61,17 @@ card-flip/out/frames/
 
 # athlete cutouts are per-order and large
 exports/shared-cutouts/
+
+# generated art (regenerable — prompts are the source of truth, images are not)
+# art-pipeline outputs: the PIXELS stay local (3.9 GB and rising), the DECISIONS are tracked —
+# _spec.json, _spec-audit.json, _kit-grade.json, _identity-gate.json, _qa-report.json and
+# _cutout-report.json are what a later session needs to know what was decided and why.
+art-pipeline/out/**/*.png
+art-pipeline/out/**/*.jpg
+art-pipeline/out/**/*.jpeg
+art-pipeline/out/**/*.webp
+art-pipeline/out/**/*.mp4
+art-pipeline/out/_labelled/
+
+# local python venv for matting + face embeddings (art-pipeline/lib/*.py)
+.venv-matte/

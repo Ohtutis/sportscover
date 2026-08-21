@@ -1,0 +1,85 @@
+{
+  "athlete": "football",
+  "colourConflict": "form said forest green #14532D, photo2 shows a medium kelly green. Resolved in favour of the PHOTOGRAPH \u2014 for a real order the customer's own kit is the truth. The crest artwork stays the deeper club green.",
+  "bestPortrait": "photo1.png",
+  "sport": "football",
+  "generatedAt": "2026-08-20T21:27:19.473Z",
+  "judge": "gemini-2.5-pro",
+  "source": {
+    "photos": [
+      "photo1.png",
+      "photo2.png",
+      "photo3.png",
+      "photo4.png"
+    ],
+    "formFields": {
+      "firstName": "Tui",
+      "lastName": "Fa'agata",
+      "jerseyNumber": "54",
+      "team": "Millbrook Bison",
+      "ageYears": 18,
+      "primaryColor": "#14532D",
+      "secondaryColor": "#F2E8CF"
+    }
+  },
+  "resolved": [
+    {
+      "item": "hair",
+      "source": "photos",
+      "value": "Short black hair styled in a mullet, with the hair on top left longer and with volume, while the sides and back are cut shorter.",
+      "partial": "",
+      "why": "clearly visible in photo1.png"
+    },
+    {
+      "item": "build",
+      "source": "photos",
+      "value": "The athlete has a large and heavy build with very broad shoulders, a thick neck, and a wide torso. His arms are muscular, and he is not lean through the middle.",
+      "partial": "",
+      "why": "clearly visible in photo2.png"
+    },
+    {
+      "item": "shirt",
+      "source": "photos",
+      "value": "Medium kelly green American football jersey with short sleeves, worn OVER shoulder pads so the shoulders sit wide and square. V-neck collar. The club crest sits CENTRED HIGH ON THE CHEST, just below the collar and ABOVE the number, about the width of a hand. Below it the number 54 large and centred, WHITE with a GOLD outline, and the FULL number 54 again, smaller, on EACH shoulder \u2014 both digits on each shoulder, never one digit split across the two. BACK: the number 54 large and centred across the shoulders, WHITE with a GOLD outline, and no crest. No club name, no player name, no sponsor and no lettering of any kind anywhere on it.",
+      "partial": "",
+      "why": "re-read off the zoomed crops of photo2.png (2026-08-21); the first pass got the helmet inverted, the crest below the number and the numeral colours wrong"
+    },
+    {
+      "item": "shorts",
+      "source": "photos",
+      "value": "Full-length matching medium kelly green football pants with integrated thigh and knee pads, and a plain belt at the waist. No lettering.",
+      "partial": "",
+      "why": "read off photo2.png by hand (2026-08-21); the resolver flagged a colour conflict and the photograph was taken as the truth"
+    },
+    {
+      "item": "socks",
+      "source": "photos",
+      "value": "Dark green crew socks, plain, with no logo.",
+      "partial": "",
+      "why": "read off photo2.png by hand (2026-08-21); the resolver flagged a colour conflict and the photograph was taken as the truth"
+    },
+    {
+      "item": "footwear",
+      "source": "photos",
+      "value": "Plain black American football cleats with a studded outsole and a high ankle collar. NOT sneakers, NOT low soccer boots. The same pair in every shot. PLAIN AND UNBRANDED: no swoosh, no three stripes, no cat, no jumpman, no trefoil, no wordmark \u2014 the photographs do not show their boots, so nothing may be added to them.",
+      "partial": "",
+      "why": "the photographs do not show footwear (feet out of frame in photo2.png), so this is the sport default from kits.ts. Marked plain by hand on 2026-08-21 after the kit plate came back with three-stripe branding on one shoe and the poses drew low soccer boots."
+    },
+    {
+      "item": "equipment",
+      "source": "photos",
+      "value": "A DARK GREEN American football helmet whose FACEMASK IS THE SAME DARK GREEN AS THE SHELL \u2014 green bars, never cream, never white, never grey, never black. The chin strap, the chin cup, the facemask clips and the interior padding are cream white, and a cream white stripe runs over the crown. Plus a plain brown leather American football with white laces. The same helmet and the same ball in every shot. THE HELMET SHELL IS PLAIN: no maker's mark, no swoosh, no wing, no stripe decal beyond the cream one over the crown, and NO warning label, sticker or lettering of any kind anywhere on it.",
+      "partial": "",
+      "why": "the facemask colour was settled by the customer on 2026-08-21 against the zoomed crop of photo2.png: the bars are dark green like the shell, and the white in that photo is the chin strap and the clips. An earlier pass recorded a cream facemask off the same photo and it was wrong. This is a decision, not a reading \u2014 do not revert it because a plate looks better the other way. The 'plain shell' clause was added 2026-08-21: the flat-lay helmet is clean, and the worn helmet still came back with a swoosh on the shell in both supports and printed warning labels on the back one \u2014 a worn helmet has a strong prior that the plate cannot argue with."
+    }
+  ],
+  "crest": {
+    "use": true,
+    "slug": "millbrook-bison",
+    "fromPhotos": false,
+    "note": "The crest is visible on the chest in photo2.png but too small and indistinct to be legible, so the club artwork is used. Its POSITION was re-read off the zoomed crop (2026-08-21): centred above the number, not on the left chest as first recorded.",
+    "placement": "on the vertical CENTRELINE of the chest, directly below the collar and directly above the number, with an equal width of jersey to its left and to its right, about a hand's width across.",
+    "placementWhy": "read off photo2.png (2026-08-21). Was a hero-only revision note, so action2 and action3 kept putting the badge out on the chest side while the hero had it centred \u2014 three frames of one poster disagreeing about one shirt."
+  },
+  "defaults": "a forest green football jersey with contrasting numerals and shoulder panels worn over shoulder pads, football pants, and a forest green helmet with a grey facemask. The kit fits properly and is clean and well kept.\nCONSISTENT ACROSS THE WHOLE SET \u2014 three of these frames sit side by side on one card, so\nthese must be identical in every shot and are not open to interpretation:\n- Socks are forest green, matching the kit. Never white, never a different colour.\n- Equipment: a plain brown leather American football with white laces and no visible branding. The same one in every shot.\n- Footwear: plain black American football cleats with a studded outsole and a high ankle collar. NOT sneakers. The same pair in every shot, clean and unmarked."
+}

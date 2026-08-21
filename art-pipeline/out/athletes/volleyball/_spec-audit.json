@@ -1,0 +1,59 @@
+{
+  "verifiedAt": "2026-08-21T19:30:44.834Z",
+  "photos": [
+    "photo1.png",
+    "photo2.png",
+    "photo3.png",
+    "photo4.png"
+  ],
+  "findings": [
+    {
+      "id": "hair",
+      "seen": "In all photos, the athlete has long, straight, black hair pulled back into a single ponytail with no fringe. In photos 2, 3, and 4 (during sports and outdoors), it is a high, tight ponytail. In photo 1 (at home), it is a lower, looser ponytail.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "build",
+      "seen": "The athlete has a slim, athletic build. Photos 2 and 3 in particular show moderate muscle definition in her arms and legs. Her shoulders appear slightly wider than her hips.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shirt",
+      "seen": "Photo 2 shows a sleeveless deep teal jersey with a white V-neck collar. On the front left chest is a circular white patch with a teal anchor logo inside. The number 5 is printed in large white font in the center of the chest. The side seams are solid teal. The back of the jersey is not visible.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shorts",
+      "seen": "In photo 2, the athlete wears plain black, tight-fitting spandex shorts with no visible markings. In photo 3, she wears similar black shorts but with a small white manufacturer's logo on the lower left thigh.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "socks",
+      "seen": "In photo 3, a plain white ankle sock is visible on her left ankle, just above the shoe. In photo 2, a sliver of white is visible at the ankle inside the shoe.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "footwear",
+      "seen": "Photo 3 shows the athlete wearing court shoes that are primarily white with blue and purple/pink sections on the sides and heel. The soles are white. A small manufacturer's logo is visible on the side.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "equipment",
+      "seen": "In photos 2 and 3, the athlete wears black knee pads on both knees, each with a small white manufacturer's logo on the front. No volleyball is seen in her possession. A basket of yellow and blue volleyballs is visible in the background of photo 3.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "crest placement",
+      "seen": "In photo 2, a round white patch containing a teal anchor is located on the upper left side of the chest of her jersey.",
+      "verdict": "confirmed",
+      "note": ""
+    }
+  ]
+}

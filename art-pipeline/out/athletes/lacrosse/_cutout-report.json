@@ -1,0 +1,73 @@
+{
+  "model": "birefnet-general",
+  "reports": [
+    {
+      "pose": "action2",
+      "width": 1696,
+      "height": 2528,
+      "coverage": 0.1785,
+      "margins": {
+        "top": 166,
+        "right": 395,
+        "bottom": 66,
+        "left": 180
+      },
+      "islands": 1,
+      "largestShare": 1,
+      "softEdge": 0.0506,
+      "haloDistance": 97.7,
+      "fails": []
+    },
+    {
+      "pose": "action3",
+      "width": 1696,
+      "height": 2528,
+      "coverage": 0.2134,
+      "margins": {
+        "top": 255,
+        "right": 405,
+        "bottom": 88,
+        "left": 349
+      },
+      "islands": 1,
+      "largestShare": 1,
+      "softEdge": 0.0814,
+      "haloDistance": 87.3,
+      "fails": []
+    },
+    {
+      "pose": "back",
+      "width": 1696,
+      "height": 2528,
+      "coverage": 0.2344,
+      "margins": {
+        "top": 161,
+        "right": 185,
+        "bottom": 65,
+        "left": 534
+      },
+      "islands": 1,
+      "largestShare": 1,
+      "softEdge": 0.0696,
+      "haloDistance": 98.1,
+      "fails": []
+    },
+    {
+      "pose": "hero",
+      "width": 1696,
+      "height": 2528,
+      "coverage": 0.2011,
+      "margins": {
+        "top": 301,
+        "right": 333,
+        "bottom": 95,
+        "left": 90
+      },
+      "islands": 1,
+      "largestShare": 1,
+      "softEdge": 0.0597,
+      "haloDistance": 90.5,
+      "fails": []
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "verifiedAt": "2026-08-20T23:56:38.050Z",
+  "photos": [
+    "photo1.png",
+    "photo2.png",
+    "photo3.png",
+    "photo4.png"
+  ],
+  "findings": [
+    {
+      "id": "hair",
+      "seen": "The athlete has red hair. The photos show it is cut short on the sides and is longer, textured, and somewhat wavy on top.",
+      "verdict": "confirmed",
+      "note": "The claim accurately describes the athlete's hair as seen in all four photos."
+    },
+    {
+      "id": "build",
+      "seen": "The photos show an athlete with a solid, athletic build. His shoulders are broader than his hips, and his forearms and thighs appear strong and muscular.",
+      "verdict": "confirmed",
+      "note": "The descriptive claim about his build is well-supported by the visual evidence in the photographs."
+    },
+    {
+      "id": "shirt",
+      "seen": "Photo 2 shows a burnt orange, short-sleeved baseball jersey with a full button placket and collar. A white/cream crest is on the left chest, and a white/cream number '7' is on the lower left front. A teammate in the background has a large number '23' on their back.",
+      "verdict": "confirmed",
+      "note": "The claim accurately describes the jersey shown in photo 2, and the inference about the back design is explicitly noted as being based on a teammate's jersey."
+    },
+    {
+      "id": "shorts",
+      "seen": "In photo 2, the athlete is wearing light grey, full-length baseball pants without any visible stripes or piping. He is also wearing a brown leather belt with a silver-colored metal buckle.",
+      "verdict": "confirmed",
+      "note": "The claim is a correct description of the pants and belt seen in photo 2."
+    },
+    {
+      "id": "socks",
+      "seen": "The uniform socks are not visible as they are covered by full-length pants in photo 2. A dark-colored sock is visible in photo 3, but this is part of a different, non-uniform outfit.",
+      "verdict": "not_visible",
+      "note": "The claim correctly states that the uniform socks cannot be seen in any of the provided photographs."
+    },
+    {
+      "id": "footwear",
+      "seen": "Photo 3 shows the athlete wearing light grey or off-white baseball cleats with a studded outsole. They feature a prominent white 'N' logo on the side.",
+      "verdict": "confirmed",
+      "note": "The claim accurately describes the baseball cleats worn by the athlete in photo 3."
+    },
+    {
+      "id": "equipment",
+      "seen": "Photo 2 shows a burnt orange baseball cap with a white/cream bird logo. Photo 1 shows a different, grey cap. No batting helmet, baseball, or bat belonging to the athlete is clearly visible in any of the photos.",
+      "verdict": "confirmed",
+      "note": "The claim correctly identifies the match cap from photo 2 and correctly notes that other pieces of equipment like a helmet, bat, and ball are not visible."
+    },
+    {
+      "id": "crest placement",
+      "seen": "The jersey in photo 2 has a crest on the athlete's left chest, positioned to the left of the button placket.",
+      "verdict": "confirmed",
+      "note": "The claim's description of the crest's placement and approximate size is accurate based on photo 2."
+    }
+  ]
+}

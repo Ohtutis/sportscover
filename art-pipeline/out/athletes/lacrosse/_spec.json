@@ -1,0 +1,85 @@
+{
+  "athlete": "lacrosse",
+  "colourConflict": null,
+  "bestPortrait": "photo1.png",
+  "sport": "lacrosse",
+  "generatedAt": "2026-08-21T20:05:44.945Z",
+  "judge": "gemini-2.5-pro",
+  "source": {
+    "photos": [
+      "photo1.png",
+      "photo2.png",
+      "photo3.png",
+      "photo4.png"
+    ],
+    "formFields": {
+      "firstName": "Reese",
+      "lastName": "Callahan",
+      "jerseyNumber": "22",
+      "team": "Ash Grove Foxes",
+      "ageYears": 16,
+      "primaryColor": "#23262B",
+      "secondaryColor": "#E8A33D"
+    }
+  },
+  "resolved": [
+    {
+      "item": "hair",
+      "source": "photos",
+      "value": "Red-brown hair, thick, pulled back into a single HIGH PONYTAIL, with a WIDE CREAM-WHITE FABRIC HEADBAND across the front of the head holding the front hair back. The headband is worn in every photograph, on and off the field \u2014 it is part of how she looks, not a match accessory, and it appears in EVERY frame of the set. No fringe.",
+      "partial": "",
+      "why": "read off all four photographs by hand (2026-08-21); the resolver missed the headband, which is in all four and is the first thing anyone would recognise her by."
+    },
+    {
+      "item": "build",
+      "source": "photos",
+      "value": "Athletic and lean build of average height. She has broad shoulders relative to her hips, with visible muscle definition in her arms.",
+      "partial": "",
+      "why": "clearly visible in photo2.png"
+    },
+    {
+      "item": "shirt",
+      "source": "photos",
+      "value": "CHARCOAL sleeveless women's lacrosse jersey with a V-neck and a TONAL pattern of darker charcoal diagonal stripes on each SIDE PANEL. The club crest \u2014 the orange fox head in its dark hexagon \u2014 sits CENTRED ON THE CHEST on the body's midline, and the number 22 sits large and CENTRED directly below it in WHITE with a BLACK OUTLINE. A small white maker's mark sits at the upper chest on one side. NO sleeves, NO shoulder pads under it, no player name, no club name, no sponsor. BACK (not visible in any photograph \u2014 a decision from the order form): the number 22 large and centred across the shoulders in white with a black outline.",
+      "partial": "",
+      "why": "read off the zoomed crop of photo2.png by hand (2026-08-21). The resolver saw the number but not the crest placement, the outline colour, the side-panel pattern or the maker's mark. Trimmed 2026-08-21 after art:spec:verify: I claimed a black outline on the numerals and named which side the maker's mark is on. The outline is not evident and the side is the known left/right coin-flip \u2014 neither is a fact a measurement settles, so the photograph carries them instead of my prose. V-neck trim claim dropped 2026-08-21. CREST PLACEMENT KEPT AS CENTRED against the verifier's objection: the zoomed crop shows the fox on the torso midline directly above the centred 22, and the same judge called it 'above the number' on its first pass and 'left side' on its third. Zoom wins over a judge that contradicts itself \u2014 and photo2 is attached to the plate, so the image settles it either way. FINAL, settled by a wide chest crop on 2026-08-21 after art:spec:verify contradicted itself three runs running (first 'above the number', then 'left side' twice): the fox sits on the torso midline directly above the centred 22, the numerals plainly carry a black outline, and the side panels plainly carry the tonal stripes. Three judge passes lost to one zoom \u2014 logged in README \u00a733."
+    },
+    {
+      "item": "shorts",
+      "source": "photos",
+      "value": "A CHARCOAL LACROSSE KILT \u2014 a short wrap skirt to mid-thigh with a pleated overlap, worn over fitted charcoal shorts. Its panels, its hem marks (the small club fox crest and the small maker's mark it carries) and every other detail are exactly as the athlete's own kit photograph shows them. NOT plain shorts \u2014 the women's game wears the kilt. (The navy shorts in photo3 are her everyday training clothes, not the match kit.)",
+      "partial": "",
+      "why": "read off the zoomed crop of photo2.png by hand (2026-08-21); the resolver called it 'shorts or skort' and put an orange logo on it that the zoom shows is the maker's white mark. Detail claims handed back to the photograph 2026-08-21 after the verifier and my zoom disagreed about which mark sits on the hem."
+    },
+    {
+      "item": "socks",
+      "source": "default",
+      "value": "Plain low white ankle socks \u2014 not visible in any photograph (her feet and ankles are out of frame in all four), so this is the deliberate quiet default.",
+      "partial": "",
+      "why": "corrected 2026-08-21: gemini-2.5-pro claimed a white ankle sock was visible in photo3 and I wrote that down; gemini-3.1-pro-preview looked again and the feet are out of frame in every photograph. The old judge had invented the evidence for a claim."
+    },
+    {
+      "item": "footwear",
+      "source": "default",
+      "value": "Plain black lacrosse cleats with a studded outsole. NOT sneakers. PLAIN AND UNBRANDED: no swoosh, no wordmark, no maker's mark \u2014 the photographs do not show her cleats, so nothing may be added to them.",
+      "partial": "",
+      "why": "not visible; deliberate plain default."
+    },
+    {
+      "item": "equipment",
+      "source": "photos",
+      "value": "PROTECTIVE GOGGLES over the eyes: a BLACK frame with DARK wire cage bars across the eyes and a grey strap with small printed branding around the head, exactly as photo2.png shows them. The women's game has NO helmet, NO cage helmet and NO gloves: never draw either. A CROSSE (lacrosse stick) with a GREY COMPOSITE shaft wrapped along its length in OFF-WHITE grip tape and an open strung head \u2014 hers exactly as photo2.png shows it. A plain YELLOW lacrosse ball \u2014 not visible in any photograph, so the ball is the deliberate plain default. The same goggles, crosse and ball appear in every generated frame that calls for them.",
+      "partial": "",
+      "why": "goggles and crosse read off photo2.png by hand (2026-08-21); the ball is not visible in her possession, so it is the deliberate plain default. The no-helmet/no-gloves clause is the women's-game rule (README \u00a732) stated as an absolute so no frame can drift into the men's kit. Goggle colours corrected 2026-08-21 from a zoomed crop after art:spec:verify flagged them: the frame is black with silver wire, not white-and-grey. The ball is marked as a default rather than a reading. Cage darkened, strap branding and grey composite shaft corrected 2026-08-21 on the verifier's second pass \u2014 all three were closer readings than mine. The word 'worn' removed 2026-08-21: the plate's own rule is that every item is brand new and immaculate \u2014 condition is never copied, only the item. My description was making the plate fail its own cleanliness check."
+    }
+  ],
+  "crest": {
+    "use": true,
+    "slug": "ash-grove-foxes",
+    "fromPhotos": true,
+    "note": "A stylized, geometric orange and black fox head logo is clearly visible above the number on the shirt.",
+    "placement": "CENTRED HIGH ON THE CHEST, directly above the number and below the collar, about a hand's width across, exactly where and how large the kit photograph shows it.",
+    "placementWhy": "read off the zoomed crop of photo2.png by hand (2026-08-21). Kept against three contradicting verifier passes; the wide crop is unambiguous and photo2 is attached to the plate, so the image settles it regardless."
+  },
+  "defaults": "a charcoal sleeveless lacrosse jersey with contrasting trim at the collar and armholes, a matching charcoal lacrosse KILT (a short pleated skirt) with fitted shorts beneath it, and protective GOGGLES over the eyes \u2014 the women's game has NO helmet, NO cage, NO shoulder pads and NO gloves. The kit fits properly and is clean and well kept.\nCONSISTENT ACROSS THE WHOLE SET \u2014 three of these frames sit side by side on one card, so\nthese must be identical in every shot and are not open to interpretation:\n- Socks are charcoal, matching the kit. Never white, never a different colour.\n- Equipment: a plain white lacrosse ball and a plain unbranded crosse. The same one in every shot.\n- Footwear: plain black lacrosse cleats with a studded outsole. NOT sneakers. The same pair in every shot, clean and unmarked."
+}

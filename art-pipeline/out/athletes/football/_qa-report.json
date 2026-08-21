@@ -1,0 +1,36 @@
+{
+  "judge": "gemini-2.5-pro",
+  "generator": "gemini-3-pro-image",
+  "gradedAt": "2026-08-20T21:55:09.713Z",
+  "report": {
+    "_kit": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The footwear has a prominent brand logo, but the specification required plain black cleats.",
+      "failed": [
+        "no_text_anywhere",
+        "no_branding"
+      ],
+      "observations": {
+        "items": "American football jersey, shoulder pads, football pants, two socks, two football cleats, a football helmet, and a football.",
+        "badge": "The badge is a shield shape with a thick dark green border and a cream-colored interior. Inside is a stylized bull's head in dark green. The number '54' is on the chest, and the numbers '4' and '5' are on the shoulders. An Adidas three-stripe logo is visible on the side of one shoe.",
+        "footwear": "Black American football cleats. One shoe is shown from above, the other is on its side, revealing a black studded outsole for traction on grass or turf."
+      }
+    },
+    "hero": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The jersey number is missing its specified gold outline, and the footwear looks like sneakers instead of the required football cleats.",
+      "failed": [
+        "kit_correct"
+      ],
+      "observations": {
+        "person": "A young adult male of Polynesian descent with a heavy build, thick neck, and strong jaw. He has black hair cut short on the sides and longer on top, a broad nose, and a serious expression. His apparent age is late teens.",
+        "pose": "The person is walking directly towards the camera, captured mid-stride with his left foot forward. He holds an American football helmet in his left hand, down by his side. The shot is full-length.",
+        "backdrop": "A seamless, medium-grey studio backdrop and a slightly lighter grey floor. There is soft, diffuse lighting and a subtle shadow cast on the floor behind and under the person.",
+        "chest": "High on the center of the chest, just below the v-neck collar, is a small shield-shaped crest with a bull's head logo. Below the crest, the number '54' is printed in large, white numerals."
+      },
+      "approved": false
+    }
+  }
+}

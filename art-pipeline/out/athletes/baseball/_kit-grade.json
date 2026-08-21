@@ -1,0 +1,58 @@
+{
+  "observations": {
+    "items": "baseball jersey, baseball pants, belt, two socks, two baseball cleats, baseball cap, baseball, baseball bat",
+    "badge": "On the shirt and cap is a logo of a bird in flight inside a diamond shape, rendered in white. The shoes have a manufacturer's 'N' logo on the side and a 'new balance' wordmark on the tongue.",
+    "footwear": "Light grey baseball cleats with white accents and a studded outsole."
+  },
+  "checks": [
+    {
+      "id": "all_items_present",
+      "pass": true,
+      "note": "All required items are present, fully visible, and correctly displayed."
+    },
+    {
+      "id": "matches_kit_photo",
+      "pass": true,
+      "note": "The generated kit in image 1 matches the athlete's kit in image 3 in all comparable details: jersey color, crest position and color, number position and color, pants color, and belt color."
+    },
+    {
+      "id": "crest_correct",
+      "pass": true,
+      "note": "The crest on the shirt is the same mark as in image 2, and its one-color application correctly matches the athlete's kit in image 3."
+    },
+    {
+      "id": "no_league_mark",
+      "pass": true,
+      "note": "There are no real-world league or federation marks on any item."
+    },
+    {
+      "id": "no_text_anywhere",
+      "pass": true,
+      "note": "The only text is the squad number '7' on the jersey and the manufacturer's name on the footwear, both of which are permitted by the specification."
+    },
+    {
+      "id": "no_branding",
+      "pass": true,
+      "note": "No invented branding has been added to default items like the socks."
+    },
+    {
+      "id": "footwear_correct_for_sport",
+      "pass": true,
+      "note": "The shoes are baseball cleats with a studded outsole, which is correct for the sport."
+    },
+    {
+      "id": "clean_and_new",
+      "pass": true,
+      "note": "All items are clean and new, with no dirt or wear."
+    },
+    {
+      "id": "flat_lay",
+      "pass": true,
+      "note": "The image is a standard flat lay shot from directly overhead."
+    }
+  ],
+  "worstIssue": "none",
+  "verdict": "pass",
+  "plateHash": "48c916af2ed1",
+  "gradedAt": "2026-08-21T00:04:04.272Z"
+}

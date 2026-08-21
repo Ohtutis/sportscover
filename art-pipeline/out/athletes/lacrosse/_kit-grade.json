@@ -1,0 +1,58 @@
+{
+  "observations": {
+    "items": "Sleeveless jersey, shorts, goggles, lacrosse stick, two socks, two cleats, one ball.",
+    "badge": "Hexagon containing a geometric fox head in orange and black. White 'NB' logo on the jersey. White Under Armour logo on the shorts.",
+    "footwear": "Black cleats, one shown from above, one from the side showing a studded sole."
+  },
+  "checks": [
+    {
+      "id": "all_items_present",
+      "pass": true,
+      "note": "All required items are present and correctly displayed."
+    },
+    {
+      "id": "matches_kit_photo",
+      "pass": false,
+      "note": "The shorts are plain shorts instead of the specified kilt, the socks are white instead of charcoal, and the ball is yellow instead of white."
+    },
+    {
+      "id": "crest_correct",
+      "pass": true,
+      "note": "The crest matches the provided artwork."
+    },
+    {
+      "id": "no_league_mark",
+      "pass": true,
+      "note": "No league marks are visible."
+    },
+    {
+      "id": "no_text_anywhere",
+      "pass": true,
+      "note": "Only allowed manufacturer marks and squad numbers are present."
+    },
+    {
+      "id": "no_branding",
+      "pass": true,
+      "note": "No invented branding on default items."
+    },
+    {
+      "id": "footwear_correct_for_sport",
+      "pass": true,
+      "note": "The footwear are studded cleats suitable for lacrosse."
+    },
+    {
+      "id": "clean_and_new",
+      "pass": true,
+      "note": "All items appear clean and new."
+    },
+    {
+      "id": "flat_lay",
+      "pass": true,
+      "note": "The image is a proper flat lay."
+    }
+  ],
+  "worstIssue": "The shorts are plain shorts instead of the specified kilt, the socks are white instead of charcoal, and the ball is yellow instead of white.",
+  "verdict": "fail",
+  "plateHash": "ac7de9850ae1",
+  "gradedAt": "2026-08-21T20:58:20.264Z"
+}

@@ -1,0 +1,93 @@
+{
+  "judge": "gemini-2.5-pro",
+  "generator": "gemini-3-pro-image",
+  "gradedAt": "2026-08-20T19:06:15.081Z",
+  "report": {
+    "_kit": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "none",
+      "failed": [],
+      "observations": {
+        "items": "Green short-sleeved shirt, green shorts, two green socks, two black and gold soccer boots, one white, black and gold soccer ball.",
+        "badge": "A shield-shaped crest with a green border, containing a green and white falcon's head. There is an Under Armour logo on the right chest of the shirt. There is a Nike swoosh logo on the shoes and the ball.",
+        "footwear": "Black soccer boots with gold Nike swoosh logos. The sole has cleats/studs for playing on grass."
+      }
+    },
+    "_set": {
+      "verdict": "pass",
+      "worstIssue": "none",
+      "failed": [],
+      "offending": [],
+      "observations": {
+        "footwear": "Image 1: Black soccer cleats with a gold swoosh. Image 2: Black soccer cleats with a gold swoosh and gold sole. Image 3: Black soccer cleats with a gold swoosh. Image 4: Black soccer cleats with a visible gold sole on the left foot.",
+        "equipment": "Image 1: A white soccer ball with black pentagonal panels and gold accents is on the floor. Image 2: The same ball is on the floor. Image 3: The same ball is in the air. Image 4: No equipment is visible.",
+        "kit": "Image 1: Green short-sleeved V-neck shirt with white sleeve trim, matching green shorts with a white side stripe, and green socks. Image 2: Same kit. Image 3: Same kit. Image 4: Back view of the same kit, showing a white number '7' on the shirt."
+      }
+    },
+    "hero": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The jersey design is incorrect; the white element on the shoulder is a single panel inset into the sleeve seam, not a separate strip on top of the shoulder as specified.",
+      "failed": [
+        "kit_correct",
+        "no_stray_text"
+      ],
+      "observations": {
+        "person": "A young adult Black woman with an athletic build. Her hair consists of long braids styled in a high top knot, with some braids framing her face. She has a defined jawline and facial features consistent with the reference images.",
+        "pose": "The person is running towards the camera in a full-body shot. Her right leg is forward, and her arms are in a natural running motion. The camera is positioned at eye level, directly in front of her.",
+        "backdrop": "A solid, neutral gray studio backdrop with soft, diffuse lighting. There is a faint contact shadow on the floor beneath her feet and the soccer ball.",
+        "chest": "On the left side of the chest is a green and white shield-shaped crest containing a stylized bird's head. At the base of the v-neck collar, there is a small white manufacturer's logo."
+      },
+      "approved": true
+    },
+    "action2": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The club crest is completely missing from the jersey, which is a critical failure of the kit requirements.",
+      "failed": [
+        "kit_correct",
+        "crest_placement",
+        "pose_correct",
+        "crest_fidelity"
+      ],
+      "observations": {
+        "person": "The person in image 2 is a Black woman with an athletic build, appearing to be in her early twenties. Her face is seen in profile, showing a defined jawline and a nose shape consistent with the reference person. Her hair consists of long black braids styled into a high bun on top of her head, with the rest of the braids hanging down her back.",
+        "pose": "The person is captured mid-action, in a dynamic soccer kicking motion. She is in profile to the camera, with her right leg swung forward past a soccer ball and her left leg trailing behind. Both feet are off the ground. Her arms are out for balance. The camera is at approximately waist height, capturing her full body.",
+        "backdrop": "The backdrop is a seamless, solid, medium-grey studio background. The floor is the same color and material, curving up into the back wall. There is a soft shadow on the floor directly under and slightly behind the person and the ball.",
+        "chest": "The chest of the green jersey is plain. There is no crest, logo, or any other design printed on it."
+      },
+      "approved": true
+    },
+    "action3": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The jersey is incorrect; it is missing the required white strips on the shoulders.",
+      "failed": [
+        "kit_correct"
+      ],
+      "observations": {
+        "person": "A Black woman with long black braids styled into a high bun with the rest hanging down. She has a defined jawline and brow, and a nose piercing in her left nostril. She appears to be a young adult with an athletic build.",
+        "pose": "The person is standing on her right foot, lifting her left knee to meet a soccer ball in the air. Her arms are extended to the sides for balance, and she is looking up at the ball. The camera is at a low angle, looking up at her.",
+        "backdrop": "A solid, neutral grey studio backdrop. There is a soft contact shadow on the floor directly beneath the person.",
+        "chest": "On the left side of the chest is a small crest in the shape of a shield. The shield has a green border and contains a stylized bird's head, primarily green and white, on a white background."
+      },
+      "approved": true
+    },
+    "back": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The specified soccer ball is missing from the image, which is listed as part of the required kit.",
+      "failed": [
+        "kit_correct"
+      ],
+      "observations": {
+        "person": "Face not visible. The person has a strong, athletic build with long black hair styled in braids, gathered into a high bun with the rest hanging down her back.",
+        "pose": "The person is seen from behind, mid-stride or jumping, with both arms raised wide in a celebratory gesture. The camera is at eye level, directly behind her.",
+        "backdrop": "A solid, neutral grey studio backdrop with soft, even lighting.",
+        "chest": "The chest is not visible. The back of the green jersey has a large, white number '7'."
+      },
+      "approved": true
+    }
+  }
+}

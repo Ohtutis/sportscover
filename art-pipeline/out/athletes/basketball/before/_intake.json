@@ -1,0 +1,36 @@
+{
+  "verdict": "ok",
+  "usable": [
+    "art-pipeline/out/athletes/basketball/before/photo1.png",
+    "art-pipeline/out/athletes/basketball/before/photo3.png",
+    "art-pipeline/out/athletes/basketball/before/photo4.png"
+  ],
+  "anchorOrder": [
+    "art-pipeline/out/athletes/basketball/before/photo4.png",
+    "art-pipeline/out/athletes/basketball/before/photo1.png",
+    "art-pipeline/out/athletes/basketball/before/photo3.png"
+  ],
+  "identity": [
+    {
+      "path": "art-pipeline/out/athletes/basketball/before/photo1.png",
+      "similarityToOthers": 0.63
+    },
+    {
+      "path": "art-pipeline/out/athletes/basketball/before/photo3.png",
+      "similarityToOthers": 0.509
+    },
+    {
+      "path": "art-pipeline/out/athletes/basketball/before/photo4.png",
+      "similarityToOthers": 0.553
+    }
+  ],
+  "rejected": [
+    {
+      "path": "art-pipeline/out/athletes/basketball/before/photo2.png",
+      "reasons": [
+        "the face is only 153 px across — too small; move closer or send the original rather than a screenshot"
+      ]
+    }
+  ],
+  "notes": []
+}

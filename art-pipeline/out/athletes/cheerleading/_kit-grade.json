@@ -1,0 +1,58 @@
+{
+  "observations": {
+    "items": "Sleeveless berry cheer shell, berry cheer skirt, large berry competition bow, two white socks, two berry and white pom-poms, two white cheer sneakers.",
+    "badge": "A shield shape containing three chevrons. The shield outline and chevrons are white, with the shirt's berry color showing through as the background. No lettering. No manufacturer's logo.",
+    "footwear": "White low-top sneakers. One is viewed from above, the other from the side, revealing a pale cream sole."
+  },
+  "checks": [
+    {
+      "id": "all_items_present",
+      "pass": true,
+      "note": "All required items are present, and the shoes are shown from two different views."
+    },
+    {
+      "id": "matches_kit_photo",
+      "pass": false,
+      "note": "The number '0' is on the wrong side of the skirt (wearer's left instead of right), and the socks are too long (crew length instead of low ankle socks)."
+    },
+    {
+      "id": "crest_correct",
+      "pass": true,
+      "note": "The crest matches the provided artwork in shape and the one-color application matches the reference photo."
+    },
+    {
+      "id": "no_league_mark",
+      "pass": true,
+      "note": "No league or real-world club marks are visible."
+    },
+    {
+      "id": "no_text_anywhere",
+      "pass": true,
+      "note": "No text is visible other than the permitted squad number."
+    },
+    {
+      "id": "no_branding",
+      "pass": true,
+      "note": "No manufacturer branding is visible."
+    },
+    {
+      "id": "footwear_correct_for_sport",
+      "pass": true,
+      "note": "The shoes are appropriate cheerleading sneakers."
+    },
+    {
+      "id": "clean_and_new",
+      "pass": true,
+      "note": "All items appear clean and new."
+    },
+    {
+      "id": "flat_lay",
+      "pass": true,
+      "note": "The image is a proper flat lay."
+    }
+  ],
+  "worstIssue": "The number '0' is printed on the wrong side of the skirt, and the socks are too long.",
+  "verdict": "fail",
+  "plateHash": "a0e980efba06",
+  "gradedAt": "2026-08-21T22:12:03.960Z"
+}

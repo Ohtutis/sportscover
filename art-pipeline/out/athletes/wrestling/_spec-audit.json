@@ -1,0 +1,59 @@
+{
+  "verifiedAt": "2026-08-21T21:45:32.449Z",
+  "photos": [
+    "photo1.png",
+    "photo2.png",
+    "photo3.png",
+    "photo4.png"
+  ],
+  "findings": [
+    {
+      "id": "hair",
+      "seen": "Ash blond hair, short on sides and back, longer on top, brushed forward.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "build",
+      "seen": "Lean, muscular build with defined arms and shoulders, not overly bulky.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shirt",
+      "seen": "Red singlet with centered crest and number 1 on left thigh. Right thigh has a white Champion 'C' logo.",
+      "verdict": "contradicted",
+      "note": "Claim states the opposite leg is plain with no maker's mark, but a white Champion logo is visible."
+    },
+    {
+      "id": "shorts",
+      "seen": "One-piece singlet covering torso and thighs. No separate shorts.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "socks",
+      "seen": "Black crew socks extending above shoes, with a white Nike swoosh logo.",
+      "verdict": "contradicted",
+      "note": "Claim states socks are plain black with no maker's mark, but a white Nike swoosh is visible."
+    },
+    {
+      "id": "footwear",
+      "seen": "High-top wrestling shoes covering the ankle, grey/white with navy and red accents.",
+      "verdict": "contradicted",
+      "note": "Claim states shoes are cut low below the ankle bone, but they are high-top wrestling shoes."
+    },
+    {
+      "id": "equipment",
+      "seen": "Black headgear with white straps. Plain black knee pad on one knee. No implements.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "crest placement",
+      "seen": "Large crest centered on the chest of the red singlet.",
+      "verdict": "confirmed",
+      "note": ""
+    }
+  ]
+}

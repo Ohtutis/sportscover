@@ -1,0 +1,85 @@
+{
+  "athlete": "softball",
+  "colourConflict": null,
+  "bestPortrait": "photo1.png",
+  "sport": "softball",
+  "generatedAt": "2026-08-21T19:02:05.019Z",
+  "judge": "gemini-2.5-pro",
+  "source": {
+    "photos": [
+      "photo1.png",
+      "photo2.png",
+      "photo3.png",
+      "photo4.png"
+    ],
+    "formFields": {
+      "firstName": "Brooke",
+      "lastName": "Danner",
+      "jerseyNumber": "3",
+      "team": "Bell Hollow Wrens",
+      "ageYears": 15,
+      "primaryColor": "#7A1F2B",
+      "secondaryColor": "#C9CBCC"
+    }
+  },
+  "resolved": [
+    {
+      "item": "hair",
+      "source": "photos",
+      "value": "Dark blonde hair in ONE single thick French braid: it starts braided flat at the crown, runs down, and is worn either down the back or pulled forward over ONE shoulder, with fine flyaway strands at the temples. EXACTLY ONE braid \u2014 never two braids, never pigtails, never a bun.",
+      "partial": "",
+      "why": "corrected by hand 2026-08-21: the resolver wrote 'two tight braids', and every one of the four photographs shows a single French braid over one shoulder. One braid becoming two between frames is the exact soccer-age-22 defect this line exists to prevent."
+    },
+    {
+      "item": "build",
+      "source": "photos",
+      "value": "The athlete has a solid, strong build with broad shoulders and a sturdy torso. Her arms show some muscle definition but are not heavily toned.",
+      "partial": "",
+      "why": "clearly visible in photo2.png"
+    },
+    {
+      "item": "shirt",
+      "source": "photos",
+      "value": "SLEEVELESS maroon softball jersey with light GREY racerback panels over the shoulders and down the sides, and a grey V-neck collar band \u2014 the cut, the panels and the collar exactly as the athlete's own kit photograph shows them. The club crest sits on the LEFT CHEST as a white rounded-square printed patch, exactly as in the photograph. NO number on the front, no player name, no club name, no sponsor and no lettering of any kind. BACK (not visible in any photograph \u2014 a decision from the order form): the number 3 large and centred across the shoulders in light grey with a white outline.",
+      "partial": "",
+      "why": "read off the zoomed crop of photo2.png by hand (2026-08-21); the resolver called the shirt 'partial' and fell back to a sleeved default that matches nothing in the photograph."
+    },
+    {
+      "item": "shorts",
+      "source": "default",
+      "value": "Light grey softball pants to the ankle with a MAROON belt \u2014 the UNIFORM bottoms are not visible in any photograph (the navy shorts in photo3 are her everyday training clothes, not the match kit), so this is the deliberate sport-default decision. PLAIN AND UNBRANDED: no piping, no maker's mark, nothing added. Worn full-length down over the ankle, the hem stacking on the shoe, never knicker-style with the sock showing.",
+      "partial": "",
+      "why": "no photograph shows the uniform bottoms; the sport default is the decision (2026-08-21), pinned plain because nothing is evidenced."
+    },
+    {
+      "item": "socks",
+      "source": "default",
+      "value": "Maroon crew socks, plain, no logo \u2014 not visible in the photographs; team colour is the deliberate decision.",
+      "partial": "",
+      "why": "not visible; deliberate default."
+    },
+    {
+      "item": "footwear",
+      "source": "default",
+      "value": "Plain black softball cleats with a studded outsole. NOT sneakers. PLAIN AND UNBRANDED: no swoosh, no wordmark, no maker's mark \u2014 the photographs do not show her cleats, so nothing may be added to them.",
+      "partial": "",
+      "why": "not visible; deliberate plain default."
+    },
+    {
+      "item": "equipment",
+      "source": "default",
+      "value": "A MAROON VISOR, plain with no mark, worn in the hero, the windmill frame and the back frame \u2014 her face always readable under it. A matte MAROON BATTING HELMET, plain, with NO facemask, for the swing frame only. A plain bright-yellow softball with white stitching. A plain pale-wood bat with no lettering. A plain tan-brown leather fielding glove. None of these are visible in the photographs, so every one is the deliberate plain team-colour default and nothing is invented onto them. The same visor, helmet, ball, bat and glove in every shot.",
+      "partial": "",
+      "why": "deliberate plain defaults (2026-08-21); the visor comes from the sport's kit definition."
+    }
+  ],
+  "crest": {
+    "use": true,
+    "slug": "bell-hollow-wrens",
+    "fromPhotos": true,
+    "note": "A crest is visible on the left chest, consisting of a stylized maroon bird inside a white, squared-off shape.",
+    "placement": "on the LEFT CHEST as a white rounded-square printed patch about a hand's width across, exactly where and how the kit photograph shows it.",
+    "placementWhy": "read off the zoomed crop of photo2.png by hand (2026-08-21)."
+  },
+  "defaults": "a maroon softball jersey with contrasting sleeve trim, grey softball pants, a maroon belt, and a maroon visor. The kit fits properly and is clean and well kept.\nCONSISTENT ACROSS THE WHOLE SET \u2014 three of these frames sit side by side on one card, so\nthese must be identical in every shot and are not open to interpretation:\n- Socks are maroon, matching the kit. Never white, never a different colour.\n- Equipment: a plain yellow softball with white stitching. The same one in every shot.\n- Footwear: plain black softball cleats with a studded outsole. NOT sneakers. The same pair in every shot, clean and unmarked."
+}

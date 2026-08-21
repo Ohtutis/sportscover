@@ -1,0 +1,59 @@
+{
+  "verifiedAt": "2026-08-21T22:43:26.654Z",
+  "photos": [
+    "photo1.png",
+    "photo2.png",
+    "photo3.png",
+    "photo4.png"
+  ],
+  "findings": [
+    {
+      "id": "hair",
+      "seen": "The photographs show the athlete with light brown hair pulled tightly back into a high bun on the crown of her head. There is no parting and no fringe, and this hairstyle is consistent across all four images.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "build",
+      "seen": "The athlete appears to be a young teenager with a straight torso, narrow hips, and visible muscle definition in her shoulders and arms, consistent with a gymnast's physique.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shirt",
+      "seen": "Photo 2 shows a powder blue long-sleeved leotard with a royal blue V-neck. Across the chest is a downward-pointing chevron made of a white band with a royal blue band below it. The cuffs feature a matching chevron pattern ending in a royal blue band. A white outline number '0' is on the left upper sleeve, and a white script maker's mark is on the left hip.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shorts",
+      "seen": "While photo 2 shows the athlete in a leotard with bare legs, she is wearing dark leggings in photo 1, black shorts in photo 3, and dark jeans in photo 4.",
+      "verdict": "contradicted",
+      "note": "The claim states that ordinary leggings, shorts, and jeans do not appear in these frames, but she is wearing dark leggings in photo 1, black shorts in photo 3, and dark jeans in photo 4."
+    },
+    {
+      "id": "socks",
+      "seen": "The athlete's feet and ankles are not visible in any of the provided photographs.",
+      "verdict": "not_visible",
+      "note": ""
+    },
+    {
+      "id": "footwear",
+      "seen": "The athlete's feet are not visible in any of the provided photographs.",
+      "verdict": "not_visible",
+      "note": ""
+    },
+    {
+      "id": "equipment",
+      "seen": "Photo 2 shows white chalk dusted on her hands, forearms, and the cuffs of her leotard. She is not wearing any hand grips, wristbands, tape, or jewellery in any of the photographs.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "crest placement",
+      "seen": "Photo 2 shows a circular badge on the left side of her chest, positioned high up, above the white chevron and beside the neckline.",
+      "verdict": "confirmed",
+      "note": ""
+    }
+  ]
+}

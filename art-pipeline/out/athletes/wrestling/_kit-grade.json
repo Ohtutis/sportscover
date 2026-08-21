@@ -1,0 +1,58 @@
+{
+  "observations": {
+    "items": "A red wrestling singlet, a pair of black crew socks, a pair of light grey and navy wrestling shoes, a black and white wrestling headgear, and a black knee pad.",
+    "badge": "A white octagon with a red border containing a red and black hammer, printed large and centered on the chest. The shoes have the word \"asics\" and the Asics logo on the strap.",
+    "footwear": "Light grey and white upper with navy lacing, navy side panels featuring Asics stripes, and a pale cream strap across the instep. The sole is flat and flexible."
+  },
+  "checks": [
+    {
+      "id": "all_items_present",
+      "pass": true,
+      "note": "The singlet, both socks, both shoes (shown from different angles), the headgear, and the knee pad are all present and fully visible."
+    },
+    {
+      "id": "matches_kit_photo",
+      "pass": false,
+      "note": "The shoes in the flat lay are light grey and white, but the shoes worn by the athlete in the reference photograph are black."
+    },
+    {
+      "id": "crest_correct",
+      "pass": true,
+      "note": "The crest on the singlet matches the provided artwork perfectly."
+    },
+    {
+      "id": "no_league_mark",
+      "pass": true,
+      "note": "There are no league or federation marks visible on any item."
+    },
+    {
+      "id": "no_text_anywhere",
+      "pass": true,
+      "note": "The only text is the allowed manufacturer wordmark ('asics') on the shoes, which are specified as the athlete's own equipment."
+    },
+    {
+      "id": "no_branding",
+      "pass": true,
+      "note": "The Asics branding appears on the shoes, which are specified as the athlete's own equipment, not a sport default item."
+    },
+    {
+      "id": "footwear_correct_for_sport",
+      "pass": true,
+      "note": "The shoes are correct wrestling shoes with flat, flexible soles."
+    },
+    {
+      "id": "clean_and_new",
+      "pass": true,
+      "note": "All items appear clean and new with no signs of wear."
+    },
+    {
+      "id": "flat_lay",
+      "pass": true,
+      "note": "The image is a proper flat lay, shot from above with items laid out separately on a plain background."
+    }
+  ],
+  "worstIssue": "The shoes in the flat lay are light grey and white, which does not match the black shoes worn in the reference photograph.",
+  "verdict": "fail",
+  "plateHash": "c857585abf74",
+  "gradedAt": "2026-08-21T21:37:08.249Z"
+}

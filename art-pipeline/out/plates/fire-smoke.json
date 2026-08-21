@@ -1,0 +1,6 @@
+{
+  "model": "gemini-3-pro-image",
+  "ref": "print-sources/Fire-and-smoke/fire-smoke-background.png",
+  "prompt": "Use the attached image as the exact art direction reference. Reproduce it exactly:\na dark arena engulfed in fire: tall walls of orange flame rising along both sides, rolling smoke billowing across the middle, floating embers and sparks drifting through the air, the darkened stands and roof structure just visible behind the flames, and a dark reflective floor throwing long amber reflections. Deep red and ember-orange against near-black, hot rim light.\n\nChange ONE thing: REMOVE every sport marking from the floor. No court lines, no\npainted key, no three-point arc, no centre circle, no boundary tape — nothing.\nThe floor becomes the dark reflective arena floor, lit amber by the flames, completely clean and unmarked, its reflections and\nmaterial exactly as in the reference.\n\nEverything else is identical: same structures, same materials, same lighting\ndirection, same camera height and perspective, same colour grade, same composition.\n\nHard requirements:\n- Vertical poster format, 2:3.\n- Completely empty stage. No people, no props, no sports equipment of any kind.\n- No text, letters, numbers, logos or watermarks.\n- Photorealistic, sharp, print quality.",
+  "generatedAt": "2026-08-20T07:26:26.752Z"
+}

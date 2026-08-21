@@ -1,0 +1,58 @@
+{
+  "observations": {
+    "items": "A sleeveless jersey, a pair of shorts, two socks, two knee pads, two shoes, and a volleyball.",
+    "badge": "A round white patch on the left chest contains a teal anchor within a double teal circle. The number '5' is printed in white on the center of the chest. A Mizuno logo is visible on the knee pads and shoes.",
+    "footwear": "Primarily white court shoes with blue and purple accents and a white non-marking sole. One shoe is shown from the side profile, the other from above."
+  },
+  "checks": [
+    {
+      "id": "all_items_present",
+      "pass": true,
+      "note": "All required items (shirt, shorts, socks, shoes, knee pads, ball) are present, separate, and correctly displayed."
+    },
+    {
+      "id": "matches_kit_photo",
+      "pass": true,
+      "note": "The kit items in the flat lay match the athlete's photo (image 3) in all specified details: collar, side panels, crest, number, shorts, footwear, and knee pads."
+    },
+    {
+      "id": "crest_correct",
+      "pass": true,
+      "note": "The crest on the shirt is the same mark as the artwork in image 2 and matches the color application shown in the athlete's photo (image 3)."
+    },
+    {
+      "id": "no_league_mark",
+      "pass": true,
+      "note": "There are no real-world league or federation marks on any item."
+    },
+    {
+      "id": "no_text_anywhere",
+      "pass": true,
+      "note": "The only text is the squad number '5' and the manufacturer's wordmark on the knee pads, both of which are permitted by the specification."
+    },
+    {
+      "id": "no_branding",
+      "pass": true,
+      "note": "The default items (socks, ball) are correctly unbranded. Branding on other items is as specified."
+    },
+    {
+      "id": "footwear_correct_for_sport",
+      "pass": true,
+      "note": "The shoes are appropriate volleyball court shoes with a non-marking sole."
+    },
+    {
+      "id": "clean_and_new",
+      "pass": true,
+      "note": "All items are clean and appear new."
+    },
+    {
+      "id": "flat_lay",
+      "pass": true,
+      "note": "The kit is shot from directly overhead on a plain surface, with items laid out flat and separate."
+    }
+  ],
+  "worstIssue": "none",
+  "verdict": "pass",
+  "plateHash": "90ba6356ea39",
+  "gradedAt": "2026-08-21T19:32:49.394Z"
+}

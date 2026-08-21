@@ -1,0 +1,58 @@
+{
+  "observations": {
+    "items": "Sleeveless jersey, pants, two socks, two shoes, a visor, a softball, a baseball bat, and a fielding glove.",
+    "badge": "A white, rounded-square patch on the left chest. Inside is a stylized bird in profile, facing right, rendered in maroon and grey. The patch has a multi-layered border in maroon and grey. There is no lettering. No manufacturer's logos are visible on any item.",
+    "footwear": "Plain black softball cleats. One shoe is shown from the side, revealing a thick, molded white and black sole with prominent black studs for traction on dirt or turf."
+  },
+  "checks": [
+    {
+      "id": "all_items_present",
+      "pass": true,
+      "note": "All required items (shirt, pants, socks, shoes, ball, visor, bat, glove) are present and correctly laid out. The shoes are shown in two different views as required."
+    },
+    {
+      "id": "matches_kit_photo",
+      "pass": true,
+      "note": "The jersey in the flat lay (cut, colours, paneling, crest placement) is a good match for the jersey worn by the athlete in the photograph."
+    },
+    {
+      "id": "crest_correct",
+      "pass": true,
+      "note": "The crest uses the correct artwork from image 2, and its application as a printed white patch matches the athlete's kit in image 3."
+    },
+    {
+      "id": "no_league_mark",
+      "pass": true,
+      "note": "There are no real-world league or federation marks on any item."
+    },
+    {
+      "id": "no_text_anywhere",
+      "pass": true,
+      "note": "There is no lettering or any text on any of the items."
+    },
+    {
+      "id": "no_branding",
+      "pass": true,
+      "note": "The default items (pants, socks, footwear, equipment) are all plain and unbranded as specified."
+    },
+    {
+      "id": "footwear_correct_for_sport",
+      "pass": true,
+      "note": "The shoes are softball cleats with a studded outsole, correct for the sport."
+    },
+    {
+      "id": "clean_and_new",
+      "pass": true,
+      "note": "All items are clean and appear new, with no dirt or scuffs."
+    },
+    {
+      "id": "flat_lay",
+      "pass": true,
+      "note": "The image is a standard flat lay, shot from directly overhead with items laid out separately."
+    }
+  ],
+  "worstIssue": "none",
+  "verdict": "pass",
+  "plateHash": "04dedfc1d990",
+  "gradedAt": "2026-08-21T19:05:17.297Z"
+}

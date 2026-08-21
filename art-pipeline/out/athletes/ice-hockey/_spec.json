@@ -1,0 +1,85 @@
+{
+  "athlete": "ice-hockey",
+  "colourConflict": null,
+  "bestPortrait": "photo1.png",
+  "sport": "ice-hockey",
+  "generatedAt": "2026-08-20T23:06:29.587Z",
+  "judge": "gemini-2.5-pro",
+  "source": {
+    "photos": [
+      "photo1.png",
+      "photo2.png",
+      "photo3.png",
+      "photo4.png"
+    ],
+    "formFields": {
+      "firstName": "Nolan",
+      "lastName": "Reid",
+      "jerseyNumber": "17",
+      "team": "Northgate Anvils",
+      "ageYears": 16,
+      "primaryColor": "#12284B",
+      "secondaryColor": "#C8102E"
+    }
+  },
+  "resolved": [
+    {
+      "item": "hair",
+      "source": "photos",
+      "value": "Dark brown hair, cut to a medium length on top and shorter at the sides. It is textured and wavy, often falling forward in a messy fringe with no distinct parting.",
+      "partial": "",
+      "why": "clearly visible in photo4.png"
+    },
+    {
+      "item": "build",
+      "source": "photos",
+      "value": "A lean, athletic build of average height for his age. His shoulders are broader than his hips, and he appears fit and not soft through the middle.",
+      "partial": "",
+      "why": "clearly visible in photo3.png"
+    },
+    {
+      "item": "shirt",
+      "source": "photos",
+      "value": "Ice hockey jersey with a NAVY body and RED trim \u2014 a red collar band, red bands on the sleeves and a deep red hem \u2014 loose and squared off the way a hockey sweater is. Its COLLAR, its SLEEVE BANDS, its HEM, its crest and its numbers are exactly as the athlete's own kit photograph shows them \u2014 copy them from the photograph and do not invent or adjust any of them. The number 17 appears on both shoulders in white with a red outline as the photograph shows, and large across the upper back (the back is not visible in any photograph \u2014 the number and its placement there come from the order form, not from a reading of the photographs). There is NO number on the front, no player name, no club name, no sponsor and no lettering of any kind.",
+      "partial": "",
+      "why": "2026-08-21: the earlier version described the trim in prose \u2014 a red collar edge, ONE band per sleeve, white shoulder numbers \u2014 and the photograph shows a red collar BAND, TWO bands per sleeve and RED numbers with a white outline. Two descriptions of one garment, and the written one was wrong; the plate obeyed it. Appearance now has a single source: the photograph. The back-of-jersey sentence is flagged by art:spec:verify as unverifiable and that is correct: it is a decision from the order form, kept deliberately."
+    },
+    {
+      "item": "shorts",
+      "source": "photos",
+      "value": "Navy ice hockey breezers (padded pants) to just below the knee, matte navy with subtle darker navy panels and no trim. They carry the maker's white wordmark on the front of ONE thigh, exactly as the athlete's kit photograph shows it \u2014 that is their own equipment. Nothing else is added anywhere.",
+      "partial": "",
+      "why": "read off photo2.png by hand (2026-08-21). The photograph shows a maker's wordmark across the thigh; it is invented gear on a demo athlete, so it is pinned plain rather than reproduced. Branding rule corrected 2026-08-21 by the customer's decision: real marks that the athlete's own equipment genuinely carries are KEPT exactly as the photographs show them; nothing is ever invented or added to an item that has none. `art:spec:verify` found five spec lines claiming 'plain and unbranded' against photographs that plainly show the maker's wordmark. Side left unstated deliberately: two runs of art:spec:verify named opposite thighs, and a fact a measurement cannot settle should not be written down as if it were settled."
+    },
+    {
+      "item": "socks",
+      "source": "photos",
+      "value": "Navy knit hockey socks pulled up over the knee pads to mid-thigh, plain except for the small white maker's wordmark on the FRONT of the sock just below the knee, exactly as the photograph shows it.",
+      "partial": "",
+      "why": "read off photo2.png (2026-08-21). Branding rule corrected 2026-08-21 by the customer's decision: real marks that the athlete's own equipment genuinely carries are KEPT exactly as the photographs show them; nothing is ever invented or added to an item that has none. `art:spec:verify` found five spec lines claiming 'plain and unbranded' against photographs that plainly show the maker's wordmark."
+    },
+    {
+      "item": "footwear",
+      "source": "photos",
+      "value": "Black ice hockey SKATES with white laces, a stiff moulded boot, a grey blade holder and a steel blade. Never trainers, never boots. They carry the maker's white wordmark on the outer side of the boot near the heel, exactly as the photograph shows it.",
+      "partial": "",
+      "why": "read off photo2/photo3 (2026-08-21); branding pinned off for the same reason as the breezers. Branding rule corrected 2026-08-21 by the customer's decision: real marks that the athlete's own equipment genuinely carries are KEPT exactly as the photographs show them; nothing is ever invented or added to an item that has none. `art:spec:verify` found five spec lines claiming 'plain and unbranded' against photographs that plainly show the maker's wordmark."
+    },
+    {
+      "item": "equipment",
+      "source": "photos",
+      "value": "A NAVY ice hockey helmet with a CLEAR FLAT VISOR over the eyes \u2014 a visor, never a full cage and never a grille, because the face has to be readable \u2014 with a BLACK chin cup and black straps, carrying the maker's marks it really has on the front and the side. Navy gloves with white detailing and the maker's white wordmark across the cuff, exactly as the photograph shows them. A plain black rubber puck and a plain wood-toned stick with black tape on the blade \u2014 neither is visible in the photographs, so both stay generic and unbranded. The same helmet, gloves, stick and puck in every shot.",
+      "partial": "",
+      "why": "the helmet, visor and gloves come from the athlete record; the plain-shell clause is the football lesson (2026-08-21): a worn helmet carries priors a flat lay cannot argue with, so it is refused in words. Glove colour corrected 2026-08-21: the record said 'navy gloves' and I wrote 'red trim at the cuff' into the spec from nowhere \u2014 the photograph shows navy with white. The prose invented a detail the photograph had already settled, which is the same failure as the collar and the sleeve bands. Branding rule corrected 2026-08-21 by the customer's decision: real marks that the athlete's own equipment genuinely carries are KEPT exactly as the photographs show them; nothing is ever invented or added to an item that has none. `art:spec:verify` found five spec lines claiming 'plain and unbranded' against photographs that plainly show the maker's wordmark."
+    }
+  ],
+  "crest": {
+    "use": true,
+    "slug": "northgate-anvils",
+    "fromPhotos": true,
+    "note": "The crest is clearly visible on the jersey in photo2; it depicts a red anvil inside a white, red-bordered shape resembling the state of Pennsylvania.",
+    "placement": "LARGE and CENTRED on the chest, filling the middle of the jersey between the collar and the waist band, about two hand-widths across \u2014 the way a hockey club's crest always sits.",
+    "placementWhy": "read off photo2.png (2026-08-21). Hockey is the sport where the generic 'small on the left chest' default is most wrong, and the plate prompt used to hardcode it."
+  },
+  "defaults": "a SOLID navy jersey with no contrast shoulders and no contrast sleeves \u2014 the only trim is one red band around the waist hem and a red collar edge; navy breezers, navy socks, black skates, navy gloves, navy helmet with a clear flat visor. The kit fits properly and is clean and well kept.\nCONSISTENT ACROSS THE WHOLE SET \u2014 three of these frames sit side by side on one card, so\nthese must be identical in every shot and are not open to interpretation:\n- Socks are navy, matching the kit. Never white, never a different colour.\n- Equipment: a plain black rubber puck and a plain wooden-toned stick with black tape on the blade. The same one in every shot.\n- Footwear: plain black ice skates with silver blades. The same pair in every shot, clean and unmarked."
+}

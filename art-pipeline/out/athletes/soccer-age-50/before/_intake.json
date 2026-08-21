@@ -1,0 +1,35 @@
+{
+  "verdict": "ok",
+  "usable": [
+    "art-pipeline/out/athletes/soccer-age-50/before/photo1.png",
+    "art-pipeline/out/athletes/soccer-age-50/before/photo2.png",
+    "art-pipeline/out/athletes/soccer-age-50/before/photo3.png",
+    "art-pipeline/out/athletes/soccer-age-50/before/photo4.png"
+  ],
+  "anchorOrder": [
+    "art-pipeline/out/athletes/soccer-age-50/before/photo4.png",
+    "art-pipeline/out/athletes/soccer-age-50/before/photo1.png",
+    "art-pipeline/out/athletes/soccer-age-50/before/photo3.png",
+    "art-pipeline/out/athletes/soccer-age-50/before/photo2.png"
+  ],
+  "identity": [
+    {
+      "path": "art-pipeline/out/athletes/soccer-age-50/before/photo1.png",
+      "similarityToOthers": 0.762
+    },
+    {
+      "path": "art-pipeline/out/athletes/soccer-age-50/before/photo2.png",
+      "similarityToOthers": 0.701
+    },
+    {
+      "path": "art-pipeline/out/athletes/soccer-age-50/before/photo3.png",
+      "similarityToOthers": 0.655
+    },
+    {
+      "path": "art-pipeline/out/athletes/soccer-age-50/before/photo4.png",
+      "similarityToOthers": 0.754
+    }
+  ],
+  "rejected": [],
+  "notes": []
+}

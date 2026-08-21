@@ -1,0 +1,53 @@
+{
+  "observations": {
+    "items": "Navy ice hockey helmet with clear visor, navy ice hockey jersey, navy ice hockey pants (breezers), two navy ice hockey gloves with red trim, two navy hockey socks, a pair of black ice hockey skates, a black ice hockey puck, and a wooden ice hockey stick with black tape on the blade.",
+    "badge": "A keystone-shaped crest with a navy blue outer border, a red inner border, and a white field. Inside the white field is a red anvil with navy blue shading. The number '17' is on both shoulders in red with a white outline. There are no manufacturer's logos visible on any item.",
+    "footwear": "A pair of black, moulded ice hockey skates with white laces. The side profile shows a silver-grey blade holder and a steel blade."
+  },
+  "checks": [
+    {
+      "id": "all_items_present",
+      "pass": true,
+      "note": "All specified items are present and fully visible, with no duplicates and correct footwear views."
+    },
+    {
+      "id": "crest_correct",
+      "pass": true,
+      "note": "The crest on the jersey perfectly matches the provided reference image in shape, content, and colour."
+    },
+    {
+      "id": "no_league_mark",
+      "pass": true,
+      "note": "There are no real-world league, federation, or national team marks on any item."
+    },
+    {
+      "id": "no_text_anywhere",
+      "pass": true,
+      "note": "The only text is the number '17' on the shoulders, which is explicitly permitted by the specification."
+    },
+    {
+      "id": "no_branding",
+      "pass": true,
+      "note": "Items specified as 'plain and unbranded' (shorts, socks, footwear, helmet) have no branding marks."
+    },
+    {
+      "id": "footwear_correct_for_sport",
+      "pass": true,
+      "note": "The footwear is clearly ice hockey skates with blades, correct for the sport."
+    },
+    {
+      "id": "clean_and_new",
+      "pass": true,
+      "note": "All items are immaculate, with no dirt, scuffs, or signs of wear."
+    },
+    {
+      "id": "flat_lay",
+      "pass": true,
+      "note": "The image is a clean flat lay, shot from directly overhead on a plain background."
+    }
+  ],
+  "worstIssue": "none",
+  "verdict": "pass",
+  "plateHash": "c64699b98cdb",
+  "gradedAt": "2026-08-20T23:24:47.304Z"
+}

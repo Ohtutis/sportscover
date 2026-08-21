@@ -1,0 +1,35 @@
+{
+  "verdict": "ok",
+  "usable": [
+    "art-pipeline/out/athletes/soccer-age-10/before/photo1.png",
+    "art-pipeline/out/athletes/soccer-age-10/before/photo2.png",
+    "art-pipeline/out/athletes/soccer-age-10/before/photo3.png",
+    "art-pipeline/out/athletes/soccer-age-10/before/photo4.png"
+  ],
+  "anchorOrder": [
+    "art-pipeline/out/athletes/soccer-age-10/before/photo4.png",
+    "art-pipeline/out/athletes/soccer-age-10/before/photo1.png",
+    "art-pipeline/out/athletes/soccer-age-10/before/photo3.png",
+    "art-pipeline/out/athletes/soccer-age-10/before/photo2.png"
+  ],
+  "identity": [
+    {
+      "path": "art-pipeline/out/athletes/soccer-age-10/before/photo1.png",
+      "similarityToOthers": 0.699
+    },
+    {
+      "path": "art-pipeline/out/athletes/soccer-age-10/before/photo2.png",
+      "similarityToOthers": 0.664
+    },
+    {
+      "path": "art-pipeline/out/athletes/soccer-age-10/before/photo3.png",
+      "similarityToOthers": 0.806
+    },
+    {
+      "path": "art-pipeline/out/athletes/soccer-age-10/before/photo4.png",
+      "similarityToOthers": 0.783
+    }
+  ],
+  "rejected": [],
+  "notes": []
+}

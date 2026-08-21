@@ -1,0 +1,36 @@
+{
+  "verdict": "ok",
+  "usable": [
+    "art-pipeline/out/athletes/football/before/photo1.png",
+    "art-pipeline/out/athletes/football/before/photo2.png",
+    "art-pipeline/out/athletes/football/before/photo4.png"
+  ],
+  "anchorOrder": [
+    "art-pipeline/out/athletes/football/before/photo4.png",
+    "art-pipeline/out/athletes/football/before/photo1.png",
+    "art-pipeline/out/athletes/football/before/photo2.png"
+  ],
+  "identity": [
+    {
+      "path": "art-pipeline/out/athletes/football/before/photo1.png",
+      "similarityToOthers": 0.827
+    },
+    {
+      "path": "art-pipeline/out/athletes/football/before/photo2.png",
+      "similarityToOthers": 0.692
+    },
+    {
+      "path": "art-pipeline/out/athletes/football/before/photo4.png",
+      "similarityToOthers": 0.783
+    }
+  ],
+  "rejected": [
+    {
+      "path": "art-pipeline/out/athletes/football/before/photo3.png",
+      "reasons": [
+        "the face is only 176 px across — too small; move closer or send the original rather than a screenshot"
+      ]
+    }
+  ],
+  "notes": []
+}

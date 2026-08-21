@@ -1,0 +1,75 @@
+{
+  "_comment": "Ground truth from human review. The judge in check.ts is tuned until it reproduces these verdicts. Without this the judge is unmeasured \u2014 the first version passed golf, swimming, gymnastics and volleyball that the user had rejected outright, and failed the ice-hockey frame the user approved. Add a case whenever a human verdict disagrees with the judge.",
+  "cases": [
+    {
+      "file": "art-pipeline/out/_labelled/ca-golf.png",
+      "finish": "chrome-allstar",
+      "sport": "golf",
+      "expected": "fail",
+      "why": "no putting green at all; the floor carries teal lines echoing the set's own hexagons, and golf is visible only through a window at the back"
+    },
+    {
+      "file": "art-pipeline/out/_labelled/ca-swimming.png",
+      "finish": "chrome-allstar",
+      "sport": "swimming",
+      "expected": "fail",
+      "why": "no pool at all; basketball lines; blocks tiny at the right"
+    },
+    {
+      "file": "art-pipeline/out/_labelled/ca-gymnastics.png",
+      "finish": "chrome-allstar",
+      "sport": "gymnastics",
+      "expected": "fail",
+      "why": "apparatus tiny and shoved to the back; almost no floor markings"
+    },
+    {
+      "file": "art-pipeline/out/_labelled/ca-track-field.png",
+      "finish": "chrome-allstar",
+      "sport": "track-field",
+      "expected": "fail",
+      "why": "basketball court lines, no running lanes; blocks microscopic"
+    },
+    {
+      "file": "art-pipeline/out/_labelled/ca-cheerleading.png",
+      "finish": "chrome-allstar",
+      "sport": "cheerleading",
+      "expected": "fail",
+      "why": "no mat; prop is a grid of seats floating in the back window"
+    },
+    {
+      "file": "art-pipeline/out/_labelled/ca-pickleball.png",
+      "finish": "chrome-allstar",
+      "sport": "pickleball",
+      "expected": "fail",
+      "why": "net crushed against the right edge and cropped; markings nearly absent"
+    },
+    {
+      "file": "art-pipeline/out/_labelled/ca-other-sport.png",
+      "finish": "chrome-allstar",
+      "sport": "other-sport",
+      "expected": "fail",
+      "why": "basketball court lines again; floating steps"
+    },
+    {
+      "file": "art-pipeline/out/backgrounds/chrome-allstar/soccer.png",
+      "finish": "chrome-allstar",
+      "sport": "soccer",
+      "expected": "pass",
+      "why": "user approved"
+    },
+    {
+      "file": "art-pipeline/out/backgrounds/chrome-allstar/ice-hockey.png",
+      "finish": "chrome-allstar",
+      "sport": "ice-hockey",
+      "expected": "pass",
+      "why": "user approved"
+    },
+    {
+      "file": "art-pipeline/out/_labelled/ca-swimming-pool.png",
+      "finish": "chrome-allstar",
+      "sport": "swimming",
+      "expected": "pass",
+      "why": "user approved \u2014 Nano Banana Pro + the layout field: pool lengthwise, lane ropes, blocks in a row at the far end. The lane-end cross T is standard competition marking, not a defect"
+    }
+  ]
+}

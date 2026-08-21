@@ -1,0 +1,85 @@
+{
+  "athlete": "baseball",
+  "colourConflict": null,
+  "bestPortrait": "photo1.png",
+  "sport": "baseball",
+  "generatedAt": "2026-08-20T23:53:20.414Z",
+  "judge": "gemini-2.5-pro",
+  "source": {
+    "photos": [
+      "photo1.png",
+      "photo2.png",
+      "photo3.png",
+      "photo4.png"
+    ],
+    "formFields": {
+      "firstName": "Casey",
+      "lastName": "Whitlock",
+      "jerseyNumber": "7",
+      "team": "Harlow Creek Larks",
+      "ageYears": 16,
+      "primaryColor": "#B5451B",
+      "secondaryColor": "#F0E3D2"
+    }
+  },
+  "resolved": [
+    {
+      "item": "hair",
+      "source": "photos",
+      "value": "Red hair, cut short on the back and sides with longer, textured hair on top that is slightly wavy.",
+      "partial": "",
+      "why": "clearly visible in photo1.png"
+    },
+    {
+      "item": "build",
+      "source": "photos",
+      "value": "A compact, solid build: shoulders broader than the hips, strong thick forearms, sturdy through the thighs \u2014 a short strong frame, not a tall or slim one. Average height for sixteen.",
+      "partial": "",
+      "why": "read off photo3/photo4 by hand (2026-08-21); the resolver wrote 'slim', which matches neither the photographs nor the athlete record, and the identity plate is built from this line."
+    },
+    {
+      "item": "shirt",
+      "source": "photos",
+      "value": "Burnt orange short-sleeved baseball jersey with a full button placket and a plain fold-over collar. The club crest sits on the LEFT CHEST beside the placket, and the number 7 sits LOW on the front near the hem on the OPPOSITE side from the crest \u2014 the wearer's RIGHT \u2014 in cream-white \u2014 the collar, the placket, the crest, the numerals and every detail exactly as the athlete's own kit photograph shows them; copy them from the photograph and do not invent or adjust any of them. BACK (his own back is not visible in any photograph \u2014 this is a decision taken from the teammate jerseys visible behind him in photo2, which show the club's back number style): the number 7 large and centred across the shoulders in the same cream-white block style. No player name, no club name, no sponsor, no piping the photograph does not show, and no lettering of any kind. The navy training shirt in photo3 with a 12 on the sleeve is NOT the uniform \u2014 nothing from it appears on the jersey.",
+      "partial": "",
+      "why": "read off photo2.png by hand (2026-08-21). The resolver put the 7 'on the left sleeve' \u2014 it is on the front lower-left near the hem. The back number style is read off the teammate visible behind him. Side corrected 2026-08-21 off the zoomed crop: crest wearer's-left, 7 wearer's-right \u2014 I had written 'front LEFT' and the generator rightly obeyed the photograph instead; the words were the wrong document."
+    },
+    {
+      "item": "shorts",
+      "source": "photos",
+      "value": "Light grey full-length baseball pants WORN DOWN OVER THE ANKLE, the hem stacking on the top of the shoe so the sock is completely hidden \u2014 never pulled up to the calf, never knicker-style, the sock never visible below the hem \u2014 with a THIN BLACK PIPING down each outer seam and a small dark maker's mark below the waistband on one side, worn with a TAN-BROWN LEATHER belt with a plain metal buckle \u2014 the pants, the piping, the mark and the belt exactly as the kit photograph shows them.",
+      "partial": "",
+      "why": "read off photo2.png by hand (2026-08-21); the belt is tan leather, not team-coloured. Piping added 2026-08-21 off the customer's zoomed crop: I had written 'plain with no piping' and the photograph shows a thin black outer-seam piping and a small maker's mark \u2014 the spec was the wrong document again, caught by comparing the two pictures."
+    },
+    {
+      "item": "socks",
+      "source": "default",
+      "value": "Burnt orange crew socks, plain, no logo. The UNIFORM socks are not visible in any photograph (photo2 shows full-length pants over them); the dark sock visible in photo3 belongs to his everyday training clothes, not to the match kit. Team colour is the deliberate decision for the set.",
+      "partial": "",
+      "why": "pants cover the socks in every photograph; team-colour default kept deliberately."
+    },
+    {
+      "item": "footwear",
+      "source": "photos",
+      "value": "Light grey baseball cleats with white accents and a studded outsole, carrying the maker's white 'N' mark on the outer side \u2014 his own cleats exactly as photo3.png shows them, but CLEAN AND NEW in every shot: copy what he wears, never its condition. NOT sneakers.",
+      "partial": "",
+      "why": "read off photo3.png by hand (2026-08-21): his real cleats are grey with the maker's N mark, muddy from training. Real marks on his own equipment stay; the mud does not."
+    },
+    {
+      "item": "equipment",
+      "source": "photos",
+      "value": "His MATCH cap \u2014 the burnt orange baseball cap with the cream club lark on the front, exactly as photo2.png shows it \u2014 worn in the hero, the pitch frame and the back frame. (The grey backwards cap in photo1 is everyday clothing, not part of the uniform, and never appears in the set.) A matte burnt orange BATTING HELMET, plain with no marks and no stickers, for the swing frame only \u2014 a deliberate plain team-colour decision, since no helmet of his is visible in the photographs. A plain white baseball with red stitching and a plain pale-wood bat with no lettering \u2014 also deliberate plain defaults, not visible in the photographs. The same cap, helmet, ball and bat in every shot.",
+      "partial": "",
+      "why": "cap read off photo2.png; helmet, ball and bat are deliberate plain defaults (2026-08-21) \u2014 the photographs do not show his, and a guessed brand is worse than none."
+    }
+  ],
+  "crest": {
+    "use": true,
+    "slug": "harlow-creek-larks",
+    "fromPhotos": false,
+    "note": "The crest is clearly visible on the left chest in photo2.png and on the cap \u2014 it is the club lark-in-diamond artwork, applied from the crest file.",
+    "placement": "on the LEFT CHEST beside the button placket, about a hand's width across, exactly where and how large the kit photograph shows it.",
+    "placementWhy": "read off photo2.png by hand (2026-08-21)."
+  },
+  "defaults": "a burnt orange baseball jersey with contrasting piping and a button placket, grey baseball pants with a burnt orange stripe, a burnt orange belt, and a burnt orange cap. The kit fits properly and is clean and well kept.\nCONSISTENT ACROSS THE WHOLE SET \u2014 three of these frames sit side by side on one card, so\nthese must be identical in every shot and are not open to interpretation:\n- Socks are burnt orange, matching the kit. Never white, never a different colour.\n- Equipment: a plain white baseball with red stitching, and a plain wooden bat. The same one in every shot.\n- Footwear: plain black baseball cleats with a studded outsole. NOT sneakers. The same pair in every shot, clean and unmarked."
+}

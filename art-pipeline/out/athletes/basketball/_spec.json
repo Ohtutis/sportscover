@@ -1,0 +1,83 @@
+{
+  "athlete": "basketball",
+  "colourConflict": null,
+  "bestPortrait": "photo1.png",
+  "sport": "basketball",
+  "generatedAt": "2026-08-20T20:53:07.869Z",
+  "judge": "gemini-2.5-pro",
+  "source": {
+    "photos": [
+      "photo1.png",
+      "photo2.png",
+      "photo3.png",
+      "photo4.png"
+    ],
+    "formFields": {
+      "firstName": "Marcus",
+      "lastName": "Ellison",
+      "jerseyNumber": "11",
+      "team": "Cedar Ridge Bears",
+      "ageYears": 17,
+      "primaryColor": "#12356B",
+      "secondaryColor": "#FFFFFF"
+    }
+  },
+  "resolved": [
+    {
+      "item": "hair",
+      "source": "photos",
+      "value": "Short black twists worn LOOSE \u2014 a few centimetres long, falling forward around the face and moving when he runs. Never gathered on top, never tied back, no headband. The same hair in every frame.",
+      "partial": "",
+      "why": "corrected by hand from photo1/photo4 (2026-08-21) \u2014 the resolver read them as gathered on top"
+    },
+    {
+      "item": "build",
+      "source": "photos",
+      "value": "Tall and lean, with broad shoulders relative to a narrow waist and hips. He has visible muscle definition in his arms and legs.",
+      "partial": "",
+      "why": "clearly visible in photo2.png"
+    },
+    {
+      "item": "shirt",
+      "source": "photos",
+      "value": "Deep blue short-sleeved basketball jersey. Light blue piping around the V-neck collar and around both armholes, and a light blue panel running down each side from the armhole to the hem. FRONT: the club badge small on the wearer's LEFT chest, and the number 12 in light blue with a white outline centred on the chest below the neckline. BACK: the club badge SMALL and centred high on the upper back, clear of the number, and below it the number 12 large in light blue with a white outline. The badge never touches or overlaps the numerals. No club name, no sponsor and no lettering of any kind anywhere on it.",
+      "partial": "",
+      "why": "read off photo2.png by hand (2026-08-20). The photograph shows the BACK of the jersey, so the front is CONSTRUCTED from the same panel geometry \u2014 disclosed, and audited on the kit plate"
+    },
+    {
+      "item": "shorts",
+      "source": "photos",
+      "value": "Deep blue basketball shorts ending above the knee, with light blue trim along the hem and the club badge small on the wearer's LEFT leg. Plain otherwise, and no lettering.",
+      "partial": "",
+      "why": "read off photo2.png by hand (2026-08-20). The photograph shows the BACK of the jersey, so the front is CONSTRUCTED from the same panel geometry \u2014 disclosed, and audited on the kit plate"
+    },
+    {
+      "item": "socks",
+      "source": "photos",
+      "value": "Black crew socks, plain, with no logo.",
+      "partial": "",
+      "why": "read off photo2.png by hand (2026-08-20). The photograph shows the BACK of the jersey, so the front is CONSTRUCTED from the same panel geometry \u2014 disclosed, and audited on the kit plate"
+    },
+    {
+      "item": "footwear",
+      "source": "photos",
+      "value": "Dark blue and white high-top basketball sneakers with a white swoosh on the side \u2014 the same pair he wears in the photographs, shown clean. The same pair in every shot.",
+      "partial": "",
+      "why": "read off photo2.png by hand (2026-08-20). The photograph shows the BACK of the jersey, so the front is CONSTRUCTED from the same panel geometry \u2014 disclosed, and audited on the kit plate"
+    },
+    {
+      "item": "equipment",
+      "source": "photos",
+      "value": "A standard orange basketball with black seams, clean. The same ball in every shot.",
+      "partial": "",
+      "why": "read off photo2.png by hand (2026-08-20). The photograph shows the BACK of the jersey, so the front is CONSTRUCTED from the same panel geometry \u2014 disclosed, and audited on the kit plate"
+    }
+  ],
+  "crest": {
+    "use": true,
+    "slug": "cedar-ridge-bears",
+    "fromPhotos": false,
+    "note": "A small crest is visible on the left leg of the shorts, but it is too small and unclear to be legible."
+  },
+  "defaults": "a deep blue sleeveless basketball jersey with contrasting side panels and trim at the neck and armholes, matching deep blue shorts with a stripe down each leg. The kit fits properly and is clean and well kept.\nCONSISTENT ACROSS THE WHOLE SET \u2014 three of these frames sit side by side on one card, so\nthese must be identical in every shot and are not open to interpretation:\n- Socks are deep blue, matching the kit. Never white, never a different colour.\n- Equipment: a plain orange basketball with black seams and no visible branding. The same one in every shot.\n- Footwear: plain white high-top basketball sneakers with black soles. The same pair in every shot, clean and unmarked."
+}

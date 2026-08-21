@@ -1,0 +1,23 @@
+{
+  "judge": "gemini-2.5-pro",
+  "generator": "gemini-3-pro-image",
+  "gradedAt": "2026-08-20T09:10:00.780Z",
+  "report": {
+    "back": {
+      "verdict": "fail",
+      "attempts": 2,
+      "worstIssue": "The image includes visible brand logos on the skates and stick, which violates the requirement for no stray text or branding.",
+      "failed": [
+        "frame_complete",
+        "no_stray_text"
+      ],
+      "observations": {
+        "person": "The subject is seen from behind, so the face is not visible. The hair visible at the nape of the neck is dark brown. The build is athletic, with broad shoulders and muscular legs.",
+        "pose": "The athlete is in a dynamic pose, viewed from directly behind, winding up for a slapshot with the hockey stick raised high. The feet are set apart for stability.",
+        "backdrop": "A plain, neutral grey studio backdrop with soft, even lighting. There is a subtle contact shadow directly beneath the skates.",
+        "chest": "The chest is not visible as the athlete is facing away from the camera."
+      },
+      "approved": false
+    }
+  }
+}

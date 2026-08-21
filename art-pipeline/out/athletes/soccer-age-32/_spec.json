@@ -1,0 +1,83 @@
+{
+  "athlete": "soccer-age-32",
+  "colourConflict": null,
+  "bestPortrait": "photo1.png",
+  "sport": "soccer",
+  "generatedAt": "2026-08-20T18:12:39.129Z",
+  "judge": "gemini-2.5-pro",
+  "source": {
+    "photos": [
+      "photo1.png",
+      "photo2.png",
+      "photo3.png",
+      "photo4.png"
+    ],
+    "formFields": {
+      "firstName": "Danny",
+      "lastName": "Voss",
+      "jerseyNumber": "6",
+      "team": "Sunfield Kestrels",
+      "ageYears": 32,
+      "primaryColor": "#1E7B3C",
+      "secondaryColor": "#F5F5F5"
+    }
+  },
+  "resolved": [
+    {
+      "item": "hair",
+      "source": "photos",
+      "value": "Short brown hair, cut shorter on the sides and longer on top. It is textured and worn forwards without a defined parting. The subject also has a short, full brown beard.",
+      "partial": "",
+      "why": "clearly visible in photo1.png"
+    },
+    {
+      "item": "build",
+      "source": "photos",
+      "value": "A heavy, stocky build with broad shoulders. He has a soft midsection and there is little visible muscle definition in his arms or legs.",
+      "partial": "",
+      "why": "clearly visible in photo2.png"
+    },
+    {
+      "item": "shirt",
+      "source": "photos",
+      "value": "Kelly green short-sleeved shirt with a white crew neck collar and white cuffs on the sleeves. There is a white manufacturer's logo on the right chest.",
+      "partial": "",
+      "why": "clearly visible in photo2.png"
+    },
+    {
+      "item": "shorts",
+      "source": "photos",
+      "value": "Kelly green shorts, appearing plain without any visible side markings or logos.",
+      "partial": "",
+      "why": "clearly visible in photo2.png"
+    },
+    {
+      "item": "socks",
+      "source": "photos",
+      "value": "Kelly green socks pulled up to the knee, with a single lighter green horizontal band on the turnover cuff.",
+      "partial": "",
+      "why": "clearly visible in photo2.png"
+    },
+    {
+      "item": "footwear",
+      "source": "photos",
+      "value": "Black football boots with the white Adidas three-stripe logo on the sides.",
+      "partial": "",
+      "why": "clearly visible in photo3.png"
+    },
+    {
+      "item": "equipment",
+      "source": "default",
+      "value": "",
+      "partial": "A white football with black and red/orange graphic patterns is at the player's feet.",
+      "why": "partial in the photographs — falling back to the sport default"
+    }
+  ],
+  "crest": {
+    "use": true,
+    "slug": "sunfield-kestrels",
+    "fromPhotos": false,
+    "note": "A crest is visible on the left chest of the shirt, but its details are too blurry to be legible."
+  },
+  "defaults": "a kelly green soccer jersey with contrasting sleeve trim and collar, kelly green shorts, and shin guards under the socks. An adult recreational league kit — fits, but plainly not a professional's: cut a little loose rather than athletic. Clean.\nCONSISTENT ACROSS THE WHOLE SET — three of these frames sit side by side on one card, so\nthese must be identical in every shot and are not open to interpretation:\n- Socks are kelly green, matching the kit. Never white, never a different colour.\n- Equipment: a plain WHITE soccer ball with black pentagon panels — no coloured panels, no patterns, no markings, no branding. The same one in every shot.\n- Footwear: plain black SOCCER CLEATS — proper football boots with a studded outsole (moulded conical studs clearly visible), a low profile and a slim toe box. NOT sneakers, NOT trainers, NOT flat-soled shoes. The same pair in every shot, clean and unmarked."
+}

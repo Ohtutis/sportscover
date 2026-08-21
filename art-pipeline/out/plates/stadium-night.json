@@ -1,0 +1,6 @@
+{
+  "model": "gemini-3-pro-image",
+  "ref": "print-sources/figma-ready/background_v2.png",
+  "prompt": "Use the attached image as the exact art direction reference. Reproduce it exactly:\na dark night-arena interior: heavy atmospheric haze drifting through the air, banks of cold white stadium floodlights high in the blackness, a deep out-of-focus crowd in the far background, and a glossy floor throwing long soft reflections. Cinematic, moody, desaturated steel-blue and charcoal palette with soft silver highlights.\n\nChange ONE thing: REMOVE every sport marking from the floor. No court lines, no\npainted key, no three-point arc, no centre circle, no boundary tape — nothing.\nThe floor becomes the arena floor, completely clean and unmarked, its reflections and\nmaterial exactly as in the reference.\n\nEverything else is identical: same structures, same materials, same lighting\ndirection, same camera height and perspective, same colour grade, same composition.\n\nHard requirements:\n- Vertical poster format, 2:3.\n- Completely empty stage. No people, no props, no sports equipment of any kind.\n- No text, letters, numbers, logos or watermarks.\n- Photorealistic, sharp, print quality.",
+  "generatedAt": "2026-08-19T23:12:38.547Z"
+}

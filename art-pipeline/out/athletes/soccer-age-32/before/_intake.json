@@ -1,0 +1,36 @@
+{
+  "verdict": "ok",
+  "usable": [
+    "art-pipeline/out/athletes/soccer-age-32/before/photo1.png",
+    "art-pipeline/out/athletes/soccer-age-32/before/photo3.png",
+    "art-pipeline/out/athletes/soccer-age-32/before/photo4.png"
+  ],
+  "anchorOrder": [
+    "art-pipeline/out/athletes/soccer-age-32/before/photo4.png",
+    "art-pipeline/out/athletes/soccer-age-32/before/photo1.png",
+    "art-pipeline/out/athletes/soccer-age-32/before/photo3.png"
+  ],
+  "identity": [
+    {
+      "path": "art-pipeline/out/athletes/soccer-age-32/before/photo1.png",
+      "similarityToOthers": 0.63
+    },
+    {
+      "path": "art-pipeline/out/athletes/soccer-age-32/before/photo3.png",
+      "similarityToOthers": 0.501
+    },
+    {
+      "path": "art-pipeline/out/athletes/soccer-age-32/before/photo4.png",
+      "similarityToOthers": 0.725
+    }
+  ],
+  "rejected": [
+    {
+      "path": "art-pipeline/out/athletes/soccer-age-32/before/photo2.png",
+      "reasons": [
+        "the face is only 180 px across — too small; move closer or send the original rather than a screenshot"
+      ]
+    }
+  ],
+  "notes": []
+}

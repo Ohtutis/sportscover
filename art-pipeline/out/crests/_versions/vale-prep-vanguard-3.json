@@ -1,0 +1,8 @@
+{
+  "hash": "8903d8dda180df04",
+  "model": "gemini-3-pro-image",
+  "size": "2K",
+  "refs": [],
+  "generatedAt": "2026-08-21T22:01:02.767Z",
+  "prompt": "A flat vector-style sports club crest, drawn as clean solid shapes.\n\nOutline: a shield with a flat top and a deep V bottom.\nInside it: a vertical stack of chevrons pointing up, and the stack has THREE parts and no more: part one is a solid chevron, part two is an outlined chevron below it, part three is an outlined chevron below that. Count them — three. Every chevron ends well short of the shield border on both sides, with clear white space between the chevron tips and the border. Abstract, no animal, no letters.\nColours: #8E2C6B and #FFFFFF only, plus white.\n\nHard requirements:\n- Absolutely NO text, no letters, no words, no numbers, no monogram, no banner or ribbon\n  for a name. The mark alone.\n- Flat solid colour with hard edges. No gradients, no gloss, no bevel, no drop shadow,\n  no 3D, no photographic texture, no mockup on a garment.\n- Centred on a plain pure white background, with even margin around it.\n- Bold and simple enough to still read as itself at 40 px wide.\n- Square image."
+}

@@ -1,0 +1,101 @@
+{
+  "judge": "gemini-2.5-pro",
+  "generator": "gemini-3-pro-image",
+  "gradedAt": "2026-08-20T18:22:03.880Z",
+  "report": {
+    "_kit": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The crest on the shirt has inverted colors compared to the required design, making it incorrect.",
+      "failed": [
+        "crest_correct",
+        "no_text_anywhere"
+      ],
+      "observations": {
+        "items": "A green t-shirt, green shorts, a pair of green socks, a pair of black football boots, and a football.",
+        "badge": "On the shirt's left chest is a shield-shaped badge. It is a white shield with a green border, containing a green and white illustration of a falcon's head. On the right chest is a white Lotto logo. The boots feature the Adidas three-stripe logo in white, and the text 'adidas' and 'COPA' is visible.",
+        "footwear": "Black football boots with white branding. One boot is shown from above, and the other is turned on its side, showing a sole with black studs."
+      }
+    },
+    "_set": {
+      "verdict": "fail",
+      "worstIssue": "The shirt in the back view has the team crest on the back, which is inconsistent with the front views where the crest is on the chest.",
+      "failed": [
+        "same_kit"
+      ],
+      "offending": [
+        "image 4"
+      ],
+      "observations": {
+        "footwear": "Image 1: Black shoes with three white stripes and white soles. Image 2: Black shoes with three white stripes and white soles. Image 3: Black shoes with three white stripes and white soles. Image 4: Black shoes with three white stripes and white soles.",
+        "equipment": "Image 1: White football with black and red/orange geometric patterns. Image 2: White football with black and red/orange geometric patterns. Image 3: White football with black and red/orange geometric patterns. Image 4: No equipment.",
+        "kit": "Image 1: Green short-sleeved shirt with a white crew neck collar and white sleeve trim, a Lotto logo on the right chest and a team crest on the left chest. Green shorts. Green socks with a lighter green band at the top. Image 2: Green short-sleeved shirt with a white crew neck collar and white sleeve trim, and a team crest on the left chest. Green shorts. Green socks with a lighter green band at the top. Image 3: Green short-sleeved shirt with a white crew neck collar and white sleeve trim, a Lotto logo on the right chest and a team crest on the left chest. Green shorts. Green socks with a lighter green band at the top. Image 4: Green short-sleeved shirt with white sleeve trim, a white number '6' and a team crest on the back. Green shorts. Green socks with a lighter green band at the top."
+      }
+    },
+    "hero": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The club crest on the jersey is completely wrong; it has inverted colors and a different, simplified design compared to the provided reference crest.",
+      "failed": [
+        "kit_correct",
+        "crest_fidelity"
+      ],
+      "observations": {
+        "person": "A man in his early 30s with short dark brown hair, a full beard, and a stocky build. He has a broad nose, a prominent brow, and a solid jawline.",
+        "pose": "The person is running towards the camera, with his left leg and right arm forward. A soccer ball is on the ground near his left foot. The camera is positioned front-on and at about chest level.",
+        "backdrop": "A seamless, solid medium-grey studio background, including the floor. There are soft shadows directly beneath the person and the ball.",
+        "chest": "On the left chest is a white, shield-shaped crest containing a simple green, stylized head of a bird or snake. On the right chest is a white manufacturer's logo for the Lotto brand."
+      },
+      "approved": false
+    },
+    "action2": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The shirt collar is green instead of the specified white, which is the only deviation from the kit description.",
+      "failed": [
+        "kit_correct"
+      ],
+      "observations": {
+        "person": "A man in his early 30s with short brown hair, a full beard, and a stocky build with a noticeable belly. The facial features, including the nose, brow, and jawline, are consistent with the reference person.",
+        "pose": "The person is in a full-body side profile, captured in the motion of kicking a soccer ball with his right foot. His left foot is planted, and his arms are extended outwards for balance.",
+        "backdrop": "The person is in a studio setting with a seamless, solid medium-grey background and floor. There is a soft shadow cast on the floor beneath him.",
+        "chest": "On the left side of the chest is a small crest in the shape of a shield. The shield has a green border, and inside on a white field is a stylized head of a falcon or hawk, rendered in green and white."
+      },
+      "approved": false
+    },
+    "action3": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The kit is incorrect; the shorts have a manufacturer's logo when they were specified to be plain, and the socks are missing the specified lighter green band on the cuff.",
+      "failed": [
+        "kit_correct",
+        "no_stray_text"
+      ],
+      "observations": {
+        "person": "The person in image 2 is a man with short brown hair and a full beard, appearing to be in his early 30s. He has a stocky build with a noticeable belly. His facial features, including his nose, brow, and jawline, are consistent with the reference person in image 1.",
+        "pose": "The person is in a dynamic football pose, balancing on his right foot while lifting his left knee to control a soccer ball in the air just above his thigh. His arms are extended to the sides for balance, and his head is tilted up, looking at the ball. The camera is positioned at a low angle, looking up at the subject in a full-body shot.",
+        "backdrop": "The backdrop is a solid, neutral grey studio background. The floor is the same color and material, with a soft contact shadow visible beneath the person's standing foot and the ball.",
+        "chest": "On the left side of the chest of the green jersey is a small, shield-shaped crest. The crest has a green border and features a stylized falcon's head in green and white."
+      },
+      "approved": false
+    },
+    "back": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The kit is incorrect: the shirt collar is green instead of white, and the required football is missing from the scene.",
+      "failed": [
+        "kit_correct",
+        "pose_correct",
+        "gear_correct",
+        "no_stray_text"
+      ],
+      "observations": {
+        "person": "The face is not visible as the shot is from behind. The person has short brown hair and a heavy build with a broad back and thick legs.",
+        "pose": "The person is running away from the camera with both arms raised in celebration. The left foot is on the ground and the right leg is raised behind in a running motion.",
+        "backdrop": "The person is in a studio setting with a solid, neutral grey backdrop and floor. There are soft contact shadows under the feet.",
+        "chest": "The chest is not visible."
+      },
+      "approved": false
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "verifiedAt": "2026-08-21T20:56:06.643Z",
+  "photos": [
+    "photo1.png",
+    "photo2.png",
+    "photo3.png",
+    "photo4.png"
+  ],
+  "findings": [
+    {
+      "id": "hair",
+      "seen": "The photographs show the athlete with thick, red-brown hair pulled back into a high ponytail. She wears a wide, cream-white fabric headband across the front of her head in all four images, and she has no fringe.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "build",
+      "seen": "The athlete has a lean, athletic build with broad shoulders and visible muscle definition in her arms, particularly noticeable in the training photograph.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shirt",
+      "seen": "In the match photograph, the athlete wears a charcoal sleeveless V-neck jersey with darker charcoal diagonal stripes on the side panels. An orange fox head crest in a dark hexagon is centered on the chest, with a large white number 22 outlined in black centered directly below it. A small white maker's mark is visible on the upper left chest. There are no sleeves, shoulder pads, player name, club name, or sponsor visible.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shorts",
+      "seen": "In the match photograph, the athlete wears a charcoal lacrosse kilt with a small white maker's mark on the right hem and a small orange fox crest on the left hem.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "socks",
+      "seen": "The athlete's feet and ankles are cut off or out of frame in all of the photographs, so her socks cannot be seen.",
+      "verdict": "not_visible",
+      "note": ""
+    },
+    {
+      "id": "footwear",
+      "seen": "The athlete's feet are not visible in any of the photographs.",
+      "verdict": "not_visible",
+      "note": ""
+    },
+    {
+      "id": "equipment",
+      "seen": "In the match photograph, the athlete wears protective goggles with a black frame, dark wire cage bars, and a grey strap with printed branding. She holds a lacrosse stick with a grey shaft wrapped in off-white grip tape. She is not wearing a helmet or gloves. A lacrosse ball is not visible in any of the images.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "crest placement",
+      "seen": "In the match photograph, the club crest is centered high on the chest, directly above the number 22 and below the V-neck collar, measuring about a hand's width across.",
+      "verdict": "confirmed",
+      "note": ""
+    }
+  ]
+}

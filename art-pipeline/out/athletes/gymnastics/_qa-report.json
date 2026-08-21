@@ -1,0 +1,84 @@
+{
+  "judge": "gemini-3.1-pro-preview",
+  "generator": "gemini-3-pro-image",
+  "gradedAt": "2026-08-21T23:00:18.219Z",
+  "report": {
+    "_kit": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The flat lay is missing the socks, shoes, and implement requested by the standard check, although this aligns with the specific kit instructions for bare feet.",
+      "failed": [
+        "all_items_present",
+        "footwear_correct_for_sport"
+      ],
+      "observations": {
+        "items": "One long-sleeved gymnastics leotard.",
+        "badge": "Circular badge on the left chest with a light blue background and a dark blue swallow silhouette. Number '0' in white outline on the left sleeve. Small white script logo on the left hip.",
+        "footwear": "none"
+      }
+    },
+    "hero": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "none",
+      "failed": [],
+      "observations": {
+        "person": "Young teenage girl with light brown hair styled in a high bun, freckles, a straight nose, and a slender, athletic build.",
+        "pose": "Mid-air in a split leap, facing directly forward with legs split horizontally across the frame and arms extended straight out to the sides.",
+        "backdrop": "A plain, seamless grey studio background.",
+        "chest": "Powder blue leotard featuring a downward-pointing chevron made of a white band above a royal blue band. A circular crest with a dark blue bird silhouette on a light blue background sits on the left chest."
+      },
+      "approved": true
+    },
+    "action2": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The fingers on the raised hands are melted together, and the left shoulder is nearest the camera instead of the right.",
+      "failed": [
+        "kit_correct",
+        "pose_correct",
+        "facing_correct",
+        "render_quality"
+      ],
+      "observations": {
+        "person": "Teenage girl matching the reference, light brown hair in a high bun, fair skin, freckles, athletic build.",
+        "pose": "Standing straight, arms raised high above head with hands touching, looking right.",
+        "backdrop": "Plain grey studio background.",
+        "chest": "Circular light blue badge with a dark blue swallow silhouette on the left chest."
+      },
+      "approved": true
+    },
+    "action3": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The fingertips of the trailing hand are cropped out of the frame, and the torso leans forward instead of back.",
+      "failed": [
+        "pose_correct",
+        "frame_complete"
+      ],
+      "observations": {
+        "person": "Matches reference perfectly: same facial features, skin tone, high bun, apparent age around 13, and small athletic build.",
+        "pose": "Deep squat with knees bent, torso leaning forward over the knees, arms swung back behind the hips. Profile view from hip height.",
+        "backdrop": "Plain grey seamless background.",
+        "chest": "Powder blue with a white and royal blue chevron pointing down, and a circular swallow crest on the left chest."
+      },
+      "approved": true
+    },
+    "back": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The fingers on both hands are poorly rendered and fused together.",
+      "failed": [
+        "kit_correct",
+        "render_quality"
+      ],
+      "observations": {
+        "person": "Face is not visible (from-behind shot). Build is small and muscular with child proportions. Hair is light brown, pulled into a high bun.",
+        "pose": "Standing from behind, feet together, arms raised straight up in a V-shape salute, head tilted back.",
+        "backdrop": "Plain grey studio backdrop.",
+        "chest": "Not visible from this angle."
+      },
+      "approved": true
+    }
+  }
+}

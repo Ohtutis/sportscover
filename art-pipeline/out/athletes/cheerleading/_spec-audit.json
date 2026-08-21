@@ -1,0 +1,59 @@
+{
+  "verifiedAt": "2026-08-21T22:10:31.907Z",
+  "photos": [
+    "photo1.png",
+    "photo2.png",
+    "photo3.png",
+    "photo4.png"
+  ],
+  "findings": [
+    {
+      "id": "hair",
+      "seen": "The athlete's black hair is pulled back into a high ponytail. In the photos where she is not wearing the cheer uniform (photos 1, 3, and 4), the ponytail is tied with a thick black scrunchie. In photo 2, she wears a large berry bow.",
+      "verdict": "contradicted",
+      "note": "The claim states the ponytail is tied with a plain thin black elastic, but the photographs show it tied with a thick black scrunchie."
+    },
+    {
+      "id": "build",
+      "seen": "The athlete has a solid, athletic build with broad shoulders and visible muscle definition in her arms and legs, matching the description of a sturdy frame.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shirt",
+      "seen": "Photo 2 shows a sleeveless berry cheer shell with a darker plum V-yoke across the chest and shoulders, and a matching darker plum neckline. The rest of the shell is solid berry with no other trim or lettering, and the crest is on the left chest.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shorts",
+      "seen": "Photo 2 shows a smooth, flat-fronted berry skirt sitting mid-thigh. On the right hip is a number '0' with a white outline. The fill color inside the '0' is the same berry color as the rest of the skirt, not the darker plum color of the shell's yoke.",
+      "verdict": "contradicted",
+      "note": "The claim states the number 0 is filled in the darker plum, but the photograph shows it is filled with the same berry color as the skirt."
+    },
+    {
+      "id": "socks",
+      "seen": "Photo 2 shows plain white ankle socks sitting just above the shoe collar with no visible marks or lettering.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "footwear",
+      "seen": "Photo 2 shows plain white, low-cut cheer sneakers with white laces and a sole that appears slightly off-white or pale cream. No maker's marks are visible.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "equipment",
+      "seen": "The large berry competition bow is visible in photo 2, matching the description. However, pom-poms are not visible in any of the provided photographs.",
+      "verdict": "not_visible",
+      "note": ""
+    },
+    {
+      "id": "crest placement",
+      "seen": "In photo 2, the club crest is located on the wearer's left chest, high on the shell beside the V-yoke.",
+      "verdict": "confirmed",
+      "note": ""
+    }
+  ]
+}

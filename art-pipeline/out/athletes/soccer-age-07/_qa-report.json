@@ -1,0 +1,89 @@
+{
+  "judge": "gemini-2.5-pro",
+  "generator": "gemini-3-pro-image",
+  "gradedAt": "2026-08-20T14:30:06.918Z",
+  "report": {
+    "_kit": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "The footwear is the wrong color; the specification requires black cleats with an orange pattern, but the image shows light grey/off-white cleats.",
+      "failed": [],
+      "observations": {
+        "items": "Green long-sleeved jersey, green shorts, a pair of green socks, a pair of light grey/off-white soccer cleats, and a soccer ball.",
+        "badge": "A shield-shaped badge with a green border, containing a green and white falcon head. There is no lettering. No manufacturer's logos are visible on any item.",
+        "footwear": "Light grey/off-white low-cut cleats with dark purple laces. The sole of one shoe is visible and has studs."
+      }
+    },
+    "_set": {
+      "verdict": "fail",
+      "worstIssue": "The shirt in the hero image (image 1) is different from the shirt in the other three images, with a different collar and no white cuffs.",
+      "failed": [
+        "same_kit"
+      ],
+      "offending": [
+        "image 1"
+      ],
+      "observations": {
+        "footwear": "Image 1: Grey/silver soccer cleats with purple laces. Image 2: Grey/silver soccer cleats with purple laces. Image 3: Grey/silver soccer cleats with purple laces. Image 4: Grey/silver soccer cleats with purple laces.",
+        "equipment": "Image 1: White, black, and orange/red patterned soccer ball. Image 2: White, black, and orange/red patterned soccer ball. Image 3: White, black, and orange/red patterned soccer ball. Image 4: No equipment.",
+        "kit": "Image 1: Green long-sleeved shirt with a simple white v-neck collar, green shorts, and green socks. Image 2: Green long-sleeved shirt with a white v-neck collar with an insert and white cuffs, green shorts, and green socks. Image 3: Green long-sleeved shirt with a white v-neck collar with an insert and white cuffs, green shorts, and green socks. Image 4: Green long-sleeved shirt with a white v-neck collar with an insert, white cuffs, and the number 4 on the back, green shorts, and green socks."
+      }
+    },
+    "hero": {
+      "verdict": "pass",
+      "attempts": 2,
+      "worstIssue": "none",
+      "failed": [],
+      "observations": {
+        "person": "A young boy with light brown, slightly messy hair, a small nose, a soft jawline, and freckles across his nose and cheeks. He appears to be around 7-9 years old with a slender, child-like build.",
+        "pose": "The person is running towards the camera, which is positioned at eye level. His head is up, looking into the lens. A soccer ball is on the ground slightly in front of him.",
+        "backdrop": "The backdrop is a seamless, solid, medium-grey studio background, both behind the person and on the floor.",
+        "chest": "On the left side of the chest is a small crest in the shape of a shield. It has a green border and a white background, with a stylized green and white falcon's head inside it."
+      },
+      "approved": false
+    },
+    "action2": {
+      "verdict": "fail",
+      "attempts": 2,
+      "worstIssue": "The crest on the jersey is a simplified, incorrect version of the provided club crest.",
+      "failed": [
+        "kit_correct",
+        "pose_correct",
+        "crest_fidelity"
+      ],
+      "observations": {
+        "person": "A young boy, approximately 7-9 years old, with light brown hair, freckles, and a slim build. The face is seen in profile, showing a straight brow, a slightly upturned nose, and a soft jawline.",
+        "pose": "The person is in a dynamic running pose, seen from the side. His left leg is forward and bent, approaching a soccer ball, while his right leg is trailing behind. His arms are held out to the sides for balance. The camera is positioned to his side.",
+        "backdrop": "The backdrop is a seamless, plain, neutral grey studio background, extending to the floor under the person's feet.",
+        "chest": "On the left side of the chest is a small, shield-shaped crest. The shield is green, and inside it is a white silhouette of a bird's head, likely a falcon, facing to the right."
+      },
+      "approved": false
+    },
+    "action3": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "none",
+      "failed": [],
+      "observations": {
+        "person": "A young boy, appearing to be around 7-9 years old, with a slender build. He has light brown, slightly messy hair, fair skin with freckles across his nose and cheeks, a small nose, and a soft jawline.",
+        "pose": "The person is in a dynamic soccer pose, leaning sharply to their right (viewer's left). Their left foot is planted on the ground, and their right foot is controlling a soccer ball. The camera is at a low angle, looking up at the subject.",
+        "backdrop": "The backdrop is a solid, neutral grey studio background. The floor is the same color and texture, creating a seamless environment.",
+        "chest": "On the left side of the chest is a small, shield-shaped crest. The crest has a green border, a white interior, and features a stylized bird's head (a falcon) in green and white."
+      },
+      "approved": false
+    },
+    "back": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "none",
+      "failed": [],
+      "observations": {
+        "person": "The shot is from behind, so the face is not visible. The person is a young boy with light brown, slightly messy hair and a slim, childlike build.",
+        "pose": "The person is in mid-air, jumping or running away from the camera, with both arms raised high and wide in a celebratory V-shape.",
+        "backdrop": "A solid, neutral grey studio backdrop, with a soft contact shadow on the floor beneath the person's feet.",
+        "chest": "The chest is not visible as the person is facing away from the camera."
+      },
+      "approved": false
+    }
+  }
+}

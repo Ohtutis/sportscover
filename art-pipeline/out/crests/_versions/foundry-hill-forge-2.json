@@ -1,0 +1,8 @@
+{
+  "hash": "f4b41902fa58bae8",
+  "model": "gemini-3-pro-image",
+  "size": "2K",
+  "refs": [],
+  "generatedAt": "2026-08-21T21:10:27.358Z",
+  "prompt": "A flat vector-style sports club crest, drawn as clean solid shapes.\n\nOutline: an octagon with a heavy border.\nInside it: a single blacksmith's hammer standing upright on its head, handle rising to the top of the octagon, drawn as heavy solid blocks — one object, no animal, no anvil.\nColours: #C8102E and #1A1A1A only, plus white.\n\nHard requirements:\n- Absolutely NO text, no letters, no words, no numbers, no monogram, no banner or ribbon\n  for a name. The mark alone.\n- Flat solid colour with hard edges. No gradients, no gloss, no bevel, no drop shadow,\n  no 3D, no photographic texture, no mockup on a garment.\n- Centred on a plain pure white background, with even margin around it.\n- Bold and simple enough to still read as itself at 40 px wide.\n- Square image."
+}

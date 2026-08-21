@@ -1,0 +1,135 @@
+{
+  "model": "gemini-3-pro-image",
+  "judge": "gemini-2.5-pro",
+  "gradedAt": "2026-08-20T15:08:08.944Z",
+  "report": {
+    "prism-rush/football": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "none",
+      "failed": [],
+      "approved": false
+    },
+    "prism-rush/baseball": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "none",
+      "failed": [],
+      "approved": false
+    },
+    "prism-rush/softball": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The field markings are incorrect, as a pitcher's circle is present, which is explicitly forbidden by the rules for this check.",
+      "failed": [
+        "court_correct"
+      ],
+      "approved": false
+    },
+    "prism-rush/soccer": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "none",
+      "failed": [],
+      "approved": false
+    },
+    "prism-rush/ice-hockey": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "none",
+      "failed": [],
+      "approved": false
+    },
+    "prism-rush/volleyball": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "none",
+      "failed": [],
+      "approved": false
+    },
+    "prism-rush/lacrosse": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The venue is an enclosed indoor arena, but Lacrosse is an outdoor sport.",
+      "failed": [
+        "venue_correct",
+        "court_correct"
+      ],
+      "approved": false
+    },
+    "prism-rush/wrestling": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The floor markings are for basketball, not the requested sport of wrestling.",
+      "failed": [
+        "sport_readable",
+        "layout_correct",
+        "court_correct"
+      ],
+      "approved": false
+    },
+    "prism-rush/cheerleading": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The image fails to depict a cheerleading mat, instead showing generic glowing lines on the wooden floor, making the sport unreadable.",
+      "failed": [
+        "sport_readable",
+        "layout_correct",
+        "court_correct"
+      ],
+      "approved": false
+    },
+    "prism-rush/gymnastics": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "none",
+      "failed": [],
+      "approved": false
+    },
+    "prism-rush/track-field": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "none",
+      "failed": [],
+      "approved": false
+    },
+    "prism-rush/swimming": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "none",
+      "failed": [],
+      "approved": false
+    },
+    "prism-rush/tennis": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The venue is an indoor arena, but Tennis requires an open-air stadium.",
+      "failed": [
+        "venue_correct",
+        "surface_rule"
+      ],
+      "approved": false
+    },
+    "prism-rush/golf": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "none",
+      "failed": [],
+      "approved": false
+    },
+    "prism-rush/pickleball": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "none",
+      "failed": [],
+      "approved": false
+    },
+    "prism-rush/other-sport": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "none",
+      "failed": [],
+      "approved": false
+    }
+  }
+}

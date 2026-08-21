@@ -1,0 +1,7 @@
+{
+  "hash": "5e751bc8ee8acc51",
+  "model": "gemini-3.1-flash-image",
+  "ref": "print-sources/figma-ready/background_v2.png",
+  "generatedAt": "2026-08-19T20:57:17.130Z",
+  "prompt": "Use the attached image as the exact art direction reference. Recreate that same set:\na dark night-arena interior: heavy atmospheric haze drifting through the air, banks of cold white stadium floodlights high in the blackness, a deep out-of-focus crowd in the far background, and a glossy floor throwing long soft reflections. Cinematic, moody, desaturated steel-blue and charcoal palette with soft silver highlights.\n\nChange ONLY these things:\n1. The playing surface in the lower third becomes polished white rink ice with red and blue lines, faceoff circles and dots, fine skate scoring.\n2. Background props become hockey goal net and dasher boards with glass far back — kept far back, dim, and heavily\n   subordinate to the set. Never in the centre.\n\nEverything else must match the reference: same materials, same lighting direction,\nsame camera height and perspective, same colour grade, same composition.\n\nHard requirements:\n- Vertical poster format, 2:3.\n- COMPLETELY EMPTY STAGE. No people, no athletes, no figures, no silhouettes of people.\n- The centre and lower-centre of the frame must stay clear and uncluttered — an athlete\n  cutout will be composited there later.\n- No text, no letters, no numbers, no logos, no watermarks anywhere.\n- No chrome sculpture, hard studio reflectors, bright saturated colour.\n- Photorealistic render, sharp, print quality."
+}

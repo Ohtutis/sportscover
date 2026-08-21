@@ -1,0 +1,58 @@
+{
+  "observations": {
+    "items": "A long-sleeved gymnastics leotard.",
+    "badge": "A circular badge on the left chest featuring a light blue background, a dark blue bird silhouette, and a white outline. A number '0' with a white outline is on the left sleeve. A white script maker's mark is on the left hip.",
+    "footwear": "none"
+  },
+  "checks": [
+    {
+      "id": "all_items_present",
+      "pass": true,
+      "note": "The required one-piece leotard is present. As per the specific kit instructions, no socks or footwear are included."
+    },
+    {
+      "id": "matches_kit_photo",
+      "pass": true,
+      "note": "The leotard perfectly matches the reference photograph in all details, including the colors, chevrons, crest placement, sleeve number, and maker's mark."
+    },
+    {
+      "id": "crest_correct",
+      "pass": true,
+      "note": "The crest matches the provided artwork and its application matches the reference photograph."
+    },
+    {
+      "id": "no_league_mark",
+      "pass": true,
+      "note": "No league or federation marks are present."
+    },
+    {
+      "id": "no_text_anywhere",
+      "pass": true,
+      "note": "Only the specified number '0' and the allowed maker's mark are present; there is no other text."
+    },
+    {
+      "id": "no_branding",
+      "pass": true,
+      "note": "The only branding is the maker's mark explicitly allowed in the specification."
+    },
+    {
+      "id": "footwear_correct_for_sport",
+      "pass": true,
+      "note": "No footwear is present, which is correct for gymnastics as specified."
+    },
+    {
+      "id": "clean_and_new",
+      "pass": true,
+      "note": "The garment is clean and appears new."
+    },
+    {
+      "id": "flat_lay",
+      "pass": true,
+      "note": "The image is a proper flat lay on a plain surface."
+    }
+  ],
+  "worstIssue": "none",
+  "verdict": "pass",
+  "plateHash": "91efefa1d548",
+  "gradedAt": "2026-08-21T22:44:52.966Z"
+}

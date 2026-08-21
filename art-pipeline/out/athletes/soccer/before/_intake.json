@@ -1,0 +1,35 @@
+{
+  "verdict": "ok",
+  "usable": [
+    "art-pipeline/out/athletes/soccer/before/photo1.png",
+    "art-pipeline/out/athletes/soccer/before/photo2.png",
+    "art-pipeline/out/athletes/soccer/before/photo3.png",
+    "art-pipeline/out/athletes/soccer/before/photo4.png"
+  ],
+  "anchorOrder": [
+    "art-pipeline/out/athletes/soccer/before/photo1.png",
+    "art-pipeline/out/athletes/soccer/before/photo4.png",
+    "art-pipeline/out/athletes/soccer/before/photo2.png",
+    "art-pipeline/out/athletes/soccer/before/photo3.png"
+  ],
+  "identity": [
+    {
+      "path": "art-pipeline/out/athletes/soccer/before/photo1.png",
+      "similarityToOthers": 0.725
+    },
+    {
+      "path": "art-pipeline/out/athletes/soccer/before/photo2.png",
+      "similarityToOthers": 0.653
+    },
+    {
+      "path": "art-pipeline/out/athletes/soccer/before/photo3.png",
+      "similarityToOthers": 0.637
+    },
+    {
+      "path": "art-pipeline/out/athletes/soccer/before/photo4.png",
+      "similarityToOthers": 0.698
+    }
+  ],
+  "rejected": [],
+  "notes": []
+}

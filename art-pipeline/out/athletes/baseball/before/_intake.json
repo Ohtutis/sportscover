@@ -1,0 +1,35 @@
+{
+  "verdict": "ok",
+  "usable": [
+    "art-pipeline/out/athletes/baseball/before/photo1.png",
+    "art-pipeline/out/athletes/baseball/before/photo2.png",
+    "art-pipeline/out/athletes/baseball/before/photo3.png",
+    "art-pipeline/out/athletes/baseball/before/photo4.png"
+  ],
+  "anchorOrder": [
+    "art-pipeline/out/athletes/baseball/before/photo4.png",
+    "art-pipeline/out/athletes/baseball/before/photo2.png",
+    "art-pipeline/out/athletes/baseball/before/photo1.png",
+    "art-pipeline/out/athletes/baseball/before/photo3.png"
+  ],
+  "identity": [
+    {
+      "path": "art-pipeline/out/athletes/baseball/before/photo1.png",
+      "similarityToOthers": 0.698
+    },
+    {
+      "path": "art-pipeline/out/athletes/baseball/before/photo2.png",
+      "similarityToOthers": 0.664
+    },
+    {
+      "path": "art-pipeline/out/athletes/baseball/before/photo3.png",
+      "similarityToOthers": 0.605
+    },
+    {
+      "path": "art-pipeline/out/athletes/baseball/before/photo4.png",
+      "similarityToOthers": 0.689
+    }
+  ],
+  "rejected": [],
+  "notes": []
+}
