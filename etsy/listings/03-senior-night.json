@@ -1,0 +1,68 @@
+{
+  "_comment": "Etsy listing source of truth for the SENIOR NIGHT set. Edit HERE, never in Shop Manager. Occasion listing: the search phrase is 'senior night gift', sport is a picker. Images: Figma JcQvsgIRiOQtuZcP3Q8dc9 page '03 · Digital SENIOR NIGHT', exports in etsy/listing-images/03-senior-night/. Style lead: Senior Night (SR, gold) — the six classic finishes remain choosable.",
+  "slug": "03-senior-night",
+  "wave": 1,
+  "status": "draft-not-published",
+  "etsy": {
+    "title": "Senior Night Gift | Custom Sports Poster & Trading Card Set From Your Photos | Class of 2026 Senior Keepsake | Digital Download",
+    "description": "One last home game. Four years of practices, bus rides and buzzer-beaters — and one night to honor all of it. This is the senior night gift that outlasts the flowers: a personalized poster and trading-card set built from your own photos of your senior, in a gold SENIOR NIGHT edition made for the occasion.\n\n━━━━━━ THE SENIOR NIGHT EDITION ━━━━━━\n\n• Champagne-gold ceremony style: the arena, the confetti, the spotlight — their last home game, made forever\n• CLASS OF 2026 lockup and career years (FR–SR) on the poster\n• The card back carries their 4-YEAR CAREER — freshman to senior — plus their senior quote, an athlete signature line, and a numbered SENIOR EDITION 1 OF 1 stamp\n• Prefer a different look? All six classic Game Day Edition art styles are available too\n\n━━━━━━ WHAT YOU GET — 27 FILES + 1 LIVE PAGE ━━━━━━\n\nPOSTER\n• 18x24 in poster file, print-ready 300 DPI\n\nCARDS\n• Card FRONT and BACK, print-ready 300 DPI, 2.48 x 3.46 in (63 x 88 mm)\n• A signed certificate of authenticity with their class year\n• A vertical card-flip video for sharing\n\nSOCIAL & SCREENS\n• 9 social media files (grid posts, stories, reel cover, profile picture, cover banner)\n• 7 wallpapers for phone, tablet and desktop\n\nPROVENANCE\n• Your senior's card gets its own live web page with a QR code — scan it, it opens\n\nBONUS\n• A die-cut name-and-number sticker, a number badge, and four transparent cutouts of your athlete\n\n━━━━━━ EVERY SENIOR HAS A SPORT ━━━━━━\n\nFootball, cheerleading, soccer, volleyball, basketball, baseball, softball, ice hockey, lacrosse, wrestling, gymnastics, track & field, swimming, tennis, golf, pickleball. Don't see yours? Choose Other and write it in the box — we build it.\n\n━━━━━━ SENIOR NIGHT IS ON THE CALENDAR ━━━━━━\n\nSenior night has a date, and it doesn't move. Order with your photos ready and we send the reference for your approval first — you see your senior before anything is finished. Digital delivery through Etsy, no shipping to wait on.\n\n━━━━━━ HOW YOUR SET IS MADE — OUR 6-STEP PROCESS ━━━━━━\n\nYour athlete is not a photo dropped into a template. We build a new image of them.\n\n1 · PHOTO CHECK. We review the photos you send and tell you straight away if anything won't work.\n2 · KIT BUILD. We reconstruct the uniform, club crest and colours for your sport.\n3 · REFERENCE PLATE. We create and lock one reference of your athlete — face, build, hair, kit. You approve it before we go on.\n4 · THE SHOTS. Every pose inherits that locked reference, so all of them are the same person.\n5 · VERIFICATION. We measure the face match numerically and check every mark on the kit against the reference.\n6 · FINISH. The approved frames are composed into the poster, cards and files.\n\n━━━━━━ HOW TO ORDER ━━━━━━\n\n1. Choose the sport and art style above (SENIOR NIGHT gold is the signature look for this listing)\n2. Add your senior's name, number, team, class year — and their senior quote if you'd like it on the card back\n3. Upload 4-10 photos\n4. We send the reference for approval before anything else is made\n5. Your files arrive through Etsy — no physical item ships\n\n━━━━━━ PHOTOS THAT WORK BEST ━━━━━━\n\n• 4 to 10 photos, the more the better\n• High resolution — not blurry when you zoom in\n• Face clearly visible, good light, no heavy filters\n• At least one full-body photo, head to feet\n• If possible, one in the team's kit\n• Team crest or logo as a separate image if you have it\n\n━━━━━━ AI DISCLOSURE ━━━━━━\n\nThese images are created with AI image tools, directed by our own prompts and our own six-step process. Every frame is reviewed, corrected and approved by a human before anything is delivered. Results depend on the photos you send.\n\n━━━━━━ GOOD TO KNOW ━━━━━━\n\n• We never reproduce real league or brand marks (NFL, FIFA, NCAA, Olympic, or sportswear logos). Your school or club's own crest, yes — a licensed league mark, never.\n• DIGITAL DELIVERY ONLY. No physical item ships with this listing.\n• Your photos are used for your order only and are deleted on request.",
+    "tags": [
+      "senior night gift",
+      "senior year gifts",
+      "class of 2026",
+      "senior night poster",
+      "custom trading card",
+      "sports trading card",
+      "personalized poster",
+      "custom sports art",
+      "graduation gift",
+      "athlete gift",
+      "sports mom gift",
+      "digital download",
+      "end of season gift"
+    ],
+    "materials": [
+      "digital file",
+      "AI assisted artwork",
+      "print ready PNG"
+    ],
+    "who_made": "i_did",
+    "when_made": "made_to_order",
+    "type": "physical",
+    "_type_note": "INTENTIONALLY 'physical', not 'download' — same reasoning as listings 01/04: instant download cannot work for a per-athlete file. Confirm the exact setting in Shop Manager before publishing.",
+    "price": 99.0,
+    "_price_note": "Above the $89 set on purpose — the senior-night buyer is the least price-sensitive in the shop (fixed date, final season) and this listing carries the SR edition extras (career back, class-of lockup, senior quote).",
+    "quantity": 999,
+    "processing_min": 2,
+    "processing_max": 5,
+    "taxonomy_id": null,
+    "_taxonomy_note": "Fill from getSellerTaxonomyNodes. Target: Art & Collectibles > Prints > Digital Prints.",
+    "shipping_profile_id": null,
+    "_shipping_note": "Needs a $0 / no-ship profile since nothing physical moves."
+  },
+  "personalization": {
+    "questions": [
+      {
+        "question_text": "Sport, athlete name, number, team, class year",
+        "question_type": "text_input",
+        "required": true,
+        "max_allowed_characters": 1024,
+        "instructions": "Example: Volleyball / Jaslene Ocampo / 5 / Bay Harbor Anchors / Class of 2026. Add the art style you want (SENIOR NIGHT gold is the signature), their career years if you know them (e.g. FR 2023 - SR 2026), and their senior quote for the card back."
+      },
+      {
+        "question_text": "Photos of your athlete",
+        "question_type": "labeled_upload",
+        "required": true,
+        "max_allowed_files": 10,
+        "instructions": "4-10 photos. High resolution, face clearly visible, at least one full body. Add the school or club crest as a separate file if you have it.",
+        "_api_note": "CANNOT BE CREATED VIA API. Add this question BY HAND in Shop Manager, once per listing."
+      }
+    ]
+  },
+  "_gate": [
+    "SR flip video not rendered yet (card-flip/render.sh STYLE=SR) — the description promises a card-flip video; render before first order ships, or before publishing if we want it in a listing video.",
+    "The registry page for GDE-SR-BKB-2026-12 must render at gamedayedition.com/c/... before publishing — the QR on images 16/18 is real.",
+    "Slides 07 (age row) and 13/14 are shared process slides inherited from the set listing — honest but not senior-specific; acceptable for launch.",
+    "Slide 03 card-in-hand photo still shows the Stadium Night card (scene photo); regenerate with the SR card via lib/card_in_hand.py when time allows."
+  ]
+}

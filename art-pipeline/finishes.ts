@@ -214,6 +214,42 @@ export const FINISHES: Finish[] = [
       "green surround or grass, no daylight paint colours: the ground is near-black violet " +
       "and cyan, and the only bright things on it are the neon lines themselves",
   },
+  {
+    slug: "senior-night",
+    name: "Senior Night",
+    code: "SR",
+    ref: "print-sources/senior-night/senior-night-background.png",
+    // The seventh finish, and the only OCCASION-led one: it is not a material invented for the
+    // shelf, it is the ceremony that actually happens on an American senior night — the last
+    // home game, the lights down, gold confetti, the crowd holding up phones.
+    material:
+      "a dark venue at the moment of a SENIOR NIGHT ceremony: two warm-white follow-spot beams " +
+      "cutting down through a whisper of haze, a storm of champagne-gold and ivory confetti " +
+      "filling the upper air and sparkling where it crosses the beams, blank fabric banners " +
+      "hanging high in the near-black rafters, and a deep crowd glittering with hundreds of tiny " +
+      "phone flashlights. Warm and ceremonial: near-black charcoal, champagne gold and ivory " +
+      "light. Emotional, celebratory and premium — a send-off, never a game in progress",
+    forbid:
+      "chrome hexagons, neon violet or cyan light, fire or embers, vintage sepia grain, daylight, " +
+      "cold blue stadium light, balloons, printed banners; floodlight towers or arena lighting " +
+      "rigs switched ON; chairs, benches or seating standing on the playing surface",
+    keepsRealSurface: true,
+    floor: "the venue floor under the ceremony spotlights",
+    venueBased: true,
+    crowdInSet: true,
+    // The confetti and the beams are the finish; the ground stays the sport's own real surface so
+    // the sport is still readable, but graded warm so it belongs to this night rather than to a
+    // daylight photograph.
+    materialNote:
+      "Render the playing surface in its real, present-day form, but lit by this ceremony: warm " +
+      "ivory-gold highlights running along the markings and pooling where the beams land, deep " +
+      "warm shadows everywhere else, and a scatter of fallen gold confetti resting on it. It " +
+      "keeps its real texture and its own line geometry, but never its flat daylight colour — no " +
+      "bright green, no bright blue, no floodlit white. THE HOUSE LIGHTS ARE OUT: the only light " +
+      "in the whole venue is the two ceremony beams, the confetti catching them and the crowd's " +
+      "phone lights. Everything the beams do not touch falls away into near-black, so this can " +
+      "never be mistaken for a floodlit night match",
+  },
 ];
 
 export const finishBySlug = (s: string) => FINISHES.find((f) => f.slug === s);

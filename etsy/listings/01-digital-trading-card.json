@@ -1,0 +1,133 @@
+{
+  "_comment": "Etsy listing source of truth. Edit HERE, never in Shop Manager, or the next `etsy:draft` run overwrites your change. Fields map 1:1 onto Etsy Open API v3 createDraftListing + updateListingInventory. See etsy/listings/README.md for the three things the API cannot write.",
+  "slug": "01-digital-trading-card",
+  "wave": 1,
+  "status": "draft-not-published",
+  "etsy": {
+    "title": "Custom Sports Trading Card from Your Photo, Digital, Any Sport, 6 Art Styles, Youth Athlete Gift, Printable Card File",
+    "description": "Turn your athlete into a trading card that looks like it came out of a real pack.\n\n━━━━━━ WHAT YOU GET ━━━━━━\n\nCARD FILE ONLY\n• Card FRONT and BACK, print-ready 300 DPI, 2.48 x 3.46 in (63 x 88 mm)\n\nFULL DIGITAL SET adds\n• 18x24 in poster file, print-ready\n• Phone and desktop wallpapers, with safe zones so nothing important sits under the clock or the dock\n• A signed certificate\n• A vertical card-flip video for sharing\n• Your card's own live web page with a QR code\n\n━━━━━━ HOW YOUR CARD IS MADE — OUR 6-STEP PROCESS ━━━━━━\n\nYour athlete is not a photo dropped into a template. We build a new image of them.\n\n1 · PHOTO CHECK. We review the photos you send and tell you straight away if anything won't work.\n2 · KIT BUILD. We reconstruct the uniform, club crest and colours for your sport.\n3 · REFERENCE PLATE. We create and lock one reference of your athlete — face, build, hair, kit. Nothing else is generated until this is right, and you approve it before we go on.\n4 · THE SHOTS. Every pose inherits that locked reference, so all of them are the same person.\n5 · VERIFICATION. We measure the face match numerically and check every mark on the kit against the reference. A measurement, not an opinion.\n6 · FINISH. The approved frames are composed into your card, poster and files.\n\nWHAT WE AIM FOR: that it is hard to tell whether you are looking at a photograph or a generated image. That is the standard we hold every frame to.\n\n━━━━━━ HOW TO ORDER ━━━━━━\n\n1. Choose your options above\n2. Add your athlete's name, sport, jersey number and team in the personalisation box\n3. Upload your photos\n4. We send your reference plate for approval before anything else is made\n5. Your files arrive through Etsy — no physical item ships\n\n━━━━━━ PHOTOS THAT WORK BEST ━━━━━━\n\n• 4 to 10 photos, the more the better\n• High resolution — not blurry when you zoom in\n• Face clearly visible, good light, no heavy filters\n• At least one full-body photo, head to feet\n• If possible, one in the team's kit\n• Team crest or logo as a separate image if you have it\n\nBlurry, dark or heavily filtered photos are the single biggest reason a likeness comes out weaker. We check them first and tell you before we start.\n\n━━━━━━ SIX ART STYLES ━━━━━━\n\nStadium Night · Chrome All-Star · Fire & Smoke · Heritage · Signature Spotlight · Prism Rush\n\nEach one is a different material and atmosphere, not a different layout. Tell us which you want in the personalisation box, or choose the all-six option and we build your athlete in every one.\n\n━━━━━━ AI DISCLOSURE ━━━━━━\n\nThese images are created with AI image tools, directed by our own prompts and our own six-step process. Every frame is reviewed, corrected and approved by a human before anything is delivered. Results depend on the photos you send — clear, well-lit photos that show the athlete fully give the closest likeness.\n\n━━━━━━ GOOD TO KNOW ━━━━━━\n\n• We never reproduce real league or brand marks (NFL, FIFA, NCAA, Olympic, or sportswear logos). Your club's own crest, yes — a licensed league mark, never.\n• 17 sports supported: basketball, football, baseball, softball, soccer, ice hockey, volleyball, lacrosse, wrestling, cheerleading, gymnastics, track & field, swimming, tennis, golf, pickleball, skateboarding.\n• DIGITAL DELIVERY ONLY. No physical item ships with this listing.\n• Your photos are used for your order only and are deleted on request.",
+    "tags": [
+      "custom sports card",
+      "sports trading card",
+      "custom trading card",
+      "youth sports gift",
+      "personalized card",
+      "baseball card gift",
+      "football card gift",
+      "basketball card",
+      "digital sports card",
+      "athlete gift",
+      "senior night gift",
+      "kids sports gift",
+      "team gift idea"
+    ],
+    "materials": [
+      "digital file",
+      "AI assisted artwork",
+      "print ready PNG"
+    ],
+    "who_made": "i_did",
+    "when_made": "made_to_order",
+    "type": "physical",
+    "_type_note": "INTENTIONALLY 'physical', not 'download'. Etsy instant-download attaches ONE file for every buyer, which cannot work for a per-athlete file. ScrapBits (73.6k sales) runs the same model: made-to-order, delivered by message, 'No physical item will be shipped'. CONFIRM the exact setting in Shop Manager before publishing — this is open question #2 in README.md.",
+    "price": 24.0,
+    "quantity": 999,
+    "processing_min": 2,
+    "processing_max": 5,
+    "taxonomy_id": null,
+    "_taxonomy_note": "Fill from getSellerTaxonomyNodes. Target: Art & Collectibles > Prints > Digital Prints.",
+    "shipping_profile_id": null,
+    "_shipping_note": "Needs a $0 / no-ship profile since nothing physical moves."
+  },
+  "personalization": {
+    "questions": [
+      {
+        "question_text": "Athlete name, sport, number, team",
+        "question_type": "text_input",
+        "required": true,
+        "max_allowed_characters": 1024,
+        "instructions": "Example: Maya Rodriguez / Softball / 14 / Riverside Rays. Add the art style you want, and a short bio line or up to 3 stats if you'd like them on the card back."
+      },
+      {
+        "question_text": "Photos of your athlete",
+        "question_type": "labeled_upload",
+        "required": true,
+        "max_allowed_files": 10,
+        "instructions": "4-10 photos. High resolution, face clearly visible, at least one full body. Add the club crest as a separate file if you have it.",
+        "_api_note": "CANNOT BE CREATED VIA API. The Etsy spec allows only question_type 'text_input' today: \"Currently, only a single question with type 'text_input' is supported.\" Add this question BY HAND in Shop Manager, once per listing. Verified live on a competitor listing (ArcadiusForge, 3 files; RingerCards allows 10)."
+      }
+    ]
+  },
+  "inventory": {
+    "_note": "Etsy allows a MAXIMUM OF 2 variation properties per listing, so the six art styles live in the personalisation text, not here.",
+    "price_on_property": [
+      "package",
+      "turnaround"
+    ],
+    "properties": {
+      "package": {
+        "name": "Package",
+        "values": [
+          "Card file only",
+          "Full digital set",
+          "Full digital set + all 6 art styles"
+        ]
+      },
+      "turnaround": {
+        "name": "Turnaround",
+        "values": [
+          "Standard 3-5 business days",
+          "Rush 24 hours"
+        ]
+      }
+    },
+    "offerings": [
+      {
+        "package": "Card file only",
+        "turnaround": "Standard 3-5 business days",
+        "price": 24.0
+      },
+      {
+        "package": "Full digital set",
+        "turnaround": "Standard 3-5 business days",
+        "price": 39.0
+      },
+      {
+        "package": "Full digital set + all 6 art styles",
+        "turnaround": "Standard 3-5 business days",
+        "price": 59.0
+      },
+      {
+        "package": "Card file only",
+        "turnaround": "Rush 24 hours",
+        "price": 49.0
+      },
+      {
+        "package": "Full digital set",
+        "turnaround": "Rush 24 hours",
+        "price": 64.0
+      },
+      {
+        "package": "Full digital set + all 6 art styles",
+        "turnaround": "Rush 24 hours",
+        "price": 84.0
+      }
+    ]
+  },
+  "media": {
+    "images": [
+      "01 — the payoff: finished card held in a hand, athlete's face readable at thumbnail size",
+      "02 — before/after: customer photo on the left, generated card on the right",
+      "03 — all six art styles as one grid",
+      "04 — card FRONT and BACK side by side",
+      "05 — the full digital set laid out (poster, wallpapers, certificate)",
+      "06 — phone lock screen mockup with a wallpaper",
+      "07 — the 6-step process as one simple graphic",
+      "08 — what makes a good photo vs a bad photo",
+      "09 — sports covered, as icons",
+      "10 — turnaround and what happens after you order"
+    ],
+    "video": "card-flip/out/GDE_*_CardFlip_1080x1920.mp4",
+    "_note": "Image 01 decides everything. Almost no competitor uses video; we already render one per finish."
+  }
+}

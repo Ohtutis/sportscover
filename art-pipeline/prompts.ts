@@ -3,7 +3,7 @@ import type { Sport } from "./sports.js";
 import type { Athlete } from "./athletes.js";
 import type { Crest } from "./crests.js";
 import type { Pose } from "./poses.js";
-import { hasImplement, isPadded, kitFor, paddingFor, setConstants } from "./kits.js";
+import { hasBackNumber, hasImplement, isPadded, kitFor, paddingFor, setConstants } from "./kits.js";
 
 /**
  * Background prompt.
@@ -124,6 +124,13 @@ export function backgroundPrompt(finish: Finish, sport: Sport): string {
           `   bench, no seating, no apparatus of any kind. This sport is deliberately`,
           `   generic, so any recognisable equipment would turn it into a specific sport.`,
           `   The few ground lines alone carry it, and the playing area stays completely bare.`,
+          // A ceremony finish invites the model to dress the floor: Senior Night cheerleading
+          // came back with a judges' podium, a set of steps and two rows of folding chairs
+          // standing exactly where the athlete gets composited. "No seating" did not stop it —
+          // the furniture has to be named the way brand marks had to be (README section 40).
+          `   Name by name: NO judges' table or judging stand, NO podium, NO awards steps or`,
+          `   staging block, NO rows of folding chairs, NO scaffolding, NO furniture of any`,
+          `   kind standing on or beside the floor. The floor is EMPTY.`,
         ]),
     ...(sport.props ? [
       `   SCALE: render it at true real-world size — ${sport.propScale}. It sits in the`,
@@ -400,6 +407,24 @@ const POSE_CONDITION = [
 ].join("\n");
 
 /**
+ * WHAT TO CALL THE PERSON — and why every stage that describes a body has to say it.
+ *
+ * `Athlete.presents` reached the identity plate and nothing before it. The snapshots are
+ * generated FIRST and the plate is built FROM them, so the one stage that could not afford
+ * to guess was the one stage never told: Imani Whitfield — sixteen, "very lean", "light
+ * through the upper body", cornrows in a low bun — came back as a teenage boy in all four
+ * "before" photographs (2026-08-22). Nothing in her record is untrue of a boy; a build and a
+ * hairstyle are not a sex, and a model asked for a lean sprinter with cornrows draws the
+ * commoner one. Same failure family as the kit and the face: what must not drift has to be
+ * STATED, not inferred from adjacent facts.
+ */
+export function personNoun(a: { ageYears: number; presents: "male" | "female" }): string {
+  return a.ageYears <= 12 ? (a.presents === "male" ? "boy" : "girl")
+    : a.ageYears <= 19 ? (a.presents === "male" ? "teenage boy" : "teenage girl")
+    : a.presents === "male" ? "man" : "woman";
+}
+
+/**
  * The identity plate — generated ONCE per athlete, approved once, then used as the visual
  * reference by every pose. Exactly the role `gen-plate.ts` plays for backgrounds, and for
  * the same reason: without a fixed anchor every generation re-rolls the thing that must not
@@ -409,10 +434,7 @@ const POSE_CONDITION = [
  * below. Every later stage stays exactly as it is.
  */
 export function identityPlatePrompt(a: Athlete): string {
-  const noun =
-    a.ageYears <= 12 ? (a.presents === "male" ? "boy" : "girl")
-    : a.ageYears <= 19 ? (a.presents === "male" ? "teenage boy" : "teenage girl")
-    : a.presents === "male" ? "man" : "woman";
+  const noun = personNoun(a);
   return [
     `Three photographs of the SAME ${noun}, side by side, from one real shoot against the same`,
     `plain backdrop.`,
@@ -914,6 +936,11 @@ export function snapshotPrompt(a: Athlete, sport: Sport, index: number, anchored
     `${FRAME_EXPRESSION[index % FRAME_EXPRESSION.length]}.`,
     ``,
     anchored ? `The same person as image 1:` : `The person:`,
+    // THE SEX IS STATED, not left to be read off the build and the hair. See personNoun.
+    // First on the list because it is the fact everything else on it is qualified by, and it
+    // is repeated as a hard requirement below because a single line in a descriptive block
+    // loses to four lines about a lean torso.
+    `- A ${personNoun(a)}.`,
     `- ${a.age}.`,
     `- ${a.build}.`,
     `- ${a.skinTone}.`,
@@ -922,7 +949,11 @@ export function snapshotPrompt(a: Athlete, sport: Sport, index: number, anchored
     sc.wear === "kit"
       ? `Wearing their team kit: ${kitFor(a)}`
       : sc.wear === "training"
-        ? `Wearing ${sport.name} training gear in the team colours — a plain training top and shorts, not the match jersey. Nothing branded.`
+        // NAME THE COLOUR. "in the team colours" is a relative instruction, and README section 5
+        // is the standing finding that a relative instruction does nothing: Imani's training
+        // frame came back in ROYAL BLUE AND WHITE against a gold club (2026-08-22). The kit
+        // branch above works because kitFor() substitutes the colour NAME into every garment.
+        ? `Wearing ${sport.name} training gear in ${a.colorName} — a plain ${a.colorName} training top and ${a.colorName} shorts, not the match jersey. ${a.colorName.toUpperCase()} is the club colour and the only colour on the clothing apart from plain white or black trim. Nothing branded.`
         : `Wearing ordinary everyday clothes — a t-shirt, hoodie or jumper. Nothing branded.`,
     ...(crestIndex && sc.wear === "kit"
       ? [
@@ -966,7 +997,19 @@ export function snapshotPrompt(a: Athlete, sport: Sport, index: number, anchored
           `  sponsor and no lettering of any kind — a squad number is fine, letters are not.`,
           `  Invented team names keep appearing on these shirts ("WILDCATS", "EAGLES") and they`,
           `  name a club this athlete does not play for.`,
+          // A SWOOSH IS NOT A WORD, and the wordless rule above let one through onto Imani's
+          // match singlet (2026-08-22). check-athlete.ts has had `no_league_mark` since the
+          // football set; the snapshots are generated before any judge sees them and had no
+          // equivalent, so the frame that the kit plate copies the uniform FROM was the one
+          // frame free to invent a manufacturer.
+          `- NO BRAND, MAKER OR LEAGUE MARK ANYWHERE. No swoosh, no stripes device, no maker's`,
+          `  logo on the singlet, the shorts, the bag or the shoes, and no NFL, NBA, FIFA, NCAA,`,
+          `  Olympic or federation emblem. The club badge is the only mark on the clothing, and`,
+          `  everything else — kit, footwear, bag — is plain and unbranded.`,
         ]),
+    `- THE ATHLETE IS A ${personNoun(a).toUpperCase()}, in this frame and in every other one.`,
+    `  This is not inferred from the build or the hair — it is given. A lean sprinter with`,
+    `  cornrows is not thereby a boy, and a set that changes sex between frames is unusable.`,
     `- EXPRESSION: exactly the one named above and nothing else. Do NOT default to mid-speech`,
     `  with the mouth open, which is what "candid" produces when nobody says otherwise.`,
     `  The one thing that must NOT vary between frames is the person.`,
@@ -1004,6 +1047,8 @@ export function identityFromPhotosPrompt(opts: {
   build?: string;
   /** Optional, from the order form — used only to resolve ambiguity, never to override. */
   notes?: string;
+  /** 1-based index of the attached photograph that shows the whole body, when there is one. */
+  bodyIndex?: number;
 }): string {
   const noun =
     opts.ageYears <= 12 ? (opts.presents === "male" ? "boy" : "girl")
@@ -1015,26 +1060,64 @@ export function identityFromPhotosPrompt(opts: {
     ``,
     `Produce three photographs of THAT SAME PERSON, side by side, from one shoot against a`,
     `plain backdrop:`,
-    `Frame 1: head and shoulders, straight to camera, neutral expression, looking into the lens.`,
+    `Frame 1: head and shoulders, straight to camera, looking into the lens.`,
     `Frame 2: the same head and shoulders turned three-quarters to the left.`,
     `Frame 3: the same person full body, standing straight and relaxed, arms at their sides.`,
+    ...(opts.bodyIndex
+      ? [``,
+         `IMAGE ${opts.bodyIndex} IS THE ONE THAT SHOWS THEM STANDING, and frame 3 comes from it.`,
+         `Their face is small in it and that does not matter — it is not there for the face. It is`,
+         `there for the FRAME: the height, the width of the shoulders, how the weight sits, the`,
+         `length of the legs, the real proportions of this person standing up. Take those from it`,
+         `exactly and take the face from the closer photographs. Do NOT slim them, do NOT lengthen`,
+         `them, and do NOT build a body that is not in that photograph.`]
+      : []),
     ``,
     `THIS IS A NORMALISATION, NOT A NEW PERSON. Everything that identifies them comes from the`,
     `attached photographs and must be carried over exactly:`,
     `- the shape of the face, the jaw, the nose, the brow, the set and spacing of the eyes`,
+    // EXPRESSION IS IDENTITY, AND IT USED TO BE DECREED AWAY. This line said "neutral
+    // expression", so every plate anchored a face at rest with nothing in it — and then every
+    // pose that inherited the plate came back with a hard game face, because that is the
+    // nearest thing to neutral an athlete photograph has.
+    //
+    // Asking the POSE for warmth was tried on 2026-08-22 and cost 0.2 of cosine similarity
+    // (0.732 -> 0.512): a smile moves the mouth and eye corners away from a neutral anchor,
+    // so warmth and likeness fought each other. The anchor is where it belongs. If the
+    // customer's photographs show a man whose face is warm at rest, the plate should carry
+    // THAT face, and then a warm hero is on-model rather than a departure from it.
+    //
+    // Note what is NOT asked for: a smile. Warmth is not prescribed here any more than the
+    // shape of a nose is. The photographs decide, the same way they decide everything else on
+    // this list (README section 39).
+    `- THE EXPRESSION THEIR FACE HOLDS AT REST, read from the photographs: how the eyes sit,`,
+    `  whether they are creased or open, where the corners of the mouth rest, what the face`,
+    `  does when it is not doing anything. If their photographs show warmth in the eyes, this`,
+    `  face has it. If they show a flat, serious face, this face is flat and serious. Do NOT`,
+    `  neutralise it into a blank passport photograph, and do NOT add a smile they do not have.`,
+    `  Lips stay together in all three frames — no teeth, no laugh — whatever the mood.`,
     ...(opts.hair
       ? [`- THE HAIR, exactly as follows, and this is the detail a parent recognises first:`,
          `  ${opts.hair}`,
          `  Do not restyle it, do not add texture or a cowlick it does not have, do not change`,
          `  the fringe, the length or the parting.`]
       : [`- the hairline, hair colour, hair texture and how it falls`]),
-    `- skin tone and any freckles, moles, scars or marks`,
+    // SKIN TONE IS IDENTITY AND THE NEXT PARAGRAPH WAS QUIETLY UNDOING IT. "Remove the colour
+    // casts" is right about a yellow room light and wrong about a suntan, and the model cannot
+    // tell those apart — so both plates for Order 02 came back ashen from photographs of a
+    // woman with a clear warm tan. The customer's word for it was "labai išblyškęs".
+    `- SKIN TONE AND ITS WARMTH, exactly as the photographs show it, plus any freckles, moles,`,
+    `  scars or marks. A tan is not a colour cast: if their skin is warm and sun-touched in the`,
+    `  photographs it is warm and sun-touched here. Do NOT neutralise it toward grey, do NOT`,
+    `  make them paler than they are, and do NOT even out the tone the sun gave them.`,
     ...(opts.build
       ? [`- THE BODY, exactly as follows, neither slimmed nor thickened:`, `  ${opts.build}`]
       : [`- their real age and their real build, including height and weight as they actually are`]),
     ``,
     `What you REMOVE is only the circumstance of the snapshots: the phone flash, the room`,
-    `behind them, the odd crops and angles, motion blur and colour casts.`,
+    `behind them, the odd crops and angles, and motion blur. A colour cast from the ROOM — the`,
+    `yellow of a lamp, the green of a screen — goes. The colour of their SKIN stays exactly as`,
+    `it is: that is the person, not the circumstance.`,
     ``,
     `Do NOT idealise. Do not slim them, do not straighten teeth, do not clear skin, do not`,
     `make them older or younger, do not make the face more symmetrical, do not change the`,
@@ -1080,13 +1163,18 @@ export function identityFromPhotosPrompt(opts: {
  * Generated FROM the customer's kit photograph when there is one, so it inherits their real
  * strip; from `kits.ts` when there is not. Approve it once, then every pose references it.
  */
-export function kitPlatePrompt(a: Athlete, sport: Sport, opts: { photoCount: number; hasCrest: boolean; spec?: string; kitPhotoIndex?: number; crestPlacement?: string }): string {
+export function kitPlatePrompt(a: Athlete, sport: Sport, opts: { photoCount: number; hasCrest: boolean; spec?: string; kitPhotoIndex?: number; crestPlacement?: string; detailNames?: string[] }): string {
   const n = opts.photoCount;
   const first = opts.hasCrest ? 2 : 1;
   return [
     opts.hasCrest
       ? `Image 1 is the club crest.${n ? ` Images 2 to ${1 + n} are photographs of this athlete.` : ""}`
       : n ? `Images 1 to ${n} are photographs of this athlete.` : `No reference photographs are attached.`,
+    // The crops come last, and the count has to be right or the numbering the prompt hands the
+    // model stops matching the attachments.
+    ...((opts.detailNames ?? []).length
+      ? [`Images ${(opts.hasCrest ? 1 : 0) + n + 1} to ${(opts.hasCrest ? 1 : 0) + n + opts.detailNames!.length} are CLOSE CROPS of small details of this same kit.`]
+      : []),
     ``,
     `A clean product photograph of a complete ${sport.name} kit, laid out FLAT and neatly`,
     `arranged on a plain light grey surface, photographed from directly above.`,
@@ -1208,12 +1296,56 @@ export function kitPlatePrompt(a: Athlete, sport: Sport, opts: { photoCount: num
       : `- NOTHING IS BRANDED. No manufacturer's mark on any item — no swoosh, no three stripes,`
         + ` no cat, no jumpman, no trefoil, no wordmark, no model name. Nothing here came from a`
         + ` photograph, so every item is a plain, generic version of itself.`,
-    // "no numbers" contradicted every spec that names a squad number — football's own plate
-    // was failed by the judge for carrying the 54 its description demanded. Ban WORDS, and
-    // let the number through when the kit description asks for it.
-    `- No words anywhere: no club name, no player name, no sponsor, no lettering, no woven`,
-    `  neck label, no care label, no watermark. The squad number appears ONLY if the kit`,
-    `  description above calls for it, and no other number is invented.`,
+    // WORDS: THE PHOTOGRAPHS DECIDE, WHEN THERE ARE ANY.
+    //
+    // "no club name, no lettering" was written for the demo roster, where nothing is
+    // photographed and every letterform would therefore be invented — and invented letters
+    // come back as "NORTHCATE IRONHAWNS". That reasoning does not survive a real order.
+    //
+    // Order 03 arrived with four photographs of a man in a plum-and-gold shirt with MAD LAMB
+    // in gold script across the chest and 51 under it. The plate came back plain purple with
+    // magenta trim: no gold, no wordmark, no number. The photographs were attached and the
+    // prompt talked over them. That is exactly backwards from README section 39 — the
+    // photograph wins — and it is the rule this whole pipeline is built on: what must be
+    // exact is carried by an IMAGE, never by words.
+    //
+    // So the ban now applies only where there is nothing to copy. With the athlete's own kit
+    // photographs attached, whatever they show is reproduced; what is still forbidden is text
+    // that appears in NO photograph.
+    ...(opts.photoCount
+      ? [`- LETTERING AND NUMBERS COME FROM THE PHOTOGRAPHS, and from nowhere else. Whatever the`,
+         `  attached photographs show on this kit — the club name, the squad number, the way they`,
+         `  are lettered and where they sit — is reproduced here as it appears there: same words,`,
+         `  same style, same colour, same position, same size relative to the garment. Do not`,
+         `  tidy it, do not restyle it, do not translate it and do not leave it off. Text that`,
+         `  appears in NO photograph is still forbidden: invent no sponsor, no slogan, no second`,
+         `  number, no care label, no woven neck label, no watermark.`,
+         // BIG LETTERING COPIES, SMALL LETTERING MANGLES — measured on Order 03. The chest
+         // wordmark came back as "MadLamb", spelled correctly, because it is large and clearly
+         // legible in the photographs. The manufacturer's mark on the shorts, a few millimetres
+         // of it, came back as "XOND" where the real garment says RIND. A garbled brand name is
+         // worse than no brand name: it is nonsense printed on something a customer pays for.
+         ...((opts.detailNames ?? []).length
+           ? [`- THE LAST ${opts.detailNames!.length} IMAGES ARE CLOSE CROPS of details that are too small to read`,
+              `  in the wide photographs: ${opts.detailNames!.join(", ")}. Each is the real thing,`,
+              `  photographed close. Reproduce what they show EXACTLY — the maker's wordmark letter`,
+              `  for letter, the shoe as that shoe, the ball as that ball, the stripe in that order`,
+              `  of colours. These crops are the authority for those details; the wide photographs`,
+              `  are the authority for everything else.`,
+              // The first run with crops attached produced TWO basketballs: the model read the
+              // close crop of the ball as another object to lay out. A crop is a detail OF an
+              // item already in the list, never an extra item.
+              `  THESE CROPS ADD NOTHING TO THE LAYOUT. They are close views of items already`,
+              `  listed above, so the frame still contains exactly one of each thing and not one`,
+              `  extra ball, shoe or garment because a crop showed one.`]
+           : [`- THE MANUFACTURER'S MARK IS THE ONE THING NOT COPIED. Whatever small maker's logo or`,
+              `  brand name the photographs show is LEFT OFF entirely — at this scale those marks`,
+              `  are a few pixels in the photographs and come back misspelled ("RIND" returned as`,
+              `  "XOND" on Order 03), and a garbled brand is worse than a plain garment. Attach a`,
+              `  close crop in before/kit-details/ and this rule gives way to it.`])]
+      : [`- No words anywhere: no club name, no player name, no sponsor, no lettering, no woven`,
+         `  neck label, no care label, no watermark. The squad number appears ONLY if the kit`,
+         `  description above calls for it, and no other number is invented.`]),
     NO_REAL_WORLD_MARKS,
     `- Sharp throughout, photographic, print quality. Square image.`,
   ].join("\n");
@@ -1263,9 +1395,18 @@ export function kitPlateBackPrompt(a: Athlete, sport: Sport, opts: { spec?: stri
     // frames where one appeared uninvited. Basketball backs really do carry a small badge above
     // the number, and the athlete's own photograph showed one — so the ban was contradicting the
     // evidence. What must be forbidden is INVENTION, not the badge.
-    `THE BACK OF THE SHIRT carries the squad number ${a.jerseyNumber}, plus whatever else the`,
-    `kit description above explicitly gives it — and nothing more. Add no mark the description`,
-    `does not name.`,
+    // BRANCHED ON THE SPORT, because this line sits AFTER the frozen spec and therefore beats
+    // it. Imani's spec said the track singlet's back stays plain — the number is on a bib on
+    // the shorts — and this sentence put a black 8 across the shoulders regardless. See
+    // hasBackNumber in kits.ts.
+    hasBackNumber(a)
+      ? `THE BACK OF THE SHIRT carries the squad number ${a.jerseyNumber}, plus whatever else the`
+        + ` kit description above explicitly gives it — and nothing more. Add no mark the`
+        + ` description does not name.`
+      : `THE BACK OF THE SHIRT CARRIES NO NUMBER. This sport does not number the back of the`
+        + ` shirt, so the back is plain: no number, no name, no badge and no lettering across`
+        + ` the shoulders or anywhere else on it, unless the kit description above explicitly`
+        + ` gives it one. Add no mark the description does not name.`,
     `NEVER any lettering: no club name, no player name, no sponsor, no word of any kind.`,
     `Nothing sits inside, on top of or overlapping the numerals — a badge, if the description`,
     `calls for one, is small, clear of the number, and the right way round.`,
@@ -1305,13 +1446,22 @@ export function kitPlateBackPrompt(a: Athlete, sport: Sport, opts: { spec?: stri
  * give the model two wardrobe sources to reconcile, which is the original bug wearing a
  * different hat.
  */
-export function posePrompt(a: Athlete, sport: Sport, pose: Pose, crest: Crest, kitRef = false, spec?: string, portraitRef = false, hair?: string, build?: string, kitBackRef = false, crestPlacement = ""): string {
+export function posePrompt(a: Athlete, sport: Sport, pose: Pose, crest: Crest | undefined, kitRef = false, spec?: string, portraitRef = false, hair?: string, build?: string, kitBackRef = false, crestPlacement = ""): string {
   const backdrop = a.backdrop ?? POSE_BACKDROP;
-  const showsNumber = pose.id === "back";
+  // The from-behind frame shows a number only if the shirt HAS one — see hasBackNumber.
+  const showsNumber = pose.id === "back" && hasBackNumber(a);
   return [
-    kitRef
-      ? `Image 1 is a reference sheet of one specific person. Image 2 is a club crest. Image 3 is a flat lay of the exact kit they wear — shirt, shorts, socks, footwear and ball.`
-      : `Image 1 is a reference sheet of one specific person. Image 2 is a club crest.`,
+    // THE IMAGE NUMBERS MOVE WHEN THERE IS NO BADGE. An order without a club logo is normal
+    // (crests.ts: a guessed badge is worse than none), but this line used to name a crest that
+    // was not attached — so image 3 in the text was image 2 in the request and the wardrobe
+    // reference was described as a crest.
+    crest
+      ? kitRef
+        ? `Image 1 is a reference sheet of one specific person. Image 2 is a club crest. Image 3 is a flat lay of the exact kit they wear — shirt, shorts, socks, footwear and ball.`
+        : `Image 1 is a reference sheet of one specific person. Image 2 is a club crest.`
+      : kitRef
+        ? `Image 1 is a reference sheet of one specific person. Image 2 is a flat lay of the exact kit they wear — shirt, shorts, socks, footwear and ball.`
+        : `Image 1 is a reference sheet of one specific person.`,
     ``,
     `Photograph THAT EXACT PERSON — same face, same bone structure, same hair, same build,`,
     `same age — playing ${sport.name}.`,
@@ -1333,6 +1483,30 @@ export function posePrompt(a: Athlete, sport: Sport, pose: Pose, crest: Crest, k
     `FACING: ${pose.facing}.`,
     `EQUIPMENT: ${pose.equipment}.`,
     ``,
+    // EXPRESSION IS DELIBERATELY NOT ASKED FOR HERE. TRIED AND REVERTED, 2026-08-22.
+    //
+    // The heroes come back with a hard game face, and on Order 01 — a customer who is
+    // laughing in three of his four photographs — that looked wrong enough to fix. So the
+    // prompt was given a warm, closed-lipped expression, in the usual absolute form. It
+    // worked: the face smiled exactly as described.
+    //
+    // It also cost the likeness, and the number and the eye agreed for once. Against the
+    // customer's own four photographs the same hero scored:
+    //
+    //   game face (as generated here)   0.732
+    //   re-rolled asking for warmth     0.614
+    //   art:fix, expression only        0.512
+    //
+    // The customer's verdict on the two warm takes was "the face is badly off in both". A
+    // smile moves the mouth, the cheeks and the eye corners — most of what makes a face
+    // recognisable — and the identity plate anchors a RESTING face, so every millimetre the
+    // mouth travels is a millimetre away from the anchor. This is not a prompt that needs
+    // better wording; warmth and likeness are being traded against each other, and likeness
+    // is the product.
+    //
+    // If this is revisited: the place to fix it is the ANCHOR, not the pose. An identity
+    // plate built to include a warm closed-lipped panel would let a pose be warm and on-model
+    // at the same time. Asking the pose alone will keep costing ~0.2 of cosine.
     kitRef
       ? `UNIFORM AND EQUIPMENT — every item comes from image 3, exactly as shown there. The`
         + ` shirt, the shorts, the socks, the boots and the ball are THOSE items: same colours,`
@@ -1380,12 +1554,17 @@ export function posePrompt(a: Athlete, sport: Sport, pose: Pose, crest: Crest, k
     // something like this"; "take it and apply it unchanged" reads as "stamp this file on".
     // The second one produced a crest indistinguishable from the source; the first produced a
     // pale green ghost of it. The difference is entirely in how the task is framed.
+    ...(crest ? [] : [`THE KIT CARRIES NO BADGE AND NO CLUB MARK. The chest is plain. Do not invent a`,
+                     `crest, a monogram, a shield or any emblem to fill it — this athlete's order has no`,
+                     `logo, and an invented one is a mark on a garment they do not own.`]),
+    ...(!crest ? [] : [
     `THE BADGE: take the artwork in image 2 and apply it to the shirt UNCHANGED — a finished`,
     `graphic being printed onto a garment, not a subject to redraw. Identical outline, identical`,
     `figure, identical colours in identical places, identical proportions, and its white stays`,
     `WHITE and fully opaque against the shirt — never tinted, faded or blended into the fabric`,
     `colour. It creases and shades with the cloth, but the artwork itself does not change.`,
     `SIZE: about a hand's width at this scale. It is the ONLY badge on the kit.`,
+    ]),
     // This block used to open with "POSITION: on the wearer's LEFT chest" and then, in the
     // kitRef branch, "do NOT move it to the centre". Football's jersey carries its badge
     // centred high — its own photograph shows it there and its plate was built that way — so
@@ -1416,10 +1595,27 @@ export function posePrompt(a: Athlete, sport: Sport, pose: Pose, crest: Crest, k
     // number, football's and basketball's included.
     showsNumber
       ? `The number ${a.jerseyNumber} is printed large across the upper back, legible, in the secondary colour.`
-      : kitRef
-        ? `Any number on the front of the shirt is the one in image 3, in the same place and the`
-          + ` same colours. No other number, and no lettering of any kind.`
-        : `No numbers or lettering anywhere on the kit in this shot.`,
+      : pose.id === "back"
+        // The from-behind frame of a sport that does NOT number the back. Said explicitly,
+        // because silence here is what the model fills with an invented number — and the
+        // reference plate it is copying is the one place that number would look plausible.
+        // "no club" was not enough and the CHEST CREST went on appearing between the shoulder
+        // blades on five athletes in a row — track-field, swimming, golf, skateboarding and
+        // pickleball-youth — every time against a `_kit-back` plate that shows a plain back.
+        // The badge has to be refused BY NAME, in its own clause, exactly the way the wordless
+        // brand mark did. README §41.
+        ? `THIS SHIRT CARRIES NO NUMBER ON THE BACK. Copy the back of the kit exactly as the`
+          + ` flat lay shows it: whatever number the kit has, if any, is in the place the flat`
+          + ` lay puts it and nowhere else. Nothing is printed across the shoulders — no number,`
+          + ` no name, no club, no lettering of any kind.`
+          + ` AND THE CLUB CREST IS NOT ON THE BACK EITHER. The badge in image 2 belongs on the`
+          + ` FRONT of this shirt and only there. Do NOT print it, repeat it, shrink it or place`
+          + ` any version of it between the shoulder blades, on the upper back, at the nape or`
+          + ` anywhere else on the back. If the flat lay shows the back blank, the back is blank.`
+        : kitRef
+          ? `Any number on the front of the shirt is the one in image 3, in the same place and the`
+            + ` same colours. No other number, and no lettering of any kind.`
+          : `No numbers or lettering anywhere on the kit in this shot.`,
     ``,
     realismFor(a.ageYears),
     ``,
@@ -1478,6 +1674,15 @@ export function posePrompt(a: Athlete, sport: Sport, pose: Pose, crest: Crest, k
     `- Sharp throughout. No motion blur, no shallow-focus blur. Keep any contact shadow tight`,
     `  under the feet — no long cast shadow across the backdrop, no floor-to-wall seam.`,
     `- No text, no lettering, no sponsor marks, no brand logos, no watermark${showsNumber ? ` — the jersey number and the chest crest are the only exceptions` : ` — the chest crest is the only exception`}.`,
+    // A SWOOSH IS NOT TEXT, and the line above — which bans "text, lettering, sponsor marks,
+    // brand logos" — kept letting one through anyway: onto a tennis headband twice, onto a
+    // swim cap, onto track spikes. The wordless-mark ban has to be its own sentence naming the
+    // devices, exactly as it had to be in snapshotPrompt. Same fix, one layer further down.
+    `- NO BRAND, MAKER OR LEAGUE MARK ANYWHERE IN THE FRAME. No swoosh, no stripes device, no`,
+    `  maker's logo and no moulded logo on the shirt, the shorts, a headband, a wristband, a cap,`,
+    `  a helmet, the socks, the shoes, their soles, or any ball, racket, stick, board or bag —`,
+    `  and no NFL, NBA, MLB, NHL, FIFA, UEFA, NCAA, Olympic or federation emblem. Every garment`,
+    `  and every piece of equipment is plain and unbranded. The club crest is the only mark.`,
     NO_REAL_WORLD_MARKS,
     NO_MIRRORED_TEXT,
     NOT_PLASTIC,

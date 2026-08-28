@@ -75,3 +75,9 @@ art-pipeline/out/_labelled/
 
 # local python venv for matting + face embeddings (art-pipeline/lib/*.py)
 .venv-matte/
+
+# firecrawl scratch
+.firecrawl/
+
+# Etsy listing image exports are regenerated from Figma (JcQvsgIRiOQtuZcP3Q8dc9) - ~90 MB of PNGs.
+etsy/listing-images/

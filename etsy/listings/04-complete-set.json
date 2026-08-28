@@ -1,0 +1,114 @@
+{
+  "_comment": "Etsy listing source of truth. Edit HERE, never in Shop Manager, or the next `etsy:draft` run overwrites your change. Fields map 1:1 onto Etsy Open API v3 createDraftListing + updateListingInventory. See etsy/listings/README.md for the three things the API cannot write. Built per docs/ETSY-04-COMPLETE-SET-PLAN.md.",
+  "slug": "04-complete-set",
+  "wave": 1,
+  "status": "draft-not-published",
+  "etsy": {
+    "title": "Custom Sports Poster & Trading Card Set | Personalized Athlete Gift From Your Photos | Any Sport | Digital Download",
+    "description": "Everything we make for your athlete in one order — the poster, the cards, the screens, the certificate, and the bonus die-cuts that are not sold in any other listing.\n\n━━━━━━ WHAT YOU GET — 27 FILES + 1 LIVE PAGE ━━━━━━\n\nPOSTER\n• 18x24 in poster file, print-ready 300 DPI\n\nCARDS\n• Card FRONT and BACK, print-ready 300 DPI, 2.48 x 3.46 in (63 x 88 mm)\n• A signed certificate of authenticity\n• A vertical card-flip video for sharing\n\nSOCIAL & SCREENS\n• 9 social media files (grid posts, stories, reel cover, profile picture, cover banner)\n• 7 wallpapers for phone, tablet and desktop, with safe zones so nothing important sits under the clock or the dock\n\nPROVENANCE\n• Your card's own live web page with a QR code — scan it, it opens\n\n━━━━━━ ONLY IN THIS LISTING ━━━━━━\n\n• A die-cut name-and-number sticker\n• A number badge\n• Four transparent cutouts of your athlete\n\nThese three are not sold in the card listing or the poster listing — only here.\n\n━━━━━━ ANY SPORT ━━━━━━\n\nBasketball, football, baseball, softball, soccer, ice hockey, volleyball, lacrosse, wrestling, cheerleading, gymnastics, track & field, swimming, tennis, golf, pickleball. Don't see yours? Choose Other and write it in the box — we build it.\n\n━━━━━━ HOW YOUR SET IS MADE — OUR 6-STEP PROCESS ━━━━━━\n\nYour athlete is not a photo dropped into a template. We build a new image of them.\n\n1 · PHOTO CHECK. We review the photos you send and tell you straight away if anything won't work.\n2 · KIT BUILD. We reconstruct the uniform, club crest and colours for your sport.\n3 · REFERENCE PLATE. We create and lock one reference of your athlete — face, build, hair, kit. Nothing else is generated until this is right, and you approve it before we go on.\n4 · THE SHOTS. Every pose inherits that locked reference, so all of them are the same person.\n5 · VERIFICATION. We measure the face match numerically and check every mark on the kit against the reference. A measurement, not an opinion.\n6 · FINISH. The approved frames are composed into your poster, cards and files.\n\nWHAT WE AIM FOR: that it is hard to tell whether you are looking at a photograph or a generated image. That is the standard we hold every frame to.\n\n━━━━━━ HOW TO ORDER ━━━━━━\n\n1. Choose your sport and your art style above\n2. Add your athlete's name, sport, jersey number and team in the personalisation box\n3. Upload your photos\n4. We send your reference plate for approval before anything else is made\n5. Your files arrive through Etsy — no physical item ships\n\n━━━━━━ PHOTOS THAT WORK BEST ━━━━━━\n\n• 4 to 10 photos, the more the better\n• High resolution — not blurry when you zoom in\n• Face clearly visible, good light, no heavy filters\n• At least one full-body photo, head to feet\n• If possible, one in the team's kit\n• Team crest or logo as a separate image if you have it\n\nBlurry, dark or heavily filtered photos are the single biggest reason a likeness comes out weaker. We check them first and tell you before we start.\n\n━━━━━━ SIX ART STYLES ━━━━━━\n\nStadium Night · Chrome All-Star · Fire & Smoke · Heritage · Signature Spotlight · Prism Rush\n\nEach one is a different material and atmosphere, not a different layout. Tell us which you want in the personalisation box.\n\n━━━━━━ AI DISCLOSURE ━━━━━━\n\nThese images are created with AI image tools, directed by our own prompts and our own six-step process. Every frame is reviewed, corrected and approved by a human before anything is delivered. Results depend on the photos you send — clear, well-lit photos that show the athlete fully give the closest likeness.\n\n━━━━━━ GOOD TO KNOW ━━━━━━\n\n• We never reproduce real league or brand marks (NFL, FIFA, NCAA, Olympic, or sportswear logos). Your club's own crest, yes — a licensed league mark, never.\n• 17 sports supported: basketball, football, baseball, softball, soccer, ice hockey, volleyball, lacrosse, wrestling, cheerleading, gymnastics, track & field, swimming, tennis, golf, pickleball, skateboarding.\n• DIGITAL DELIVERY ONLY. No physical item ships with this listing.\n• Your photos are used for your order only and are deleted on request.",
+    "tags": [
+      "custom trading card",
+      "personalized poster",
+      "youth sports gift",
+      "sports trading card",
+      "senior night gift",
+      "custom sports art",
+      "digital download",
+      "athlete gift",
+      "team gift",
+      "end of season gift",
+      "sports gift set",
+      "poster and card set",
+      "any sport gift"
+    ],
+    "materials": [
+      "digital file",
+      "AI assisted artwork",
+      "print ready PNG"
+    ],
+    "who_made": "i_did",
+    "when_made": "made_to_order",
+    "type": "physical",
+    "_type_note": "INTENTIONALLY 'physical', not 'download' — same reasoning as listing 01: instant download cannot work for a per-athlete file. Confirm the exact setting in Shop Manager before publishing.",
+    "price": 89.0,
+    "quantity": 999,
+    "processing_min": 2,
+    "processing_max": 5,
+    "taxonomy_id": null,
+    "_taxonomy_note": "Fill from getSellerTaxonomyNodes. Target: Art & Collectibles > Prints > Digital Prints.",
+    "shipping_profile_id": null,
+    "_shipping_note": "Needs a $0 / no-ship profile since nothing physical moves."
+  },
+  "personalization": {
+    "questions": [
+      {
+        "question_text": "Sport, athlete name, number, team",
+        "question_type": "text_input",
+        "required": true,
+        "max_allowed_characters": 1024,
+        "instructions": "Example: Basketball / Maya Rodriguez / Softball / 14 / Riverside Rays. Add the art style you want, and a short bio line or up to 3 stats if you'd like them on the card back. If your sport isn't in the list above, write it here."
+      },
+      {
+        "question_text": "Photos of your athlete",
+        "question_type": "labeled_upload",
+        "required": true,
+        "max_allowed_files": 10,
+        "instructions": "4-10 photos. High resolution, face clearly visible, at least one full body. Add the club crest as a separate file if you have it.",
+        "_api_note": "CANNOT BE CREATED VIA API. Add this question BY HAND in Shop Manager, once per listing — see etsy/listings/README.md."
+      }
+    ]
+  },
+  "_custom_options_reference": {
+    "_note": "Etsy digital listings do not support variations at all, so these five fields live in personalisation text/pickers set up by hand in Shop Manager — this block documents the intended spec (docs/ETSY-04-COMPLETE-SET-PLAN.md section 9).",
+    "fields": [
+      {
+        "n": 1,
+        "field": "Sport",
+        "type": "list · 17",
+        "required": true,
+        "values": [
+          "Basketball", "Football", "Baseball", "Softball", "Soccer", "Ice Hockey",
+          "Volleyball", "Lacrosse", "Wrestling", "Cheerleading", "Gymnastics",
+          "Track & Field", "Swimming", "Tennis", "Golf", "Pickleball",
+          "Other (write it below)"
+        ]
+      },
+      {
+        "n": 2,
+        "field": "Style",
+        "type": "list · 6",
+        "required": true,
+        "values": ["Stadium Night", "Chrome All-Star", "Fire & Smoke", "Heritage", "Signature Spotlight", "Prism Rush"]
+      },
+      { "n": 3, "field": "Athlete photos", "type": "file upload · 10", "required": true },
+      { "n": 4, "field": "Athlete name", "type": "text", "required": true },
+      { "n": 5, "field": "Team, number & position", "type": "text", "required": true, "note": "instruction ends: 'If you chose Other for sport, write the sport here.'" }
+    ]
+  },
+  "media": {
+    "images": [
+      "01 — hero: the whole set (Tui Fa'agata, football, foreground; Amara Boyd, cheerleading, background) — poster, cards, certificate",
+      "02 — seventeen sports in our shop, one listing per sport",
+      "03 — two athletes, two sports (Nolan Reid, ice hockey; Sofia Marchetti, gymnastics)",
+      "04 — transformation: their photos to their poster and cards",
+      "05 — step one, likeness: identity plates front and back",
+      "06 — the kit, front and back",
+      "07 — four shots, measured (the cosine gate)",
+      "08 — one athlete, six finishes",
+      "09 — style pair: Stadium Night + Chrome All-Star",
+      "10 — style pair: Fire & Smoke + Heritage",
+      "11 — style pair: Signature Spotlight + Prism Rush",
+      "12 — what photos to send",
+      "13 — your club's crest, never a league mark",
+      "14 — every field is yours",
+      "15 — you see it first: the watermarked proof",
+      "16 — where it lives: social & screens",
+      "17 — registered, verified online",
+      "18 — only in the complete set: sticker, badge, 4 cutouts",
+      "19 — everything you get, counted: 27 files + 1 live page",
+      "20 — how to order: digital files only, nothing ships"
+    ],
+    "video": "card-flip/out/GDE_SN_CardFlip_1080x1920.mp4",
+    "_note": "1080x1080 square re-target for the listing video slot is a later pass (docs/ETSY-04-COMPLETE-SET-PLAN.md section 13, decision 4) — not a publish blocker."
+  }
+}
