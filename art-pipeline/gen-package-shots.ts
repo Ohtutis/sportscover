@@ -14,7 +14,7 @@
  * their photograph, not ours, and a listing image has to be ours outright.
  */
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
-import { generateImage, loadEnv, type RefImage } from "./lib/gemini.js";
+import { generateImage, loadEnv, type RefImage, imageModel } from "./lib/gemini.js";
 loadEnv();
 
 const OUT = "art-pipeline/out/etsy-shots/packages";
@@ -725,6 +725,6 @@ for (const job of JOBS) {
                                  tag: `pkg:${job.name}` });
   writeFileSync(out, r.image);
   writeFileSync(out.replace(".png", ".json"), JSON.stringify(
-    { prompt: job.prompt, model: r.model, at: new Date().toISOString() }, null, 2));
+    { prompt: job.prompt, model: imageModel(), at: new Date().toISOString() }, null, 2));
   console.log(`  wrote ${out}`);
 }

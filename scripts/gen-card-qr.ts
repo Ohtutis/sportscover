@@ -8,7 +8,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import QRCode from "qrcode";
-import { cards, cardUrl } from "../lib/registry/cards.ts";
+import { cards, cardUrl } from "../lib/registry/cards";
 
 const OUT_DIR = path.join(process.cwd(), "public", "cards", "qr");
 
