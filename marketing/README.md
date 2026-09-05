@@ -13,6 +13,10 @@ Etsy's rules. So the first ones come from outside.
 
 - **`API-PUBLISHING.md`** — the hands-off route for reels (Meta Graph, Pinterest, YouTube APIs): what the owner sets up once, what Claude runs daily. Written 2026-09-03 after every browser video upload failed.
 
+> **New-style content (video-first, 2026-09-05):** read `CONTENT-METHOD-2026-09.md` before making
+> any reel, short or pin — it is the method every listing video was built with, and the beats,
+> tokens and gates there apply to marketing frames too.
+
 ## The loop this engine drives
 
 ```
@@ -391,6 +395,8 @@ rewrite them against, and the 30-day freeze on live listings costs more than the
 ```
 marketing/
   README.md          this file
+  CONTENT-METHOD-2026-09.md   HOW THE NEW-STYLE CONTENT IS MADE — the video/beat system behind
+                     all 38 listing videos, its tokens, tools, gates and how to reuse it for reels/pins
   config.json        links, UTM, slide sources, public_base   ← the only file you edit
   engine.py          sports, occasions, boards, copy formulas, the deterministic queue
   gen_pins.py        the four pin templates + captions.md + pinterest.csv

@@ -183,6 +183,9 @@ traps, safe zones, export naming) — use it for every remaining finish.
   **sport-surface background system** (`art-pipeline/gen-hero-bg.ts`) and the **true-scale
   rule** (one px-per-inch for every object; the person is the ruler). Listing Figma file is
   **`JcQvsgIRiOQtuZcP3Q8dc9`**, not the finish file.
+- **New-style content method (2026-09-05): `marketing/CONTENT-METHOD-2026-09.md`** — how all 38
+  listing videos were built (two-video model, beat library, tokens, tools, gates, publishing) and how
+  the same system is reused for reels and pins. Read it before producing any video or social frame.
 - **External traffic: `marketing/README.md` IS THE START POINT.** Etsy Search is at 0 visits,
   so the first buyers come from outside. `npm run mkt:day` renders 5 Pinterest pins
   (1000x1500) from assets already in the repo + `captions.md` + a bulk-create CSV; the queue
