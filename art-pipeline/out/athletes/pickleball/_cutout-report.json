@@ -1,0 +1,75 @@
+{
+  "model": "birefnet-general",
+  "reports": [
+    {
+      "pose": "action2",
+      "width": 1696,
+      "height": 2528,
+      "coverage": 0.2221,
+      "margins": {
+        "top": 259,
+        "right": 87,
+        "bottom": 70,
+        "left": 89
+      },
+      "islands": 1,
+      "largestShare": 1,
+      "softEdge": 0.0367,
+      "haloDistance": 102.8,
+      "fails": []
+    },
+    {
+      "pose": "action3",
+      "width": 1696,
+      "height": 2528,
+      "coverage": 0.242,
+      "margins": {
+        "top": 436,
+        "right": 48,
+        "bottom": 253,
+        "left": 107
+      },
+      "islands": 1,
+      "largestShare": 1,
+      "softEdge": 0.0334,
+      "haloDistance": 116.9,
+      "fails": []
+    },
+    {
+      "pose": "back",
+      "width": 1696,
+      "height": 2528,
+      "coverage": 0.1727,
+      "margins": {
+        "top": 107,
+        "right": 324,
+        "bottom": 105,
+        "left": 415
+      },
+      "islands": 2,
+      "largestShare": 0.9923,
+      "softEdge": 0.0485,
+      "haloDistance": 96.2,
+      "fails": [
+        "2 separate pieces — something detached from the body"
+      ]
+    },
+    {
+      "pose": "hero",
+      "width": 1696,
+      "height": 2528,
+      "coverage": 0.2078,
+      "margins": {
+        "top": 337,
+        "right": 253,
+        "bottom": 143,
+        "left": 421
+      },
+      "islands": 1,
+      "largestShare": 1,
+      "softEdge": 0.0299,
+      "haloDistance": 91.6,
+      "fails": []
+    }
+  ]
+}

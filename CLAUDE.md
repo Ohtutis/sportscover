@@ -54,10 +54,15 @@ traps, safe zones, export naming) — use it for every remaining finish.
   the masters and on **6 replicas per finish** (print/proof/Grid 3/Story 3/CardFlip/MotionSpec).
   CA cert footer was off-canvas. All print PNGs + all 6 flip videos re-exported. Details and
   the ghost-placement rule (`38·k` inset, `k = hostWidth/750`) are in the handoff doc.
-- **Pack size is 10 cards, not 25** (decided 2026-08-19 — the wrapper physically fits
-  ≤7 mm of stock). Figma certificates now say 10 (fixed 2026-08-19). ⚠️ The **site copy
-  still says 25** (`app/site-client.tsx:80` and `:537`), as does `lib/registry/cards.ts`
-  (`serial: "01/25"`). Not yet propagated in the repo.
+- **Pack size is 18 cards** — 4 holographic chase + 14 standard, one fixed recipe (decided
+  2026-08-25, `docs/ETSY-LISTINGS.md`; supersedes the 10-card note of 2026-08-19, which came from
+  the ≤7 mm wrapper limit — 18 × 0.32 mm = 5.8 mm still fits). **18 is the TOTAL, not 18 + 4**:
+  writing "18 cards + 4 FOIL" promises 22 and is an item-not-as-described case the first time a
+  buyer counts them. ⚠️ Count-bearing ART still says 10: the TGC pack face reads "10 COLLECTIBLE
+  CARDS" and the certificate says 10 — both must go count-neutral before any pack ships.
+  The site copy
+  and the registry example serial were propagated to 18 on 2026-09-05 (`app/site-client.tsx`,
+  `app/site-config.ts`, `lib/registry/cards.ts`); the FAQ now also says square-cut corners.
 - **Supplier: qpmarketnetwork.com.** Their downloadable PDF template is wrong — it shows
   2 fold lines; the real uploader shows **4** (fin-seal) plus a much tighter safe area.
   Exact geometry is in the handoff doc. Always proof against the uploader, not the PDF.
@@ -113,11 +118,85 @@ traps, safe zones, export naming) — use it for every remaining finish.
   - **The calm from-behind pose is conditional** (README §38): a kit with a number across the
     shoulders gets a still, square back frame; a kit without one (wrestling, cheerleading,
     gymnastics) gets the sport's own celebration instead.
+  - **The card-in-hand shot: the plate decides OCCLUSION, not SHAPE** (README §50–51, 2026-09-01).
+    The photograph is generated holding a blank matte-black plate, but that plate is a GENERATED
+    object — the model rounds its corners however firmly the prompt says square, and its edge
+    wanders. So `card = rect − hand`, never `card = plate`: ask where the HAND is (open the gap
+    with a kernel no finger is thinner than) and everything else inside the fitted rectangle is
+    card. Taking the plate as the silhouette shipped rounded corners on a square-cut card and
+    clipped the finish's keyline. Audits: `bleed` (card ink where the photo had none — must be 0),
+    `frame` (share of the keyline ring drawn), `stand-off` (px the edge sits off the plate).
+    **Before erasing an artefact, check the source photograph actually has it** — two rounds went
+    into removing marks the compositor itself was drawing.
   - **Hands are asked for, not repaired**: every pose prompt requires five separated fingers and
     a hand doing something real. Customer's standing instruction, 2026-08-22.
-  - **Athlete state: 8/8 approved on basketball, baseball, softball, ice-hockey, volleyball,
-    lacrosse, wrestling, cheerleading, gymnastics; football 6/8; soccer 7/8 (pre-8-frame).**
-    Next athlete and the exact command sequence: `docs/ATHLETE-ROSTER-HANDOFF.md` §15–§16.
+  - **THE ROSTER IS COMPLETE (2026-08-22): 15 of 17 sports are 8/8 approved with gates green**
+    — basketball, baseball, softball, ice-hockey, volleyball, lacrosse, wrestling, cheerleading,
+    gymnastics, track-field, swimming, tennis, golf, pickleball and **skateboarding** (the
+    `other-sport` slot, converted from a generic placeholder this session — slug and code stay
+    `other-sport`/`OTH` because the site and the card IDs use them). Still open: **football 6/8**
+    (two frames generated and audited but never signed off) and **soccer + the five
+    `soccer-age-*` slugs at 7/8** (they pre-date the 8-frame pack and have no `_kit-back`).
+    **All 22 athletes now have all four cutouts.** State and the command sequence:
+    `docs/ATHLETE-ROSTER-HANDOFF.md` §16–§18.
+    - 2026-09-02: **soccer `_kit-back.png` now exists** (generated for the Etsy listing's slide 15,
+      €0.29) — clean green shirt, white 10, no maker marks. **Not yet `art:approve`d**, so soccer
+      still counts as 7/8 approved. ⚠️ `--dry` did NOT stop the run; it generated.
+  - **Maker marks: MATCHING decides, not the mark** (owner's rule, 2026-09-02, and it overrides
+    the older reading of README §40). **We copy the kit exactly as it is — "if it's Nike, it's
+    Nike". The logo is part of the sports kit**, on the plates, in the poses and on the card.
+    What is forbidden is an **INVENTED brand that does not exist**, or a real brand that is the
+    WRONG one — soccer's `_kit-grade.json` FAIL is right for that reason (Joma drawn on a kit
+    the athlete photographs in Puma), not because a logo is present. The prompts' blanket
+    no-marks sentence stays useful where NO kit photo was supplied — with nothing to copy, the
+    model invents — but it must never be used to strip a mark the customer's own kit carries.
+  - **Pickleball has TWO athletes on purpose** (2026-08-22): `pickleball-youth` (Nadia Rahimi,
+    16) is what the coverage row shows, because every other athlete there is 13–18 and one
+    58-year-old broke the row; `pickleball` (Ray Solberg, 58) is KEPT, approved, for the older
+    end. They share a club and crest. `poses.ts` pickleball therefore uses NEUTRAL pronouns and
+    names no shoe colour — a pose set is keyed by SPORT, never by athlete.
+  - **The back of a shirt is PLAIN unless the sport numbers it** (`hasBackNumber` in `kits.ts`,
+    README §41). The default is FALSE — a missing number is a gap someone fixes, an invented one
+    is a mark printed on a garment the athlete does not own. The chest crest is a separate
+    problem and is NOT covered by that flag: four back frames in a row printed it between the
+    shoulder blades. Run `npm run art:diff` on every back frame.
+  - **Brand marks are the most common defect in the roster.** "No sponsor marks" never stopped a
+    swoosh — a wordless-mark ban has to be its own sentence naming the devices, and it now is, in
+    both the snapshot and the pose prompt. Still look at every kit frame at 4x before writing a
+    spec (README §40).
+- **Physical fulfillment: `docs/SUPPLIERS.md` IS THE CANON** (2026-09-01, visi kanalai
+  patikrinti gyvai): kortelės — Bay Photo ROES „Design Your Own" (~$12–14/setas iki durų,
+  white-label dropship, Color Correction OFF visada); plakatai — Printful 18×24/24×36;
+  banneriai — WHCC ROES „Image Only" (3×2 €26; $25 min perlipa pats); sealed foil pakelis —
+  QPMN (tik jis, savininko sprendimas). PhotoDay kortelėms NETINKA (tik jų temos). Prieš
+  įjungiant fizinius tiers — Etsy Production Partners deklaracija (sąrašas SUPPLIERS.md).
+- **Etsy listings + SEO: `etsy/SEO/README.md` IS THE START POINT.** One folder holds the whole
+  know-how; `etsy/SEO/LISTING-COPY-PACK.md` is the working doc (per-product title, 13 tags,
+  description, publish order A–F). Decided and not to be re-litigated: descriptions use plain
+  CAPS section lines (**no `━` dividers**) + the 4 mandatory closing blocks; **Senior Night
+  listings carry ONE style (SR), no art-style dropdown**, evergreen sport listings keep the 6;
+  publish **2–4 new listings/day** (the 30-day freeze applies only to editing live title/tags).
+  ⚠️ `etsy/listings/*.json` drafts still hold the OLD divider format — copy from the pack.
+- **Etsy listing images** have their own canon: **`etsy/LISTING-IMAGE-CANON.md`**
+  (2026-08-27) — Etsy UI safe zones, the hero recipe (one big before photo + arrow; the tile
+  is optimised for the CLICK, judged at 300 px), what image 02 must prove per listing, the
+  **sport-surface background system** (`art-pipeline/gen-hero-bg.ts`) and the **true-scale
+  rule** (one px-per-inch for every object; the person is the ruler). Listing Figma file is
+  **`JcQvsgIRiOQtuZcP3Q8dc9`**, not the finish file.
+- **External traffic: `marketing/README.md` IS THE START POINT.** Etsy Search is at 0 visits,
+  so the first buyers come from outside. `npm run mkt:day` renders 5 Pinterest pins
+  (1000x1500) from assets already in the repo + `captions.md` + a bulk-create CSV; the queue
+  is deterministic from `start_date`, so a re-run never re-posts different art under a live
+  caption. **Publishing stays human** — Pinterest and Reddit both punish automated posting
+  from young accounts. Reddit starts at week 3 and only as an ANSWER (templates +
+  the mandatory per-sub rules check: `marketing/templates/REDDIT-POSTS.md`). Captions may
+  never promise a jersey number for a numberless sport (`numbered` in `engine.py`).
+- **Etsy SEO evidence**: **`etsy/SEO/ETSY-SEO-FINDINGS.md`** (2026-08-27) — indexing state,
+  the keyword map (searches/results/conversion), price medians vs our prices, and the
+  decisions taken. Rule: matched intent beats volume; always research with `&ship_to=US`.
+  **`etsy/SEO/ETSY-SEO-MASTER-PLAN.md`** (2026-08-28) is the plan on top of it: per-listing
+  titles/tags, keyword ownership map, wave calendar. **`etsy/SEO/NICHE-REPORT-2026-08.md`** = full ~55-term atlas with curves:
+  three engines — senior night (Oct+Jan), Christmas (Nov, 2.5x), spring baseball (Mar).
 - **Card registry** in-repo: `lib/registry/cards.ts` (source of truth), `npm run qr:gen`
   → `public/cards/qr/`, placeholder page `app/c/[cardId]/page.tsx`. Card ID =
   `GDE-<style>-<sport>-<season>-<number>`.

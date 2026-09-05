@@ -37,12 +37,32 @@ const BASE: Record<string, string> = {
   // and nowhere else in her life. README §37.
   cheerleading: "a {primary} sleeveless cheer top with a contrasting V panel across the chest, a matching {primary} skirt, and a large {primary} competition bow worn at the crown of the ponytail",
   gymnastics: "a {primary} long-sleeved gymnastics leotard with a contrasting chevron across the chest and contrasting cuffs, bare legs, bare feet, chalk on the palms",
-  "track-field": "a {primary} sleeveless track singlet with a contrasting side panel and matching {primary} compression briefs",
-  swimming: "a {primary} one-piece competition swimsuit with a contrasting stripe down each side, a {primary} silicone swim cap and goggles",
-  tennis: "a white tennis shirt with {primary} collar and {primary} sleeve trim, {primary} shorts or skirt, and a wristband",
+  // COMPRESSION SHORTS, NOT BRIEFS. Racing briefs are what the senior sport wears, and the
+  // first roll of Imani's match frame (2026-08-22) came back PROHIBITED_CONTENT — the model
+  // refused a sixteen-year-old described in briefs at the close framing the kit frame asks
+  // for. Mid-thigh compression shorts are what US high-school programmes actually race in,
+  // so this is the more accurate line for a youth product as well as the generatable one.
+  // It is in BASE and not BASE_WOMENS deliberately: it is an AGE call, true of the boys'
+  // uniform too, and BASE_WOMENS is only for where the rules of the sport differ.
+  "track-field": "a {primary} sleeveless track singlet with a contrasting side panel and matching {primary} mid-thigh compression shorts",
+  // MEN'S swimming, because the rules genuinely differ — see BASE_WOMENS below. A men's racing
+  // suit is jammers and no top; the women's is a one-piece. This is a §32 rules difference, not
+  // a cut, which is why it is in the table rather than in an athlete's record.
+  swimming: "{primary} competition JAMMERS — close-fitting racing shorts reaching from the waist to just above the knee, with a contrasting stripe down each side — worn with NO top of any kind, plus a {primary} silicone swim cap and goggles",
+  // WAS "{primary} shorts or skirt", which is a MENU, and the model takes the first item on a
+  // menu (§10, the football crest placement). Both are legal in tennis; a skirt for an athlete
+  // who wears one belongs in `Athlete.kit`, where it is a decision rather than a coin toss.
+  // The HEADBAND came out of the tennis athlete's `hair` field — §37: it is worn to play and
+  // taken off after, so it may not follow him to the sofa in all four "before" photographs.
+  tennis: "a white tennis shirt with {primary} collar and {primary} sleeve trim, {primary} shorts, a white terry HEADBAND across the forehead, and a matching white wristband on the non-racket wrist",
   golf: "a {primary} golf polo with a contrasting collar, tailored golf trousers, a belt, a {primary} cap and a glove on the leading hand",
   pickleball: "a {primary} athletic t-shirt with contrasting shoulder seams and {primary} shorts",
-  "other-sport": "a plain {primary} athletic jersey with contrasting sleeve trim and {primary} shorts with a side stripe",
+  // SKATEBOARDING (the `other-sport` slot). Skating has no uniform — it has clothes — so the
+  // kit is the streetwear a park skater actually wears, put into the club colours. The HELMET
+  // and KNEE PADS are a §32 rules call, not decoration: this athlete is sixteen, and public
+  // skateparks in the US require a helmet for under-18s. A skate helmet is an open bucket and
+  // hides none of the face, so unlike the football helmet it costs the card nothing.
+  "other-sport": "a loose-fitting {primary} skate T-shirt with contrasting sleeve trim, worn with knee-length {primary} skate shorts, a matching {primary} OPEN-FACE skate helmet — a low round bucket that covers the skull and ears and leaves the whole face clear, with NO cage, NO visor and NO facemask — and a knee pad on each knee",
 };
 
 /**
@@ -63,7 +83,15 @@ const BASE: Record<string, string> = {
  * end, a fifty-year-old in a factory-fresh kit reads as a model in a catalogue rather than
  * someone who has played in the same league for a decade.
  */
-function fitFor(ageYears: number): string {
+function fitFor(ageYears: number, level?: "pro"): string {
+  // THE AGE LADDER SILENTLY ASSUMED RECREATIONAL. Every band from 20 up says "plainly not a
+  // professional's", which is right for the roster and wrong the moment a customer writes
+  // "Pro" in the position field (Etsy order 4164205493). An adult competitor in a kit cut
+  // "a little loose" reads as somebody borrowing the sport. Level is a separate axis from
+  // age, so it gets its own branch rather than a fifth age band.
+  if (level === "pro") {
+    return "A competitor's kit: cut athletic and close to the body, sitting exactly as it should. Immaculate. Nothing about it is sponsored.";
+  }
   if (ageYears <= 9) {
     // WRITTEN TOO STRONGLY, and it cost several good frames. "CLEARLY TOO BIG ... essential"
     // made the rubric reject premium-looking shots for not being baggy enough, and it fights
@@ -99,6 +127,19 @@ function fitFor(ageYears: number): string {
  * the table becomes a place to encode assumptions about how girls dress.
  */
 const BASE_WOMENS: Record<string, string> = {
+  // SWIMMING is the second entry, and it qualifies on the same test as lacrosse: the RULES
+  // differ, not the cut. World Aquatics/NFHS racing suits are sex-specific by regulation — a
+  // men's suit may not extend above the navel, a women's may not cover the neck or extend past
+  // the shoulder — so "swimming kit" without the question returns jammers for a girl.
+  //
+  // ⚠️ `Sport.onePiece` in sports.ts describes the WOMEN'S one-piece, because the only swimmer
+  // on the roster is female. It is a single string on the sport and does not branch on
+  // `presents` the way this table does. The first male swimmer needs it to branch, or his kit
+  // plate will lay out a one-piece while his kit line says jammers.
+  swimming:
+    "a {primary} one-piece competition swimsuit — a racerback racing suit, high-cut at the leg, " +
+    "with a contrasting stripe down each side and a plain closed back — worn with a {primary} " +
+    "silicone swim cap and goggles",
   lacrosse:
     "a {primary} sleeveless lacrosse jersey with contrasting trim at the collar and armholes, " +
     "a matching {primary} lacrosse KILT (a short pleated skirt) with fitted shorts beneath it, " +
@@ -110,11 +151,17 @@ const BASE_WOMENS: Record<string, string> = {
  * The uniform for this athlete: their own kit if they have one (the customer's real team
  * strip), otherwise the sport's basic kit in their team colours. Fit is always applied.
  */
-export function kitFor(a: { sport: string; kit?: string; colorName: string; ageYears: number; presents?: "male" | "female" }): string {
+export function kitFor(a: { sport: string; kit?: string; colorName: string; secondaryName?: string; ageYears: number; presents?: "male" | "female"; level?: "pro" }): string {
   const womens = a.presents === "female" ? BASE_WOMENS[a.sport] : undefined;
   const base = a.kit ?? womens ?? BASE[a.sport];
   if (!base) throw new Error(`no default kit for sport "${a.sport}" — add one to kits.ts`);
-  return `${base.replaceAll("{primary}", a.colorName)}. ${fitFor(a.ageYears)}`;
+  // "contrasting" NAMED NOTHING, so the model chose. Order 03's plum-and-GOLD kit came back
+  // plum and magenta, because the athlete's secondary colour was never mentioned in the line
+  // that decides the trim. A relative word does nothing; a named colour works.
+  const withSecondary = a.secondaryName
+    ? base.replaceAll("contrasting", `${a.secondaryName}`)
+    : base;
+  return `${withSecondary.replaceAll("{primary}", a.colorName)}. ${fitFor(a.ageYears, a.level)}`;
 }
 
 /**
@@ -144,6 +191,32 @@ export const hasImplement = (a: { sport: string }) => !/^no\b/i.test(CONSTANTS[a
  * with "bare" or "no" wears nothing. Swimming is the other one.
  */
 export const hasFootwear = (a: { sport: string }) => !/^(bare|no)\b/i.test(FOOTWEAR[a.sport] ?? "");
+
+/**
+ * DOES THE BACK OF THIS SHIRT CARRY THE SQUAD NUMBER AT ALL?
+ *
+ * Third time this exact shape of bug: the kit-back plate and the from-behind pose both
+ * ASSERTED the number across the upper back, unconditionally, in a line that sits AFTER the
+ * frozen spec in the prompt and therefore beats it. Imani's spec said in as many words that
+ * the back of the track singlet stays plain because the race number lives on a bib on the
+ * shorts — and the plate came back with a 30 cm black 8 across the shoulders anyway
+ * (2026-08-22). That is README §36's invented back number, wearing a third hat.
+ *
+ * It is not derivable from anything already here, so it is a table. Team-sport shirts are
+ * numbered across the back; the individual sports are not, and their number — where they have
+ * one at all — lives somewhere else or nowhere: a race bib in track, nothing on a swimsuit, a
+ * sleeve in gymnastics, nothing on a tennis shirt or a golf polo.
+ *
+ * ⚠️ The DEFAULT IS FALSE. A sport missing from this table gets a plain back, which is the
+ * safe direction: a missing number is a visible gap someone fixes, an invented one is a mark
+ * printed on a garment the athlete does not own.
+ */
+const BACK_NUMBER = new Set([
+  "basketball", "football", "baseball", "softball", "soccer", "ice-hockey", "volleyball",
+  "lacrosse",
+]);
+
+export const hasBackNumber = (a: { sport: string }) => BACK_NUMBER.has(a.sport);
 
 /** True when this athlete's kit came from the customer rather than the sport default. */
 export const hasOwnKit = (a: { kit?: string }) => Boolean(a.kit);
@@ -178,7 +251,9 @@ const CONSTANTS: Record<string, string> = {
   tennis: "a plain yellow tennis ball and a plain unbranded racket",
   golf: "a plain white golf ball and a plain unbranded club",
   pickleball: "a plain yellow perforated pickleball and a plain unbranded paddle",
-  "other-sport": "no implement in frame",
+  // Skateboarding's implement is the BOARD, and it is in every frame — so this must NOT start
+  // with "no", or hasImplement() reads the sport as having none and the flat lay omits it.
+  "other-sport": "a plain unbranded SKATEBOARD — a wooden popsicle-shape deck with plain black grip tape across the whole top, the underside plain in the team colour, plain black trucks and plain white wheels. NO graphic, NO logo, NO lettering and no sponsor mark anywhere on the deck, the trucks or the wheels",
 };
 
 /**
@@ -227,7 +302,7 @@ const FOOTWEAR: Record<string, string> = {
   tennis: "plain white court shoes",
   golf: "plain white golf shoes",
   pickleball: "plain white court shoes with grey accents",
-  "other-sport": "plain white training shoes with black soles",
+  "other-sport": "plain black SKATE SHOES — flat vulcanised gum-rubber soles with no heel lift at all, a wide rounded toe, a padded tongue and a reinforced suede side panel. NOT running shoes, NOT trainers with a chunky sole, NOT high-tops",
 };
 
 /**

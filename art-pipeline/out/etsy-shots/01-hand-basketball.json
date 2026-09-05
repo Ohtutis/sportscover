@@ -1,0 +1,6 @@
+{
+  "model": "gemini-3.1-flash-image",
+  "tokens": 1866,
+  "prompt": "A photograph taken on a phone: one adult hand holding the trading card shown in the reference image, face on to the camera so the whole card front is readable. Held over a kitchen counter with a blurred home interior behind. Natural daylight, no studio lighting, no flash. Shallow depth of field, the card sharp and the background softly out of focus. The card must be reproduced EXACTLY as in the reference — same artwork, same layout, same colours, same text. Do not redesign it, do not add or remove anything on the card. The hand is ordinary and unretouched. Square 1:1 crop. No text overlay of any kind, no watermark, no logo.",
+  "at": "2026-08-24T13:19:14.428Z"
+}

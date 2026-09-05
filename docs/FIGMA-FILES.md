@@ -257,9 +257,12 @@ re-themed by name (not by id — a fresh page has fresh ids). Built so far:
 | soccer | `zH80jD1o3jSMvFePyrtTG1` | `5015:146` | `5015:147` | `5015:193` | `5015:228` |
 | volleyball | `S8kqmhvEB5QNG8sbjgxQnF` | `5019:146` | `5019:147` | `5019:193` | `5019:228` |
 
-⚠️ **Only BASKETBALL has SR sections 02–05** (print, social, wallpapers, digital bonus). The other
-four carry section 01 only — poster + card FRONT/BACK. Build the rest per order, or before the
-sport picker is used at scale.
+SR sections 02–05 (print, social, wallpapers, digital bonus) now exist for **all six**: basketball, football,
+volleyball (`5035:402/403/938/1323/1538`, die-cuts `5040:382/387`), cheerleading (`4034:403/938/1323/1538`, die-cuts
+`4036:382/387`), soccer (`5027:403/938/1323/1518`, die-cuts `5029:382/387`) and **baseball** (new page `4100:146`, masters
+poster `4103:146` / FRONT `4103:147` / BACK `4103:148`, sections `4111:383/918/1303/1518`, die-cuts `4114:259/264`).
+Add the baseball row: | baseball | `tL9vfpIhC5esFbXcozgAlT` | `4100:146` | `4103:146` | `4103:147` | `4103:148` | The scripted recipe is in `etsy/LISTING-STATE.md` (2026-09-04
+volleyball block).
 
 Backgrounds come from the pipeline like any other finish: `senior-night` is now a real entry in
 `art-pipeline/finishes.ts` (ref `print-sources/senior-night/senior-night-background.png`), so
@@ -279,3 +282,39 @@ Backgrounds come from the pipeline like any other finish: `senior-night` is now 
    overridable). Hide the instance's `#number` and draw a fresh Playfair ghost on the poster
    instead, then seat it by measuring `absoluteRenderBounds` — Playfair's ascender means the ink
    sits ~390 px below the text box top at 880 px.
+
+## Template audit — 2026-08-28
+
+Run before building the wave-2 listings, because a listing built on a broken template ships the
+break. The customer spotted it first: baseball's `05 · DIGITAL BONUS` showed **Marcus in a
+basketball jersey** next to a sticker reading CASEY WHITLOCK.
+
+**The check** (one `use_figma` call per file, no screenshots needed):
+1. Count image fills whose hash is one of the basketball master's athlete images —
+   `9a427c 3cd278 39439e 80f3bf 6f249b 2470a4` — split by whether an ancestor is hidden.
+2. Compare each `GDE_*_Cutout_{Hero,Pose2,Pose3}_PNG` hash against the same page's
+   `FRONT V2 / #photo_{main,2,3}`. **The bonus cutout must BE the image the card renders.**
+3. Collect every two-word capitalised TEXT — a sport file must name exactly one athlete.
+
+**Result across all 23 files: one real defect, in baseball only.** 12 nodes (Pose2 + Pose3 on all
+six finish pages) still carried Marcus. Fixed by pointing them at the card's own `#photo_2/3`
+hashes. Every other file passed all three checks and names exactly one athlete.
+
+Two things worth keeping:
+- **Reuse the in-file hash, do not re-upload the PNG.** Uploading `action2.cutout.png` again makes
+  a second, byte-identical but *distinct* image object, and the "bonus == card" invariant silently
+  fails. The first fix did exactly that and had to be redone.
+- **Every file carries ~20 hidden `Card · <finish> — FRONT` V1 leftovers** still holding the
+  basketball master's photos. They do not render and do not export, but they are a live trap: a
+  hidden frame exports as a **1×1 PNG**, and one of them was nearly used as the football source.
+  The real cards are `FRONT V2`. Leave the V1 frames alone; never export from them.
+
+| file | Marcus visible | Marcus hidden | bonus vs card | athlete |
+|---|---|---|---|---|
+| baseball | 0 (was 12) | 0 | match | Casey Whitlock |
+| soccer | 0 | 20 | match | Mateo Herrera |
+| volleyball | 0 | 20 | match | Jaslene Ocampo |
+| football | 0 | 15 | match | Tui Fa'agata |
+| cheerleading | 0 | 20 | match | Amara Boyd |
+| softball / ice-hockey / lacrosse / gymnastics / track-field / swimming / tennis / golf / pickleball / pickleball-youth / skateboarding | 0 | 20 (wrestling 0) | match | one each |
+| soccer-age-07/10/22/32/50 | 0 | 20 | match | Finn / Ava / Sienna / Danny / Teresa |

@@ -1,0 +1,58 @@
+{
+  "observations": {
+    "items": "Green short-sleeved shirt, green shorts, pair of green socks, pair of grey/silver cleats, white soccer ball with black and red/orange pattern.",
+    "badge": "White shield with a green falcon head on the left chest. White Joma logos on the right chest and shoulders. Nike swoosh on the cleats and ball.",
+    "footwear": "Light grey/silver cleats with a sock-like ankle collar and red/orange Nike swoosh. One viewed from above, one from the side showing a studded sole."
+  },
+  "checks": [
+    {
+      "id": "all_items_present",
+      "pass": true,
+      "note": "All specified items are present and correctly displayed."
+    },
+    {
+      "id": "matches_kit_photo",
+      "pass": false,
+      "note": "The shirt design is completely different: the real shirt has white trim on the collar and cuffs, white piping on the shoulders, a Puma logo, and the number 11 on the chest, none of which are present in the flat lay."
+    },
+    {
+      "id": "crest_correct",
+      "pass": false,
+      "note": "The crest on the shirt is a white shield with a green bird, which does not match the green shield outline and color arrangement of the provided artwork."
+    },
+    {
+      "id": "no_league_mark",
+      "pass": true,
+      "note": "No league marks are visible."
+    },
+    {
+      "id": "no_text_anywhere",
+      "pass": true,
+      "note": "No text is visible on the items."
+    },
+    {
+      "id": "no_branding",
+      "pass": false,
+      "note": "The shirt features Joma logos, but the real shirt worn by the athlete is Puma, making this invented branding."
+    },
+    {
+      "id": "footwear_correct_for_sport",
+      "pass": true,
+      "note": "The shoes are soccer cleats with studded soles."
+    },
+    {
+      "id": "clean_and_new",
+      "pass": true,
+      "note": "All items appear clean and new."
+    },
+    {
+      "id": "flat_lay",
+      "pass": true,
+      "note": "The image is a proper flat lay."
+    }
+  ],
+  "worstIssue": "The shirt design completely fails to match the athlete's real kit, missing the white trim, piping, correct manufacturer logo, and chest number.",
+  "verdict": "fail",
+  "plateHash": "1c17dff7b630",
+  "gradedAt": "2026-09-02T14:36:46.108Z"
+}

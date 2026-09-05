@@ -1,0 +1,682 @@
+{"ts":"2026-08-22T08:19:48.198Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","tokens":1468,"tag":"test/ledger","eur":0.1391,"repriced":true}
+{"ts":"2026-08-22T09:20:52.944Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","tokens":3848,"tag":"Order 01/_identity","eur":0.2063,"repriced":true}
+{"ts":"2026-08-22T09:21:07.025Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","tokens":3106,"tag":"Order 01/_identity-back","eur":0.2063,"repriced":true}
+{"ts":"2026-08-22T09:21:28.242Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","tokens":4351,"tag":"Order 01/_kit","eur":0.2063,"repriced":true}
+{"ts":"2026-08-22T09:21:43.280Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","tokens":2727,"tag":"Order 01/_kit-back","eur":0.2063,"repriced":true}
+{"ts":"2026-08-22T09:21:59.889Z","kind":"judge","model":"gemini-3.1-pro-preview","tokens":4922,"tag":"judge","eur":0.0352,"repriced":true}
+{"ts":"2026-08-22T09:22:24.339Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","tokens":2983,"tag":"Order 01/_identity-back","eur":0.2063,"repriced":true}
+{"ts":"2026-08-22T09:22:58.562Z","kind":"image","model":"gemini-3-pro-image","size":"2K","tokens":3810,"tag":"Order 01/_identity","eur":0.2871,"repriced":true}
+{"ts":"2026-08-22T09:23:23.475Z","kind":"image","model":"gemini-3-pro-image","size":"2K","tokens":2675,"tag":"Order 01/_identity-back","eur":0.2871,"repriced":true}
+{"ts":"2026-08-22T09:23:53.047Z","kind":"image","model":"gemini-3-pro-image","size":"2K","tokens":3845,"tag":"Order 01/_kit","eur":0.2871,"repriced":true}
+{"ts":"2026-08-22T09:24:14.415Z","kind":"image","model":"gemini-3-pro-image","size":"2K","tokens":2272,"tag":"Order 01/_kit-back","eur":0.2871,"repriced":true}
+{"ts":"2026-08-22T09:24:41.292Z","kind":"judge","model":"gemini-3.1-pro-preview","tokens":6311,"tag":"judge","eur":0.0352,"repriced":true}
+{"ts":"2026-08-22T19:02:47.405Z","kind":"image","model":"gemini-3-pro-image","size":"2K","tokens":2173,"tag":"Order 01/_kit-back","eur":0.2871,"repriced":true}
+{"ts":"2026-08-22T19:03:02.955Z","kind":"judge","model":"gemini-3.1-pro-preview","tokens":5043,"tag":"judge","eur":0.0352,"repriced":true}
+{"ts":"2026-08-22T19:03:42.698Z","kind":"image","model":"gemini-3-pro-image","size":"2K","tokens":4782,"tag":"Order 01/hero","eur":0.2871,"repriced":true}
+{"ts":"2026-08-22T19:04:30.096Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","tokens":5278,"tag":"Order 01/hero","eur":0.2063,"repriced":true}
+{"ts":"2026-08-22T19:14:42.166Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":8,"outTokens":1561,"tokens":1569,"tag":"test/ledger-split","eur":0.1875}
+{"ts":"2026-08-22T19:16:30.646Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":3304,"outTokens":1298,"tokens":4782,"tag":"Order 01/hero","eur":0.3251}
+{"ts":"2026-08-22T19:18:26.644Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":698,"outTokens":1233,"tokens":2062,"tag":"gemini-3-pro-image","eur":0.2991}
+{"ts":"2026-08-22T19:21:54.602Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":2039,"outTokens":1325,"tokens":3660,"tag":"Order 01/_identity","eur":0.3265}
+{"ts":"2026-08-22T19:22:16.977Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":1036,"outTokens":1281,"tokens":2513,"tag":"Order 01/_identity-back","eur":0.3119}
+{"ts":"2026-08-22T19:22:42.214Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":2039,"outTokens":2080,"tokens":4119,"tag":"Order 01/_identity","eur":0.2519}
+{"ts":"2026-08-22T19:22:56.901Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1036,"outTokens":2031,"tokens":3067,"tag":"Order 01/_identity-back","eur":0.245}
+{"ts":"2026-08-22T19:28:36.897Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":3197,"outTokens":1328,"tokens":4743,"tag":"Order 01/hero","eur":0.3319}
+{"ts":"2026-08-22T19:28:58.645Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":3197,"outTokens":2165,"tokens":5362,"tag":"Order 01/hero","eur":0.2633}
+{"ts":"2026-08-22T19:55:35.347Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":3197,"outTokens":2133,"tokens":5330,"tag":"Order 01/hero","eur":0.2595}
+{"ts":"2026-08-22T20:00:59.533Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":1523,"outTokens":1342,"tokens":2865,"tag":"Order 02/_identity","eur":0.1628}
+{"ts":"2026-08-22T20:01:09.771Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":1029,"outTokens":1502,"tokens":2531,"tag":"Order 02/_identity-back","eur":0.1815}
+{"ts":"2026-08-22T20:01:38.031Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":1523,"outTokens":1310,"tokens":3107,"tag":"Order 02/_identity","eur":0.3209}
+{"ts":"2026-08-22T20:01:56.623Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":1029,"outTokens":1359,"tokens":2633,"tag":"Order 02/_identity-back","eur":0.3307}
+{"ts":"2026-08-22T20:02:11.728Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1460,"outTokens":1934,"tokens":3394,"tag":"Order 02/_kit","eur":0.2338}
+{"ts":"2026-08-22T20:02:25.603Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":747,"outTokens":1954,"tokens":2701,"tag":"Order 02/_kit-back","eur":0.2355}
+{"ts":"2026-08-22T20:02:56.514Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":2100,"outTokens":424,"tokens":5566,"tag":"judge","eur":0.0186}
+{"ts":"2026-08-22T20:03:29.565Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":1460,"outTokens":1348,"tokens":3143,"tag":"Order 02/_kit","eur":0.3297}
+{"ts":"2026-08-22T20:03:49.725Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":747,"outTokens":1285,"tokens":2208,"tag":"Order 02/_kit-back","eur":0.3118}
+{"ts":"2026-08-22T20:04:11.727Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":2100,"outTokens":253,"tokens":4757,"tag":"judge","eur":0.0145}
+{"ts":"2026-08-22T20:14:18.677Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2039,"outTokens":1423,"tokens":3462,"tag":"Order 02/_identity","eur":0.173}
+{"ts":"2026-08-22T20:14:28.760Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":1029,"outTokens":1574,"tokens":2603,"tag":"Order 02/_identity-back","eur":0.1901}
+{"ts":"2026-08-22T20:15:13.734Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":2039,"outTokens":1450,"tokens":3807,"tag":"Order 02/_identity","eur":0.3566}
+{"ts":"2026-08-22T20:15:30.665Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":1029,"outTokens":1305,"tokens":2537,"tag":"Order 02/_identity-back","eur":0.3177}
+{"ts":"2026-08-22T20:16:43.670Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2163,"outTokens":1470,"tokens":3633,"tag":"Order 02/_identity","eur":0.1788}
+{"ts":"2026-08-22T20:16:53.509Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":1029,"outTokens":1463,"tokens":2492,"tag":"Order 02/_identity-back","eur":0.1768}
+{"ts":"2026-08-22T20:17:56.699Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":2163,"outTokens":1383,"tokens":3841,"tag":"Order 02/_identity","eur":0.341}
+{"ts":"2026-08-22T20:18:15.019Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":1029,"outTokens":1357,"tokens":2586,"tag":"Order 02/_identity-back","eur":0.3302}
+{"ts":"2026-08-22T20:37:06.059Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2421,"outTokens":1526,"tokens":3947,"tag":"Order 02/_identity","eur":0.1858}
+{"ts":"2026-08-22T20:37:19.608Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2421,"outTokens":1616,"tokens":4037,"tag":"Order 02/_identity","eur":0.1966}
+{"ts":"2026-08-22T20:42:48.927Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2421,"outTokens":1517,"tokens":3938,"tag":"Order 02/_identity","eur":0.1847}
+{"ts":"2026-08-22T20:43:04.528Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2421,"outTokens":1510,"tokens":3931,"tag":"Order 02/_identity","eur":0.1838}
+{"ts":"2026-08-22T20:43:44.697Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":2421,"outTokens":1465,"tokens":4126,"tag":"Order 02/_identity","eur":0.3617}
+{"ts":"2026-08-22T20:44:04.035Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":2421,"outTokens":1432,"tokens":4167,"tag":"Order 02/_identity","eur":0.3538}
+{"ts":"2026-08-22T20:45:11.967Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":2421,"outTokens":2015,"tokens":4436,"tag":"Order 02/_identity","eur":0.2445}
+{"ts":"2026-08-22T20:45:30.808Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":2421,"outTokens":2047,"tokens":4468,"tag":"Order 02/_identity","eur":0.2484}
+{"ts":"2026-08-22T20:46:32.434Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2421,"outTokens":1466,"tokens":3887,"tag":"Order 02/_identity","eur":0.1785}
+{"ts":"2026-08-22T20:46:45.766Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2421,"outTokens":1515,"tokens":3936,"tag":"Order 02/_identity","eur":0.1844}
+{"ts":"2026-08-22T20:46:59.181Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2421,"outTokens":1553,"tokens":3974,"tag":"Order 02/_identity","eur":0.189}
+{"ts":"2026-08-22T20:54:31.567Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2799,"outTokens":1503,"tokens":4302,"tag":"Order 02/_identity","eur":0.1834}
+{"ts":"2026-08-22T20:54:46.264Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2799,"outTokens":1410,"tokens":4209,"tag":"Order 02/_identity","eur":0.1722}
+{"ts":"2026-08-22T20:55:01.823Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2799,"outTokens":1494,"tokens":4293,"tag":"Order 02/_identity","eur":0.1823}
+{"ts":"2026-08-22T20:57:09.673Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2799,"outTokens":1462,"tokens":4261,"tag":"Order 02/_identity","eur":0.1784}
+{"ts":"2026-08-22T20:57:25.503Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2799,"outTokens":1525,"tokens":4324,"tag":"Order 02/_identity","eur":0.186}
+{"ts":"2026-08-22T20:57:39.979Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2799,"outTokens":1668,"tokens":4467,"tag":"Order 02/_identity","eur":0.2032}
+{"ts":"2026-08-22T21:07:02.825Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2799,"outTokens":1437,"tokens":4236,"tag":"Order 02/_identity","eur":0.1754}
+{"ts":"2026-08-22T21:10:03.220Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2799,"outTokens":1392,"tokens":4191,"tag":"Order 02/_identity","eur":0.17}
+{"ts":"2026-08-22T21:10:17.124Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2799,"outTokens":1491,"tokens":4290,"tag":"Order 02/_identity","eur":0.1819}
+{"ts":"2026-08-22T21:10:30.061Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2799,"outTokens":1461,"tokens":4260,"tag":"Order 02/_identity","eur":0.1783}
+{"ts":"2026-08-22T21:25:13.136Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":2799,"outTokens":1487,"tokens":4665,"tag":"Order 02/_identity","eur":0.3685}
+{"ts":"2026-08-22T21:25:38.114Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":2799,"outTokens":1457,"tokens":4613,"tag":"Order 02/_identity","eur":0.3613}
+{"ts":"2026-08-22T21:30:30.674Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":2995,"outTokens":2134,"tokens":5129,"tag":"Order 02/hero","eur":0.2594}
+{"ts":"2026-08-22T21:30:46.106Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":2995,"outTokens":2157,"tokens":5152,"tag":"Order 02/hero","eur":0.2621}
+{"ts":"2026-08-22T21:31:00.926Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":2995,"outTokens":2167,"tokens":5162,"tag":"Order 02/hero","eur":0.2633}
+{"ts":"2026-08-22T21:37:01.391Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2025,"outTokens":1535,"tokens":3560,"tag":"order 03/_identity","eur":0.1864}
+{"ts":"2026-08-22T21:37:12.569Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2025,"outTokens":1473,"tokens":3498,"tag":"order 03/_identity","eur":0.179}
+{"ts":"2026-08-22T21:37:24.259Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2025,"outTokens":1661,"tokens":3686,"tag":"order 03/_identity","eur":0.2016}
+{"ts":"2026-08-22T21:40:40.152Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2283,"outTokens":1379,"tokens":3662,"tag":"order 03/_identity","eur":0.168}
+{"ts":"2026-08-22T21:40:50.923Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2283,"outTokens":1415,"tokens":3698,"tag":"order 03/_identity","eur":0.1723}
+{"ts":"2026-08-22T21:41:03.175Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2283,"outTokens":1456,"tokens":3739,"tag":"order 03/_identity","eur":0.1772}
+{"ts":"2026-08-22T21:41:14.230Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2283,"outTokens":1464,"tokens":3747,"tag":"order 03/_identity","eur":0.1782}
+{"ts":"2026-08-22T21:42:08.211Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2541,"outTokens":1381,"tokens":3922,"tag":"order 03/_identity","eur":0.1685}
+{"ts":"2026-08-22T21:42:19.777Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2541,"outTokens":1458,"tokens":3999,"tag":"order 03/_identity","eur":0.1777}
+{"ts":"2026-08-22T21:42:32.516Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2541,"outTokens":1510,"tokens":4051,"tag":"order 03/_identity","eur":0.184}
+{"ts":"2026-08-22T21:42:45.572Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2541,"outTokens":1387,"tokens":3928,"tag":"order 03/_identity","eur":0.1692}
+{"ts":"2026-08-22T21:43:36.757Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2283,"outTokens":1468,"tokens":3751,"tag":"order 03/_identity","eur":0.1787}
+{"ts":"2026-08-22T21:43:48.113Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2283,"outTokens":1513,"tokens":3796,"tag":"order 03/_identity","eur":0.1841}
+{"ts":"2026-08-22T21:44:00.427Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":2283,"outTokens":1373,"tokens":3656,"tag":"order 03/_identity","eur":0.1672}
+{"ts":"2026-08-22T21:48:11.741Z","kind":"image","model":"gemini-3.1-flash-image","size":"1K","inTokens":1028,"outTokens":1436,"tokens":2464,"tag":"order 03/_identity-back","eur":0.1736}
+{"ts":"2026-08-22T21:48:39.347Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1684,"outTokens":1979,"tokens":3663,"tag":"order 03/_kit","eur":0.2394}
+{"ts":"2026-08-22T21:48:51.567Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":718,"outTokens":1996,"tokens":2714,"tag":"order 03/_kit-back","eur":0.2405}
+{"ts":"2026-08-22T21:49:08.109Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":2034,"outTokens":475,"tokens":4029,"tag":"judge","eur":0.0196}
+{"ts":"2026-08-22T21:51:23.846Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1768,"outTokens":2042,"tokens":3810,"tag":"order 03/_kit","eur":0.2471}
+{"ts":"2026-08-22T21:51:43.075Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":2034,"outTokens":522,"tokens":4139,"tag":"judge","eur":0.0207}
+{"ts":"2026-08-22T21:52:38.653Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":679,"outTokens":2043,"tokens":2722,"tag":"gemini-3.1-flash-image","eur":0.2461}
+{"ts":"2026-08-22T21:53:30.205Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1151,"outTokens":2094,"tokens":3245,"tag":"gemini-3.1-flash-image","eur":0.2527}
+{"ts":"2026-08-22T21:54:22.943Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":698,"outTokens":1928,"tokens":2626,"tag":"gemini-3.1-flash-image","eur":0.2323}
+{"ts":"2026-08-22T21:58:33.807Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":2653,"outTokens":2075,"tokens":4728,"tag":"order 03/_kit","eur":0.2519}
+{"ts":"2026-08-22T21:58:58.805Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":2128,"outTokens":540,"tokens":5037,"tag":"judge","eur":0.0215}
+{"ts":"2026-08-22T22:00:35.037Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":2724,"outTokens":2071,"tokens":4795,"tag":"order 03/_kit","eur":0.2515}
+{"ts":"2026-08-22T22:01:12.190Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":2128,"outTokens":590,"tokens":6573,"tag":"judge","eur":0.0227}
+{"ts":"2026-08-22T22:02:43.228Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":2039,"outTokens":517,"tokens":4888,"tag":"judge","eur":0.0206}
+{"ts":"2026-08-22T22:03:28.536Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1180,"outTokens":2012,"tokens":3192,"tag":"gemini-3.1-flash-image","eur":0.2429}
+{"ts":"2026-08-22T22:06:19.397Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1215,"outTokens":2015,"tokens":3230,"tag":"gemini-3.1-flash-image","eur":0.2433}
+{"ts":"2026-08-22T22:08:23.849Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":718,"outTokens":2003,"tokens":2721,"tag":"order 03/_kit-back","eur":0.2414}
+{"ts":"2026-08-22T22:09:11.208Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":2039,"outTokens":587,"tokens":7882,"tag":"judge","eur":0.0223}
+{"ts":"2026-08-22T22:09:47.012Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":709,"outTokens":1895,"tokens":2604,"tag":"gemini-3.1-flash-image","eur":0.2284}
+{"ts":"2026-08-22T22:11:53.891Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":2881,"outTokens":2242,"tokens":5123,"tag":"order 03/hero","eur":0.2722}
+{"ts":"2026-08-22T22:16:01.655Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":2881,"outTokens":2197,"tokens":5078,"tag":"order 03/hero","eur":0.2668}
+{"ts":"2026-08-22T22:16:27.433Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":2881,"outTokens":2161,"tokens":5042,"tag":"order 03/hero","eur":0.2625}
+{"ts":"2026-08-22T22:17:45.308Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":2920,"outTokens":2078,"tokens":4998,"tag":"order 03/action2","eur":0.2526}
+{"ts":"2026-08-22T22:18:04.875Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":2934,"outTokens":2225,"tokens":5159,"tag":"order 03/action3","eur":0.2702}
+{"ts":"2026-08-22T22:18:24.959Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":3423,"outTokens":2227,"tokens":5650,"tag":"order 03/back","eur":0.271}
+{"ts":"2026-08-22T22:20:23.741Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":2934,"outTokens":1298,"tokens":4448,"tag":"order 03/action3","eur":0.3236}
+{"ts":"2026-08-22T22:20:50.983Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":2920,"outTokens":1301,"tokens":4411,"tag":"order 03/action2","eur":0.3243}
+{"ts":"2026-08-22T22:22:53.177Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":2920,"outTokens":1360,"tokens":4592,"tag":"order 03/action2","eur":0.3385}
+{"ts":"2026-08-22T22:25:48.745Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":2920,"outTokens":1289,"tokens":4427,"tag":"order 03/action2","eur":0.3214}
+{"ts":"2026-08-24T13:19:14.425Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":398,"outTokens":1468,"tokens":1866,"tag":"gemini-3.1-flash-image","eur":0.1768}
+{"ts":"2026-08-24T13:20:54.996Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":402,"outTokens":1466,"tokens":1868,"tag":"gemini-3.1-flash-image","eur":0.1765}
+{"ts":"2026-08-24T13:21:05.763Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":400,"outTokens":1396,"tokens":1796,"tag":"gemini-3.1-flash-image","eur":0.1681}
+{"ts":"2026-08-24T13:21:16.625Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":398,"outTokens":1453,"tokens":1851,"tag":"gemini-3.1-flash-image","eur":0.175}
+{"ts":"2026-08-24T13:21:28.049Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":121,"outTokens":1629,"tokens":1750,"tag":"gemini-3.1-flash-image","eur":0.1958}
+{"ts":"2026-08-24T13:21:37.982Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":96,"outTokens":1491,"tokens":1587,"tag":"gemini-3.1-flash-image","eur":0.1792}
+{"ts":"2026-08-24T13:21:48.082Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":65,"outTokens":1576,"tokens":1641,"tag":"gemini-3.1-flash-image","eur":0.1894}
+{"ts":"2026-08-24T13:23:59.054Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":667,"outTokens":1334,"tokens":2001,"tag":"gemini-3.1-flash-image","eur":0.1609}
+{"ts":"2026-08-24T15:27:01.021Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":139,"outTokens":1548,"tokens":1687,"tag":"gemini-3.1-flash-image","eur":0.1861}
+{"ts":"2026-08-24T15:27:12.693Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":406,"outTokens":1248,"tokens":1654,"tag":"gemini-3.1-flash-image","eur":0.1503}
+{"ts":"2026-08-24T15:27:30.752Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":113,"outTokens":1482,"tokens":1595,"tag":"gemini-3.1-flash-image","eur":0.1782}
+{"ts":"2026-08-24T22:54:51.828Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":455,"outTokens":1295,"tokens":1750,"tag":"gemini-3.1-flash-image","eur":0.156}
+{"ts":"2026-08-24T22:55:01.837Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":430,"outTokens":1300,"tokens":1730,"tag":"gemini-3.1-flash-image","eur":0.1566}
+{"ts":"2026-08-24T22:55:12.313Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":425,"outTokens":1266,"tokens":1691,"tag":"gemini-3.1-flash-image","eur":0.1525}
+{"ts":"2026-08-25T04:28:21.579Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":364,"outTokens":1261,"tokens":1625,"tag":"gemini-3.1-flash-image","eur":0.1519}
+{"ts":"2026-08-25T04:28:29.933Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":354,"outTokens":1265,"tokens":1619,"tag":"gemini-3.1-flash-image","eur":0.1523}
+{"ts":"2026-08-25T04:28:40.099Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":350,"outTokens":1256,"tokens":1606,"tag":"gemini-3.1-flash-image","eur":0.1512}
+{"ts":"2026-08-25T04:28:51.211Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":362,"outTokens":1286,"tokens":1648,"tag":"gemini-3.1-flash-image","eur":0.1549}
+{"ts":"2026-08-25T06:27:48.107Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":61,"outTokens":1400,"tokens":1461,"tag":"gemini-3.1-flash-image","eur":0.1683}
+{"ts":"2026-08-25T06:27:58.956Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":67,"outTokens":1546,"tokens":1613,"tag":"gemini-3.1-flash-image","eur":0.1858}
+{"ts":"2026-08-25T06:28:09.164Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":59,"outTokens":1531,"tokens":1590,"tag":"gemini-3.1-flash-image","eur":0.184}
+{"ts":"2026-08-25T06:28:23.983Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":62,"outTokens":1516,"tokens":1578,"tag":"gemini-3.1-flash-image","eur":0.1822}
+{"ts":"2026-08-25T06:28:33.811Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":95,"outTokens":1554,"tokens":1649,"tag":"gemini-3.1-flash-image","eur":0.1868}
+{"ts":"2026-08-25T12:24:14.985Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":439,"outTokens":1255,"tokens":1694,"tag":"gemini-3.1-flash-image","eur":0.1512}
+{"ts":"2026-08-25T12:24:35.971Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":433,"outTokens":2619,"tokens":3052,"tag":"gemini-3.1-flash-image","eur":0.3151}
+{"ts":"2026-08-25T12:24:45.816Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":89,"outTokens":1582,"tokens":1671,"tag":"gemini-3.1-flash-image","eur":0.1902}
+{"ts":"2026-08-25T12:24:56.464Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":91,"outTokens":1604,"tokens":1695,"tag":"gemini-3.1-flash-image","eur":0.1928}
+{"ts":"2026-08-25T12:47:43.584Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":158,"outTokens":1487,"tokens":1645,"tag":"gemini-3.1-flash-image","eur":0.1788}
+{"ts":"2026-08-25T12:47:54.939Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":153,"outTokens":1564,"tokens":1717,"tag":"gemini-3.1-flash-image","eur":0.1881}
+{"ts":"2026-08-25T12:48:02.496Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":151,"outTokens":1561,"tokens":1712,"tag":"gemini-3.1-flash-image","eur":0.1877}
+{"ts":"2026-08-25T12:48:13.436Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":150,"outTokens":1593,"tokens":1743,"tag":"gemini-3.1-flash-image","eur":0.1915}
+{"ts":"2026-08-25T12:48:23.539Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":149,"outTokens":1524,"tokens":1673,"tag":"gemini-3.1-flash-image","eur":0.1832}
+{"ts":"2026-08-25T12:48:34.460Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":152,"outTokens":1579,"tokens":1731,"tag":"gemini-3.1-flash-image","eur":0.1899}
+{"ts":"2026-08-25T12:48:46.739Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":452,"outTokens":1300,"tokens":1752,"tag":"gemini-3.1-flash-image","eur":0.1566}
+{"ts":"2026-08-25T12:53:43.577Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":171,"outTokens":1574,"tokens":1745,"tag":"gemini-3.1-flash-image","eur":0.1893}
+{"ts":"2026-08-25T12:53:53.835Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":162,"outTokens":1553,"tokens":1715,"tag":"gemini-3.1-flash-image","eur":0.1867}
+{"ts":"2026-08-25T12:56:10.962Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":205,"outTokens":1581,"tokens":1786,"tag":"gemini-3.1-flash-image","eur":0.1901}
+{"ts":"2026-08-25T13:01:12.825Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":219,"outTokens":1544,"tokens":1763,"tag":"gemini-3.1-flash-image","eur":0.1857}
+{"ts":"2026-08-25T13:04:57.532Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":439,"outTokens":5275,"tokens":5714,"tag":"gemini-3.1-flash-image","eur":0.6342}
+{"ts":"2026-08-25T13:05:09.566Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":440,"outTokens":1290,"tokens":1730,"tag":"gemini-3.1-flash-image","eur":0.1554}
+{"ts":"2026-08-25T13:06:03.111Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":521,"outTokens":1283,"tokens":1804,"tag":"gemini-3.1-flash-image","eur":0.1547}
+{"ts":"2026-08-25T13:12:18.900Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":512,"outTokens":1257,"tokens":1769,"tag":"gemini-3.1-flash-image","eur":0.1515}
+{"ts":"2026-08-25T13:12:28.568Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":174,"outTokens":1524,"tokens":1698,"tag":"gemini-3.1-flash-image","eur":0.1833}
+{"ts":"2026-08-25T13:15:04.916Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":498,"outTokens":1230,"tokens":1728,"tag":"gemini-3.1-flash-image","eur":0.1483}
+{"ts":"2026-08-25T13:16:20.096Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":498,"outTokens":1339,"tokens":1837,"tag":"gemini-3.1-flash-image","eur":0.1614}
+{"ts":"2026-08-25T13:23:35.253Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":468,"outTokens":1311,"tokens":1779,"tag":"gemini-3.1-flash-image","eur":0.158}
+{"ts":"2026-08-25T13:23:47.135Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":507,"outTokens":1338,"tokens":1845,"tag":"gemini-3.1-flash-image","eur":0.1613}
+{"ts":"2026-08-25T13:24:46.970Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":508,"outTokens":1296,"tokens":1804,"tag":"gemini-3.1-flash-image","eur":0.1562}
+{"ts":"2026-08-25T13:28:08.754Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":497,"outTokens":1318,"tokens":1815,"tag":"gemini-3.1-flash-image","eur":0.1588}
+{"ts":"2026-08-25T13:29:05.045Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":530,"outTokens":1311,"tokens":1841,"tag":"gemini-3.1-flash-image","eur":0.158}
+{"ts":"2026-08-25T13:30:03.251Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":555,"outTokens":1314,"tokens":1869,"tag":"gemini-3.1-flash-image","eur":0.1584}
+{"ts":"2026-08-25T14:30:08.010Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":123,"outTokens":1552,"tokens":1675,"tag":"gemini-3.1-flash-image","eur":0.1866}
+{"ts":"2026-08-25T18:45:25.727Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":896,"outTokens":1528,"tokens":2424,"tag":"gemini-3.1-flash-image","eur":0.1845}
+{"ts":"2026-08-25T18:45:38.083Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":859,"outTokens":1376,"tokens":2235,"tag":"gemini-3.1-flash-image","eur":0.1662}
+{"ts":"2026-08-25T18:47:04.333Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":991,"outTokens":1524,"tokens":2515,"tag":"gemini-3.1-flash-image","eur":0.1841}
+{"ts":"2026-08-25T18:47:17.454Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":936,"outTokens":1505,"tokens":2441,"tag":"gemini-3.1-flash-image","eur":0.1817}
+{"ts":"2026-08-25T18:49:40.778Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1338,"outTokens":1626,"tokens":2964,"tag":"gemini-3.1-flash-image","eur":0.1967}
+{"ts":"2026-08-25T18:49:58.855Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1203,"outTokens":1522,"tokens":2725,"tag":"gemini-3.1-flash-image","eur":0.1841}
+{"ts":"2026-08-25T18:51:11.865Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1719,"outTokens":1561,"tokens":3280,"tag":"gemini-3.1-flash-image","eur":0.1893}
+{"ts":"2026-08-25T18:51:25.605Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1543,"outTokens":1645,"tokens":3188,"tag":"gemini-3.1-flash-image","eur":0.1992}
+{"ts":"2026-08-25T19:07:57.508Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1689,"outTokens":1646,"tokens":3335,"tag":"gemini-3.1-flash-image","eur":0.1994}
+{"ts":"2026-08-25T19:08:10.915Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1590,"outTokens":1620,"tokens":3210,"tag":"gemini-3.1-flash-image","eur":0.1962}
+{"ts":"2026-08-25T19:08:35.510Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1592,"outTokens":1588,"tokens":3180,"tag":"gemini-3.1-flash-image","eur":0.1924}
+{"ts":"2026-08-25T19:15:43.196Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":2005,"outTokens":1790,"tokens":3795,"tag":"gemini-3.1-flash-image","eur":0.2171}
+{"ts":"2026-08-25T19:15:57.131Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1899,"outTokens":1591,"tokens":3490,"tag":"gemini-3.1-flash-image","eur":0.193}
+{"ts":"2026-08-25T19:18:56.997Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1985,"outTokens":1733,"tokens":3718,"tag":"gemini-3.1-flash-image","eur":0.2102}
+{"ts":"2026-08-25T19:19:11.835Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1928,"outTokens":1674,"tokens":3602,"tag":"gemini-3.1-flash-image","eur":0.203}
+{"ts":"2026-08-25T20:13:17.185Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":932,"outTokens":1463,"tokens":2395,"tag":"gemini-3.1-flash-image","eur":0.1767}
+{"ts":"2026-08-25T20:13:29.366Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":857,"outTokens":1405,"tokens":2262,"tag":"gemini-3.1-flash-image","eur":0.1697}
+{"ts":"2026-08-25T20:13:44.960Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":842,"outTokens":1473,"tokens":2315,"tag":"gemini-3.1-flash-image","eur":0.1778}
+{"ts":"2026-08-26T12:36:38.351Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":251,"outTokens":1336,"tokens":1781,"tag":"etsy-video-trial-stands","eur":0.322}
+{"ts":"2026-08-26T13:22:01.428Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":189,"outTokens":1286,"tokens":1678,"tag":"etsy-video-v3-phone-gallery","eur":0.3098}
+{"ts":"2026-08-26T13:34:42.683Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":394,"outTokens":1311,"tokens":1923,"tag":"etsy-video-v3-game-wide","eur":0.3166}
+{"ts":"2026-08-26T14:26:08.965Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":409,"outTokens":1294,"tokens":1881,"tag":"etsy-video-v3-game-square","eur":0.3126}
+{"ts":"2026-08-26T14:27:11.123Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1297,"outTokens":110,"tokens":1778,"tag":"etsy-video-audit","eur":0.0078}
+{"ts":"2026-08-26T14:28:24.081Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":407,"outTokens":1281,"tokens":1849,"tag":"etsy-video-v3-game-square2","eur":0.3094}
+{"ts":"2026-08-26T14:28:39.824Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1294,"outTokens":71,"tokens":2229,"tag":"etsy-video-audit","eur":0.0069}
+{"ts":"2026-08-26T22:31:06.663Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":233,"outTokens":2161,"tokens":2394,"tag":"etsy-football-hero-bg","eur":0.2599}
+{"ts":"2026-08-26T22:31:19.816Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1177,"outTokens":135,"tokens":2314,"tag":"etsy-football-hero-bg-judge","eur":0.008}
+{"ts":"2026-08-26T22:31:36.766Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":501,"outTokens":2108,"tokens":2609,"tag":"etsy-football-card-in-hand","eur":0.2538}
+{"ts":"2026-08-26T22:31:55.332Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1183,"outTokens":137,"tokens":2762,"tag":"etsy-football-card-in-hand-judge","eur":0.008}
+{"ts":"2026-08-26T22:32:09.198Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":153,"outTokens":2067,"tokens":2220,"tag":"etsy-football-bad-blurred","eur":0.2485}
+{"ts":"2026-08-26T22:32:24.350Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1158,"outTokens":117,"tokens":2261,"tag":"etsy-football-bad-blurred-judge","eur":0.0074}
+{"ts":"2026-08-26T22:32:37.787Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":178,"outTokens":1931,"tokens":2109,"tag":"etsy-football-bad-too-far","eur":0.2322}
+{"ts":"2026-08-26T22:32:51.354Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1155,"outTokens":98,"tokens":2164,"tag":"etsy-football-bad-too-far-judge","eur":0.007}
+{"ts":"2026-08-26T22:33:04.784Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":178,"outTokens":1953,"tokens":2131,"tag":"etsy-football-bad-group","eur":0.2348}
+{"ts":"2026-08-26T22:33:17.902Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1155,"outTokens":87,"tokens":2060,"tag":"etsy-football-bad-group-judge","eur":0.0067}
+{"ts":"2026-08-26T22:33:30.642Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":179,"outTokens":1985,"tokens":2164,"tag":"etsy-football-bad-face-covered","eur":0.2387}
+{"ts":"2026-08-26T22:33:41.991Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1155,"outTokens":114,"tokens":1923,"tag":"etsy-football-bad-face-covered-judge","eur":0.0074}
+{"ts":"2026-08-26T22:35:22.832Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":364,"outTokens":2128,"tokens":2492,"tag":"etsy-football-hero-bg","eur":0.256}
+{"ts":"2026-08-26T22:35:35.629Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1195,"outTokens":222,"tokens":2243,"tag":"etsy-football-hero-bg-judge","eur":0.0101}
+{"ts":"2026-08-26T22:35:51.278Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1183,"outTokens":149,"tokens":2390,"tag":"etsy-football-card-in-hand-judge","eur":0.0083}
+{"ts":"2026-08-26T22:36:05.590Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":242,"outTokens":2025,"tokens":2267,"tag":"etsy-football-bad-blurred","eur":0.2435}
+{"ts":"2026-08-26T22:36:12.745Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1164,"outTokens":196,"tokens":1523,"tag":"etsy-football-bad-blurred-judge","eur":0.0094}
+{"ts":"2026-08-26T22:36:25.086Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1161,"outTokens":118,"tokens":2073,"tag":"etsy-football-bad-too-far-judge","eur":0.0075}
+{"ts":"2026-08-26T22:36:39.498Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1161,"outTokens":95,"tokens":2355,"tag":"etsy-football-bad-group-judge","eur":0.0069}
+{"ts":"2026-08-26T22:36:52.631Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":234,"outTokens":2077,"tokens":2311,"tag":"etsy-football-bad-face-covered","eur":0.2498}
+{"ts":"2026-08-26T22:37:06.144Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1161,"outTokens":113,"tokens":2239,"tag":"etsy-football-bad-face-covered-judge","eur":0.0074}
+{"ts":"2026-08-26T22:37:44.040Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1195,"outTokens":222,"tokens":2243,"tag":"etsy-football-hero-bg-judge","eur":0.0101}
+{"ts":"2026-08-26T22:37:59.828Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":600,"outTokens":1983,"tokens":2583,"tag":"etsy-football-card-in-hand","eur":0.2388}
+{"ts":"2026-08-26T22:38:14.725Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1183,"outTokens":131,"tokens":2416,"tag":"etsy-football-card-in-hand-judge","eur":0.0079}
+{"ts":"2026-08-26T22:38:22.321Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1164,"outTokens":196,"tokens":1527,"tag":"etsy-football-bad-blurred-judge","eur":0.0094}
+{"ts":"2026-08-26T22:38:34.792Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1161,"outTokens":118,"tokens":2073,"tag":"etsy-football-bad-too-far-judge","eur":0.0075}
+{"ts":"2026-08-26T22:38:49.666Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":244,"outTokens":2036,"tokens":2280,"tag":"etsy-football-bad-group","eur":0.2448}
+{"ts":"2026-08-26T22:39:03.607Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1161,"outTokens":110,"tokens":2340,"tag":"etsy-football-bad-group-judge","eur":0.0073}
+{"ts":"2026-08-26T22:39:16.688Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":234,"outTokens":1975,"tokens":2209,"tag":"etsy-football-bad-face-covered","eur":0.2375}
+{"ts":"2026-08-26T22:39:28.184Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1161,"outTokens":118,"tokens":2031,"tag":"etsy-football-bad-face-covered-judge","eur":0.0075}
+{"ts":"2026-08-26T22:40:14.351Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":264,"outTokens":1964,"tokens":2228,"tag":"etsy-football-bad-group","eur":0.2362}
+{"ts":"2026-08-26T22:40:25.956Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1161,"outTokens":111,"tokens":1887,"tag":"etsy-football-bad-group-judge","eur":0.0073}
+{"ts":"2026-08-26T22:41:39.129Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":357,"outTokens":2092,"tokens":2449,"tag":"etsy-football-hero-bg-dusk","eur":0.2517}
+{"ts":"2026-08-26T22:41:47.208Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1199,"outTokens":272,"tokens":1698,"tag":"etsy-football-hero-bg-dusk-judge","eur":0.0113}
+{"ts":"2026-08-26T22:42:05.382Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":367,"outTokens":2167,"tokens":2534,"tag":"etsy-football-hero-bg-night","eur":0.2607}
+{"ts":"2026-08-26T22:42:18.331Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1204,"outTokens":177,"tokens":2278,"tag":"etsy-football-hero-bg-night-judge","eur":0.0091}
+{"ts":"2026-08-26T22:42:35.685Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":823,"outTokens":1880,"tokens":2703,"tag":"etsy-football-athlete-holds-card","eur":0.2267}
+{"ts":"2026-08-26T22:42:59.788Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1212,"outTokens":305,"tokens":3309,"tag":"etsy-football-athlete-holds-card-judge","eur":0.0122}
+{"ts":"2026-08-26T22:45:11.068Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":608,"outTokens":3887,"tokens":4495,"tag":"etsy-football-athlete-holds-blank","eur":0.4676}
+{"ts":"2026-08-26T22:45:18.163Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1216,"outTokens":300,"tokens":1516,"tag":"etsy-football-athlete-holds-blank-judge","eur":0.0121}
+{"ts":"2026-08-26T22:45:58.505Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":661,"outTokens":1914,"tokens":2575,"tag":"etsy-football-athlete-holds-blank","eur":0.2306}
+{"ts":"2026-08-26T22:46:05.983Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1233,"outTokens":360,"tokens":1593,"tag":"etsy-football-athlete-holds-blank-judge","eur":0.0136}
+{"ts":"2026-08-26T22:47:52.560Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":473,"outTokens":2117,"tokens":2590,"tag":"etsy-football-reject-take","eur":0.2548}
+{"ts":"2026-08-26T22:48:06.259Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1145,"outTokens":106,"tokens":2208,"tag":"etsy-football-reject-take-judge","eur":0.0071}
+{"ts":"2026-08-26T22:55:50.101Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":546,"outTokens":2049,"tokens":2595,"tag":"senior-night/basketball-A-legacy","eur":0.2467}
+{"ts":"2026-08-26T22:56:03.817Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":539,"outTokens":2129,"tokens":2668,"tag":"senior-night/basketball-B-ceremony","eur":0.2563}
+{"ts":"2026-08-26T23:00:26.431Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":532,"outTokens":2189,"tokens":2721,"tag":"senior-night/basketball-C-legacy-deep","eur":0.2635}
+{"ts":"2026-08-26T23:00:40.215Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":513,"outTokens":2115,"tokens":2628,"tag":"senior-night/basketball-D-jersey-raise","eur":0.2546}
+{"ts":"2026-08-26T23:00:53.706Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":481,"outTokens":2153,"tokens":2634,"tag":"senior-night/basketball-E-confetti-storm","eur":0.2591}
+{"ts":"2026-08-26T23:01:06.249Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":499,"outTokens":2078,"tokens":2577,"tag":"senior-night/basketball-F-flag-gym","eur":0.2502}
+{"ts":"2026-08-26T23:01:20.081Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":501,"outTokens":2073,"tokens":2574,"tag":"senior-night/basketball-G-roses","eur":0.2496}
+{"ts":"2026-08-26T23:01:34.011Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":292,"outTokens":2046,"tokens":2338,"tag":"senior-night/card-frame-laurel","eur":0.2461}
+{"ts":"2026-08-26T23:01:47.413Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":285,"outTokens":2047,"tokens":2332,"tag":"senior-night/card-frame-marquee","eur":0.2462}
+{"ts":"2026-08-26T23:01:59.993Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":313,"outTokens":2002,"tokens":2315,"tag":"senior-night/card-frame-banner","eur":0.2408}
+{"ts":"2026-08-26T23:02:11.743Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":293,"outTokens":1957,"tokens":2250,"tag":"senior-night/card-frame-diploma","eur":0.2354}
+{"ts":"2026-08-26T23:02:46.759Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":613,"outTokens":1865,"tokens":2478,"tag":"etsy-football-p-hero-wall","eur":0.2247}
+{"ts":"2026-08-26T23:03:06.552Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1193,"outTokens":152,"tokens":2841,"tag":"etsy-football-p-hero-wall-judge","eur":0.0084}
+{"ts":"2026-08-26T23:22:44.218Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":614,"outTokens":1917,"tokens":2531,"tag":"etsy-football-p-three-frames","eur":0.2309}
+{"ts":"2026-08-26T23:22:59.604Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1194,"outTokens":166,"tokens":2701,"tag":"etsy-football-p-three-frames-judge","eur":0.0088}
+{"ts":"2026-08-26T23:23:35.405Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":293,"outTokens":2030,"tokens":2323,"tag":"etsy-football-p-room-lead","eur":0.2442}
+{"ts":"2026-08-26T23:23:46.826Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1167,"outTokens":116,"tokens":2024,"tag":"etsy-football-p-room-lead-judge","eur":0.0075}
+{"ts":"2026-08-26T23:25:07.878Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":696,"outTokens":1856,"tokens":2552,"tag":"etsy-football-p-hero-wall","eur":0.2237}
+{"ts":"2026-08-26T23:25:22.083Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1213,"outTokens":317,"tokens":2455,"tag":"etsy-football-p-hero-wall-judge","eur":0.0125}
+{"ts":"2026-08-26T23:59:08.371Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1335,"outTokens":52,"tokens":2013,"tag":"etsy-video-audit","eur":0.0066}
+{"ts":"2026-08-27T00:02:07.781Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1332,"outTokens":44,"tokens":2679,"tag":"etsy-video-audit","eur":0.0064}
+{"ts":"2026-08-27T00:08:15.521Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":698,"outTokens":1909,"tokens":2607,"tag":"etsy-cheerleading-p-hero-wall","eur":0.23}
+{"ts":"2026-08-27T00:08:33.171Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1214,"outTokens":191,"tokens":3105,"tag":"etsy-cheerleading-p-hero-wall-judge","eur":0.0095}
+{"ts":"2026-08-27T00:08:48.022Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":619,"outTokens":1864,"tokens":2483,"tag":"etsy-cheerleading-p-three-frames","eur":0.2246}
+{"ts":"2026-08-27T00:09:04.442Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1195,"outTokens":150,"tokens":2809,"tag":"etsy-cheerleading-p-three-frames-judge","eur":0.0084}
+{"ts":"2026-08-27T00:09:18.218Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":295,"outTokens":2109,"tokens":2404,"tag":"etsy-cheerleading-p-room-lead","eur":0.2537}
+{"ts":"2026-08-27T00:09:28.349Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1168,"outTokens":116,"tokens":2015,"tag":"etsy-cheerleading-p-room-lead-judge","eur":0.0075}
+{"ts":"2026-08-27T00:09:44.572Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":476,"outTokens":2088,"tokens":2564,"tag":"etsy-cheerleading-reject-take","eur":0.2513}
+{"ts":"2026-08-27T00:09:57.625Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1145,"outTokens":92,"tokens":2395,"tag":"etsy-cheerleading-reject-take-judge","eur":0.0068}
+{"ts":"2026-08-27T00:10:12.204Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":663,"outTokens":1871,"tokens":2534,"tag":"etsy-cheerleading-athlete-holds-blank","eur":0.2254}
+{"ts":"2026-08-27T00:10:18.668Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1233,"outTokens":360,"tokens":1593,"tag":"etsy-cheerleading-athlete-holds-blank-judge","eur":0.0136}
+{"ts":"2026-08-27T00:10:32.113Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":300,"outTokens":2102,"tokens":2402,"tag":"etsy-cheerleading-hero-bg-dusk","eur":0.2528}
+{"ts":"2026-08-27T00:10:39.158Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1201,"outTokens":278,"tokens":1726,"tag":"etsy-cheerleading-hero-bg-dusk-judge","eur":0.0115}
+{"ts":"2026-08-27T00:10:52.208Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":310,"outTokens":2016,"tokens":2326,"tag":"etsy-cheerleading-hero-bg-night","eur":0.2425}
+{"ts":"2026-08-27T00:11:02.957Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1206,"outTokens":188,"tokens":2279,"tag":"etsy-cheerleading-hero-bg-night-judge","eur":0.0093}
+{"ts":"2026-08-27T00:11:15.399Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":309,"outTokens":1915,"tokens":2224,"tag":"etsy-cheerleading-athlete-holds-card","eur":0.2304}
+{"ts":"2026-08-27T00:11:21.651Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1212,"outTokens":304,"tokens":1516,"tag":"etsy-cheerleading-athlete-holds-card-judge","eur":0.0122}
+{"ts":"2026-08-27T00:11:36.123Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":307,"outTokens":2007,"tokens":2314,"tag":"etsy-cheerleading-hero-bg","eur":0.2414}
+{"ts":"2026-08-27T00:11:46.976Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1197,"outTokens":175,"tokens":2205,"tag":"etsy-cheerleading-hero-bg-judge","eur":0.009}
+{"ts":"2026-08-27T00:12:01.134Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":344,"outTokens":2203,"tokens":2547,"tag":"etsy-cheerleading-card-in-hand","eur":0.265}
+{"ts":"2026-08-27T00:12:15.012Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1183,"outTokens":155,"tokens":2380,"tag":"etsy-cheerleading-card-in-hand-judge","eur":0.0085}
+{"ts":"2026-08-27T00:12:27.786Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":244,"outTokens":2013,"tokens":2257,"tag":"etsy-cheerleading-bad-blurred","eur":0.2421}
+{"ts":"2026-08-27T00:12:37.319Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1164,"outTokens":199,"tokens":1867,"tag":"etsy-cheerleading-bad-blurred-judge","eur":0.0094}
+{"ts":"2026-08-27T00:12:50.164Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":197,"outTokens":1950,"tokens":2147,"tag":"etsy-cheerleading-bad-too-far","eur":0.2345}
+{"ts":"2026-08-27T00:13:03.803Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1163,"outTokens":122,"tokens":2369,"tag":"etsy-cheerleading-bad-too-far-judge","eur":0.0076}
+{"ts":"2026-08-27T00:13:18.070Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":266,"outTokens":1969,"tokens":2235,"tag":"etsy-cheerleading-bad-group","eur":0.2368}
+{"ts":"2026-08-27T00:13:28.862Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1161,"outTokens":93,"tokens":2025,"tag":"etsy-cheerleading-bad-group-judge","eur":0.0069}
+{"ts":"2026-08-27T00:13:42.613Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":235,"outTokens":2076,"tokens":2311,"tag":"etsy-cheerleading-bad-face-covered","eur":0.2496}
+{"ts":"2026-08-27T00:13:52.485Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1161,"outTokens":108,"tokens":1931,"tag":"etsy-cheerleading-bad-face-covered-judge","eur":0.0072}
+{"ts":"2026-08-27T14:01:55.784Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":135,"outTokens":1526,"tokens":1661,"tag":"gemini-3.1-flash-image","eur":0.1835}
+{"ts":"2026-08-27T14:02:05.972Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":122,"outTokens":1557,"tokens":1679,"tag":"gemini-3.1-flash-image","eur":0.1872}
+{"ts":"2026-08-27T14:12:54.838Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":123,"outTokens":1586,"tokens":1709,"tag":"gemini-3.1-flash-image","eur":0.1907}
+{"ts":"2026-08-27T14:13:05.280Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":100,"outTokens":1558,"tokens":1658,"tag":"gemini-3.1-flash-image","eur":0.1873}
+{"ts":"2026-08-27T14:13:16.020Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":105,"outTokens":1571,"tokens":1676,"tag":"gemini-3.1-flash-image","eur":0.1888}
+{"ts":"2026-08-27T15:42:29.325Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":676,"outTokens":2014,"tokens":2690,"tag":"etsy-football-p-three-frames","eur":0.2426}
+{"ts":"2026-08-27T15:42:52.572Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1228,"outTokens":203,"tokens":3180,"tag":"etsy-football-p-three-frames-judge","eur":0.0098}
+{"ts":"2026-08-27T15:58:32.260Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":719,"outTokens":1876,"tokens":2595,"tag":"etsy-football-athlete-holds-blank","eur":0.2261}
+{"ts":"2026-08-27T15:58:59.973Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1264,"outTokens":149,"tokens":3256,"tag":"etsy-football-athlete-holds-blank-judge","eur":0.0086}
+{"ts":"2026-08-27T16:00:24.041Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":782,"outTokens":1933,"tokens":2715,"tag":"etsy-football-athlete-holds-blank","eur":0.233}
+{"ts":"2026-08-27T16:00:44.587Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1264,"outTokens":260,"tokens":2819,"tag":"etsy-football-athlete-holds-blank-judge","eur":0.0113}
+{"ts":"2026-08-27T16:01:46.309Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":784,"outTokens":1825,"tokens":2609,"tag":"etsy-cheerleading-athlete-holds-blank","eur":0.22}
+{"ts":"2026-08-27T16:02:10.126Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1264,"outTokens":264,"tokens":3128,"tag":"etsy-cheerleading-athlete-holds-blank-judge","eur":0.0114}
+{"ts":"2026-08-27T16:03:15.990Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":877,"outTokens":1867,"tokens":2744,"tag":"etsy-cheerleading-athlete-holds-blank","eur":0.2252}
+{"ts":"2026-08-27T16:03:47.799Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1264,"outTokens":246,"tokens":3022,"tag":"etsy-cheerleading-athlete-holds-blank-judge","eur":0.011}
+{"ts":"2026-08-27T16:24:11.666Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":937,"outTokens":1920,"tokens":2857,"tag":"etsy-football-athlete-holds-blank","eur":0.2316}
+{"ts":"2026-08-27T16:24:37.554Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1264,"outTokens":249,"tokens":3348,"tag":"etsy-football-athlete-holds-blank-judge","eur":0.011}
+{"ts":"2026-08-27T16:25:55.135Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":937,"outTokens":1886,"tokens":2823,"tag":"etsy-football-athlete-holds-blank","eur":0.2275}
+{"ts":"2026-08-27T16:26:18.709Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1264,"outTokens":147,"tokens":3179,"tag":"etsy-football-athlete-holds-blank-judge","eur":0.0086}
+{"ts":"2026-08-27T16:27:15.167Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":985,"outTokens":1813,"tokens":2798,"tag":"etsy-football-athlete-holds-blank","eur":0.2188}
+{"ts":"2026-08-27T16:27:43.767Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1273,"outTokens":261,"tokens":3749,"tag":"etsy-football-athlete-holds-blank-judge","eur":0.0114}
+{"ts":"2026-08-27T16:29:43.601Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":955,"outTokens":1858,"tokens":2813,"tag":"etsy-cheerleading-athlete-holds-blank","eur":0.2242}
+{"ts":"2026-08-27T16:30:03.745Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1273,"outTokens":155,"tokens":2781,"tag":"etsy-cheerleading-athlete-holds-blank-judge","eur":0.0088}
+{"ts":"2026-08-27T16:42:12.724Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":588,"outTokens":2071,"tokens":2659,"tag":"etsy-cheerleading-reject-take","eur":0.2494}
+{"ts":"2026-08-27T16:42:36.454Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1200,"outTokens":341,"tokens":3290,"tag":"etsy-cheerleading-reject-take-judge","eur":0.013}
+{"ts":"2026-08-27T16:42:54.454Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":588,"outTokens":2097,"tokens":2685,"tag":"etsy-cheerleading-reject-take","eur":0.2525}
+{"ts":"2026-08-27T16:43:13.375Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1200,"outTokens":196,"tokens":2675,"tag":"etsy-cheerleading-reject-take-judge","eur":0.0095}
+{"ts":"2026-08-27T16:43:31.988Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":588,"outTokens":2135,"tokens":2723,"tag":"etsy-cheerleading-reject-take","eur":0.2571}
+{"ts":"2026-08-27T16:43:49.193Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1200,"outTokens":196,"tokens":2592,"tag":"etsy-cheerleading-reject-take-judge","eur":0.0095}
+{"ts":"2026-08-27T16:46:00.505Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":621,"outTokens":2156,"tokens":2777,"tag":"etsy-football-reject-take","eur":0.2596}
+{"ts":"2026-08-27T16:46:17.479Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1237,"outTokens":152,"tokens":2587,"tag":"etsy-football-reject-take-judge","eur":0.0086}
+{"ts":"2026-08-27T16:46:37.347Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":621,"outTokens":2200,"tokens":2821,"tag":"etsy-football-reject-take","eur":0.2649}
+{"ts":"2026-08-27T16:46:54.146Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1237,"outTokens":150,"tokens":2606,"tag":"etsy-football-reject-take-judge","eur":0.0086}
+{"ts":"2026-08-27T16:47:13.013Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":621,"outTokens":2064,"tokens":2685,"tag":"etsy-football-reject-take","eur":0.2486}
+{"ts":"2026-08-27T16:47:29.328Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1237,"outTokens":152,"tokens":2613,"tag":"etsy-football-reject-take-judge","eur":0.0086}
+{"ts":"2026-08-27T16:48:20.587Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":622,"outTokens":2109,"tokens":2731,"tag":"etsy-football-reject-take","eur":0.254}
+{"ts":"2026-08-27T16:48:37.788Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1217,"outTokens":222,"tokens":2548,"tag":"etsy-football-reject-take-judge","eur":0.0102}
+{"ts":"2026-08-27T16:48:57.416Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":622,"outTokens":2154,"tokens":2776,"tag":"etsy-football-reject-take","eur":0.2594}
+{"ts":"2026-08-27T16:49:13.577Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1217,"outTokens":213,"tokens":2454,"tag":"etsy-football-reject-take-judge","eur":0.01}
+{"ts":"2026-08-27T16:54:25.513Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1075,"outTokens":1921,"tokens":2996,"tag":"etsy-football-athlete-holds-blank","eur":0.2319}
+{"ts":"2026-08-27T16:54:44.036Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1273,"outTokens":133,"tokens":2799,"tag":"etsy-football-athlete-holds-blank-judge","eur":0.0083}
+{"ts":"2026-08-27T16:55:01.491Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1026,"outTokens":1885,"tokens":2911,"tag":"etsy-cheerleading-athlete-holds-blank","eur":0.2275}
+{"ts":"2026-08-27T16:55:17.951Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1273,"outTokens":280,"tokens":2664,"tag":"etsy-cheerleading-athlete-holds-blank-judge","eur":0.0118}
+{"ts":"2026-08-27T16:57:56.965Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1115,"outTokens":1932,"tokens":3047,"tag":"etsy-football-athlete-holds-blank","eur":0.2332}
+{"ts":"2026-08-27T16:58:19.063Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1273,"outTokens":264,"tokens":3067,"tag":"etsy-football-athlete-holds-blank-judge","eur":0.0114}
+{"ts":"2026-08-27T17:01:29.366Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1069,"outTokens":1986,"tokens":3055,"tag":"etsy-cheerleading-athlete-holds-blank","eur":0.2397}
+{"ts":"2026-08-27T17:01:47.994Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1273,"outTokens":179,"tokens":2670,"tag":"etsy-cheerleading-athlete-holds-blank-judge","eur":0.0094}
+{"ts":"2026-08-27T17:28:28.039Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":620,"outTokens":1917,"tokens":2537,"tag":"etsy-cheerleading-p-three-frames","eur":0.2309}
+{"ts":"2026-08-27T17:28:49.799Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1197,"outTokens":153,"tokens":2909,"tag":"etsy-cheerleading-p-three-frames-judge","eur":0.0085}
+{"ts":"2026-08-27T17:48:08.434Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":687,"outTokens":1914,"tokens":2601,"tag":"etsy-football-p-three-frames","eur":0.2306}
+{"ts":"2026-08-27T17:48:30.794Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1196,"outTokens":137,"tokens":3029,"tag":"etsy-football-p-three-frames-judge","eur":0.0081}
+{"ts":"2026-08-27T17:48:48.801Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":640,"outTokens":1917,"tokens":2557,"tag":"etsy-cheerleading-p-three-frames","eur":0.2309}
+{"ts":"2026-08-27T17:49:08.912Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1197,"outTokens":153,"tokens":2869,"tag":"etsy-cheerleading-p-three-frames-judge","eur":0.0085}
+{"ts":"2026-08-27T18:55:49.312Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":717,"outTokens":1906,"tokens":2623,"tag":"etsy-cheerleading-p-three-frames","eur":0.2297}
+{"ts":"2026-08-27T18:56:09.604Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1236,"outTokens":355,"tokens":2782,"tag":"etsy-cheerleading-p-three-frames-judge","eur":0.0135}
+{"ts":"2026-08-27T18:57:24.224Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":798,"outTokens":1927,"tokens":2725,"tag":"etsy-cheerleading-p-three-frames","eur":0.2323}
+{"ts":"2026-08-27T18:57:45.209Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1236,"outTokens":222,"tokens":3041,"tag":"etsy-cheerleading-p-three-frames-judge","eur":0.0103}
+{"ts":"2026-08-27T19:01:38.893Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":847,"outTokens":1946,"tokens":2793,"tag":"etsy-cheerleading-p-three-frames","eur":0.2346}
+{"ts":"2026-08-27T19:01:46.752Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1260,"outTokens":397,"tokens":1657,"tag":"etsy-cheerleading-p-three-frames-judge","eur":0.0146}
+{"ts":"2026-08-27T19:40:19.616Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":720,"outTokens":1268,"tokens":2146,"tag":"gemini-3-pro-image","eur":0.3076}
+{"ts":"2026-08-27T21:34:42.762Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1478,"outTokens":1667,"tokens":3145,"tag":"gemini-3.1-flash-image","eur":0.2018}
+{"ts":"2026-08-27T21:34:43.258Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1392,"outTokens":1696,"tokens":3088,"tag":"gemini-3.1-flash-image","eur":0.2052}
+{"ts":"2026-08-27T21:34:44.717Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1256,"outTokens":1735,"tokens":2991,"tag":"gemini-3.1-flash-image","eur":0.2097}
+{"ts":"2026-08-27T21:34:52.390Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1218,"outTokens":1650,"tokens":2868,"tag":"gemini-3.1-flash-image","eur":0.1995}
+{"ts":"2026-08-27T21:36:22.353Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1471,"outTokens":1632,"tokens":3103,"tag":"gemini-3.1-flash-image","eur":0.1975}
+{"ts":"2026-08-27T21:36:24.126Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1557,"outTokens":1587,"tokens":3144,"tag":"gemini-3.1-flash-image","eur":0.1922}
+{"ts":"2026-08-27T21:36:27.401Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1335,"outTokens":1959,"tokens":3294,"tag":"gemini-3.1-flash-image","eur":0.2367}
+{"ts":"2026-08-27T21:37:22.765Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1557,"outTokens":1615,"tokens":3172,"tag":"gemini-3.1-flash-image","eur":0.1956}
+{"ts":"2026-08-27T21:37:22.842Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1335,"outTokens":1615,"tokens":2950,"tag":"gemini-3.1-flash-image","eur":0.1954}
+{"ts":"2026-08-28T07:40:28.684Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1152,"outTokens":1978,"tokens":3130,"tag":"etsy-football-athlete-holds-blank","eur":0.2388}
+{"ts":"2026-08-28T07:40:46.955Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1278,"outTokens":142,"tokens":2677,"tag":"etsy-football-athlete-holds-blank-judge","eur":0.0085}
+{"ts":"2026-08-28T07:42:11.444Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":213,"outTokens":1310,"tokens":1770,"tag":"etsy-cheer-room","eur":0.3156}
+{"ts":"2026-08-28T08:00:23.849Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":772,"outTokens":1931,"tokens":2703,"tag":"etsy-baseball-p-hero-wall","eur":0.2328}
+{"ts":"2026-08-28T08:00:44.687Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1261,"outTokens":249,"tokens":2931,"tag":"etsy-baseball-p-hero-wall-judge","eur":0.011}
+{"ts":"2026-08-28T08:01:41.113Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1261,"outTokens":248,"tokens":2974,"tag":"etsy-baseball-p-hero-wall-judge","eur":0.011}
+{"ts":"2026-08-28T08:02:01.632Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":836,"outTokens":1915,"tokens":2751,"tag":"etsy-baseball-p-three-frames","eur":0.2309}
+{"ts":"2026-08-28T08:02:29.103Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1259,"outTokens":263,"tokens":3567,"tag":"etsy-baseball-p-three-frames-judge","eur":0.0114}
+{"ts":"2026-08-28T08:02:44.505Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":292,"outTokens":2083,"tokens":2375,"tag":"etsy-baseball-p-room-lead","eur":0.2505}
+{"ts":"2026-08-28T08:02:55.906Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1167,"outTokens":119,"tokens":2006,"tag":"etsy-baseball-p-room-lead-judge","eur":0.0075}
+{"ts":"2026-08-28T08:03:13.938Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":614,"outTokens":2104,"tokens":2718,"tag":"etsy-baseball-reject-take","eur":0.2534}
+{"ts":"2026-08-28T08:03:29.926Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1199,"outTokens":192,"tokens":2416,"tag":"etsy-baseball-reject-take-judge","eur":0.0094}
+{"ts":"2026-08-28T08:03:47.283Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1112,"outTokens":1923,"tokens":3035,"tag":"etsy-baseball-athlete-holds-blank","eur":0.2321}
+{"ts":"2026-08-28T08:04:30.638Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1278,"outTokens":134,"tokens":3302,"tag":"etsy-baseball-athlete-holds-blank-judge","eur":0.0083}
+{"ts":"2026-08-28T08:04:45.853Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":580,"outTokens":2109,"tokens":2689,"tag":"etsy-baseball-hero-bg","eur":0.254}
+{"ts":"2026-08-28T08:05:02.386Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1194,"outTokens":203,"tokens":2262,"tag":"etsy-baseball-hero-bg-judge","eur":0.0097}
+{"ts":"2026-08-28T08:05:18.999Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":241,"outTokens":2041,"tokens":2282,"tag":"etsy-baseball-bad-blurred","eur":0.2454}
+{"ts":"2026-08-28T08:05:25.884Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1164,"outTokens":201,"tokens":1365,"tag":"etsy-baseball-bad-blurred-judge","eur":0.0095}
+{"ts":"2026-08-28T08:05:42.439Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":194,"outTokens":2044,"tokens":2238,"tag":"etsy-baseball-bad-too-far","eur":0.2458}
+{"ts":"2026-08-28T08:05:56.896Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1160,"outTokens":110,"tokens":2200,"tag":"etsy-baseball-bad-too-far-judge","eur":0.0073}
+{"ts":"2026-08-28T08:06:12.046Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":263,"outTokens":1977,"tokens":2240,"tag":"etsy-baseball-bad-group","eur":0.2378}
+{"ts":"2026-08-28T08:06:27.880Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1161,"outTokens":114,"tokens":2372,"tag":"etsy-baseball-bad-group-judge","eur":0.0074}
+{"ts":"2026-08-28T08:06:42.645Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":234,"outTokens":2022,"tokens":2256,"tag":"etsy-baseball-bad-face-covered","eur":0.2432}
+{"ts":"2026-08-28T08:06:55.503Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1161,"outTokens":119,"tokens":1972,"tag":"etsy-baseball-bad-face-covered-judge","eur":0.0075}
+{"ts":"2026-08-28T08:07:29.840Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":774,"outTokens":1888,"tokens":2662,"tag":"etsy-soccer-p-hero-wall","eur":0.2276}
+{"ts":"2026-08-28T08:07:51.659Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1261,"outTokens":242,"tokens":3074,"tag":"etsy-soccer-p-hero-wall-judge","eur":0.0109}
+{"ts":"2026-08-28T08:08:09.222Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":847,"outTokens":2006,"tokens":2853,"tag":"etsy-soccer-p-three-frames","eur":0.2418}
+{"ts":"2026-08-28T08:08:34.380Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1259,"outTokens":268,"tokens":3373,"tag":"etsy-soccer-p-three-frames-judge","eur":0.0115}
+{"ts":"2026-08-28T08:08:35.619Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":895,"outTokens":1904,"tokens":2799,"tag":"etsy-baseball-p-three-frames","eur":0.2296}
+{"ts":"2026-08-28T08:08:52.769Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":294,"outTokens":2140,"tokens":2434,"tag":"etsy-soccer-p-room-lead","eur":0.2574}
+{"ts":"2026-08-28T08:09:01.476Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1298,"outTokens":287,"tokens":3394,"tag":"etsy-baseball-p-three-frames-judge","eur":0.0121}
+{"ts":"2026-08-28T08:09:05.623Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1167,"outTokens":117,"tokens":2056,"tag":"etsy-soccer-p-room-lead-judge","eur":0.0075}
+{"ts":"2026-08-28T08:09:23.354Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":638,"outTokens":2087,"tokens":2725,"tag":"etsy-soccer-reject-take","eur":0.2514}
+{"ts":"2026-08-28T08:09:40.455Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1199,"outTokens":193,"tokens":2646,"tag":"etsy-soccer-reject-take-judge","eur":0.0094}
+{"ts":"2026-08-28T08:09:53.700Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1111,"outTokens":1868,"tokens":2979,"tag":"etsy-soccer-athlete-holds-blank","eur":0.2255}
+{"ts":"2026-08-28T08:10:10.785Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1278,"outTokens":253,"tokens":2677,"tag":"etsy-soccer-athlete-holds-blank-judge","eur":0.0112}
+{"ts":"2026-08-28T08:10:26.113Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":284,"outTokens":2018,"tokens":2302,"tag":"etsy-soccer-hero-bg","eur":0.2427}
+{"ts":"2026-08-28T08:10:40.630Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1194,"outTokens":186,"tokens":2243,"tag":"etsy-soccer-hero-bg-judge","eur":0.0093}
+{"ts":"2026-08-28T08:10:54.569Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":241,"outTokens":1929,"tokens":2170,"tag":"etsy-soccer-bad-blurred","eur":0.232}
+{"ts":"2026-08-28T08:10:58.563Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":775,"outTokens":1917,"tokens":2692,"tag":"etsy-volleyball-p-hero-wall","eur":0.2311}
+{"ts":"2026-08-28T08:11:01.144Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1164,"outTokens":195,"tokens":1359,"tag":"etsy-soccer-bad-blurred-judge","eur":0.0093}
+{"ts":"2026-08-28T08:11:16.511Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":194,"outTokens":2061,"tokens":2255,"tag":"etsy-soccer-bad-too-far","eur":0.2478}
+{"ts":"2026-08-28T08:11:17.191Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1261,"outTokens":260,"tokens":2750,"tag":"etsy-volleyball-p-hero-wall-judge","eur":0.0113}
+{"ts":"2026-08-28T08:11:30.320Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1160,"outTokens":112,"tokens":2020,"tag":"etsy-soccer-bad-too-far-judge","eur":0.0073}
+{"ts":"2026-08-28T08:11:35.149Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":898,"outTokens":1988,"tokens":2886,"tag":"etsy-volleyball-p-three-frames","eur":0.2397}
+{"ts":"2026-08-28T08:11:45.420Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":263,"outTokens":2033,"tokens":2296,"tag":"etsy-soccer-bad-group","eur":0.2445}
+{"ts":"2026-08-28T08:11:55.281Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1298,"outTokens":324,"tokens":2821,"tag":"etsy-volleyball-p-three-frames-judge","eur":0.013}
+{"ts":"2026-08-28T08:11:58.134Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1161,"outTokens":106,"tokens":1904,"tag":"etsy-soccer-bad-group-judge","eur":0.0072}
+{"ts":"2026-08-28T08:12:13.355Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":234,"outTokens":2065,"tokens":2299,"tag":"etsy-soccer-bad-face-covered","eur":0.2483}
+{"ts":"2026-08-28T08:12:15.419Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":295,"outTokens":2117,"tokens":2412,"tag":"etsy-volleyball-p-room-lead","eur":0.2546}
+{"ts":"2026-08-28T08:12:28.538Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1161,"outTokens":114,"tokens":2227,"tag":"etsy-soccer-bad-face-covered-judge","eur":0.0074}
+{"ts":"2026-08-28T08:12:29.872Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1167,"outTokens":102,"tokens":2160,"tag":"etsy-volleyball-p-room-lead-judge","eur":0.0071}
+{"ts":"2026-08-28T08:12:51.544Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":601,"outTokens":2168,"tokens":2769,"tag":"etsy-volleyball-reject-take","eur":0.2611}
+{"ts":"2026-08-28T08:13:10.155Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1191,"outTokens":167,"tokens":2629,"tag":"etsy-volleyball-reject-take-judge","eur":0.0088}
+{"ts":"2026-08-28T08:13:30.643Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1065,"outTokens":2102,"tokens":3167,"tag":"etsy-volleyball-athlete-holds-blank","eur":0.2536}
+{"ts":"2026-08-28T08:13:49.729Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1278,"outTokens":288,"tokens":2723,"tag":"etsy-volleyball-athlete-holds-blank-judge","eur":0.012}
+{"ts":"2026-08-28T08:14:03.777Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":285,"outTokens":2078,"tokens":2363,"tag":"etsy-volleyball-hero-bg","eur":0.2499}
+{"ts":"2026-08-28T08:14:20.526Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1195,"outTokens":163,"tokens":2337,"tag":"etsy-volleyball-hero-bg-judge","eur":0.0087}
+{"ts":"2026-08-28T08:14:23.078Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":971,"outTokens":1947,"tokens":2918,"tag":"etsy-soccer-p-three-frames","eur":0.2349}
+{"ts":"2026-08-28T08:14:35.355Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":242,"outTokens":2032,"tokens":2274,"tag":"etsy-volleyball-bad-blurred","eur":0.2444}
+{"ts":"2026-08-28T08:14:41.405Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1336,"outTokens":216,"tokens":2753,"tag":"etsy-soccer-p-three-frames-judge","eur":0.0105}
+{"ts":"2026-08-28T08:14:49.228Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1164,"outTokens":196,"tokens":2037,"tag":"etsy-volleyball-bad-blurred-judge","eur":0.0094}
+{"ts":"2026-08-28T08:15:04.525Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":195,"outTokens":1965,"tokens":2160,"tag":"etsy-volleyball-bad-too-far","eur":0.2363}
+{"ts":"2026-08-28T08:15:16.212Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1161,"outTokens":107,"tokens":1988,"tag":"etsy-volleyball-bad-too-far-judge","eur":0.0072}
+{"ts":"2026-08-28T08:15:31.655Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":264,"outTokens":2017,"tokens":2281,"tag":"etsy-volleyball-bad-group","eur":0.2426}
+{"ts":"2026-08-28T08:15:49.083Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1161,"outTokens":107,"tokens":2496,"tag":"etsy-volleyball-bad-group-judge","eur":0.0072}
+{"ts":"2026-08-28T08:16:04.358Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":234,"outTokens":2124,"tokens":2358,"tag":"etsy-volleyball-bad-face-covered","eur":0.2554}
+{"ts":"2026-08-28T08:16:19.512Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1161,"outTokens":104,"tokens":2199,"tag":"etsy-volleyball-bad-face-covered-judge","eur":0.0071}
+{"ts":"2026-08-28T08:17:06.093Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":285,"outTokens":2140,"tokens":2425,"tag":"etsy-volleyball-hero-bg","eur":0.2574}
+{"ts":"2026-08-28T08:17:19.726Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1195,"outTokens":162,"tokens":2185,"tag":"etsy-volleyball-hero-bg-judge","eur":0.0087}
+{"ts":"2026-08-28T16:40:47.905Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":566,"outTokens":2299,"tokens":2865,"tag":"senior-night/scene-3friends","eur":0.2768}
+{"ts":"2026-08-28T16:43:55.562Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":566,"outTokens":2182,"tokens":2748,"tag":"senior-night/scene-3friends","eur":0.2627}
+{"ts":"2026-08-28T16:46:33.845Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1712,"outTokens":2084,"tokens":3796,"tag":"senior-night/scene-seniors","eur":0.2521}
+{"ts":"2026-08-28T17:17:50.378Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":441,"outTokens":1264,"tokens":1705,"tag":"senior-night/good-profile","eur":0.1523}
+{"ts":"2026-08-28T17:17:59.797Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":438,"outTokens":1298,"tokens":1736,"tag":"senior-night/good-side","eur":0.1564}
+{"ts":"2026-08-28T17:18:09.187Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":450,"outTokens":1334,"tokens":1784,"tag":"senior-night/good-inkit","eur":0.1607}
+{"ts":"2026-08-28T17:18:17.093Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":424,"outTokens":1304,"tokens":1728,"tag":"senior-night/good-halfbody","eur":0.1571}
+{"ts":"2026-08-28T18:35:53.436Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":730,"outTokens":2000,"tokens":2730,"tag":"senior-night/gift","eur":0.241}
+{"ts":"2026-08-28T19:29:09.204Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":384,"outTokens":2105,"tokens":2489,"tag":"senior-night/poster-on-wall","eur":0.2533}
+{"ts":"2026-08-28T19:29:22.296Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":341,"outTokens":1968,"tokens":2309,"tag":"senior-night/card-on-desk","eur":0.2368}
+{"ts":"2026-08-28T19:29:35.301Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":352,"outTokens":2070,"tokens":2422,"tag":"senior-night/card-in-binder","eur":0.249}
+{"ts":"2026-08-28T19:29:49.161Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":361,"outTokens":2052,"tokens":2413,"tag":"senior-night/card-in-case","eur":0.2469}
+{"ts":"2026-08-28T19:32:10.490Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":438,"outTokens":2048,"tokens":2486,"tag":"senior-night/card-on-desk","eur":0.2465}
+{"ts":"2026-08-28T21:12:33.407Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":361,"outTokens":1998,"tokens":2359,"tag":"senior-night/phone-in-hand","eur":0.2404}
+{"ts":"2026-08-28T21:12:47.073Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":340,"outTokens":2098,"tokens":2438,"tag":"senior-night/desk-monitor","eur":0.2524}
+{"ts":"2026-09-01T12:45:41.871Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1160,"outTokens":1967,"tokens":3127,"tag":"etsy-baseball-athlete-holds-blank","eur":0.2375}
+{"ts":"2026-09-01T12:46:03.602Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1278,"outTokens":265,"tokens":3166,"tag":"etsy-baseball-athlete-holds-blank-judge","eur":0.0115}
+{"ts":"2026-09-01T12:46:29.502Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1160,"outTokens":1877,"tokens":3037,"tag":"etsy-baseball-athlete-holds-blank","eur":0.2267}
+{"ts":"2026-09-01T12:46:47.115Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1278,"outTokens":174,"tokens":2719,"tag":"etsy-baseball-athlete-holds-blank-judge","eur":0.0093}
+{"ts":"2026-09-01T12:49:24.626Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1113,"outTokens":2004,"tokens":3117,"tag":"etsy-volleyball-athlete-holds-blank","eur":0.2419}
+{"ts":"2026-09-01T12:49:43.707Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1278,"outTokens":152,"tokens":2494,"tag":"etsy-volleyball-athlete-holds-blank-judge","eur":0.0088}
+{"ts":"2026-09-01T12:50:28.783Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1116,"outTokens":4029,"tokens":5145,"tag":"etsy-cheerleading-athlete-holds-blank","eur":0.4852}
+{"ts":"2026-09-01T12:50:52.757Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1278,"outTokens":146,"tokens":3140,"tag":"etsy-cheerleading-athlete-holds-blank-judge","eur":0.0086}
+{"ts":"2026-09-01T12:54:23.381Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1116,"outTokens":1930,"tokens":3046,"tag":"etsy-cheerleading-athlete-holds-blank","eur":0.233}
+{"ts":"2026-09-01T12:56:40.042Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1278,"outTokens":304,"tokens":3160,"tag":"etsy-cheerleading-athlete-holds-blank-judge","eur":0.0124}
+{"ts":"2026-09-01T12:58:01.062Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1163,"outTokens":1903,"tokens":3066,"tag":"etsy-cheerleading-athlete-holds-blank","eur":0.2298}
+{"ts":"2026-09-01T12:59:37.940Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1278,"outTokens":135,"tokens":2768,"tag":"etsy-cheerleading-athlete-holds-blank-judge","eur":0.0084}
+{"ts":"2026-09-01T17:26:39.293Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1241,"outTokens":1969,"tokens":3210,"tag":"etsy-baseball-athlete-holds-blank","eur":0.2378}
+{"ts":"2026-09-01T17:26:59.564Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1278,"outTokens":133,"tokens":2900,"tag":"etsy-baseball-athlete-holds-blank-judge","eur":0.0083}
+{"ts":"2026-09-01T17:27:32.182Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1194,"outTokens":2015,"tokens":3209,"tag":"etsy-volleyball-athlete-holds-blank","eur":0.2433}
+{"ts":"2026-09-01T17:28:02.469Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1278,"outTokens":162,"tokens":3138,"tag":"etsy-volleyball-athlete-holds-blank-judge","eur":0.009}
+{"ts":"2026-09-01T17:28:20.483Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1197,"outTokens":1880,"tokens":3077,"tag":"etsy-cheerleading-athlete-holds-blank","eur":0.2271}
+{"ts":"2026-09-01T17:28:38.417Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1278,"outTokens":148,"tokens":2599,"tag":"etsy-cheerleading-athlete-holds-blank-judge","eur":0.0087}
+{"ts":"2026-09-01T17:29:07.831Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1194,"outTokens":2031,"tokens":3225,"tag":"etsy-volleyball-athlete-holds-blank","eur":0.2452}
+{"ts":"2026-09-01T17:29:24.629Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1278,"outTokens":175,"tokens":2503,"tag":"etsy-volleyball-athlete-holds-blank-judge","eur":0.0093}
+{"ts":"2026-09-01T17:29:50.590Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1194,"outTokens":2023,"tokens":3217,"tag":"etsy-volleyball-athlete-holds-blank","eur":0.2442}
+{"ts":"2026-09-01T17:30:12.655Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1278,"outTokens":196,"tokens":2943,"tag":"etsy-volleyball-athlete-holds-blank-judge","eur":0.0098}
+{"ts":"2026-09-01T17:30:50.093Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1246,"outTokens":2019,"tokens":3265,"tag":"etsy-volleyball-athlete-holds-blank","eur":0.2438}
+{"ts":"2026-09-01T17:31:14.714Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1278,"outTokens":182,"tokens":2588,"tag":"etsy-volleyball-athlete-holds-blank-judge","eur":0.0095}
+{"ts":"2026-09-01T18:04:13.469Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1271,"outTokens":148,"tokens":2851,"tag":"etsy-volleyball-athlete-holds-blank-judge","eur":0.0086}
+{"ts":"2026-09-01T18:04:37.745Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1044,"outTokens":1852,"tokens":2896,"tag":"etsy-volleyball-athlete-holds-blank","eur":0.2235}
+{"ts":"2026-09-01T18:04:55.389Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1271,"outTokens":248,"tokens":2706,"tag":"etsy-volleyball-athlete-holds-blank-judge","eur":0.011}
+{"ts":"2026-09-01T18:05:31.167Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1044,"outTokens":2073,"tokens":3117,"tag":"etsy-volleyball-athlete-holds-blank","eur":0.2501}
+{"ts":"2026-09-01T18:05:38.913Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1271,"outTokens":375,"tokens":1646,"tag":"etsy-volleyball-athlete-holds-blank-judge","eur":0.0141}
+{"ts":"2026-09-01T18:06:01.440Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1044,"outTokens":1974,"tokens":3018,"tag":"etsy-volleyball-athlete-holds-blank","eur":0.2382}
+{"ts":"2026-09-01T18:06:15.964Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1271,"outTokens":386,"tokens":1657,"tag":"etsy-volleyball-athlete-holds-blank-judge","eur":0.0144}
+{"ts":"2026-09-01T18:06:36.224Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1044,"outTokens":1894,"tokens":2938,"tag":"etsy-volleyball-athlete-holds-blank","eur":0.2286}
+{"ts":"2026-09-01T18:06:56.312Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1271,"outTokens":161,"tokens":2938,"tag":"etsy-volleyball-athlete-holds-blank-judge","eur":0.009}
+{"ts":"2026-09-01T18:08:22.565Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1326,"outTokens":5862,"tokens":7188,"tag":"etsy-volleyball-athlete-holds-blank","eur":0.7056}
+{"ts":"2026-09-01T18:08:44.461Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1271,"outTokens":248,"tokens":3143,"tag":"etsy-volleyball-athlete-holds-blank-judge","eur":0.011}
+{"ts":"2026-09-01T20:06:26.645Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1356,"outTokens":1984,"tokens":3340,"tag":"etsy-basketball-athlete-holds-blank","eur":0.2397}
+{"ts":"2026-09-01T20:06:50.851Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1271,"outTokens":253,"tokens":3276,"tag":"etsy-basketball-athlete-holds-blank-judge","eur":0.0112}
+{"ts":"2026-09-01T21:37:37.592Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":113,"outTokens":1552,"tokens":1665,"tag":"pkg:pkg-digital","eur":0.1866}
+{"ts":"2026-09-01T21:37:46.438Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":197,"outTokens":1535,"tokens":1732,"tag":"pkg:pkg-12","eur":0.1846}
+{"ts":"2026-09-01T21:37:54.965Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":186,"outTokens":1537,"tokens":1723,"tag":"pkg:pkg-24","eur":0.1848}
+{"ts":"2026-09-01T21:38:04.083Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":241,"outTokens":1592,"tokens":1833,"tag":"pkg:pkg-pack","eur":0.1915}
+{"ts":"2026-09-01T21:40:15.101Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":287,"outTokens":1522,"tokens":1809,"tag":"pkg:pkg-pack","eur":0.1831}
+{"ts":"2026-09-01T22:01:24.263Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":186,"outTokens":1528,"tokens":1714,"tag":"pkg:pkg-digital","eur":0.1838}
+{"ts":"2026-09-01T22:01:33.515Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":237,"outTokens":1531,"tokens":1768,"tag":"pkg:pkg-12","eur":0.1842}
+{"ts":"2026-09-01T22:01:42.935Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":226,"outTokens":1593,"tokens":1819,"tag":"pkg:pkg-24","eur":0.1916}
+{"ts":"2026-09-01T22:04:59.663Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":249,"outTokens":1515,"tokens":1764,"tag":"pkg:pkg-24","eur":0.1823}
+{"ts":"2026-09-01T22:07:04.151Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":63,"outTokens":1477,"tokens":1540,"tag":"pkg:pkg-table","eur":0.1775}
+{"ts":"2026-09-01T22:12:39.711Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":204,"outTokens":1492,"tokens":1696,"tag":"pkg:pkg-digital","eur":0.1795}
+{"ts":"2026-09-01T22:31:33.827Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":263,"outTokens":1578,"tokens":1841,"tag":"pkg:pkg-12","eur":0.1898}
+{"ts":"2026-09-01T22:45:38.595Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":195,"outTokens":1438,"tokens":1633,"tag":"pkg:pkg-digital","eur":0.173}
+{"ts":"2026-09-01T22:45:46.753Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":248,"outTokens":1505,"tokens":1753,"tag":"pkg:pkg-12","eur":0.1811}
+{"ts":"2026-09-01T22:45:56.273Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":242,"outTokens":1543,"tokens":1785,"tag":"pkg:pkg-24","eur":0.1856}
+{"ts":"2026-09-01T22:46:07.005Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":342,"outTokens":1472,"tokens":1814,"tag":"pkg:pkg-pack","eur":0.1772}
+{"ts":"2026-09-01T22:54:41.314Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":206,"outTokens":1549,"tokens":1755,"tag":"pkg:pkg-digital","eur":0.1863}
+{"ts":"2026-09-01T22:55:54.958Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":652,"outTokens":1547,"tokens":2199,"tag":"pkg:pkg-pack-real","eur":0.1865}
+{"ts":"2026-09-01T22:57:06.363Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":924,"outTokens":1546,"tokens":2470,"tag":"pkg:pkg-12-real","eur":0.1867}
+{"ts":"2026-09-01T22:57:46.001Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":917,"outTokens":1494,"tokens":2411,"tag":"pkg:pkg-24-real","eur":0.1804}
+{"ts":"2026-09-01T22:58:38.848Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":913,"outTokens":1551,"tokens":2464,"tag":"pkg:pkg-digital-real","eur":0.1873}
+{"ts":"2026-09-02T14:36:19.081Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":889,"outTokens":1301,"tokens":2365,"tag":"soccer/_kit-back","eur":0.3162}
+{"ts":"2026-09-02T14:36:46.102Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":4709,"outTokens":601,"tokens":7336,"tag":"judge","eur":0.0333}
+{"ts":"2026-09-02T17:27:40.167Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":117,"outTokens":1543,"tokens":1660,"tag":"gemini-3.1-flash-image","eur":0.1855}
+{"ts":"2026-09-02T17:27:59.800Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":364,"outTokens":1277,"tokens":1641,"tag":"gemini-3.1-flash-image","eur":0.1538}
+{"ts":"2026-09-02T17:28:10.726Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":364,"outTokens":1307,"tokens":1671,"tag":"gemini-3.1-flash-image","eur":0.1574}
+{"ts":"2026-09-02T17:28:21.453Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":423,"outTokens":1292,"tokens":1715,"tag":"gemini-3.1-flash-image","eur":0.1556}
+{"ts":"2026-09-02T17:30:05.254Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":458,"outTokens":1272,"tokens":1730,"tag":"gemini-3.1-flash-image","eur":0.1533}
+{"ts":"2026-09-02T18:19:32.217Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":622,"outTokens":2048,"tokens":2670,"tag":"etsy-football-reject-take","eur":0.2467}
+{"ts":"2026-09-02T18:19:47.452Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1217,"outTokens":213,"tokens":2528,"tag":"etsy-football-reject-take-judge","eur":0.01}
+{"ts":"2026-09-02T18:20:04.368Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":622,"outTokens":2087,"tokens":2709,"tag":"etsy-football-reject-take","eur":0.2514}
+{"ts":"2026-09-02T18:20:21.388Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1217,"outTokens":193,"tokens":2718,"tag":"etsy-football-reject-take-judge","eur":0.0095}
+{"ts":"2026-09-02T18:20:42.283Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":622,"outTokens":2115,"tokens":2737,"tag":"etsy-football-reject-take","eur":0.2547}
+{"ts":"2026-09-02T18:20:59.827Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1217,"outTokens":210,"tokens":2681,"tag":"etsy-football-reject-take-judge","eur":0.0099}
+{"ts":"2026-09-02T18:25:13.481Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":696,"outTokens":1252,"tokens":2145,"tag":"gemini-3-pro-image","eur":0.3036}
+{"ts":"2026-09-02T18:26:21.054Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":696,"outTokens":1255,"tokens":2116,"tag":"gemini-3-pro-image","eur":0.3043}
+{"ts":"2026-09-02T18:26:44.211Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":696,"outTokens":1269,"tokens":2151,"tag":"gemini-3-pro-image","eur":0.3077}
+{"ts":"2026-09-02T18:27:07.889Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":677,"outTokens":1240,"tokens":2084,"tag":"gemini-3-pro-image","eur":0.3007}
+{"ts":"2026-09-02T22:08:48.100Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":166,"outTokens":1566,"tokens":1732,"tag":"pkg:pkg-tube","eur":0.1883}
+{"ts":"2026-09-02T22:31:16.493Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1177,"outTokens":1478,"tokens":2655,"tag":"pkg-sr:sr-digital","eur":0.1787}
+{"ts":"2026-09-02T22:31:27.119Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":922,"outTokens":1673,"tokens":2595,"tag":"pkg-sr:sr-12","eur":0.2019}
+{"ts":"2026-09-02T22:31:40.827Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":915,"outTokens":1526,"tokens":2441,"tag":"pkg-sr:sr-24","eur":0.1843}
+{"ts":"2026-09-02T22:32:18.228Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":650,"outTokens":1539,"tokens":2189,"tag":"pkg-sr:sr-pack","eur":0.1855}
+{"ts":"2026-09-02T22:36:19.677Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":252,"outTokens":1575,"tokens":1827,"tag":"pkg:pkg-digital-poster","eur":0.1895}
+{"ts":"2026-09-02T22:41:26.574Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":226,"outTokens":2048,"tokens":2274,"tag":"set-tile:set-printed","eur":0.2463}
+{"ts":"2026-09-02T22:41:39.447Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":234,"outTokens":1957,"tokens":2191,"tag":"set-tile:set-deluxe","eur":0.2353}
+{"ts":"2026-09-02T22:41:52.680Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":273,"outTokens":2063,"tokens":2336,"tag":"set-tile:set-ultimate","eur":0.2481}
+{"ts":"2026-09-02T22:43:30.793Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":241,"outTokens":2108,"tokens":2349,"tag":"set-tile:set-printed","eur":0.2535}
+{"ts":"2026-09-02T22:43:45.030Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":299,"outTokens":2088,"tokens":2387,"tag":"set-tile:set-ultimate","eur":0.2512}
+{"ts":"2026-09-02T22:44:20.472Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":927,"outTokens":1655,"tokens":2582,"tag":"set-tile:set-printed-real","eur":0.1998}
+{"ts":"2026-09-02T22:44:34.678Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":928,"outTokens":1477,"tokens":2405,"tag":"set-tile:set-deluxe-real","eur":0.1784}
+{"ts":"2026-09-02T22:44:50.357Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1219,"outTokens":1698,"tokens":2917,"tag":"set-tile:set-ultimate-real","eur":0.2052}
+{"ts":"2026-09-02T22:45:35.972Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":927,"outTokens":1435,"tokens":2362,"tag":"set-tile:set-printed-real","eur":0.1733}
+{"ts":"2026-09-02T22:48:17.910Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":942,"outTokens":1484,"tokens":2426,"tag":"set-tile:set-ultimate-cards","eur":0.1792}
+{"ts":"2026-09-02T22:48:29.147Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":681,"outTokens":1512,"tokens":2193,"tag":"set-tile:set-ultimate-pack","eur":0.1823}
+{"ts":"2026-09-02T23:01:18.837Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":175,"outTokens":1529,"tokens":1704,"tag":"pkg:room-18x24","eur":0.1839}
+{"ts":"2026-09-02T23:01:28.484Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":180,"outTokens":1566,"tokens":1746,"tag":"pkg:room-24x36","eur":0.1883}
+{"ts":"2026-09-02T23:01:37.906Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":171,"outTokens":1453,"tokens":1624,"tag":"pkg:room-30x40","eur":0.1747}
+{"ts":"2026-09-02T23:01:49.145Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":112,"outTokens":1545,"tokens":1657,"tag":"pkg:pkg-tube-rolled","eur":0.1857}
+{"ts":"2026-09-02T23:05:45.773Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":322,"outTokens":2101,"tokens":2423,"tag":"sr-scene/team-order","eur":0.2527}
+{"ts":"2026-09-02T23:06:03.146Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":667,"outTokens":1973,"tokens":2640,"tag":"sr-scene/gift-football","eur":0.2377}
+{"ts":"2026-09-03T12:48:59.231Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":138,"outTokens":1511,"tokens":1649,"tag":"pkg:int-SN","eur":0.1817}
+{"ts":"2026-09-03T12:49:09.281Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":133,"outTokens":1526,"tokens":1659,"tag":"pkg:int-CA","eur":0.1835}
+{"ts":"2026-09-03T12:49:19.312Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":133,"outTokens":1567,"tokens":1700,"tag":"pkg:int-FS","eur":0.1884}
+{"ts":"2026-09-03T12:49:31.141Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":136,"outTokens":1616,"tokens":1752,"tag":"pkg:int-HE","eur":0.1943}
+{"ts":"2026-09-03T12:49:41.028Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":135,"outTokens":1530,"tokens":1665,"tag":"pkg:int-SS","eur":0.1839}
+{"ts":"2026-09-03T12:49:50.853Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":136,"outTokens":1502,"tokens":1638,"tag":"pkg:int-PR","eur":0.1806}
+{"ts":"2026-09-03T12:57:10.622Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":140,"outTokens":1490,"tokens":1630,"tag":"pkg:int-SN","eur":0.1791}
+{"ts":"2026-09-03T17:36:45.308Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":650,"outTokens":1432,"tokens":2082,"tag":"pkg:ruler-cheer","eur":0.1727}
+{"ts":"2026-09-03T17:52:04.652Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":408,"outTokens":2093,"tokens":2501,"tag":"sr-scene/team-order","eur":0.2519}
+{"ts":"2026-09-03T17:52:35.446Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":469,"outTokens":1348,"tokens":1817,"tag":"pkg:life-basketball","eur":0.1624}
+{"ts":"2026-09-03T17:52:48.310Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":456,"outTokens":1321,"tokens":1777,"tag":"pkg:life-football","eur":0.1592}
+{"ts":"2026-09-03T17:53:02.933Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":413,"outTokens":2178,"tokens":2591,"tag":"sr-scene/team-order","eur":0.2621}
+{"ts":"2026-09-03T17:53:03.130Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":461,"outTokens":1331,"tokens":1792,"tag":"pkg:life-cheerleading","eur":0.1604}
+{"ts":"2026-09-03T17:53:25.413Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":458,"outTokens":1300,"tokens":1758,"tag":"pkg:life-soccer","eur":0.1566}
+{"ts":"2026-09-03T17:53:39.636Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":457,"outTokens":1327,"tokens":1784,"tag":"pkg:life-volleyball","eur":0.1599}
+{"ts":"2026-09-03T17:53:52.380Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":459,"outTokens":1324,"tokens":1783,"tag":"pkg:life-baseball","eur":0.1595}
+{"ts":"2026-09-03T17:54:27.234Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":491,"outTokens":1396,"tokens":1887,"tag":"pkg:life-volleyball","eur":0.1682}
+{"ts":"2026-09-03T18:07:33.657Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":526,"outTokens":1377,"tokens":1903,"tag":"pkg:life2-cheerleading","eur":0.166}
+{"ts":"2026-09-03T18:07:47.659Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":527,"outTokens":1360,"tokens":1887,"tag":"pkg:life2-soccer","eur":0.1639}
+{"ts":"2026-09-03T18:07:59.714Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":524,"outTokens":1389,"tokens":1913,"tag":"pkg:life2-volleyball","eur":0.1674}
+{"ts":"2026-09-03T18:08:12.013Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":519,"outTokens":1365,"tokens":1884,"tag":"pkg:life2-baseball","eur":0.1645}
+{"ts":"2026-09-03T18:08:54.146Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":689,"outTokens":1501,"tokens":2190,"tag":"pkg:lifeart-cheerleading","eur":0.181}
+{"ts":"2026-09-03T18:09:11.609Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":689,"outTokens":1558,"tokens":2247,"tag":"pkg:lifeart-soccer","eur":0.1879}
+{"ts":"2026-09-03T18:09:29.330Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":689,"outTokens":1487,"tokens":2176,"tag":"pkg:lifeart-volleyball","eur":0.1793}
+{"ts":"2026-09-03T18:09:41.120Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":689,"outTokens":1538,"tokens":2227,"tag":"pkg:lifeart-baseball","eur":0.1855}
+{"ts":"2026-09-03T18:10:20.506Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":689,"outTokens":1452,"tokens":2141,"tag":"pkg:lifeart-soccer","eur":0.1751}
+{"ts":"2026-09-03T18:32:42.693Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":566,"outTokens":1312,"tokens":1878,"tag":"pkg:life2-cheerleading","eur":0.1582}
+{"ts":"2026-09-03T18:32:55.474Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":567,"outTokens":1381,"tokens":1948,"tag":"pkg:life2-soccer","eur":0.1665}
+{"ts":"2026-09-03T18:33:07.141Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":564,"outTokens":1337,"tokens":1901,"tag":"pkg:life2-volleyball","eur":0.1612}
+{"ts":"2026-09-03T18:33:18.618Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":559,"outTokens":1368,"tokens":1927,"tag":"pkg:life2-baseball","eur":0.1649}
+{"ts":"2026-09-03T18:34:00.839Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":566,"outTokens":1393,"tokens":1959,"tag":"pkg:life2-cheerleading","eur":0.1679}
+{"ts":"2026-09-03T18:34:26.975Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":689,"outTokens":1499,"tokens":2188,"tag":"pkg:lifeart-cheerleading","eur":0.1808}
+{"ts":"2026-09-03T18:34:41.564Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":689,"outTokens":1440,"tokens":2129,"tag":"pkg:lifeart-soccer","eur":0.1737}
+{"ts":"2026-09-03T18:34:57.961Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":689,"outTokens":1442,"tokens":2131,"tag":"pkg:lifeart-volleyball","eur":0.1739}
+{"ts":"2026-09-03T18:35:11.068Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":689,"outTokens":1527,"tokens":2216,"tag":"pkg:lifeart-baseball","eur":0.1841}
+{"ts":"2026-09-03T18:40:13.177Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":569,"outTokens":1315,"tokens":1884,"tag":"pkg:hero05-cheerleading","eur":0.1586}
+{"ts":"2026-09-03T18:40:25.985Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":569,"outTokens":1297,"tokens":1866,"tag":"pkg:hero05-soccer","eur":0.1564}
+{"ts":"2026-09-03T18:40:37.334Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":570,"outTokens":1430,"tokens":2000,"tag":"pkg:hero05-volleyball","eur":0.1724}
+{"ts":"2026-09-03T18:40:49.602Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":569,"outTokens":1275,"tokens":1844,"tag":"pkg:hero05-baseball","eur":0.1537}
+{"ts":"2026-09-03T18:41:25.724Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":602,"outTokens":1319,"tokens":1921,"tag":"pkg:hero05-soccer","eur":0.1591}
+{"ts":"2026-09-03T18:41:38.167Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":602,"outTokens":1418,"tokens":2020,"tag":"pkg:hero05-baseball","eur":0.171}
+{"ts":"2026-09-03T18:42:05.472Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":602,"outTokens":1374,"tokens":1976,"tag":"pkg:hero05-soccer","eur":0.1657}
+{"ts":"2026-09-03T18:45:21.657Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":627,"outTokens":1350,"tokens":1977,"tag":"pkg:hero05-cheerleading","eur":0.1628}
+{"ts":"2026-09-03T18:45:34.416Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":627,"outTokens":1353,"tokens":1980,"tag":"pkg:hero05-soccer","eur":0.1632}
+{"ts":"2026-09-03T18:45:45.621Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":628,"outTokens":1340,"tokens":1968,"tag":"pkg:hero05-volleyball","eur":0.1616}
+{"ts":"2026-09-03T18:45:58.905Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":627,"outTokens":1455,"tokens":2082,"tag":"pkg:hero05-baseball","eur":0.1754}
+{"ts":"2026-09-03T19:33:38.610Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":927,"outTokens":1437,"tokens":2364,"tag":"set-tile:set-printed-real","eur":0.1736}
+{"ts":"2026-09-03T19:33:54.132Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":942,"outTokens":1508,"tokens":2450,"tag":"set-tile:set-deluxe-real","eur":0.1821}
+{"ts":"2026-09-03T19:34:05.709Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":942,"outTokens":1544,"tokens":2486,"tag":"set-tile:set-ultimate-cards","eur":0.1864}
+{"ts":"2026-09-03T19:34:17.129Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":681,"outTokens":1580,"tokens":2261,"tag":"set-tile:set-ultimate-pack","eur":0.1905}
+{"ts":"2026-09-03T20:31:22.173Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":105,"outTokens":1543,"tokens":1648,"tag":"pkg:hero-bg-set","eur":0.1855}
+{"ts":"2026-09-03T22:10:49.434Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":707,"outTokens":1881,"tokens":2588,"tag":"sr-scene/gift-volleyball","eur":0.2267}
+{"ts":"2026-09-03T22:11:01.016Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1177,"outTokens":1594,"tokens":2771,"tag":"pkg-sr:sr-digital","eur":0.1927}
+{"ts":"2026-09-03T22:11:16.027Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":927,"outTokens":1564,"tokens":2491,"tag":"set-tile:set-printed-real","eur":0.1888}
+{"ts":"2026-09-03T22:11:31.399Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":942,"outTokens":1516,"tokens":2458,"tag":"set-tile:set-deluxe-real","eur":0.1831}
+{"ts":"2026-09-03T22:11:42.590Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":942,"outTokens":1499,"tokens":2441,"tag":"set-tile:set-ultimate-cards","eur":0.181}
+{"ts":"2026-09-03T22:11:53.256Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":681,"outTokens":1538,"tokens":2219,"tag":"set-tile:set-ultimate-pack","eur":0.1855}
+{"ts":"2026-09-03T22:21:44.334Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":362,"outTokens":1904,"tokens":2266,"tag":"fix-scene:the number printed on the fron","eur":0.2291}
+{"ts":"2026-09-03T22:29:55.308Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":712,"outTokens":2007,"tokens":2719,"tag":"sr-scene/gift-cheerleading","eur":0.2418}
+{"ts":"2026-09-03T22:30:09.817Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1177,"outTokens":1410,"tokens":2587,"tag":"pkg-sr:sr-digital","eur":0.1706}
+{"ts":"2026-09-03T22:30:25.560Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":927,"outTokens":1535,"tokens":2462,"tag":"set-tile:set-printed-real","eur":0.1853}
+{"ts":"2026-09-03T22:30:40.769Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":942,"outTokens":1605,"tokens":2547,"tag":"set-tile:set-deluxe-real","eur":0.1938}
+{"ts":"2026-09-03T22:30:58.985Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":702,"outTokens":1899,"tokens":2601,"tag":"sr-scene/gift-soccer","eur":0.2288}
+{"ts":"2026-09-03T22:31:14.006Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1177,"outTokens":1530,"tokens":2707,"tag":"pkg-sr:sr-digital","eur":0.185}
+{"ts":"2026-09-03T22:31:26.746Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":927,"outTokens":1524,"tokens":2451,"tag":"set-tile:set-printed-real","eur":0.184}
+{"ts":"2026-09-03T22:31:42.167Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":942,"outTokens":1527,"tokens":2469,"tag":"set-tile:set-deluxe-real","eur":0.1844}
+{"ts":"2026-09-03T22:31:54.013Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":942,"outTokens":1584,"tokens":2526,"tag":"set-tile:set-ultimate-cards","eur":0.1912}
+{"ts":"2026-09-03T22:36:11.946Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":942,"outTokens":1519,"tokens":2461,"tag":"set-tile:set-ultimate-cards","eur":0.1834}
+{"ts":"2026-09-03T22:36:22.165Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":681,"outTokens":1432,"tokens":2113,"tag":"set-tile:set-ultimate-pack","eur":0.1727}
+{"ts":"2026-09-03T22:36:33.050Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":681,"outTokens":1526,"tokens":2207,"tag":"set-tile:set-ultimate-pack","eur":0.184}
+{"ts":"2026-09-03T22:53:28.179Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1895,"outTokens":1744,"tokens":3639,"tag":"gemini-3.1-flash-image","eur":0.2114}
+{"ts":"2026-09-03T23:04:31.781Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":717,"outTokens":1911,"tokens":2628,"tag":"sr-scene/gift-baseball","eur":0.2303}
+{"ts":"2026-09-03T23:04:44.545Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1177,"outTokens":1678,"tokens":2855,"tag":"pkg-sr:sr-digital","eur":0.2028}
+{"ts":"2026-09-03T23:04:56.138Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":927,"outTokens":1444,"tokens":2371,"tag":"set-tile:set-printed-real","eur":0.1744}
+{"ts":"2026-09-03T23:05:11.060Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":942,"outTokens":1439,"tokens":2381,"tag":"set-tile:set-deluxe-real","eur":0.1738}
+{"ts":"2026-09-03T23:05:25.030Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":942,"outTokens":1586,"tokens":2528,"tag":"set-tile:set-ultimate-cards","eur":0.1915}
+{"ts":"2026-09-03T23:05:36.133Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":681,"outTokens":1449,"tokens":2130,"tag":"set-tile:set-ultimate-pack","eur":0.1748}
+{"ts":"2026-09-03T23:09:40.918Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":681,"outTokens":1534,"tokens":2215,"tag":"set-tile:set-ultimate-pack","eur":0.185}
+{"ts":"2026-09-04T16:29:57.717Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":2541,"outTokens":1403,"tokens":4306,"tag":"order-4164205493/_identity","eur":0.3473}
+{"ts":"2026-09-04T16:30:18.125Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":1031,"outTokens":1353,"tokens":2684,"tag":"order-4164205493/_identity-back","eur":0.3292}
+{"ts":"2026-09-04T16:32:49.574Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":2799,"outTokens":1422,"tokens":4517,"tag":"order-4164205493/_identity","eur":0.3529}
+{"ts":"2026-09-04T16:33:13.236Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":2799,"outTokens":1350,"tokens":4448,"tag":"order-4164205493/_identity","eur":0.3356}
+{"ts":"2026-09-04T16:33:38.388Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":2799,"outTokens":1495,"tokens":4730,"tag":"order-4164205493/_identity","eur":0.3704}
+{"ts":"2026-09-04T16:34:00.417Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":2799,"outTokens":1480,"tokens":4670,"tag":"order-4164205493/_identity","eur":0.3668}
+{"ts":"2026-09-04T16:34:26.726Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":2799,"outTokens":1415,"tokens":4679,"tag":"order-4164205493/_identity","eur":0.3512}
+{"ts":"2026-09-04T16:35:10.769Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":2541,"outTokens":1449,"tokens":4408,"tag":"order-4164205493/_identity","eur":0.3583}
+{"ts":"2026-09-04T16:35:30.210Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":1031,"outTokens":1394,"tokens":2724,"tag":"order-4164205493/_identity-back","eur":0.3391}
+{"ts":"2026-09-04T16:45:14.348Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":1031,"outTokens":1359,"tokens":2656,"tag":"order-4164205493/_identity-back","eur":0.3307}
+{"ts":"2026-09-04T16:48:43.159Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":1050,"outTokens":1353,"tokens":2678,"tag":"order-4164205493/_identity-back","eur":0.3293}
+{"ts":"2026-09-04T16:50:01.366Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":1110,"outTokens":1290,"tokens":2642,"tag":"order-4164205493/_identity-back","eur":0.3144}
+{"ts":"2026-09-04T16:52:17.291Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":2464,"outTokens":1371,"tokens":4200,"tag":"order-4164205493/_kit","eur":0.3393}
+{"ts":"2026-09-04T16:52:39.847Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":747,"outTokens":1313,"tokens":2275,"tag":"order-4164205493/_kit-back","eur":0.3185}
+{"ts":"2026-09-04T16:52:54.740Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":2105,"outTokens":429,"tokens":3699,"tag":"judge","eur":0.0187}
+{"ts":"2026-09-04T16:54:11.373Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":6407,"outTokens":414,"tokens":7779,"tag":"judge","eur":0.0356}
+{"ts":"2026-09-04T16:55:24.228Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":3557,"outTokens":1304,"tokens":5107,"tag":"order-4164205493/hero","eur":0.3276}
+{"ts":"2026-09-04T16:59:23.396Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":2691,"outTokens":1433,"tokens":4587,"tag":"order-4164205493/_identity","eur":0.3551}
+{"ts":"2026-09-04T16:59:47.758Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":2691,"outTokens":1456,"tokens":4445,"tag":"order-4164205493/_identity","eur":0.3606}
+{"ts":"2026-09-04T17:00:14.173Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":2691,"outTokens":1371,"tokens":4654,"tag":"order-4164205493/_identity","eur":0.3402}
+{"ts":"2026-09-04T17:00:39.245Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":2691,"outTokens":1377,"tokens":4373,"tag":"order-4164205493/_identity","eur":0.3416}
+{"ts":"2026-09-04T17:01:53.900Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":3557,"outTokens":1315,"tokens":5109,"tag":"order-4164205493/hero","eur":0.3302}
+{"ts":"2026-09-04T17:04:32.038Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":3557,"outTokens":1329,"tokens":5123,"tag":"order-4164205493/hero","eur":0.3336}
+{"ts":"2026-09-04T17:05:00.432Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":3557,"outTokens":1328,"tokens":5074,"tag":"order-4164205493/hero","eur":0.3333}
+{"ts":"2026-09-04T17:07:37.794Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":704,"outTokens":1255,"tokens":2164,"tag":"gemini-3-pro-image","eur":0.3044}
+{"ts":"2026-09-04T17:08:46.485Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":3557,"outTokens":1345,"tokens":5141,"tag":"order-4164205493/hero","eur":0.3374}
+{"ts":"2026-09-04T17:12:43.741Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":2824,"outTokens":1352,"tokens":4622,"tag":"order-4164205493/_identity","eur":0.3362}
+{"ts":"2026-09-04T17:21:16.350Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":1456,"outTokens":1321,"tokens":3064,"tag":"order-4164205493/_identity-body","eur":0.3232}
+{"ts":"2026-09-04T17:22:49.567Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":1412,"outTokens":1323,"tokens":2953,"tag":"order-4164205493/_identity-body","eur":0.3235}
+{"ts":"2026-09-04T17:29:19.057Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":2844,"outTokens":1339,"tokens":4722,"tag":"order-4164205493/_identity-face","eur":0.3331}
+{"ts":"2026-09-04T17:30:39.478Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":2466,"outTokens":1296,"tokens":3986,"tag":"order-4164205493/_identity-face","eur":0.3213}
+{"ts":"2026-09-04T17:31:34.473Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":1412,"outTokens":1307,"tokens":2970,"tag":"order-4164205493/_identity-body","eur":0.3197}
+{"ts":"2026-09-04T17:52:33.105Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":1486,"outTokens":1354,"tokens":3171,"tag":"order-4164205493/_identity-body","eur":0.3313}
+{"ts":"2026-09-04T17:53:55.275Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":742,"outTokens":1261,"tokens":2159,"tag":"gemini-3-pro-image","eur":0.306}
+{"ts":"2026-09-04T17:56:30.055Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":3686,"outTokens":1322,"tokens":5174,"tag":"order-4164205493/hero","eur":0.3324}
+{"ts":"2026-09-04T17:58:09.103Z","kind":"image","model":"gemini-3-pro-image","size":"1K","inTokens":1558,"outTokens":1311,"tokens":3119,"tag":"order-4164205493/_identity-body","eur":0.3212}
+{"ts":"2026-09-04T17:59:44.427Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":1157,"outTokens":1272,"tokens":2612,"tag":"gemini-3-pro-image","eur":0.3103}
+{"ts":"2026-09-04T18:00:44.436Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":1178,"outTokens":1239,"tokens":2696,"tag":"gemini-3-pro-image","eur":0.3024}
+{"ts":"2026-09-04T18:02:38.602Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":4001,"outTokens":1297,"tokens":5481,"tag":"order-4164205493/hero","eur":0.3277}
+{"ts":"2026-09-04T18:03:46.831Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":4058,"outTokens":1278,"tokens":5544,"tag":"order-4164205493/hero","eur":0.3233}
+{"ts":"2026-09-04T18:04:49.235Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":1195,"outTokens":1274,"tokens":2686,"tag":"gemini-3-pro-image","eur":0.3109}
+{"ts":"2026-09-04T18:07:01.376Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1583,"outTokens":1987,"tokens":3570,"tag":"gemini-3.1-flash-image","eur":0.2403}
+{"ts":"2026-09-04T18:07:56.217Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":4058,"outTokens":1302,"tokens":5583,"tag":"order-4164205493/hero","eur":0.3291}
+{"ts":"2026-09-04T18:08:21.153Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":4058,"outTokens":1352,"tokens":5588,"tag":"order-4164205493/hero","eur":0.3411}
+{"ts":"2026-09-04T18:15:45.771Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":4329,"outTokens":1341,"tokens":5955,"tag":"order-4164205493/hero","eur":0.3396}
+{"ts":"2026-09-04T18:16:15.894Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":4329,"outTokens":1265,"tokens":5764,"tag":"order-4164205493/hero","eur":0.3213}
+{"ts":"2026-09-04T18:16:44.759Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":4329,"outTokens":1295,"tokens":5799,"tag":"order-4164205493/hero","eur":0.3285}
+{"ts":"2026-09-04T18:19:10.905Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":999,"outTokens":1904,"tokens":2903,"tag":"order-4164205493/hero:face","eur":0.2297}
+{"ts":"2026-09-04T18:29:53.360Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":4447,"outTokens":1284,"tokens":5976,"tag":"order-4164205493/action2","eur":0.3263}
+{"ts":"2026-09-04T18:30:19.750Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":4347,"outTokens":1320,"tokens":5884,"tag":"order-4164205493/action3","eur":0.3346}
+{"ts":"2026-09-04T18:32:31.621Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":4447,"outTokens":1311,"tokens":6002,"tag":"order-4164205493/action2","eur":0.3328}
+{"ts":"2026-09-04T18:32:58.945Z","kind":"image","model":"gemini-3-pro-image","size":"2K","inTokens":4347,"outTokens":1323,"tokens":5853,"tag":"order-4164205493/action3","eur":0.3353}
+{"ts":"2026-09-04T18:33:50.482Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":999,"outTokens":2026,"tokens":3025,"tag":"order-4164205493/action2:face","eur":0.2444}
+{"ts":"2026-09-04T18:34:12.702Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":999,"outTokens":1901,"tokens":2900,"tag":"order-4164205493/action3:face","eur":0.2294}
+{"ts":"2026-09-04T18:42:30.125Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1171,"outTokens":1915,"tokens":3086,"tag":"order-4164205493/_identity-face-profile-right","eur":0.2312}
+{"ts":"2026-09-04T18:42:47.743Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1189,"outTokens":1994,"tokens":3183,"tag":"order-4164205493/_identity-face-down-left","eur":0.2408}
+{"ts":"2026-09-04T18:44:17.595Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1003,"outTokens":1937,"tokens":2940,"tag":"order-4164205493/action2:face","eur":0.2337}
+{"ts":"2026-09-04T18:44:45.242Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1003,"outTokens":1956,"tokens":2959,"tag":"order-4164205493/action3:face","eur":0.236}
+{"ts":"2026-09-04T18:51:04.470Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1003,"outTokens":1908,"tokens":2911,"tag":"order-4164205493/action2:face","eur":0.2302}
+{"ts":"2026-09-04T18:51:29.308Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1003,"outTokens":1993,"tokens":2996,"tag":"order-4164205493/action3:face","eur":0.2404}
+{"ts":"2026-09-04T19:03:07.450Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1274,"outTokens":2145,"tokens":3419,"tag":"order-4164205493/back","eur":0.259}
+{"ts":"2026-09-04T22:12:44.984Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1318,"outTokens":48,"tokens":2315,"tag":"etsy-video-audit","eur":0.0064}
+{"ts":"2026-09-04T22:19:10.398Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1319,"outTokens":54,"tokens":2576,"tag":"etsy-video-audit","eur":0.0066}
+{"ts":"2026-09-04T22:23:53.351Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1322,"outTokens":50,"tokens":2497,"tag":"etsy-video-audit","eur":0.0065}
+{"ts":"2026-09-04T22:26:27.984Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1351,"outTokens":44,"tokens":2205,"tag":"etsy-video-audit","eur":0.0065}
+{"ts":"2026-09-04T22:31:04.885Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1354,"outTokens":34,"tokens":2876,"tag":"etsy-video-audit","eur":0.0062}
+{"ts":"2026-09-04T22:33:54.716Z","kind":"judge","model":"gemini-3.1-pro-preview","inTokens":1354,"outTokens":54,"tokens":2721,"tag":"etsy-video-audit","eur":0.0067}
+{"ts":"2026-09-04T23:11:04.937Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1405,"outTokens":1719,"tokens":3124,"tag":"gemini-3.1-flash-image","eur":0.2079}
+{"ts":"2026-09-04T23:11:05.568Z","kind":"image","model":"gemini-3.1-flash-image","size":"2K","inTokens":1858,"outTokens":1711,"tokens":3569,"tag":"gemini-3.1-flash-image","eur":0.2074}

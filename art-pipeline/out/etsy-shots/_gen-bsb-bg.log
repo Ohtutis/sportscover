@@ -1,0 +1,13 @@
+model    gemini-3.1-flash-image
+matrix   1 finishes x 1 sports = 1
+to build 1  (0 cached)
+est cost ~$0.04
+
+  ok   senior-night/baseball  (751 KB)
+
+contact sheet -> art-pipeline/out/_contact-sheet-backgrounds.png
+
+1 ok, 0 failed, 3639 tokens
+-rw-r--r--@  1 a  staff     7578 Sep  4 01:53 baseball.json
+-rw-r--r--@  1 a  staff   770044 Sep  4 01:53 baseball.png
+done

@@ -56,6 +56,14 @@ export interface Athlete {
   /** Human name of the primary colour, so prompts can say it as well as show the hex. */
   colorName: string;
   /**
+   * Human name of the SECONDARY colour, and it is what the word "contrasting" becomes in the
+   * kit line. Optional: leave it unset and the sport's default keeps saying "contrasting",
+   * which is what the demo roster has always done. Set it whenever the real kit has a definite
+   * second colour — Order 03's plum shirt is trimmed in GOLD, and without this the plate chose
+   * magenta and nobody had said otherwise.
+   */
+  secondaryName?: string;
+  /**
    * Uniform override. Normally EMPTY: the kit is a property of the sport (`kits.ts`), not
    * of the person, which is exactly how the per-order tool needs it — if the customer's
    * photos show a real uniform we keep theirs, and if they do not we dress them in the
@@ -67,6 +75,26 @@ export interface Athlete {
   ladderLabel?: string;
   /** Seamless backdrop override, when a light kit would vanish against the default grey. */
   backdrop?: string;
+  /**
+   * A REAL CUSTOMER ORDER, not part of the demo roster. Excluded from `--athlete all`, so a
+   * roster-wide sweep cannot spend money regenerating somebody's paid work — or quietly
+   * re-roll a frame they already approved.
+   */
+  order?: boolean;
+  /**
+   * HOW THE HAIR IS WORN TO PLAY, when it differs from how they wear it otherwise.
+   *
+   * It cannot live in `hair`: that is the person, and the identity plates are built from it —
+   * put a competition ponytail there and the plate stops being a photograph of her and starts
+   * being a photograph of her mid-match. It cannot live in `kit` either, tempting as it looks
+   * beside the headband: when a kit PLATE exists the pose prompt uses the plate as the whole
+   * wardrobe and never emits the kit string at all, so the ponytail silently vanished from
+   * exactly the frames that needed it. Its own field, read only by the poses.
+   */
+  hairPlay?: string;
+  /** Competitive level, when the customer states one. Only "pro" changes anything today: it
+   *  overrides the recreational cut every adult age band in kits.ts otherwise assumes. */
+  level?: "pro";
 }
 
 export const DEFAULT_BACKDROP =
@@ -234,7 +262,11 @@ export const ATHLETES: Athlete[] = [
     ageYears: 16, age: HS(16), presents: "female",
     build: "5'9\", very broad shoulders and a long back tapering to narrow hips, long arms — a swimmer's V",
     skinTone: "very fair skin, pink across the shoulders, goggle marks pressed around the eyes",
-    hair: "platinum blonde, wet and pushed flat under the swim cap, a few strands escaping at the nape",
+    // The SWIM CAP is not in this field, and cannot be: §37 — every "before" snapshot takes
+    // `a.hair` verbatim, so a cap written here would be worn on the sofa and at the seaside.
+    // It also has to come off for the identity plate, which needs hair to anchor on. The cap
+    // lives in kits.ts; what is true of her hair when she is asleep is what belongs here.
+    hair: "platinum blonde, fine and straight, cut just below the shoulders, the ends lightened and a little dry from chlorine",
     face: "a wide face with a strong jaw, pale blue eyes, near-invisible eyebrows, a small cleft in the chin",
     team: "Bayline Marlins", crest: "bayline-marlins",
     primaryColor: "#1F4EA1", secondaryColor: "#FFFFFF", colorName: "royal blue",
@@ -245,7 +277,9 @@ export const ATHLETES: Athlete[] = [
     ageYears: 15, age: HS(15), presents: "male",
     build: "5'7\", slight and quick, wiry forearms with the racket arm visibly more developed",
     skinTone: "brown South Asian skin, a sharp tan line at the sleeve and above the sock",
-    hair: "dark auburn, thick and curly, grown out over the ears and pushed off the forehead by a white headband",
+    // The HEADBAND moved to kits.ts — §37: it is worn to play and taken off after. Left here
+    // it would be across his forehead in all four "before" photographs, including at home.
+    hair: "dark auburn, thick and curly, grown out over the ears and falling forward onto the forehead",
     face: "a narrow face, long lashes, a small nose, a faint moustache shadow, dark brown eyes",
     team: "Highfield Herons", crest: "highfield-herons",
     primaryColor: "#17A398", secondaryColor: "#0B2E2B", colorName: "turquoise",
@@ -256,7 +290,10 @@ export const ATHLETES: Athlete[] = [
     ageYears: 17, age: HS(17), presents: "female",
     build: "5'7\", even and athletic with strong shoulders and a stable base, not obviously muscular",
     skinTone: "light Korean skin, tanned on the left forearm only, a glove line at the left wrist",
-    hair: "black, straight, in a low ponytail threaded through the back of a cap",
+    // The CAP is kit and is already in kits.ts — §37. "Threaded through the back of a cap" is
+    // how the ponytail sits ON COURSE, not how she wears her hair; written here it puts a golf
+    // cap on her in every snapshot of her life.
+    hair: "black, straight and heavy, in a low ponytail at the nape",
     face: "a broad calm face, a small straight nose, dark eyes with a steady level gaze, light sun freckles",
     team: "Pinewick Osprey", crest: "pinewick-osprey",
     primaryColor: "#5D6B2A", secondaryColor: "#EDE6D6", colorName: "olive",
@@ -269,10 +306,44 @@ export const ATHLETES: Athlete[] = [
     firstName: "Ray", lastName: "Solberg", jerseyNumber: "0",
     ageYears: 58, age: "58 years old — a middle-aged recreational player, NOT a young adult and NOT an elite athlete",
     presents: "male",
-    build: "5'11\", solidly built with a thickened middle and strong forearms, the posture of someone who has played sport all his life but is no longer twenty-five",
+    // WRITTEN WITH AN EXPLICIT FLOOR AND CEILING, because the first roll ignored it. "Solidly
+    // built with a thickened middle" came back as a LEAN fifty-eight-year-old runner in all four
+    // snapshots (2026-08-22) — the model's default athlete is lean and a description alone does
+    // not move it. This athlete exists to put a non-elite, middle-aged body in the roster, so
+    // losing the body loses the point of him. The bound at the other end matters just as much:
+    // the correction overshoots into a caricature if nothing stops it.
+    build: "5'11\", and NOT a lean or athletic build — this is the body of a fifty-eight-year-old club player, not a runner's. He is SOLIDLY BUILT and carries real weight: a thickened middle with a soft belly that fills the front of his shirt and hangs slightly over the waistband, a heavy chest, a broad thick back, and strong forearms. His shoulders are wide but rounded rather than cut, and there is no visible muscle definition anywhere. Do NOT slim him, do NOT flatten his stomach and do NOT give him a defined torso. He is heavy-set, NOT obese: he still moves easily and stands upright, with the posture of someone who has played sport all his life and is no longer twenty-five",
     skinTone: "weathered fair skin, sun damage across the forearms and the back of the neck, deep laugh lines",
     hair: "grey, thinning at the crown, cut short",
     face: "heavy creases at the eyes and mouth, a full grey-white stubble, blue eyes, a nose reddened by sun",
+    team: "Copperline Kingfishers", crest: "copperline-kingfishers",
+    primaryColor: "#8C5A2B", secondaryColor: "#F2E9DC", colorName: "copper",
+  },
+  {
+    // THE SECOND PICKLEBALL ATHLETE, and the only sport on the roster with two (2026-08-22).
+    // Ray Solberg above is deliberately fifty-eight, and on his own that was the right call for
+    // ONE reason and the wrong call for another: US pickleball genuinely skews older, but every
+    // other athlete in the coverage set is 13–18, so the pickleball tile was the single tile
+    // that did not look like the rest of the shop. The customer put it plainly — sixteen young
+    // athletes and one older man does not sit together.
+    //
+    // The older demographic was never actually lost by fixing this: THE AGE LADDER already
+    // answers "does this fit my person?" with rungs at 22, 32 and 50. Ray was answering a
+    // question that was already answered, in the row whose only job is "is my sport here?".
+    //
+    // So Nadia is the pickleball athlete the coverage row shows, and Ray is kept rather than
+    // deleted — his eight frames are approved and he is a real asset for the older end. She
+    // shares his CLUB on purpose: same crest, same colours, so the two read as one programme
+    // rather than two, exactly the way the six ladder athletes share theirs.
+    slug: "pickleball-youth", sport: "pickleball",
+    firstName: "Nadia", lastName: "Rahimi", jerseyNumber: "0",
+    ageYears: 16, age: HS(16), presents: "female",
+    build: "5'6\", compact and quick rather than tall — short-limbed, low to the ground, with strong thighs and calves and light, fast hands. Solid through the middle rather than slender, with no visible muscle definition in the arms",
+    skinTone: "warm olive skin that tans easily, a little sun on the nose and the tops of the cheeks",
+    // No headband and no wristband in this field — both are kit and live in kits.ts (§37). What
+    // is true of her hair on a Tuesday at school is what belongs here.
+    hair: "very dark brown, thick and slightly wavy, pulled back into a high ponytail that swings clear of the shoulders",
+    face: "thick dark eyebrows that nearly meet, a strong straight nose, wide-set dark brown eyes, a small mole high on the right cheek",
     team: "Copperline Kingfishers", crest: "copperline-kingfishers",
     primaryColor: "#8C5A2B", secondaryColor: "#F2E9DC", colorName: "copper",
   },
@@ -396,6 +467,133 @@ export const ATHLETES: Athlete[] = [
     team: "Sunfield Kestrels", crest: "sunfield-kestrels",
     primaryColor: "#1E7B3C", secondaryColor: "#F5F5F5", colorName: "kelly green",
     ladderLabel: "your mom",
+  },
+
+  /* ------------------------------------------------------------------- 3. REAL ORDERS */
+
+  {
+    // ORDER 01, 2026-08-22 — the first order built from a customer's own photographs rather
+    // than from words. Everything below the identity fields is DESCRIPTION, not decision:
+    // the plate is built from `before/`, and README section 39 gives the photographs the
+    // final word wherever the two disagree.
+    //
+    // TWO THINGS THE ORDER FORM DID NOT SAY and that are read off the photographs instead:
+    // his age (the form has a graduation year of 2018, which cannot be a school year for a
+    // man in his forties — it is being used as a season), and the fact that no photograph
+    // shows a basketball kit at all. The second is the normal case, not a defect: he gets
+    // the sport's default strip from kits.ts with his club's badge on it.
+    slug: "Order 01", sport: "basketball", order: true,
+    firstName: "Tautvydas", lastName: "Beržinis", jerseyNumber: "8",
+    ageYears: 42,
+    age: "in his early forties — a grown man playing recreational league basketball. Visibly forty-something, NOT a college player",
+    presents: "male",
+    build: "solid and broad through the shoulders and chest, strong forearms, a full frame rather than a lean one — an adult build carrying real weight, NOT slimmed down and NOT cut",
+    skinTone: "fair skin with a warm flush across the cheeks and nose, lines at the eyes",
+    hair: "dark brown going noticeably grey at the temples and through the sides, worn swept up and back off the forehead with short tapered sides",
+    face: "a short greying beard heaviest at the chin, straight dark eyebrows, blue-grey eyes, a broad nose, a squared jaw softened with age",
+    team: "Be Šansuu", crest: "be-sansu",
+    primaryColor: "#14275B", secondaryColor: "#FFFFFF", colorName: "dark navy blue",
+  },
+
+  {
+    // ORDER 02, 2026-08-22 — tennis, black and white, NO CLUB LOGO (the shirt ships plain).
+    //
+    // FOUR PHOTOGRAPHS, TWO OF THEM ANCHOR GRADE. Intake rejected the set 2-of-4: one photo
+    // has her at 162 px across an airport concourse, another puts a second face beside her.
+    // The plate is therefore built from two close portraits and has NO photograph of her
+    // standing, so `build` below is doing real work rather than reinforcing — it is read off
+    // the one full-length frame intake refused as a face anchor. If frame 3 of the plate comes
+    // back the wrong shape, that is the reason, and the fix is another photograph.
+    //
+    // NAME IS A PLACEHOLDER until the order form arrives; nothing on the plates prints it.
+    slug: "Order 02", sport: "tennis", order: true,
+    firstName: "Order", lastName: "02", jerseyNumber: "",
+    ageYears: 30,
+    age: "around thirty — an adult woman, not a junior and not middle-aged",
+    presents: "female",
+    build: "slim and long-limbed, narrow through the shoulders and waist, average height — a light frame rather than a muscular one, and NOT to be broadened or slimmed further",
+    // "fair" was the wrong word and it pulled both plates toward ashen. Her photographs show a
+    // definite warm tan, not fair skin with a hint of one.
+    skinTone: "warm, sun-tanned skin with a golden undertone — noticeably tanned rather than fair, with small dark moles scattered on the cheeks and neck and a natural flush across the cheekbones",
+    hair: "long straight blonde hair, worn loose and parted slightly off-centre, falling well past the shoulders",
+    face: "a soft oval face with high cheekbones, straight dark eyebrows several shades darker than her hair, grey-blue eyes, a small straight nose",
+    team: "", crest: "",
+    primaryColor: "#111111", secondaryColor: "#FFFFFF", colorName: "black",
+  },
+
+  {
+    // ORDER 03, 2026-08-23 — basketball, Mad Lamb #51. Everything below is read off the
+    // photographs; no order form arrived with it.
+    //
+    // FOUR PHOTOGRAPHS, TWO ANCHOR GRADE, and intake still says REJECTED at 2 of 3. One of the
+    // two was recovered by the second pass — an award ceremony where the organiser's face is
+    // the same size as his, which the old ambiguity test refused outright. The other two are
+    // match action at 102 and 116 px; both are kept as full-length references instead, and one
+    // of them is the SHARPEST photograph in the set (430) by a wide margin.
+    //
+    // THE CLUB BADGE IS VISIBLE ON HIS SHORTS in the action frame and we do not have the file.
+    // crest stays empty on purpose: an approximation of a real club's mark is worse than none
+    // (crests.ts, rule 1). Ask the customer to upload it.
+    //
+    // HIS REAL KIT IS IN THE PHOTOGRAPHS — purple with gold "Mad Lamb" script and the 51 — so
+    // the kit plate has something to reproduce rather than a sport default to fall back on.
+    // The script lettering is the risk: image models mangle letterforms, and this is a real
+    // club's wordmark, so it is exact or it is absent.
+    slug: "order 03", sport: "basketball", order: true,
+    firstName: "Order", lastName: "03", jerseyNumber: "51",
+    ageYears: 32,
+    age: "early thirties — a grown man playing competitive amateur league basketball",
+    presents: "male",
+    build: "tall and long-limbed with broad shoulders and a deep chest, strong thighs, lean through the waist — a real basketball frame, neither slight nor heavy",
+    skinTone: "fair skin, flushed across the cheeks and forehead from playing, damp at the hairline",
+    hair: "dark brown, short at the sides and longer on top, swept back off the forehead and pushed around by sweat",
+    face: "a short dark beard following the jaw with a fuller moustache, straight brows, brown eyes set fairly deep, a straight nose",
+    team: "Mad Lamb", crest: "",
+    primaryColor: "#6F2C57", secondaryColor: "#E0B02E", colorName: "deep plum purple",
+    secondaryName: "gold",
+  },
+
+  {
+    // ORDER 4164205493 (Etsy), 2026-09-04 — tennis, Rita Gataveckaite, #12, "Vilnius".
+    // FIVE PHOTOGRAPHS, four usable: intake kept rita1/rita2/rita3/rita4 as anchors and
+    // `ritafull` as the FULL-LENGTH reference only (52 px face). No photograph turns to her
+    // RIGHT, so the plate's right-hand panel is the weak one — README section 39 still applies:
+    // where these words and the photographs disagree, the WORDS change.
+    //
+    // THREE THINGS THE ORDER FORM LEFT AT "N/A" and that are therefore DECISIONS, not readings:
+    //  1. The DECISION is white kit with deep navy trim. She gave no club colours, and tennis
+    //     whites with one accent is the sport's own default rather than an invented identity.
+    //  2. The DECISION is a tennis DRESS, not the shorts in kits.ts. `BASE.tennis` is written
+    //     for a youth boys' strip and its own comment says a skirt "belongs in Athlete.kit,
+    //     where it is a decision rather than a coin toss". She is an adult competitor.
+    //  3. The DECISION is no crest. "Vilnius" is a city, no club mark was uploaded, and
+    //     crests.ts rule 1 forbids approximating a real one.
+    //
+    // THE NUMBER IS CARD-ONLY. The customer supplied #12, but a tennis shirt carries no
+    // number (kits.ts hasBackNumber, README section 41) — so 12 prints on the CARD and appears
+    // nowhere on the garment. Putting it on the dress would be an invented mark.
+    slug: "order-4164205493", sport: "tennis", order: true, level: "pro",
+    firstName: "Rita", lastName: "Gataveckaitė", jerseyNumber: "12",
+    ageYears: 25,
+    age: "in her mid-twenties — an adult woman competing, not a junior",
+    presents: "female",
+    build: "slim and long-limbed with narrow shoulders and a narrow waist, a light athletic frame rather than a muscular one — NOT to be broadened and NOT to be slimmed further",
+    skinTone: "fair skin with a light natural warmth, a faint flush across the cheekbones, a few small dark moles on the neck and collarbone",
+    // COLOUR IS AN ABSOLUTE, NOT A RANGE. Two plates drifted to a lighter, sun-bleached brown
+    // because "dark brown" sat next to nothing that forbade the alternative — prompt law:
+    // absolutes, not comparisons. Her photographs are unambiguous.
+    hair: "long DARK BROWN hair — a deep cool brown, NOT blonde, NOT sun-bleached and with NO lighter ends — straight to softly waved, parted slightly off-centre and falling well past the shoulders",
+    face: "an oval face with high cheekbones and a defined jawline, straight well-groomed dark eyebrows, blue-grey eyes, long lashes, a small straight nose and full lips",
+    // THE PONYTAIL IS KIT, NOT IDENTITY (README section 37, and the same call as the tennis
+    // HEADBAND that already lives in kits.ts). It is worn to play and taken out after, so it
+    // may not follow her into the identity plate — but it MUST be pinned somewhere, or every
+    // frame re-rolls it: the first two plates came back a low bun, loose hair and loose hair
+    // again, in three panels of two images. Stated here it reaches the kit plate and all four
+    // poses through the same string.
+    kit: "a white tennis DRESS with a {primary} collar and {primary} trim at the armholes, a pleated skirt to mid-thigh with fitted white shorts beneath it, and a matching white wristband on the non-racket wrist",
+    hairPlay: "ON COURT her hair is drawn back into a HIGH PONYTAIL: pulled tight off the face and neck, no loose hair falling over the face, and the SAME ponytail in every frame.",
+    team: "Vilnius", crest: "",
+    primaryColor: "#1B2A4A", secondaryColor: "#FFFFFF", colorName: "deep navy",
   },
 ];
 

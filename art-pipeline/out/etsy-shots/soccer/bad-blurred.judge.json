@@ -1,0 +1,19 @@
+{
+  "verdicts": [
+    {
+      "check": "The photograph is badly blurred and the face cannot be made out.",
+      "pass": true,
+      "why": "The image is extremely blurry, making it impossible to distinguish any facial features."
+    },
+    {
+      "check": "It looks like a real ruined phone photo rather than an artistic effect.",
+      "pass": true,
+      "why": "The blur appears to be a result of motion or camera shake, typical of a poorly taken phone photo, rather than a deliberate artistic choice."
+    },
+    {
+      "check": "There is no brand wordmark or advertising text on clothing or equipment.",
+      "pass": true,
+      "why": "Due to the blurriness, no brand wordmarks or advertising text are visible on the clothing or equipment."
+    }
+  ]
+}

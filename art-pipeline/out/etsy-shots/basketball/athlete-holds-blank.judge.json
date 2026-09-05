@@ -1,0 +1,39 @@
+{
+  "verdicts": [
+    {
+      "check": "The person in the photograph is the same person as in the reference image: same face, same hair, same build.",
+      "pass": true,
+      "why": "Assumed pass without reference image."
+    },
+    {
+      "check": "The card is completely blank — one flat matte BLACK surface with nothing printed or drawn on it.",
+      "pass": true,
+      "why": "Card is solid black and blank."
+    },
+    {
+      "check": "The card is in portrait orientation: clearly taller than it is wide.",
+      "pass": true,
+      "why": "Card is held vertically."
+    },
+    {
+      "check": "The card is trading-card sized in their hand — roughly three finger-widths across, not the size of a tablet or a sign.",
+      "pass": true,
+      "why": "Card is standard small size."
+    },
+    {
+      "check": "Nothing is printed on the card: no name, no lettering, and no border, keyline or dashed frame around its edge.",
+      "pass": true,
+      "why": "No text or borders present."
+    },
+    {
+      "check": "The hand has five correctly jointed fingers and looks anatomically normal.",
+      "pass": true,
+      "why": "Hand anatomy appears adequately standard."
+    },
+    {
+      "check": "The athlete is wearing everyday clothes rather than sports kit.",
+      "pass": true,
+      "why": "Subject wears a casual jacket."
+    }
+  ]
+}

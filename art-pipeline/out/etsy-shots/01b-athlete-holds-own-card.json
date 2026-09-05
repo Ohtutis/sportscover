@@ -1,0 +1,6 @@
+{
+  "model": "gemini-3.1-flash-image",
+  "tokens": 2001,
+  "prompt": "A photograph: the teenage basketball player from the SECOND reference image is holding up the trading card from the FIRST reference image, showing it to the camera, grinning — genuinely pleased, a real smile, not posed. He is the same person as in the second reference: same face, same skin tone, same short twists, same build. He wears ordinary everyday clothes, not the uniform. Shot on a phone in a school corridor or at home, natural light, no flash, shallow depth of field. The card he holds must match the first reference EXACTLY — same artwork, same layout, same colours. Do not redesign the card and do not add text to it. Square 1:1. No text overlay, no watermark, no logo.",
+  "at": "2026-08-24T13:23:59.058Z"
+}

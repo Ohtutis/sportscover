@@ -1,0 +1,24 @@
+{
+  "verdicts": [
+    {
+      "check": "The picture shows a cheer gym with tumbling mats at night under floodlights and nothing from a different sport.",
+      "pass": true,
+      "why": "Shows a cheer mat under floodlights with no other sports equipment visible."
+    },
+    {
+      "check": "No face in the picture is sharp or identifiable.",
+      "pass": true,
+      "why": "All people in the background and the person walking are blurred."
+    },
+    {
+      "check": "There is no advertising board, banner, sign or brand wordmark with readable text (the playing surface's own painted markings do not count).",
+      "pass": true,
+      "why": "No readable text or advertising is visible in the arena."
+    },
+    {
+      "check": "The middle and lower-right of the frame are visually calm, without a busy subject in them.",
+      "pass": true,
+      "why": "The middle and lower-right areas consist of empty mat space."
+    }
+  ]
+}

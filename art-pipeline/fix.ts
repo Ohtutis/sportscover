@@ -59,7 +59,8 @@ const OUT = "art-pipeline/out/athletes";
 // defect in one (a competition bow worn at home) is ours to correct — and correcting it by
 // re-rolling would re-dice the FACE that the whole set is anchored on. For a real order these
 // files are the customer's own photographs and are never touched.
-const FRAMES = ["_kit", "_kit-back", "_identity", "_identity-back", "hero", "action2", "action3", "back",
+const FRAMES = ["_kit", "_kit-back", "_identity", "_identity-face", "_identity-body", "_identity-back",
+  "hero", "action2", "action3", "back",
   "before/photo1", "before/photo2", "before/photo3", "before/photo4"];
 
 const slug = flag("athlete");
@@ -81,6 +82,9 @@ if (!change) throw new Error('pass --change "<the one thing to change>"');
  */
 const refPath = flag("ref");
 if (refPath && !existsSync(refPath)) throw new Error(`--ref ${refPath} does not exist`);
+
+const faceSheetPath = join(OUT, slug!, "_identity-face.png");
+const pinFaceForPrompt = existsSync(faceSheetPath) && !frame.startsWith("_identity");
 
 const dry = has("dry-run");
 const size = flag("size", "2K");
@@ -142,6 +146,18 @@ const prompt = [
         `not its people, not a band or strip of it anywhere along any edge.`,
       ]
     : []),
+  ...(pinFaceForPrompt
+    ? [
+        ``,
+        `THE LAST IMAGE IS THE APPROVED FACE of the person in image 1 — two close portraits of`,
+        `them, already signed off. Their face in the output is THAT face: the same features, the`,
+        `same eye spacing, the same nose, the same mouth, the same hairline and the same`,
+        `expression at rest, at whatever size and angle image 1 shows it. It is attached because`,
+        `an edit re-renders the whole frame and a face drifts every time it is only described.`,
+        `Nothing else about that image is used: not its framing, not its crop, not its lighting,`,
+        `and it never appears in the output.`,
+      ]
+    : []),
   ``,
   NO_REAL_WORLD_MARKS,
   ``,
@@ -189,12 +205,26 @@ const aspect = Math.abs(ratio - 1) < 0.05 ? "1:1"
   : Math.abs(ratio - 4 / 3) < 0.05 ? "4:3"
   : undefined;
 
-const res = await generateImage({ prompt, refs: changeRef ? [ref, changeRef] : [ref], aspectRatio: aspect, imageSize: size, retries });
+// THE FACE IS PINNED ON EVERY EDIT, and it took three edits in a row to see why it must be.
+//
+// An edit re-renders the whole frame; "the same face" in the unchanged list is a sentence, and
+// a sentence loses to a picture that is not there. Measured on Etsy order 4164205493, against
+// the customer's own photographs, where nothing about the face was ever being changed:
+//
+//   body panel, proportions edit      0.597 -> 0.526
+//   hero, wardrobe edit               0.587 -> 0.410
+//
+// The approved face sheet costs one attachment and turns "keep the face" into the same kind of
+// instruction as everything else here: carried by an image. It is attached LAST so the change
+// reference keeps the number the prompt already gives it.
+const faceRef = pinFaceForPrompt ? await refFor(faceSheetPath, 1400) : null;
+const refsOut = [ref, ...(changeRef ? [changeRef] : []), ...(faceRef ? [faceRef] : [])];
+const res = await generateImage({ prompt, refs: refsOut, aspectRatio: aspect, imageSize: size, retries });
 const kept = keepPrevious(live);
 writeFileSync(live, res.image);
 writeFileSync(
   live.replace(/\.png$/, ".json"),
-  JSON.stringify({ model: imageModel(), size, fixedAt: new Date().toISOString(), change, from: `_versions/${frame}-${kept}.png`, prompt }, null, 2),
+  JSON.stringify({ model: imageModel(), size, tokens: res.tokens, fixedAt: new Date().toISOString(), change, from: `_versions/${frame}-${kept}.png`, prompt }, null, 2),
 );
 
 console.log(`ok       ${live}   (${res.tokens} tokens)`);

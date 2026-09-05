@@ -1,0 +1,44 @@
+{
+  "verdicts": [
+    {
+      "check": "Single continuous photograph",
+      "pass": true,
+      "why": "The image is one continuous scene without splits."
+    },
+    {
+      "check": "Poster opening is empty and flat black",
+      "pass": true,
+      "why": "The framed area is entirely flat black with no content."
+    },
+    {
+      "check": "No readable word, letter or number",
+      "pass": true,
+      "why": "There are no visible words or numbers in the scene."
+    },
+    {
+      "check": "No lettering or crests on garments or kit",
+      "pass": true,
+      "why": "Clothing and sports gear are plain without any logos."
+    },
+    {
+      "check": "No other posters or artwork on walls",
+      "pass": true,
+      "why": "The walls are bare and devoid of other artwork."
+    },
+    {
+      "check": "Dark rectangle is a picture frame, not a TV",
+      "pass": true,
+      "why": "The object is clearly a picture frame with moulding."
+    },
+    {
+      "check": "Person matches reference image",
+      "pass": true,
+      "why": "The person appears to be the intended subject."
+    },
+    {
+      "check": "Sports equipment belongs only to Soccer",
+      "pass": true,
+      "why": "Only a soccer ball and cleats are present."
+    }
+  ]
+}

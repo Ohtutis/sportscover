@@ -1,0 +1,24 @@
+{
+  "verdicts": [
+    {
+      "check": "The picture shows an indoor volleyball court and nothing from a different sport.",
+      "pass": false,
+      "why": "A handball or futsal goal is visible in the background."
+    },
+    {
+      "check": "No face in the picture is sharp or identifiable.",
+      "pass": true,
+      "why": "Faces are turned away or blurred."
+    },
+    {
+      "check": "There is no advertising board, banner, sign or brand wordmark with readable text (the playing surface's own painted markings do not count).",
+      "pass": true,
+      "why": "No readable text or ads are present."
+    },
+    {
+      "check": "There is no real league mark and no brand device on any clothing or equipment.",
+      "pass": true,
+      "why": "Jerseys and equipment lack brand logos."
+    }
+  ]
+}

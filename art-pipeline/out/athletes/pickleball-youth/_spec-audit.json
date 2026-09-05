@@ -1,0 +1,59 @@
+{
+  "verifiedAt": "2026-08-22T06:53:05.127Z",
+  "photos": [
+    "photo1.png",
+    "photo2.png",
+    "photo3.png",
+    "photo4.png"
+  ],
+  "findings": [
+    {
+      "id": "hair",
+      "seen": "The photographs show the athlete with dark brown, wavy hair pulled back into a high ponytail at the crown, with no parting or fringe, and some loose strands escaping around the face. This hairstyle is consistent across all four images.",
+      "verdict": "confirmed",
+      "note": "Matches the photographs perfectly."
+    },
+    {
+      "id": "build",
+      "seen": "The photographs show a young woman with a compact, athletic build, featuring strong legs and comparatively softer arms, consistent with the description provided.",
+      "verdict": "confirmed",
+      "note": "Matches the photographs perfectly."
+    },
+    {
+      "id": "shirt",
+      "seen": "Photo 2 shows a copper short-sleeved t-shirt with a lighter copper raglan seam running from the neckline to the underarm. It features a pale cream badge on the left chest with clipped top corners and a rounded bottom, containing a copper diving bird. There are no other visible marks, logos, or lettering.",
+      "verdict": "confirmed",
+      "note": "Matches the photographs perfectly."
+    },
+    {
+      "id": "shorts",
+      "seen": "Photos 2 and 3 show plain copper athletic shorts, cut to mid-thigh, with an elasticated waistband and a loose fit, lacking any stripes, piping, or side panels.",
+      "verdict": "confirmed",
+      "note": "Matches the photographs perfectly."
+    },
+    {
+      "id": "socks",
+      "seen": "Photo 3 shows plain white ankle socks sitting just above the shoe collar, with no visible stripes or bands.",
+      "verdict": "confirmed",
+      "note": "Matches the photographs perfectly."
+    },
+    {
+      "id": "footwear",
+      "seen": "Photo 3 shows entirely white court shoes, including white uppers, laces, and soles, with no contrast colors or visible branding.",
+      "verdict": "confirmed",
+      "note": "Matches the photographs perfectly."
+    },
+    {
+      "id": "equipment",
+      "seen": "Photo 2 shows a paddle on the bench with a blank light beige face, a black edge guard, and a black wrapped handle. Beside it are a plain towel and an unlabelled clear water bottle. No ball is visible in any of the photographs.",
+      "verdict": "confirmed",
+      "note": "Matches the photographs perfectly."
+    },
+    {
+      "id": "crest placement",
+      "seen": "Photo 2 shows the club crest positioned on the left chest, appearing small in size.",
+      "verdict": "confirmed",
+      "note": "Matches the photographs perfectly."
+    }
+  ]
+}

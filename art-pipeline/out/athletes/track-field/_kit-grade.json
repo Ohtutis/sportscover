@@ -1,0 +1,58 @@
+{
+  "observations": {
+    "items": "Gold sleeveless singlet, gold mid-thigh compression shorts with a number patch, pair of black shoes.",
+    "badge": "Circular badge centered on the chest. It features a gold winged foot inside a white field, ringed by a solid dark band. No lettering. No manufacturer's logo.",
+    "footwear": "Plain black low-cut shoes. One is viewed from above, the other from the side showing a black sole with small studs or spikes."
+  },
+  "checks": [
+    {
+      "id": "all_items_present",
+      "pass": true,
+      "note": "All required items are present. Socks are intentionally omitted per the specification. Shoes are shown from two different views."
+    },
+    {
+      "id": "matches_kit_photo",
+      "pass": true,
+      "note": "The kit matches the reference photograph perfectly in all details, including the placement of the crest and the number patch."
+    },
+    {
+      "id": "crest_correct",
+      "pass": true,
+      "note": "The crest matches the provided artwork exactly."
+    },
+    {
+      "id": "no_league_mark",
+      "pass": true,
+      "note": "No league or federation marks are visible."
+    },
+    {
+      "id": "no_text_anywhere",
+      "pass": true,
+      "note": "No text is present other than the allowed squad number on the shorts."
+    },
+    {
+      "id": "no_branding",
+      "pass": true,
+      "note": "No manufacturer branding is visible on any item."
+    },
+    {
+      "id": "footwear_correct_for_sport",
+      "pass": true,
+      "note": "The shoes appear to be track spikes with appropriate soles."
+    },
+    {
+      "id": "clean_and_new",
+      "pass": true,
+      "note": "All items are clean and appear new."
+    },
+    {
+      "id": "flat_lay",
+      "pass": true,
+      "note": "The image is a proper flat lay on a plain background."
+    }
+  ],
+  "worstIssue": "none",
+  "verdict": "pass",
+  "plateHash": "b868aabd8e61",
+  "gradedAt": "2026-08-22T00:07:35.787Z"
+}

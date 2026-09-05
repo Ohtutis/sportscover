@@ -1,0 +1,34 @@
+{
+  "verdicts": [
+    {
+      "check": "The picture is ONE single continuous photograph of one scene, not split or divided into two or more panels, halves or tiles, and there is no dividing line or seam across it.",
+      "pass": true,
+      "why": "The image is a single continuous scene."
+    },
+    {
+      "check": "The inside of the framed poster is completely empty and flat black, with no picture or text in it.",
+      "pass": true,
+      "why": "The framed area is solid black and empty."
+    },
+    {
+      "check": "The person is the same person as in the reference image: same face, same hair, same build (ignore any pronoun; judge only the picture).",
+      "pass": true,
+      "why": "The person matches the expected appearance."
+    },
+    {
+      "check": "Any sports equipment in the room belongs to Volleyball and to no other sport.",
+      "pass": true,
+      "why": "Only volleyball gear is present."
+    },
+    {
+      "check": "The person does not overlap or cover the frame.",
+      "pass": true,
+      "why": "The person stands clear of the frame."
+    },
+    {
+      "check": "The frame is an upright rectangle seen straight on, not tilted or foreshortened.",
+      "pass": true,
+      "why": "The frame is upright and viewed straight on."
+    }
+  ]
+}

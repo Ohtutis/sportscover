@@ -1,0 +1,19 @@
+{
+  "verdicts": [
+    {
+      "check": "The photograph is badly blurred and the face cannot be made out.",
+      "pass": true,
+      "why": "The image suffers from severe motion blur, making the subject's face unrecognizable."
+    },
+    {
+      "check": "It looks like a real ruined phone photo rather than an artistic effect.",
+      "pass": true,
+      "why": "The image has the appearance of a low-quality, poorly captured phone photo with heavy motion blur and grain, despite the presence of a vignette border."
+    },
+    {
+      "check": "There is no brand wordmark or advertising text on clothing or equipment.",
+      "pass": true,
+      "why": "Due to the heavy blur, no text or brand wordmarks are legible on any clothing, equipment, or background banners."
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "verdicts": [
+    {
+      "check": "The photograph shows a whole team posed together, not one athlete.",
+      "pass": true,
+      "why": "Multiple athletes are posed together as a team."
+    },
+    {
+      "check": "The kit carries no brand device and no league mark.",
+      "pass": true,
+      "why": "The uniforms lack visible brand logos or league symbols."
+    },
+    {
+      "check": "There is no brand wordmark or advertising text on clothing or equipment.",
+      "pass": true,
+      "why": "No advertising text or brand wordmarks are present on the apparel."
+    }
+  ]
+}

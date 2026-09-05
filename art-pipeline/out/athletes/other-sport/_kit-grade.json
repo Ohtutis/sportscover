@@ -1,0 +1,58 @@
+{
+  "observations": {
+    "items": "T-shirt, shorts, helmet, two knee pads, two socks, two shoes, skateboard.",
+    "badge": "A shield with a flat top and rounded bottom, an off-white field inside a gold border, carrying a single square watchtower in dark slate silhouette with a crenellated top and one narrow window slit. No lettering. No manufacturer's logo.",
+    "footwear": "Black low-cut skate shoes with a white rubber foxing band around the base. One shoe is shown from above, the other from the side showing a flat brown gum sole."
+  },
+  "checks": [
+    {
+      "id": "all_items_present",
+      "pass": true,
+      "note": "Shirt, shorts, both socks, both shoes (one top view, one side view), skateboard, helmet, and knee pads are all present."
+    },
+    {
+      "id": "matches_kit_photo",
+      "pass": true,
+      "note": "All items match the reference photograph in style, colour, and details, including the darker cuffs, the crest placement, and the number 12 on the shorts."
+    },
+    {
+      "id": "crest_correct",
+      "pass": true,
+      "note": "The badge on the shirt matches the provided artwork perfectly."
+    },
+    {
+      "id": "no_league_mark",
+      "pass": true,
+      "note": "No real-world league or federation marks are visible."
+    },
+    {
+      "id": "no_text_anywhere",
+      "pass": true,
+      "note": "No text is visible anywhere, only the specified squad number '12' on the shorts."
+    },
+    {
+      "id": "no_branding",
+      "pass": true,
+      "note": "No invented branding or manufacturer logos are visible on any items."
+    },
+    {
+      "id": "footwear_correct_for_sport",
+      "pass": true,
+      "note": "The shoes are flat-soled vulcanised skate shoes, correct for the sport."
+    },
+    {
+      "id": "clean_and_new",
+      "pass": true,
+      "note": "All items appear clean and unworn."
+    },
+    {
+      "id": "flat_lay",
+      "pass": true,
+      "note": "The image is a proper flat lay shot from directly overhead on a plain background."
+    }
+  ],
+  "worstIssue": "none",
+  "verdict": "pass",
+  "plateHash": "b85f9f4346f9",
+  "gradedAt": "2026-08-22T04:13:03.630Z"
+}

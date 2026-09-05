@@ -1,0 +1,24 @@
+{
+  "verdicts": [
+    {
+      "check": "The picture shows an American football field and nothing from a different sport.",
+      "pass": true,
+      "why": "The image clearly displays an American football field with yard lines, hash marks, and goalposts, with no elements from other sports."
+    },
+    {
+      "check": "No face in the picture is sharp or identifiable.",
+      "pass": true,
+      "why": "All people in the image, including the players and spectators, are out of focus and their faces are unidentifiable."
+    },
+    {
+      "check": "There is no advertising board, banner, sign or brand wordmark with readable text (the playing surface's own painted markings do not count).",
+      "pass": true,
+      "why": "There are no readable signs, banners, or advertising boards visible in the background or anywhere else in the image."
+    },
+    {
+      "check": "There is no real league mark and no brand device on any clothing or equipment.",
+      "pass": true,
+      "why": "Due to the blur and distance, no brand logos or league marks are visible on the players' uniforms or equipment."
+    }
+  ]
+}

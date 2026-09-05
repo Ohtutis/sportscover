@@ -1,0 +1,59 @@
+{
+  "verifiedAt": "2026-08-22T00:03:13.875Z",
+  "photos": [
+    "photo1.png",
+    "photo2.png",
+    "photo3.png",
+    "photo4.png"
+  ],
+  "findings": [
+    {
+      "id": "hair",
+      "seen": "The photographs show the athlete with black hair styled in straight-back cornrows that gather into a low bun at the nape of her neck. Some baby hairs are visible along the hairline. This hairstyle is consistent across all four images.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "build",
+      "seen": "The athlete has a lean, athletic physique with long limbs, defined leg muscles, a narrow waist, and a slim upper body where the shoulders are not significantly wider than the hips.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shirt",
+      "seen": "In the second and third photos, the athlete wears a plain gold sleeveless singlet with a scoop neck. There are no stripes, side panels, or other trims. A circular badge is centered high on the chest, featuring a gold winged foot on a white background with a dark border. No other logos, names, or numbers are visible on the shirt.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shorts",
+      "seen": "The athlete wears plain gold mid-thigh compression shorts in the second and third photos. On her left thigh, there is a white rectangular patch displaying the number '8' in black. There are no other markings, stripes, or logos on the shorts.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "socks",
+      "seen": "In the photos where her feet are visible (photos 2 and 3), the athlete's ankles are bare above her shoes, and no socks can be seen.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "footwear",
+      "seen": "The athlete wears plain black low-cut athletic shoes with black laces and black soles in photos 2 and 3. There are no visible maker's marks or logos on the shoes.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "equipment",
+      "seen": "The athlete is not holding any sports equipment such as a baton or ball in any of the photos. In photo 2, she carries a dark duffel bag on her right shoulder. In photo 3, a duffel bag and water bottles are visible on the ground near her.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "crest placement",
+      "seen": "The circular badge on the gold singlet is positioned centrally on the upper chest, a short distance below the neckline.",
+      "verdict": "confirmed",
+      "note": ""
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "judge": "gemini-3.1-pro-preview",
+  "generator": "gemini-3-pro-image",
+  "gradedAt": "2026-08-22T01:09:35.064Z",
+  "report": {
+    "_kit": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "none",
+      "failed": [],
+      "observations": {
+        "items": "A royal blue one-piece swimsuit, a royal blue silicone swim cap, and a pair of dark swimming goggles.",
+        "badge": "A white arch outline with a flat base and semicircular top, containing a white marlin inside, centered on the chest of the swimsuit. No manufacturer logos.",
+        "footwear": "none"
+      }
+    },
+    "_set": {
+      "verdict": "fail",
+      "worstIssue": "The goggles teleport to the back of the swimmer's head in image 4.",
+      "failed": [
+        "same_equipment"
+      ],
+      "offending": [
+        "4"
+      ],
+      "observations": {
+        "footwear": "Image 1: barefoot. Image 2: barefoot. Image 3: barefoot. Image 4: barefoot.",
+        "equipment": "Image 1: black goggles on forehead. Image 2: black goggles over eyes. Image 3: black goggles over eyes. Image 4: black goggles on the back of the head.",
+        "kit": "Image 1: blue one-piece swimsuit with white logo on chest, sleeveless. Image 2: blue one-piece swimsuit with white logo on chest, sleeveless. Image 3: blue one-piece swimsuit with white logo on chest, sleeveless. Image 4: blue one-piece swimsuit, racerback, sleeveless."
+      }
+    },
+    "hero": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The club crest on the chest is a simplified silhouette missing the double-line arch and internal details of the reference mark.",
+      "failed": [
+        "crest_fidelity"
+      ],
+      "observations": {
+        "person": "Young woman with pale skin, straight nose, defined jawline, and an athletic swimmer's build; blonde hair is visible at the hairline.",
+        "pose": "Standing straight and facing forward, with both hands raised to her forehead holding her goggles, elbows out wide.",
+        "backdrop": "Plain grey studio background with a puddle of water on the floor around her feet.",
+        "chest": "Royal blue swimsuit featuring a white logo in the center, depicting a marlin inside an arch."
+      },
+      "approved": true
+    },
+    "action2": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The athlete is diving towards the left edge of the frame instead of the right.",
+      "failed": [
+        "facing_correct"
+      ],
+      "observations": {
+        "person": "The face is seen in profile, with the nose and jawline matching the reference. The hair is tucked under a swim cap. The build is athletic and matches the reference.",
+        "pose": "The athlete is airborne in a streamline dive position, arms extended overhead and legs straight. The camera is positioned to the side, capturing the full body.",
+        "backdrop": "A plain, seamless grey studio backdrop.",
+        "chest": "A white graphic of a marlin leaping within an arched border is centered on the chest of the blue swimsuit."
+      },
+      "approved": true
+    },
+    "action3": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The crest is incorrectly placed on the side of the torso instead of centered on the chest, and the hands are poorly rendered.",
+      "failed": [
+        "hair_matches",
+        "kit_correct",
+        "crest_placement",
+        "render_quality"
+      ],
+      "observations": {
+        "person": "Teenager, pale skin, straight nose, sharp jawline, athletic build.",
+        "pose": "Bent forward, knees bent, arms hanging down, head tucked. Camera low and to the side.",
+        "backdrop": "Plain grey background with water droplets on the floor.",
+        "chest": "White outline of an arch and marlin, placed on the side of the torso."
+      },
+      "approved": true
+    },
+    "back": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The swimsuit features an open back instead of the required closed racerback, and the athlete is standing flat-footed rather than on the balls of her feet.",
+      "failed": [
+        "kit_correct",
+        "pose_correct",
+        "frame_complete"
+      ],
+      "observations": {
+        "person": "Face is not visible (from-behind shot). Build is athletic with broad shoulders and narrow hips. Blonde hair is visible at the nape.",
+        "pose": "Standing from behind, arms raised overhead in a streamline position with hands stacked. Feet are flat on the floor. Camera is directly behind, capturing the full body.",
+        "backdrop": "Plain grey studio backdrop with some water on the floor.",
+        "chest": "Not visible from this angle."
+      },
+      "approved": true
+    }
+  }
+}

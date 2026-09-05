@@ -1,0 +1,35 @@
+{
+  "verdict": "ok",
+  "usable": [
+    "art-pipeline/out/athletes/golf/before/photo1.png",
+    "art-pipeline/out/athletes/golf/before/photo2.png",
+    "art-pipeline/out/athletes/golf/before/photo3.png",
+    "art-pipeline/out/athletes/golf/before/photo4.png"
+  ],
+  "anchorOrder": [
+    "art-pipeline/out/athletes/golf/before/photo4.png",
+    "art-pipeline/out/athletes/golf/before/photo2.png",
+    "art-pipeline/out/athletes/golf/before/photo1.png",
+    "art-pipeline/out/athletes/golf/before/photo3.png"
+  ],
+  "identity": [
+    {
+      "path": "art-pipeline/out/athletes/golf/before/photo1.png",
+      "similarityToOthers": 0.772
+    },
+    {
+      "path": "art-pipeline/out/athletes/golf/before/photo2.png",
+      "similarityToOthers": 0.639
+    },
+    {
+      "path": "art-pipeline/out/athletes/golf/before/photo3.png",
+      "similarityToOthers": 0.638
+    },
+    {
+      "path": "art-pipeline/out/athletes/golf/before/photo4.png",
+      "similarityToOthers": 0.691
+    }
+  ],
+  "rejected": [],
+  "notes": []
+}

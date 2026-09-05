@@ -1,0 +1,24 @@
+{
+  "verdicts": [
+    {
+      "check": "The picture shows an American football field and nothing from a different sport.",
+      "pass": true,
+      "why": "The image clearly depicts an American football field with yard lines and goalposts, and there are no elements from other sports visible."
+    },
+    {
+      "check": "No face in the picture is sharp or identifiable.",
+      "pass": true,
+      "why": "The players in the background are out of focus, making their faces unidentifiable."
+    },
+    {
+      "check": "There is no advertising board, banner, sign or brand wordmark with readable text (the playing surface's own painted markings do not count).",
+      "pass": true,
+      "why": "There are no readable advertising boards, banners, signs, or brand wordmarks in the image."
+    },
+    {
+      "check": "The middle and lower-right of the frame are visually calm, without a busy subject in them.",
+      "pass": true,
+      "why": "The middle and lower-right areas of the frame show only the grassy field and painted lines, with no busy subjects."
+    }
+  ]
+}

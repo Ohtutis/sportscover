@@ -1,0 +1,35 @@
+{
+  "verdict": "ok",
+  "usable": [
+    "art-pipeline/out/athletes/pickleball-youth/before/photo1.png",
+    "art-pipeline/out/athletes/pickleball-youth/before/photo2.png",
+    "art-pipeline/out/athletes/pickleball-youth/before/photo3.png",
+    "art-pipeline/out/athletes/pickleball-youth/before/photo4.png"
+  ],
+  "anchorOrder": [
+    "art-pipeline/out/athletes/pickleball-youth/before/photo4.png",
+    "art-pipeline/out/athletes/pickleball-youth/before/photo3.png",
+    "art-pipeline/out/athletes/pickleball-youth/before/photo1.png",
+    "art-pipeline/out/athletes/pickleball-youth/before/photo2.png"
+  ],
+  "identity": [
+    {
+      "path": "art-pipeline/out/athletes/pickleball-youth/before/photo1.png",
+      "similarityToOthers": 0.552
+    },
+    {
+      "path": "art-pipeline/out/athletes/pickleball-youth/before/photo2.png",
+      "similarityToOthers": 0.607
+    },
+    {
+      "path": "art-pipeline/out/athletes/pickleball-youth/before/photo3.png",
+      "similarityToOthers": 0.566
+    },
+    {
+      "path": "art-pipeline/out/athletes/pickleball-youth/before/photo4.png",
+      "similarityToOthers": 0.621
+    }
+  ],
+  "rejected": [],
+  "notes": []
+}

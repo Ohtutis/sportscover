@@ -1,0 +1,39 @@
+{
+  "verdicts": [
+    {
+      "check": "Same person as reference",
+      "pass": true,
+      "why": "Subject appears consistent."
+    },
+    {
+      "check": "Card is blank matte black",
+      "pass": true,
+      "why": "Card is solid black."
+    },
+    {
+      "check": "Portrait orientation",
+      "pass": true,
+      "why": "Card is taller than wide."
+    },
+    {
+      "check": "Trading-card sized",
+      "pass": true,
+      "why": "Card fits in hand."
+    },
+    {
+      "check": "Thumb at bottom edge",
+      "pass": true,
+      "why": "Thumb holds bottom corner."
+    },
+    {
+      "check": "Normal hand anatomy",
+      "pass": true,
+      "why": "Hand looks normal."
+    },
+    {
+      "check": "Everyday clothes",
+      "pass": true,
+      "why": "Subject wears casual clothes."
+    }
+  ]
+}

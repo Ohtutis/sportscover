@@ -1,0 +1,6 @@
+{
+  "model": "gemini-3.1-flash-image",
+  "tokens": 1687,
+  "prompt": "A photograph taken on a phone: one adult hand holding a BLANK trading card upright, face on to the camera. The card face is completely EMPTY — a plain flat dark charcoal rectangle with softly rounded corners, absolutely no printing, no artwork, no text, no logo, no border pattern of any kind. CRITICAL: the fingers grip only the OUTER EDGE of the card — no finger, thumb or fingertip may appear in front of the card face. The whole blank face must be unobstructed and fully visible. Held over a kitchen counter, blurred home interior behind, natural daylight, no flash, shallow depth of field. Square 1:1. No text overlay, no watermark.",
+  "at": "2026-08-24T15:27:01.022Z"
+}

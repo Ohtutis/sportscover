@@ -1,0 +1,19 @@
+{
+  "verdicts": [
+    {
+      "check": "The inside of the framed poster is completely empty and flat black, with no picture or text in it.",
+      "pass": true,
+      "why": "The poster frame contains only a solid black space."
+    },
+    {
+      "check": "Any sports equipment in the room belongs to Soccer and to no other sport.",
+      "pass": true,
+      "why": "Only soccer items like a ball and cleats are present."
+    },
+    {
+      "check": "There is no person in the picture.",
+      "pass": true,
+      "why": "No individuals are visible in the room."
+    }
+  ]
+}

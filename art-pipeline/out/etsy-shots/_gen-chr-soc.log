@@ -1,0 +1,30 @@
+== cheerleading gift
+ok art-pipeline/out/etsy-shots/senior-night-cheerleading/gift-cheerleading.png (2591 KB)
+wrote gift-cheerleading-composited.png (cheerleading)
+== cheerleading digital
+> sr-digital …
+ok art-pipeline/out/etsy-shots/senior-night-cheerleading/sr-digital.png (658 KB)
+== cheerleading tiles
+    at async gen (/Users/a/Documents/sportscover/art-pipeline/gen-sr-set-tiles.ts:104:4)
+    at async <anonymous> (/Users/a/Documents/sportscover/art-pipeline/gen-sr-set-tiles.ts:128:46)
+
+Node.js v22.14.0
+ok tile-set-printed.png
+ok tile-set-deluxe.png
+- set-ultimate: missing inputs
+== soccer gift
+ok art-pipeline/out/etsy-shots/senior-night-soccer/gift-soccer.png (2628 KB)
+wrote gift-soccer-composited.png (soccer)
+== soccer digital
+> sr-digital …
+ok art-pipeline/out/etsy-shots/senior-night-soccer/sr-digital.png (636 KB)
+== soccer tiles
+  path: 'art-pipeline/out/etsy-shots/senior-night-soccer/src/pack-front-panel.png'
+}
+
+Node.js v22.14.0
+ok tile-set-printed.png
+ok tile-set-deluxe.png
+- set-ultimate: missing inputs
+today EUR 0
+done

@@ -1,0 +1,24 @@
+{
+  "verdicts": [
+    {
+      "check": "The picture shows an American football field at night under floodlights and nothing from a different sport.",
+      "pass": true,
+      "why": "Shows a football field at night with floodlights, no other sports visible."
+    },
+    {
+      "check": "No face in the picture is sharp or identifiable.",
+      "pass": true,
+      "why": "Player faces away and crowd is blurred."
+    },
+    {
+      "check": "There is no advertising board, banner, sign or brand wordmark with readable text (the playing surface's own painted markings do not count).",
+      "pass": true,
+      "why": "No readable ads or banners are present."
+    },
+    {
+      "check": "The middle and lower-right of the frame are visually calm, without a busy subject in them.",
+      "pass": true,
+      "why": "Middle and lower-right areas contain empty field."
+    }
+  ]
+}

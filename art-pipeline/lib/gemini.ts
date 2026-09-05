@@ -18,6 +18,7 @@
 // usually throttling rather than a missing model; retry before believing it.
 
 import { readFileSync } from "node:fs";
+import { JUDGE_EUR, assertBudget, estimateImageEur, record } from "./budget.js";
 
 const BASE = "https://generativelanguage.googleapis.com/v1beta/models";
 export const MODEL = process.env.GEMINI_IMAGE_MODEL ?? "gemini-3.1-flash-image";
@@ -110,6 +111,8 @@ export async function generateImage(opts: {
   imageSize?: string;
   model?: string;
   retries?: number;
+  /** What this image is, for the spend ledger. */
+  tag?: string;
 }): Promise<GenResult> {
   const parts: unknown[] = (opts.refs ?? []).map((r) => ({
     inlineData: { mimeType: r.mime, data: r.data.toString("base64") },
@@ -132,6 +135,9 @@ export async function generateImage(opts: {
   };
 
   const model = opts.model ?? imageModel();
+  // BEFORE the loop, so a budget stop is decided once and cannot be retried around.
+  // See lib/budget.ts for why this lives here and not in the CLIs.
+  assertBudget(estimateImageEur(model, opts.imageSize ?? "2K"), opts.tag ?? model);
   const maxTries = opts.retries ?? 7;
   let lastErr = "";
   let sentImageSize = Boolean(opts.imageSize);
@@ -182,10 +188,24 @@ export async function generateImage(opts: {
         `no image returned (finishReason=${json?.candidates?.[0]?.finishReason}) ${text.slice(0, 200)}`,
       );
     }
+    const u = json?.usageMetadata ?? {};
+    const tokens = u.totalTokenCount ?? 0;
+    record({
+      kind: "image",
+      model,
+      size: opts.imageSize ?? "2K",
+      // Input and output bill at wildly different rates (2 vs 120 USD per 1M on Pro), so
+      // the two halves are kept apart. With both, the ledger line is the real price rather
+      // than an estimate of it.
+      inTokens: u.promptTokenCount,
+      outTokens: u.candidatesTokenCount,
+      tokens,
+      tag: opts.tag ?? model,
+    });
     return {
       image: Buffer.from(img.inlineData.data, "base64"),
       mime: img.inlineData.mimeType ?? "image/png",
-      tokens: json?.usageMetadata?.totalTokenCount ?? 0,
+      tokens,
       text,
     };
   }
@@ -198,6 +218,8 @@ export async function generateJson<T>(opts: {
   images: RefImage[];
   schema: Record<string, unknown>;
   retries?: number;
+  /** What is being graded, for the spend ledger. */
+  tag?: string;
 }): Promise<T> {
   const parts: unknown[] = opts.images.map((r) => ({
     inlineData: { mimeType: r.mime, data: r.data.toString("base64") },
@@ -213,6 +235,7 @@ export async function generateJson<T>(opts: {
     },
   };
 
+  assertBudget(JUDGE_EUR, opts.tag ?? "judge");
   const maxTries = opts.retries ?? 4;
   let lastErr = "";
   for (let attempt = 1; attempt <= maxTries; attempt++) {
@@ -239,6 +262,15 @@ export async function generateJson<T>(opts: {
     const text = (json?.candidates?.[0]?.content?.parts ?? [])
       .filter((p: any) => p.text).map((p: any) => p.text).join("");
     if (!text) throw new Error("judge returned no text");
+    const u = json?.usageMetadata ?? {};
+    record({
+      kind: "judge",
+      model: JUDGE_MODEL,
+      inTokens: u.promptTokenCount,
+      outTokens: u.candidatesTokenCount,
+      tokens: u.totalTokenCount ?? 0,
+      tag: opts.tag ?? "judge",
+    });
     return JSON.parse(text) as T;
   }
   throw new Error(`judge gave up after ${maxTries} tries — ${lastErr}`);

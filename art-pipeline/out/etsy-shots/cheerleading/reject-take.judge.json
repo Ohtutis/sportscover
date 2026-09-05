@@ -1,0 +1,29 @@
+{
+  "verdicts": [
+    {
+      "check": "One athlete stands full-length against a plain grey studio backdrop.",
+      "pass": true,
+      "why": "Single athlete shown full-length on grey background."
+    },
+    {
+      "check": "The face is visible and sharp.",
+      "pass": true,
+      "why": "Face is clear and in focus."
+    },
+    {
+      "check": "The kit matches the reference kit in colour and number.",
+      "pass": true,
+      "why": "Kit is maroon with a visible number zero."
+    },
+    {
+      "check": "The athlete looks about 15 years old — NOT a young child.",
+      "pass": true,
+      "why": "Subject appears to be a teenager."
+    },
+    {
+      "check": "The build and hair match the description: 5'2\", small and very strong through the shoulders and core, compact legs; black, straightened into a high ponytail.",
+      "pass": false,
+      "why": "Hair is half-down rather than a full high ponytail."
+    }
+  ]
+}

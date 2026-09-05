@@ -1,0 +1,35 @@
+{
+  "verdict": "ok",
+  "usable": [
+    "art-pipeline/out/athletes/other-sport/before/photo1.png",
+    "art-pipeline/out/athletes/other-sport/before/photo2.png",
+    "art-pipeline/out/athletes/other-sport/before/photo3.png",
+    "art-pipeline/out/athletes/other-sport/before/photo4.png"
+  ],
+  "anchorOrder": [
+    "art-pipeline/out/athletes/other-sport/before/photo4.png",
+    "art-pipeline/out/athletes/other-sport/before/photo1.png",
+    "art-pipeline/out/athletes/other-sport/before/photo3.png",
+    "art-pipeline/out/athletes/other-sport/before/photo2.png"
+  ],
+  "identity": [
+    {
+      "path": "art-pipeline/out/athletes/other-sport/before/photo1.png",
+      "similarityToOthers": 0.711
+    },
+    {
+      "path": "art-pipeline/out/athletes/other-sport/before/photo2.png",
+      "similarityToOthers": 0.545
+    },
+    {
+      "path": "art-pipeline/out/athletes/other-sport/before/photo3.png",
+      "similarityToOthers": 0.546
+    },
+    {
+      "path": "art-pipeline/out/athletes/other-sport/before/photo4.png",
+      "similarityToOthers": 0.606
+    }
+  ],
+  "rejected": [],
+  "notes": []
+}

@@ -1,0 +1,51 @@
+{
+  "threshold": 0.36,
+  "sourceRows": [
+    {
+      "photo": "photo1.png",
+      "similarity": 0.6283,
+      "verdict": "pass"
+    },
+    {
+      "photo": "photo2.png",
+      "similarity": 0.6298,
+      "verdict": "pass"
+    },
+    {
+      "photo": "photo3.png",
+      "similarity": 0.5021,
+      "verdict": "pass"
+    },
+    {
+      "photo": "photo4.png",
+      "similarity": 0.6328,
+      "verdict": "pass"
+    }
+  ],
+  "rows": [
+    {
+      "pose": "action2",
+      "similarity": 0.6042,
+      "faceShare": 0.0091,
+      "verdict": "pass"
+    },
+    {
+      "pose": "action3",
+      "similarity": 0.4531,
+      "faceShare": 0.0084,
+      "verdict": "pass"
+    },
+    {
+      "pose": "back",
+      "similarity": 0.1486,
+      "faceShare": 0.0034,
+      "verdict": "FAIL"
+    },
+    {
+      "pose": "hero",
+      "similarity": 0.6934,
+      "faceShare": 0.0128,
+      "verdict": "pass"
+    }
+  ]
+}

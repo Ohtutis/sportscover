@@ -1,0 +1,79 @@
+{
+  "model": "birefnet-general",
+  "reports": [
+    {
+      "pose": "action2",
+      "width": 1696,
+      "height": 2528,
+      "coverage": 0.201,
+      "margins": {
+        "top": 253,
+        "right": 39,
+        "bottom": 219,
+        "left": 27
+      },
+      "islands": 2,
+      "largestShare": 0.9314,
+      "softEdge": 0.056,
+      "haloDistance": 94.6,
+      "fails": [
+        "2 separate pieces — something detached from the body",
+        "largest piece is only 93.1% of the matte"
+      ]
+    },
+    {
+      "pose": "action3",
+      "width": 1696,
+      "height": 2528,
+      "coverage": 0.1873,
+      "margins": {
+        "top": 167,
+        "right": 153,
+        "bottom": 146,
+        "left": 291
+      },
+      "islands": 2,
+      "largestShare": 0.9153,
+      "softEdge": 0.0512,
+      "haloDistance": 95.2,
+      "fails": [
+        "2 separate pieces — something detached from the body",
+        "largest piece is only 91.5% of the matte"
+      ]
+    },
+    {
+      "pose": "back",
+      "width": 1696,
+      "height": 2528,
+      "coverage": 0.1602,
+      "margins": {
+        "top": 206,
+        "right": 114,
+        "bottom": 192,
+        "left": 141
+      },
+      "islands": 1,
+      "largestShare": 1,
+      "softEdge": 0.053,
+      "haloDistance": 97.1,
+      "fails": []
+    },
+    {
+      "pose": "hero",
+      "width": 1696,
+      "height": 2528,
+      "coverage": 0.1778,
+      "margins": {
+        "top": 205,
+        "right": 504,
+        "bottom": 88,
+        "left": 510
+      },
+      "islands": 1,
+      "largestShare": 1,
+      "softEdge": 0.0427,
+      "haloDistance": 110.5,
+      "fails": []
+    }
+  ]
+}

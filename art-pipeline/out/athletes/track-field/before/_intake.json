@@ -1,0 +1,35 @@
+{
+  "verdict": "ok",
+  "usable": [
+    "art-pipeline/out/athletes/track-field/before/photo1.png",
+    "art-pipeline/out/athletes/track-field/before/photo2.png",
+    "art-pipeline/out/athletes/track-field/before/photo3.png",
+    "art-pipeline/out/athletes/track-field/before/photo4.png"
+  ],
+  "anchorOrder": [
+    "art-pipeline/out/athletes/track-field/before/photo1.png",
+    "art-pipeline/out/athletes/track-field/before/photo4.png",
+    "art-pipeline/out/athletes/track-field/before/photo3.png",
+    "art-pipeline/out/athletes/track-field/before/photo2.png"
+  ],
+  "identity": [
+    {
+      "path": "art-pipeline/out/athletes/track-field/before/photo1.png",
+      "similarityToOthers": 0.624
+    },
+    {
+      "path": "art-pipeline/out/athletes/track-field/before/photo2.png",
+      "similarityToOthers": 0.619
+    },
+    {
+      "path": "art-pipeline/out/athletes/track-field/before/photo3.png",
+      "similarityToOthers": 0.661
+    },
+    {
+      "path": "art-pipeline/out/athletes/track-field/before/photo4.png",
+      "similarityToOthers": 0.699
+    }
+  ],
+  "rejected": [],
+  "notes": []
+}

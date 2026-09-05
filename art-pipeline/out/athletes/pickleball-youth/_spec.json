@@ -1,0 +1,84 @@
+{
+ "athlete": "pickleball-youth",
+ "colourConflict": null,
+ "bestPortrait": "photo1.png",
+ "sport": "pickleball",
+ "generatedAt": "2026-08-22T06:38:05.903Z",
+ "judge": "gemini-3.1-pro-preview",
+ "source": {
+  "photos": [
+   "photo1.png",
+   "photo2.png",
+   "photo3.png",
+   "photo4.png"
+  ],
+  "formFields": {
+   "firstName": "Nadia",
+   "lastName": "Rahimi",
+   "jerseyNumber": "0",
+   "team": "Copperline Kingfishers",
+   "ageYears": 16,
+   "primaryColor": "#8C5A2B",
+   "secondaryColor": "#F2E9DC"
+  }
+ },
+ "resolved": [
+  {
+   "item": "hair",
+   "source": "photos",
+   "value": "VERY DARK BROWN hair, thick and slightly WAVY, pulled straight back off the face with no fringe and no parting and gathered into a HIGH PONYTAIL at the crown that falls in loose waves and swings clear of the shoulders. A few shorter strands escape at the temples and along the hairline. The same high ponytail in every frame \u2014 at the court, in the kitchen and out walking.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. photo2.png needed two corrections first: the intake gate rejected it for having three people and no clear subject, and it carried a maker's logo on the shorts plus a graphic and lettering on the paddle. Both were fixed with art:fix, so these lines describe the corrected frame."
+  },
+  {
+   "item": "build",
+   "source": "photos",
+   "value": "A SIXTEEN-YEAR-OLD GIRL's body: about 5'6\", COMPACT and quick rather than tall or long \u2014 short-limbed and low to the ground, with strong thighs and calves that carry the athleticism, and comparatively light arms with only soft tone and no cut definition. Solid and even through the middle rather than slender. Reproduce this body as it is: do NOT lengthen her limbs, do NOT give her an adult woman's figure, and do NOT slim the legs, which are the strongest thing about her.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. photo2.png needed two corrections first: the intake gate rejected it for having three people and no clear subject, and it carried a maker's logo on the shorts plus a graphic and lettering on the paddle. Both were fixed with art:fix, so these lines describe the corrected frame."
+  },
+  {
+   "item": "shirt",
+   "source": "photos",
+   "value": "A COPPER short-sleeved athletic T-SHIRT exactly as photo2.png shows it: a plain round neck and short set-in sleeves, with a LIGHTER COPPER contrast SEAM piped along each shoulder, running from the neckline out to the underarm \u2014 that lighter shoulder seam is the only trim on it, and the rest of the shirt is plain copper. It fits close but is not tight. The club badge sits SMALL ON THE LEFT CHEST, about a palm across: the copperline-kingfishers mark exactly as the crest artwork draws it \u2014 an upright rounded PATCH with its top two corners clipped, in pale cream, carrying the kingfisher diving head-first straight down with its wings swept back into a dart and its dagger beak at the bottom, in copper. It is the ONLY mark on the shirt. NO maker's logo, NO club name, NO player name, NO number and no lettering of any kind. The BACK of the shirt is not visible in any photograph; the DECISION is that it stays PLAIN COPPER: no number, no name, no badge and no lettering across the shoulders or anywhere on it. Pickleball does not number a shirt, and a number across her back would be a mark this shirt does not have.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. photo2.png needed two corrections first: the intake gate rejected it for having three people and no clear subject, and it carried a maker's logo on the shorts plus a graphic and lettering on the paddle. Both were fixed with art:fix, so these lines describe the corrected frame."
+  },
+  {
+   "item": "shorts",
+   "source": "photos",
+   "value": "PLAIN COPPER athletic SHORTS exactly as photo2.png and photo3.png show them: the same copper as the shirt, cut short to mid-thigh with a plain flat elasticated waistband, a soft loose leg and no stripe, no piping and no side panel. NO maker's logo, no number and no lettering on them. photo3.png shows her training on an outdoor court in a copper sleeveless TANK with the same shorts; the tank is training wear, and the DECISION for every pose is the SHORT-SLEEVED t-shirt from photo2.png, which is her match kit.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. photo2.png needed two corrections first: the intake gate rejected it for having three people and no clear subject, and it carried a maker's logo on the shorts plus a graphic and lettering on the paddle. Both were fixed with art:fix, so these lines describe the corrected frame."
+  },
+  {
+   "item": "socks",
+   "source": "photos",
+   "value": "PLAIN WHITE ANKLE SOCKS, sitting just above the shoe collar with a short band of white showing between the shoe and the bare ankle, exactly as photo3.png shows them. No stripe, no colour band and no maker's mark. The same pair in every frame.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. photo2.png needed two corrections first: the intake gate rejected it for having three people and no clear subject, and it carried a maker's logo on the shorts plus a graphic and lettering on the paddle. Both were fixed with art:fix, so these lines describe the corrected frame."
+  },
+  {
+   "item": "footwear",
+   "source": "photos",
+   "value": "ENTIRELY WHITE COURT SHOES \u2014 white upper, white laces and white sole, with NO grey panels and no contrast colour anywhere on them, exactly as photo3.png shows them \u2014 a flat non-marking court sole and a slightly cushioned midsole, as photo3.png shows them. Completely PLAIN and UNBRANDED \u2014 no stripes device, no swoosh, no maker's mark and no lettering on the upper or the sole. The same pair in every frame, clean.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. photo2.png needed two corrections first: the intake gate rejected it for having three people and no clear subject, and it carried a maker's logo on the shorts plus a graphic and lettering on the paddle. Both were fixed with art:fix, so these lines describe the corrected frame."
+  },
+  {
+   "item": "equipment",
+   "source": "photos",
+   "value": "A PICKLEBALL PADDLE and a BALL, both plain. The paddle has a flat rigid SOLID FACE \u2014 no strings, no open throat, no oval head \u2014 in light beige, with a BLACK edge guard around it and a BLACK wrapped handle. The face is COMPLETELY BLANK: no graphic, no swirl, no logo, no model name and no lettering on either side of it. NO BALL appears in any photograph; the DECISION is that where a pose needs one it is a plain YELLOW perforated plastic pickleball with round holes, unbranded, and it appears nowhere else. In photo2.png there is also a plain towel and a plain unlabelled water bottle on the bench beside her; the DECISION for the poses is that she carries the PADDLE and, where the action needs it, the BALL \u2014 and nothing else: no bag, no bottle, no towel.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. photo2.png needed two corrections first: the intake gate rejected it for having three people and no clear subject, and it carried a maker's logo on the shorts plus a graphic and lettering on the paddle. Both were fixed with art:fix, so these lines describe the corrected frame."
+  }
+ ],
+ "crest": {
+  "use": true,
+  "slug": "copperline-kingfishers",
+  "fromPhotos": true,
+  "note": "The copperline-kingfishers mark \u2014 the SAME club as Ray Solberg, deliberately: a KINGFISHER diving head-first STRAIGHT DOWN, wings swept back flat against the body into a dart, the long dagger beak at the bottom point \u2014 one vertical shape, no water, no fish, no perch. It sits in an UPRIGHT ROUNDED RECTANGLE \u2014 a patch \u2014 with its top two corners clipped and a heavy border. On the copper shirt the patch field is pale cream with the bird and the border in copper; the outline, the bird and their proportions are the crest artwork unaltered.",
+  "placement": "SMALL ON THE LEFT CHEST, about a palm across, as photo2.png shows it \u2014 a real team badge, not a printed graphic across the front. That position is a settled decision: do not centre it, do not enlarge it and do not add a second mark beside it."
+ },
+ "defaults": "a copper athletic t-shirt with contrasting shoulder seams and copper shorts. The kit fits properly and is clean and well kept.\nCONSISTENT ACROSS THE WHOLE SET \u2014 three of these frames sit side by side on one card, so\nthese must be identical in every shot and are not open to interpretation:\n- Socks are copper, matching the kit. Never white, never a different colour.\n- Equipment: a plain yellow perforated pickleball and a plain unbranded paddle. The same one in every shot.\n- Footwear: plain white court shoes with grey accents. The same pair in every shot, clean and unmarked."
+}

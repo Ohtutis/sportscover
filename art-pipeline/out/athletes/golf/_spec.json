@@ -1,0 +1,85 @@
+{
+ "athlete": "golf",
+ "colourConflict": null,
+ "bestPortrait": "photo1.png",
+ "sport": "golf",
+ "generatedAt": "2026-08-22T02:45:44.537Z",
+ "judge": "gemini-3.1-pro-preview",
+ "source": {
+  "photos": [
+   "photo1.png",
+   "photo2.png",
+   "photo3.png",
+   "photo4.png"
+  ],
+  "formFields": {
+   "firstName": "Hana",
+   "lastName": "Park",
+   "jerseyNumber": "0",
+   "team": "Pinewick Osprey",
+   "ageYears": 17,
+   "primaryColor": "#5D6B2A",
+   "secondaryColor": "#EDE6D6"
+  }
+ },
+ "resolved": [
+  {
+   "item": "hair",
+   "source": "photos",
+   "value": "BLACK hair, straight, heavy and glossy, parted slightly off-centre with no fringe, drawn back and gathered into a LOW PONYTAIL at the nape that hangs straight down. On course the ponytail is threaded out behind the cap; away from the course it is the same low ponytail. The CAP is not hair and is not part of this line \u2014 it is a kit item, worn to play.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. photo2.png was de-branded with art:fix first \u2014 the golf bag carried maker's lettering and the water bottle a printed label \u2014 so these lines describe the corrected frame."
+  },
+  {
+   "item": "build",
+   "source": "photos",
+   "value": "A SEVENTEEN-YEAR-OLD's body: average height, SLIM and evenly built with narrow shoulders and long lean limbs, a straight waist and no heavy muscle anywhere. Strong and stable through the legs and trunk in the way a golfer is, but not obviously athletic to look at. Reproduce this body as it is \u2014 neither slimmed nor broadened, and not given an adult woman's figure.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. photo2.png was de-branded with art:fix first \u2014 the golf bag carried maker's lettering and the water bottle a printed label \u2014 so these lines describe the corrected frame."
+  },
+  {
+   "item": "shirt",
+   "source": "photos",
+   "value": "An OLIVE short-sleeved golf POLO exactly as photo2.png shows it: plain olive all over including the COLLAR and the sleeves \u2014 the collar is the SAME olive as the body and is NOT a contrasting colour, whatever the sport default says. A normal fold-over polo collar and a short placket with THREE buttons, all olive. The club badge sits HIGH ON THE LEFT CHEST just below the collar: the pinewick-osprey mark exactly as the crest artwork draws it \u2014 an INVERTED clipped TRIANGLE, two corners at the top and the point at the bottom, with an OFF-WHITE field inside an olive border and the osprey seen head-on inside it, wings raised into a wide V and talons reaching down. It is the ONLY mark on the polo. NO maker's logo, NO club name, NO player name, NO number and no lettering of any kind. The BACK of the polo is not visible in any photograph; the DECISION is that it stays PLAIN OLIVE: no number, no name, no badge and no lettering across the shoulders or anywhere on it. Golf does not number a shirt, and a number across her back would be a mark this polo does not have.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. photo2.png was de-branded with art:fix first \u2014 the golf bag carried maker's lettering and the water bottle a printed label \u2014 so these lines describe the corrected frame."
+  },
+  {
+   "item": "shorts",
+   "source": "photos",
+   "value": "OLIVE TAILORED GOLF TROUSERS exactly as photo2.png shows them \u2014 full length to the shoe, a straight slim leg with a pressed front crease, a flat waistband with BELT LOOPS but NO BELT worn through them, and slash pockets at the hips. Plain olive, no stripe, no logo, no lettering. photo3.png shows her practising in olive SHORTS on a warm day; those are training wear, and the DECISION for every pose is the TROUSERS from photo2.png, which are the on-course kit.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. photo2.png was de-branded with art:fix first \u2014 the golf bag carried maker's lettering and the water bottle a printed label \u2014 so these lines describe the corrected frame."
+  },
+  {
+   "item": "socks",
+   "source": "photos",
+   "value": "PLAIN WHITE ANKLE SOCKS, sitting just above the shoe collar, no stripe and no maker's mark, as photo3.png shows them. In photo2.png the trousers cover them entirely, which is correct \u2014 with the trousers on, little or no sock shows.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. photo2.png was de-branded with art:fix first \u2014 the golf bag carried maker's lettering and the water bottle a printed label \u2014 so these lines describe the corrected frame."
+  },
+  {
+   "item": "footwear",
+   "source": "photos",
+   "value": "PLAIN WHITE GOLF SHOES exactly as photo3.png shows them: a low white leather-look shoe with white laces, a slightly rounded toe and a flat spikeless outsole. Completely PLAIN and UNBRANDED \u2014 no stripes device, no swoosh, no maker's mark and no lettering on the upper or the sole. This is her GOLF footwear and it appears in the golf frames \u2014 photo2.png and photo3.png. photo1.png is a day at home and she is in ordinary plain grey trainers there, which are not kit and are not this pair. They are WORN IN rather than new: photo1.png and photo3.png both show grass stain and dried mud across the toe and the outsole from playing, which is correct for shoes that live on a course, and photo2.png does not show her feet at all. In the poses they read as a real pair she plays in \u2014 lightly marked, never factory-fresh and never filthy.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. photo2.png was de-branded with art:fix first \u2014 the golf bag carried maker's lettering and the water bottle a printed label \u2014 so these lines describe the corrected frame."
+  },
+  {
+   "item": "equipment",
+   "source": "photos",
+   "value": "THREE THINGS, and all three are hers. A GOLF CLUB with a plain polished silver steel shaft and a plain black grip, completely unbranded \u2014 no maker's name on the head, the shaft or the grip. A single GLOVE worn on her LEFT hand \u2014 her leading hand, she plays right-handed \u2014 in soft pale leather with a small round ball marker on the closure \u2014 it reads olive-grey in photo2.png and closer to white in photo3.png, and the DECISION for the poses is the PALE OLIVE-GREY of photo2.png, the frame that shows her match kit; ONE glove only, never a pair, and the right hand is bare. And an OLIVE CAP with a curved brim, plain and unmarked, with the ponytail threaded out behind it. In photo2.png she is also carrying a plain unbranded golf BAG of clubs and a CLEAR plastic water bottle with a blue cap and NO label on it at all, on her way round; a second bottle stands on the grass behind her with a plain unreadable wrap; the DECISION for the poses is that she carries the CLUB and nothing else \u2014 no bag, no bottle, no towel, and no ball unless the action needs one, in which case it is a plain white unbranded ball.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. photo2.png was de-branded with art:fix first \u2014 the golf bag carried maker's lettering and the water bottle a printed label \u2014 so these lines describe the corrected frame."
+  }
+ ],
+ "crest": {
+  "use": true,
+  "slug": "pinewick-osprey",
+  "fromPhotos": true,
+  "note": "The pinewick-osprey mark: an OSPREY seen HEAD-ON with both wings raised into a wide V and its talons reaching down and forward, symmetrical, filling an INVERTED clipped TRIANGLE \u2014 two corners at the top, the third point at the bottom \u2014 with a heavy border. Not a shield, not a circle, and not point-up. On the olive polo the field inside the triangle is OFF-WHITE with the border and the bird in olive; the outline, the bird and their proportions are the crest artwork unaltered.",
+  "placement": "HIGH ON THE LEFT CHEST just below the collar, about three fingers wide, as photo2.png shows it. That position is a settled decision: do not centre it, do not enlarge it and do not add a second mark beside it."
+ },
+ "defaults": "a olive golf polo with a contrasting collar, tailored golf trousers, a belt, a olive cap and a glove on the leading hand. The kit fits properly and is clean and well kept.\nCONSISTENT ACROSS THE WHOLE SET \u2014 three of these frames sit side by side on one card, so\nthese must be identical in every shot and are not open to interpretation:\n- Socks are olive, matching the kit. Never white, never a different colour.\n- Equipment: a plain white golf ball and a plain unbranded club. The same one in every shot.\n- Footwear: plain white golf shoes. The same pair in every shot, clean and unmarked.",
+ "specNote": "art:spec:verify went on reporting white lettering on the club grip and a printed label on the carried water bottle after both were edited out. 4x crops of photo3.png and photo2.png show a plain black grip and a completely unlabelled clear bottle. \u00a733: the crop outranks the judge, and these lines are not to be reverted on another verifier run."
+}

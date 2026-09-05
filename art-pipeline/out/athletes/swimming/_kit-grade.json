@@ -1,0 +1,58 @@
+{
+  "observations": {
+    "items": "A royal blue one-piece swimsuit, a royal blue silicone swim cap, and a pair of swimming goggles.",
+    "badge": "A white arch outline with a flat base and semicircular top, containing a marlin figure, printed on the center of the chest. No lettering. No manufacturer logos.",
+    "footwear": "none"
+  },
+  "checks": [
+    {
+      "id": "all_items_present",
+      "pass": true,
+      "note": "The swimsuit, cap, and goggles are all present and laid out separately."
+    },
+    {
+      "id": "matches_kit_photo",
+      "pass": true,
+      "note": "The swimsuit, cap, and goggles match the reference photograph."
+    },
+    {
+      "id": "crest_correct",
+      "pass": true,
+      "note": "The crest matches the provided artwork and is correctly applied in white."
+    },
+    {
+      "id": "no_league_mark",
+      "pass": true,
+      "note": "No league or federation marks are present."
+    },
+    {
+      "id": "no_text_anywhere",
+      "pass": true,
+      "note": "No text is visible on any item."
+    },
+    {
+      "id": "no_branding",
+      "pass": true,
+      "note": "No manufacturer branding is visible."
+    },
+    {
+      "id": "footwear_correct_for_sport",
+      "pass": true,
+      "note": "No footwear is present, which is correct for swimming."
+    },
+    {
+      "id": "clean_and_new",
+      "pass": true,
+      "note": "All items appear clean and new."
+    },
+    {
+      "id": "flat_lay",
+      "pass": true,
+      "note": "The image is a proper flat lay from directly overhead."
+    }
+  ],
+  "worstIssue": "none",
+  "verdict": "pass",
+  "plateHash": "9552efa07450",
+  "gradedAt": "2026-08-22T00:45:25.933Z"
+}

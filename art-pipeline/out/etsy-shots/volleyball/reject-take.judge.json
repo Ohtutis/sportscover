@@ -1,0 +1,29 @@
+{
+  "verdicts": [
+    {
+      "check": "One athlete stands full-length against a plain grey studio backdrop.",
+      "pass": false,
+      "why": "Athlete is jumping rather than standing."
+    },
+    {
+      "check": "The face is visible and sharp.",
+      "pass": true,
+      "why": "Face is clearly visible and in focus."
+    },
+    {
+      "check": "The kit matches the reference kit in colour and number.",
+      "pass": true,
+      "why": "Kit shows distinct color and number 5."
+    },
+    {
+      "check": "The athlete looks about 17 years old — NOT a young child.",
+      "pass": true,
+      "why": "Subject appears to be a young adult or teen."
+    },
+    {
+      "check": "The build matches the description: 5'10\", long through the arms and torso with broad shoulders and lean legs.",
+      "pass": true,
+      "why": "Proportions match the tall athletic description."
+    }
+  ]
+}

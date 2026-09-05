@@ -1,0 +1,94 @@
+{
+ "baseball": {
+  "hero": {
+   "canvas": [
+    1696,
+    2528
+   ],
+   "mainArea": 981273,
+   "islands": 1,
+   "equipment": [],
+   "garbage": [],
+   "dust": 0,
+   "holes": [
+    14307
+   ],
+   "margins": {
+    "top": 158,
+    "bottom": 71,
+    "left": 401,
+    "right": 408
+   },
+   "softEdge": 0.0326,
+   "fails": []
+  },
+  "action2": {
+   "canvas": [
+    1696,
+    2528
+   ],
+   "mainArea": 844262,
+   "islands": 1,
+   "equipment": [],
+   "garbage": [],
+   "dust": 0,
+   "holes": [
+    34125,
+    24259
+   ],
+   "margins": {
+    "top": 328,
+    "bottom": 79,
+    "left": 391,
+    "right": 349
+   },
+   "softEdge": 0.0348,
+   "fails": []
+  },
+  "action3": {
+   "canvas": [
+    1696,
+    2528
+   ],
+   "mainArea": 679315,
+   "islands": 1,
+   "equipment": [],
+   "garbage": [],
+   "dust": 0,
+   "holes": [
+    426
+   ],
+   "margins": {
+    "top": 653,
+    "bottom": 273,
+    "left": 36,
+    "right": 43
+   },
+   "softEdge": 0.0465,
+   "fails": []
+  },
+  "back": {
+   "canvas": [
+    1696,
+    2528
+   ],
+   "mainArea": 1056248,
+   "islands": 2,
+   "equipment": [],
+   "garbage": [],
+   "dust": 1,
+   "holes": [
+    9797,
+    1625
+   ],
+   "margins": {
+    "top": 141,
+    "bottom": 56,
+    "left": 474,
+    "right": 403
+   },
+   "softEdge": 0.0348,
+   "fails": []
+  }
+ }
+}

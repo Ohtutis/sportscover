@@ -1,0 +1,35 @@
+{
+  "verdict": "ok",
+  "usable": [
+    "art-pipeline/out/athletes/swimming/before/photo1.png",
+    "art-pipeline/out/athletes/swimming/before/photo2.png",
+    "art-pipeline/out/athletes/swimming/before/photo3.png",
+    "art-pipeline/out/athletes/swimming/before/photo4.png"
+  ],
+  "anchorOrder": [
+    "art-pipeline/out/athletes/swimming/before/photo4.png",
+    "art-pipeline/out/athletes/swimming/before/photo1.png",
+    "art-pipeline/out/athletes/swimming/before/photo3.png",
+    "art-pipeline/out/athletes/swimming/before/photo2.png"
+  ],
+  "identity": [
+    {
+      "path": "art-pipeline/out/athletes/swimming/before/photo1.png",
+      "similarityToOthers": 0.574
+    },
+    {
+      "path": "art-pipeline/out/athletes/swimming/before/photo2.png",
+      "similarityToOthers": 0.548
+    },
+    {
+      "path": "art-pipeline/out/athletes/swimming/before/photo3.png",
+      "similarityToOthers": 0.482
+    },
+    {
+      "path": "art-pipeline/out/athletes/swimming/before/photo4.png",
+      "similarityToOthers": 0.525
+    }
+  ],
+  "rejected": [],
+  "notes": []
+}

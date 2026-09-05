@@ -1,0 +1,59 @@
+{
+  "verifiedAt": "2026-08-22T02:10:56.924Z",
+  "photos": [
+    "photo1.png",
+    "photo2.png",
+    "photo3.png",
+    "photo4.png"
+  ],
+  "findings": [
+    {
+      "id": "hair",
+      "seen": "The photographs show the athlete with thick, dark reddish-brown (auburn) hair that is very curly. It is grown out over his ears and falls forward onto his forehead as a messy fringe without a parting. The volume of the curls makes it stand up off the crown. This hairstyle is consistent across all four images.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "build",
+      "seen": "The athlete appears to be a teenager with a slight, lean build. His arms and legs are slender without heavy muscle definition, and his torso is relatively flat. His shoulders are not significantly wider than his hips.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shirt",
+      "seen": "In photo 2, the athlete wears a short-sleeved polo shirt with a plain white body. It features a turquoise fold-over collar edged with a thin white line, a turquoise placket with two white buttons, and turquoise sleeve cuffs also edged with a thin white line. On the left chest, there is a small dark teal badge shaped like a pennant pointing to the right, containing an 'S' and a heron design. There are no other logos, names, or numbers visible on the shirt.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shorts",
+      "seen": "Photos 2 and 3 show the athlete wearing plain turquoise shorts that end above the knee. They have an elasticated waistband and lack any stripes, piping, contrast trim, logos, or lettering.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "socks",
+      "seen": "In photo 3, the athlete is wearing plain white ankle socks that sit just above the collar of his shoes. There are no stripes, color bands, or maker's marks visible on them.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "footwear",
+      "seen": "Photo 3 shows the athlete wearing cream-white court shoes with pale grey side panels and white laces. The sole of the raised shoe shows a flat herringbone pattern. The shoes are completely plain and unbranded, with no visible logos, stripes, or lettering on the upper or the heel.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "equipment",
+      "seen": "Photo 2 shows the athlete holding a racket with a matte black frame, white strings, a white grip, and black finishing tape at the top of the grip. Photo 3 shows a different racket lying on the bench with a solid black grip. The athlete wears a plain white terry headband in photo 2 and a plain turquoise terry wristband on his right wrist in photo 3. No tennis balls or other equipment bags are visible in use.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "crest placement",
+      "seen": "Photo 2 shows the club crest positioned small on the left chest of the polo shirt.",
+      "verdict": "confirmed",
+      "note": ""
+    }
+  ]
+}

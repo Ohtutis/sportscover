@@ -1,0 +1,31 @@
+{
+  "judge": "gemini-3.1-pro-preview",
+  "generator": "gemini-3-pro-image",
+  "gradedAt": "2026-08-22T07:44:30.760Z",
+  "report": {
+    "_kit": {
+      "verdict": "approved",
+      "skipped": true
+    },
+    "_set": {
+      "verdict": "approved",
+      "skipped": true
+    },
+    "hero": {
+      "verdict": "approved",
+      "skipped": true
+    },
+    "action2": {
+      "verdict": "approved",
+      "skipped": true
+    },
+    "action3": {
+      "verdict": "approved",
+      "skipped": true
+    },
+    "back": {
+      "verdict": "approved",
+      "skipped": true
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "judge": "gemini-3.1-pro-preview",
+  "generator": "gemini-3-pro-image",
+  "gradedAt": "2026-08-22T00:29:09.439Z",
+  "report": {
+    "_kit": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "none",
+      "failed": [],
+      "observations": {
+        "items": "Gold sleeveless singlet, gold compression shorts with a white patch containing a black number 8 on the right side, pair of black shoes.",
+        "badge": "Circular badge centered on the chest with a thick black outer ring, white inner field, and a gold winged foot. No lettering or maker's marks.",
+        "footwear": "Plain black shoes, one viewed from above and one from the side showing a black textured sole."
+      }
+    },
+    "_set": {
+      "verdict": "fail",
+      "worstIssue": "The number '8' patch is missing from the shorts in image 2.",
+      "failed": [
+        "same_kit"
+      ],
+      "offending": [
+        "2"
+      ],
+      "observations": {
+        "footwear": "Image 1: Black track spikes. Image 2: Black track spikes. Image 3: Black track spikes. Image 4: Black track spikes.",
+        "equipment": "Image 1: None. Image 2: None. Image 3: None. Image 4: None.",
+        "kit": "Image 1: Mustard sleeveless top, round neck, chest logo; mustard shorts with white '8' patch on left leg. Image 2: Mustard sleeveless top, round neck, chest logo; mustard shorts, no patch visible. Image 3: Mustard sleeveless top, round neck, chest logo; mustard shorts with white '8' patch on left leg. Image 4: Mustard sleeveless top, round neck; mustard shorts with white '8' patch on left leg."
+      }
+    },
+    "hero": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The athlete is running straight towards the camera instead of three-quarters across the frame.",
+      "failed": [
+        "pose_correct",
+        "camera_correct",
+        "facing_correct"
+      ],
+      "observations": {
+        "person": "Young Black woman with braided hair pulled back, matching the reference's facial features and build.",
+        "pose": "Sprinting directly towards the camera with both feet off the ground.",
+        "backdrop": "Plain grey studio background.",
+        "chest": "A circular logo with a black border, white center, and a gold winged foot."
+      },
+      "approved": true
+    },
+    "action2": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The athlete is in a static standing pose rather than a dynamic finish-line lean with a reaching stride.",
+      "failed": [
+        "kit_correct",
+        "crest_placement",
+        "pose_correct",
+        "frame_complete"
+      ],
+      "observations": {
+        "person": "Teenage female, dark skin, braided hair pulled into a bun, lean athletic build, matching the reference.",
+        "pose": "Standing on both feet with knees bent, leaning forward from the waist, arms swept back.",
+        "backdrop": "Plain grey studio background.",
+        "chest": "A large circular logo with a black border, white center, and a gold winged foot."
+      },
+      "approved": true
+    },
+    "action3": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The pose is a standard upright running stride rather than the low, forward-angled drive phase requested, and the camera is at waist height instead of low to the ground.",
+      "failed": [
+        "pose_correct",
+        "camera_correct"
+      ],
+      "observations": {
+        "person": "The face matches the reference well, with consistent nose shape, brow, and jawline. The hair is braided and pulled back into a bun, matching the reference. The apparent age is a teenager, and the build is lean and athletic.",
+        "pose": "The athlete is in a running stride, relatively upright with her head up and looking forward. The camera is positioned at roughly waist height, shooting straight on.",
+        "backdrop": "A plain, seamless grey studio backdrop.",
+        "chest": "A circular crest centered on the chest, featuring a black outer ring, a white inner field, and a gold winged foot."
+      },
+      "approved": true
+    },
+    "back": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "none",
+      "failed": [],
+      "observations": {
+        "person": "The face is not visible as the shot is from strictly behind. The build is lean and athletic, matching the reference. The hair is styled in cornrows pulled back into a low bun, matching the reference perfectly.",
+        "pose": "The athlete is seen from directly behind, with both arms thrown up and out wide above her head, head tipped back, back arched, standing on the toes of her right foot with the left foot trailing.",
+        "backdrop": "A plain, seamless grey studio backdrop with a soft contact shadow under the feet.",
+        "chest": "The chest is not visible in this from-behind shot."
+      },
+      "approved": true
+    }
+  }
+}

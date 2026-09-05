@@ -1,0 +1,59 @@
+{
+  "verifiedAt": "2026-08-22T04:10:57.383Z",
+  "photos": [
+    "photo1.png",
+    "photo2.png",
+    "photo3.png",
+    "photo4.png"
+  ],
+  "findings": [
+    {
+      "id": "hair",
+      "seen": "The athlete has dark brown locs that are tied back away from the face at the back of the head, with a few shorter loose hairs visible around the front hairline.",
+      "verdict": "confirmed",
+      "note": "The claim accurately describes the hair as seen in the photographs."
+    },
+    {
+      "id": "build",
+      "seen": "The athlete is a teenage boy with a slim, lean build, narrow shoulders, and thin limbs without heavy muscle definition.",
+      "verdict": "confirmed",
+      "note": "The claim accurately describes the athlete's build."
+    },
+    {
+      "id": "shirt",
+      "seen": "The athlete wears a loose-fitting slate blue-grey t-shirt with darker slate bands at the sleeve cuffs. It has a small crest on the left chest featuring a dark watchtower on an off-white shield with a gold border. There are no other markings or logos.",
+      "verdict": "confirmed",
+      "note": "The claim accurately describes the shirt and its details."
+    },
+    {
+      "id": "shorts",
+      "seen": "The athlete wears loose slate blue-grey shorts that match the shirt, ending just above the knee pads. The number '12' is printed in darker slate on the lower left leg.",
+      "verdict": "confirmed",
+      "note": "The claim accurately describes the shorts and the placement of the number."
+    },
+    {
+      "id": "socks",
+      "seen": "The athlete is wearing plain black ribbed crew socks that sit well above the shoe collar.",
+      "verdict": "confirmed",
+      "note": "The claim accurately describes the socks."
+    },
+    {
+      "id": "footwear",
+      "seen": "The athlete wears black low-cut skate shoes with white rubber foxing tape around the base and black laces. The shoes feature a prominent white curved side stripe on the black upper.",
+      "verdict": "contradicted",
+      "note": "The claim states the shoes are completely plain and unbranded with no maker's stripe or side flash, but the photographs clearly show a white side stripe on the black upper."
+    },
+    {
+      "id": "equipment",
+      "seen": "The athlete has a skateboard with black grip tape, a plain wood underside, silver trucks, and cream wheels. He wears black knee pads and a dark charcoal skate helmet. The helmet covers the top of the head but sits above the ears, leaving them fully exposed.",
+      "verdict": "contradicted",
+      "note": "The claim states that the helmet covers the ears, but the photographs show the helmet sits above the ears, leaving them completely visible."
+    },
+    {
+      "id": "crest placement",
+      "seen": "The club crest is positioned on the left chest of the t-shirt.",
+      "verdict": "confirmed",
+      "note": "The claim accurately describes the placement of the crest."
+    }
+  ]
+}

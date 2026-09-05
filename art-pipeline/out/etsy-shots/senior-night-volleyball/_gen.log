@@ -1,0 +1,28 @@
+== gift-volleyball
+ok art-pipeline/out/etsy-shots/senior-night-volleyball/gift-volleyball.png (2487 KB)
+== gift composite
+wrote art-pipeline/out/etsy-shots/senior-night-volleyball/gift-volleyball-composited.png
+wrote gift-volleyball-composited.png (volleyball)
+== sr-digital
+> sr-digital …
+ok art-pipeline/out/etsy-shots/senior-night-volleyball/sr-digital.png (686 KB)
+== tiles apply
+ok art-pipeline/out/etsy-shots/senior-night-volleyball/set-printed-real.png
+ok art-pipeline/out/etsy-shots/senior-night-volleyball/set-deluxe-real.png
+ok art-pipeline/out/etsy-shots/senior-night-volleyball/set-ultimate-real.png
+== tiles finish
+ok tile-set-printed.png
+ok tile-set-deluxe.png
+ok tile-set-ultimate.png
+== spend
+today EUR 0
+gift-volleyball-composited.png
+gift-volleyball.json
+gift-volleyball.png
+gift-volleyball.spec.json
+sr-digital.json
+sr-digital.png
+tile-set-deluxe.png
+tile-set-printed.png
+tile-set-ultimate.png
+done

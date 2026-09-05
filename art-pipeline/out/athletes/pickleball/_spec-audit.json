@@ -1,0 +1,59 @@
+{
+  "verifiedAt": "2026-08-22T03:20:16.116Z",
+  "photos": [
+    "photo1.png",
+    "photo2.png",
+    "photo3.png",
+    "photo4.png"
+  ],
+  "findings": [
+    {
+      "id": "hair",
+      "seen": "The photographs show a man with short grey hair that is receded at the temples and thinning on the crown, exposing the scalp. He has a close-cropped grey-white stubble beard and moustache in all four images.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "build",
+      "seen": "The man has a solid, heavy-set build with a thickened middle, rounded shoulders, and thick forearms. There is no sharp muscle definition, and he carries some weight around his midsection.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shirt",
+      "seen": "In the relevant photos, he wears a plain copper short-sleeved t-shirt with a crew neck and raglan sleeves. On the left chest, there is a pale cream patch with clipped top corners featuring a copper diving kingfisher. There are no other logos, numbers, or lettering visible on the shirt.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shorts",
+      "seen": "The photographs show copper athletic shorts with an elasticated waistband, reaching just above the knee. On the lower left leg (viewer's right), there is a small white Nike swoosh logo.",
+      "verdict": "contradicted",
+      "note": "The claim states there is NO maker's logo on the shorts, but the photographs show a small white Nike swoosh on the lower left leg."
+    },
+    {
+      "id": "socks",
+      "seen": "The photographs cut off at the mid-calf, so the subject's feet and ankles are not shown.",
+      "verdict": "not_visible",
+      "note": ""
+    },
+    {
+      "id": "footwear",
+      "seen": "The subject's feet are not visible in any of the photographs.",
+      "verdict": "not_visible",
+      "note": ""
+    },
+    {
+      "id": "equipment",
+      "seen": "The subject is holding a pickleball paddle with a blank light beige face, a black edge guard, and a black wrapped handle. No ball is visible in any frame. In one photo, there are bags and water bottles on the ground nearby.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "crest placement",
+      "seen": "The club crest is positioned on the left chest of the copper shirt and is relatively small, about the size of a palm.",
+      "verdict": "confirmed",
+      "note": ""
+    }
+  ]
+}

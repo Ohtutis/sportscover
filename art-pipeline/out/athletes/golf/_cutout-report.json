@@ -1,0 +1,75 @@
+{
+  "model": "birefnet-general",
+  "reports": [
+    {
+      "pose": "action2",
+      "width": 1696,
+      "height": 2528,
+      "coverage": 0.1639,
+      "margins": {
+        "top": 140,
+        "right": 479,
+        "bottom": 120,
+        "left": 361
+      },
+      "islands": 1,
+      "largestShare": 1,
+      "softEdge": 0.0356,
+      "haloDistance": 108.8,
+      "fails": []
+    },
+    {
+      "pose": "action3",
+      "width": 1696,
+      "height": 2528,
+      "coverage": 0.1751,
+      "margins": {
+        "top": 278,
+        "right": 426,
+        "bottom": 142,
+        "left": 217
+      },
+      "islands": 1,
+      "largestShare": 1,
+      "softEdge": 0.0491,
+      "haloDistance": 107,
+      "fails": []
+    },
+    {
+      "pose": "back",
+      "width": 1696,
+      "height": 2528,
+      "coverage": 0.1899,
+      "margins": {
+        "top": 243,
+        "right": 356,
+        "bottom": 124,
+        "left": 311
+      },
+      "islands": 1,
+      "largestShare": 1,
+      "softEdge": 0.0423,
+      "haloDistance": 112.7,
+      "fails": []
+    },
+    {
+      "pose": "hero",
+      "width": 1696,
+      "height": 2528,
+      "coverage": 0.189,
+      "margins": {
+        "top": 224,
+        "right": 534,
+        "bottom": 102,
+        "left": 560
+      },
+      "islands": 2,
+      "largestShare": 0.9949,
+      "softEdge": 0.0437,
+      "haloDistance": 117.4,
+      "fails": [
+        "2 separate pieces — something detached from the body"
+      ]
+    }
+  ]
+}

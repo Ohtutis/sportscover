@@ -1,0 +1,19 @@
+{
+  "verdicts": [
+    {
+      "check": "The player in the frame is far too small for a face to be recognised.",
+      "pass": true,
+      "why": "The player is distant and small, preventing facial recognition."
+    },
+    {
+      "check": "The setting matches a soccer pitch.",
+      "pass": true,
+      "why": "The image shows a grass field with standard soccer markings."
+    },
+    {
+      "check": "There is no brand wordmark or advertising text on clothing or equipment.",
+      "pass": true,
+      "why": "No logos or advertising text are visible anywhere."
+    }
+  ]
+}

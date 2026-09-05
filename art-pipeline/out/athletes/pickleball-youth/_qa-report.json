@@ -1,0 +1,89 @@
+{
+  "judge": "gemini-3.1-pro-preview",
+  "generator": "gemini-3-pro-image",
+  "gradedAt": "2026-08-22T07:05:47.254Z",
+  "report": {
+    "_kit": {
+      "verdict": "pass",
+      "attempts": 1,
+      "worstIssue": "none",
+      "failed": [],
+      "observations": {
+        "items": "A copper short-sleeved t-shirt, a pair of copper athletic shorts, a pickleball paddle, a yellow perforated pickleball, two white court shoes, and two white ankle socks.",
+        "badge": "An upright rounded patch with its top two corners clipped, featuring a pale cream background and a copper border. Inside is a copper kingfisher diving head-first with wings swept back. There is no lettering and no manufacturer's logo.",
+        "footwear": "Entirely white court shoes. The left shoe is viewed from above, showing a white upper and white laces. The right shoe is turned on its side, revealing a flat, non-marking white court sole and a slightly cushioned white midsole."
+      }
+    },
+    "_set": {
+      "verdict": "pass",
+      "worstIssue": "none",
+      "failed": [],
+      "offending": [],
+      "observations": {
+        "footwear": "Image 1: white sneakers. Image 2: white sneakers. Image 3: white sneakers. Image 4: white sneakers.",
+        "equipment": "Image 1: yellow pickleball, black paddle with tan face. Image 2: yellow pickleball, black paddle with tan face. Image 3: yellow pickleball, black paddle with tan face. Image 4: yellow pickleball, black paddle with tan face.",
+        "kit": "Image 1: rust short-sleeve crew-neck shirt with logo, rust shorts, white socks. Image 2: rust short-sleeve crew-neck shirt with logo, rust shorts, white socks. Image 3: rust short-sleeve crew-neck shirt with logo, rust shorts, white socks. Image 4: rust short-sleeve crew-neck shirt, rust shorts, white socks."
+      }
+    },
+    "hero": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The left hand is holding a ball instead of touching the paddle edge as specified in the pose description.",
+      "failed": [
+        "pose_correct"
+      ],
+      "observations": {
+        "person": "Teenager matching the reference, with dark hair in a high ponytail, strong jawline, and dark eyes.",
+        "pose": "Standing with knees bent, holding a paddle in the right hand and a yellow ball in the left, smiling at the camera.",
+        "backdrop": "Plain grey seamless studio background.",
+        "chest": "Small cream patch with a copper border and a copper diving bird logo on the left chest."
+      },
+      "approved": true
+    },
+    "action2": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The athlete is facing and hitting towards the left edge of the frame instead of the right.",
+      "failed": [
+        "facing_correct"
+      ],
+      "observations": {
+        "person": "Teenage girl with dark brown hair pulled into a ponytail, matching the facial features, skin tone, and compact build of the reference.",
+        "pose": "Right-handed forehand drive at contact, with the paddle and ball out in front. The camera is positioned for a side profile shot.",
+        "backdrop": "A plain grey studio backdrop with a soft contact shadow under the feet.",
+        "chest": "A small, upright cream patch with clipped top corners, featuring a copper diving kingfisher."
+      },
+      "approved": true
+    },
+    "action3": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The camera angle is at waist height rather than low to the ground and tilted up.",
+      "failed": [
+        "camera_correct"
+      ],
+      "observations": {
+        "person": "Face matches reference, dark hair in ponytail, teenage appearance, athletic build.",
+        "pose": "Deep crouch, holding paddle low to hit yellow ball, left arm extended back.",
+        "backdrop": "Plain grey studio background.",
+        "chest": "Small cream patch with copper diving bird logo on left chest."
+      },
+      "approved": true
+    },
+    "back": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "2 separate pieces — something detached from the body",
+      "failed": [
+        "matte_geometry"
+      ],
+      "observations": {
+        "person": "Face is not visible. Build is compact with strong legs. Hair is dark brown, wavy, and tied in a ponytail.",
+        "pose": "Seen from behind, right arm cocked back holding a paddle, left arm raised pointing at a ball, back arched, heels lifted.",
+        "backdrop": "Plain grey studio background with a soft contact shadow.",
+        "chest": "Not visible in this from-behind shot."
+      },
+      "approved": true
+    }
+  }
+}

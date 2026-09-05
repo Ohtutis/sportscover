@@ -1,0 +1,19 @@
+{
+  "verdicts": [
+    {
+      "check": "The player in the frame is far too small for a face to be recognised.",
+      "pass": true,
+      "why": "The person is distant making facial features impossible to identify."
+    },
+    {
+      "check": "The setting matches an indoor volleyball court.",
+      "pass": true,
+      "why": "The indoor gym features a visible volleyball net and court lines."
+    },
+    {
+      "check": "There is no brand wordmark or advertising text on clothing or equipment.",
+      "pass": true,
+      "why": "No logos or text are visible on the clothing or equipment."
+    }
+  ]
+}

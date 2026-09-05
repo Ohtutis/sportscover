@@ -1,0 +1,58 @@
+{
+  "observations": {
+    "items": "A copper short-sleeved t-shirt, a pair of copper shorts, a beige pickleball paddle with a black edge and handle, a yellow perforated pickleball, a pair of white crew socks, and a pair of white court shoes.",
+    "badge": "A pale cream patch with clipped top corners containing a copper diving kingfisher on the left chest. No other logos or lettering.",
+    "footwear": "Entirely white court shoes with white laces and flat white soles."
+  },
+  "checks": [
+    {
+      "id": "all_items_present",
+      "pass": false,
+      "note": "Both shoes are shown from directly above; one must be turned on its side to show the profile and outsole."
+    },
+    {
+      "id": "matches_kit_photo",
+      "pass": false,
+      "note": "The socks in the flat lay are long crew socks, but the specification and photo 3 require short ankle socks."
+    },
+    {
+      "id": "crest_correct",
+      "pass": true,
+      "note": "The crest matches the provided artwork perfectly."
+    },
+    {
+      "id": "no_league_mark",
+      "pass": true,
+      "note": "No league or federation marks are present."
+    },
+    {
+      "id": "no_text_anywhere",
+      "pass": true,
+      "note": "There is no text on any of the items."
+    },
+    {
+      "id": "no_branding",
+      "pass": true,
+      "note": "There are no visible manufacturer logos."
+    },
+    {
+      "id": "footwear_correct_for_sport",
+      "pass": true,
+      "note": "The shoes are flat court shoes suitable for pickleball."
+    },
+    {
+      "id": "clean_and_new",
+      "pass": true,
+      "note": "All items appear clean and unworn."
+    },
+    {
+      "id": "flat_lay",
+      "pass": true,
+      "note": "The image is a proper flat lay shot from directly above."
+    }
+  ],
+  "worstIssue": "Both shoes are shown from above instead of one showing the profile, and the socks are crew length instead of ankle length.",
+  "verdict": "fail",
+  "plateHash": "571f565111da",
+  "gradedAt": "2026-08-22T06:54:26.954Z"
+}

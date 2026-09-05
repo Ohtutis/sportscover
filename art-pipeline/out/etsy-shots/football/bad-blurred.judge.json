@@ -1,0 +1,19 @@
+{
+  "verdicts": [
+    {
+      "check": "The photograph is badly blurred and the face cannot be made out.",
+      "pass": true,
+      "why": "The image is severely out of focus, making it impossible to distinguish any facial features."
+    },
+    {
+      "check": "It looks like a real ruined phone photo rather than an artistic effect.",
+      "pass": true,
+      "why": "The uniform blur across the entire image resembles a camera focusing error typical of a ruined phone photo, rather than a deliberate artistic effect."
+    },
+    {
+      "check": "There is no brand wordmark or advertising text on clothing or equipment.",
+      "pass": true,
+      "why": "Because of the heavy blur, no text, brand wordmarks, or advertising can be seen on any clothing or equipment."
+    }
+  ]
+}

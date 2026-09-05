@@ -1,0 +1,58 @@
+{
+  "observations": {
+    "items": "Olive polo shirt, olive trousers, olive cap, olive belt, single olive golf glove, pair of white golf shoes, pair of white ankle socks, golf club, golf ball.",
+    "badge": "Inverted triangle with an olive border and off-white field, containing an osprey head-on with wings raised and talons down. There is a small manufacturer logo printed inside the back collar of the shirt.",
+    "footwear": "White, low-top, leather-look shoes with white laces. One is shown from above, the other from the side showing a flat, spikeless outsole with a brown/gum edge."
+  },
+  "checks": [
+    {
+      "id": "all_items_present",
+      "pass": true,
+      "note": "All required items are present, including the cap, belt, single glove, and shoes in different views."
+    },
+    {
+      "id": "matches_kit_photo",
+      "pass": false,
+      "note": "The glove has a brand logo on the closure instead of a plain ball marker, and there is a logo inside the shirt collar."
+    },
+    {
+      "id": "crest_correct",
+      "pass": true,
+      "note": "The crest matches the provided artwork perfectly."
+    },
+    {
+      "id": "no_league_mark",
+      "pass": true,
+      "note": "No league marks are visible."
+    },
+    {
+      "id": "no_text_anywhere",
+      "pass": false,
+      "note": "There is text/a logo printed inside the back collar of the polo shirt."
+    },
+    {
+      "id": "no_branding",
+      "pass": false,
+      "note": "There are brand logos inside the shirt collar and on the glove closure."
+    },
+    {
+      "id": "footwear_correct_for_sport",
+      "pass": true,
+      "note": "The shoes appear to be appropriate spikeless golf shoes."
+    },
+    {
+      "id": "clean_and_new",
+      "pass": true,
+      "note": "All items appear clean and new."
+    },
+    {
+      "id": "flat_lay",
+      "pass": false,
+      "note": "The trousers are folded over rather than laid at full length with both legs extended straight."
+    }
+  ],
+  "worstIssue": "The trousers are folded instead of being laid at full length, violating the flat lay instructions for long pants.",
+  "verdict": "fail",
+  "plateHash": "f64fc0756e0a",
+  "gradedAt": "2026-08-22T03:00:06.937Z"
+}

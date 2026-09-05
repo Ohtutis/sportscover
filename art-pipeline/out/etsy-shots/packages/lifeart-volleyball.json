@@ -1,0 +1,4 @@
+{
+  "prompt": "Take image 1 exactly as it is — same camera, same crop, same room, same person, same pose, same furniture, same light — and change ONE thing: the empty black rectangle on the wall is now a printed poster showing the artwork from image 2. Reproduce that artwork EXACTLY: same layout, same wording, same letters, same colours, nothing redrawn, nothing re-spelled, nothing cropped — the whole design fills the poster. It is matte paper on a wall: the room's own light falls across it, it carries the same softness the wall has at that distance, and it sits flat with a faint shadow along its lower edge. Do not move it, do not resize it, do not let it touch the person. No text anywhere except what image 2 already contains. Square 1:1.",
+  "at": "2026-09-03T18:34:57.962Z"
+}

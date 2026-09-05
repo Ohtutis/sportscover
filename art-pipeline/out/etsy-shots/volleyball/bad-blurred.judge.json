@@ -1,0 +1,19 @@
+{
+  "verdicts": [
+    {
+      "check": "The photograph is badly blurred and the face cannot be made out.",
+      "pass": true,
+      "why": "The image has severe motion blur that completely obscures the facial features of the subject."
+    },
+    {
+      "check": "It looks like a real ruined phone photo rather than an artistic effect.",
+      "pass": true,
+      "why": "The horizontal smearing looks like accidental camera shake typical of a poorly timed phone snapshot in an indoor setting, rather than a deliberate artistic technique."
+    },
+    {
+      "check": "There is no brand wordmark or advertising text on clothing or equipment.",
+      "pass": true,
+      "why": "The extreme blur makes it impossible to read or identify any brand wordmarks or advertising text on the clothing or equipment."
+    }
+  ]
+}

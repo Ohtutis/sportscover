@@ -17,7 +17,7 @@
  * Frames: `_kit`, `_identity`, `_identity-back`, `hero`, `action2`, `action3`, `back`.
  */
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { athleteBySlug } from "./athletes.js";
 
 const argv = process.argv.slice(2);
@@ -79,7 +79,12 @@ if (version) {
   console.log(`restored ${frame}-${version} -> ${live}`);
 }
 
-mkdirSync(dest, { recursive: true });
+// mkdir the FILE's own directory, not just the athlete's. `--frame before/photo2` is a legal
+// frame name (fix.ts edits the demo snapshots, README §29), and it puts a subdirectory in the
+// middle of the destination path — so approving one died on ENOENT with both paths printed,
+// which reads as "the source is missing" when the source was fine and `approved/<slug>/before`
+// simply did not exist.
+mkdirSync(dirname(join(dest, `${frame}.png`)), { recursive: true });
 copyFileSync(src, join(dest, `${frame}.png`));
 const side = src.replace(/\.png$/, ".json");
 if (existsSync(side)) copyFileSync(side, join(dest, `${frame}.json`));

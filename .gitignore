@@ -81,3 +81,44 @@ art-pipeline/out/_labelled/
 
 # Etsy listing image exports are regenerated from Figma (JcQvsgIRiOQtuZcP3Q8dc9) - ~90 MB of PNGs.
 etsy/listing-images/
+
+# marketing — rendered pins are reproducible from the queue, never committed
+/marketing/out/
+
+# marketing — card renders re-exportable from Figma, kept out of git
+/marketing/cards/
+
+# Real customer orders: uploaded photos and per-order working art are personal data.
+orders/
+
+# 2026-09-05 — listing-video work: frames, Veo/owner clips and the rendered listing videos are
+# regenerable (etsy/video/render_*.py) and live on Etsy; only the scripts + storyboards are tracked
+etsy/video/_frames/
+etsy/video/_frames_v3/
+etsy/video/trial/
+etsy/video/Video failai sugeneruoti/
+etsy/listing-videos/
+etsy/SEO/screenshots/
+
+# owner's local Figma exports and build cache
+/Exportai Etsy/
+tsconfig.tsbuildinfo
+
+# marketing renders (social/upload/video) are rebuilt from the queue, like out/ and cards/
+marketing/social/
+marketing/upload/
+marketing/video/
+
+# raw finish backgrounds (same rule as print-sources/chrome-allstar/) — regenerable, 16–20 MB each
+print-sources/Fire-and-smoke/
+print-sources/Heritage/
+print-sources/Signature-spotlight/
+print-sources/prism-rush/
+
+# real customer orders under the athlete pipeline are personal data (photos, names, stats)
+art-pipeline/out/athletes/[Oo]rder*/
+art-pipeline/out/approved/[Oo]rder*/
+
+# order symlinks/files too, not only directories
+art-pipeline/out/athletes/order-*
+art-pipeline/out/approved/order-*

@@ -77,7 +77,7 @@ const sampleAthletes: Record<string, { name: string; number: string; detail: str
   "Other Sport": { name: "Alex Jordan", number: "31", detail: "Street Skate", team: "Hometown Athletics", season: "2026 Season", stats: ["3 PODIUMS", "BEST TRICK 91.4", "TEAM MVP"] },
 };
 const landscapeSheets = new Set(["Pickleball", "Other Sport"]);
-const outputs = ["Premium Wall Poster", "25 Trading Cards", "Digital Artwork", "Phone Wallpaper", "Social Graphics", "Cinematic Reveal"];
+const outputs = ["Premium Wall Poster", "18 Trading Cards", "Digital Artwork", "Phone Wallpaper", "Social Graphics", "Cinematic Reveal"];
 const sportSlug: Record<string, string> = {
   Basketball: "basketball", Football: "football", Baseball: "baseball", Softball: "softball", Soccer: "soccer", "Ice Hockey": "ice-hockey", Volleyball: "volleyball", Lacrosse: "lacrosse", Wrestling: "wrestling", Cheerleading: "cheerleading", Gymnastics: "gymnastics", "Track & Field": "track-field", Swimming: "swimming", Tennis: "tennis", Golf: "golf", Pickleball: "pickleball", "Other Sport": "other-sport",
 };
@@ -534,7 +534,7 @@ export default function SiteClient({ turnstileSiteKey = "" }: { turnstileSiteKey
       </section>
 
       <section className="section pricing-section" id="pricing">
-        <SectionHeading eyebrow="HOLD IT. HANG IT. SHARE IT." title="Choose Their Complete Experience." copy="The Signature Collector Pack is the main experience: a premium poster, 25 real trading cards, and the complete matching digital set. Not sure? Choose “Help Me Choose.”" center />
+        <SectionHeading eyebrow="HOLD IT. HANG IT. SHARE IT." title="Choose Their Complete Experience." copy="The Signature Collector Pack is the main experience: a premium poster, 18 real trading cards, and the complete matching digital set. Not sure? Choose “Help Me Choose.”" center />
         <div className="pricing-grid">{packages.map((item) => <article className={`price-card ${item.id === "signature" ? "featured" : ""}`} key={item.id}>
           {item.badge && <span className="price-badge">{item.badge}</span>}
           <div className="price-top"><h3>{item.name}</h3><strong>{item.price}</strong><p>{item.summary}</p></div>

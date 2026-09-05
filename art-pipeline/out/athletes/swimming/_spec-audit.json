@@ -1,0 +1,59 @@
+{
+  "verifiedAt": "2026-08-22T00:44:20.753Z",
+  "photos": [
+    "photo1.png",
+    "photo2.png",
+    "photo3.png",
+    "photo4.png"
+  ],
+  "findings": [
+    {
+      "id": "hair",
+      "seen": "Pale blonde hair pulled back with loose strands; full length is not visible.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "build",
+      "seen": "Lean, athletic swimmer's build with moderate shoulders and narrow hips.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shirt",
+      "seen": "Royal blue one-piece swimsuit with thin straps, scoop neck, high-cut legs, and a centered white marlin badge. No other marks on the suit.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shorts",
+      "seen": "Bare legs from the high-cut swimsuit down; no shorts or lower garments.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "socks",
+      "seen": "Bare feet and ankles; no socks.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "footwear",
+      "seen": "Bare feet on the pool deck; no footwear.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "equipment",
+      "seen": "Plain blue swim cap and dark goggles around neck in photo 2; goggles on forehead in photo 3. Mesh bag carried in photo 2.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "crest placement",
+      "seen": "White crest centered on the chest of the swimsuit.",
+      "verdict": "confirmed",
+      "note": ""
+    }
+  ]
+}

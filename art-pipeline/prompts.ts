@@ -372,7 +372,7 @@ export const LIGHTING_RIG = [
   `no atmosphere, no haze, no lens flare.`,
 ].join("\n");
 
-const PLATE_BACKDROP =
+export const PLATE_BACKDROP =
   "Flat, evenly lit seamless mid-grey backdrop behind all three panels — plain, no gradient, " +
   "no vignette, no floor line, no shadow cast onto it, no set, no props.";
 
@@ -466,7 +466,16 @@ export function identityPlatePrompt(a: Athlete): string {
     `- ${PLATE_BACKDROP}`,
     `- The three frames are edge to edge, touching, with no white gutter, no border, no frame,`,
     `  no text, no labels, no numbers, no watermark.`,
-    `- It is unmistakably the SAME person in all three — same face, same hair, same build.`,
+    `- It is unmistakably the SAME person in every frame — same face, same hair, same build.`,
+    // "SAME HAIR" IS NOT ENOUGH, and it cost three re-rolls on order 4164205493. A model reads
+    // it as the same colour and texture, which leaves the STYLE free — so the sheet came back
+    // with a low bun in frames 1 and 2 and loose hair down the back in frame 3. A reference
+    // sheet that disagrees with itself is not an anchor: the poses that inherit it then
+    // disagree with each other too, and the defect only becomes visible on the finished card.
+    `- The hair is worn ONE way in every frame: the same parting, the same gathering, the`,
+    `  same fall. If it is tied back in one frame it is tied back in ALL of them, the same knot`,
+    `  in the same place, with the same loose strands. Changing the hairstyle between frames`,
+    `  makes this sheet useless as a reference.`,
     `- The build in frame 3 must match the description above exactly. Do not default to a`,
     `  generic slim body — that is this stage's most common failure.`,
     `- Sharp focus on the face in every frame. No motion blur, no depth-of-field blur on the face.`,
@@ -492,20 +501,99 @@ export function identityPlatePrompt(a: Athlete): string {
  * It references the main plate, so it is the same child by construction. It improves the
  * RENDER of the back pose; it does not make that pose measurable — nothing can.
  */
+/**
+ * THE BODY PANEL, GENERATED ONCE THE FACE IS SETTLED.
+ *
+ * The three-panel plate used to be ONE generation doing two unrelated jobs at once: fix a
+ * face, and fix a frame. They do not succeed together. Measured on Etsy order 4164205493,
+ * where the two face panels scored 0.710 and 0.732 against the customer's photographs while
+ * the full-length panel in the same sheet scored 0.570 — its face is barely thirty pixels
+ * across, so it carries almost no identity and drags the sheet's average below what the
+ * likeness actually is.
+ *
+ * So the face is decided first and APPROVED, and only then is the body drawn — with the
+ * approved face attached as an image. Same law as everywhere else in this pipeline: what
+ * must not drift is carried by a picture, not by a sentence.
+ *
+ * Image 1 is the approved face plate. Image 2, when present, is the customer's own
+ * full-length photograph — the only evidence of their real proportions.
+ */
+export function identityBodyPrompt(opts: {
+  ageYears: number;
+  presents: "male" | "female";
+  hair?: string;
+  build?: string;
+  hasBodyPhoto: boolean;
+}): string {
+  const noun =
+    opts.ageYears <= 12 ? (opts.presents === "male" ? "boy" : "girl")
+    : opts.ageYears <= 19 ? (opts.presents === "male" ? "teenage boy" : "teenage girl")
+    : opts.presents === "male" ? "man" : "woman";
+  return [
+    `Image 1 is an approved reference sheet of one specific ${noun}'s FACE.`,
+    ...(opts.hasBodyPhoto
+      ? [`Image 2 is a photograph of THAT SAME PERSON standing, full length. Their face is small`,
+         `in it and that does not matter — it is not there for the face.`]
+      : []),
+    ``,
+    `Produce ONE photograph of that person, FULL BODY: standing straight and relaxed, arms at`,
+    `their sides, feet slightly apart, facing camera, against the same plain backdrop as image 1.`,
+    ``,
+    `THE FACE COMES FROM IMAGE 1 AND NOTHING ELSE. It has already been approved, so it is not`,
+    `being decided again here: same features, same proportions, same hairline, same expression`,
+    `at rest, same hair worn the same way. This frame is small in the face and that is exactly`,
+    `why it must be copied rather than re-drawn.`,
+    ...(opts.hasBodyPhoto
+      ? [``,
+         `THE BODY COMES FROM IMAGE 2: the height, the width of the shoulders, the length of the`,
+         `legs, how the weight sits, the real proportions of this person standing up. Take those`,
+         `exactly. Do NOT slim them, do NOT lengthen them, and do NOT build a body that is not in`,
+         `that photograph.`,
+         // The two things a snapshot adds that a barefoot studio frame must not inherit. Heels
+         // are the bigger of them: they lengthen the leg and lift the whole figure, and copying
+         // "the height" from a photograph taken in them builds a taller person than the customer.
+         `Read the proportions THROUGH what they happen to be wearing in it. If they are in`,
+         `heeled or thick-soled shoes there, that height is the SHOE and not the person — this`,
+         `frame is barefoot and stands correspondingly shorter. If the clothing is loose, the`,
+         `body beneath it is narrower than the garment, not as wide as the garment.`]
+      : []),
+    ...(opts.build ? [``, `THE BUILD, neither slimmed nor thickened: ${opts.build}`] : []),
+    ...(opts.hair ? [``, `THE HAIR: ${opts.hair}`] : []),
+    ``,
+    `Wearing a clean plain unbranded grey t-shirt and grey shorts, and BAREFOOT. No shoes, no`,
+    `socks, no equipment, no hat, no glasses. The clothing carries no team colours and no kit.`,
+    ``,
+    realismFor(opts.ageYears),
+    ``,
+    LIGHTING_RIG,
+    ``,
+    `Hard requirements:`,
+    `- ${PLATE_BACKDROP}`,
+    `- ONE frame only. No side-by-side panels, no gutter, no border, no text, no watermark.`,
+    `- The whole body is in frame: the top of the head and both feet, nothing cropped.`,
+    `- The lighting, the backdrop and the grey clothing match image 1, so the two read as one`,
+    `  shoot rather than two.`,
+    NOT_PLASTIC,
+  ].join("\n");
+}
+
 export function identityBackPrompt(a: { ageYears: number; presents: "male" | "female"; hair: string; build: string }): string {
   return [
     `Image 1 is a reference sheet of one specific person, seen from the front.`,
     ``,
-    `Photograph THAT SAME PERSON from BEHIND — two frames side by side against the same plain`,
-    `backdrop:`,
-    `Frame 1: head and shoulders from directly behind, the back of the head filling most of`,
-    `the frame, both ears visible at the sides.`,
-    `Frame 2: the same person full body from directly behind, standing straight and relaxed,`,
-    `arms at their sides, feet slightly apart.`,
+    // ONE FRAME, NOT TWO. The two-panel version asked a single generation for a nape close-up
+    // and a full-length shot, and the panels disagreed with each other — a bun in one and loose
+    // hair in the other, on the same sheet. This frame exists for exactly one job: to be the
+    // reference for the from-behind pose. A single full-length frame does that job, and there
+    // is nothing left for two panels to fall out over.
+    `Photograph THAT SAME PERSON from BEHIND — ONE frame against the same plain backdrop:`,
+    `full body from directly behind, standing straight and relaxed, arms at their sides, feet`,
+    `slightly apart, the whole body in frame from the top of the head to both feet.`,
     ``,
-    `Carry over exactly from image 1: hair colour, hair texture, how it is cut and how it`,
-    `falls, the hairline at the nape, ear shape and how the ears sit, head shape, neck, the`,
-    `slope of the shoulders, skin tone, build and age.`,
+    `Carry over exactly from image 1: hair colour, hair texture, HOW IT IS WORN — loose or`,
+    `tied, and if tied then the same knot in the same place with the same loose strands — how`,
+    `it is cut and how it falls, the hairline at the nape, ear shape and how the ears sit,`,
+    `head shape, neck, the slope of the shoulders, skin tone, build and age.`,
     `- ${a.build}.`,
     `- Hair: ${a.hair}.`,
     ``,
@@ -519,8 +607,11 @@ export function identityBackPrompt(a: { ageYears: number; presents: "male" | "fe
     `- ${PLATE_BACKDROP}`,
     `- STRICTLY from behind. No part of the face is visible — not in profile, not over a`,
     `  shoulder, no turn of the head, no reflection.`,
-    `- The two frames are edge to edge, no gutter, no border, no text, no watermark.`,
+    `- ONE frame only. No side-by-side panels, no gutter, no border, no text, no watermark.`,
     `- Sharp focus on the hair and the hairline at the nape.`,
+    // Same defect as the front sheet, one image later: frame 1 came back a bun and frame 2
+    // loose hair, from a prompt that only ever said "carry over the hair".
+    `- The hair is worn identically to image 1 — one hairstyle across the whole set.`,
     NOT_PLASTIC,
   ].join("\n");
 }
@@ -1049,6 +1140,24 @@ export function identityFromPhotosPrompt(opts: {
   notes?: string;
   /** 1-based index of the attached photograph that shows the whole body, when there is one. */
   bodyIndex?: number;
+  /**
+   * 1-based index of the photograph the CUSTOMER considers the best likeness of them.
+   *
+   * Without this every cleared photograph carried equal weight and the plate returned an
+   * AVERAGE of them — which is why a set shot across four different years, lights and
+   * distances produced a face the owner recognised only partly. `bodyIndex` had said for
+   * months that one attachment can be singled out for one job; the face never had the
+   * equivalent, and the face is the product.
+   */
+  portraitIndex?: number;
+  /** 1-based index of the photograph the customer named as the three-quarter view. */
+  sideIndex?: number;
+  /**
+   * "face" produces the two close portraits only. The full-length panel is then its own
+   * generation (identityBodyPrompt), made once this face is approved — see that function for
+   * the measurement that split them.
+   */
+  part?: "face" | "all";
 }): string {
   const noun =
     opts.ageYears <= 12 ? (opts.presents === "male" ? "boy" : "girl")
@@ -1058,11 +1167,25 @@ export function identityFromPhotosPrompt(opts: {
     `The ${opts.photoCount} attached images are photographs of ONE real ${noun}, taken at`,
     `different times, in different light, from different angles.`,
     ``,
-    `Produce three photographs of THAT SAME PERSON, side by side, from one shoot against a`,
-    `plain backdrop:`,
-    `Frame 1: head and shoulders, straight to camera, looking into the lens.`,
-    `Frame 2: the same head and shoulders turned three-quarters to the left.`,
-    `Frame 3: the same person full body, standing straight and relaxed, arms at their sides.`,
+    ...(opts.part === "face"
+      ? [`Produce TWO photographs of THAT SAME PERSON, side by side, from one shoot against a`,
+         `plain backdrop:`,
+         `Frame 1: head and shoulders, straight to camera, looking into the lens.`,
+         `Frame 2: the same head and shoulders turned three-quarters to the left.`,
+         ``,
+         `Both frames are CLOSE: the head fills most of the frame. This sheet has one job, which`,
+         `is the face — there is no full-length frame here and nothing else competing for the`,
+         `resolution.`]
+      : [`Produce three photographs of THAT SAME PERSON, side by side, from one shoot against a`,
+         `plain backdrop:`,
+         `Frame 1: head and shoulders, straight to camera, looking into the lens.`,
+         `Frame 2: the same head and shoulders turned three-quarters to the left.`,
+         `Frame 3: the same person full body, standing straight and relaxed, arms at their sides.`]),
+    ...(opts.sideIndex
+      ? [``,
+         `IMAGE ${opts.sideIndex} IS THE THREE-QUARTER VIEW the customer named, and frame 2 comes`,
+         `from it: that angle, that side of the face, the ear and jaw as they read from there.`]
+      : []),
     ...(opts.bodyIndex
       ? [``,
          `IMAGE ${opts.bodyIndex} IS THE ONE THAT SHOWS THEM STANDING, and frame 3 comes from it.`,
@@ -1071,6 +1194,16 @@ export function identityFromPhotosPrompt(opts: {
          `length of the legs, the real proportions of this person standing up. Take those from it`,
          `exactly and take the face from the closer photographs. Do NOT slim them, do NOT lengthen`,
          `them, and do NOT build a body that is not in that photograph.`]
+      : []),
+    ...(opts.portraitIndex
+      ? [``,
+         `IMAGE ${opts.portraitIndex} IS THE BEST LIKENESS OF THEM — the photograph the family`,
+         `picked out as the one that looks most like this person. Frames 1 and 2 must match THAT`,
+         `face: its proportions, the set and spacing of the eyes, the line of the nose, the shape`,
+         `of the mouth and what the face does at rest. The other photographs are there to confirm`,
+         `the same person from other angles and in other light — where they disagree with it, this`,
+         `one wins. Do NOT average the faces together: an average of four photographs is a fourth`,
+         `person, and it is the failure this instruction exists to prevent.`]
       : []),
     ``,
     `THIS IS A NORMALISATION, NOT A NEW PERSON. Everything that identifies them comes from the`,
@@ -1095,7 +1228,7 @@ export function identityFromPhotosPrompt(opts: {
     `  does when it is not doing anything. If their photographs show warmth in the eyes, this`,
     `  face has it. If they show a flat, serious face, this face is flat and serious. Do NOT`,
     `  neutralise it into a blank passport photograph, and do NOT add a smile they do not have.`,
-    `  Lips stay together in all three frames — no teeth, no laugh — whatever the mood.`,
+    `  Lips stay together in every frame — no teeth, no laugh — whatever the mood.`,
     ...(opts.hair
       ? [`- THE HAIR, exactly as follows, and this is the detail a parent recognises first:`,
          `  ${opts.hair}`,
@@ -1446,25 +1579,63 @@ export function kitPlateBackPrompt(a: Athlete, sport: Sport, opts: { spec?: stri
  * give the model two wardrobe sources to reconcile, which is the original bug wearing a
  * different hat.
  */
-export function posePrompt(a: Athlete, sport: Sport, pose: Pose, crest: Crest | undefined, kitRef = false, spec?: string, portraitRef = false, hair?: string, build?: string, kitBackRef = false, crestPlacement = ""): string {
+export function posePrompt(a: Athlete, sport: Sport, pose: Pose, crest: Crest | undefined, kitRef = false, spec?: string, portraitRef = false, hair?: string, build?: string, kitBackRef = false, crestPlacement = "", splitPlates = false, faceCrops = false): string {
   const backdrop = a.backdrop ?? POSE_BACKDROP;
   // The from-behind frame shows a number only if the shirt HAS one — see hasBackNumber.
   const showsNumber = pose.id === "back" && hasBackNumber(a);
+  const nFace = splitPlates && faceCrops ? 2 : 1;
+  const bodyImg = splitPlates ? nFace + 1 : 0;
+  const crestImg = crest ? (splitPlates ? bodyImg + 1 : 2) : 0;
+  const kitImg = kitRef ? (crest ? crestImg + 1 : (splitPlates ? bodyImg + 1 : 2)) : 0;
   return [
     // THE IMAGE NUMBERS MOVE WHEN THERE IS NO BADGE. An order without a club logo is normal
     // (crests.ts: a guessed badge is worse than none), but this line used to name a crest that
     // was not attached — so image 3 in the text was image 2 in the request and the wardrobe
     // reference was described as a crest.
-    crest
-      ? kitRef
-        ? `Image 1 is a reference sheet of one specific person. Image 2 is a club crest. Image 3 is a flat lay of the exact kit they wear — shirt, shorts, socks, footwear and ball.`
-        : `Image 1 is a reference sheet of one specific person. Image 2 is a club crest.`
-      : kitRef
-        ? `Image 1 is a reference sheet of one specific person. Image 2 is a flat lay of the exact kit they wear — shirt, shorts, socks, footwear and ball.`
-        : `Image 1 is a reference sheet of one specific person.`,
+    // EVERY IMAGE NUMBER IS COMPUTED, never typed. The attachments are [face(s), body?, crest?,
+    // kit?] and any of the optional ones may be absent, so a literal "image 3" is right in one
+    // configuration and points at the wrong picture in the next — the wardrobe paragraph
+    // below said "image 3" for an order with no badge, where the flat lay was image 2.
+    (() => {
+      const parts: string[] = [];
+      if (splitPlates) {
+        parts.push(faceCrops
+          ? `Images 1 and 2 are two close portraits of ONE specific person's face — straight on and three-quarter.`
+          : `Image 1 is a FACE sheet of one specific person — two close portraits.`);
+        parts.push(`Image ${bodyImg} is the SAME person photographed FULL LENGTH.`);
+      } else {
+        parts.push(`Image 1 is a reference sheet of one specific person.`);
+      }
+      if (crest) parts.push(`Image ${crestImg} is a club crest.`);
+      if (kitRef) parts.push(`Image ${kitImg} is a flat lay of the exact kit they wear — shirt, shorts, socks, footwear and ball.`);
+      return parts.join(" ");
+    })(),
     ``,
     `Photograph THAT EXACT PERSON — same face, same bone structure, same hair, same build,`,
     `same age — playing ${sport.name}.`,
+    // ONE IMAGE CANNOT DO TWO JOBS, and asking it to was the defect underneath a whole run of
+    // them. A single sheet holding two close portraits and one full-length frame lets the model
+    // read the likeness off a thirty-pixel face; naming the panels inside one image helped and
+    // did not settle it. Separate images settle it: the face has its own attachment, the body
+    // has its own, and each sentence points at one of them.
+    ...(splitPlates
+      ? [`THE FACE COMES FROM ${faceCrops ? "IMAGES 1 AND 2" : "IMAGE 1"} AND NOTHING ELSE — the features, the eye spacing, the nose,`,
+         `the mouth, the hairline and the expression the face holds at rest. Image ${bodyImg}'s face is`,
+         `small and carries no likeness: do NOT read the face from it.`,
+         `THE BODY COMES FROM IMAGE ${bodyImg} AND NOTHING ELSE — the height, the width of the shoulders,`,
+         `the length of the limbs and the build. Do not slim it and do not lengthen it.`,
+         // PROPORTIONS, NOT POSTURE. Image 2 is a standing reference frame, and "how the weight
+         // sits" was enough to make the model copy the STANCE with it: the hero came back stood
+         // upright and at rest while the brief below asked for a player landing out of a
+         // split-step. The body plate answers what this person is SHAPED like; the pose brief is
+         // the only thing that says what they are DOING.
+         `Image ${bodyImg} shows them standing still. That is a MEASUREMENT, not a pose: take the`,
+         `proportions from it and NOTHING about the stance. This photograph is the action`,
+         `described below, and the body in it is bent, turned and loaded exactly as that action`,
+         `requires.`]
+      : [`THE FACE COMES FROM THE CLOSE PORTRAIT PANELS of that sheet — the head-and-shoulders frame`,
+         `and the three-quarter frame. The full-length panel is there for the BODY only: its face is`,
+         `tiny and carries no likeness. Do not read the face from it.`]),
     ...(hair ? [hair] : []),
     ...(build ? [build] : []),
     ``,
@@ -1508,14 +1679,14 @@ export function posePrompt(a: Athlete, sport: Sport, pose: Pose, crest: Crest | 
     // plate built to include a warm closed-lipped panel would let a pose be warm and on-model
     // at the same time. Asking the pose alone will keep costing ~0.2 of cosine.
     kitRef
-      ? `UNIFORM AND EQUIPMENT — every item comes from image 3, exactly as shown there. The`
+      ? `UNIFORM AND EQUIPMENT — every item comes from image ${kitImg}, exactly as shown there. The`
         + ` shirt, the shorts, the socks, the boots and the ball are THOSE items: same colours,`
         + ` same design, same shape, same condition — clean and unmarked. This includes the CUT,`
-        + ` and the SLEEVE LENGTH above all: if the shirt in image 3 has long sleeves, this athlete`
+        + ` and the SLEEVE LENGTH above all: if the shirt in image ${kitImg} has long sleeves, this athlete`
         + ` wears long sleeves, and if they are pushed up to the elbows they are pushed up here`
         + ` too. Long sleeves in one frame and short in another is the same athlete in two`
         + ` different shirts. Also match the collar and any piping exactly. Do not substitute a`
-        + ` different boot, do not change the sock colour, do not swap the ball. Image 3 is the`
+        + ` different boot, do not change the sock colour, do not swap the ball. Image ${kitImg} is the`
         + ` complete wardrobe for this athlete and there is nothing left to decide.`
       : `UNIFORM — identical in every pose, this is not a place to improvise: ${kitFor(a)}`,
     `Primary colour ${a.primaryColor}, secondary ${a.secondaryColor}.`,
@@ -1558,7 +1729,7 @@ export function posePrompt(a: Athlete, sport: Sport, pose: Pose, crest: Crest | 
                      `crest, a monogram, a shield or any emblem to fill it — this athlete's order has no`,
                      `logo, and an invented one is a mark on a garment they do not own.`]),
     ...(!crest ? [] : [
-    `THE BADGE: take the artwork in image 2 and apply it to the shirt UNCHANGED — a finished`,
+    `THE BADGE: take the artwork in image ${crestImg} and apply it to the shirt UNCHANGED — a finished`,
     `graphic being printed onto a garment, not a subject to redraw. Identical outline, identical`,
     `figure, identical colours in identical places, identical proportions, and its white stays`,
     `WHITE and fully opaque against the shirt — never tinted, faded or blended into the fabric`,
@@ -1586,7 +1757,7 @@ export function posePrompt(a: Athlete, sport: Sport, pose: Pose, crest: Crest | 
         // to the chest side in two frames. Absolutes, never comparisons, and never say the
         // thing you do not want.
       ? `PLACEMENT: the badge goes exactly where the kit description above puts it and exactly`
-        + ` where image 3 shows it — the same spot on the shirt, at the same scale. That position`
+        + ` where image ${kitImg} shows it — the same spot on the shirt, at the same scale. That position`
         + ` is a settled decision and not a convention to be corrected. Do not move it, do not`
         + ` enlarge it, do not let it dominate the shirt.`
       : `PLACEMENT: small on the LEFT chest, about three fingers wide — a real team badge, not a`
@@ -1608,12 +1779,12 @@ export function posePrompt(a: Athlete, sport: Sport, pose: Pose, crest: Crest | 
           + ` flat lay shows it: whatever number the kit has, if any, is in the place the flat`
           + ` lay puts it and nowhere else. Nothing is printed across the shoulders — no number,`
           + ` no name, no club, no lettering of any kind.`
-          + ` AND THE CLUB CREST IS NOT ON THE BACK EITHER. The badge in image 2 belongs on the`
+          + ` AND THE CLUB CREST IS NOT ON THE BACK EITHER. The badge in image ${crestImg} belongs on the`
           + ` FRONT of this shirt and only there. Do NOT print it, repeat it, shrink it or place`
           + ` any version of it between the shoulder blades, on the upper back, at the nape or`
           + ` anywhere else on the back. If the flat lay shows the back blank, the back is blank.`
         : kitRef
-          ? `Any number on the front of the shirt is the one in image 3, in the same place and the`
+          ? `Any number on the front of the shirt is the one in image ${kitImg}, in the same place and the`
             + ` same colours. No other number, and no lettering of any kind.`
           : `No numbers or lettering anywhere on the kit in this shot.`,
     ``,

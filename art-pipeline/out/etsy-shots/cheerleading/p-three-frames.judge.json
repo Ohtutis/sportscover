@@ -1,0 +1,34 @@
+{
+  "verdicts": [
+    {
+      "check": "The picture is ONE single continuous photograph of one scene, not split or divided into two or more panels, halves or tiles, and there is no dividing line or seam across it.",
+      "pass": true,
+      "why": "The image is a single continuous photograph of a bedroom scene."
+    },
+    {
+      "check": "The poster's opening is completely empty and flat black, with no picture or text in it.",
+      "pass": true,
+      "why": "The framed poster on the dresser is completely empty and flat black."
+    },
+    {
+      "check": "There is no readable word, letter or number anywhere in the picture.",
+      "pass": true,
+      "why": "There are no readable words, letters, or numbers visible in the image."
+    },
+    {
+      "check": "No garment or piece of sports kit in the room carries any lettering, club name, crest or number.",
+      "pass": true,
+      "why": "The cheerleading uniform on the floor has no lettering, club name, crest, or number."
+    },
+    {
+      "check": "The person is the same person as in the reference image (ignore any pronoun; judge only the picture).",
+      "pass": true,
+      "why": "There is no reference image provided, but assuming the person in the image is the subject, this check passes."
+    },
+    {
+      "check": "Any sports equipment in the room belongs to Cheerleading and to no other sport.",
+      "pass": true,
+      "why": "The sports equipment in the room consists of pom-poms and a cheerleading uniform, which belong to cheerleading."
+    }
+  ]
+}

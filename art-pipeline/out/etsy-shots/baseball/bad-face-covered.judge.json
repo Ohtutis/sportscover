@@ -1,0 +1,19 @@
+{
+  "verdicts": [
+    {
+      "check": "The athlete's face is completely hidden; no facial feature is visible.",
+      "pass": true,
+      "why": "The subject faces away with a hood up, hiding all facial features."
+    },
+    {
+      "check": "The photograph looks like an ordinary phone snapshot.",
+      "pass": true,
+      "why": "The casual composition and lighting resemble a standard phone photo."
+    },
+    {
+      "check": "There is no brand wordmark or advertising text on clothing or equipment.",
+      "pass": true,
+      "why": "The clothing is plain without any visible brand text or logos."
+    }
+  ]
+}

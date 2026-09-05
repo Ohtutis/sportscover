@@ -1,0 +1,84 @@
+{
+ "athlete": "swimming",
+ "colourConflict": null,
+ "bestPortrait": "photo1.png",
+ "sport": "swimming",
+ "generatedAt": "2026-08-22T00:42:00.490Z",
+ "judge": "gemini-3.1-pro-preview",
+ "source": {
+  "photos": [
+   "photo1.png",
+   "photo2.png",
+   "photo3.png",
+   "photo4.png"
+  ],
+  "formFields": {
+   "firstName": "Nora",
+   "lastName": "Lindqvist",
+   "jerseyNumber": "0",
+   "team": "Bayline Marlins",
+   "ageYears": 16,
+   "primaryColor": "#1F4EA1",
+   "secondaryColor": "#FFFFFF"
+  }
+ },
+ "resolved": [
+  {
+   "item": "hair",
+   "source": "photos",
+   "value": "VERY PALE PLATINUM BLONDE hair, fine, straight and flyaway, with no fringe. In every photograph it is pulled BACK off the face and gathered at the back of the head, with fine loose strands escaping around the hairline and temples \u2014 photo4.png shows them lifting in the wind. Its full LENGTH is not visible in any photograph, because it is tied back in all four and under a cap in two; the DECISION is that it falls to just below the shoulders when it is down, fine and straight, the ends a little lighter and dry from chlorine. The SWIM CAP is not hair and is not part of this line \u2014 it is a kit item, worn only to swim.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo4 (2026-08-22), per handoff \u00a716. Two brand marks were taken off photo2 with art:fix first \u2014 a maker's wordmark on the swim cap, and the chest badge redrawn as a bare fish with the club's arch outline dropped \u2014 so these lines describe the corrected frame."
+  },
+  {
+   "item": "build",
+   "source": "photos",
+   "value": "A SIXTEEN-YEAR-OLD SWIMMER'S body as photo2.png shows it, and it is a teenage girl's: tall and LEAN with long arms and long legs, the shoulders broader than the hips but only moderately so \u2014 a soft V rather than a heavy one \u2014 a long flat midsection, narrow hips and smooth, lightly defined limbs with no bulk anywhere. Reproduce this body as it is: do NOT give her a powerlifter's shoulders or a grown woman's figure, and do NOT slim her.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo4 (2026-08-22), per handoff \u00a716. Two brand marks were taken off photo2 with art:fix first \u2014 a maker's wordmark on the swim cap, and the chest badge redrawn as a bare fish with the club's arch outline dropped \u2014 so these lines describe the corrected frame."
+  },
+  {
+   "item": "shirt",
+   "source": "photos",
+   "value": "A ROYAL BLUE ONE-PIECE COMPETITION SWIMSUIT exactly as photo2.png shows it, and it is the WHOLE uniform \u2014 one single garment covering the torso and fastening between the legs. A plain round SCOOP NECKLINE, narrow shoulder straps that run over the shoulder and join into a RACERBACK behind (the straps meet in a single panel between the shoulder blades \u2014 this is a racing suit, not a strappy one), and legs cut HIGH at the hip. The body of it is PLAIN ROYAL BLUE all over: there is NO contrasting stripe down the sides, no panel and no trim of any other colour, whatever the sport default says. The club badge sits CENTRED ON THE CHEST, printed in WHITE \u2014 the bayline-marlins mark with its ARCH outline (flat base, semicircular top) drawn as a narrow band with the marlin inside it, about a palm across. It is the ONLY mark on the suit. NO maker's logo, NO club name, NO player name, NO number and no lettering anywhere. The BACK of the suit is not visible in any photograph; the DECISION is that it is a PLAIN CLOSED BACK in the same royal blue \u2014 no number, no name, no badge and no lettering across the shoulders or anywhere on it. Swimming does not number a racing suit, and a number printed across her back would be a mark this suit does not have.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo4 (2026-08-22), per handoff \u00a716. Two brand marks were taken off photo2 with art:fix first \u2014 a maker's wordmark on the swim cap, and the chest badge redrawn as a bare fish with the club's arch outline dropped \u2014 so these lines describe the corrected frame."
+  },
+  {
+   "item": "shorts",
+   "source": "photos",
+   "value": "There is NO separate lower garment of any kind: no shorts, no jammers, no tights, no briefs under the suit. The one-piece racing suit IS the whole uniform, and her LEGS ARE BARE from the high-cut hip to the floor, exactly as photo2.png shows her on the pool deck.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo4 (2026-08-22), per handoff \u00a716. Two brand marks were taken off photo2 with art:fix first \u2014 a maker's wordmark on the swim cap, and the chest badge redrawn as a bare fish with the club's arch outline dropped \u2014 so these lines describe the corrected frame."
+  },
+  {
+   "item": "socks",
+   "source": "photos",
+   "value": "NO SOCKS. Swimming is competed barefoot and no sock appears in any photograph. Her feet and ankles are bare in every frame.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo4 (2026-08-22), per handoff \u00a716. Two brand marks were taken off photo2 with art:fix first \u2014 a maker's wordmark on the swim cap, and the chest badge redrawn as a bare fish with the club's arch outline dropped \u2014 so these lines describe the corrected frame."
+  },
+  {
+   "item": "footwear",
+   "source": "photos",
+   "value": "BARE FEET. No shoes, no sandals, no pool slides of any kind \u2014 she stands and walks on the wet deck barefoot, exactly as photo2.png shows. Do not put footwear on her in any frame.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo4 (2026-08-22), per handoff \u00a716. Two brand marks were taken off photo2 with art:fix first \u2014 a maker's wordmark on the swim cap, and the chest badge redrawn as a bare fish with the club's arch outline dropped \u2014 so these lines describe the corrected frame."
+  },
+  {
+   "item": "equipment",
+   "source": "photos",
+   "value": "TWO ITEMS BELONG TO THE KIT, and they are worn to SWIM rather than all day: a plain ROYAL BLUE SILICONE SWIM CAP, smooth and completely unmarked \u2014 no maker's logo, no lettering, no club name \u2014 covering the whole head with the hairline showing at the front, and GOGGLES with dark MIRRORED lenses in a soft silver-grey on plain dark straps, also unbranded. photo2.png shows both at the pool, the goggles hanging around her NECK, which is where they sit when she is not actually swimming; photo3.png shows the goggles on at the wall. In photo1.png and photo4.png, away from the pool, she wears neither \u2014 they are kit, not part of her. She also carries a plain unbranded MESH KIT BAG on one shoulder in photo2.png, on the way out. The DECISION for the poses is that the cap and goggles are ON in every frame and the bag is NOT: no kit bag, no kickboard, no float, no paddles and no towel in her hands.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo4 (2026-08-22), per handoff \u00a716. Two brand marks were taken off photo2 with art:fix first \u2014 a maker's wordmark on the swim cap, and the chest badge redrawn as a bare fish with the club's arch outline dropped \u2014 so these lines describe the corrected frame."
+  }
+ ],
+ "crest": {
+  "use": true,
+  "slug": "bayline-marlins",
+  "fromPhotos": true,
+  "note": "The bayline-marlins mark: a single MARLIN leaping, bill raised to the upper right and forked tail low, sitting inside an ARCH \u2014 a shape with a FLAT BASE and a SEMICIRCULAR TOP, drawn as a narrow border band. Not a circle, not a square and not a shield. On the royal blue suit the whole badge is printed in WHITE, which is the one thing about it that changes: the outline, the fish and their proportions are the crest artwork unaltered.",
+  "placement": "CENTRED ON THE CHEST of the swimsuit, about a palm across, as photo2.png shows it. That position is a settled decision, not a convention to be corrected: do not move it to the left chest, do not shrink it and do not add a second mark beside it."
+ },
+ "defaults": "a royal blue one-piece competition swimsuit \u2014 a racerback racing suit, high-cut at the leg, with a contrasting stripe down each side and a plain closed back \u2014 worn with a royal blue silicone swim cap and goggles. The kit fits properly and is clean and well kept.\nCONSISTENT ACROSS THE WHOLE SET \u2014 three of these frames sit side by side on one card, so\nthese must be identical in every shot and are not open to interpretation:\n- Socks are royal blue, matching the kit. Never white, never a different colour.\n- Equipment: no equipment beyond cap and goggles. The same one in every shot.\n- Footwear: bare feet. The same pair in every shot, clean and unmarked."
+}

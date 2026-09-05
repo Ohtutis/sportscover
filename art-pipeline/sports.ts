@@ -258,9 +258,16 @@ export const SPORTS: Sport[] = [
     layout:
       "the camera looks straight down the HOME STRAIGHT: the lane lines run away from the viewer dead straight and parallel, never bending across the frame, with the white start line crossing them at a right angle. The starting blocks sit ON that start line inside the lanes, facing away from camera down the track. A single hurdle stands squarely ACROSS one of those same lanes further down the straight, its feet ON the track surface and never out on the grass. The bend and the green infield are visible only beyond, so the running direction is unmistakable",
     backPose: "exploding out of the blocks, mid drive phase",
-    gear: "track singlet and briefs, spikes" },
+    gear: "track singlet and compression shorts, spikes" },
   { slug: "swimming", name: "Swimming", code: "SWM",
     place: "an indoor swimming pool",
+    // §35, third sport to need it: a racing suit is ONE garment. Without this the flat lay is
+    // asked for "the shirt" and "the shorts below it" and invents a two-piece that does not
+    // exist in the sport. The cap and the goggles need naming for the opposite reason —
+    // `hasImplement` is false here (CONSTANTS starts with "no"), so nothing else asks for them
+    // and the plate would lay out a suit alone.
+    onePiece: "the COMPETITION SWIMSUIT — one single garment, a racerback one-piece that covers the torso and fastens between the legs, laid flat and face up, with high-cut leg openings and a plain closed back. There is NO separate shirt, NO separate shorts and NO separate top",
+    plateItems: "the SILICONE SWIM CAP laid flat with its dome up, and the GOGGLES laid beside it with both lenses face up and the strap open — each its own separate item, never on top of another garment",
     markings: "black lane lines on the pool bottom, each ending in the standard cross T near the wall, seen through the water, with floating lane ropes above them",
     material: "a competition swimming pool full of still water",
     props: "the starting blocks at the far end of the pool",
@@ -275,6 +282,10 @@ export const SPORTS: Sport[] = [
     gear: "competition swimsuit, swim cap, goggles" },
   { slug: "tennis", name: "Tennis", code: "TEN",
     place: "a tennis court",
+    // The racket is NOT named here — `hasImplement` is true for tennis, so the plate already
+    // asks for "the ball or implement of Tennis". Two sources for one fact is the failure
+    // family kits.ts opens with. These are the two small items nothing else asks for.
+    plateItems: "the WRISTBAND and the HEADBAND laid flat side by side in the empty space beside the kit — each its own separate item, never on top of another garment",
     markings: "the service boxes, centre mark and baseline geometry of a tennis court",
     material: "blue hard court with a green surround",
     props: "the tennis net spanning the court, with a tall umpire chair standing off the court entirely on the surround",
@@ -289,6 +300,10 @@ export const SPORTS: Sport[] = [
     gear: "tennis kit, wristband, tennis racket, court shoes" },
   { slug: "golf", name: "Golf", code: "GLF",
     place: "a golf practice range",
+    // The club and the ball are covered by `hasImplement`. The cap, the belt and the single
+    // glove are the items the flat lay drops — and the glove is ONE, on the leading hand, which
+    // is the detail a plate asked for "gloves" invents a pair of.
+    plateItems: "the CAP face up with its brim towards the viewer, the BELT laid out straight, and the SINGLE GLOVE laid palm down — ONE glove only, never a pair — each its own separate item, never on top of another garment",
     markings: "the curved mown edge of a putting green, its cup, and mow-stripe banding",
     material: "a manicured putting green of short grass, fairway and a bunker edge beyond it",
     props: "the flagstick standing in the green",
@@ -321,18 +336,32 @@ export const SPORTS: Sport[] = [
       "the net spans the FULL width of the court on the centre line, posts just outside the sidelines, square to the camera, with the kitchen zone drawn immediately on both sides of it",
     backPose: "mid overhead smash, paddle raised behind the head",
     gear: "athletic kit, pickleball paddle, court shoes" },
-  { slug: "other-sport", name: "Other Sport", code: "OTH",
-    place: "a sports hall",
-    markings: "a plain rectangular court outline with a single halfway line across it and nothing else — no painted key, no three-point arc, no centre circle, no hexagons",
-    material: "a polished neutral sports floor",
-    props: "",
-    propScale: "",
+  // THE SEVENTEENTH SLOT IS SKATEBOARDING (2026-08-22, customer's call). It was a generic
+  // "Other Sport" — a bare sports hall and a plain jersey — which is the one thing a sport
+  // entry must never be: `posesFor` flagged it provisional, and a provisional set must never
+  // ship. The site had already made the same decision on its own (`app/site-client.tsx` sells
+  // this slot as "Street Skate"), so this aligns the pipeline with what the shop already says.
+  // The SLUG and the CODE stay `other-sport`/`OTH`: they are wired into the site's label map
+  // and into card IDs, and renaming them would break both to gain nothing.
+  { slug: "other-sport", name: "Skateboarding", code: "OTH",
+    place: "a skatepark",
+    // A skatepark has no painted geometry at all — that IS the fact. Written as "no markings"
+    // it would be filled in with a court, so it names the marks concrete actually carries.
+    markings: "NO painted lines, NO court markings and NO lane geometry of any kind — a skatepark has none. What marks the surface instead is use: pale wax build-up smeared along the coping and the ledge edges, black board scuffs and skid marks fanning across the flat, and expansion joints running through the slab",
+    material: "poured concrete, smooth and pale grey, faintly stained and polished by use — never a wooden floor, never parquet, never grass and never asphalt",
+    props: "a concrete quarter pipe curving up at the back with steel coping along its lip, and a low square ledge standing out on the flat",
+    propScale: "the quarter pipe is about 2 m to the coping — head height on an adult; the ledge is knee height",
     propPlacement: "offset",
-    venue: "indoor",
+    needsRealSurface: true,
+    venue: "open",
+    venueNote:
+      "an outdoor concrete skatepark in open air: NO stadium, NO stands, NO roof and no arena of any kind — the concrete bowl and transitions, a fence or a line of trees along the horizon, and wide open sky above",
     layout:
-      "the court outline runs out past the frame edges and the playing area is completely bare — no equipment of any kind stands on it or beside it",
-    backPose: "standing tall, arms at the sides, heroic stance",
-    gear: "generic athletic jersey and shorts, training shoes" },
+      "the flat concrete fills the foreground and runs right up to the camera, so the slab is the surface the viewer stands on. The quarter pipe curves up across the BACK of the frame with its steel coping catching the light, and the low ledge sits out on the flat to one side, clear of it. Both are on the same continuous slab — nothing floats, and there is no painted line anywhere",
+    // §38: nothing is printed on the back of a skate tee, so the from-behind frame is free to
+    // move and takes the sport's own moment instead of a number.
+    backPose: "riding away from the camera up the face of the transition, both arms out wide",
+    gear: "skate tee, skate shorts, open-face skate helmet, knee pads, skate shoes, skateboard" },
 ];
 
 export const sportBySlug = (s: string) => SPORTS.find((x) => x.slug === s);

@@ -28,9 +28,32 @@ export interface Crest {
   motif: string;
   primaryColor: string;
   secondaryColor: string;
+  /**
+   * TRUE when the artwork is the CUSTOMER'S OWN FILE, already on disk at
+   * `out/crests/<slug>.png`, and must never be generated. Rule 1 at the top of this file
+   * says a real club's mark is theirs; rule "exact or absent" says an approximation of it
+   * is worse than nothing. `--stage crest` skips these — without the flag, one routine
+   * `--stage all` would quietly overwrite a paying customer's logo with an invented one.
+   *
+   * The prose fields below are then only a DESCRIPTION of the file, for anything that has
+   * to talk about the badge in words. They do not define it; the PNG does.
+   */
+  supplied?: boolean;
 }
 
 export const CRESTS: Crest[] = [
+  {
+    // ORDER 01 — the first real customer order (2026-08-22). Their own club mark, uploaded
+    // with the order and used unchanged. It breaks rule 2 above (it carries the words
+    // "Be Šansu"), which is exactly why it may not be redrawn: lettering is the thing image
+    // models mangle, so the file is applied as artwork rather than described and re-made.
+    // Source: out/athletes/Order 01/creast/be-sansu-129.jpg, 120x120 — see the note in the
+    // handoff doc about asking customers for a larger logo.
+    slug: "be-sansu", team: "Be Šansuu", supplied: true,
+    shape: "a rounded shield with a heavy navy border",
+    motif: "a gold hand and a curved blue-and-white sweep, with the club name lettered across the lower half",
+    primaryColor: "#14275B", secondaryColor: "#FFFFFF",
+  },
   {
     slug: "cedar-ridge-bears", team: "Cedar Ridge Bears",
     // Basketball is the core sport, so this mark carries the cleanest colourway on the
@@ -129,32 +152,66 @@ export const CRESTS: Crest[] = [
   },
   {
     slug: "redstone-flyers", team: "Redstone Flyers",
-    shape: "an oval lying on its side, with a narrow border",
-    motif: "a winged foot in profile facing right — a single wing rising from the heel, drawn as solid shapes",
+    // The border is a BAND, not a hairline, and the foot is told to sit inside it. The first
+    // roll (2026-08-22) drew the oval as a thin unclosed stroke and let the wing cross it on
+    // two sides, which at 90 px on a singlet reads as a blob with a broken ring round it. Rule
+    // 3 wants the outline to survive at card size, and an outline the mark walks through does
+    // not. Only willow-bend-swifts breaks its edge, and that is written into its own entry.
+    shape: "an oval lying on its side, with a solid unbroken border band — one continuous closed ring of even thickness, never a hairline and never interrupted",
+    motif: "a winged foot in profile facing right — a single wing rising from the heel, drawn as solid shapes. The whole winged foot sits WHOLLY INSIDE the oval with clear space between it and the border: no part of the wing, the heel or the toe touches, overlaps or crosses the ring",
     primaryColor: "#C8A200", secondaryColor: "#2B2B2B",
   },
+  // THE LAST FOUR CLUBS WERE RE-SHAPED BEFORE ANYTHING WAS GENERATED (2026-08-22), under §34.
+  // Written as first drafted they broke rule 3 at the top of this file in three ways at once:
+  // three of the five sat in shapes the roster already uses heavily (six of the first twelve
+  // crests are shields, three are circles, one is a diamond), and two repeated a SUBJECT
+  // TREATMENT that is already taken — a bird's head in profile is sunfield-kestrels, and at
+  // 90 px on a chest that is the whole mark. Cheap to fix here, expensive to fix after a plate,
+  // four poses and a print file have been built on it. redstone-flyers was left alone: a winged
+  // foot is the only object of its kind on the roster and the side-lying oval is unique.
   {
     slug: "bayline-marlins", team: "Bayline Marlins",
-    shape: "a rounded shield, wider than it is tall",
-    motif: "a marlin arcing over a single straight wave line, bill raised to the upper right, tail crossing below the line",
+    // WAS a rounded shield (the sixth) carrying a marlin AND a wave line — two ideas, and rule 3
+    // allows one. The arch is a silhouette nobody has; northgate-anvils' keystone is its near
+    // neighbour and is the other way up (flat TOP, tapering to a flat base).
+    shape: "an arch — a flat base with a semicircular top, with a narrow border",
+    motif: "a single marlin leaping, arcing upward with its bill raised to the upper right and its forked tail low to the left, drawn as solid shapes — the only fish on the roster, no wave, no water, nothing else inside the shape",
     primaryColor: "#1F4EA1", secondaryColor: "#FFFFFF",
   },
   {
     slug: "highfield-herons", team: "Highfield Herons",
-    shape: "a tall narrow shield with a pointed bottom",
-    motif: "a heron head and long neck curved into an S, beak straight and horizontal, one crest feather back from the head",
+    // WAS a tall pointed shield — a bird's head in a shield, which is sunfield-kestrels exactly.
+    // The pennant is a silhouette nobody has, and the S-NECK is the idea that separates this
+    // bird from the other six: it is the only mark on the roster with a neck in it.
+    shape: "a swallowtail pennant flying to the right, its fly end notched into two points",
+    motif: "a heron's head and long neck curved into a tall S filling the pennant, the beak straight and horizontal, one crest feather trailing back from the crown — the neck is the mark, no body, no legs, no wings",
     primaryColor: "#17A398", secondaryColor: "#0B2E2B",
   },
   {
     slug: "pinewick-osprey", team: "Pinewick Osprey",
-    shape: "a circle with a heavy outer ring",
-    motif: "an osprey seen head-on with wings raised and talons reaching down and forward",
+    // WAS a circle, which fox-hollow-anchors and willow-bend-swifts already share. A triangle is
+    // unused and takes the spread wings better than a circle did. Head-on with the wings up is a
+    // pose no other bird here uses: kestrel is a head, lark and swift are side-on in flight,
+    // wren is perched.
+    // POINT DOWN, not up. Written as "standing on its base" it came back INVERTED anyway
+    // (2026-08-22) — and the inverted one is the better mark: the osprey's wings open into a
+    // wide V, and a downward triangle is that V. The reason this shape was chosen in the first
+    // place still holds either way ("a triangle is unused and takes the spread wings better
+    // than a circle did"), so the data follows the drawing rather than the drawing being rolled
+    // again to follow the data. It is still the only triangle on the roster.
+    shape: "an inverted triangle — two corners at the top and the third point at the bottom — with its three corners clipped and a heavy border",
+    motif: "an osprey seen head-on with both wings raised into a wide V and its talons reaching down and forward, symmetrical, filling the triangle",
     primaryColor: "#5D6B2A", secondaryColor: "#EDE6D6",
   },
   {
     slug: "copperline-kingfishers", team: "Copperline Kingfishers",
-    shape: "a diamond standing on one point, with a heavy border",
-    motif: "a kingfisher head in profile facing left, a long straight dagger beak, three spiked crest feathers on the crown",
+    // WAS a diamond (harlow-creek-larks has one) carrying a head in profile (sunfield-kestrels
+    // has one) — the same club twice over at card size. The upright patch is unused, and the
+    // VERTICAL DIVE is the one thing a kingfisher does that nothing else on the roster does.
+    // Kept deliberately opposite to bayline-marlins two entries up: that mark arcs UP and to the
+    // right and ends in a forked tail, this one points straight DOWN and ends in a dagger beak.
+    shape: "an upright rounded rectangle — a patch — with its top two corners clipped and a heavy border",
+    motif: "a kingfisher diving head-first STRAIGHT DOWN, wings swept back flat against the body into a dart, the long dagger beak at the bottom point — one vertical shape, no water, no fish, no perch",
     primaryColor: "#8C5A2B", secondaryColor: "#F2E9DC",
   },
   {

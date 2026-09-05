@@ -1395,3 +1395,504 @@ line is what changes.
 singlet, briefs under a cheer skirt, pom-poms nobody photographed. Those are decisions, and
 they must be labelled as decisions in the line itself, so a later reader can tell a DECISION
 from a READING at a glance.
+
+## 40. The SEX is stated, not inferred from the build and the hair
+
+`Athlete.presents` reached the identity plate and nothing before it. The snapshots are
+generated FIRST and the plate is built FROM them, so the one stage that could not afford to
+guess was the one stage never told.
+
+Imani Whitfield — sixteen, "very lean", "light through the upper body", cornrows gathered into
+a low bun — came back as a **teenage boy in all four "before" photographs** (2026-08-22).
+Nothing in her record is untrue of a boy. A build is not a sex and a hairstyle is not a sex,
+and a model asked for a lean sprinter with cornrows draws the commoner one. `intake.ts` was
+happy: the four frames were one consistent person, just not the right one.
+
+`personNoun()` in `prompts.ts` now turns `presents` + `ageYears` into "teenage girl" / "man" /
+"boy", `identityPlatePrompt` uses it, and `snapshotPrompt` states it **twice** — once at the
+head of the description block and once as a hard requirement, because a single line loses to
+four lines about a lean torso.
+
+Same family as the kit and the face: **what must not drift is carried explicitly, never
+inferred from adjacent facts.**
+
+## 41. The back of the shirt is PLAIN unless the sport actually numbers it
+
+Third time this exact shape of bug. `kitPlateBackPrompt` and the from-behind pose both
+ASSERTED the squad number across the upper back, unconditionally, in a line sitting AFTER the
+frozen spec — so it beat the spec every time. Imani's spec said in as many words that the
+track singlet's back stays plain because the race number is on a bib on the shorts, and the
+plate came back with a 30 cm black **8** across the shoulders anyway (2026-08-22).
+
+`hasBackNumber()` in `kits.ts` is now a real property, and it is a table because nothing else
+here implies it. Team-sport shirts carry a back number; the individual sports do not. Track's
+number is a bib, a racing suit has none, gymnastics puts it on a sleeve, and a tennis shirt, a
+golf polo and a skate tee carry nothing at all.
+
+**The default is FALSE.** A sport missing from the table gets a plain back, which is the safe
+direction: a missing number is a visible gap that someone fixes, an invented one is a mark
+printed on a garment the athlete does not own. `check-athlete.ts` branches too — asking the
+judge for a number the kit does not have taught it to pass an invented one.
+
+The badge is the same story and is NOT covered by this flag: the track and swimming back
+frames each printed the CHEST crest between the shoulder blades while their `_kit-back` plates
+showed a plain back. That is what `npm run art:diff` is for (§36) — run it on every back frame.
+
+## 42. A pose brief must describe an ACT, and the camera must be able to SEE it
+
+Two heroes in one day came back as catalogue stands, and neither was a rendering failure.
+
+- **Track, three takes.** "At full sprint driving STRAIGHT at the camera … front knee to hip
+  height, back leg fully extended behind" — head-on, both of those point away from the lens
+  and foreshorten to nothing, so the one shape the brief asks for is the one shape that view
+  cannot show. `art:fix` could not rescue it either: there was no defect in the drawing. Fixed
+  by MOVING THE CAMERA to three-quarters, not by softening the pose — §20, again.
+- **Swimming, two takes.** "Caught at the END of a shoulder swing … stopped between two
+  movements" — a movement that has already finished is indistinguishable from standing still,
+  so there is nothing to draw. Fixed by giving the frame a real act with a beginning and an
+  end: seating the goggles, both hands up beside the face. That also satisfies the hands rule
+  for free, which a hanging arm never does.
+- **The swimming back frame, two takes.** "Hinged forward at the hips, arms swung back and
+  still rising, heels lifted" rendered as a fold with the head between the knees — and the
+  second take filled the gap by inventing a marlin on the suit AND another on the cap. **A
+  pose the body cannot hold invites invented marks.**
+
+The test before generating: *can a body hold this shape, and can this camera see the part that
+matters?* If either answer is no, fix the brief in `poses.ts` — it is free — rather than
+spending rolls on a frame that was never going to arrive.
+
+## 43. A rubric must be handed the same facts on every path that calls it
+
+`gen-athlete.ts` passes `hasImplement`/`hasFootwear` into `checkKitPlate`; `qa-athletes.ts`
+did not. So the SAME swimming plate that the build graded **PASS** came back **FAIL** from
+`art:qa:athlete` — "missing shoes, socks and a sport implement" on a barefoot sport that has
+no implement, in a note that went on to say the specification calls for bare feet
+(2026-08-22).
+
+That is precisely the failure `hasFootwear` was added to stop in §35: a rubric that fails
+correct work teaches everyone to ignore the rubric. Two call sites, one rubric, one set of
+facts — when a check takes a flag, every caller passes it.
+
+## 44. The cost model — measured, and the rules that follow from it
+
+Written 2026-08-22, the day a month of spend had to be explained backwards from three billing
+widgets with three different latencies. The numbers below are measured on this pipeline, not
+quoted from a price list.
+
+**What a generation costs.** Every image in this project so far has been `gemini-3-pro-image`
+at `2K` (505/505 sidecars; ~4.3 MP regardless of aspect). One such image bills ~5 000 output
+tokens ≈ **€0.32 all-in** (including the judge's share, ~5% of spend). The judge inputs are
+already cheap — `refFor` downsizes to ≤1024 px before sending. File size on disk (MB) has
+NOTHING to do with cost: the old soccer PNGs are 4–5 MB and the new ones 2 MB at identical
+pixels — that is compression, and billing is per generated image.
+
+**Where the money actually went.** `npm run art:cost` sums it from the sidecars. The old-key /
+new-key difference the spend dashboards suggested was an illusion of latency: both eras ran the
+same model at the same rate (~€115 for Aug 20 vs ~€127 for Aug 21–22). What varies is the
+NUMBER of generations per athlete: the theoretical minimum for a demo athlete is 13, the
+session average was 28, and the old pilots hit 47–48. **Half the money is re-rolls and fixes**
+— an `art:fix` bills exactly like a fresh frame.
+
+**THE PRICE LIST, LOOKED UP RATHER THAN INFERRED (2026-08-22).** Three days were spent
+deducing rates backwards from dashboards that lag 10 minutes and 24 hours. The published page
+(ai.google.dev/gemini-api/docs/pricing) settles it in one table, and every constant this repo
+had guessed was wrong:
+
+| USD / 1M tokens | input | output | 1K | 2K | 4K |
+|---|---|---|---|---|---|
+| `gemini-3-pro-image` | 2.00 | 120.00 | 1120 tok · $0.134 | **1120 tok · $0.134** | 2000 tok · $0.24 |
+| `gemini-3.1-flash-image` | 0.50 | 60.00 | 1120 tok · $0.067 | 1680 tok · $0.101 | 2520 tok · $0.151 |
+| `gemini-3.1-pro-preview` (judge) | 2.00 | 12.00 | | | |
+
+Three things follow, and two of them reverse earlier entries in this file:
+
+1. **On Pro, 1K and 2K bill the same 1120 tokens.** Generating small to save money saves
+   nothing. The probe measured this before the price list confirmed it. Always 2K on Pro.
+2. **Flash is ~25% cheaper than Pro at 2K, not 8x and not 50x** ($0.101 vs $0.134). Both
+   earlier estimates here were arithmetic stacked on a Pro rate that was itself 2.5x too
+   high. Choosing flash is a QUALITY decision with a rounding error attached.
+3. **The billed output runs ABOVE the published nominal.** Measured on this account: flash 1K
+   returned 1561 output tokens against a published 1120, Pro 2K returned ~1190 against 1120.
+   So the ledger prices from `usageMetadata` — `promptTokenCount` and `candidatesTokenCount`
+   separately, because they bill at 2 and 120 USD per 1M — rather than from the headline.
+   Tiers 1/2/3 are rate limits, not price bands.
+
+**AND THEREFORE, THE REAL SHAPE OF THE OVERSPEND.** A Pro image costs ~€0.12, not the €0.32
+this file used. The invoices were €242 against 764 sidecars, which at €0.32 looked like 764
+generations and at the true price is closer to **1 900**. The account was never paying too
+much per image — it was making two to three times more images than left any trace on disk,
+because a re-roll before `_versions/` existed overwrote its own sidecar. The most expensive
+behaviour in the pipeline was the one that recorded nothing. That is what `_spend.jsonl` now
+prevents: every call is written at the moment it is made, including ones whose output is
+thrown away.
+
+**The two bills are additive, and they reconcile.** The account was running on two projects at
+once: the Vertex express project (Aug 19-21) and the AI Studio key (Aug 21-22). Their dashboards
+are separate and neither one is the total. Read together on 2026-08-22 they came to
+€109.89 (Vertex, SKU *Gemini 3.0 / 3.1 Pro Image Output - Predictions*) + €132.42 (AI Studio
+cap counter) = **€242.31**, against `art:cost`'s €243.06 from the sidecars — 0.3% apart over
+764 generations and two billing systems. That closes the question the graphs could not:
+**Vertex was never cheaper.** The €15.76 that made it look cheap was a small day's work, not a
+lower rate; per frame both paths bill ~€0.317. There is nothing to save by switching endpoints,
+and `art:cost` can be trusted ahead of any dashboard, which lag up to 24 h.
+
+**Resolution is not a lever — measured, not assumed.** Same model, same prompt, one step apart:
+`1K` = 1 517 output tokens, `2K` = 2 071. **2K costs 1.37x of 1K, not 4x**, because image output
+is billed per token at a resolution-tiered rate, not per pixel. The input side (prompt text plus
+two or three reference plates) does not shrink at all when the output does, so the real saving on
+a full job is well under a third. Dropping the `back` frame to 1K — the one frame with no face in
+it — saves roughly €0.03 and risks a soft card back. **Generate everything at 2K and spend the
+attention on the number of generations instead.** A resolution audit is a day's work for the
+price of one re-roll.
+
+**The rules:**
+
+1. **Draft cheap, finalise dear.** Pose-hunting, framing experiments and anything that will be
+   re-rolled runs `npm run art:draft` (flash model + 1K — pennies). Only the take that is about
+   to be APPROVED is generated with `art:athlete` (Pro 2K). Identity plates and final poses
+   stay Pro 2K always — the face is the product, and the poster needs the resolution.
+2. **A fix must earn its €0.32.** Before any `art:fix`, ask whether the defect is visible at
+   the size it will print (§16's calibration: a difference nobody can see is not worth an
+   image). Legal defects — brand marks, invented numbers, wrong crests — always qualify.
+   A sock cuff on a 45%-muted support cutout may not.
+3. **Approved work is never re-judged.** `art:qa:athlete` now skips locked frames by default
+   (`--all` for a deliberate full audit). A verdict on a frame that cannot be re-rolled is
+   money spent to produce a number nobody may act on.
+4. **`art:spec:verify` runs twice, not six times.** Once after the draft, once after the hand
+   edit. When it flip-flops on a few-dozen-pixel detail, §33 already decides — a zoomed local
+   crop is free and outranks it. Chasing its verdicts costs a judge call per lap.
+5. **Fix briefs, not frames.** §42's lesson priced out: a pose brief that cannot render burns
+   €1–1.5 before anyone reads the brief. `poses.ts` edits are free; three re-rolls are not.
+6. **Cost is read from disk.** Every sidecar now records `tokens`; `npm run art:cost` groups
+   spend by day and athlete. When the observed rate drifts, update the constants at the top of
+   `cost.ts` — and keep treating its output as an estimate, not an invoice.
+
+**What this buys.** A customer order (intake → spec → 2 kit plates → 2 identity plates → 4
+poses) is 8 final generations ≈ **€2.60** when the prompts hold, ~€3.30 with one fix. A demo
+athlete built by these rules lands near ~€5 instead of the ~€9 the session average implied and
+the ~€15 the old pilots cost.
+
+---
+
+## 45. A cutout gate that cannot see a speck is not a gate
+
+`cutout.ts` has checked islands, crop, soft edge and halo since the cutouts existed, and it
+still shipped four cutouts with visible debris. Both reasons are in one line of it:
+
+```ts
+const small = 240;                                     // mask is downsampled to ~240 px
+const significant = sizes.filter((n) => n / maskTotal >= 0.001).length;   // <0.1% discarded
+```
+
+At 1696×2528 those two together make **anything up to roughly 31×31 source pixels invisible**.
+That is nothing on a screen and a clearly visible crumb on an 18×24" print. The customer
+remembered seeing debris; the gate reported every one of those frames as passing.
+
+`npm run art:audit:cutout` (`lib/cutout_audit.py`) closes it. It labels islands at **full
+resolution** and reports every one.
+
+**Kit and garbage are told apart by SHAPE, not by size.** The first version used an area
+threshold and called a golf ball garbage because it was 0.4 % of the body. Measured across the
+whole roster, the separation is clean and it is roundness:
+
+| island | fill of its own bbox | verdict |
+|---|---|---|
+| golf ball | 0.79 | equipment |
+| soccer / pickleball / tennis balls | 0.65–0.9 | equipment |
+| debris beside a shoe | 0.47 | garbage |
+| pompom strand | 0.52 | garbage |
+| sliver by an ear | 0.29 | garbage |
+| speck over hair | 0.36 | garbage |
+
+So: an island near the subject is **equipment if it is compact (fill ≥ 0.65) or genuinely
+large (≥ 0.5 % of the body)**; anything else is garbage. Dust under 25 px is counted and not
+reported — one pixel is 0.08 mm at 300 dpi.
+
+**Holes are not defects and must never gate.** Fifty-nine of ninety-two cutouts "failed" a
+hole check before it was demoted, because the enclosed gap between an arm and a torso, or
+between the legs of a toe-touch jump, is a real hole in a real silhouette. A gate that fails
+two thirds of a clean roster is a gate nobody reads twice. Counted, reported, never failed on.
+
+**`--fix` writes `<pose>.clean.png`; the approved `<pose>.cutout.png` is never edited.**
+`lib/fit.py` prefers the clean twin when one exists, so a stray can never reach Figma while
+the approved art stays exactly as it was signed off.
+
+**Erase an island by IDENTITY, never by a sampled pixel.** The first `--fix` took the label
+from the centre of the stray's bounding box, and for a thin diagonal sliver that centre is
+background — the fallback then grabbed the first non-zero pixel in the window, which belonged
+to the body. **The softball back cutout lost its entire head**, and nothing in the numbers
+said so: the report cheerfully said `removed: 1`. A before/after crop caught it. Match each
+island on its exact area and bounding box, and look at the result.
+
+---
+
+## 46. Nothing is finished until a validator has looked at every element
+
+Four visible defects shipped in one swap pass, and not one of them showed up in any count:
+a ghost numeral at full strength covering an entire card back, a club name running into the
+label beside it, a name lockup wrapping into three stacked fragments (MA / RC / US), and a
+back photo still wearing the previous athlete's number. Every script reported success.
+
+`art-pipeline/figma/validate-layout.js` is the pass that has to run before an edit is called
+done. It finds text colliding with text, and text escaping its artboard, and it fixes what it
+safely can. Four things had to be right before it was worth trusting:
+
+**Measure the ink, not the box.** A text node's bounding box includes line height. Comparing
+boxes reported the card back's name and meta line as a 54% overlap while the glyphs never
+touch — sixteen false alarms on one page. `absoluteRenderBounds` is the rendered ink.
+
+**Subtract the effects.** `absoluteRenderBounds` includes them, and Prism Rush type carries a
+neon drop shadow that inflated a 90 pt line to 131 px of "ink". MARCUS and ELLISON were
+reported as colliding when only their glow met. Deflate by each node's effect reach first.
+
+**Require the overlap in BOTH directions.** Area alone still flagged nine clean Prism Rush
+artboards, because Orbitron at 100% line height sets one line's ink a few pixels into the next
+one's. A real collision is significant horizontally AND vertically: text sitting ON text, or a
+name running INTO its neighbour.
+
+**Never leave it worse than you found it.** The first fixer shrank a text one point at a time
+"until the overlap clears". Inside an auto-layout the neighbour moves too, so the ratio never
+clears — it drove nine Prism Rush headlines from 48 pt to 7.7 pt and then reported them as
+"unresolved". A fixer needs a floor (85% of the original) and it MUST restore the original
+size when it fails, then report. The nine were recovered only because the master file still
+had the right numbers under the same node ids.
+
+**The name never shortens; the type does.** Customer rule. The field that yields is the
+variable-bound one, never the fixed label beside it.
+
+Result on the basketball file after these four corrections: **0 escapes, 0 collisions across
+all six pages**, and four "fixes" from the un-hardened version reverted as false positives.
+
+
+---
+
+## 47. One box for three poses is not a composite
+
+The normaliser in §45's neighbour (`lib/fit.py`) originally put every pose in the same box:
+subject 90% of canvas height, standing on 97%. Defensible as a number, wrong as a picture. The
+poster and card front are a THREE-FIGURE composite — one hero, two supporting figures muted to
+~0.45 — and sizing all three the same put one supporting figure directly behind the hero,
+where the customer could not see it at all.
+
+The correction is to stop inventing a box and measure the one the layouts were drawn around.
+`exports/shared-cutouts/GDE-cutout-{hero,pose2,pose3}.png` is the reference athlete's art, the
+files the slots were positioned against:
+
+| slot | subject height | stands on | centred at |
+|---|---|---|---|
+| `hero` | 78.5% of canvas | 89% | 50% |
+| `action2` | **62.9%** | 67% | 47% |
+| `action3` | 70.1% | 74% | 47% |
+| `back` | 90% | 97% | 50% |
+
+Every slot uses scaleMode FIT and fits by height, so "share of canvas height" is exactly "share
+of slot height" — hit these fractions and any athlete composes the way the design does. The
+supporting figures are 63–70% where the hero is 78.5%; that ratio IS the depth in the picture.
+
+Note the reference canvases are not even the same shape as ours (3076×5244 for the supporting
+poses, against our 1696×2528). That does not matter, and it is why the rule is expressed as a
+fraction of height rather than as pixels.
+
+`back` is excluded because it is not part of the composite: it fills the card back with
+scaleMode FILL, which crops instead of fitting.
+
+---
+
+## 48. A team colour is not automatically a readable colour
+
+`team/primary` drives every accent, and for a navy club it is #12356B — measured against the
+card's own background it scores **1.55–1.63:1**. The readable minimum is 4.5 for normal text
+and 3.0 even for large text. The labels were not "a bit dim"; they were below the floor for
+any size, and on the darkest finishes they simply were not there.
+
+The fix is NOT to lighten `team/primary` — that colour still owns plates, fields and large
+areas where dark is correct. It is a second, derived variable:
+
+**`team/primary-ink` — same hue, same saturation, lightness raised until contrast ≥ 4.85**
+against luminance 0.0069 (the measured card ground, with headroom because the plates under
+the stat chips are lighter than the darkest corner). Bound to TEXT and to thin RULES only.
+
+Derived, never hand-picked, so every athlete inherits it:
+
+| club colour | contrast before | ink | after |
+|---|---|---|---|
+| #12356B basketball | 1.54 | #4582e0 | 4.86 |
+| #12284B ice hockey | 1.33 | #4179d1 | 4.54 |
+| #23262B lacrosse | 1.29 | #707a89 | 4.50 |
+| #1d4ed8 reference athlete | 2.75 | #587de9 | 4.86 |
+
+Three clubs already pass and are left alone: gymnastics 7.74, track & field 8.03, tennis 6.27.
+
+**Rules and bars count as text for this purpose.** A 3 px divider in a colour the eye cannot
+separate from the background is not a divider. The cut-off used is thickness: an element whose
+smaller side is ≤ 14 px takes the ink; anything larger keeps `team/primary`, because there the
+colour is the field rather than the line. Measured result on the card back: 1.6 → 4.86–5.15.
+
+**Measure against the REAL background, not against the frame's fill.** These cards sit on a
+photograph. The method that works: screenshot the artboard, crop a band around each label's ink
+bounds, drop the pixels close to the text colour, and take the median of what is left.
+
+
+---
+
+## 49. A composite arrangement belongs to the ATHLETE, not to the template
+
+The customer re-composed the basketball poster and card by hand: the narrow shooting pose moved
+to the left and grew, the wide crouching pose moved to the right, the hero grew and rose. It is
+a clear improvement and it was captured as fractions and propagated — including, wrongly, into
+the master.
+
+**It broke the master immediately.** The master's athlete has different poses: her `action3`
+is not the narrow one, so the same slot geometry sent her shooting pose to the RIGHT and pushed
+the other supporting figure ON TOP of the hero. The customer spotted it in one look.
+
+The rule this teaches, and the measurement that proves it is not a one-off: **`action3` is the
+narrower of the two supporting poses in only 7 of 17 sports.**
+
+| narrower = action3 | narrower = action2 |
+|---|---|
+| basketball, football, softball, soccer, lacrosse, cheerleading, swimming | baseball, ice-hockey, volleyball, wrestling, gymnastics, track-field, tennis, golf, pickleball, skateboarding |
+
+So a hand-tuned arrangement may be copied to the other FINISHES of the same athlete — those are
+clones of one layout holding the same three images — and must NOT be copied to a different
+athlete. Between athletes the only thing that travels is the PRINCIPLE: the narrower pose takes
+the tall side, the wider pose takes the wide side, the hero is the largest and its face sits
+near the optical centre. Which named pose that is has to be read off `_fit-report.json` per
+athlete, every time.
+
+The master's composition was restored from the values measured out of it before the change.
+Per-artboard offsets of ±10-20 px that some clones carried are now uniform; nothing else moved.
+
+## 50. The mask is the PLATE, not a silhouette you draw and then argue with
+
+> **Read §51 with this one.** Everything below about OCCLUSION still holds — the plate is what
+> tells you where a finger is. Everything below that treats the plate as the card's SHAPE was
+> superseded on 2026-09-01: it shipped rounded corners on a square-cut card.
+
+The card-in-hand shot works because the photograph is generated holding a **matte black blank
+plate**: black pixels are the card's visible area, anything non-black inside its outline is in
+front of it. The mask arrives free — thumb silhouette, gaps between fingers, everything.
+
+`lib/card_in_hand.py` had drifted away from that. It drew its own die-cut rectangle, force-painted
+the four corners the die needed and the plate lacked, healed ink, then `inpaint`ed whatever plate
+survived past its own edge. Every one of those exists to patch a disagreement between a rectangle
+the code invented and the plate the photograph actually contains. Ten rounds of fixing produced
+ten new artefacts — a dotted edge, a black L past a corner, a smeared thumb — and the customer
+caught each one. Putting the plate back in charge deleted all four mechanisms at once.
+
+**What the quad is for, and what it is not for.** The quad decides the PERSPECTIVE — where to warp
+the artwork. The plate decides where to PAINT. Get that split wrong and you are back to arguing.
+
+**Fit the four EDGES, not a box.**
+- `minAreaRect` is a rotated rectangle; the plate in these photographs is a genuine perspective
+  quad whose top edge is shorter than its bottom. A rectangle leaves slack on one side and falls
+  short on the other, and the shortfall prints as a black L past the corner.
+- `approxPolyDP` on the convex hull is worse: a finger eats a corner, the hull cuts straight across
+  the bite, and the polygon puts that corner 100 px inside the card.
+- What works: fit each edge from its own MIDDLE with the outliers dropped (fingers grip the ends),
+  intersect the lines for corners, then push each edge outward until the quad holds every plate
+  pixel. Too large is invisible — the mask clips it back. Too small is a black crumb.
+
+**One threshold cannot find a lit plate.** A corner turned away from the light sits ~20 levels
+brighter than the middle. Take the level from the middle of the located area and grow outward
+through everything within reach of it, falling back to the strict core if the growth escapes into
+the room.
+
+**Gaps: small is card, large is hand.** Fill a gap component if it is under 0.6 % of the card (a
+rounded corner, a glint) OR if it does not touch the card's border and is under 8 % — a hand always
+reaches in from an EDGE. Plus thin-and-bright, which is type the model printed on a plate it was
+told to leave blank.
+
+**An audit may not ask the question its own mask was built from.** "Is any plate left over?" read
+against the mask answers no by construction — it answered no while a black L stood past the
+corner. "Is anything dark near the card?" cries wolf at every drop shadow. The third question
+works: **how far does the card's edge stand off the nearest plate pixel**, measured only where the
+plate exists (a finger is not a fit error). Clean is 2-4 px; the broken rectangle fit read 15.
+
+**Measure size against the FACE.** Finger width was derived from the occluded region's distance
+transform, so a clean grip that occludes almost nothing reported a 2.5 in card as ten fingers
+wide. A face is always in the frame and is ~4.7 in: `card_w / face_w` lands at 0.5-0.8, and past
+1.05 the card is as wide as a whole face — the "monster card" the customer kept catching.
+
+**Never describe the finished card inside the prompt for the blank one.** The line "the athlete's
+name is printed across the lower third" was written as the REASON the thumb stays low. The model
+read it as an instruction and printed **ANNE** across the plate, with a dashed keyline for company.
+
+**A framing instruction loses to a comparison.** `--hold reach` asks the card to fill a third of
+the frame; the model grew the CARD instead of moving the camera, four takes running at 0.87-1.17
+of a face. `SMALL` compares the card to something else in the picture, and that holds.
+
+### §50a. The dash on the fingertip: four causes, one shape
+
+The customer zoomed to 100 % and found short black bars lying on the fingers, sawtooth edges and
+hooks hanging off corners. Every one of them was card ink painted where the photograph had none —
+and each came from a different rule reaching past the plate. Written down because each looked, on
+its own, like the one remaining bug:
+
+1. **The small-gap fill.** The rectangle is grown to CONTAIN the plate, so a hairline of finger runs
+   inside it along every edge. Small enough to pass an area test, it was painted — with the card's
+   own black border. A gap that touches the card's border is not card, however small; only a
+   genuine rounded CORNER is, and a corner nick is small AND roughly square, not 21x3.
+2. **The soft mask edge.** `dilate(paint) + feather` put three pixels of card over the fingertip.
+   The card's edge against a finger is an OCCLUSION and must be crisp: alpha is hard-zeroed on the
+   hand, and only the outer edge, against the background, keeps its feather.
+3. **The ink rule, tested per pixel.** An opening wider than a letter stroke also clears the
+   ten-pixel RIM of every large gap, and skin is bright — so the rim of the hand itself scored as
+   ink. Per component instead? Then a letter touching the thumb is one thick blob and the model's
+   printed name stays on the artwork. Both are needed: per pixel, plus NEUTRALITY (printed type
+   measures saturation ~2, skin ~80) and a deep `ink_zone`, because ink is printed in the middle of
+   a card, never at its edge. That last clause is what stopped a bright wedge of background at the soccer
+   card's bottom from printing as a sawtooth.
+4. **One hairline joins every gap into one component.** With the strip along the edge included, a
+   grey block of print in the middle of the baseball plate was connected to the thumb, counted as
+   "reaches in from an edge", and stayed unpainted as a grey bar. Gaps are judged inside `inner`
+   (the card minus its border ring) so that strip cannot bridge anything.
+
+And the lesson under all four: **before erasing anything, check whether the photograph has it.**
+Two rounds went into removing "scraps of plate" from the fingers — with a morphological close, with
+inpaint, with normalised convolution — and the source photograph was clean the whole time. The
+compositor was drawing them. `bleed` in the audit is now exactly that question, asked in pixels:
+dark in the composite, bright in the photograph, not plate, not deep inside the card.
+
+## 51. The card is the RECTANGLE; the hand is what you subtract
+
+§50 said the mask is the plate. That was right about occlusion and wrong about SHAPE, and the
+difference cost a second session. The plate is a generated object: the model rounds its corners
+however firmly the prompt says square, its edge fades over three pixels and wanders by five, and
+it prints a name on a card it was told to leave blank. Take the plate as the card's silhouette and
+the product inherits every one of those — a square-cut card rendered with rounded corners, and the
+keyline that every finish prints a few pixels in from the edge clipped wherever the plate fell
+short.
+
+**Ask where the HAND is; everything else inside the rectangle is card.**
+
+```
+gap  = rect & ~plate                       # in front of the card, or the plate falling short
+core = OPEN(gap, 17)                       # no finger is thinner than this; nothing else is thick
+hand = dilate(core, 21) & gap              # give back the rim the opening took; bounded, so a
+paint = rect & ~hand                       #   letter touching a thumb is not swallowed with it
+```
+
+That one line replaced five heuristics — small-gap fill, corner nick, ink threshold, ink
+saturation, ink zone — every one of which was an area or a distance test, and every one of which
+was wrong somewhere. Corners come out square because the corner is inside the rectangle and no
+hand is there. The keyline is whole for the same reason.
+
+**Three geometry details it depends on, all learned the hard way:**
+
+- **Fit each edge to its OUTER envelope, not to a symmetric robust line.** Every error has one
+  sign: a finger can only eat INTO the plate, never extend it. A fit that trims outliers on both
+  sides splits the difference with the fingers — a degree of tilt on the soccer card's bottom edge,
+  which hugs the plate at one end and stands fifteen pixels clear at the other.
+- **Place the edge at the 92nd percentile of the plate's extent, not at its maximum.** Pushed to
+  the outermost pixel, the edge stands 8-10 px clear of the plate everywhere else, and that band is
+  wide enough for the hand mask's own growth to bite notches out of it. The notches print as a row
+  of little dark tabs hanging under the card. Two pixels of the plate's soft edge falling outside
+  the card is invisible; a ten-pixel band is not.
+- **Rasterise the outline at sub-pixel accuracy.** A polygon filled to whole pixels staircases
+  along any sloping edge — one step every 40 px on a shallow slope — and the feather turns each
+  step into a tab. Supersample and average.
+
+And the feather is one-sided: soft against the background, hard against the hand. A card's edge
+against a finger is an occlusion, not a join.
+

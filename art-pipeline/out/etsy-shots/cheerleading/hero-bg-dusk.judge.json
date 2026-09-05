@@ -1,0 +1,24 @@
+{
+  "verdicts": [
+    {
+      "check": "The picture shows a cheer gym with tumbling mats and nothing from a different sport.",
+      "pass": false,
+      "why": "The picture shows an outdoor setting with a mat placed on grass and asphalt, resembling a track or field, rather than an indoor cheer gym."
+    },
+    {
+      "check": "No face in the picture is sharp or identifiable.",
+      "pass": true,
+      "why": "The two people in the picture are facing away from the camera, so their faces are not visible."
+    },
+    {
+      "check": "There is no advertising board, banner, sign or brand wordmark with readable text (the playing surface's own painted markings do not count).",
+      "pass": true,
+      "why": "There is a sign in the background, but the text on it is blurry and unreadable."
+    },
+    {
+      "check": "The middle and lower-right of the frame are visually calm, without a busy subject in them.",
+      "pass": true,
+      "why": "The middle and lower-right areas consist of the plain blue mat and black asphalt, which are visually calm."
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "observations": {
+    "items": "A short-sleeved t-shirt, a pair of shorts, two socks, two shoes, a pickleball paddle, and a pickleball ball.",
+    "badge": "A pale cream rounded patch with clipped top corners, containing a copper diving kingfisher, located on the left chest of the shirt. No lettering. No manufacturer's logos visible.",
+    "footwear": "White court shoes with pale grey side panels and white laces. One shoe shows a flat, non-marking sole."
+  },
+  "checks": [
+    {
+      "id": "all_items_present",
+      "pass": true,
+      "note": "All required items are present, and shoes are shown from different views."
+    },
+    {
+      "id": "matches_kit_photo",
+      "pass": true,
+      "note": "All items match the provided photograph and specifications."
+    },
+    {
+      "id": "crest_correct",
+      "pass": true,
+      "note": "The crest matches the provided artwork perfectly."
+    },
+    {
+      "id": "no_league_mark",
+      "pass": true,
+      "note": "No league marks are present."
+    },
+    {
+      "id": "no_text_anywhere",
+      "pass": true,
+      "note": "No text is visible on any item."
+    },
+    {
+      "id": "no_branding",
+      "pass": true,
+      "note": "No manufacturer branding is visible."
+    },
+    {
+      "id": "footwear_correct_for_sport",
+      "pass": true,
+      "note": "The shoes are appropriate court shoes for Pickleball."
+    },
+    {
+      "id": "clean_and_new",
+      "pass": true,
+      "note": "All items appear clean and new."
+    },
+    {
+      "id": "flat_lay",
+      "pass": true,
+      "note": "The image is a proper flat lay."
+    }
+  ],
+  "worstIssue": "none",
+  "verdict": "pass",
+  "plateHash": "6d5cf8629e82",
+  "gradedAt": "2026-08-22T03:22:27.591Z"
+}

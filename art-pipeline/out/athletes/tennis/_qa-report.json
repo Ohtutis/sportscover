@@ -1,0 +1,109 @@
+{
+  "judge": "gemini-3.1-pro-preview",
+  "generator": "gemini-3-pro-image",
+  "gradedAt": "2026-08-22T02:39:24.490Z",
+  "report": {
+    "_kit": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The tennis racket has black strings instead of white, and there is an extra duplicate wristband in the layout.",
+      "failed": [
+        "all_items_present"
+      ],
+      "observations": {
+        "items": "White polo shirt with turquoise trim, turquoise shorts, two white ankle socks, two cream-white tennis shoes, one tennis racket, one white headband, and two turquoise wristbands.",
+        "badge": "A dark teal triangle pointing to the right containing a stylized 'S' shape. There is no lettering and no manufacturer's logo present.",
+        "footwear": "Cream-white low-profile tennis shoes. One is viewed from above, and the other is turned on its side showing a flat herringbone court sole."
+      }
+    },
+    "_set": {
+      "verdict": "fail",
+      "worstIssue": "The wristband switches arms in image 4, and the shoes change color in image 3.",
+      "failed": [
+        "same_kit",
+        "same_footwear"
+      ],
+      "offending": [
+        "4",
+        "3"
+      ],
+      "observations": {
+        "footwear": "Images 1, 2, and 4 feature cream/beige tennis shoes. Image 3 features white tennis shoes.",
+        "equipment": "All images feature a black tennis racket with a white grip and a yellow tennis ball.",
+        "kit": "Images 1, 2, and 3 show a white short-sleeved polo shirt with a teal collar and trim, teal shorts, white socks, and a teal wristband on the right wrist. Image 4 shows the same clothing, but the wristband is on the left wrist."
+      }
+    },
+    "hero": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The top of the tennis racket is cropped out of the frame, failing the frame_complete requirement.",
+      "failed": [
+        "kit_correct",
+        "pose_correct",
+        "frame_complete",
+        "crest_fidelity"
+      ],
+      "observations": {
+        "person": "Teenage boy with curly reddish-brown hair, thick eyebrows, slight mustache, brown eyes, and a slight build.",
+        "pose": "Landing out of a split-step, knees flexed, weight forward, holding a tennis racket with the right hand on the grip and the left hand holding a yellow ball against the throat.",
+        "backdrop": "Plain grey studio background with a soft contact shadow under the feet.",
+        "chest": "White polo shirt with a turquoise collar and placket. A small crest on the left chest featuring a pennant with an 'S' shaped heron inside."
+      },
+      "approved": true
+    },
+    "action2": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The pose is a wind-up rather than the requested follow-through, and the crest artwork is completely incorrect.",
+      "failed": [
+        "kit_correct",
+        "pose_correct",
+        "camera_correct",
+        "facing_correct",
+        "crest_fidelity"
+      ],
+      "observations": {
+        "person": "The face matches the reference well, with the same curly reddish-brown hair, thick brows, nose shape, and slight build of a teenager.",
+        "pose": "The athlete is in a wind-up position for a two-handed shot, holding the racket behind his right shoulder, looking towards a ball approaching from the right.",
+        "backdrop": "A plain, seamless grey studio backdrop.",
+        "chest": "A small square logo containing an 'S' shape and a triangle, printed in dark teal on the left chest."
+      },
+      "approved": true
+    },
+    "action3": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The pose is a standard standing backhand rather than the requested deep lunge at full stretch, and the chest crest is a completely incorrect design.",
+      "failed": [
+        "kit_correct",
+        "pose_correct",
+        "camera_correct",
+        "crest_fidelity",
+        "no_stray_text"
+      ],
+      "observations": {
+        "person": "The face matches the reference well, with the same dark eyes, thick brows, faint mustache, and jawline. The hair is the same dark reddish-brown mass of curls. He appears to be around 15 with a slight, wiry build.",
+        "pose": "The athlete is in a semi-open stance playing a two-handed backhand, with knees slightly bent but standing relatively upright. The camera is positioned at roughly waist height, looking straight on.",
+        "backdrop": "A plain, seamless grey studio backdrop.",
+        "chest": "A small white shield emblem with a teal border, containing a teal 'S' and a smaller inner shape resembling a '3' or 'B'."
+      },
+      "approved": true
+    },
+    "back": {
+      "verdict": "fail",
+      "attempts": 1,
+      "worstIssue": "The pose is incorrect; the racket arm is hanging straight down instead of being cocked behind the back with a high elbow, and the feet are flat instead of loaded onto the back foot.",
+      "failed": [
+        "pose_correct",
+        "matte_geometry"
+      ],
+      "observations": {
+        "person": "Face is not visible (from-behind shot). Build is slight and wiry. Hair is curly, dark reddish-brown, visible at the back of the head.",
+        "pose": "Seen from behind. Left arm is raised straight up tossing a ball. Right arm is hanging straight down holding the racket. Feet are flat on the floor.",
+        "backdrop": "Plain grey studio backdrop with a soft contact shadow under the feet.",
+        "chest": "Not visible from this angle."
+      },
+      "approved": true
+    }
+  }
+}

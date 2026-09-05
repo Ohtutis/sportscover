@@ -26,6 +26,7 @@ import { crestBySlug } from "./crests.js";
 import { sportBySlug } from "./sports.js";
 import { posesFor } from "./poses.js";
 import { posePrompt } from "./prompts.js";
+import { hasFootwear, hasImplement } from "./kits.js";
 import { checkAthletePose, checkAthleteSet, checkKitPlate, retryHint, type AthleteVerdict } from "./check-athlete.js";
 import { kitPlatePrompt } from "./prompts.js";
 import { specText } from "./spec.js";
@@ -45,6 +46,12 @@ const has = (n: string) => argv.includes(`--${n}`);
 
 const OUT = "art-pipeline/out/athletes";
 const reroll = has("reroll");
+// APPROVED WORK IS NOT RE-GRADED unless --all is passed. The judge re-grading frames a human
+// had already signed off was pure spend: every full run re-billed ~5 vision calls per athlete
+// to produce "stale FAILs" the README §16 told everyone to ignore — the worst of both worlds,
+// paid for AND disbelieved. A locked frame cannot be re-rolled anyway (approve.ts), so grading
+// it again can change nothing. --all restores the old behaviour for a deliberate full audit.
+const gradeAll = has("all");
 const maxAttempts = Number(flag("max-attempts", "3"));
 const size = flag("size", "2K");
 // See the note on `retries` in gen-athlete.ts — a re-roll must outlast a competing sweep.
@@ -99,8 +106,18 @@ for (const a of athletes) {
   const specPath = join(OUT, a.slug, "_spec.json");
   const spec = existsSync(specPath) ? specText(specPath) : undefined;
   const useCrest = !spec || JSON.parse(readFileSync(specPath, "utf8")).crest?.use;
-  if (existsSync(kitPath)) {
-    let kv = await checkKitPlate({ sport, platePath: kitPath, crestPath: useCrest ? crestPath : undefined, spec });
+  if (existsSync(kitPath) && !gradeAll && isApproved("athlete", `${a.slug}/_kit`)) {
+    console.log(`  KIT  ${a.slug}  approved — not re-graded (pass --all to force)`);
+    report._kit = { verdict: "approved", skipped: true };
+  } else if (existsSync(kitPath)) {
+    // hasImplement/hasFootwear MUST be passed here too. gen-athlete.ts passes them and this
+    // file did not, so the SAME plate that the build graded PASS came back FAIL from the
+    // standalone judge: swimming's flat lay was failed for "missing shoes, socks and a sport
+    // implement" on a barefoot sport with no implement, in a note that went on to say the spec
+    // calls for bare feet (2026-08-22). That is precisely the failure hasFootwear was added to
+    // stop — a rubric that fails correct work teaches everyone to ignore the rubric.
+    const kitFlags = { hasImplement: hasImplement(a), hasFootwear: hasFootwear(a) };
+    let kv = await checkKitPlate({ sport, platePath: kitPath, crestPath: useCrest ? crestPath : undefined, spec, ...kitFlags });
     let kAttempts = 1;
     while (reroll && kv.verdict === "fail" && kAttempts < maxAttempts) {
       kAttempts++;
@@ -119,7 +136,7 @@ for (const a of athletes) {
       });
       keepPrevious(kitPath);
       writeFileSync(kitPath, r.image);
-      kv = await checkKitPlate({ sport, platePath: kitPath, crestPath: useCrest ? crestPath : undefined, spec });
+      kv = await checkKitPlate({ sport, platePath: kitPath, crestPath: useCrest ? crestPath : undefined, spec, ...kitFlags });
     }
     console.log(`  KIT  ${a.slug}  ${kv.verdict === "pass" ? "ok" : "FAIL — " + kv.worstIssue}`);
     for (const c of kv.checks.filter((x) => !x.pass)) console.log(`       ${c.id}: ${c.note}`);
@@ -137,7 +154,11 @@ for (const a of athletes) {
     .map((p) => ({ id: p.id, path: join(OUT, a.slug, `${p.id}.png`) }))
     .filter((p) => existsSync(p.path));
   const offenders = new Set<string>();
-  if (onDisk.length > 1 && !onlyPose) {
+  const allPosesApproved = onDisk.length > 0 && onDisk.every((p) => isApproved("athlete", `${a.slug}/${p.id}`));
+  if (!gradeAll && allPosesApproved && !onlyPose) {
+    console.log(`  SET  ${a.slug}  all frames approved — not re-audited (pass --all to force)`);
+    report._set = { verdict: "approved", skipped: true };
+  } else if (onDisk.length > 1 && !onlyPose) {
     try {
       const set = await checkAthleteSet({ athlete: a, sport, poses: onDisk });
       console.log(`  SET  ${a.slug}  ${set.verdict === "pass" ? "consistent" : "INCONSISTENT — " + set.worstIssue}`);
@@ -161,6 +182,11 @@ for (const a of athletes) {
     if (!existsSync(path)) continue;
     const tag = `${a.slug}/${pose.id}`;
     const locked = isApproved("athlete", tag);
+    if (locked && !gradeAll) {
+      console.log(`  SKIP ${tag}  approved — not re-graded (pass --all to force)`);
+      report[pose.id] = { verdict: "approved", skipped: true };
+      continue;
+    }
     graded++;
 
     let v: AthleteVerdict;

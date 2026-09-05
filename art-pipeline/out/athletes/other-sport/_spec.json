@@ -1,0 +1,84 @@
+{
+ "athlete": "other-sport",
+ "colourConflict": null,
+ "bestPortrait": "photo1.png",
+ "sport": "other-sport",
+ "generatedAt": "2026-08-22T03:33:47.950Z",
+ "judge": "gemini-3.1-pro-preview",
+ "source": {
+  "photos": [
+   "photo1.png",
+   "photo2.png",
+   "photo3.png",
+   "photo4.png"
+  ],
+  "formFields": {
+   "firstName": "Sam",
+   "lastName": "Okonkwo",
+   "jerseyNumber": "12",
+   "team": "Slate Creek Sentinels",
+   "ageYears": 16,
+   "primaryColor": "#5C6672",
+   "secondaryColor": "#E4B33C"
+  }
+ },
+ "resolved": [
+  {
+   "item": "hair",
+   "source": "photos",
+   "value": "DARK BROWN LOCS \u2014 rope-like twisted locks, not braids and not loose curls \u2014 about shoulder length, gathered and TIED BACK off the face at the back of the head so none of them fall forward over the forehead or the eyes. A few shorter locs escape around the hairline. The same locs, tied the same way, in every frame \u2014 at the skatepark, in the car and at home. The HELMET is not hair and is not part of this line; it is a kit item, worn to skate.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. photo2.png was de-branded with art:fix first \u2014 maker's lettering on both knee-pad straps and a logo on the visible wheel \u2014 so these lines describe the corrected frame. This is the first spec for the Skateboarding slot, which was a generic 'Other Sport' until this session."
+  },
+  {
+   "item": "build",
+   "source": "photos",
+   "value": "A SIXTEEN-YEAR-OLD BOY's body as the photographs show it: fairly tall and SLIM, long-limbed and light, with narrow shoulders barely wider than the hips, thin arms and legs and almost no visible muscle definition anywhere. Lean and unfinished rather than athletic. Reproduce this body as it is: do NOT broaden his shoulders, do NOT add muscle to the arms or chest, and do NOT thicken him.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. photo2.png was de-branded with art:fix first \u2014 maker's lettering on both knee-pad straps and a logo on the visible wheel \u2014 so these lines describe the corrected frame. This is the first spec for the Skateboarding slot, which was a generic 'Other Sport' until this session."
+  },
+  {
+   "item": "shirt",
+   "source": "photos",
+   "value": "A SLATE BLUE-GREY loose skate T-SHIRT exactly as photo2.png shows it: a plain crew neck, short sleeves each finished with a band of DARKER SLATE at the cuff, and the body plain slate all over with no other trim, stripe or panel. It is cut LOOSE \u2014 it hangs away from the body and past the hips rather than fitting. The club badge sits SMALL ON THE LEFT CHEST, about a palm across: the slate-creek-sentinels mark exactly as the crest artwork draws it \u2014 a SHIELD with a flat top and a rounded bottom, an off-white field inside a GOLD border, carrying a single square WATCHTOWER in dark slate silhouette with a crenellated top and one narrow window slit. It is the ONLY mark on the shirt. NO maker's logo, NO club name, NO player name, NO number and no lettering of any kind on it. The BACK of the shirt is not visible in any photograph; the DECISION is that it stays PLAIN SLATE: no number, no name, no badge and no lettering across the shoulders or anywhere on it. A skate tee carries nothing across the back, and his number lives on the shorts.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. photo2.png was de-branded with art:fix first \u2014 maker's lettering on both knee-pad straps and a logo on the visible wheel \u2014 so these lines describe the corrected frame. This is the first spec for the Skateboarding slot, which was a generic 'Other Sport' until this session."
+  },
+  {
+   "item": "shorts",
+   "source": "photos",
+   "value": "SLATE BLUE-GREY skate SHORTS exactly as photo2.png shows them: the same slate as the shirt, cut loose and reaching to just above the knee where the knee pads begin, with a plain flat waistband and no stripe, no piping and no side panel. The number 12 is printed LARGE on HIS LEFT LEG \u2014 the side that appears on the RIGHT of the frame when he faces the camera \u2014 low on the outside of the thigh, in the same DARKER SLATE as the sleeve cuffs. One number only, on his left leg only, and 12 appears nowhere else on the kit. No maker's logo and no lettering on the shorts. \u26a0\ufe0f THE KIT FLAT LAY DOES NOT SETTLE WHICH LEG. These shorts are plain \u2014 no fly, no pocket, no asymmetry of any kind \u2014 so a face-up lay and a face-down lay are indistinguishable, and two art:fix attempts to 'move' the number simply produced the same ambiguous picture. The photograph settles it and this sentence carries it: the 12 is on HIS LEFT LEG, the side that appears on the RIGHT of frame when he faces the camera and on the LEFT of frame when he is seen from behind. Take the side from THIS LINE, never from the flat lay.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. photo2.png was de-branded with art:fix first \u2014 maker's lettering on both knee-pad straps and a logo on the visible wheel \u2014 so these lines describe the corrected frame. This is the first spec for the Skateboarding slot, which was a generic 'Other Sport' until this session."
+  },
+  {
+   "item": "socks",
+   "source": "photos",
+   "value": "PLAIN BLACK CREW SOCKS, ribbed, sitting well above the shoe collar with a band of black sock visible between the shoe and the shin, exactly as photo3.png shows them. No stripe, no colour band and no maker's mark. The same pair in every frame.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. photo2.png was de-branded with art:fix first \u2014 maker's lettering on both knee-pad straps and a logo on the visible wheel \u2014 so these lines describe the corrected frame. This is the first spec for the Skateboarding slot, which was a generic 'Other Sport' until this session."
+  },
+  {
+   "item": "footwear",
+   "source": "photos",
+   "value": "PLAIN BLACK SKATE SHOES exactly as photo3.png shows them: a low-cut canvas-and-suede shoe with a FLAT vulcanised sole and NO heel lift at all. A band of WHITE RUBBER FOXING TAPE runs all the way round the base of the upper where it meets the sole \u2014 that white band is how a vulcanised skate shoe is BUILT and it stays; it is not a maker's stripe, a wide rounded toe, a thick padded tongue and a reinforced panel over the outside of the little toe where the grip tape wears. Black laces. NOT running shoes, NOT chunky trainers, NOT high-tops. Completely PLAIN and UNBRANDED \u2014 no maker's stripe or side flash on the black upper, no swoosh, no maker's mark and no lettering on the upper or the sole. The same pair in every frame, scuffed from use but not filthy. (art:spec:verify reports a 'prominent white curved side stripe on the black upper' on every run. There is none: at full zoom on photo3.png the upper is unbroken black and the only white is the foxing band described above, which curves up at the toe and is what the judge is reading. \u00a733 \u2014 the crop outranks the judge, and this line is not to be reverted on another verifier run.)",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. photo2.png was de-branded with art:fix first \u2014 maker's lettering on both knee-pad straps and a logo on the visible wheel \u2014 so these lines describe the corrected frame. This is the first spec for the Skateboarding slot, which was a generic 'Other Sport' until this session."
+  },
+  {
+   "item": "equipment",
+   "source": "photos",
+   "value": "THREE THINGS, and all three are SKATE KIT \u2014 they appear in the skatepark frames photo2.png and photo3.png and nowhere else. photo1.png at home and photo4.png in the car show him with none of them, which is correct: they are worn to skate and taken off after. The DECISION for the poses is that all three are ON in every frame. The SKATEBOARD: a standard popsicle-shape WOODEN deck with BLACK grip tape covering the whole top, the underside plain natural maple with NO graphic and NO lettering on it, plain SILVER metal trucks, and plain CREAM-WHITE blank wheels. The HELMET: a DARK CHARCOAL-GREY open-face skate bucket that covers the top and back of the skull and sits ABOVE the ears, leaving both ears fully exposed, and leaves the WHOLE FACE clear \u2014 it reads charcoal in photo2.png and near-black in photo3.png, and the DECISION for every pose is the photo2.png charcoal, which is the frame that shows his match kit. There is no cage, no visor and no facemask, and it has a plain black chin strap and buckle, and no logo or lettering on the shell. This narrows the sport default, which only said the helmet matches his slate colour. The KNEE PADS: a hard BLACK cap over each knee on plain black straps, completely unmarked \u2014 the straps carried maker's lettering in both skatepark frames and it was edited out of each. Nothing else: no bag, no bottle, no tool, no second board.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. photo2.png was de-branded with art:fix first \u2014 maker's lettering on both knee-pad straps and a logo on the visible wheel \u2014 so these lines describe the corrected frame. This is the first spec for the Skateboarding slot, which was a generic 'Other Sport' until this session."
+  }
+ ],
+ "crest": {
+  "use": true,
+  "slug": "slate-creek-sentinels",
+  "fromPhotos": true,
+  "note": "The slate-creek-sentinels mark: a single square WATCHTOWER in silhouette with a crenellated top and one narrow window slit \u2014 an object mark, no animal \u2014 inside a SHIELD with a FLAT TOP and a ROUNDED BOTTOM. On the slate tee the shield field is off-white with a GOLD border and the tower in dark slate; the outline, the tower and their proportions are the crest artwork unaltered.",
+  "placement": "SMALL ON THE LEFT CHEST, about a palm across, as photo2.png shows it \u2014 a real team badge, not a printed graphic across the front. That position is a settled decision: do not centre it, do not enlarge it and do not add a second mark beside it."
+ },
+ "defaults": "a loose-fitting slate skate T-shirt with contrasting sleeve trim, worn with knee-length slate skate shorts, a matching slate OPEN-FACE skate helmet \u2014 a low round bucket that covers the skull and ears and leaves the whole face clear, with NO cage, NO visor and NO facemask \u2014 and a knee pad on each knee. The kit fits properly and is clean and well kept.\nCONSISTENT ACROSS THE WHOLE SET \u2014 three of these frames sit side by side on one card, so\nthese must be identical in every shot and are not open to interpretation:\n- Socks are slate, matching the kit. Never white, never a different colour.\n- Equipment: a plain unbranded SKATEBOARD \u2014 a wooden popsicle-shape deck with plain black grip tape across the whole top, the underside plain in the team colour, plain black trucks and plain white wheels. NO graphic, NO logo, NO lettering and no sponsor mark anywhere on the deck, the trucks or the wheels. The same one in every shot.\n- Footwear: plain black SKATE SHOES \u2014 flat vulcanised gum-rubber soles with no heel lift at all, a wide rounded toe, a padded tongue and a reinforced suede side panel. NOT running shoes, NOT trainers with a chunky sole, NOT high-tops. The same pair in every shot, clean and unmarked."
+}

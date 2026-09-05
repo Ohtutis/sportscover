@@ -1,0 +1,22 @@
+{
+  "model": "birefnet-general",
+  "reports": [
+    {
+      "pose": "action3",
+      "width": 1696,
+      "height": 2528,
+      "coverage": 0.2842,
+      "margins": {
+        "top": 502,
+        "right": 132,
+        "bottom": 132,
+        "left": 120
+      },
+      "islands": 1,
+      "largestShare": 1,
+      "softEdge": 0.0308,
+      "haloDistance": 98.1,
+      "fails": []
+    }
+  ]
+}

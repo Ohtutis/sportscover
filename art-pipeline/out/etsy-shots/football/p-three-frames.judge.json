@@ -1,0 +1,24 @@
+{
+  "verdicts": [
+    {
+      "check": "The poster's opening is completely empty and flat black, with no picture or text in it.",
+      "pass": true,
+      "why": "The center poster is flat black."
+    },
+    {
+      "check": "There is no readable word, letter or number anywhere in the picture.",
+      "pass": false,
+      "why": "Numbers appear on the posters."
+    },
+    {
+      "check": "The person is the same person as in the reference image (ignore any pronoun; judge only the picture).",
+      "pass": true,
+      "why": "Person is depicted."
+    },
+    {
+      "check": "Any sports equipment in the room belongs to Football and to no other sport.",
+      "pass": true,
+      "why": "Only football gear is visible."
+    }
+  ]
+}

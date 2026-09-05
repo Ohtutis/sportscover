@@ -1,0 +1,39 @@
+{
+  "verdicts": [
+    {
+      "check": "The picture is ONE single continuous photograph of one scene, not split or divided into two or more panels, halves or tiles, and there is no dividing line or seam across it.",
+      "pass": true,
+      "why": "The image is a single continuous scene without splits."
+    },
+    {
+      "check": "The poster's opening is completely empty and flat black, with no picture or text in it.",
+      "pass": true,
+      "why": "The framed poster is entirely black and empty."
+    },
+    {
+      "check": "There is no readable word, letter or number anywhere in the picture.",
+      "pass": true,
+      "why": "No words or numbers are visible anywhere."
+    },
+    {
+      "check": "No garment or piece of sports kit in the room carries any lettering, club name, crest or number.",
+      "pass": true,
+      "why": "The sports clothing lacks any crests or lettering."
+    },
+    {
+      "check": "Apart from the framed poster being described, the walls carry no other poster, print, picture or wall art, and no recognisable artwork or film, band or book title appears anywhere.",
+      "pass": true,
+      "why": "The walls contain no other art besides the blank poster."
+    },
+    {
+      "check": "The person is the same person as in the reference image (ignore any pronoun; judge only the picture).",
+      "pass": true,
+      "why": "The person matches the expected subject."
+    },
+    {
+      "check": "Any sports equipment in the room belongs to Volleyball and to no other sport.",
+      "pass": true,
+      "why": "The visible sports gear is consistent with volleyball."
+    }
+  ]
+}

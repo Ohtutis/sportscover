@@ -1,0 +1,29 @@
+{
+  "verdicts": [
+    {
+      "check": "The person in the photograph is the same person as in the first reference image: same face, same hair, same build.",
+      "pass": false,
+      "why": "There is no first reference image provided to compare the person in the photograph against."
+    },
+    {
+      "check": "The card he holds matches the second reference card: same artwork, same layout, same colours.",
+      "pass": false,
+      "why": "There is no second reference card provided to compare the card in the photograph against."
+    },
+    {
+      "check": "The whole card front is readable and all four of its corners are visible.",
+      "pass": false,
+      "why": "The bottom right corner of the card is obscured by the person's thumb."
+    },
+    {
+      "check": "His hand has five correctly jointed fingers and looks anatomically normal.",
+      "pass": false,
+      "why": "The hand holding the card appears to have an extra finger or joint, making it look anatomically incorrect."
+    },
+    {
+      "check": "He is wearing everyday clothes rather than sports kit.",
+      "pass": true,
+      "why": "The person is wearing a black hoodie, which is considered everyday clothing."
+    }
+  ]
+}

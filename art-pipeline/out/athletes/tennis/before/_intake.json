@@ -1,0 +1,35 @@
+{
+  "verdict": "ok",
+  "usable": [
+    "art-pipeline/out/athletes/tennis/before/photo1.png",
+    "art-pipeline/out/athletes/tennis/before/photo2.png",
+    "art-pipeline/out/athletes/tennis/before/photo3.png",
+    "art-pipeline/out/athletes/tennis/before/photo4.png"
+  ],
+  "anchorOrder": [
+    "art-pipeline/out/athletes/tennis/before/photo4.png",
+    "art-pipeline/out/athletes/tennis/before/photo1.png",
+    "art-pipeline/out/athletes/tennis/before/photo2.png",
+    "art-pipeline/out/athletes/tennis/before/photo3.png"
+  ],
+  "identity": [
+    {
+      "path": "art-pipeline/out/athletes/tennis/before/photo1.png",
+      "similarityToOthers": 0.65
+    },
+    {
+      "path": "art-pipeline/out/athletes/tennis/before/photo2.png",
+      "similarityToOthers": 0.58
+    },
+    {
+      "path": "art-pipeline/out/athletes/tennis/before/photo3.png",
+      "similarityToOthers": 0.596
+    },
+    {
+      "path": "art-pipeline/out/athletes/tennis/before/photo4.png",
+      "similarityToOthers": 0.57
+    }
+  ],
+  "rejected": [],
+  "notes": []
+}

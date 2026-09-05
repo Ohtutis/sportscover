@@ -1,0 +1,8 @@
+{
+  "hash": "eb2f5e7ed099f03a",
+  "model": "gemini-3-pro-image",
+  "size": "2K",
+  "refs": [],
+  "generatedAt": "2026-08-22T03:30:54.564Z",
+  "prompt": "A flat vector-style sports club crest, drawn as clean solid shapes.\n\nOutline: a shield with a flat top and a rounded bottom.\nInside it: a single square watchtower in silhouette with a crenellated top and one narrow window slit — an object mark, no animal.\nColours: #5C6672 and #E4B33C only, plus white.\n\nHard requirements:\n- Absolutely NO text, no letters, no words, no numbers, no monogram, no banner or ribbon\n  for a name. The mark alone.\n- Flat solid colour with hard edges. No gradients, no gloss, no bevel, no drop shadow,\n  no 3D, no photographic texture, no mockup on a garment.\n- Centred on a plain pure white background, with even margin around it.\n- Bold and simple enough to still read as itself at 40 px wide.\n- Square image."
+}

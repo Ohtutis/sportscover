@@ -1,0 +1,6 @@
+{
+  "model": "gemini-3.1-flash-image",
+  "tokens": 1752,
+  "prompt": "A photograph in a teenage boy's bedroom: a large FRAMED POSTER hangs on the wall in portrait orientation, roughly 18x24 inches, in a slim black frame. The frame is SQUARE ON TO THE CAMERA, centred, the whole opening visible and unobstructed, filling most of the height of the picture. THE INSIDE OF THE FRAME IS COMPLETELY EMPTY — a flat, even, pure black rectangle, no picture, no pattern, no glare, no reflection. The teenage basketball player from the reference image stands just BEHIND and to one side of the frame, looking at the camera, arms relaxed, in ordinary everyday clothes. He must not overlap the frame opening. He is the same person as the reference: same face, same skin tone, same short twists, same build. Warm window light, shallow depth of field, shot on a phone. Square 1:1. No text anywhere, no watermark, no logo.",
+  "at": "2026-08-25T12:48:46.742Z"
+}

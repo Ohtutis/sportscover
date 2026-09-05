@@ -1,0 +1,59 @@
+{
+  "verifiedAt": "2026-08-22T02:58:51.876Z",
+  "photos": [
+    "photo1.png",
+    "photo2.png",
+    "photo3.png",
+    "photo4.png"
+  ],
+  "findings": [
+    {
+      "id": "hair",
+      "seen": "The athlete has straight, black hair. In photos 1, 3, and 4, it is parted slightly off-centre and tied back into a low ponytail at the nape of her neck. In photo 2, she is wearing a cap, and the ponytail is visible extending out from the back of the cap.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "build",
+      "seen": "The athlete appears to be a teenager with a slim, average-height build. She has narrow shoulders, lean limbs, and a straight waist, without heavy musculature.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shirt",
+      "seen": "In photo 2, the athlete is wearing a plain olive short-sleeved polo shirt. The collar matches the olive color of the shirt. It has a short placket with three olive buttons. On the left chest, there is a badge: an inverted triangle with clipped top corners, featuring an off-white background, an olive border, and an osprey with raised wings and reaching talons. There are no other logos, names, or numbers visible on the shirt.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "shorts",
+      "seen": "In photo 2, the athlete is wearing plain olive tailored trousers with a straight leg and a front crease. The waistband has belt loops, but no belt is worn, and there are slash pockets at the hips. In photo 3, she is wearing olive shorts.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "socks",
+      "seen": "In photo 3, the athlete is wearing plain white ankle socks that sit just above the collar of her shoes, with no visible stripes or logos. In photo 2, her lower legs and feet are not visible in the frame.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "footwear",
+      "seen": "In photo 3, the athlete is wearing plain white, unbranded golf shoes with white laces and a flat outsole. The shoes show signs of wear, with dirt and grass stains visible. In photo 1, she is wearing plain grey slip-on shoes. Photo 2 does not show her feet.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "equipment",
+      "seen": "In photo 3, the athlete holds a golf club with a silver steel shaft and a plain black grip. In photos 2 and 3, she wears a single glove on her left hand; it appears olive-grey in photo 2 and white in photo 3, and features a round ball marker on the closure. Her right hand is bare. In photo 2, she wears a plain olive cap with a curved brim. Also in photo 2, she carries a golf bag and a clear water bottle with a blue cap and no label, while another bottle with a label sits on the grass behind her.",
+      "verdict": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "crest placement",
+      "seen": "In photo 2, the club crest is positioned high on the left chest, just below the collar.",
+      "verdict": "confirmed",
+      "note": ""
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "verdicts": [
+    {
+      "check": "The player in the frame is far too small for a face to be recognised.",
+      "pass": true,
+      "why": "The subject is distant making facial features blurry and unidentifiable."
+    },
+    {
+      "check": "The setting matches a cheer gym with tumbling mats.",
+      "pass": true,
+      "why": "The facility contains large blue tumbling mats and related gym apparatus."
+    },
+    {
+      "check": "There is no brand wordmark or advertising text on clothing or equipment.",
+      "pass": true,
+      "why": "The athlete wears plain clothing and the mats show no readable text."
+    }
+  ]
+}

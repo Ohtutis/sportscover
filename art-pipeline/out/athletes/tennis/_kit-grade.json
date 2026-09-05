@@ -1,0 +1,58 @@
+{
+  "observations": {
+    "items": "White polo shirt with turquoise trim, turquoise shorts, a merged double-ended white sock object, two cream-white court shoes, a tennis racket, a white headband, two turquoise wristbands.",
+    "badge": "A dark teal triangle containing a stylized 'S', printed on the left chest. No manufacturer logos.",
+    "footwear": "Cream-white court shoes, low profile, pale grey side panels, white laces, flat non-marking sole."
+  },
+  "checks": [
+    {
+      "id": "all_items_present",
+      "pass": false,
+      "note": "The socks are merged into a single double-ended object rather than being two separate socks, and there are two wristbands instead of the specified one."
+    },
+    {
+      "id": "matches_kit_photo",
+      "pass": false,
+      "note": "The socks are malformed, generated as a single joined piece instead of a pair."
+    },
+    {
+      "id": "crest_correct",
+      "pass": false,
+      "note": "The badge on the shirt is a simple 'S' inside a triangle, missing the heron head and beak details present in the artwork."
+    },
+    {
+      "id": "no_league_mark",
+      "pass": true,
+      "note": "No league marks are visible."
+    },
+    {
+      "id": "no_text_anywhere",
+      "pass": true,
+      "note": "No text is visible on any item."
+    },
+    {
+      "id": "no_branding",
+      "pass": true,
+      "note": "No manufacturer branding is visible."
+    },
+    {
+      "id": "footwear_correct_for_sport",
+      "pass": true,
+      "note": "The shoes are appropriate court shoes for tennis."
+    },
+    {
+      "id": "clean_and_new",
+      "pass": true,
+      "note": "All items appear clean and new."
+    },
+    {
+      "id": "flat_lay",
+      "pass": true,
+      "note": "The items are laid flat and photographed from above."
+    }
+  ],
+  "worstIssue": "The socks have been generated as a single, merged, double-ended object rather than a pair of separate socks.",
+  "verdict": "fail",
+  "plateHash": "448c4dc629c3",
+  "gradedAt": "2026-08-22T02:12:12.439Z"
+}

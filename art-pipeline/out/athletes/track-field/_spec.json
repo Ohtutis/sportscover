@@ -1,0 +1,84 @@
+{
+ "athlete": "track-field",
+ "colourConflict": null,
+ "bestPortrait": "photo1.png",
+ "sport": "track-field",
+ "generatedAt": "2026-08-21T23:57:40.926Z",
+ "judge": "gemini-3.1-pro-preview",
+ "source": {
+  "photos": [
+   "photo1.png",
+   "photo2.png",
+   "photo3.png",
+   "photo4.png"
+  ],
+  "formFields": {
+   "firstName": "Imani",
+   "lastName": "Whitfield",
+   "jerseyNumber": "8",
+   "team": "Redstone Flyers",
+   "ageYears": 16,
+   "primaryColor": "#C8A200",
+   "secondaryColor": "#2B2B2B"
+  }
+ },
+ "resolved": [
+  {
+   "item": "hair",
+   "source": "photos",
+   "value": "BLACK hair in CORNROWS: fine braided rows running straight back from the hairline in parallel lines over the whole crown, with no parting to one side and no loose fringe, gathered at the nape into a small LOW BUN sitting just above the neck. A few short baby hairs at the temples. The same cornrows and the same low bun in every frame \u2014 she wears them to race, to train and at home.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. The resolver's draft was one short sentence per item and carried a trademark into a frozen file \u2014 it read the spikes as 'black track spikes with a white swoosh'. The swoosh was real: it was in the photograph, and both kit frames were corrected with art:fix before this spec was written, so the lines below describe the corrected frames."
+  },
+  {
+   "item": "build",
+   "source": "photos",
+   "value": "A SIXTEEN-YEAR-OLD SPRINTER'S body, and it is a teenage girl's, not a grown woman's: tall for her age and VERY LEAN, long-limbed, with clearly defined quadriceps, hamstrings and calves and a narrow waist. LIGHT through the upper body \u2014 the shoulders are only a little wider than the hips, the arms slim and lightly cut rather than muscular, the chest flat and athletic. Reproduce this body as it is: do NOT broaden her shoulders, do NOT add upper-body muscle, do NOT give her an adult woman's figure, and do NOT slim or thicken the legs, which are the strongest thing about her.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. The resolver's draft was one short sentence per item and carried a trademark into a frozen file \u2014 it read the spikes as 'black track spikes with a white swoosh'. The swoosh was real: it was in the photograph, and both kit frames were corrected with art:fix before this spec was written, so the lines below describe the corrected frames."
+  },
+  {
+   "item": "shirt",
+   "source": "photos",
+   "value": "A GOLD sleeveless track SINGLET exactly as photo2.png shows it: a plain ROUND SCOOP NECK with no collar and no placket, cut away at the armholes, and the body of it PLAIN GOLD all over \u2014 there is NO contrasting side panel, NO stripe and NO trim of any other colour anywhere on it, whatever the sport default says. The club badge sits CENTRED HIGH ON THE CHEST, a hand's width below the neckline: the redstone-flyers mark exactly as the crest artwork draws it \u2014 a gold winged foot inside a white field ringed by a solid dark band \u2014 about a palm across, soft-edged and moving with the fabric. It is the ONLY mark on the singlet. NO maker's logo, NO swoosh, NO sponsor, NO club name, NO player name, no lettering of any kind. The BACK of the singlet is not visible in any photograph; the DECISION is that it stays PLAIN GOLD: no number, no name, no badge and no lettering across the shoulders or anywhere else on it. This kit carries its race number on the SHORTS, and a second number across the back would print a mark this singlet does not have.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. The resolver's draft was one short sentence per item and carried a trademark into a frozen file \u2014 it read the spikes as 'black track spikes with a white swoosh'. The swoosh was real: it was in the photograph, and both kit frames were corrected with art:fix before this spec was written, so the lines below describe the corrected frames."
+  },
+  {
+   "item": "shorts",
+   "source": "photos",
+   "value": "GOLD MID-THIGH COMPRESSION SHORTS exactly as photo2.png shows them: close-fitting, plain gold all over, ending about halfway down the thigh, with a plain waistband and no stripe, no piping and no side panel. On HER LEFT THIGH, on the outside of the leg \u2014 the side that appears on the RIGHT of the frame when she faces the camera \u2014 a small WHITE RECTANGULAR RACE-NUMBER PATCH carrying the number 8 in plain black. One patch only, on her left leg only, and the number 8 appears nowhere else on the kit. NO maker's logo and no lettering on the shorts.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. The resolver's draft was one short sentence per item and carried a trademark into a frozen file \u2014 it read the spikes as 'black track spikes with a white swoosh'. The swoosh was real: it was in the photograph, and both kit frames were corrected with art:fix before this spec was written, so the lines below describe the corrected frames."
+  },
+  {
+   "item": "socks",
+   "source": "photos",
+   "value": "NO SOCKS, or none that can be seen: photo2.png and photo3.png both show BARE ANKLES above the shoe. The DECISION is that she races in no visible sock \u2014 bare skin from the hem of the compression shorts to the top of the shoe in every frame. Do not add a gold sock, and do not add a white one.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. The resolver's draft was one short sentence per item and carried a trademark into a frozen file \u2014 it read the spikes as 'black track spikes with a white swoosh'. The swoosh was real: it was in the photograph, and both kit frames were corrected with art:fix before this spec was written, so the lines below describe the corrected frames."
+  },
+  {
+   "item": "footwear",
+   "source": "photos",
+   "value": "PLAIN BLACK track shoes exactly as photo2.png and photo3.png show them after the maker's mark was taken off: an all-black low-cut shoe with black laces and a black sole, completely PLAIN and UNBRANDED \u2014 no swoosh, no stripes, no maker's mark, no logo and no lettering of any kind, on either shoe or anywhere on the sole. The same pair in every frame. This overrides the sport default of white spikes: the photographs show black, and the photographs decide what the kit looks like.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. The resolver's draft was one short sentence per item and carried a trademark into a frozen file \u2014 it read the spikes as 'black track spikes with a white swoosh'. The swoosh was real: it was in the photograph, and both kit frames were corrected with art:fix before this spec was written, so the lines below describe the corrected frames."
+  },
+  {
+   "item": "equipment",
+   "source": "photos",
+   "value": "NO IMPLEMENT IS PART OF THIS KIT. Track and field carries no ball, stick, racket or apparatus, and none appears in any photograph. What she does carry is ordinary kit-bag clutter on the way to and from the track: in photo2.png a plain dark DUFFEL BAG slung on one shoulder, and in photo3.png bags and a plain unbranded water bottle on the ground beside her \u2014 all of it unbranded, and none of it a piece of sports equipment. The DECISION for the poses is that she carries NOTHING in her hands: no baton, no bag, no bottle, no block. Starting blocks may stand on the track where a pose calls for them, but nothing is held.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. The resolver's draft was one short sentence per item and carried a trademark into a frozen file \u2014 it read the spikes as 'black track spikes with a white swoosh'. The swoosh was real: it was in the photograph, and both kit frames were corrected with art:fix before this spec was written, so the lines below describe the corrected frames."
+  }
+ ],
+ "crest": {
+  "use": true,
+  "slug": "redstone-flyers",
+  "fromPhotos": true,
+  "note": "The redstone-flyers mark: a GOLD WINGED FOOT in profile facing right, sitting wholly inside a white field ringed by a solid unbroken DARK CHARCOAL band. The outline is an OVAL LYING ON ITS SIDE \u2014 wider than it is tall \u2014 and not a circle. Applied UNCHANGED from the crest artwork: same outline, same figure, same colours, never redrawn.",
+  "placement": "CENTRED HIGH ON THE CHEST of the singlet, a hand's width below the neckline, about a palm across. That position is a settled decision read off photo2.png, not a convention to be corrected: do not move it to the left chest, do not enlarge it and do not add a second mark."
+ },
+ "defaults": "a gold sleeveless track singlet with a contrasting side panel and matching gold mid-thigh compression shorts. The kit fits properly and is clean and well kept.\nCONSISTENT ACROSS THE WHOLE SET \u2014 three of these frames sit side by side on one card, so\nthese must be identical in every shot and are not open to interpretation:\n- Socks are gold, matching the kit. Never white, never a different colour.\n- Equipment: no implement in frame. The same one in every shot.\n- Footwear: plain white sprint spikes with a rigid plate and visible pins in the forefoot. NOT sneakers. The same pair in every shot, clean and unmarked."
+}

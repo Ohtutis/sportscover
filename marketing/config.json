@@ -1,0 +1,57 @@
+{
+  "start_date": "2026-08-28",
+  "_comment": "The only file a human edits. `links.by_sport` sends a pin to the listing for the sport IN THE PICTURE — a cheer pin landing on a basketball listing is the fastest way to teach Pinterest the pin is bait. Fill one line per listing as they go live; anything missing falls back to `links.<product>` and then to `links.shop`. Replace every URL with its Share & Save link once those exist (Etsy refunds 4% on orders through them).",
+  "links": {
+    "shop": "https://www.etsy.com/shop/GameDayEdition",
+    "card": "https://gamedayedition.etsy.com/listing/4562711454",
+    "poster": "https://gamedayedition.etsy.com/listing/4562711454",
+    "set": "https://gamedayedition.etsy.com/listing/4562711454",
+    "by_sport": {
+      "football": {
+        "poster": "https://gamedayedition.etsy.com/listing/4564301710",
+        "card": "https://gamedayedition.etsy.com/listing/4563878038"
+      },
+      "cheerleading": {
+        "poster": "https://gamedayedition.etsy.com/listing/4564287163",
+        "card": "https://gamedayedition.etsy.com/listing/4564284709"
+      },
+      "basketball": {
+        "poster": "https://gamedayedition.etsy.com/listing/4562700100",
+        "card": "https://gamedayedition.etsy.com/listing/4562666649"
+      },
+      "baseball": {
+        "card": "https://gamedayedition.etsy.com/listing/4567592965"
+      },
+      "volleyball": {
+        "card": "https://gamedayedition.etsy.com/listing/4567597109"
+      },
+      "soccer": {
+        "card": "https://gamedayedition.etsy.com/listing/4567599879"
+      }
+    },
+    "coupon": "https://gamedayedition.etsy.com/?coupon=SENIORNIGHT",
+    "_fallback_note": "card/poster/set all resolve to the Complete Set listing (4562711454) when a sport has no listing of its own — there is no generic single-sport card listing."
+  },
+  "utm": "utm_source={source}&utm_medium=social&utm_campaign={campaign}&utm_content={content}",
+  "public_base": "",
+  "slide_dirs": [
+    "Exportai Etsy/Digital card",
+    "Exportai Etsy/Digital poster basketball",
+    "Exportai Etsy/Digital complete all sports"
+  ],
+  "video_sources": [
+    "etsy/listing-videos/GDE-etsy-01-card-story-1080.mp4",
+    "etsy/listing-videos/GDE-etsy-02-poster-story-1080.mp4"
+  ],
+  "slide_keywords": [
+    "hero",
+    "transformation",
+    "kid on the card",
+    "poster, full view",
+    "the kit",
+    "six finishes",
+    "style pair",
+    "kid and the poster",
+    "card in hand"
+  ]
+}

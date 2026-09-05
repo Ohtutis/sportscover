@@ -1,0 +1,8 @@
+{
+  "hash": "3e3e8c7cc3f2db05",
+  "model": "gemini-3-pro-image",
+  "size": "2K",
+  "refs": [],
+  "generatedAt": "2026-08-22T02:42:19.887Z",
+  "prompt": "A flat vector-style sports club crest, drawn as clean solid shapes.\n\nOutline: a triangle standing on its base, its three corners clipped, with a heavy border.\nInside it: an osprey seen head-on with both wings raised into a wide V and its talons reaching down and forward, symmetrical, filling the triangle.\nColours: #5D6B2A and #EDE6D6 only, plus white.\n\nHard requirements:\n- Absolutely NO text, no letters, no words, no numbers, no monogram, no banner or ribbon\n  for a name. The mark alone.\n- Flat solid colour with hard edges. No gradients, no gloss, no bevel, no drop shadow,\n  no 3D, no photographic texture, no mockup on a garment.\n- Centred on a plain pure white background, with even margin around it.\n- Bold and simple enough to still read as itself at 40 px wide.\n- Square image."
+}

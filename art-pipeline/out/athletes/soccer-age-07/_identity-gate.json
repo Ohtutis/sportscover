@@ -3,36 +3,36 @@
   "sourceRows": [
     {
       "photo": "photo1.png",
-      "similarity": 0.547,
+      "similarity": 0.6077,
       "verdict": "pass"
     },
     {
       "photo": "photo2.png",
-      "similarity": 0.4828,
+      "similarity": 0.4687,
       "verdict": "pass"
     },
     {
       "photo": "photo3.png",
-      "similarity": 0.483,
+      "similarity": 0.4643,
       "verdict": "pass"
     },
     {
       "photo": "photo4.png",
-      "similarity": 0.5067,
+      "similarity": 0.5632,
       "verdict": "pass"
     }
   ],
   "rows": [
     {
       "pose": "action2",
-      "similarity": 0.5584,
-      "faceShare": 0.0109,
+      "similarity": 0.6085,
+      "faceShare": 0.0108,
       "verdict": "pass"
     },
     {
       "pose": "action3",
-      "similarity": 0.703,
-      "faceShare": 0.0128,
+      "similarity": 0.6622,
+      "faceShare": 0.0097,
       "verdict": "pass"
     },
     {
@@ -43,8 +43,8 @@
     },
     {
       "pose": "hero",
-      "similarity": 0.7189,
-      "faceShare": 0.0133,
+      "similarity": 0.8383,
+      "faceShare": 0.0142,
       "verdict": "pass"
     }
   ]

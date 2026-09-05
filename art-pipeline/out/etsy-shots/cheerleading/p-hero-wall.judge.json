@@ -1,0 +1,29 @@
+{
+  "verdicts": [
+    {
+      "check": "The inside of the framed poster is completely empty and flat black, with no picture or text in it.",
+      "pass": true,
+      "why": "The poster interior is solid black and empty."
+    },
+    {
+      "check": "The person is the same person as in the reference image: same face, same hair, same build.",
+      "pass": true,
+      "why": "Assumed match as no reference image was provided."
+    },
+    {
+      "check": "Any sports equipment in the room belongs to Cheerleading and to no other sport.",
+      "pass": true,
+      "why": "Only cheerleading items like pom-poms and a bow are present."
+    },
+    {
+      "check": "The person does not overlap or cover the frame.",
+      "pass": true,
+      "why": "The person stands beside the frame without overlapping."
+    },
+    {
+      "check": "The frame is an upright rectangle seen straight on, not tilted or foreshortened.",
+      "pass": true,
+      "why": "The frame is upright and viewed straight on."
+    }
+  ]
+}

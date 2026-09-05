@@ -1,0 +1,29 @@
+{
+  "verdicts": [
+    {
+      "check": "The inside of the framed poster is completely empty and flat black, with no picture or text in it.",
+      "pass": true,
+      "why": "The inside of the framed poster is a solid, flat black color with no images or text."
+    },
+    {
+      "check": "The person is the same person as in the reference image: same face, same hair, same build.",
+      "pass": false,
+      "why": "No reference image was provided to compare the person against."
+    },
+    {
+      "check": "Any sports equipment in the room belongs to Football and to no other sport.",
+      "pass": true,
+      "why": "The sports equipment on the floor includes a football helmet, shoulder pads, and cleats, all of which belong to American Football."
+    },
+    {
+      "check": "The person does not overlap or cover the frame.",
+      "pass": true,
+      "why": "The person is standing to the right of the frame and does not overlap or cover any part of it."
+    },
+    {
+      "check": "The frame is an upright rectangle seen straight on, not tilted or foreshortened.",
+      "pass": true,
+      "why": "The frame is an upright rectangle and is viewed straight on without any tilt or foreshortening."
+    }
+  ]
+}

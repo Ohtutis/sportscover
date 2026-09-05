@@ -1,0 +1,19 @@
+{
+  "verdicts": [
+    {
+      "check": "The player in the frame is far too small for a face to be recognised.",
+      "pass": true,
+      "why": "The player is distant making facial features indistinguishable."
+    },
+    {
+      "check": "The setting matches an American football field.",
+      "pass": true,
+      "why": "The field has yard lines and hash marks typical of American football."
+    },
+    {
+      "check": "There is no brand wordmark or advertising text on clothing or equipment.",
+      "pass": true,
+      "why": "No readable brand logos or ads are visible on clothing or equipment."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "verdicts": [
+    {
+      "check": "The card in the photograph matches the reference card: same artwork, same layout, same colours.",
+      "pass": true,
+      "why": "Card design and colors appear correct."
+    },
+    {
+      "check": "The whole card front is visible and not covered by fingers.",
+      "pass": false,
+      "why": "Fingers cover the left and right edges."
+    },
+    {
+      "check": "The hand has five separated fingers and looks anatomically normal.",
+      "pass": true,
+      "why": "Hand shows five normal fingers."
+    },
+    {
+      "check": "There is no text overlay or watermark added on top of the photograph.",
+      "pass": true,
+      "why": "No watermarks or overlays found."
+    }
+  ]
+}

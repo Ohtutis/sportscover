@@ -1,0 +1,85 @@
+{
+ "athlete": "tennis",
+ "colourConflict": "RESOLVED, and it was not a conflict. The resolver flagged that the form says turquoise while the polo is white. Both are right: kits.ts gives tennis a WHITE-BODIED shirt on purpose and carries the club colour in the collar and the sleeve trim, which is exactly what photo2.png shows. Turquoise is his colour; white is his shirt.",
+ "bestPortrait": "photo1.png",
+ "sport": "tennis",
+ "generatedAt": "2026-08-22T01:49:34.518Z",
+ "judge": "gemini-3.1-pro-preview",
+ "source": {
+  "photos": [
+   "photo1.png",
+   "photo2.png",
+   "photo3.png",
+   "photo4.png"
+  ],
+  "formFields": {
+   "firstName": "Arun",
+   "lastName": "Devarajan",
+   "jerseyNumber": "0",
+   "team": "Highfield Herons",
+   "ageYears": 15,
+   "primaryColor": "#17A398",
+   "secondaryColor": "#0B2E2B"
+  }
+ },
+ "resolved": [
+  {
+   "item": "hair",
+   "source": "photos",
+   "value": "DARK AUBURN hair \u2014 a deep reddish-brown \u2014 thick, dense and tightly CURLY, grown out over the ears and falling forward onto the forehead in a soft messy fringe with no parting, standing up off the crown from the sheer volume of the curl. The same hair in every frame; it is not flattened, straightened or cut shorter in any of them.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. Both frames were de-branded with art:fix first \u2014 a swoosh on the headband and on a bystander's shirt in photo2, and a swoosh on the wristband plus maker's marks on the shoes, the racket and the bag in photo3 \u2014 so these lines describe the corrected frames."
+  },
+  {
+   "item": "build",
+   "source": "photos",
+   "value": "A FIFTEEN-YEAR-OLD's body, and it is a boy's rather than a grown man's: average height for his age, SLIGHT and light-framed, with lean arms and legs carrying very little visible muscle and a torso that is flat but soft rather than cut. Shoulders only a little wider than the hips. Reproduce this body as it is: do NOT give him an adult athlete's chest, shoulders or arm definition, and do NOT thin him down either \u2014 he is a quick, unfinished teenager.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. Both frames were de-branded with art:fix first \u2014 a swoosh on the headband and on a bystander's shirt in photo2, and a swoosh on the wristband plus maker's marks on the shoes, the racket and the bag in photo3 \u2014 so these lines describe the corrected frames."
+  },
+  {
+   "item": "shirt",
+   "source": "photos",
+   "value": "A WHITE short-sleeved tennis POLO exactly as photo2.png shows it \u2014 the body of it plain WHITE, which is correct and is NOT a contradiction of his TURQUOISE club colour: turquoise is carried by the TRIM. A turquoise FOLD-OVER polo COLLAR edged with a fine white line \u2014 a normal turned-down polo collar, not a stand collar; a short turquoise PLACKET down the centre front carrying two small WHITE buttons; and a turquoise CUFF BAND edged with a fine white line at the end of each short sleeve. Nothing else on it. The club badge sits SMALL ON THE LEFT CHEST, about three fingers wide: the highfield-herons mark exactly as the crest artwork draws it \u2014 a PENNANT flying to the right with the heron's head and long S-curved neck filling it, printed in DARK TEAL. At chest-badge size the pennant reads as a plain triangle coming to a single point on the right: the notched swallowtail fly end of the crest artwork is finer than a printed chest badge can carry, and it must NOT be drawn in as a separate detail here. It is the ONLY mark on the polo. NO maker's logo, NO club name, NO player name, NO number and no lettering of any kind. The BACK of the polo is not visible in any photograph; the DECISION is that it stays PLAIN WHITE: no number, no name, no badge and no lettering across the shoulders or anywhere on it. Tennis does not number a shirt, and a number across his back would be a mark this polo does not have.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. Both frames were de-branded with art:fix first \u2014 a swoosh on the headband and on a bystander's shirt in photo2, and a swoosh on the wristband plus maker's marks on the shoes, the racket and the bag in photo3 \u2014 so these lines describe the corrected frames."
+  },
+  {
+   "item": "shorts",
+   "source": "photos",
+   "value": "PLAIN TURQUOISE tennis SHORTS exactly as photo2.png and photo3.png show them: solid turquoise all over, ending a little above the knee, with a plain elasticated waistband and no stripe, no piping, no side panel and no contrast trim. NO maker's logo, NO number and no lettering on them.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. Both frames were de-branded with art:fix first \u2014 a swoosh on the headband and on a bystander's shirt in photo2, and a swoosh on the wristband plus maker's marks on the shoes, the racket and the bag in photo3 \u2014 so these lines describe the corrected frames."
+  },
+  {
+   "item": "socks",
+   "source": "photos",
+   "value": "PLAIN WHITE ANKLE SOCKS, sitting just above the shoe collar, with no stripe, no colour band and no maker's mark, exactly as photo3.png shows them. Not crew socks and not turquoise.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. Both frames were de-branded with art:fix first \u2014 a swoosh on the headband and on a bystander's shirt in photo2, and a swoosh on the wristband plus maker's marks on the shoes, the racket and the bag in photo3 \u2014 so these lines describe the corrected frames."
+  },
+  {
+   "item": "footwear",
+   "source": "photos",
+   "value": "PLAIN CREAM-WHITE COURT SHOES exactly as photo3.png shows them after the maker's mark was taken off: a low-profile tennis shoe with pale grey side panels, white laces, a reinforced toe and a flat non-marking herringbone court sole. Completely PLAIN and UNBRANDED \u2014 no stripes device, no swoosh, no maker's mark and no lettering anywhere on the upper, and no moulded logo in the heel of the sole either. The same pair in every frame, worn but clean. (art:spec:verify went on reporting a moulded heel logo and side stripes after both were edited out; 4x crops of BOTH shoes in photo3.png \u2014 the raised one and the one on his foot \u2014 show plain rubber and plain grey overlays. \u00a733: the crop outranks the judge, and this line is not to be reverted on another verifier run.)",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. Both frames were de-branded with art:fix first \u2014 a swoosh on the headband and on a bystander's shirt in photo2, and a swoosh on the wristband plus maker's marks on the shoes, the racket and the bag in photo3 \u2014 so these lines describe the corrected frames."
+  },
+  {
+   "item": "equipment",
+   "source": "photos",
+   "value": "A PLAIN UNBRANDED RACKET. No ball appears in any photograph; the DECISION is that a plain yellow unbranded tennis ball may appear in a pose where the action needs one, and nowhere else. The racket has a matt black frame with plain white strings. The MATCH racket in photo2.png has a WHITE grip finished with BLACK tape at the top; photo3.png shows a second, different racket lying on the bench with a solid black grip, which is a training-day racket and not this one. The DECISION for every pose is the photo2 racket: black frame, white strings, white grip, black finishing tape. On it there is: NO maker's name, NO model name, NO lettering on the throat, the shaft, the butt cap or the strings. Two small kit items go with it and both are worn: a WHITE terry HEADBAND across the forehead (photo2.png) and a TURQUOISE terry WRISTBAND (photo3.png) \u2014 the headband white, the wristband turquoise, both plain and unbranded. The DECISION for the poses is that he carries the racket and nothing else: no kit bag, no bottle, no towel.",
+   "partial": "",
+   "why": "written by hand from zoomed crops of photo2/photo3 (2026-08-22), per handoff \u00a716. Both frames were de-branded with art:fix first \u2014 a swoosh on the headband and on a bystander's shirt in photo2, and a swoosh on the wristband plus maker's marks on the shoes, the racket and the bag in photo3 \u2014 so these lines describe the corrected frames."
+  }
+ ],
+ "crest": {
+  "use": true,
+  "slug": "highfield-herons",
+  "fromPhotos": true,
+  "note": "The highfield-herons mark: a heron's head and long neck curved into a tall S with a straight horizontal beak and one crest feather trailing back from the crown, filling a SWALLOWTAIL PENNANT that flies to the RIGHT and is notched into two points at the fly end. The neck is the mark \u2014 no body, no legs, no wings. On the white polo the whole badge is printed in DARK TEAL; the outline, the bird and their proportions are the crest artwork unaltered.",
+  "placement": "SMALL ON THE LEFT CHEST, about three fingers wide, as photo2.png shows it \u2014 a real team badge, not a printed graphic across the front. That position is a settled decision: do not centre it, do not enlarge it and do not add a second mark beside it."
+ },
+ "defaults": "a white tennis shirt with turquoise collar and turquoise sleeve trim, turquoise shorts, a white terry HEADBAND across the forehead, and a matching white wristband on the non-racket wrist. The kit fits properly and is clean and well kept.\nCONSISTENT ACROSS THE WHOLE SET \u2014 three of these frames sit side by side on one card, so\nthese must be identical in every shot and are not open to interpretation:\n- Socks are turquoise, matching the kit. Never white, never a different colour.\n- Equipment: a plain yellow tennis ball and a plain unbranded racket. The same one in every shot.\n- Footwear: plain white court shoes. The same pair in every shot, clean and unmarked.",
+ "specNote": "art:spec:verify FLIP-FLOPPED on two details of this athlete \u2014 the placket buttons (white, then turquoise, then white, then turquoise across four runs) and the racket's finishing tape. Both sit at a few dozen pixels in the source frame, which is where \u00a733 applies: a zoomed crop outranks the judge. The lines above were written from 4x crops of photo2.png and are not to be 'corrected' back on the strength of another verifier run."
+}

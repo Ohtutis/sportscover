@@ -1254,6 +1254,793 @@ export const POSES: Record<string, Pose[]> = {
         "profile, not over a shoulder",
     },
   ],
+
+  // TRACK & FIELD. Written 2026-08-22. A sixteen-year-old SPRINTER, and three facts decide
+  // every frame below:
+  //
+  // 1. NOTHING STANDS IN THE PICTURE. No starting blocks, no hurdle, no baton — these frames
+  //    are cut out, and anything resting on the track is sliced in half by the matte. It costs
+  //    nothing here: sprinting is the one sport that reads entirely from the body.
+  // 2. THE NUMBER IS A PINNED BIB AND IT IS ON THE FRONT. Nothing is printed between the
+  //    shoulder blades of a track singlet, so per §38 the back frame is free to move — and the
+  //    `back` mustShow forbids inventing a number there, which is the defect that shipped twice.
+  // 3. THE FOUR MOMENTS OF A SPRINT are acceleration, flight, the lean and the finish. Three of
+  //    them are here, one per frame, so the set reads as one race rather than one stride
+  //    photographed three times.
+  // TRACK & FIELD. The pose frames do NOT name the colour of the shoes. They said "White
+  // sprint SPIKES" while Imani's frozen spec said plain black — the sport default and the
+  // photograph disagreeing inside one prompt, which is the two-sources-for-one-fact failure
+  // kits.ts opens with. Footwear is owned by the spec (or by FOOTWEAR when there is none);
+  // a pose may say the shoes are ON, never what they look like.
+  "track-field": [
+    {
+      id: "hero",
+      role: "poster + card front main cutout, full opacity, face carries the product",
+      // ENERGY FROM MECHANICS, not from blur — the frame has to be sharp enough to matte. The
+      // flight phase of a sprint is a body in a shape it cannot hold: both feet off the ground,
+      // everything driving forward, and the face square to the lens.
+      // THE CAMERA WAS THE DEFECT, NOT THE RENDER. Written first as a sprint driving STRAIGHT
+      // at a straight-on 85 mm lens, this frame came back three times as a hop on the spot —
+      // and it had to: head-on, the knee drive and the trailing leg both point away from the
+      // camera and foreshorten to nothing, so the one shape the brief asks for is the one
+      // shape that view cannot show. art:fix could not rescue it either, because there was no
+      // defect in the drawing. Same family as README §20 — do not soften the pose to fit the
+      // frame, MOVE THE CAMERA. Three-quarters keeps the face on the lens (this frame carries
+      // the product) and puts the split legs and split arms across the sensor where they read.
+      action:
+        "at full sprint speed, caught in the FLIGHT PHASE with both feet clear of the track: " +
+        "the front knee driven up hard to hip height with the shin hanging loose beneath it, " +
+        "the back leg fully extended behind from hip to pointed toe so the two legs make a " +
+        "WIDE OPEN SPLIT with daylight between them, one arm swung up past the chin with the " +
+        "elbow at a right angle and the other driven back past the hip, hands loose and open " +
+        "rather than clenched, torso tall, shoulders level. Her body runs across the frame " +
+        "while her CHIN IS TURNED to the lens and her eyes come straight down it. A sprinter " +
+        "at full speed, not a runner jogging for a photograph",
+      camera:
+        "eye level, 85 mm lens at f/2.8, full body from a few metres back with clear air " +
+        "under both spikes, and far enough round that the whole length of both legs and both " +
+        "arms is across the frame rather than pointing at the lens",
+      facing:
+        "running THREE-QUARTERS across the frame towards the camera's left, her body turned " +
+        "about forty-five degrees off the lens so the leg split and the arm split are both " +
+        "fully visible in profile, with the head turned back square to the camera. She sits " +
+        "in the CENTRE of the composite",
+      equipment:
+        "NOTHING in her hands and NO apparatus anywhere in the frame — no starting blocks, no " +
+        "hurdle, no baton, no marker cones. Her own track SPIKES on both feet, exactly the pair " +
+        "the kit description gives her — this frame does not choose their colour",
+      mustShow:
+        "both feet off the track with air beneath them, the front knee up and the back leg " +
+        "extended, both arms driving in opposition, the face sharp and lit, nothing cropped",
+    },
+    {
+      id: "action2",
+      role: "supporting cutout, muted to ~0.45 opacity — silhouette matters more than face",
+      action:
+        "THE LEAN at the line, seen from the side: the chest thrown forward ahead of the hips " +
+        "with the shoulders dipped, both arms driven back and out behind her, chin up, mouth " +
+        "open with the effort, the front leg reaching and the back leg trailing straight. The " +
+        "whole body is committed past its own balance",
+      camera:
+        "side profile, camera slightly below chest height, 50 mm lens, full body",
+      facing:
+        "RUNNING TOWARDS THE RIGHT EDGE OF THE FRAME: the camera sees her RIGHT side, so the " +
+        "right shoulder and the right hip are the ones nearest the lens, and her chest, her " +
+        "chin and the whole lean go out to the right while both arms trail back to the left. " +
+        "This frame is placed on the LEFT of the composite, so every line in it leans INTO " +
+        "the centre",
+      equipment:
+        "NOTHING in her hands and NO apparatus anywhere in the frame — no tape, no post, no " +
+        "line marker. Her own track SPIKES on both feet, exactly the pair the kit description " +
+        "gives her",
+      mustShow:
+        "the chest clearly ahead of the hips, both arms swept back behind her and fully inside " +
+        "the frame, both legs reading as a stride rather than a stance, the head in profile " +
+        "and readable, nothing cropped",
+    },
+    {
+      id: "action3",
+      role: "supporting cutout, muted to ~0.45 opacity",
+      // The low diagonal: the third silhouette, and the only frame where the body is not
+      // upright. Written without blocks on purpose — the drive phase is still recognisable
+      // three strides out, and blocks cannot survive the matte.
+      action:
+        "THE DRIVE PHASE a few strides out of the start: the whole body angled forward like a " +
+        "ramp, roughly forty-five degrees from the track, shins low and almost parallel with " +
+        "the ground, the pushing leg fully extended behind from hip to toe, the front knee " +
+        "driving through low and flat, both arms punching hard and long, head down in line " +
+        "with the spine and the eyes just ahead of her own feet",
+      camera: "camera low, close to track level, tilted up at her, 35 mm lens, full body",
+      facing:
+        "ACCELERATING TOWARDS THE LEFT EDGE OF THE FRAME: the camera sees her LEFT side, so " +
+        "the left shoulder and the left spike are nearest the lens, and the forward angle of " +
+        "her whole body points out to the left while the extended pushing leg reaches back to " +
+        "the right. This frame is placed on the RIGHT of the composite, so every line in it " +
+        "leans INTO the centre",
+      equipment:
+        "NOTHING in her hands and NO apparatus anywhere in the frame — the starting blocks are " +
+        "already behind her and OUT of frame. Her own track SPIKES on both feet, exactly the " +
+        "pair the kit description gives her, the sole of the trailing shoe visible",
+      mustShow:
+        "the body held in one straight forward-leaning line from the pushing toe to the head, " +
+        "both arms driving in opposition, both feet inside the frame, nothing cropped",
+    },
+    {
+      id: "back",
+      role: "card BACK from-behind shot",
+      // NO NUMBER BETWEEN THE SHOULDER BLADES — a track bib is pinned to the FRONT of the
+      // singlet, so this back is blank and §38 applies: the frame is free to move, and it takes
+      // the moment the sport is actually about. Anything printed on the back here is invented.
+      action:
+        "seen strictly from behind at the instant she crosses the line and knows: both arms " +
+        "thrown up and out wide above her head, hands open, the head tipped back, the back " +
+        "arched, up on the toes of one spike with the other foot still coming through. Caught " +
+        "at the top of the celebration, not walking out of it",
+      camera:
+        "eye level, directly behind her, 85 mm lens, full body — far enough back that both " +
+        "raised hands are well inside the frame with air above them, close enough that the " +
+        "cornrows and the low bun read clearly",
+      facing: "seen from directly behind; used alone on the card back",
+      equipment:
+        "NOTHING in her hands and NO apparatus anywhere in the frame. Her own track SPIKES on " +
+        "both feet, exactly the pair the kit description gives her",
+      mustShow:
+        "the back of the singlet plain and unmarked exactly as her own kit is — NO number, NO " +
+        "name and NO lettering invented onto it, because her race number is pinned to the " +
+        "FRONT — both arms raised and inside the frame, the cornrows and the bun clear, and no " +
+        "part of the face: not in profile, not over a shoulder",
+    },
+  ],
+
+  // SWIMMING. Written 2026-08-22. Sixteen, female, and the sport fights the format harder than
+  // any other on the roster. Four facts:
+  //
+  // 1. SHE IS NEVER IN THE WATER. A body half submerged has no legs to cut out and the water
+  //    line becomes a straight horizontal slice through the matte. Every frame is on the deck.
+  // 2. AND NOTHING SHE STANDS ON IS IN FRAME EITHER — no starting block, no lane rope, no
+  //    kickboard. Same reason as the gymnastics beam.
+  // 3. THE CAP AND GOGGLES HIDE THE WHOLE FACE, and this is a personalised card. So the hero
+  //    wears the goggles PUSHED UP on the forehead and the eyes are clear — the same rule the
+  //    football helmet taught. The two supports are muted to ~0.45, so goggles down costs
+  //    nothing there and reads instantly as the sport.
+  // 4. SHE IS WET IN EVERY FRAME, identically — water beading on the shoulders and running off
+  //    the arms. Three cutouts sit side by side on one poster and a dry one would read as a
+  //    different day.
+  // ⚠️ COMPOSITE SIDES FOR THIS SET ARE SWAPPED FROM WHAT THE `facing` LINES BELOW ASK FOR.
+  // Both supports render MIRRORED and did so on every roll (2026-08-22): action2's streamline
+  // dives towards the LEFT edge though its line asks for the right, and action3's coil aims
+  // towards the RIGHT edge though its line asks for the left. That is lucky rather than
+  // unlucky — the two are still a complementary pair, so the approved frames lean INTO the
+  // centre if action2 is placed on the RIGHT of the composite and action3 on the LEFT.
+  // Place them that way. The `facing` text is left alone deliberately: it is prompt input, and
+  // rewriting it to match the output would re-roll two approved frames to fix a caption.
+  swimming: [
+    {
+      id: "hero",
+      role: "poster + card front main cutout, full opacity, face carries the product",
+      // THE ACTION HAS TO BE AN ACT, NOT A TRANSITION. This first read "caught at the end of a
+      // shoulder swing ... stopped between two movements", and twice returned a catalogue
+      // stand: arms hanging in one take, hands hidden behind the back and the eyes off the lens
+      // in the other (2026-08-22). A swing that has already finished is indistinguishable from
+      // standing still, so there is nothing for the model to draw. Seating the goggles is a
+      // real, sport-specific act with a beginning and an end, it puts BOTH HANDS up beside the
+      // face where the fingers are visible and doing something (the customer's standing hands
+      // instruction), and it keeps the eyes in the lens — which is what a hero frame is for.
+      action:
+        "standing at her full height on the pool deck, both hands raised to her temples SEATING " +
+        "THE GOGGLES on her forehead — fingertips on the goggle frame at each side, thumbs "  +
+        "against the strap, elbows out wide and level with the shoulders, all five fingers of " +
+        "each hand separated and clearly doing the work. Chin level, eyes straight down the " +
+        "lens, weight settled on both bare feet with the shoulders squared. Water still beading " +
+        "on her shoulders and running off her forearms. A swimmer about to race, looking at you",
+      camera:
+        "eye level, straight on with the body turned a few degrees, 85 mm lens at f/2.8, " +
+        "full body",
+      facing:
+        "square to the camera; she sits in the CENTRE of the composite, so she leans neither " +
+        "left nor right — the swimmer's V of her back and shoulders is what the frame is for",
+      equipment:
+        "the royal blue silicone SWIM CAP is on with all of her hair under it, and the GOGGLES " +
+        "are PUSHED UP onto the forehead above the eyebrows so the whole face is clear and " +
+        "readable. BARE FEET — no shoes anywhere in the frame. NOTHING in her hands and no " +
+        "block, no lane rope, no kickboard and no water in the frame",
+      mustShow:
+        "the whole athlete head to bare feet, the face sharp and lit with the goggles clear of " +
+        "the eyes, the cap on and the shoulders wet, both hands open and visible, nothing cropped",
+    },
+    {
+      id: "action2",
+      role: "supporting cutout, muted to ~0.45 opacity — silhouette matters more than face",
+      // The one shape in swimming that survives being cut out: airborne, symmetrical, an arrow.
+      action:
+        "AIRBORNE off the start in a full streamline, the instant after the feet leave the " +
+        "deck: the body one straight rigid line from fingertips to toes, both arms locked out " +
+        "overhead with one hand over the other, the head tucked tight between the biceps, the " +
+        "back flat, both legs pressed together and the toes pointed hard. Travelling, not falling",
+      camera:
+        "side profile, camera slightly below chest height, 50 mm lens, full body — far enough " +
+        "back that the pointed fingertips and the pointed toes are both well inside the frame",
+      facing:
+        "DIVING TOWARDS THE RIGHT EDGE OF THE FRAME: the camera sees her RIGHT side, so the " +
+        "right shoulder and the right hip are the ones nearest the lens, her locked hands point " +
+        "out to the right and her pointed toes trail back to the left. This frame is placed on " +
+        "the LEFT of the composite, so every line in it leans INTO the centre",
+      equipment:
+        "the royal blue silicone SWIM CAP is on with all of her hair under it and the GOGGLES " +
+        "are DOWN over the eyes with the strap flat around the back of the cap. BARE FEET. No " +
+        "block, no lane rope, no water and no apparatus of any kind in the frame",
+      mustShow:
+        "the whole body in one straight unbroken line with both arms locked overhead and both " +
+        "toes pointed, the hands stacked one over the other, air all around her, nothing cropped",
+    },
+    {
+      id: "action3",
+      role: "supporting cutout, muted to ~0.45 opacity",
+      // Low and coiled — the opposite of action2 in every way, which is what the third
+      // silhouette is for.
+      action:
+        "COILED ON THE EDGE in the last instant before the start: hips high and pushed back, " +
+        "both knees bent, the chest folded down onto the thighs, both arms reaching straight " +
+        "down past the shins with the fingers curled forward as if gripping the edge, the head " +
+        "down between the arms and the eyes forward under the brow. Everything loaded, nothing " +
+        "released",
+      camera: "camera low, near deck level, tilted up at her, 35 mm lens, full body",
+      facing:
+        "AIMED AT THE LEFT EDGE OF THE FRAME: the camera sees her LEFT side, so the left " +
+        "shoulder and the left foot are nearest the lens, her head and both reaching hands go " +
+        "out to the left and her hips press back to the right. This frame is placed on the " +
+        "RIGHT of the composite, so every line in it leans INTO the centre",
+      equipment:
+        "the royal blue silicone SWIM CAP is on with all of her hair under it and the GOGGLES " +
+        "are DOWN over the eyes. BARE FEET, both flat with the toes gripping forward — the deck " +
+        "edge itself is NOT in frame. Nothing in her hands, no block and no water",
+      mustShow:
+        "both knees bent with the hips high, both arms reaching straight down inside the frame, " +
+        "both bare feet flat and visible, the back long, nothing cropped",
+    },
+    {
+      id: "back",
+      role: "card BACK from-behind shot",
+      // NOTHING IS PRINTED ON THE BACK OF A RACING SUIT — §38: the frame moves. What it shows
+      // instead of a number is the thing the sport actually builds, which is this back: the
+      // shoulders and the taper her own record describes.
+      // TWO TAKES OF A HINGED-FORWARD WIND-UP CAME BACK UNUSABLE (2026-08-22): "hinged at the
+      // hips, arms swung back and still rising, head down in line with the spine" rendered as a
+      // full fold with the head between the knees, and the second take also invented a marlin
+      // on the back of the suit and another on the cap. A pose that only exists for an instant
+      // gives the model nothing to hold, and it fills the gap with marks. So the frame does the
+      // one thing this shot is FOR — showing the back the sport builds — as a shape a body can
+      // actually hold: a standing streamline, which is swimming's own silhouette.
+      action:
+        "seen strictly from behind, standing tall on the deck and stretched up into a full " +
+        "STREAMLINE: both arms reaching straight overhead with one hand stacked flat on the " +
+        "other, the elbows locked and squeezed in beside the ears, the shoulders pulled down " +
+        "and the back spread wide so the taper from the shoulders to the waist is the shape of " +
+        "the frame, up on the balls of both bare feet, the head level and facing away. Water " +
+        "still beading on the shoulders and running down the back",
+      camera:
+        "eye level, directly behind her, 85 mm lens, full body — far enough back that both " +
+        "swung-back hands are inside the frame, close enough that the cap and the wet shoulders " +
+        "read clearly",
+      facing: "seen from directly behind; used alone on the card back",
+      equipment:
+        "the royal blue silicone SWIM CAP is on with all of her hair under it and the GOGGLES " +
+        "are DOWN, the strap flat across the back of the cap. BARE FEET. No block, no lane " +
+        "rope, no water, nothing in her hands",
+      mustShow:
+        "the back of the swimsuit exactly as the kit flat lay shows it: a CLOSED racerback — a " +
+        "solid panel of fabric between the shoulder blades with NO keyhole, NO cut-out and NO " +
+        "open back — and PLAIN, with NO number, NO name, NO club badge and NO lettering " +
+        "invented onto it. The swim cap is plain unmarked blue with no badge on it either. Both " +
+        "arms straight overhead and inside the frame with the hands stacked, both bare feet " +
+        "visible, and no part of the face: not in profile, not over a shoulder",
+    },
+  ],
+
+  // TENNIS. Written 2026-08-22. Fifteen, and three decisions the set has to make once so that
+  // four frames agree:
+  //
+  // 1. HE PLAYS RIGHT-HANDED. His record says the racket arm is more developed but not which
+  //    one it is, and four frames left to decide independently will not agree. Racket in the
+  //    RIGHT hand, wristband on the LEFT, in every frame.
+  // 2. THE RACKET IS FULL SIZE AND STRUNG, and it must be entirely inside the frame — pull the
+  //    camera back to fit it, NEVER shorten the swing (the ice-hockey stick lesson: a pose
+  //    softened to fit the frame comes back as no pose at all).
+  // 3. A TENNIS SHIRT CARRIES NO NUMBER, so the back is blank and §38 applies. It takes the
+  //    serve, which is the one tennis shape a stranger reads instantly from behind — and which
+  //    is therefore NOT used in any of the three front frames.
+  // TENNIS. These frames do NOT name the colour of the headband, the wristband or the shoes.
+  // They said "white wristband" while Arun's frozen spec says TURQUOISE, read off photo3.png —
+  // the sport default and the photograph disagreeing inside one prompt, which is the
+  // two-sources-for-one-fact failure kits.ts opens with, and the same one the track spikes hit
+  // the same day. A pose may say an item is WORN and where; the spec says what it looks like.
+  tennis: [
+    {
+      id: "hero",
+      role: "poster + card front main cutout, full opacity, face carries the product",
+      action:
+        "landing out of the split-step and driving forward at the camera: both knees flexed and " +
+        "the weight forward over the balls of both feet, hips low, the racket held out in front " +
+        "of the body in BOTH hands — right hand on the grip, left hand at the throat — " +
+        "shoulders turned a few degrees against the hips, chin down, eyes up into the lens. " +
+        "Caught at the instant they read the ball, about to move",
+      camera:
+        "eye level, straight on with the body turned a few degrees, 85 mm lens at f/2.8, full body",
+      facing:
+        "square to the camera and coming forward out of the frame; they sit in the CENTRE of the " +
+        "composite, leaning neither left nor right",
+      equipment:
+        "a plain unbranded strung RACKET held in both hands in front of the chest, its whole " +
+        "head and grip inside the frame; the plain yellow BALL held in the LEFT hand against " +
+        "the racket throat. His own HEADBAND across the forehead and their own WRISTBAND on the " +
+        "LEFT wrist, exactly the colours the kit description gives them, and their own court " +
+        "shoes on both feet — this frame does not choose what colour any of them are",
+      mustShow:
+        "the whole athlete head to shoes, the face sharp and lit with the headband clear of the " +
+        "eyebrows, both hands on the racket with the fingers separated and visible, the whole " +
+        "racket inside the frame, nothing cropped",
+    },
+    {
+      id: "action2",
+      role: "supporting cutout, muted to ~0.45 opacity — silhouette matters more than face",
+      // WRITTEN AS "AT CONTACT ... the ball on the strings" this returned a WALK in both takes
+      // (2026-08-22) — a boy strolling with the racket held out near a floating ball, twice,
+      // and the second take also redrew the chest badge as a different bird. Contact is an
+      // instant, and §42 is the standing finding: an instant gives the model nothing to hold,
+      // and what it cannot hold it fills in with invention. The FOLLOW-THROUGH is the same shot
+      // one beat later and it is a shape a body genuinely holds — it is also the shape everyone
+      // recognises as a forehand from across a room.
+      action:
+        "THE FOLLOW-THROUGH of a full forehand, one beat after contact and still fully wound " +
+        "out: the hips and chest rotated all the way through to face across the court, the " +
+        "racket finished HIGH and WRAPPED OVER THE OPPOSITE SHOULDER with the elbow up and the " +
+        "head of the racket pointing back down behind them, the hitting arm folded across the " +
+        "body, the free arm tucked in at the chest, the front leg braced and straight and the " +
+        "back foot pivoted right up onto its toe with the heel turned out. The ball is already " +
+        "gone — it hangs in the air out in front of them, well clear of the strings. Eyes still " +
+        "tracking out after it. Every joint is at the END of its travel, not the middle",
+      camera: "side profile, camera slightly below chest height, 50 mm lens, full body",
+      facing:
+        "HITTING OUT TOWARDS THE RIGHT EDGE OF THE FRAME: the camera sees their RIGHT side, so the " +
+        "right shoulder and the right foot are the ones nearest the lens, the racket and the " +
+        "ball go out to the right and their back foot trails to the left. This frame is placed on " +
+        "the LEFT of the composite, so every line in it leans INTO the centre",
+      equipment:
+        "a plain unbranded strung RACKET in the RIGHT hand, the whole head and grip inside the " +
+        "frame, and the plain yellow BALL in the air out in front of them and NOT on the strings. His own HEADBAND and their own " +
+        "WRISTBAND on the LEFT wrist in the colours the kit description gives them, and their " +
+        "own court shoes",
+      mustShow:
+        "the racket finished high over the opposite shoulder with the whole frame inside the " +
+        "picture, the torso clearly rotated through, both feet inside the frame with the back " +
+        "one up on its toe, the head in profile and readable, and the chest badge exactly the " +
+        "crest artwork — a pennant with the heron's S-neck inside it, never a standing bird and " +
+        "never any other mark. Nothing cropped",
+    },
+    {
+      id: "action3",
+      role: "supporting cutout, muted to ~0.45 opacity",
+      // Low and stretched: the third silhouette, and the only frame where they are not upright.
+      action:
+        "STRETCHED WIDE on a two-handed backhand at full reach: the outside leg lunged out long " +
+        "with that knee bent deep and the trailing leg straight behind, the hips dropped almost " +
+        "to the height of the knee, both hands low on the grip and the racket reaching out past " +
+        "the lunging foot at knee height, the ball at the strings, shoulders low and eyes down " +
+        "on the ball. At the very edge of what they can reach",
+      camera: "camera low, near court level, tilted up at them, 35 mm lens, full body",
+      facing:
+        "REACHING OUT TOWARDS THE LEFT EDGE OF THE FRAME: the camera sees their LEFT side, so the " +
+        "left shoulder and the lunging left foot are nearest the lens, the racket and both hands " +
+        "reach out to the left and the trailing leg stretches back to the right. This frame is " +
+        "placed on the RIGHT of the composite, so every line in it leans INTO the centre",
+      equipment:
+        "a plain unbranded strung RACKET held low in BOTH hands, its whole head and grip inside " +
+        "the frame, the plain yellow BALL at the strings. His own HEADBAND and their own WRISTBAND " +
+        "on the LEFT wrist in the colours the kit description gives them, and their own court " +
+        "shoes on both feet",
+      mustShow:
+        "the deep lunge with the front knee bent and the back leg straight, both feet inside the " +
+        "frame, both hands on the grip with the whole racket inside the frame, the ball visible, " +
+        "nothing cropped",
+    },
+    {
+      id: "back",
+      role: "card BACK from-behind shot",
+      // A tennis shirt has nothing printed between the shoulder blades, so §38 frees this frame
+      // to move — and the serve is the shape that reads from behind better than from anywhere
+      // else. It is deliberately absent from the three front poses so the set does not repeat.
+      action:
+        "seen strictly from behind at the TROPHY POSITION of a serve: the left arm stretched " +
+        "straight up after the toss with the ball high above and slightly in front, the racket " +
+        "dropped down behind the back with the elbow high, the back arched and the hips pushed " +
+        "forward, the weight loaded onto the back foot with the front heel lifted, the head " +
+        "tipped back looking up at the ball",
+      camera:
+        "eye level, directly behind them, 85 mm lens, full body — far enough back that the tossed " +
+        "ball and the whole racket are both well inside the frame with air above",
+      facing: "seen from directly behind; used alone on the card back",
+      equipment:
+        "a plain unbranded strung RACKET in the RIGHT hand dropped behind the back, its whole " +
+        "head inside the frame and not crossing the body's outline into the shoulders; the plain " +
+        "yellow BALL in the air above the raised left hand, fully inside the frame. White " +
+        "HEADBAND, their own WRISTBAND on the LEFT wrist in the colour the kit description gives it, and their own court shoes",
+      mustShow:
+        "the back of the shirt plain and unmarked exactly as their own kit is — NO number, NO name " +
+        "and NO lettering invented onto it — the raised tossing arm and the ball inside the " +
+        "frame, the racket behind the back and inside the frame, both feet visible, and no part " +
+        "of the face: not in profile, not over a shoulder",
+    },
+  ],
+
+  // GOLF. Written 2026-08-22. Seventeen, female, and this is the only sport on the roster whose
+  // hero frame is NOT its action:
+  //
+  // 1. GOLF'S HERO CANNOT BE A SWING. Every swing frame either hides the face (head down over
+  //    the ball through the whole backswing and impact) or turns it away (following the flight
+  //    at the finish), and the hero is the frame that carries the face. So the hero is the
+  //    moment BEHIND the ball — the stillest frame in this file, and the sport's own moment
+  //    rather than a compromise. The swing lives in the two supports, where a turned head costs
+  //    nothing at ~0.45 opacity.
+  // 2. SHE PLAYS RIGHT-HANDED. Her record puts the glove line on the LEFT wrist and the tan on
+  //    the left forearm only. ONE glove, on the LEFT hand, in every frame.
+  // 3. THE CAP BRIM MUST NOT SHADOW THE EYES in the hero — same rule as the football helmet.
+  // 4. AFTER IMPACT THERE IS NO BALL. action3 and back come after the strike, so there is
+  //    deliberately no ball on the turf in them; the ball is in the hero and in action2.
+  golf: [
+    {
+      id: "hero",
+      role: "poster + card front main cutout, full opacity, face carries the product",
+      action:
+        "standing tall behind the ball before the shot, absolutely still and reading the line: " +
+        "feet a little apart, the club held UPRIGHT in the right hand with its head resting on " +
+        "the turf beside her right foot and the shaft vertical, the gloved left hand hanging " +
+        "easy at her side, shoulders level and back long, chin down, eyes lifted straight into " +
+        "the lens under the brim of the cap. Stillness held on purpose, not a person waiting " +
+        "for a photograph",
+      camera:
+        "eye level, straight on with the body turned a few degrees, 85 mm lens at f/2.8, full body",
+      facing:
+        "square to the camera; she sits in the CENTRE of the composite and leans neither left " +
+        "nor right",
+      equipment:
+        "a plain unbranded mid-IRON with a steel shaft, held upright with its head on the ground " +
+        "and the whole club inside the frame; the plain white BALL on the turf a step in front " +
+        "of her. The olive CAP is worn with the brim tipped up enough that the whole face is lit " +
+        "and there is NO hard shadow across the eyes. ONE glove, on the LEFT hand only. White " +
+        "golf shoes on both feet",
+      mustShow:
+        "the whole athlete head to shoes, the face sharp and fully lit under the cap, the single " +
+        "left glove clearly visible, the whole club inside the frame, nothing cropped",
+    },
+    {
+      id: "action2",
+      role: "supporting cutout, muted to ~0.45 opacity — silhouette matters more than face",
+      action:
+        "AT THE TOP OF THE BACKSWING and fully coiled: the shoulders turned about ninety degrees " +
+        "with the left shoulder driven under the chin, the hips resisting, the weight loaded " +
+        "into the right side, both arms up with the left arm straight and the club wrapped " +
+        "round behind the right shoulder roughly parallel with the ground, the head still and " +
+        "the eyes down on the ball. Everything wound, nothing released",
+      camera: "side profile, camera slightly below chest height, 50 mm lens, full body",
+      facing:
+        "THE SHOT SHE IS ABOUT TO HIT GOES OUT TO THE RIGHT EDGE OF THE FRAME: her chest is " +
+        "turned away from it, back to the LEFT, and the camera sees her front with the LEFT " +
+        "shoulder driven under the chin and nearest the lens, the club wrapped behind the RIGHT " +
+        "shoulder. This frame is placed on the LEFT of the composite, so every line in it leans " +
+        "INTO the centre",
+      equipment:
+        "the same plain unbranded mid-IRON with a steel shaft, wrapped behind the shoulder with " +
+        "its whole head inside the frame — pull the camera back to fit the club, never shorten " +
+        "the backswing. The plain white BALL on the turf at her feet. Olive CAP, ONE glove on " +
+        "the LEFT hand, white golf shoes",
+      mustShow:
+        "the full shoulder turn with the club behind the shoulder and entirely inside the frame, " +
+        "both feet planted and inside the frame, the ball on the turf, the head down and still, " +
+        "nothing cropped",
+    },
+    {
+      id: "action3",
+      role: "supporting cutout, muted to ~0.45 opacity",
+      action:
+        "THE FULL FINISH, held: the weight completely through onto the front foot with the back " +
+        "heel lifted and rolled up onto its toe, hips and chest turned to face where the ball " +
+        "has gone, the spine tall and slightly arched back, both hands high with the club " +
+        "wrapped over the leading shoulder behind the neck, and the eyes tracking the ball out " +
+        "into the distance",
+      camera: "camera low, near turf level, tilted up at her, 35 mm lens, full body",
+      facing:
+        "THE BALL HAS GONE OUT TO THE LEFT EDGE OF THE FRAME: her chest, her hips and her eyes " +
+        "all follow it left, the club is wrapped over her LEFT shoulder, her weight is fully on " +
+        "the LEFT foot with the RIGHT heel lifted and rolled onto the toe, and the camera sees " +
+        "her front with the left shoulder nearest the lens. This frame is placed on the RIGHT of " +
+        "the composite, so every line in it leans INTO the centre",
+      equipment:
+        "the same plain unbranded mid-IRON, wrapped over the shoulder with its whole head inside " +
+        "the frame. NO ball anywhere in this frame — it has already been struck and is away. " +
+        "Olive CAP, ONE glove on the LEFT hand, white golf shoes",
+      mustShow:
+        "the weight through onto the front foot with the back heel up on its toe, both hands high " +
+        "with the whole club inside the frame, the body turned through and tall, the head turned " +
+        "to follow the ball, nothing cropped",
+    },
+    {
+      id: "back",
+      role: "card BACK from-behind shot",
+      // A golf polo carries nothing between the shoulder blades — §38 frees the frame. It takes
+      // the most human moment in the game: the second after the strike, watching it go.
+      action:
+        "seen strictly from behind a moment after the strike, watching the ball fly: up on the " +
+        "toes of the back foot with the weight through onto the front one, the club held down " +
+        "in the left hand with its head near the turf, the RIGHT hand raised to the brim of the " +
+        "cap shading her eyes, the head tipped up and turned slightly to follow the flight, the " +
+        "back long and open",
+      camera:
+        "eye level, directly behind her, 85 mm lens, full body — close enough that the ponytail " +
+        "below the cap and the back of the polo read clearly",
+      facing: "seen from directly behind; used alone on the card back",
+      equipment:
+        "the same plain unbranded mid-IRON held down in the LEFT hand, its whole length inside " +
+        "the frame and not crossing the back of the polo. NO ball in the frame — it is away. " +
+        "Olive CAP seen from behind with the ponytail below it, ONE glove on the LEFT hand, " +
+        "white golf shoes",
+      mustShow:
+        "the back of the polo plain and unmarked exactly as her own kit is — NO number, NO name " +
+        "and NO lettering invented onto it — the raised right hand at the cap brim, the club " +
+        "inside the frame, both feet visible with the back heel lifted, and no part of the face: " +
+        "not in profile, not over a shoulder",
+    },
+  ],
+
+  // PICKLEBALL. Written 2026-08-22. A fifty-eight-year-old recreational player, and two facts
+  // outrank everything else:
+  //
+  // 1. IT MUST NEVER READ AS TENNIS. Handed "racket sport" the model draws a strung tennis
+  //    racket every time — sports.ts fights the same battle over the court and the net height.
+  //    The PADDLE is solid: a flat rigid face with NO strings, NO open throat and NO oval head,
+  //    about the size of a large book, on a short handle. The BALL is hard yellow plastic with
+  //    round holes cut through it. Both are stated in every frame, in their own lines.
+  // 2. HE IS FIFTY-EIGHT AND THIS IS REC PLAY. `fitFor` already loosens the kit; the poses have
+  //    to match it or the two halves of the same man disagree. Every frame here is a shot a
+  //    good club player hits — feet on the ground, nothing leaping, nothing diving.
+  //
+  // He plays RIGHT-HANDED, decided here so the four frames agree.
+  // PICKLEBALL is the one sport on the roster with TWO athletes in the coverage set — Ray
+  // Solberg (58) and Nadia Rahimi (16) — so this set is written with NEUTRAL pronouns. It was
+  // drafted for Ray alone and said "he" and "his" throughout, which would have described the
+  // wrong person in half the frames the moment a second athlete used it (2026-08-22). Pose sets
+  // are keyed by SPORT, never by athlete: anything true of only one of them belongs in that
+  // athlete's spec, not here.
+  // ⚠️ COMPOSITE SIDES DEPEND ON THE ATHLETE HERE, so check the approved frames before laying
+  // one out. Ray Solberg's supports came back as a complementary pair and match the `facing`
+  // lines below. Nadia Rahimi's BOTH play towards the LEFT edge (2026-08-22) — a re-roll of her
+  // action2 only made the pose weaker without turning it round, and flipping a frame
+  // horizontally is not an option because it mirrors the chest crest. For HER set, place
+  // action2 on the RIGHT of the composite (its clear leftward drive then leans in) and action3
+  // on the LEFT (it is a compact crouch whose trailing arm already reaches right). The `facing`
+  // text below is left alone deliberately: it is prompt input, and rewriting it to match one
+  // athlete's output would re-roll approved frames to fix a caption.
+  // …and for the same reason these frames do NOT name the colour of the shoes. They said "white
+  // court shoes with grey accents", which is Ray's pair; Nadia's photographs show plain all-white
+  // with no grey at all. One sport, two athletes, one sentence — that is the
+  // two-sources-for-one-fact failure kits.ts opens with. The spec owns what the kit looks like.
+  pickleball: [
+    {
+      id: "hero",
+      role: "poster + card front main cutout, full opacity, face carries the product",
+      action:
+        "set at the kitchen line in the ready position: knees soft and the weight forward on the " +
+        "balls of both feet, back straight, the PADDLE up in front of the chest held in the " +
+        "right hand with the left hand touching its edge, elbows in, chin down and eyes into the " +
+        "lens with the beginnings of a competitor's grin at the corner of the mouth. Alert and " +
+        "about to move, not standing for a portrait",
+      camera:
+        "eye level, straight on with the body turned a few degrees, 85 mm lens at f/2.8, full body",
+      facing:
+        "square to the camera; they sit in the CENTRE of the composite and lean neither left nor " +
+        "right",
+      equipment:
+        "a PICKLEBALL PADDLE — a flat rigid solid-faced paddle with NO strings, no open throat " +
+        "and no oval head, roughly the size of a large book on a short handle — held up in the " +
+        "right hand, entirely inside the frame. The plain yellow PICKLEBALL, a hard plastic ball " +
+        "with round holes cut through it, held in the LEFT hand against the paddle edge. White " +
+        "court shoes with grey accents on both feet",
+      mustShow:
+        "the whole athlete head to shoes, the face sharp and lit, the paddle clearly SOLID-FACED " +
+        "and entirely inside the frame, both hands visible with the fingers separated, nothing " +
+        "cropped",
+    },
+    {
+      id: "action2",
+      role: "supporting cutout, muted to ~0.45 opacity — silhouette matters more than face",
+      action:
+        "AT CONTACT on a forehand drive: a compact stroke with the paddle out in front at waist " +
+        "height and the ball on its face, the arm firm rather than long, the chest and hips " +
+        "rotated through, the front foot stepped in and planted and the back foot pivoting, the " +
+        "left arm swung across for balance, eyes on the ball",
+      camera: "side profile, camera slightly below chest height, 50 mm lens, full body",
+      facing:
+        "HITTING OUT TOWARDS THE RIGHT EDGE OF THE FRAME: the camera sees their RIGHT side, so the " +
+        "right shoulder and the right foot are nearest the lens, the paddle and the ball go out " +
+        "to the right and the back foot trails to the left. This frame is placed on the LEFT of " +
+        "the composite, so every line in it leans INTO the centre",
+      equipment:
+        "the same flat solid-faced PICKLEBALL PADDLE in the RIGHT hand, no strings anywhere, " +
+        "entirely inside the frame; the perforated yellow BALL touching its face. White court " +
+        "shoes with grey accents",
+      mustShow:
+        "the ball on the paddle face with the whole paddle inside the frame and plainly solid, " +
+        "both feet inside the frame, the body rotated through, the head in profile and readable, " +
+        "nothing cropped",
+    },
+    {
+      id: "action3",
+      role: "supporting cutout, muted to ~0.45 opacity",
+      // Low and wide: the third silhouette, and the shot the sport is actually built on.
+      action:
+        "DINKING AT THE KITCHEN LINE: sunk into a deep athletic crouch with both knees bent and " +
+        "the hips dropped low, chest upright over them, the paddle reached out low and flat in " +
+        "front at shin height with a loose open grip and the ball just off its face, the left " +
+        "arm out behind for balance, the head down and the eyes on the ball. Soft hands, low " +
+        "body — no swing at all",
+      camera: "camera low, near court level, tilted up at them, 35 mm lens, full body",
+      facing:
+        "PLAYING OUT TOWARDS THE LEFT EDGE OF THE FRAME: the camera sees their LEFT side, so the " +
+        "left shoulder and the left foot are nearest the lens, the reaching paddle goes out to " +
+        "the left and their trailing arm reaches back to the right. This frame is placed on the " +
+        "RIGHT of the composite, so every line in it leans INTO the centre",
+      equipment:
+        "the same flat solid-faced PICKLEBALL PADDLE in the RIGHT hand, held low and entirely " +
+        "inside the frame; the perforated yellow BALL just off its face, inside the frame. White " +
+        "court shoes with grey accents, both feet flat on the court",
+      mustShow:
+        "both knees bent deep with both feet flat and inside the frame, the paddle low and " +
+        "forward and plainly solid-faced, the ball visible, the back straight rather than " +
+        "hunched, nothing cropped",
+    },
+    {
+      id: "back",
+      role: "card BACK from-behind shot",
+      // A plain athletic t-shirt has nothing on the back, so §38 frees the frame — and the
+      // overhead is the one pickleball shot that reads instantly from behind.
+      action:
+        "seen strictly from behind at the top of an OVERHEAD SMASH: the paddle arm cocked high " +
+        "with the paddle dropped behind the head, the left arm raised and pointing up at the " +
+        "ball to track it, the back arched, both heels lifted with both feet still on the court, " +
+        "the head tipped back. Caught at the top, before the strike — they are not jumping",
+      camera:
+        "eye level, directly behind them, 85 mm lens, full body — far enough back that the raised " +
+        "paddle, the pointing hand and the ball above are all well inside the frame",
+      facing: "seen from directly behind; used alone on the card back",
+      equipment:
+        "the same flat solid-faced PICKLEBALL PADDLE in the RIGHT hand behind the head, entirely " +
+        "inside the frame; the perforated yellow BALL in the air above and slightly in front of " +
+        "them, inside the frame. Their own court shoes in the colour the kit description gives them",
+      mustShow:
+        "the back of the t-shirt plain and unmarked exactly as their own kit is — NO number, NO " +
+        "name and NO lettering invented onto it — the raised paddle and the ball both inside the " +
+        "frame, both feet on the court with the heels lifted, and no part of the face: not in " +
+        "profile, not over a shoulder",
+    },
+  ],
+  // SKATEBOARDING — the `other-sport` slot, written 2026-08-22 when the slot stopped being
+  // generic. It was on the derived fallback, which `posesFor` flags provisional and which must
+  // never ship. Four facts decide this set:
+  //
+  // 1. THE BOARD IS IN EVERY FRAME and it is the one object that says "skateboarding" from
+  //    across a room. It is also the only implement on the roster that the athlete STANDS ON,
+  //    so it is part of the silhouette rather than something held.
+  // 2. NOTHING HE RIDES IS IN FRAME. No quarter pipe, no ledge, no rail, no coping — same rule
+  //    as the gymnastics beam and the swimming block: a cutout cannot carry the thing it stands
+  //    on, and a ramp sliced by the matte reads as a grey slab.
+  // 3. THE HELMET IS OPEN-FACE, so the face stays readable in all four frames — the football
+  //    helmet's problem does not arise here and the hero does not have to take anything off.
+  // 4. NOTHING IS PRINTED ON THE BACK OF A SKATE TEE (§38), so the back frame moves.
+  "other-sport": [
+    {
+      id: "hero",
+      role: "poster + card front main cutout, full opacity, face carries the product",
+      action:
+        "ROLLING STRAIGHT AT THE CAMERA on the board, riding it flat and fast: both feet on the " +
+        "deck with the front foot angled forward over the bolts and the back foot across the " +
+        "tail, knees bent and springy, hips low, shoulders open and square to the lens, both " +
+        "arms carried out low and away from the body for balance with all five fingers of each " +
+        "hand separated and relaxed. Chin level, eyes straight down the lens. He is moving, not " +
+        "standing on a parked board",
+      camera:
+        "eye level, straight on, 85 mm lens at f/2.8, full body from a few metres back with the " +
+        "whole board and all four wheels inside the frame and clear of the bottom edge",
+      facing:
+        "riding straight into the lens; he sits in the CENTRE of the composite, leaning neither " +
+        "left nor right",
+      equipment:
+        "the SKATEBOARD is under both feet, the full deck and all four wheels visible. The " +
+        "open-face skate HELMET is on and the whole face is clear. Knee pads on both knees. " +
+        "NOTHING in his hands, and NO ramp, ledge, rail, coping or obstacle anywhere in the frame",
+      mustShow:
+        "the whole athlete head to wheels, both feet on the board with the board complete and " +
+        "uncropped, the face sharp and lit under the helmet, both hands open with the fingers " +
+        "separated, nothing cropped",
+    },
+    {
+      id: "action2",
+      role: "supporting cutout, muted to ~0.45 opacity — silhouette matters more than face",
+      // The one shape in skating everybody recognises: airborne, board stuck to the feet.
+      action:
+        "AIRBORNE AT THE TOP OF AN OLLIE, seen from the side: the whole body and the board lifted " +
+        "clear of the ground together, the board level and stuck to the soles of both feet, the " +
+        "front knee tucked up towards the chest, the back leg extended and trailing, the leading " +
+        "arm swung up and forward above shoulder height with the hand open, the other arm back " +
+        "and low. The head up and looking ahead along the line of travel",
+      camera:
+        "side profile, camera slightly below hip height, 50 mm lens, full body — far enough back " +
+        "that the raised hand and all four wheels are well inside the frame with clear air " +
+        "beneath the board",
+      facing:
+        "TRAVELLING TOWARDS THE RIGHT EDGE OF THE FRAME: the camera sees his RIGHT side, so the " +
+        "right shoulder and the right hip are nearest the lens, the nose of the board points " +
+        "right and the trailing leg reaches back to the left. This frame is placed on the LEFT " +
+        "of the composite, so every line in it leans INTO the centre",
+      equipment:
+        "the SKATEBOARD is airborne with both feet on it, all four wheels visible and clear of " +
+        "the ground. Helmet on, knee pads on both knees. NOTHING in his hands, and NO ramp, " +
+        "ledge, rail, coping or obstacle anywhere in the frame — only air under the board",
+      mustShow:
+        "clear daylight between the wheels and the ground, both feet in contact with the deck, " +
+        "the whole board uncropped, both arms inside the frame, the silhouette reading instantly " +
+        "as a skateboarder in the air",
+    },
+    {
+      id: "action3",
+      role: "supporting cutout, muted to ~0.45 opacity",
+      // Low and carved — the opposite of the ollie, which is what the third silhouette is for.
+      action:
+        "DEEP IN A CARVE, low and leaning hard: the board rolled up onto its rail so the deck is " +
+        "tilted steeply and only the two lower wheels are down, the knees folded deep with the " +
+        "hips dropped almost to the level of the front knee, the whole body angled over inside " +
+        "the turn, the leading hand reaching down and out towards the ground with the fingers " +
+        "spread wide, the trailing arm swung up behind. The head up, eyes looking round through " +
+        "the turn ahead of the board",
+      camera: "camera low, close to ground level, tilted up at him, 35 mm lens, full body",
+      facing:
+        "CARVING TOWARDS THE LEFT EDGE OF THE FRAME: the camera sees his LEFT side, so the left " +
+        "shoulder and the reaching left hand are nearest the lens, and his lean and the nose of " +
+        "the board both go out to the left while the trailing arm reaches back to the right. " +
+        "This frame is placed on the RIGHT of the composite, so every line in it leans INTO the " +
+        "centre",
+      equipment:
+        "the SKATEBOARD is under both feet, tilted up on its rail with the whole deck and all " +
+        "four wheels visible. Helmet on, knee pads on both knees. NOTHING in his hands, and NO " +
+        "ramp, ledge, rail, coping, bowl wall or obstacle anywhere in the frame",
+      mustShow:
+        "the board clearly tilted on its rail rather than flat, the knees deeply folded and the " +
+        "body leaning inside the turn, the reaching hand open with the fingers separated, both " +
+        "feet on the deck, nothing cropped",
+    },
+    {
+      id: "back",
+      role: "card BACK from-behind shot",
+      // A skate tee carries nothing across the shoulders, so §38 applies and the frame moves.
+      action:
+        "seen strictly from behind, riding away from the camera: both feet on the board, knees " +
+        "bent and the weight settled, both arms thrown out WIDE to the sides at shoulder height " +
+        "with the hands open and the fingers spread, the shoulders level and the head up and " +
+        "facing away down the line he is riding. Rolling away, not standing still",
+      camera:
+        "eye level, directly behind him, 85 mm lens, full body — far enough back that both " +
+        "outstretched hands and the whole board are well inside the frame",
+      facing: "seen from directly behind; used alone on the card back",
+      equipment:
+        "the SKATEBOARD is under both feet with the deck and all four wheels visible from " +
+        "behind. Helmet on, knee pads on both knees. NOTHING in his hands, and NO ramp, ledge, " +
+        "rail, coping or obstacle anywhere in the frame",
+      mustShow:
+        "the back of the skate T-shirt PLAIN and unmarked exactly as his own kit is — NO number, " +
+        "NO name, NO club badge and NO lettering invented onto it, because a skate tee carries " +
+        "nothing across the shoulders — both arms out wide and inside the frame, both feet on " +
+        "the board, and no part of the face: not in profile, not over a shoulder",
+    },
+  ],
+
 };
 
 /**

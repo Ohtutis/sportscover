@@ -1,0 +1,6 @@
+{
+  "model": "gemini-3.1-flash-image",
+  "tokens": 1750,
+  "prompt": "A photograph taken on a phone: ONE hand of the teenage basketball player from the reference image holds a BLANK trading card upright, face on to the camera. Same person as the reference: same skin tone, same age, same slim athletic build. His forearm and the short sleeve of a blue basketball jersey are visible. The card face is completely EMPTY — a plain flat dark charcoal rectangle with softly rounded corners, no printing, no artwork, no text, no logo, no border pattern. CRITICAL: the fingers grip only the OUTER EDGE of the card — no finger, thumb or fingertip in front of the card face. The whole blank face is unobstructed. He stands on an indoor basketball court; the hoop, the painted lines and the empty bleachers are far behind and thrown well out of focus. Warm gym light from above, no flash, shallow depth of field, the card sharp. Square 1:1. No text overlay, no watermark, no logo.",
+  "at": "2026-08-24T22:54:51.830Z"
+}

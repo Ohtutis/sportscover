@@ -1,0 +1,24 @@
+{
+  "verdicts": [
+    {
+      "check": "The picture shows a soccer pitch and nothing from a different sport.",
+      "pass": true,
+      "why": "The image displays soccer field markings and a goal with no elements from other sports."
+    },
+    {
+      "check": "No face in the picture is sharp or identifiable.",
+      "pass": true,
+      "why": "The players in the image are blurred making their faces unidentifiable."
+    },
+    {
+      "check": "There is no advertising board, banner, sign or brand wordmark with readable text (the playing surface's own painted markings do not count).",
+      "pass": true,
+      "why": "No readable text or advertising boards are present in the background or foreground."
+    },
+    {
+      "check": "There is no real league mark and no brand device on any clothing or equipment.",
+      "pass": true,
+      "why": "The players kits and the equipment lack any visible brand logos or league marks."
+    }
+  ]
+}

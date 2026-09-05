@@ -14,7 +14,7 @@
 import type { Sport } from "./sports.js";
 import type { Athlete } from "./athletes.js";
 import type { Pose } from "./poses.js";
-import { kitFor } from "./kits.js";
+import { hasBackNumber, kitFor } from "./kits.js";
 import { generateJson } from "./lib/gemini.js";
 import { refFor } from "./lib/img.js";
 
@@ -186,7 +186,16 @@ function rubric(a: Athlete, sport: Sport, pose: Pose, spec?: string): string {
     `  NCAA or Olympic mark, a national federation badge, a real club's crest — on the jersey,`,
     `  the collar, the helmet, a sleeve, a sock, a ball or a boot? Any is a FAIL, however small,`,
     `  however well drawn. The only badge that may appear is the crest in image 3.`,
-    isBack
+    // The back frame is graded against what this sport's shirt ACTUALLY carries. Asking for a
+    // number the kit does not have taught the judge to pass an invented one — see
+    // hasBackNumber in kits.ts, and README §36.
+    isBack && !hasBackNumber(a)
+      ? `no_stray_text — this sport does NOT number the back of the shirt, so the back must be`
+        + `  PLAIN: any number, name, club, sponsor or lettering across the shoulders is a FAIL,`
+        + `  however well drawn. A number belongs only where the kit description explicitly puts`
+        + `  it. A manufacturer's wordmark is allowed on any item the kit description says the`
+        + `  athlete's own equipment really carries one. Any other text anywhere is a FAIL.`
+      : isBack
       ? `no_stray_text — the number ${a.jerseyNumber} across the upper back is expected and must be`
         + `  legible and correct, and a manufacturer's wordmark is allowed on any item the kit`
         + `  description says the athlete's own equipment really carries one. Any OTHER text,`
@@ -444,6 +453,22 @@ export async function checkKitPlate(opts: {
   hasFootwear?: boolean;
   /** The frozen spec text, so the plate is graded against the decisions it was given. */
   spec?: string;
+  /**
+   * TRUE when the crest is the customer's own uploaded artwork rather than one of the
+   * wordless demo marks. Real clubs put their name in their badge, so `no_text_anywhere`
+   * failed the first real order for a crest that is CORRECT — and would fail most of them.
+   * The rule it enforces (invented lettering is the pipeline's most reliable defect) is
+   * about text the MODEL made up; text that arrived in the customer's file is evidence the
+   * badge was reproduced, not a defect.
+   */
+  crestSupplied?: boolean;
+  /**
+   * TRUE when the athlete's own photographs are attached to the plate prompt. Their kit is
+   * then a thing to REPRODUCE rather than invent, and `no_text_anywhere` — written for a
+   * roster where every letterform would be made up — stops applying to what they show.
+   * Order 03's plate was failed for carrying "MadLamb", which is what is on his shirt.
+   */
+  hasKitPhotos?: boolean;
 }): Promise<KitVerdict> {
   const images = [await refFor(opts.platePath, 900)];
   if (opts.crestPath) images.push(await refFor(opts.crestPath, 512));
@@ -538,6 +563,19 @@ export async function checkKitPlate(opts: {
     // carrying the 17 its own specification demands on both shoulders. A rubric that grades
     // against a different document than the generator was given is the churn README §6 warns
     // about — and it is exactly what the football set was previously failed for.
+    // THE EXCEPTION COUNT WAS A LIE AND THE JUDGE BELIEVED IT. This block said "TWO EXCEPTIONS"
+    // and then listed four, so a plate carrying exactly the lettering its own photographs show
+    // was failed three runs in a row. A prompt that contradicts itself is decided by whichever
+    // half the model trusts, and here it trusted the number.
+    ...(opts.hasKitPhotos
+      ? [`no_text_anywhere — THE ATHLETE'S OWN PHOTOGRAPHS ARE ATTACHED, so this check is not`,
+         `  "is there text" but "does the text match the photographs". Lettering that appears on`,
+         `  the kit in those photographs — the club name across the chest, the squad number, a`,
+         `  maker's wordmark — is CORRECT and PASSES, spelled and placed as it is there. FAIL only`,
+         `  text that appears in NONE of the photographs: an invented sponsor, a slogan, a second`,
+         `  number, a care label, a woven neck label, a watermark. Misspelled versions of real`,
+         `  lettering fail too — "XOND" where the garment says RIND is invented text.`]
+      : [
     `no_text_anywhere — is there any lettering, any word, any club name, any player name, any`,
     `  manufacturer name, any label, on ANY item? Even small or partly legible. Any is a FAIL.`,
     `  TWO EXCEPTIONS, both only where the specification above allows them. First, the SQUAD`,
@@ -545,6 +583,13 @@ export async function checkKitPlate(opts: {
     `  shoulders, that number in that place is CORRECT and passes. Second, a MANUFACTURER'S`,
     `  WORDMARK on an item the specification says the athlete's own equipment really carries —`,
     `  that is their own gear appearing as it is, and it passes on that item and no other.`,
+    ]),
+    ...(opts.crestSupplied
+      ? [`  FOURTH EXCEPTION: the club crest in image 2 is the customer's own`,
+         `  uploaded artwork and it CARRIES LETTERING. Any words INSIDE the crest are correct and`,
+         `  pass — judge them under crest_correct instead, where the question is whether they`,
+         `  match image 2. Only lettering OUTSIDE the crest fails this check.`]
+      : []),
     `  Any OTHER number, word or mark, anywhere else, fails.`,
     `no_branding — this is about INVENTED branding, not branding as such. An item the`,
     `  specification describes from the athlete's own photographs may carry the manufacturer's`,

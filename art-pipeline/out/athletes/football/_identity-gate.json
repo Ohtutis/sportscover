@@ -24,16 +24,34 @@
   ],
   "rows": [
     {
+      "pose": "action2.fit",
+      "similarity": 0.4473,
+      "faceShare": 0.013,
+      "verdict": "pass"
+    },
+    {
       "pose": "action2",
-      "similarity": 0.5709,
-      "faceShare": 0.0189,
+      "similarity": 0.4515,
+      "faceShare": 0.0155,
+      "verdict": "pass"
+    },
+    {
+      "pose": "action3.fit",
+      "similarity": 0.4109,
+      "faceShare": 0.0103,
       "verdict": "pass"
     },
     {
       "pose": "action3",
-      "similarity": 0.4295,
-      "faceShare": 0.0109,
+      "similarity": 0.4207,
+      "faceShare": 0.0142,
       "verdict": "pass"
+    },
+    {
+      "pose": "back.fit",
+      "similarity": null,
+      "faceShare": 0,
+      "verdict": "no face"
     },
     {
       "pose": "back",
@@ -42,9 +60,15 @@
       "verdict": "no face"
     },
     {
+      "pose": "hero.fit",
+      "similarity": 0.835,
+      "faceShare": 0.0132,
+      "verdict": "pass"
+    },
+    {
       "pose": "hero",
-      "similarity": 0.834,
-      "faceShare": 0.0137,
+      "similarity": 0.8401,
+      "faceShare": 0.0158,
       "verdict": "pass"
     }
   ]

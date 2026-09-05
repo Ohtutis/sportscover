@@ -368,3 +368,136 @@ brief and says which check failed and why; the customer reads its notes directly
 more often than it is wrong, but a zoomed crop outranks it (§33) and the photograph outranks
 everything (§39). Its stale FAILs on approved frames are expected — it re-grades but never
 re-rolls what a human signed off.
+
+# 17. SESSION 2026-08-22 (later) — the roster is COMPLETE
+
+Written at the end of the session that built the last six athletes and turned the generic
+"Other Sport" slot into **Skateboarding**. **Read `art-pipeline/README.md` §40–§43 first** —
+they are the four failure modes this session diagnosed, and three of them are now enforced in
+code rather than by good intentions.
+
+## Where every athlete stands (verified 2026-08-22)
+
+| athlete | slug | state |
+|---|---|---|
+| Marcus Ellison | `basketball` | 8/8 approved |
+| Tui Fa'agata | `football` | **6/8 — two frames still never approved** |
+| — | `baseball` / `softball` / `ice-hockey` / `volleyball` / `lacrosse` | 8/8 approved |
+| — | `soccer` (+ five age-ladder slugs) | 7/8 — pre-dates the 8-frame pack |
+| Dawson Pryor | `wrestling` | 8/8 approved |
+| Amara Boyd | `cheerleading` | 8/8 approved |
+| Sofia Marchetti | `gymnastics` | 8/8 approved |
+| **Imani Whitfield** | **`track-field`** | **8/8 approved, gates green** |
+| **Nora Lindqvist** | **`swimming`** | **8/8 approved, gates green** |
+| **Arun Devarajan** | **`tennis`** | **8/8 approved, gates green** |
+| **Hana Park** | **`golf`** | **8/8 approved, gates green** |
+| **Ray Solberg** | **`pickleball`** | **8/8 approved, gates green** |
+| **Sam Okonkwo** | **`other-sport` = Skateboarding** | **8/8 approved, gates green** |
+| **Nadia Rahimi** | **`pickleball-youth`** | **8/8 approved, gates green** |
+
+`npm run art:approve -- --athlete <slug> --list` is the truth. Never trust this table over it.
+
+**Every athlete on the roster now has all four cutouts.** The eight that had none —
+`basketball`, `football`, `soccer` and the five `soccer-age-*` — were matted in one batch. Five
+frames report `pieces 2`; in every case the second piece is the BALL, genuinely detached in the
+air, which is correct and not a matte failure.
+
+## The seventeenth slot is Skateboarding now
+
+`other-sport` was a bare sports hall, a plain jersey and NO pose set — `posesFor` flagged it
+provisional, and a provisional set must never ship. The site had already made the same call on
+its own (`app/site-client.tsx` sells this slot as "Street Skate"), so this aligns the pipeline
+with the shop. Changed: `sports.ts` (skatepark, concrete, quarter pipe and ledge, open-air,
+`needsRealSurface`), `kits.ts` (skate tee + shorts + **open-face helmet + knee pads**, a plain
+unbranded **board** as the implement, flat-soled skate shoes), and a full hand-written pose set
+in `poses.ts`.
+
+**The SLUG and the CODE stay `other-sport` / `OTH`** — they are wired into the site's label map
+and into card IDs, and renaming them would break both to gain nothing.
+
+The helmet is a **§32 rules call, not decoration**: this athlete is sixteen and US public
+skateparks require a helmet for under-18s. A skate helmet is an open bucket, so unlike the
+football helmet it costs the card nothing — the whole face stays readable in all four frames.
+
+## What changed in the code this session
+
+| change | file | why |
+|---|---|---|
+| `personNoun()`, used by snapshots | `prompts.ts` | `presents` never reached the snapshot stage — README §40 |
+| brand-mark ban, its own sentence | `prompts.ts` (snapshot **and** pose) | "no sponsor marks" never stopped a swoosh — §40's sibling |
+| training colour is NAMED | `prompts.ts` | "in the team colours" returned royal blue on a gold club |
+| `hasBackNumber()` | `kits.ts`, `prompts.ts` ×3, `check-athlete.ts` | the back was numbered unconditionally — README §41 |
+| kit flags passed on both paths | `qa-athletes.ts` | same plate graded PASS by the build and FAIL by the judge — §43 |
+| `mkdir` the file's own directory | `approve.ts` | `--frame before/photo2` died on ENOENT; the frame name has a `/` in it |
+| track kit: compression SHORTS | `kits.ts`, `sports.ts` | briefs on a 16-year-old returned `PROHIBITED_CONTENT`, and shorts are what US high schools actually race in |
+| pose briefs rewritten | `poses.ts` (track hero, swim hero, swim back, tennis action2) | four catalogue stands in one day — README §42 |
+| footwear/wristband colours removed from pose text | `poses.ts` (track, tennis) | the sport default fought the frozen spec inside one prompt |
+| Ray Solberg's build, with a floor AND a ceiling | `athletes.ts` | "solidly built" returned a lean runner four times |
+| redstone-flyers / pinewick-osprey shapes | `crests.ts` | an unclosed ring the mark walked through; and a triangle that renders point-down |
+
+## Three things worth knowing before the next session
+
+- **Brand marks are the single most common defect in this set.** A swoosh reached a headband
+  twice, a swim cap, track spikes, golf shoes, a bag, a paddle, a wristband and a pair of knee
+  pads. Both prompts now ban wordless marks by name, which helps but does not finish the job:
+  **look at every kit frame at 4x before writing the spec.**
+- **`art:spec:verify` flip-flops on details a few dozen pixels across.** On Arun's placket
+  buttons it said white → turquoise → white → turquoise across four runs, and it went on
+  reporting marks that had already been edited out of two athletes. §33 decides: a zoomed crop
+  outranks the judge. Where that happened the spec line carries a note saying so, and those
+  lines must not be "corrected" back on the strength of another verifier run.
+- **The judge cannot reason about occlusion.** It read a correctly hidden race-number patch on
+  a far thigh as "missing", and a bent-over athlete's chest crest as "on the side of the ribs".
+  Both were right in the picture. `npm run art:diff` is the check that settles kit questions.
+
+## Pickleball has TWO athletes, and that is deliberate
+
+Ray Solberg (58) was the right call for one reason and the wrong one for another: US pickleball
+genuinely skews older, but **every other athlete in the coverage row is 13–18**, so the
+pickleball tile was the single tile that did not look like the rest of the shop. The customer
+put it plainly — sixteen young athletes and one older man do not sit together.
+
+Nothing was lost by fixing it: **the AGE LADDER already answers "does this fit my person?"**
+with rungs at 22, 32 and 50. Ray was answering a question that was already answered, in the row
+whose only job is "is my sport here?".
+
+So `pickleball-youth` (Nadia Rahimi, 16) is what the coverage row should show, and **Ray is kept
+rather than deleted** — his eight frames are approved and he is a real asset for the older end.
+She shares his CLUB on purpose: same crest, same colours, so the two read as one programme
+rather than two, exactly the way the six ladder athletes share theirs. Reusing the club also
+meant the crest stage could be skipped entirely.
+
+Two consequences worth knowing:
+
+- **`poses.ts` pickleball is written with NEUTRAL pronouns.** It was drafted for Ray and said
+  "he" and "his" throughout, which would have described the wrong person in half the frames the
+  moment a second athlete used it. Pose sets are keyed by SPORT, never by athlete — anything
+  true of only one of them belongs in that athlete's spec.
+- **It also stopped naming the shoe colour.** It said "white court shoes with grey accents",
+  which is Ray's pair; Nadia's photographs show plain all-white with no grey at all. One sport,
+  two athletes, one sentence is the two-sources-for-one-fact failure.
+- **Their composite sides differ.** Ray's supports are a complementary pair; both of Nadia's
+  play towards the LEFT edge, so for her set action2 goes on the RIGHT and action3 on the LEFT.
+  The note is in `poses.ts` above the set. A frame must never be flipped horizontally to fix
+  this — it mirrors the chest crest.
+
+## The invented back crest is now refused BY NAME
+
+Five athletes in a row printed the CHEST CREST between the shoulder blades — track-field,
+swimming, golf, skateboarding and pickleball-youth — every time against a `_kit-back` plate
+showing a plain back. The pose prompt's back branch said "no number, no name, no club, no
+lettering", and "no club" was read as "no club NAME". It now refuses the badge in its own
+clause, the same way the wordless brand mark had to be. `npm run art:diff` on every back frame
+is still the check that catches it.
+
+# 18. THE NEXT SESSION — what is actually left
+
+1. **`football` is 6/8** and has been since 2026-08-21. Two frames were generated and audited
+   and never signed off. Approval is a human act; that is the oldest open item on the roster.
+2. **`soccer` and the five `soccer-age-*` slugs are 7/8** — they pre-date the eight-frame pack
+   and have no `_kit-back`. Building it is `--stage kit` plus one approval each.
+3. The site still says a pack is **25 cards** (`app/site-client.tsx:80` and `:537`, and
+   `lib/registry/cards.ts` `serial: "01/25"`). The decision on 2026-08-19 was **10**. Figma is
+   already fixed; the repo is not.
+
+The command sequence for any remaining athlete is unchanged — §16 above, and it still works.

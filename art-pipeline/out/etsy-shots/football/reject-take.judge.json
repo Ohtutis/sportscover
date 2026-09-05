@@ -1,0 +1,29 @@
+{
+  "verdicts": [
+    {
+      "check": "One athlete stands full-length against a plain grey studio backdrop.",
+      "pass": true,
+      "why": "One full-length athlete on a grey backdrop."
+    },
+    {
+      "check": "The face is visible and sharp.",
+      "pass": true,
+      "why": "Face is visible and in focus."
+    },
+    {
+      "check": "The kit matches the reference kit in colour and number.",
+      "pass": true,
+      "why": "Kit is green with number 54."
+    },
+    {
+      "check": "The athlete looks about 18 years old - NOT a young child.",
+      "pass": true,
+      "why": "Athlete appears to be a young adult."
+    },
+    {
+      "check": "The build matches the description: 6'1\" and genuinely heavy - thick neck, deep chest, broad back, powerful legs, solid rather than cut. A lineman's body on an eighteen-year-old, NOT lean and NOT ripped.",
+      "pass": true,
+      "why": "Build is solid and heavy, not lean."
+    }
+  ]
+}
