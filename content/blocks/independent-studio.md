@@ -1,0 +1,1 @@
+Game Day Edition is an independent custom design studio. We are not affiliated with any professional league, team, school or trading-card company, and we do not reproduce protected professional league or governing-body marks.

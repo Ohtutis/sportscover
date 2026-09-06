@@ -1,21 +1,53 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { siteConfig } from "../site-config";
+import { BrandMark } from "../../components/BrandMark";
+import { block } from "../../lib/blocks";
+import { BRAND, SUPPORT_EMAIL } from "../../lib/site";
 
-export const metadata: Metadata = { title: `Privacy Policy | ${siteConfig.brandName}` };
+export const metadata: Metadata = { title: "Privacy Policy", alternates: { canonical: "/privacy" } };
 
 export default function PrivacyPage() {
-  return <main className="legal-page"><header><Link className="brand" href="/"><span className="brand-mark">CM</span><span>{siteConfig.brandName}</span></Link><Link className="outline-button" href="/">Back to site</Link></header><article><span className="eyebrow">POLICY TEMPLATE · LAST UPDATED AUGUST 12, 2026</span><h1>Privacy Policy</h1><p className="legal-intro">This policy explains how {siteConfig.brandName} handles customer details and private athlete photos submitted for custom artwork requests.</p>
-    <h2>Information we collect</h2><p>We collect the customer contact details, athlete personalization details, order preferences, consent records, and 3–5 photos that you provide. We deliberately do not request an athlete’s date of birth, home address, or school address.</p>
-    <h2>How we use information</h2><p>We use this information only to review the request, assess photo quality, communicate about the project, create accepted artwork, deliver files, prevent abuse, and meet legal or accounting obligations. We do not sell personal information.</p>
-    <h2>Private athlete photos</h2><p>Source photos are stored in a private storage bucket. They are not publicly listed and are accessed only through protected studio tools or time-limited links. Photos are not used in a portfolio, social post, advertisement, model-training dataset, or other public material without separate, explicit permission after the project.</p>
-    <h2>Retention</h2><p>Declined or unpaid submissions are normally deleted within 30 days. Source photos for completed paid projects may be retained for up to 12 months for corrections, then deleted unless a longer period is agreed. Final deliverables may be retained longer to support replacement downloads.</p>
-    <h2>Service providers</h2><p>We may use hosting, database, private storage, transactional email, bot-protection, analytics, payment, printing, and shipping providers to operate the service. These providers receive only the information needed for their role. Payment and delivery details are handled by the payment provider and are not stored by this initial request form.</p>
-    <h2>Analytics</h2><p>Analytics events may record page and form-step activity, but they must not include athlete names, customer emails, filenames, or submitted photos.</p>
-    <h2>Your choices</h2><p>You may ask to access, correct, or delete a submission by emailing <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a> and including the Request ID. Some information may be retained where required by law.</p>
-    <h2>Children and guardian permission</h2><p>The service is directed to adults purchasing or requesting artwork. A submitter must be the athlete, a parent or legal guardian, or have permission from the athlete’s parent or legal guardian.</p>
-    <h2>International processing and security</h2><p>Information may be processed where our service providers operate. We use reasonable administrative and technical safeguards, including private storage and limited-access credentials, but no online system can guarantee absolute security.</p>
-    <h2>Contact</h2><p>Questions or deletion requests can be sent to <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a>.</p>
-    <aside>This is a practical launch template, not legal advice. It should be reviewed by a qualified lawyer before the service accepts live customer submissions.</aside>
-  </article></main>;
+  return (
+    <main className="legal-page">
+      <header><BrandMark /><Link className="outline-button" href="/">Back to site</Link></header>
+      <article>
+        <span className="eyebrow">PRIVACY POLICY · UPDATED SEPTEMBER 6, 2026</span>
+        <h1>Privacy Policy</h1>
+        <p className="legal-intro">What we collect to make your athlete's edition, where it goes, how long we keep it, and what we never do with it. Written for the parent of a minor.</p>
+
+        <h2>The short version</h2>
+        <p>We need 4–10 photos of the athlete and the details printed on the card (name, team, position, number where the sport has one, season, optional stats), plus the buyer's contact details. We never ask for a date of birth, a home address for the athlete, or a school address. {block("photo-privacy")}</p>
+
+        <h2>What we collect</h2>
+        <p>Buyer name and email; the athlete details you type; the photos you send; your consent records; order and payment references (payments are processed by the marketplace or payment provider, never stored here); the delivery address for printed items; and basic, cookieless site analytics that never contain names, emails or photos.</p>
+
+        <h2>Photos and the likeness check</h2>
+        <p>Photos are stored in private storage and used only to create your order. To make sure the artwork looks like your athlete, we create a facial-geometry measurement from your photos and compare it against the artwork. That measurement is used for nothing else, is never shared, and is destroyed when the order closes. The full written policy is at <Link href="/privacy/biometric">/privacy/biometric</Link>.</p>
+
+        <h2>Who processes the data (subprocessors)</h2>
+        <p>Hosting and analytics: Vercel. Database and private file storage: Supabase. AI image generation: Google Cloud Vertex AI (photos are sent to generate the artwork). Transactional email: Resend. Marketplace and payments: Etsy and its payment processor for Etsy orders. Printing partners receive only the finished artwork and the shipping address for printed items. Each provider receives only what its role needs.</p>
+
+        <h2>How long we keep things</h2>
+        <p>Source photos: deleted 30 days after delivery, or earlier on request. Finished artwork and production files: kept 12 months so reprints stay possible, then deleted. Likeness-check measurements: destroyed when the order closes. The registry record (only what is printed on the card): kept for at least five years so the card's page keeps resolving. Order and accounting records: as long as the law requires.</p>
+
+        <h2>The public card page</h2>
+        <p>Every card carries a QR code that opens its page on this site. For real customers that page is <strong>unlisted by default</strong> — it opens only from the QR code or the exact card ID and is not indexed by search engines. It becomes public only if the parent or guardian asks for that. You can unlist, make public or delete the page at any time by emailing <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> from the purchase address with the order number.</p>
+
+        <h2>Children</h2>
+        <p>The service is directed to adults — the parent or legal guardian ordering for their athlete, or adult athletes ordering for themselves. We never collect information from a child. Card pages and order pages carry no forms, accounts or advertising trackers.</p>
+
+        <h2>Marketing use</h2>
+        <p>{block("photo-privacy")} Any use of a finished piece in marketing needs its own separate permission, asked for after the order is complete and never tied to a discount.</p>
+
+        <h2>Your rights</h2>
+        <p>You can ask to see, correct or delete what we hold about you or your athlete, and you can withdraw a consent. Email <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> with the order number; requests are handled within 30 days. {BRAND} is operated from Lithuania; EU data-protection law (GDPR) applies to how we process data, and data may be processed in the United States by the providers named above under their standard safeguards.</p>
+
+        <h2>Independent studio</h2>
+        <p>{block("independent-studio")}</p>
+
+        <h2>Contact</h2>
+        <p>Questions and requests: <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.</p>
+      </article>
+    </main>
+  );
 }

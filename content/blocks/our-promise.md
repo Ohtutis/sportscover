@@ -1,0 +1,1 @@
+You approve a proof before anything is finalized. If we cannot reach a result you are happy with, we refund every cent you spent. On shipped packages: if anything about the print isn't right when it arrives, we reprint it free or refund you in full — you keep the cards.

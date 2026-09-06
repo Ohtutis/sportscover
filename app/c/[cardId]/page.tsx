@@ -1,100 +1,117 @@
 // Public collectible-card page — resolves the QR code on the printed card.
-//
-// ⚠️ PLACEHOLDER. This renders the registry data so scanned QR codes resolve
-// end-to-end, but the real "digital twin" design (hero render, reveal video,
-// wallpaper download, share, "View full collection") is still TODO.
+// Static for every public, unlisted and private record; unlisted and private pages are noindex;
+// private ones render only a neutral notice (the printed QR must never 404); deleted/unknown IDs 404. Per-card artwork, flip and downloads arrive with the F1 rebuild.
 
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getCard } from "../../../lib/registry/cards";
+import { BrandMark } from "../../../components/BrandMark";
+import { FictionalLabel } from "../../../components/FictionalLabel";
+import { styleByName } from "../../../lib/catalog/styles";
+import { sportByCode } from "../../../lib/catalog/sports";
+import { channelOf, getCard, renderableCards, showsJerseyNumber, visibilityOf, type CardRecord } from "../../../lib/registry/cards";
+import { BRAND } from "../../../lib/site";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ cardId: string }>;
-}): Promise<Metadata> {
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return renderableCards().map((c) => ({ cardId: c.cardId }));
+}
+
+function registeredDate(c: CardRecord): string {
+  return new Date(c.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ cardId: string }> }): Promise<Metadata> {
   const { cardId } = await params;
   const card = getCard(cardId);
-  if (!card) return { title: "Card not found — Game Day Edition" };
+  if (!card) return { title: "Card not found" };
+  const vis = visibilityOf(card);
+  if (vis === "private" || vis === "deleted") return { title: "Registered edition", robots: { index: false, follow: false } };
+  const name = `${card.firstName} ${card.lastName}`;
+  // Unlisted pages never put the athlete's name in any meta tag — link-preview scrapers fall back to
+  // `description` when OG is absent, and the URL is the only thing protecting the page.
+  const desc = vis === "public" ? card.playerHighlight || `${name} · ${card.team} · ${card.styleName} — Registered ${BRAND}` : `${card.styleName} — a registered ${BRAND} card`;
   return {
-    title: `${card.firstName} ${card.lastName} · ${card.styleName} — Game Day Edition`,
-    description: card.playerHighlight,
+    title: vis === "public" ? `${name} · ${card.team} · ${card.styleName}` : `${card.styleName} — Registered edition`,
+    description: desc,
+    robots: vis === "public" ? undefined : { index: false, follow: false },
+    alternates: { canonical: `/c/${card.cardId}` },
+    openGraph: vis === "public" ? { title: `${name} — ${card.styleName} · ${BRAND}`, description: desc, type: "article" } : undefined,
   };
 }
 
-export default async function CardPage({
-  params,
-}: {
-  params: Promise<{ cardId: string }>;
-}) {
+export default async function CardPage({ params }: { params: Promise<{ cardId: string }> }) {
   const { cardId } = await params;
   const card = getCard(cardId);
   if (!card) notFound();
+  const vis = visibilityOf(card);
+  if (vis === "private" || vis === "deleted") {
+    return (
+      <main className="card-page">
+        <header className="card-page-header"><BrandMark light /></header>
+        <section className="card-panel">
+          <span className="eyebrow">REGISTERED EDITION</span>
+          <h1>This card is registered with {BRAND}.</h1>
+          <p>The owner has kept this page private.</p>
+        </section>
+      </main>
+    );
+  }
 
-  const stats = [
-    { label: "PPG", value: card.ppg },
-    { label: "APG", value: card.apg },
-    { label: "RPG", value: card.rpg },
-  ].filter((s) => s.value);
+  const style = styleByName(card.styleName);
+  const sport = sportByCode(card.sportCode);
+  const stats = (card.stats && card.stats.length ? card.stats : [{ label: "PPG", value: card.ppg }, { label: "APG", value: card.apg }, { label: "RPG", value: card.rpg }]).filter((s) => s.value);
+  const showNumber = showsJerseyNumber(card);
+  const identity = [showNumber ? `#${card.jerseyNumber}` : null, card.position, card.team, card.season].filter(Boolean).join(" · ");
+  const isSenior = style?.code === "SR";
+  const channel = channelOf(card);
+  const etsySku = `GDE-${card.sportCode}-${isSenior ? "SNSET-PRINT" : "CARD-P12"}`;
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "#0a0e16",
-        color: "#f8fafc",
-        fontFamily: "system-ui, sans-serif",
-        padding: "48px 24px",
-        display: "flex",
-        justifyContent: "center",
-      }}
-    >
-      <div style={{ width: "100%", maxWidth: 560 }}>
-        <p style={{ letterSpacing: 3, fontSize: 13, color: "#1d4ed8", fontWeight: 700 }}>
-          GAME DAY EDITION · {card.styleName.toUpperCase()}
-        </p>
-        <h1 style={{ fontSize: 44, margin: "8px 0 4px", lineHeight: 1 }}>
-          {card.firstName} {card.lastName}
-        </h1>
-        <p style={{ color: "#94a3b8", margin: 0 }}>
-          #{card.jerseyNumber} · {card.position} · {card.team}
-        </p>
+    <main className="card-page">
+      <header className="card-page-header"><BrandMark light /><span className="pill pill-outline">REGISTERED EDITION</span></header>
 
+      <section className="card-hero">
+        {card.isFictional && <FictionalLabel />}
+        <p className="card-meta">{sport?.name ?? card.sportCode} · {card.styleName}</p>
+        <h1>{card.firstName} {card.lastName}</h1>
+        <p className="card-identity">{identity}</p>
         {stats.length > 0 && (
-          <div style={{ display: "flex", gap: 12, margin: "28px 0" }}>
+          <div className="stat-row">
             {stats.map((s) => (
-              <div
-                key={s.label}
-                style={{
-                  flex: 1,
-                  background: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(255,255,255,0.07)",
-                  borderRadius: 16,
-                  padding: "18px 12px",
-                  textAlign: "center",
-                }}
-              >
-                <div style={{ fontSize: 34, fontWeight: 800 }}>{s.value}</div>
-                <div style={{ fontSize: 12, letterSpacing: 2, color: "#1d4ed8", fontWeight: 700 }}>
-                  {s.label}
-                </div>
-              </div>
+              <div className="stat-chip" key={s.label}><strong>{s.value}</strong><span>{s.label}</span></div>
             ))}
           </div>
         )}
+        {card.playerHighlight && <p className="card-highlight">{card.playerHighlight}</p>}
+      </section>
 
-        {card.playerHighlight && (
-          <p style={{ color: "#cbd5e1", fontSize: 18 }}>{card.playerHighlight}</p>
+      <section className="edition-panel" aria-label="Edition details">
+        <div><span>Edition ID</span><strong>{card.cardId}</strong></div>
+        <div><span>Finish</span><strong>{card.styleName}</strong></div>
+        <div><span>Sport</span><strong>{sport?.name ?? card.sportCode}</strong></div>
+        <div><span>Season</span><strong>{card.season}</strong></div>
+        <div><span>Registered</span><strong>{registeredDate(card)}</strong></div>
+        {isSenior && <div><span>Edition</span><strong>Senior edition · 1 of 1</strong></div>}
+        <p className="edition-note">One registered edition per athlete, per finish, per season. Physical cards are not individually numbered; the sealed pack is 18 cards — 4 holographic chase, 14 standard. Artwork is generated with AI tools from the athlete's photos and finished by a person.</p>
+      </section>
+
+      <section className="card-actions">
+        <a className="button" href={`/go/etsy/${etsySku}`}>{channel === "site" || channel === "etsy" ? "Order another edition on Etsy" : "Get yours on Etsy"}</a>
+        <Link className="text-link-light" href="/registry">What is a registered edition?</Link>
+      </section>
+
+      <footer className="card-page-footer">
+        {vis === "unlisted" ? (
+          <p>This page is unlisted: it opens only from the card's QR code or exact ID, and search engines are asked not to index it.</p>
+        ) : card.isFictional ? (
+          <p>Public demo edition. The athlete is fictional; the artwork shows the finish.</p>
+        ) : (
+          <p>Public — shared with the guardian's permission.</p>
         )}
-
-        <p style={{ marginTop: 40, fontSize: 12, letterSpacing: 2, color: "#64748b" }}>
-          {card.cardId}
-          {card.serial ? ` · No. ${card.serial}` : ""} · FIRST EDITION · {card.season}
-        </p>
-
-        {/* TODO: hero render, reveal video, wallpaper download, share buttons,
-            and a link to the athlete's full collection (/a/{athleteId}). */}
-      </div>
+        <p>To unlist, make public or delete a page, or to report this card: <Link href="/contact">contact us</Link> with the card ID.</p>
+      </footer>
     </main>
   );
 }
