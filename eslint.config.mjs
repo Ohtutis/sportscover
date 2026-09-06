@@ -50,6 +50,8 @@ const eslintConfig = defineConfig([
     },
     rules: {
       "jsx-a11y/img-redundant-alt": "off",
+      // Long-form prose (terms, privacy, FAQ) uses plain apostrophes; React escapes them anyway.
+      "react/no-unescaped-entities": "off",
     },
   },
 ]);
