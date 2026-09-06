@@ -13,6 +13,13 @@ print templates, the pack, the per-order workflow and the TODO list. **Start the
 the ones that aren't. **`docs/FINISH-COMPLETION-PLAYBOOK.md`** is the step-by-step checklist for
 taking a finish from "section 01 only" to production-complete (node IDs, recipes, the known
 traps, safe zones, export naming) — use it for every remaining finish.
+**`docs/SITE-BUILD-SPEC-2026-09.md`** — the WEBSITE BUILD SPEC (2026-09-06, current direction): the site
+sells directly via Stripe at Etsy buyer price +10%, rebuilt from scratch; 28 recorded decisions, brand
+system, sitemap, every page section by section, checkout / order / team-link / card-page flows, honest
+social proof, pricing table, SEO, data model, CLIs, phases F0–F4 and the owner-decision list. **Read it
+before touching `app/`, `lib/registry/` or `lib/catalog/`.** `docs/SITE-MASTER-PLAN-2026-09.md` is the
+underlying audit and rules canon (Etsy off-platform rules, legal scope, ads gate) — still valid where the
+spec's §14 does not override it.
 
 ## Where things stand
 - **ALL 6 finishes are production-complete (2026-08-20)**: Stadium Night, Chrome All-Star,

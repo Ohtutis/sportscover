@@ -1,0 +1,1 @@
+Every piece is designed by me from the photos you send. AI imaging tools are part of my creative process, and every composition, likeness, spelling, color and detail is reviewed and finished by hand before delivery. Nothing is released as final until you approve the proof.

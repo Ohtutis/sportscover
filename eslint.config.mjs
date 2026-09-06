@@ -14,6 +14,19 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Site lint only — the art/marketing/etsy tooling is excluded from tsconfig as well and
+    // traversing art-pipeline/out (thousands of files) makes `eslint .` take minutes.
+    "art-pipeline/**",
+    "marketing/**",
+    "etsy/**",
+    "card-flip/**",
+    "print-sources/**",
+    "exports/**",
+    "orders/**",
+    "work/**",
+    "examples/**",
+    "public/**",
+    "Exportai Etsy/**",
   ]),
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
@@ -37,6 +50,8 @@ const eslintConfig = defineConfig([
     },
     rules: {
       "jsx-a11y/img-redundant-alt": "off",
+      // Long-form prose (terms, privacy, FAQ) uses plain apostrophes; React escapes them anyway.
+      "react/no-unescaped-entities": "off",
     },
   },
 ]);

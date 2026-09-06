@@ -1,21 +1,57 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { siteConfig } from "../site-config";
+import { BrandMark } from "../../components/BrandMark";
+import { block } from "../../lib/blocks";
+import { BRAND, IMPRINT, SUPPORT_EMAIL, imprintComplete } from "../../lib/site";
 
-export const metadata: Metadata = { title: `Terms | ${siteConfig.brandName}` };
+export const metadata: Metadata = { title: "Terms", alternates: { canonical: "/terms" } };
 
 export default function TermsPage() {
-  return <main className="legal-page"><header><Link className="brand" href="/"><span className="brand-mark">CM</span><span>{siteConfig.brandName}</span></Link><Link className="outline-button" href="/">Back to site</Link></header><article><span className="eyebrow">TERMS TEMPLATE · LAST UPDATED AUGUST 12, 2026</span><h1>Terms of Service</h1><p className="legal-intro">These terms apply to custom artwork requests submitted to {siteConfig.brandName}. Submitting a request does not require payment and does not guarantee acceptance.</p>
-    <h2>Photo and guardian rights</h2><p>You confirm that you own submitted photos or have permission to use them, and that you are the athlete, the athlete’s parent or legal guardian, or have permission from the athlete’s parent or legal guardian. You remain responsible for securing permission to use any team asset you provide.</p>
-    <h2>Review and acceptance</h2><p>We review source photos before accepting a project. We may request better photos or decline work when we cannot confidently meet the displayed quality. No payment is due for a declined request.</p>
-    <h2>Pricing, payment, and shipping details</h2><p>Displayed prices are starting prices. The final package, scope, price, and estimated delivery timing are confirmed by email before a secure payment link is sent. For physical packages, the payment provider also collects the required shipping address. Artwork production begins after payment clears, but physical printing does not begin until the customer approves the final artwork.</p>
-    <h2>Creative process and likeness</h2><p>Artwork is custom-finished from real photos through a designer-led, AI-assisted workflow. Recognizable likeness is a priority, but results depend on the quality, angle, lighting, and resolution of source photos. We do not promise recruiting, scholarship, sporting, or commercial outcomes.</p>
-    <h2>Revisions</h2><p>Individual packages include one reasonable revision to text, color, crop, or composition. A new concept, replacement source-photo set, or major direction change may require an additional fee. Video packages include one minor text correction unless otherwise agreed.</p>
-    <h2>Timing and physical delivery</h2><p>Photo review usually takes up to 24 hours and a first proof is typically delivered within two business days after payment. These are estimates, not guarantees. Team, complex, and rush projects may require different timing. Print-carrier delivery dates are estimates, and priority production does not guarantee a carrier delivery date. Posters and trading cards may be produced separately and arrive in different packages.</p>
-    <h2>Cancellations and refunds</h2><p>Because the work is personalized, cancellation and refund eligibility depends on how much production has been completed. Any project-specific policy will be confirmed before payment. Nothing in these terms limits rights that cannot legally be excluded.</p>
-    <h2>Intellectual property</h2><p>Final paid deliverables include a personal-use license for the customer. Studio source files, production methods, and unused concepts remain with {siteConfig.brandName}. Commercial, organizational, resale, or team-wide usage may require separate written terms. We do not grant rights to third-party logos or protected marks.</p>
-    <h2>Portfolio use</h2><p>Order consent is not portfolio consent. Athlete photos or final artwork will not be published without a separate permission request and approval.</p>
-    <h2>Liability and contact</h2><p>To the extent permitted by law, liability is limited to the amount paid for the relevant project. Questions may be sent to <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a>.</p>
-    <aside>This is a practical launch template, not legal advice. It should be reviewed by a qualified lawyer before the service accepts live customer submissions.</aside>
-  </article></main>;
+  return (
+    <main className="legal-page">
+      <header><BrandMark /><Link className="outline-button" href="/">Back to site</Link></header>
+      <article>
+        <span className="eyebrow">TERMS · UPDATED SEPTEMBER 6, 2026</span>
+        <h1>Terms of Service</h1>
+        <p className="legal-intro">These terms cover custom editions made by {BRAND}. Orders are placed on our Etsy shop, where Etsy's purchase terms also apply; the terms below describe the work itself.</p>
+
+        <h2>Who we are</h2>
+        {imprintComplete() ? (
+          <p>{IMPRINT.legalName}, company code {IMPRINT.companyCode}{IMPRINT.vat ? `, VAT ${IMPRINT.vat}` : ""}, {IMPRINT.address}. Responsible person: {IMPRINT.responsiblePerson}. {SUPPORT_EMAIL}.</p>
+        ) : (
+          <p>{BRAND} is an independent custom design studio operated from Lithuania. Contact: {SUPPORT_EMAIL}.</p>
+        )}
+
+        <h2>Your photos and your athlete's likeness</h2>
+        <p>You confirm that you are the athlete, or the parent or legal guardian of the athlete, that you own the photos or have permission to use them, and that you grant us permission to create artwork from the photos and the athlete's likeness for your order. You confirm that any team crest you supply is your school's or club's own and that you may use it. {block("logo-sentence")}</p>
+
+        <h2>How it is made</h2>
+        <p>{block("how-its-made")} Photos are checked before any art is made; if they cannot carry the likeness we tell you and refund every cent. Recognizable likeness is a priority, but results depend on the quality, angle and lighting of the photos you send.</p>
+
+        <h2>Proof approval</h2>
+        <p>You receive a proof before anything is finalized. Approving the proof means you have checked the name, number, spelling and colors. One revision is included. Printing starts only after your approval; once printing has started, the order cannot be cancelled.</p>
+
+        <h2>Our promise, refunds and cancellations</h2>
+        <p>{block("our-promise")} Until you approve the proof you may cancel for a full refund. Digital files are not refundable after delivery except under that promise. Refunds for Etsy orders are processed on Etsy. Colors on screen and in print differ slightly; that is not a defect.</p>
+
+        <h2>Delivery</h2>
+        <p>Digital files are delivered within 1–2 business days of the order; printed items ship within 5–7 business days of the order and may arrive in separate packages. Both are counted in US Eastern business days from the order date. Printing starts when you approve the proof, so time a proof spends waiting for approval extends the shipping date by the same amount. Printed items ship within the US only. Where a printing partner is used, it receives only the finished artwork and the shipping address.</p>
+
+        <h2>The registered card page</h2>
+        <p>Every card carries a registered card ID and a QR code that opens its page on this site. Customer pages are unlisted unless you ask otherwise. We keep registered pages online for at least five years from the order date; if the service ever winds down, the registry will be kept resolving for that period or you will be told how to keep a copy. "Registered" describes our own edition registry; it is not a copyright registration.</p>
+
+        <h2>Use of the artwork</h2>
+        <p>Finished deliverables are licensed to you for personal, non-commercial use — print them, share them, frame them. Reselling the artwork, or using it to sell goods or services, needs our written agreement. Studio source files and methods remain ours.</p>
+
+        <h2>Reminders and pauses</h2>
+        <p>When an order needs something from you (photos, an approval), we send up to three reminders over 14 days, then pause the order. A paused order can be resumed within 12 months.</p>
+
+        <h2>Liability and law</h2>
+        <p>To the extent the law allows, our liability is limited to the amount you paid for the order. Nothing in these terms limits rights that cannot legally be excluded. Because every edition is personalized, the EU right of withdrawal for personalized goods does not apply once production has started. These terms are governed by the laws of the Republic of Lithuania.</p>
+
+        <h2>Independent studio</h2>
+        <p>{block("independent-studio")}</p>
+      </article>
+    </main>
+  );
 }
