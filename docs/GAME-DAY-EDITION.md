@@ -14,9 +14,10 @@ athlete into a premium personalized package:
   `Fire & Smoke`, `Neon Future`, `Vintage Card`.
 - Per order we print **25 identical Hero Cards** (no rarity/Gold/Chrome variants yet).
 
-The repo here (`package.json` name `cover-moment`) is the marketing site + will host the
-card registry. Brand was renamed **Cover Moment → Game Day Edition** (site-config.ts still
-defaults to "Cover Moment"; override via `NEXT_PUBLIC_BRAND_NAME`).
+The repo here (`package.json` name `game-day-edition`) is the marketing site + the card
+registry. Brand was renamed **Cover Moment → Game Day Edition**; since 2026-09-06 the brand,
+owner and canonical origin are code constants in `lib/site.ts` (no env override — see
+`docs/SITE-F0-HANDOFF.md` for the stale Vercel variables to delete).
 
 ## The two production layers (don't mix them)
 
