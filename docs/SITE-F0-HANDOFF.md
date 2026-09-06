@@ -19,6 +19,14 @@ F0 = emergency truth pass on the live site + the plumbing that carries over to t
   shared copy blocks (`content/blocks/`), forbidden-string + printed-ID + price-parity tests, CI.
 
 ## Owner checklist (nothing here blocks the deploy; items marked ⚠ block F2)
+0. **Delete the Cover Moment-era Vercel env vars (5 min, do first)** — the project still has
+   `NEXT_PUBLIC_BRAND_NAME=Cover Moment`, `NEXT_PUBLIC_OWNER_NAME=Cover Moment Studio`,
+   `NEXT_PUBLIC_SITE_URL=https://sportscover.vercel.app` and probably `NEXT_PUBLIC_SUPPORT_EMAIL`
+   and `RESEND_FROM_EMAIL=Cover Moment <…>`. The code ignores the first four since the
+   2026-09-06 hotfix (brand/owner/origin are constants in `lib/site.ts`), but delete them anyway
+   and set `RESEND_FROM_EMAIL=Game Day Edition <orders@gamedayedition.com>` so the legacy
+   order-request emails never go out under the old name. Vercel → Project → Settings →
+   Environment Variables.
 1. **Sale renewal** — set `SALE_EXPIRES_AT` in `lib/catalog/prices.ts` when you renew the −30 % Etsy
    sale (currently 2026-09-24). The site auto-drops the struck-through price when it lapses.
 2. **Imprint (⚠ before checkout)** — set on Vercel: `NEXT_PUBLIC_IMPRINT_LEGAL_NAME`,

@@ -2,10 +2,16 @@
 
 const strip = (u: string) => u.replace(/\/$/, "");
 
-export const SITE_URL = strip(process.env.NEXT_PUBLIC_SITE_URL || "https://www.gamedayedition.com");
-export const BRAND = process.env.NEXT_PUBLIC_BRAND_NAME || "Game Day Edition";
-export const SUPPORT_EMAIL = process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "hello@gamedayedition.com";
-export const OWNER_NAME = process.env.NEXT_PUBLIC_OWNER_NAME || "John Birch";
+// Brand identity is CODE, not configuration. The Vercel project still carries env vars from the
+// pre-rename era (NEXT_PUBLIC_BRAND_NAME, NEXT_PUBLIC_OWNER_NAME, NEXT_PUBLIC_SITE_URL pointing at
+// sportscover.vercel.app); reading them put the old brand and a wrong canonical host on the live site
+// on 2026-09-06. On Vercel the canonical origin is therefore fixed; NEXT_PUBLIC_SITE_URL is honoured
+// only for local development (e.g. http://localhost:3000).
+export const CANONICAL_ORIGIN = "https://www.gamedayedition.com";
+export const SITE_URL = process.env.VERCEL ? CANONICAL_ORIGIN : strip(process.env.NEXT_PUBLIC_SITE_URL || CANONICAL_ORIGIN);
+export const BRAND = "Game Day Edition";
+export const SUPPORT_EMAIL = "hello@gamedayedition.com";
+export const OWNER_NAME = "John Birch";
 export const TAGLINE = "Custom sports posters & trading cards from your photo";
 export const ETSY_SHOP_URL = "https://gamedayedition.etsy.com";
 

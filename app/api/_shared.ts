@@ -1,3 +1,4 @@
+import { SITE_URL } from "../../lib/site";
 import { createClient } from "@supabase/supabase-js";
 
 export const bucketName = process.env.SUPABASE_STORAGE_BUCKET || "athlete-submissions";
@@ -16,8 +17,7 @@ export function text(value: unknown, max = 300) {
 export function sameOrigin(request: Request) {
   const origin = request.headers.get("origin");
   if (!origin) return true;
-  const expected = process.env.NEXT_PUBLIC_SITE_URL;
-  if (expected && origin === new URL(expected).origin) return true;
+  if (origin === new URL(SITE_URL).origin) return true;
   const host = request.headers.get("host");
   return Boolean(host && new URL(origin).host === host);
 }
