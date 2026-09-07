@@ -13,7 +13,7 @@ import { notFound } from "next/navigation";
 import { Shield } from "../../../../components/brand/Shield";
 import { CardFlip } from "../../../../components/CardFlip";
 import { CtaPair } from "../../../../components/CtaPair";
-import { EditionPanel } from "../../../../components/EditionPanel";
+import { EditionPanel, REGISTRY_LINK_LABEL } from "../../../../components/EditionPanel";
 import { FictionalLabel } from "../../../../components/FictionalLabel";
 import { Pill } from "../../../../components/Pill";
 import { ShareRow } from "../../../../components/ShareRow";
@@ -123,7 +123,8 @@ export default async function CardPage({ params }: { params: Promise<{ cardId: s
   const years = senior ? seniorYears(card.classOf) : undefined;
   const showsClassOf = Boolean(card.classOf) && card.ageBand !== "adult" && (Boolean(card.isFictional) || Boolean(card.consentPublicAt));
   const downloads = visibility === "public" && card.isFictional && art ? art : null;
-  const faceSizes = "(min-width: 1024px) 340px, 82vw";
+  const cardCta = ctaFor("card-page", card);
+  const faceSizes = "(min-width: 1024px) 400px, 82vw";
 
   // Structured data only where it is true: a public card is a real, indexable page with a picture of
   // the object; unlisted pages get none, so nothing about them is offered to a crawler.
@@ -147,7 +148,10 @@ export default async function CardPage({ params }: { params: Promise<{ cardId: s
         </>
       ) : null}
       <div className="container-site max-w-[35rem] pb-16 lg:max-w-(--container-site)">
-        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-start lg:gap-12">
+        {/* The card floats in the middle of its track — the object with air around it, not a card
+            pinned to the top of a column with 400 px of empty arena under it (owner review
+            2026-09-07). */}
+        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-center lg:gap-12">
           <header className="pt-6 lg:col-span-2">
             <h1
               className={`font-finish-display text-[2.25rem] leading-[0.95] text-balance md:text-[3.5rem] ${style.displayCase === "title" ? "" : "uppercase"}`.trim()}
@@ -167,7 +171,7 @@ export default async function CardPage({ params }: { params: Promise<{ cardId: s
           <div className="mt-6">
             {art ? (
               <CardFlip
-                className="mx-auto max-w-[340px]"
+                className="mx-auto max-w-[340px] lg:max-w-[400px]"
                 front={{
                   src: art.front,
                   alt: sport ? altRegisteredFront(sport, style, Boolean(card.isFictional)) : `Registered card front — ${style.name} finish`,
@@ -179,11 +183,11 @@ export default async function CardPage({ params }: { params: Promise<{ cardId: s
                 videoLabel={videoLabel(card.firstName, card.lastName, style)}
                 autoplay={false}
                 priority
-                maxWidth={340}
+                maxWidth={400}
                 sizes={faceSizes}
               />
             ) : (
-              <section aria-label="Card artwork" className="mx-auto max-w-[340px]">
+              <section aria-label="Card artwork" className="mx-auto max-w-[340px] lg:max-w-[400px]">
                 <div className="flex aspect-[5/7] w-full items-center justify-center border border-arena-hairline bg-arena-surface">
                   <Shield tone="arena" size={72} />
                 </div>
@@ -196,7 +200,7 @@ export default async function CardPage({ params }: { params: Promise<{ cardId: s
           </div>
 
           <div className="mt-8 lg:mt-6">
-            <EditionPanel card={card} tone="arena" copyButton lastUpdated labelFont="finish" />
+            <EditionPanel card={card} tone="arena" copyButton lastUpdated labelFont="finish" registryLink={false} />
 
             {stats.length ? (
               <section aria-label={senior ? "Career highs" : "Season stats"} className="mt-8">
@@ -268,16 +272,36 @@ export default async function CardPage({ params }: { params: Promise<{ cardId: s
               ) : null}
             </section>
 
-            <div className="mt-8">
-              <CtaPair {...ctaFor("card-page", card)} />
+            {/* The highest-intent page on the site: the buy button is the filled primary, and the
+                one quiet link beside it is the registry explainer the panel used to carry (owner
+                review 2026-09-07 — the page's only CTA was an outline button in an empty band).
+                `ctaFor` still decides the SKU (GAPS #18) and the label; only `kind` is overridden,
+                and a demo-etsy card still links nowhere but Etsy (S19/D26). */}
+            <div className="mt-10">
+              <CtaPair {...cardCta} primary={{ ...cardCta.primary, kind: "primary" }} size="lg" />
+              <p className="mt-4">
+                <Link
+                  href="/registry"
+                  className="inline-flex min-h-11 items-center gap-1.5 font-body text-small text-white underline-offset-4 decoration-1 hover:underline"
+                >
+                  {REGISTRY_LINK_LABEL} <span aria-hidden="true">&rarr;</span>
+                </Link>
+              </p>
             </div>
           </div>
         </div>
 
-        <footer className={`mt-12 border-t border-arena-hairline pt-6 ${SMALL}`}>
-          {visibility === "unlisted" ? <p>{PRIVACY_LINES.unlisted}</p> : null}
-          {visibility === "public" && !card.isFictional ? <p>{PRIVACY_LINES.public}</p> : null}
-          <p className="mt-3">
+        {/* The fine print is fine print. It used to be three grey paragraphs at the weight of the
+            page's own copy, directly under its only CTA (owner review 2026-09-07): one small block
+            now, at 62ch, with the report link the only thing in it anyone has to find. */}
+        <footer className={`mt-16 max-w-[62ch] border-t border-arena-hairline pt-5 text-[0.8125rem] leading-[1.5] ${SMALL}`}>
+          <p>
+            {visibility === "unlisted" ? `${PRIVACY_LINES.unlisted} ` : null}
+            {visibility === "public" && !card.isFictional ? `${PRIVACY_LINES.public} ` : null}
+            {PRIVACY_LINES.manage}
+            {card.isFictional ? ` ${CANON.galleryCaptionShort}` : null}
+          </p>
+          <p className="mt-2">
             <a
               href={`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(`Report card ${card.cardId}`)}`}
               className="text-white underline-offset-4 decoration-1 hover:underline"
@@ -286,8 +310,6 @@ export default async function CardPage({ params }: { params: Promise<{ cardId: s
             </a>{" "}
             — {PRIVACY_LINES.report}
           </p>
-          <p className="mt-3">{PRIVACY_LINES.manage}</p>
-          {card.isFictional ? <p className="mt-3">{CANON.galleryCaptionShort}</p> : null}
         </footer>
       </div>
     </div>

@@ -14,7 +14,7 @@ import { FictionalLabel } from "../../../components/FictionalLabel";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { asset, hasAsset, type ImageSpec } from "../../../lib/assets";
 import { fromPrice } from "../../../lib/catalog/prices";
-import { HomeSection, sectionId } from "./Section";
+import { HomeSection, sectionId, sectionIndex } from "./Section";
 
 export const FAMILIES_H2 = "CHOOSE THEIR EDITION.";
 export const FAMILIES_SUBHEAD = "Three ways to keep the season. Every one starts from the same 4–10 photos and ends with a proof you approve.";
@@ -36,8 +36,14 @@ function firstPhoto(keys: readonly string[]): ImageSpec | null {
 
 /** A card on a desk, in a stand, or in a binder — whichever has landed. */
 const CARD_LIFE = ["life.card.desk", "life.card.case", "life.card.binder", "life.card.hand"] as const;
-/** A framed poster in a room. The baseball room first: the poster page's own hero is the basketball one. */
-const POSTER_LIFE = ["life.poster.room.baseball", "life.poster.room", "life.poster.room.wide"] as const;
+/**
+ * A framed poster in a room, WIDEST WALL FIRST (owner review 2026-09-07). The three tiles were three
+ * different product scales: the card fills more than half of its photograph, while the single framed
+ * poster of `life.poster.room.baseball` is about a tenth of its frame — a room with a poster in it,
+ * not a poster. The three-poster wall reads as the product at roughly the card's scale, so it leads;
+ * the single-frame rooms stay behind it as fallbacks.
+ */
+const POSTER_LIFE = ["life.poster.room.wide", "life.poster.room", "life.poster.room.baseball"] as const;
 /** The printed set on a real surface — poster and cards in one frame. */
 const SET_LIFE = ["life.set.printed", "life.set.deluxe"] as const;
 
@@ -84,8 +90,8 @@ export function Families({ now }: { now: Date }) {
   const setPhoto = firstPhoto(SET_LIFE);
   return (
     <HomeSection n={3} container="gallery">
-      <SectionHeading as="h2" id={sectionId(3)} index="03 / 13" title={FAMILIES_H2} subhead={FAMILIES_SUBHEAD} />
-      <div className="mt-8 grid gap-6 md:grid-cols-2 lg:mt-12 lg:grid-cols-3">
+      <SectionHeading as="h2" id={sectionId(3)} index={sectionIndex(3)} title={FAMILIES_H2} subhead={FAMILIES_SUBHEAD} />
+      <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         <FamilyCard
           family="cards"
           from={fromPrice("cards", now)}
@@ -126,8 +132,8 @@ export function Families({ now }: { now: Date }) {
           cta="See the complete set"
         />
       </div>
-      <p className="mt-6 max-w-[62ch] font-body text-body font-medium">{CERTIFICATE_ROW_LINE}</p>
-      <FictionalLabel className="mt-4" />
+      <p className="mt-8 max-w-[62ch] font-body text-body font-medium">{CERTIFICATE_ROW_LINE}</p>
+      <FictionalLabel className="mt-3" />
     </HomeSection>
   );
 }

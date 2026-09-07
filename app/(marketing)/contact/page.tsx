@@ -6,7 +6,6 @@ import { Breadcrumbs } from "../../../components/Breadcrumbs";
 import { CtaPair } from "../../../components/CtaPair";
 import { Ledger } from "../../../components/Ledger";
 import { SectionHeading } from "../../../components/SectionHeading";
-import { TrustLine } from "../../../components/TrustLine";
 import { pageMeta } from "../../../lib/seo/meta";
 import { IMPRINT, imprintComplete, SUPPORT_EMAIL } from "../../../lib/site";
 
@@ -51,17 +50,16 @@ export default function ContactPage() {
         <div className="mx-auto max-w-[44rem]">
           <Breadcrumbs trail={[{ name: "Home", href: "/" }, { name: "Contact", href: "/contact" }]} />
           <SectionHeading as="h1" className="mt-6" title="TALK TO A PERSON." />
+          {/* The address was printed three times in one screen — here, inside the button and in the
+              imprint line — and the page closed on a trust line about photo deletion, which has
+              nothing to do with writing to us (owner review 2026-09-07). The button carries the
+              address; this sentence says what to put in the mail. */}
           <p className="mt-4 max-w-[44ch] font-body text-[1.125rem] font-bold text-pretty md:text-sub">
-            Email{" "}
-            <a href={MAILTO} className="underline underline-offset-4 decoration-1">
-              {SUPPORT_EMAIL}
-            </a>
-            . Include your order number if you have one.
+            Include your order number if you have one.
           </p>
 
-          <div className="mt-8 lg:mt-12">
+          <div className="mt-8">
             <CtaPair primary={{ label: `Email ${SUPPORT_EMAIL}`, href: MAILTO }} size="lg" />
-            <TrustLine />
           </div>
 
           <Ledger className="mt-12" rows={TOPICS.map((t) => ({ key: t.key, value: t.value }))} />

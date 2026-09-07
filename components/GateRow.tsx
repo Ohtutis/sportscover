@@ -4,14 +4,24 @@ import { BracketFrame } from "./BracketFrame";
 import { StatusChip, type ChipStatus } from "./StatusChip";
 
 /**
- * The six gates on /how-it-works (DESIGN §4.12, §5.4-2): a sticky index row of plain anchors, then
- * one native `<details>` per gate, each an evidence split — text beside the artefact in a
- * BracketFrame with its file-tab label, artefact side alternating gate by gate, C13 on every gate
- * that shows a person. No JS.
+ * The six gates on /how-it-works (DESIGN §4.12, §5.4-2): an index row of plain anchors, then one
+ * native `<details>` per gate, each an evidence split — text beside the artefact in a BracketFrame
+ * with its file-tab label, artefact side alternating gate by gate, C13 on every gate that shows a
+ * person. No JS.
  *
  * Every gate opens by default and stays collapsible. The group used to be an exclusive disclosure
  * set with only the first gate open, and gate 01 is the one text-only gate — so the page whose whole
  * job is to show the process opened with 10 of its 11 artefacts hidden and no photograph on screen.
+ *
+ * Owner review 2026-09-07, two defects, both fixed here:
+ *  1. The index row was `sticky top-14` under a 57/65 px header — 172 px of a 900 px screen occluded
+ *     for the length of a 10,000 px page, a paragraph cut in half behind it at any scroll position,
+ *     six status chips permanently on screen and a 1 px overlap from the wrong offset. It scrolls
+ *     with the page now, and carries numbers and names only: the PASS/NOTE verdicts belong to the
+ *     gate they are about, where each summary already prints one.
+ *  2. The artefact column ran hundreds of pixels past the text beside it. The artefact is capped at
+ *     `lg:max-w-[25rem]` and the row is centred, so the two columns end within ~100 px of each
+ *     other; a gate whose artefact is HTML rather than an image asks for `wide` and keeps the track.
  */
 export interface GateArtefact {
   src: string;
@@ -36,6 +46,8 @@ export interface Gate {
   artefactNode?: ReactNode;
   /** The artefact shows a fictional athlete (default true). */
   fictional?: boolean;
+  /** The artefact is HTML that needs the whole track (the verdict Ledger) — no width cap. */
+  wide?: boolean;
 }
 
 const nn = (n: number): string => String(n).padStart(2, "0");
@@ -44,15 +56,17 @@ const RECORD = "font-label text-[0.8125rem] font-semibold uppercase tracking-[0.
 export function GateRow({ gates, className = "" }: { gates: Gate[]; className?: string }) {
   return (
     <div className={className || undefined}>
-      <ol aria-label="The six gates" className="sticky top-14 z-30 -mx-5 flex snap-x overflow-x-auto border-y border-hairline bg-stock sm:mx-0 lg:top-16">
+      <ol aria-label="The six gates" className="-mx-5 flex snap-x overflow-x-auto border-y border-hairline bg-stock sm:mx-0">
         {gates.map((g, i) => (
           <li key={g.id} className="shrink-0">
-            <a href={`#${g.id}`} className="flex snap-start flex-col gap-1.5 border-r border-hairline px-5 py-3 last:border-r-0">
+            <a
+              href={`#${g.id}`}
+              className="flex min-h-11 snap-start items-center gap-2 border-r border-hairline px-5 py-3 last:border-r-0 hover:bg-ink/5"
+            >
               <span className={RECORD}>
                 {nn(i + 1)} / {nn(gates.length)}
               </span>
               <span className="font-display text-[1rem] uppercase text-ink">{g.label}</span>
-              {g.status !== "none" ? <StatusChip status={g.status} /> : null}
             </a>
           </li>
         ))}
@@ -61,7 +75,7 @@ export function GateRow({ gates, className = "" }: { gates: Gate[]; className?: 
         {gates.map((g, i) => {
           const artefactFirst = i % 2 === 1;
           return (
-            <details key={g.id} id={g.id} open className="group scroll-mt-32 border-b border-hairline py-6 pl-5 last:border-b-0 lg:pl-8">
+            <details key={g.id} id={g.id} open className="group scroll-mt-20 border-b border-hairline py-8 pl-5 last:border-b-0 lg:py-10 lg:pl-8">
               <summary className="flex cursor-pointer list-none items-baseline gap-4 [&::-webkit-details-marker]:hidden">
                 <span className="font-display text-[2.75rem] leading-none tabular-nums text-ink">{nn(i + 1)}</span>
                 <span className="min-w-0">
@@ -70,8 +84,8 @@ export function GateRow({ gates, className = "" }: { gates: Gate[]; className?: 
                 </span>
                 {g.status !== "none" ? <StatusChip status={g.status} className="ml-auto" /> : null}
               </summary>
-              <div className="mt-6 lg:grid lg:grid-cols-12 lg:gap-x-8">
-                <div className={`lg:col-span-5 ${artefactFirst ? "lg:order-last" : ""}`.trim()}>
+              <div className="mt-6 lg:grid lg:grid-cols-12 lg:items-center lg:gap-x-8">
+                <div className={`${g.wide ? "lg:col-span-5" : "lg:col-span-6"} ${artefactFirst ? "lg:order-last" : ""}`.trim()}>
                   <div className="max-w-[62ch] font-body text-body text-pretty text-ink">{g.body}</div>
                   {g.sideNote ? (
                     <div className="mt-4 rounded-ui border border-hairline bg-stock p-4">
@@ -80,7 +94,13 @@ export function GateRow({ gates, className = "" }: { gates: Gate[]; className?: 
                     </div>
                   ) : null}
                 </div>
-                <div className="mt-6 lg:col-span-7 lg:mt-0">
+                <div
+                  className={`mt-6 lg:mt-0 ${
+                    g.wide
+                      ? "lg:col-span-7"
+                      : `lg:col-span-6 lg:max-w-[25rem] ${artefactFirst ? "lg:justify-self-start" : "lg:justify-self-end"}`
+                  }`}
+                >
                   <BracketFrame label={g.tab} caption={g.artefact.caption} fictional={g.fictional ?? true}>
                     {g.artefactNode ?? (
                       <Image
@@ -88,7 +108,7 @@ export function GateRow({ gates, className = "" }: { gates: Gate[]; className?: 
                         alt={g.artefact.alt}
                         width={g.artefact.width}
                         height={g.artefact.height}
-                        sizes="(min-width: 1024px) 640px, 100vw"
+                        sizes="(min-width: 1024px) 400px, 100vw"
                         className="h-auto w-full rounded-none"
                       />
                     )}

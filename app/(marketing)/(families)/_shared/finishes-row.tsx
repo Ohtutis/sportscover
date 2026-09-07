@@ -2,14 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { CardFace } from "../../../../components/CardFace";
 import { FictionalLabel } from "../../../../components/FictionalLabel";
-import { Mat } from "../../../../components/Mat";
 import { assetOrNull } from "../../../../lib/assets";
 import { finishes } from "../../../../lib/catalog/styles";
 import { Section } from "./section";
 
 /**
  * Section 04 — one athlete, six finishes (COPY §2.2 (4), DESIGN §5.2-4). One athlete, six materials,
- * one layout: the tiles differ only in the finish. Finish names are Space Grotesk 700 uppercase text
+ * one layout: the tiles differ only in the finish. **No mat**: the art is already dark, so a dark 8 %
+ * mat behind it was a grey box the tile spent a quarter of its area on (owner review, 2026-09-07). The
+ * face floats on the page's own stock with the card shadow and fills the tile edge to edge. Finish names are Space Grotesk 700 uppercase text
  * (GAPS #15 — no finish fonts and no SVG labels outside `/c`), and the row carries C13 once for the
  * whole group. The card row uses the six basketball fronts; the poster row the six football posters —
  * one athlete each, never a mixture, and never a room shot at tile size.
@@ -34,15 +35,13 @@ export function FinishesRow({ variant }: { variant: "card" | "poster" }) {
           return (
             <li key={style.code} className={TILE}>
               {spec ? (
-                <Mat tone="arena">
-                  {variant === "poster" ? (
-                    <div className="relative aspect-[3/4] w-full overflow-hidden rounded-none shadow-[var(--shadow-card-arena)]">
-                      <Image src={spec.src} alt={spec.alt} fill sizes={TILE_SIZES} className="object-contain" />
-                    </div>
-                  ) : (
-                    <CardFace {...spec} labelled surface="arena" sizes={TILE_SIZES} />
-                  )}
-                </Mat>
+                variant === "poster" ? (
+                  <div className="relative aspect-[3/4] w-full overflow-hidden rounded-none shadow-[var(--shadow-card-stock)]">
+                    <Image src={spec.src} alt={spec.alt} fill sizes={TILE_SIZES} className="object-contain" />
+                  </div>
+                ) : (
+                  <CardFace {...spec} labelled sizes={TILE_SIZES} />
+                )
               ) : (
                 <div className="flex aspect-[5/7] items-center justify-center rounded-ui border border-hairline bg-stock p-4 text-center font-body text-small text-muted-text">
                   {style.material}

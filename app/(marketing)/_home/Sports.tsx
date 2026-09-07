@@ -1,66 +1,58 @@
 // 07 · Seventeen sports (DESIGN §5.1-07, COPY §2.1-7). Fifteen sports have an audited square-cut
 // front; pickleball and skateboarding have no card export at all (their keys are `locate`), so they
-// render as navy text tiles — never a rounded export, never a placeholder card frame.
+// render as navy tiles of the same geometry — never a rounded export, never a placeholder card frame.
+//
+// Owner review 2026-09-07: every tile was a 191 × 201 plate holding a 120 × 169 card, so a third of
+// each tile was dead black ground, and the two art-less sports were shaped differently from the other
+// fifteen — a navy box with the sport's name set as a headline and "PLAIN BACK" under it, and no
+// caption row at all. Now every tile is the card's own 5 : 7 box floating on the page with its own
+// shadow (no plate), the two art-less sports use that same box, and the sport's name and back line sit
+// in the caption row for all seventeen. The back line is printed only where it DIFFERS from the rule
+// the subhead already states ("numbered sports carry their number") — it was repeating under fifteen
+// tiles in a row.
 import Link from "next/link";
 import { Shield } from "../../../components/brand/Shield";
 import { CardFace } from "../../../components/CardFace";
 import { FictionalLabel } from "../../../components/FictionalLabel";
-import { Mat } from "../../../components/Mat";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { assetOrNull } from "../../../lib/assets";
 import { backLine, sports, type Sport } from "../../../lib/catalog/sports";
 import { CANON } from "../../../lib/copy/canon";
 import { ctaFor } from "../../../lib/cta";
-import { HomeSection, sectionId } from "./Section";
+import { HomeSection, sectionId, sectionIndex } from "./Section";
 
 export const SPORTS_H2 = "SEVENTEEN SPORTS. THEIR NAME, THEIR CLUB CREST.";
 export const SPORTS_SUBHEAD = `Numbered sports carry their number. ${CANON.numberlessLine}`;
 
-const TILE_SIZES = "(min-width: 1024px) 130px, (min-width: 640px) 17vw, (min-width: 480px) 21vw, 32vw";
+const TILE_SIZES = "(min-width: 1024px) 200px, (min-width: 640px) 22vw, (min-width: 480px) 29vw, 44vw";
 
-const PLATE = "overflow-hidden rounded-ui border border-hairline transition-[border-color] duration-hover ease-out group-hover:border-ink";
-
-/**
- * The mat's own box (review 2026-09-07). A 5 : 7 card drawn at 76 % of the width inside an 8 % inset is
- * 1.0538 × the mat's width tall, so a 4 : 5 mat left a black bar above and below every card. This ratio is
- * that height: the mat hugs the card, and the text tiles use the same box so the rows still line up.
- */
-const MEDIA = "aspect-[500/527]";
+/** The back line the subhead already states for every numbered sport — printed only where it differs. */
+const DEFAULT_BACK_LINE = "their number";
 
 function SportTile({ sport }: { sport: Sport }) {
   const face = assetOrNull(`sport.${sport.slug}.front`);
   const href = ctaFor("cards", { sport: sport.slug }).primary.href;
-  // No card export exists for this sport: a navy text tile that says the same two things the
-  // caption row says under a card tile — never a rounded export, never a placeholder card frame.
-  if (!face) {
-    return (
-      <li>
-        <Link href={href} className="group block">
-          <div className={PLATE}>
-            <div className={`flex ${MEDIA} items-center justify-center bg-navy p-[8%] text-center`}>
-              <span className="flex flex-col items-center gap-2">
-                <Shield tone="arena" size={40} />
-                <span className="font-display text-[1.0625rem] uppercase leading-[1.1] text-balance text-white lg:text-[1.25rem]">{sport.name}.</span>
-                <span className="font-label text-label font-semibold uppercase tracking-[0.12em] text-arena-muted">{backLine(sport)}</span>
-              </span>
-            </div>
-          </div>
-        </Link>
-      </li>
-    );
-  }
+  const line = backLine(sport);
   return (
     <li>
       <Link href={href} className="group block">
-        <div className={PLATE}>
-          <Mat tone="arena" plate={false} aspect={MEDIA}>
-            <div className="w-[76%]">
-              <CardFace {...face} labelled surface="arena" sizes={TILE_SIZES} />
-            </div>
-          </Mat>
+        {face ? (
+          <CardFace {...face} labelled surface="stock" sizes={TILE_SIZES} />
+        ) : (
+          // No card export exists for this sport yet: the same 5 : 7 box, the shield, and the caption
+          // row below saying exactly what a card tile's caption row says.
+          <span className="flex aspect-[5/7] w-full items-center justify-center rounded-none bg-navy shadow-[var(--shadow-card-stock)]">
+            <Shield tone="arena" size={44} />
+          </span>
+        )}
+        {/* One reserved height for the caption row, so a tile with a back line and a tile without it
+            are the same object. */}
+        <div className="mt-3 sm:min-h-[3.2em]">
+          <p className="font-body text-[0.9375rem] font-medium text-ink transition-[text-decoration-thickness] duration-hover ease-out group-hover:underline">{sport.name}</p>
+          {line === DEFAULT_BACK_LINE ? null : (
+            <p className="mt-1 font-body text-[0.75rem] font-medium leading-[1.4] tracking-[0.01em] text-muted-text">{line}</p>
+          )}
         </div>
-        <p className="mt-3 font-body text-[0.9375rem] font-medium text-ink">{sport.name}</p>
-        <p className="mt-1 font-body text-[0.75rem] font-medium leading-[1.4] tracking-[0.01em] text-muted-text">{backLine(sport)}</p>
       </Link>
     </li>
   );
@@ -69,14 +61,14 @@ function SportTile({ sport }: { sport: Sport }) {
 export function Sports() {
   return (
     <HomeSection n={7} container="gallery">
-      <SectionHeading as="h2" id={sectionId(7)} index="07 / 13" title={SPORTS_H2} subhead={SPORTS_SUBHEAD} />
+      <SectionHeading as="h2" id={sectionId(7)} index={sectionIndex(7)} title={SPORTS_H2} subhead={SPORTS_SUBHEAD} />
       {/* Two columns under 480 px: three made the card 68 px wide at 390 and nothing on it could be read. */}
-      <ul className="mt-8 grid grid-cols-2 gap-3 min-[480px]:grid-cols-3 sm:grid-cols-4 sm:gap-4 lg:mt-12 lg:grid-cols-6 lg:gap-6">
+      <ul className="mt-10 grid grid-cols-2 gap-x-5 gap-y-6 min-[480px]:grid-cols-3 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-8 lg:grid-cols-6 lg:gap-x-8">
         {sports.map((sport) => (
           <SportTile key={sport.slug} sport={sport} />
         ))}
       </ul>
-      <FictionalLabel className="mt-4" />
+      <FictionalLabel className="mt-6" />
     </HomeSection>
   );
 }

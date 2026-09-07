@@ -1,9 +1,7 @@
-// /guarantee — COPY §2.7, DESIGN §5.5 (stock; no imagery beyond the brackets — the authority is the
-// typesetting). GAPS #31 drops COPY's at-our-expense reprint clause from "Proof approval", and with
+// /guarantee — COPY §2.7, DESIGN §5.5 (stock; no imagery at all — the authority is the typesetting). GAPS #31 drops COPY's at-our-expense reprint clause from "Proof approval", and with
 // DELIVERED_COUNT = 0 the delivered-count sentence is not rendered at all.
 
 import Link from "next/link";
-import { BracketFrame } from "../../../components/BracketFrame";
 import { Breadcrumbs } from "../../../components/Breadcrumbs";
 import { CtaPair } from "../../../components/CtaPair";
 import { FounderNote } from "../../../components/FounderNote";
@@ -170,18 +168,22 @@ export default function GuaranteePage() {
             The opener is the home page's rhythm in two stretched columns (owner review 2026-09-07):
             the heading and its subhead on the left, the promise itself — the one exhibit this page
             has — beside them rather than a screen below. No imagery: on this page the authority is
-            the typesetting (DESIGN §5.5), so the object column is the bracketed paragraph.
+            the typesetting (DESIGN §5.5), so the object column is the promise itself, set larger.
           */}
           <div className="mt-6 lg:grid lg:grid-cols-12 lg:items-stretch lg:gap-x-8">
             <div className="lg:col-span-6">
               <SectionHeading as="h1" title="OUR PROMISE, IN WRITING." subhead="Because we are new, the risk of trying us is ours." />
             </div>
-            <div className="mt-8 lg:col-span-6 lg:mt-0">
-              <BracketFrame label="OUR PROMISE" className="lg:h-full">
-                <div className="flex h-full items-center rounded-ui bg-stock p-6 lg:p-10">
-                  <p className="max-w-[60ch] font-body text-[1.125rem] leading-[1.5] text-pretty text-ink">{block("our-promise")}</p>
-                </div>
-              </BracketFrame>
+            <div className="mt-8 lg:col-span-6 lg:mt-0 lg:h-full">
+              {/* The promise is prose, and prose never goes in a BracketFrame — the brackets are the
+                  audit mark of a process artefact (DESIGN §4.6), and around a paragraph they left
+                  ~90 px of empty stock inside the corners (owner review 2026-09-07). What sets the
+                  promise apart now is the setting: one accent rule, a larger measure, no box. */}
+              <div className="flex h-full items-center border-l-2 border-accent pl-6 lg:pl-8">
+                <p className="max-w-[54ch] font-body text-[1.25rem] leading-[1.45] text-pretty text-ink md:text-[1.375rem]">
+                  {block("our-promise")}
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -191,7 +193,10 @@ export default function GuaranteePage() {
       <section aria-labelledby="s-limits" className="pb-16 md:pb-24 lg:pb-32">
         <div className="container-site">
           <SectionHeading as="h2" id="s-limits" title="WHAT THAT MEANS, EXACTLY." />
-          <div className="mt-8 divide-y divide-hairline border-y border-hairline lg:mt-12">
+          {/* The heading sat 110 px above its first item, with a second full-width rule between the
+              two (owner review 2026-09-07): the list opens directly under the heading and rules only
+              between and below its items. */}
+          <div className="mt-6 divide-y divide-hairline border-b border-hairline">
             {LIMITS.map((limit) => (
               <div key={limit.title} className="py-6">
                 <h3 className="font-body text-[1rem] font-bold text-ink">{limit.title}</h3>
@@ -208,9 +213,12 @@ export default function GuaranteePage() {
           <SectionHeading as="h2" id="s-shipping" title="WHERE IT SHIPS FROM, AND WHEN." />
           <div className="mt-8 lg:mt-12">
             <ShippingTable />
+            {/* The table already says both clocks (the Timing column) and that the packages are
+                separate (one row each), so C12 and C10 were the table retyped as prose under it and
+                are dropped here (owner review 2026-09-07); both still stand on /how-it-works, in the
+                FAQ and in the terms. C11 is the one thing the table does not say — free in the US,
+                US only — so it stays. */}
             <p className="mt-6 max-w-[62ch] font-body text-small text-muted-text">{CANON.shipping}</p>
-            <p className="mt-2 max-w-[62ch] font-body text-small text-muted-text">{CANON.stagedDelivery}</p>
-            <p className="mt-2 max-w-[62ch] font-body text-small text-muted-text">{CANON.deliveryClocks}</p>
           </div>
         </div>
       </section>
@@ -251,8 +259,11 @@ export default function GuaranteePage() {
             </p>
             <FounderNote variant="signature" />
             <p className="mt-6 font-body text-body">
-              <Link href="/about" className="text-ink underline-offset-4 decoration-1 hover:underline">
-                About the studio
+              <Link
+                href="/about"
+                className="inline-flex min-h-11 items-center gap-1.5 text-ink underline-offset-4 decoration-1 hover:underline"
+              >
+                About the studio <span aria-hidden="true">&rarr;</span>
               </Link>
             </p>
             <div className="mt-12">

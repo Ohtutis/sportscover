@@ -7,9 +7,13 @@
 // (founderPhotoExists(), `about.founder` is still `locate`) — never a generated portrait, never a
 // reserved empty slot.
 
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Breadcrumbs } from "../../../components/Breadcrumbs";
+import { BracketFrame } from "../../../components/BracketFrame";
+import { CardFace } from "../../../components/CardFace";
+import { FictionalLabel } from "../../../components/FictionalLabel";
 import { CtaPair } from "../../../components/CtaPair";
 import { FounderNote } from "../../../components/FounderNote";
 import { JsonLd } from "../../../components/JsonLd";
@@ -17,6 +21,7 @@ import { Ledger } from "../../../components/Ledger";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { TrueNumbers } from "../../../components/TrueNumbers";
 import { TrustLine } from "../../../components/TrustLine";
+import { assetOrNull } from "../../../lib/assets";
 import { block } from "../../../lib/blocks";
 import { LABS_SENTENCE, visiblePartners } from "../../../lib/catalog/shipping";
 import { FILE_COUNTS, type TrueCountLink } from "../../../lib/catalog/tiers";
@@ -90,6 +95,32 @@ function Essay({ id, title, children }: { id: string; title: string; children: R
   );
 }
 
+/*
+ * The page had no image in 4,914 px — "who is asking for your athlete's photos" with nothing to look
+ * at, and three of five sections ending at x ≈ 838 of 1440 with the right half of the screen empty
+ * (owner review 2026-09-07). There is no founder photograph: `about.founder` is still `locate` and
+ * one is never generated. What this page CAN show truthfully is the studio's own work — the card
+ * back that carries the record, the proof a parent approves, the kit plate the crest is copied onto
+ * and a printed set — so each of those sections becomes text at its measure beside one object.
+ * Every one goes through `assetOrNull`, so a key that has not landed leaves the text alone.
+ */
+const cardBack = assetOrNull("cards.demo.back");
+const proofSheet = assetOrNull("show.proof.basketball");
+const kitPlate = assetOrNull("how.gate.kit");
+const printedSet = assetOrNull("life.set.printed");
+const posterRoom = assetOrNull("life.poster.room");
+
+/** Text at a 62ch measure on the left, one object on the right — the band this page repeats. */
+function Band({ children, object }: { children: ReactNode; object: ReactNode }) {
+  if (!object) return <>{children}</>;
+  return (
+    <div className="lg:grid lg:grid-cols-12 lg:items-center lg:gap-x-12">
+      <div className="lg:col-span-7">{children}</div>
+      <div className="mt-10 lg:col-span-5 lg:mt-0">{object}</div>
+    </div>
+  );
+}
+
 export default function AboutPage() {
   const complete = imprintComplete();
   const cta = ctaFor("home");
@@ -139,62 +170,153 @@ export default function AboutPage() {
             </div>
           </div>
           <div className="mt-8 lg:mt-12">
-            {STORY.map((para) => (
-              <p key={para.text.slice(0, 40)} className="mt-4 max-w-[62ch] font-body text-body text-pretty text-ink first:mt-0">
-                {para.lead ? <span className="font-medium">{para.lead} </span> : null}
-                {para.text}
-              </p>
-            ))}
-            <FounderNote variant="about" className="mt-8" />
+            <Band
+              object={
+                posterRoom ? (
+                  <figure>
+                    <Image
+                      src={posterRoom.src}
+                      alt={posterRoom.alt}
+                      width={posterRoom.width}
+                      height={posterRoom.height}
+                      sizes="(min-width: 1024px) 420px, 92vw"
+                      className="h-auto w-full rounded-ui"
+                    />
+                    <figcaption className="mt-3">
+                      <FictionalLabel />
+                    </figcaption>
+                  </figure>
+                ) : null
+              }
+            >
+              {STORY.map((para) => (
+                <p key={para.text.slice(0, 40)} className="mt-4 max-w-[62ch] font-body text-body text-pretty text-ink first:mt-0">
+                  {para.lead ? <span className="font-medium">{para.lead} </span> : null}
+                  {para.text}
+                </p>
+              ))}
+              <FounderNote variant="about" className="mt-8" />
+            </Band>
           </div>
         </div>
       </section>
 
-      {/* 2 — two essays */}
-      <section aria-label="Why the registry, and why you see it first" className="pb-16 md:pb-24 lg:pb-32">
-        <div className="container-site grid gap-x-12 gap-y-16 lg:grid-cols-2">
-          <Essay id="s-record" title="A CARD WITHOUT A RECORD IS A PHOTO PRINT.">
-            <p className="max-w-[62ch] font-body text-body text-pretty text-ink">{REGISTRY_ESSAY}</p>
-          </Essay>
-          <Essay id="s-first" title="WHY YOU SEE IT FIRST.">
-            <p className="max-w-[62ch] font-body text-body text-pretty text-ink">{PROOF_ESSAY}</p>
-            <p className="mt-4 font-body text-body">
-              <Link href="/how-it-works" className="text-ink underline-offset-4 decoration-1 hover:underline">
-                How it&rsquo;s made
-              </Link>
-            </p>
-          </Essay>
+      {/* 2 — the record, beside the object that carries it */}
+      <section aria-labelledby="s-record" className="pb-16 md:pb-24 lg:pb-32">
+        <div className="container-site">
+          <Band
+            object={
+              cardBack ? (
+                <div className="mx-auto w-[240px] lg:w-[300px]">
+                  <CardFace {...cardBack} sizes="(min-width: 1024px) 300px, 240px" />
+                </div>
+              ) : null
+            }
+          >
+            <Essay id="s-record" title="A CARD WITHOUT A RECORD IS A PHOTO PRINT.">
+              <p className="max-w-[62ch] font-body text-body text-pretty text-ink">{REGISTRY_ESSAY}</p>
+            </Essay>
+          </Band>
         </div>
       </section>
 
-      {/* 3 — independence and marks */}
+      {/* 3 — the proof, beside the proof */}
+      <section aria-labelledby="s-first" className="pb-16 md:pb-24 lg:pb-32">
+        <div className="container-site">
+          <Band
+            object={
+              proofSheet ? (
+                <BracketFrame label="PROOF — NOT FINAL" fictional>
+                  <Image
+                    src={proofSheet.src}
+                    alt={proofSheet.alt}
+                    width={proofSheet.width}
+                    height={proofSheet.height}
+                    sizes="(min-width: 1024px) 420px, 92vw"
+                    className="h-auto w-full rounded-none"
+                  />
+                </BracketFrame>
+              ) : null
+            }
+          >
+            <Essay id="s-first" title="WHY YOU SEE IT FIRST.">
+              <p className="max-w-[62ch] font-body text-body text-pretty text-ink">{PROOF_ESSAY}</p>
+              <p className="mt-4 font-body text-body">
+                <Link
+                  href="/how-it-works"
+                  className="inline-flex min-h-11 items-center gap-1.5 text-ink underline-offset-4 decoration-1 hover:underline"
+                >
+                  How it&rsquo;s made <span aria-hidden="true">&rarr;</span>
+                </Link>
+              </p>
+            </Essay>
+          </Band>
+        </div>
+      </section>
+
+      {/* 4 — independence and marks, beside the plate the crest is copied onto */}
       <section aria-labelledby="s-independent" className="pb-16 md:pb-24 lg:pb-32">
         <div className="container-site">
-          <SectionHeading as="h2" id="s-independent" title="INDEPENDENT, AND WHAT THAT MEANS FOR YOUR CREST." />
-          <div className="mt-8 lg:mt-12">
-            <p className="max-w-[62ch] font-body text-body text-pretty text-ink">{block("independent-studio")}</p>
-            <p className="mt-4 max-w-[62ch] font-body text-body text-pretty text-ink">{block("logo-sentence")}</p>
-            <p className="mt-4 max-w-[62ch] font-body text-body font-medium text-pretty text-ink">
-              Your school or club&rsquo;s own crest is yours to use and ours to copy exactly; a league mark is neither.
-            </p>
-          </div>
+          <Band
+            object={
+              kitPlate ? (
+                <BracketFrame label="KIT PLATE · FRONT" fictional>
+                  <Image
+                    src={kitPlate.src}
+                    alt={kitPlate.alt}
+                    width={kitPlate.width}
+                    height={kitPlate.height}
+                    sizes="(min-width: 1024px) 380px, 92vw"
+                    className="h-auto w-full rounded-none"
+                  />
+                </BracketFrame>
+              ) : null
+            }
+          >
+            <SectionHeading as="h2" id="s-independent" title="INDEPENDENT, AND WHAT THAT MEANS FOR YOUR CREST." />
+            <div className="mt-6">
+              <p className="max-w-[62ch] font-body text-body text-pretty text-ink">{block("independent-studio")}</p>
+              <p className="mt-4 max-w-[62ch] font-body text-body text-pretty text-ink">{block("logo-sentence")}</p>
+              <p className="mt-4 max-w-[62ch] font-body text-body font-medium text-pretty text-ink">
+                Your school or club&rsquo;s own crest is yours to use and ours to copy exactly; a league mark is neither.
+              </p>
+            </div>
+          </Band>
         </div>
       </section>
 
-      {/* 4 — studio and partners (+ the imprint fallback while GAPS #19 holds) */}
+      {/* 5 — studio and partners (+ the imprint fallback while GAPS #19 holds) */}
       <section aria-labelledby="s-studio" className="pb-16 md:pb-24 lg:pb-32">
         <div className="container-site">
-          <SectionHeading as="h2" id="s-studio" title="DESIGNED IN LITHUANIA. PRINTED IN THE US." />
-          <div className="mt-8 lg:mt-12">
-            <p className="max-w-[62ch] font-body text-body font-medium text-pretty text-ink">
-              Every edition is designed at the studio in Lithuania and printed by professional labs in the United States:
-            </p>
-            <Ledger className="mt-6" rows={partners.map((p) => ({ id: `partner-${p.key}`, key: p.name, value: p.makes }))} />
-            <p className="mt-6 max-w-[62ch] font-body text-body text-pretty text-ink">{LABS_SENTENCE}</p>
-            {complete ? null : (
-              <p className="mt-6 max-w-[62ch] font-body text-small text-muted-text">{IMPRINT_FALLBACK}</p>
-            )}
-          </div>
+          <Band
+            object={
+              printedSet ? (
+                <figure>
+                  <Image
+                    src={printedSet.src}
+                    alt={printedSet.alt}
+                    width={printedSet.width}
+                    height={printedSet.height}
+                    sizes="(min-width: 1024px) 420px, 92vw"
+                    className="h-auto w-full rounded-ui"
+                  />
+                  <figcaption className="mt-3">
+                    <FictionalLabel />
+                  </figcaption>
+                </figure>
+              ) : null
+            }
+          >
+            <SectionHeading as="h2" id="s-studio" title="DESIGNED IN LITHUANIA. PRINTED IN THE US." />
+            <div className="mt-6">
+              <p className="max-w-[62ch] font-body text-body font-medium text-pretty text-ink">
+                Every edition is designed at the studio in Lithuania and printed by professional labs in the United States:
+              </p>
+              <Ledger className="mt-6" rows={partners.map((p) => ({ id: `partner-${p.key}`, key: p.name, value: p.makes }))} />
+              <p className="mt-6 max-w-[62ch] font-body text-body text-pretty text-ink">{LABS_SENTENCE}</p>
+              {complete ? null : <p className="mt-6 max-w-[62ch] font-body text-small text-muted-text">{IMPRINT_FALLBACK}</p>}
+            </div>
+          </Band>
         </div>
       </section>
 

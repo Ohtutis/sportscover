@@ -8,7 +8,7 @@ import { SectionHeading } from "../../../components/SectionHeading";
 import { StatusChip } from "../../../components/StatusChip";
 import { asset } from "../../../lib/assets";
 import { block } from "../../../lib/blocks";
-import { HomeSection, sectionId } from "./Section";
+import { HomeSection, sectionId, sectionIndex } from "./Section";
 
 export const PROCESS_H2 = "MADE BY A PERSON. AI IS IN THE TOOLBOX.";
 export const PROCESS_LEAD =
@@ -29,15 +29,22 @@ export function Process() {
   const proof = asset("home.process.proof");
   return (
     <HomeSection n={8}>
-      <SectionHeading as="h2" id={sectionId(8)} index="08 / 13" title={PROCESS_H2} />
+      <SectionHeading as="h2" id={sectionId(8)} index={sectionIndex(8)} title={PROCESS_H2} />
       <p className="mt-8 max-w-[62ch] font-body text-[1.125rem] font-medium text-pretty">{PROCESS_LEAD}</p>
       <p className="mt-4 max-w-[62ch] font-body text-body text-pretty">{block("how-its-made")}</p>
-      {/* items-start: a stretched grid cell makes all three frames as tall as the tallest, so the
-          accent corners of the two short ones sit hundreds of pixels below their caption. Each
-          bracket frame wraps its own content. */}
-      <div className="mt-8 grid items-start gap-6 md:grid-cols-3 lg:mt-12">
-        <BracketFrame label="PHOTO CHECK · VERDICT" caption="Photo check — the verdict, as the parent reads it">
+      {/*
+        items-stretch + `fill`: the three exhibits are one row of evidence, so their accent corners
+        have to agree. Left to itself the verdict ledger ran 659 px while the two photographs ran 366
+        and 358 — a 293 px ragged bottom (owner review 2026-09-07). Now every frame takes the row's
+        height and each photograph is DRAWN at that height (object-contain, so nothing is cropped);
+        the ledger stacks its key above its value, because at 138 px of value column it was setting
+        22 characters to a line.
+      */}
+      <div className="mt-10 grid items-stretch gap-8 md:grid-cols-3">
+        <BracketFrame label="PHOTO CHECK · VERDICT" caption="Photo check — the verdict, as the parent reads it" fill>
           <Ledger
+            stacked
+            className="h-full"
             rows={VERDICT_ROWS.map((row) => ({
               key: <StatusChip status={row.status} />,
               value: <span className="text-[0.8125rem]">{row.text}</span>,
@@ -45,18 +52,18 @@ export function Process() {
             }))}
           />
         </BracketFrame>
-        <BracketFrame label="REFERENCE PLATE · THREE VIEWS" caption="Reference plate — approved and locked before a single pose" fictional>
-          <div className="relative aspect-[1600/1195] w-full">
+        <BracketFrame label="REFERENCE PLATE · THREE VIEWS" caption="Reference plate — approved and locked before a single pose" fictional fill>
+          <div className="relative h-full min-h-[220px] w-full">
             <Image src={plate.src} alt={plate.alt} fill sizes={THUMB_SIZES} className="object-contain" />
           </div>
         </BracketFrame>
-        <BracketFrame label="PROOF — NOT FINAL" caption="Watermarked proof — what you approve" fictional>
-          <div className="relative aspect-[1400/1092] w-full">
+        <BracketFrame label="PROOF — NOT FINAL" caption="Watermarked proof — what you approve" fictional fill>
+          <div className="relative h-full min-h-[220px] w-full">
             <Image src={proof.src} alt={proof.alt} fill sizes={THUMB_SIZES} className="object-contain" />
           </div>
         </BracketFrame>
       </div>
-      <div className="mt-8">
+      <div className="mt-10">
         <ButtonLink href="/how-it-works">See the full process</ButtonLink>
       </div>
     </HomeSection>

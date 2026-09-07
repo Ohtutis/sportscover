@@ -10,22 +10,30 @@ import { Families } from "../app/(marketing)/_home/Families";
 import { Fears } from "../app/(marketing)/_home/Fears";
 import { Finishes } from "../app/(marketing)/_home/Finishes";
 import { Founder } from "../app/(marketing)/_home/Founder";
-import { HERO_H1, HERO_STORY_SUMMARY, HERO_SUBHEAD, Hero, sportFromAlt, storyScenes } from "../app/(marketing)/_home/Hero";
-import { STORY_LABELS } from "../app/(marketing)/_home/HeroStory";
+import { HERO_H1, HERO_SECONDARY, HERO_STORY_SUMMARY, HERO_SUBHEAD, Hero, sceneChips, sportFromAlt, storyScenes, styleFromAlt } from "../app/(marketing)/_home/Hero";
+import { STORY_BEATS, STORY_LABELS } from "../app/(marketing)/_home/HeroStory";
+import { HeroStrip, stripCells } from "../app/(marketing)/_home/HeroStrip";
 import { Occasions } from "../app/(marketing)/_home/Occasions";
 import { Photos } from "../app/(marketing)/_home/Photos";
 import { Process } from "../app/(marketing)/_home/Process";
 import { ProofBand } from "../app/(marketing)/_home/ProofBand";
-import { ProofWall } from "../app/(marketing)/_home/ProofWall";
+import { GALLERY_SPORTS, ProofWall } from "../app/(marketing)/_home/ProofWall";
 import { Registered } from "../app/(marketing)/_home/Registered";
+import { HOME_INDEXED_SECTIONS, HOME_SECTION_COUNT, sectionIndex } from "../app/(marketing)/_home/Section";
 import { Sports } from "../app/(marketing)/_home/Sports";
 import { metadata } from "../app/(marketing)/page";
 import { SITE_ASSETS, hasAsset } from "../lib/assets";
-import { CHIPS } from "../lib/catalog/delivery";
+import { CHIPS, LEAD_TIMES } from "../lib/catalog/delivery";
+import { formatUsd, fromPrice } from "../lib/catalog/prices";
 import { sports } from "../lib/catalog/sports";
-import { styles } from "../lib/catalog/styles";
+import { finishes, styles } from "../lib/catalog/styles";
+import { getCard, registeredAtOf } from "../lib/registry/cards";
 import { CANON } from "../lib/copy/canon";
+import { CTA_LABELS, ctaFor } from "../lib/cta";
+import { formatEt } from "../lib/capacity";
 import { publishedReviews } from "../lib/reviews";
+import { TRUE_COUNT_LINKS } from "../lib/catalog/tiers";
+import { TrueNumbers } from "../components/TrueNumbers";
 import { PAGES } from "../lib/seo/titles";
 
 const NOW = new Date("2026-09-07T12:00:00-04:00");
@@ -54,7 +62,10 @@ const SECTION_ORDER = [
   "Occasions",
 ] as const;
 
-const SECTIONS: { name: (typeof SECTION_ORDER)[number]; html: string }[] = [
+/** What page.tsx mounts, in source order: the twelve sections plus the hero's own strip. */
+const PAGE_COMPONENTS = ["Hero", "HeroStrip", ...SECTION_ORDER.slice(1)] as const;
+
+const SECTIONS: { name: (typeof SECTION_ORDER)[number] | "HeroStrip"; html: string }[] = [
   { name: "Hero", html: renderToStaticMarkup(createElement(Hero, { now: NOW })) },
   { name: "Fears", html: renderToStaticMarkup(createElement(Fears)) },
   { name: "Families", html: renderToStaticMarkup(createElement(Families, { now: NOW })) },
@@ -67,6 +78,9 @@ const SECTIONS: { name: (typeof SECTION_ORDER)[number]; html: string }[] = [
   { name: "ProofWall", html: renderToStaticMarkup(createElement(ProofWall)) },
   { name: "Founder", html: renderToStaticMarkup(createElement(Founder)) },
   { name: "Occasions", html: renderToStaticMarkup(createElement(Occasions, { now: NOW })) },
+  // The strip is part of section 01 (it carries the numbers the hero used to), not a fourteenth
+  // section. It is appended LAST so every SECTIONS[n] index above keeps its meaning.
+  { name: "HeroStrip", html: renderToStaticMarkup(createElement(HeroStrip, { now: NOW })) },
 ];
 
 /** renderToStaticMarkup escapes text; compare against the copy as it was written. */
@@ -111,18 +125,25 @@ describe("home — metadata", () => {
 });
 
 describe("home — section order", () => {
-  it("renders the twelve sections of DESIGN §5.1 in order", () => {
+  it("renders the twelve sections of DESIGN §5.1 in order, with the hero strip under section 01", () => {
     const source = read(PAGE_FILE);
     const rendered = [...source.matchAll(/<([A-Z][A-Za-z]*)[\s/>]/g)].map((m) => m[1]);
-    expect(rendered).toEqual([...SECTION_ORDER]);
+    expect(rendered).toEqual([...PAGE_COMPONENTS]);
   });
 
-  it("numbers the sections 01 / 13 … 12 / 13", () => {
-    for (let n = 1; n <= 12; n += 1) {
-      const index = `${String(n).padStart(2, "0")} / 13`;
-      if (n === 1) continue; // the hero opens on the H1, with no rule and no index (DESIGN §5.1-01)
+  it("counts 01 … 11 with no gap: the spine numbers what it actually prints", () => {
+    // The counter used to read "02 / 13 … 12 / 13" — it began at 02, ended at 12 and promised a 13
+    // nobody ever sees (the hero carries no index and the footer is the layout's). On a page whose
+    // pitch is that everything is counted, the counter has to count (owner review 2026-09-07).
+    expect(HOME_SECTION_COUNT).toBe(HOME_INDEXED_SECTIONS.length);
+    for (let at = 1; at <= HOME_SECTION_COUNT; at += 1) {
+      const index = `${String(at).padStart(2, "0")} / ${HOME_SECTION_COUNT}`;
       expect(PAGE_HTML, `missing section index ${index}`).toContain(index);
     }
+    expect(PAGE_HTML, "the spine still promises a section it never prints").not.toContain(`/ ${HOME_SECTION_COUNT + 1}`);
+    // The anchor ids do NOT move with the printed index: the hero links #s-08 and /registry is #s-05.
+    expect(HOME_INDEXED_SECTIONS).toEqual([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+    expect(PAGE_HTML).toContain('id="s-08"');
   });
 
   it("has exactly one h1 and twelve section landmarks", () => {
@@ -139,7 +160,9 @@ describe("home — truth lint", () => {
   });
 
   it("renders prices through formatUsd all the same", () => {
-    expect(PAGE_TEXT).toMatch(/from \$\d+\.\d\d digital · \$\d+\.\d\d printed set/);
+    // The hero carries no price now (owner review): the one above-the-fold figure is the strip's.
+    expect(text(SECTIONS[0].html)).not.toMatch(/\$\d/);
+    expect(PAGE_TEXT).toMatch(/from \$\d+\.\d\d/);
   });
 
   it("says nothing the ban list forbids", () => {
@@ -198,38 +221,146 @@ describe("home — performance budget", () => {
     }
   });
 
-  it("makes one delivery claim — the standard chips, same wording in the hero and the closing CTA", () => {
+  it("makes one delivery claim per block — the strip above the fold, the standard chips in the closing CTA", () => {
     expect(PAGE_TEXT).not.toContain(CHIPS.seniorNight.split(" · ")[0]);
-    for (const chip of CHIPS.standard.split(" · ")) expect(count(PAGE_TEXT, `>${chip}<`)).toBe(2);
+    // The hero itself makes none: the owner asked for the clock to move below the headline.
+    for (const chip of CHIPS.standard.split(" · ")) {
+      expect(text(SECTIONS[0].html)).not.toContain(chip);
+      expect(count(PAGE_TEXT, `>${chip}<`)).toBe(1);
+    }
   });
 });
 
 describe("home — the 2026-09-07 design review", () => {
-  it("§07 falls to two columns under 480 px and the mat hugs the 5 : 7 card (no letterbox bars)", () => {
+  it("§07 falls to two columns under 480 px and every tile IS the card — no plate, no dead ground", () => {
     const src = read(path.join(HOME_DIR, "Sports.tsx"));
     expect(src).toContain("grid-cols-2");
     expect(src).toContain("min-[480px]:grid-cols-3");
     expect(src).not.toContain("aspect-[4/5]");
-    expect(SECTIONS[6].html).toContain("aspect-[500/527]");
+    // The plate is gone (it held a 120 px card in a 191 px box); the card floats in its own 5 : 7 box,
+    // and the two sports with no export use that same box (owner review 2026-09-07).
+    expect(src).not.toContain("<Mat");
+    expect(src).not.toContain("aspect-[500/527]");
+    expect(SECTIONS[6].html).toContain("aspect-[5/7]");
+    expect(count(SECTIONS[6].html, "aspect-[5/7]")).toBe(sports.length);
+    // The back line is printed only where it differs from the rule the subhead states.
+    const numbered = sports.filter((s) => s.numbered && s.hasBackNumber);
+    expect(numbered.length).toBeGreaterThan(1);
+    expect(count(text(SECTIONS[6].html), ">their number<")).toBe(0);
+    expect(text(SECTIONS[6].html)).toContain("plain back");
   });
 
-  it("§06 reserves the finish name two lines, so the material lines align across the row", () => {
+  it("§06 says SIX over six tiles, and the seventh style stands on its own", () => {
+    // The heading said SIX over a row of SEVEN, and the seventh tile — the only one with a pill — sat
+    // 44 px off the row's baseline (owner review 2026-09-07). Senior Night is an occasion, not a
+    // finish: it is its own item under the row now.
     expect(SECTIONS[5].html).toContain("min-h-[2.6em]");
-    // One name element per tile — the two identical branches of the old ternary are gone.
-    expect(count(SECTIONS[5].html, "min-h-[2.6em]")).toBe(styles.length);
+    expect(count(SECTIONS[5].html, "min-h-[2.6em]")).toBe(finishes.length);
+    expect(finishes).toHaveLength(6);
+    expect(text(SECTIONS[5].html)).toContain("SIX FINISHES. ONE ATHLETE.");
+    expect(text(SECTIONS[5].html)).toContain("SENIOR NIGHT EDITION");
+    // Six tiles in the row, three columns from md up — never seven across a 167 px grid.
+    expect(SECTIONS[5].html).toContain("md:grid-cols-3");
+    expect(SECTIONS[5].html).not.toContain("grid-cols-7");
+    // No plate under the art: the face floats on the page's own stock (DESIGN §4.5 as revised).
+    expect(read(path.join(HOME_DIR, "Finishes.tsx"))).not.toContain("<Mat");
   });
 
   it("§11 rules left like every other section — no centred rule, no centred index", () => {
     const src = read(path.join(HOME_DIR, "Founder.tsx"));
     expect(src).not.toContain('align="center"');
     expect(SECTIONS[10].html).not.toContain("justify-center");
-    expect(SECTIONS[10].html).toContain("11 / 13");
+    expect(SECTIONS[10].html).toContain(sectionIndex(11));
   });
 
   it("§10 gives the rejected pair the widest column of the three", () => {
     const src = read(path.join(HOME_DIR, "ProofWall.tsx"));
     expect(src).toContain("lg:col-span-5");
     expect(src).not.toMatch(/lg:col-span-4">\s*<BlockTitle>\{PAIR_TITLE\}/);
+  });
+});
+
+/**
+ * The third owner review of 2026-09-07, in substance: "in many places the blocks have fallen in
+ * wrongly — everything is too crammed. It must be much cleaner and stronger." What that meant, block
+ * by block, was measured at 1440 and at 390 and is recorded in docs/f1/INTEGRATION-NOTES.md
+ * "fix-C-home"; these are the invariants of the fixes.
+ */
+describe("home — the third design review (blocks, rhythm, targets)", () => {
+  const src = (file: string): string => read(path.join(HOME_DIR, file));
+
+  it("spends the air INSIDE the blocks: 96 px between bands, never 128", () => {
+    const section = src("Section.tsx");
+    expect(section).toContain("py-12 md:py-20 lg:py-24");
+    expect(section).not.toContain("lg:py-32");
+    // Nothing inside a block opens at less than 24 px any more.
+    for (const file of ["Families.tsx", "Finishes.tsx", "Sports.tsx", "Process.tsx", "ProofWall.tsx", "Occasions.tsx"]) {
+      expect(src(file), `${file} still opens its content at mt-8 or less`).toMatch(/mt-10|mt-12/);
+    }
+  });
+
+  it("§04 puts its pill on the rule row, where every other section's pill sits", () => {
+    expect(src("ProofBand.tsx")).toContain("rail={<Pill tone=\"accent\">");
+    const html = SECTIONS[3].html;
+    expect(text(html).indexOf("YOU SEE IT FIRST")).toBeLessThan(text(html).indexOf("NOTHING PRINTS UNTIL YOU SAY SO."));
+  });
+
+  it("§05 runs the lookup full width under the row — the card column can no longer end 300 px early", () => {
+    const html = SECTIONS[4].html;
+    expect(html.indexOf('action="/registry/lookup"')).toBeGreaterThan(html.indexOf("GDE-SN-BKB-2026-12"));
+    expect(html).toContain("border-t border-hairline pt-8");
+    // And the card floats: a dark card on a dark 8 % mat filled 74 % of its plate.
+    expect(src("Registered.tsx")).not.toContain("<Mat");
+  });
+
+  it("§08 draws its three exhibits at one height and stacks the verdict's keys", () => {
+    const process = src("Process.tsx");
+    expect(process).toContain("items-stretch");
+    expect(process).not.toContain("items-start");
+    expect(count(process, "fill>")).toBe(3);
+    expect(process).toContain("<Ledger\n            stacked");
+  });
+
+  it("§10 shows four editions you can read, stacks the pair on a phone and credits the group once", () => {
+    expect(GALLERY_SPORTS).toHaveLength(4);
+    const pair = read(path.join(process.cwd(), "components", "ProofRejectedPair.tsx"));
+    expect(pair).toContain("flex-col");
+    expect(pair).toContain("md:flex-row");
+    // One C13 in the section: the pair carries it for everything on the wall.
+    expect(count(text(SECTIONS[9].html), CANON.fictionalLabel)).toBe(1);
+    expect(text(SECTIONS[9].html)).toContain(CANON.galleryCaption);
+  });
+
+  it("§12 reads image → heading → sentence → caption → CTA, with ONE filled button", () => {
+    const html = SECTIONS[11].html;
+    const t = text(html);
+    const h3 = t.indexOf("ONE LAST HOME GAME.");
+    const caption = t.indexOf("A family on the court with the framed poster");
+    if (caption >= 0) expect(h3).toBeLessThan(caption);
+    expect(t.indexOf("A gold senior edition")).toBeLessThan(caption >= 0 ? caption : t.length);
+    // The senior night is the offer; the team plate is a quiet link. The second filled button is the
+    // page's own closing CTA.
+    expect(count(html, "bg-accent text-ink")).toBe(2);
+  });
+
+  it("every tap target in this page's own chrome is 44 px", () => {
+    expect(src("Section.tsx")).toContain("min-h-11");
+    expect(src("Section.tsx")).not.toContain("min-h-6");
+    expect(read(path.join(process.cwd(), "components", "SiteFooter.tsx"))).toContain("min-h-11");
+    expect(read(path.join(process.cwd(), "components", "FourFears.tsx"))).toContain("min-h-11");
+  });
+
+  it("the footer's true numbers are all numbers, on one baseline, and never underlined", () => {
+    for (const item of TRUE_COUNT_LINKS) {
+      expect(item.numeral, `${item.label} carries no figure`).toBe(true);
+      expect(item.figure, `${item.figure} is not a figure`).toMatch(/\d/);
+    }
+    const html = renderToStaticMarkup(createElement(TrueNumbers, { tone: "arena" }));
+    // One fixed-height figure row per cell → the sentences under them start at one height.
+    expect(count(html, "flex h-8 items-end md:h-11")).toBe(TRUE_COUNT_LINKS.length);
+    // The hover underline belongs to the sentence, never to the numeral.
+    expect(html).not.toMatch(/<a [^>]*hover:underline/);
+    expect(count(html, "group-hover:underline")).toBe(TRUE_COUNT_LINKS.length);
   });
 });
 
@@ -297,7 +428,7 @@ describe("home — real life, and more than one athlete", () => {
     for (const article of articles) expect(article).toContain("<img");
     for (const keys of [
       ["life.card.desk", "life.card.case", "life.card.binder", "life.card.hand"],
-      ["life.poster.room.baseball", "life.poster.room", "life.poster.room.wide"],
+      ["life.poster.room.wide", "life.poster.room", "life.poster.room.baseball"],
       ["life.set.printed", "life.set.deluxe"],
     ]) {
       const key = resolved(keys);
@@ -339,61 +470,121 @@ describe("home — real life, and more than one athlete", () => {
 });
 
 // ---------------------------------------------------------------------------------------------
-// §01 · the hero story (owner review, 2026-09-07). Three complaints, three groups of assertions:
-// the claims must not read as buttons, the art must tell the story, and the columns must line up.
+// §01 · the hero (second owner review, 2026-09-07). His words, in substance: the sliders are messy,
+// the grey plate behind them is wrong, one photo is not how the edition is really made, "look up a
+// card" is not the most important thing to offer, and the price and the delivery clock belong lower
+// down. The hero must seduce. Four groups: the message, the story, the strip, the alignment.
 // ---------------------------------------------------------------------------------------------
-describe("home §01 — the claims are labels, not buttons", () => {
+describe("home §01 — one message, one button", () => {
   const heroHtml = SECTIONS[0].html;
-  const claim = (label: string): string => {
-    const m = new RegExp(`<span class="([^"]*)"[^>]*>(?:<span[^>]*></span>)?${label}</span>`).exec(heroHtml);
-    expect(m, `no claim element for ${label}`).not.toBeNull();
-    return m![1];
-  };
+  const t = text(heroHtml);
 
-  it("neither claim wears the button geometry (no pill radius, no fill, no border, no button height)", () => {
-    for (const label of ["FROM YOUR PHOTOS", "REGISTERED EDITION"]) {
-      const cls = claim(label);
-      expect(cls, `${label} still looks like a lozenge`).not.toMatch(/rounded-pill|rounded-ui/);
-      expect(cls, `${label} is filled like the primary button`).not.toContain("bg-accent");
-      expect(cls, `${label} is outlined like the secondary button`).not.toMatch(/\bborder\b/);
-      expect(cls, `${label} keeps the 32 px chip height`).not.toContain("h-8");
-      expect(cls).toContain("font-label");
-    }
-  });
-
-  it("keeps exactly one accent claim, and only as a tick — never as running accent text", () => {
-    const accent = /<span aria-hidden="true" class="inline-block h-3 w-\[3px\] shrink-0 bg-accent"><\/span>/g;
-    expect(heroHtml.match(accent)?.length).toBe(1);
-    expect(claim("FROM YOUR PHOTOS")).not.toContain("text-accent");
-    expect(claim("REGISTERED EDITION")).not.toContain("text-accent");
-  });
-
-  it("still says what COPY §2.1-1 says, in the D12 order title → subhead → claims", () => {
-    const t = text(heroHtml);
+  it("says the H1, the subhead and nothing else — no claims, no price, no chips, no trust line", () => {
     expect(t).toContain(HERO_H1);
     expect(t).toContain(HERO_SUBHEAD);
     expect(t.indexOf(HERO_H1)).toBeLessThan(t.indexOf(HERO_SUBHEAD));
-    expect(t.indexOf(HERO_SUBHEAD)).toBeLessThan(t.indexOf("FROM YOUR PHOTOS"));
+    for (const gone of ["FROM YOUR PHOTOS", "REGISTERED EDITION", CANON.trustLine.split(" · ")[0], "printed set", "digital ·"]) {
+      expect(t, `${gone} is still in the hero`).not.toContain(gone);
+    }
+    expect(heroHtml, "the delivery chips are still in the hero").not.toContain('aria-label="Delivery times"');
+  });
+
+  it("offers ONE primary action and one quiet link to the proof — never a second offer", () => {
+    const { primary, secondary } = ctaFor("home");
+    expect(t).toContain(primary.label);
+    expect(secondary?.label).toBe(CTA_LABELS.lookUpACard);
+    expect(t, "the registry lookup is still competing with the order button").not.toContain(CTA_LABELS.lookUpACard);
+    expect(t).toContain(HERO_SECONDARY.label);
+    // The quiet link is a text link to §08, not a button: no button geometry anywhere near it.
+    expect(heroHtml).toContain(`href="${HERO_SECONDARY.href}"`);
+    expect(HERO_SECONDARY.href).toBe("#s-08");
+    // One filled button, and the quiet link wears no button geometry at all.
+    expect(count(heroHtml, "bg-accent text-ink")).toBe(1);
+    const link = new RegExp(`<a href="${HERO_SECONDARY.href}" class="([^"]*)"`).exec(heroHtml);
+    expect(link).not.toBeNull();
+    expect(link![1]).not.toMatch(/rounded|border|bg-/);
+  });
+
+  it("keeps the accent for the one button and the one registry mark per scene", () => {
+    const scenes = storyScenes();
+    const ticks = heroHtml.match(/<span aria-hidden="true" class="inline-block h-3 w-\[3px\] shrink-0 bg-accent"><\/span>/g) ?? [];
+    expect(ticks.length).toBe(scenes.filter((s) => s.registered).length);
+    expect(heroHtml).not.toContain("text-accent");
   });
 });
 
 describe("home §01 — the story", () => {
   const heroHtml = SECTIONS[0].html;
+  const heroSrc = read(path.join(HOME_DIR, "Hero.tsx"));
   const scenes = storyScenes();
 
   it("builds only from scenes that are complete, and always has at least one", () => {
     expect(scenes.length).toBeGreaterThanOrEqual(1);
     expect(scenes.length).toBeLessThanOrEqual(3);
     for (const s of scenes) {
-      expect(s.before.src).toMatch(/^\/images\//);
+      expect(s.deck.length).toBeGreaterThanOrEqual(1);
+      expect(s.deck.length).toBeLessThanOrEqual(4);
+      for (const photo of s.deck) expect(photo.src).toMatch(/^\/images\//);
       expect(s.front.src).toMatch(/^\/images\//);
     }
     expect(count(heroHtml, 'data-story-scene=""')).toBe(scenes.length);
   });
 
+  it("deals the athlete's OWN photos — every one of them, never a stand-in from another scene", () => {
+    // The owner's complaint: "why do we show it is made from ONE photo when in reality it is from more".
+    // Whatever the manifest has landed (1 while the deck keys are built, up to 4 after), all of it is dealt.
+    const dealt = count(heroHtml, 'data-story-part="photo"');
+    expect(dealt).toBe(scenes.reduce((n, s) => n + s.deck.length, 0));
+    expect(count(heroHtml, "object-cover")).toBe(dealt);
+    // One hand per scene: four fan positions, four pile positions, four turns 150 ms apart.
+    expect(heroSrc).toContain('"--deal-delay"');
+    expect(heroSrc).toMatch(/delay: "0ms".*\n.*delay: "150ms".*\n.*delay: "300ms".*\n.*delay: "450ms"/);
+  });
+
+  it("floats — the grey plate the owner asked about is gone, and nothing replaced it", () => {
+    expect(heroSrc).not.toContain("bg-hairline");
+    expect(heroSrc).not.toContain("<Mat");
+    expect(heroSrc).not.toContain("<Plate");
+    expect(heroHtml).not.toContain("bg-hairline");
+    // What holds the composition together instead: the shadow every object already carries.
+    expect(heroHtml).toContain("shadow-[var(--shadow-card-stock)]");
+  });
+
+  it("reports the real steps beside the art, in the order they happen", () => {
+    for (const scene of scenes) {
+      const chips = sceneChips(scene);
+      expect(chips[0]).toBe(`${scene.deck.length} photo${scene.deck.length === 1 ? "" : "s"} in`);
+      expect(chips[1]).toBe("Reference plate locked");
+      expect(chips[2]).toBe("Proof approved");
+      for (const chip of chips) expect(text(heroHtml)).toContain(chip);
+    }
+    expect(count(heroHtml, 'data-story-chips=""')).toBe(scenes.length);
+  });
+
+  it("reads the registration date out of the registry — a date typed here would go stale", () => {
+    expect(heroSrc).toContain("registeredAtOf");
+    expect(heroSrc, "a registration date is written into the hero").not.toMatch(/"20\d\d-\d\d-\d\d"/);
+    const marcus = getCard("GDE-SN-BKB-2026-12");
+    expect(marcus).toBeDefined();
+    const scene = scenes.find((s) => s.sport?.slug === "basketball");
+    if (scene?.registered) {
+      expect(scene.registered).toBe(`Registered · ${formatEt(registeredAtOf(marcus!), "medium")}`);
+      expect(text(heroHtml)).toContain(scene.registered);
+    }
+  });
+
+  it("labels each scene with its sport and its finish, both read off the asset's own alt line", () => {
+    expect(styleFromAlt("Custom softball trading card front — Senior Night finish")?.code).toBe("SR");
+    expect(styleFromAlt("Custom basketball trading card front — Stadium Night finish")?.code).toBe("SN");
+    expect(styleFromAlt("A phone photo of nothing in particular")).toBeUndefined();
+    for (const s of scenes) {
+      if (s.sport && s.style) expect(text(heroHtml)).toContain(`${s.sport.name} · ${s.style.name}`);
+    }
+  });
+
   it("names an unknown key rather than rendering an empty box", () => {
-    // `hero.story.<n>.*` may not be in the manifest yet; resolving must not throw and must not
-    // produce a src-less <img>. Every rendered image is a real, verified output.
+    // `hero.story.<n>.before.<i>` may not be in the manifest yet; resolving must not throw and must
+    // not produce a src-less <img>. Every rendered image is a real, verified output.
     for (const img of heroHtml.split("<img").slice(1)) {
       const tag = img.slice(0, img.indexOf(">"));
       expect(tag).toContain("src=");
@@ -429,33 +620,35 @@ describe("home §01 — the story", () => {
   it("renders complete and still on the server — the correct static hero, front face up", () => {
     // No JS, or reduced motion: `still` is the phase, so globals.css animates nothing and hides nothing.
     expect(heroHtml).toContain('data-phase="still"');
-    expect(heroHtml).not.toContain('data-phase="photo"');
+    expect(heroHtml).not.toContain('data-phase="deal"');
     expect(heroHtml).not.toContain("<video");
   });
 
   it("gives the whole narration ONE accessible name and announces no frame of its own", () => {
-    expect(heroHtml).toContain(`role="img" aria-label="${HERO_STORY_SUMMARY}"`);
+    expect(text(heroHtml)).toContain(`role="img" aria-label="${HERO_STORY_SUMMARY}"`);
     expect(HERO_STORY_SUMMARY).toContain(CANON.fictionalLabel);
     expect(count(heroHtml, 'role="img"')).toBe(1);
-    expect(heroHtml).not.toContain('aria-live');
+    expect(heroHtml).not.toContain("aria-live");
   });
 
   it("puts every card face through CardFace — 5:7, radius 0, contained, never cropped or scaled", () => {
-    const src = read(path.join(HOME_DIR, "Hero.tsx"));
-    expect(src).not.toMatch(/scale-\[/);
-    expect(src).not.toContain("mask");
-    expect(src).toMatch(/<CardFace \{\.\.\.scene\.front\}/);
+    expect(heroSrc).not.toMatch(/scale-\[/);
+    expect(heroSrc).not.toContain("mask");
+    expect(heroSrc).toMatch(/<CardFace \{\.\.\.scene\.front\}/);
     expect(heroHtml).toContain("aspect-[5/7]");
-    // The only object-cover in the hero is the parent's phone photo, never a card.
-    expect(count(heroHtml, "object-cover")).toBe(scenes.length);
   });
 
-  it("reuses the signature flip — same keyframes, same curve, one shortened duration token", () => {
+  it("runs five beats and reuses the signature flip — same keyframes, same curve, one duration token", () => {
+    expect(STORY_BEATS.map((b) => b.phase)).toEqual(["deal", "gather", "build", "flip", "hold"]);
     const css = read(path.join(process.cwd(), "app", "globals.css"));
     expect(css).toContain("--duration-flip-story: 1600ms;");
     expect(css).toContain("animation: card-flip var(--duration-flip-story) var(--ease-flip) both;");
     // No second motion language: the story defines no keyframes of its own.
     expect(css.match(/@keyframes/g)?.length).toBe(3);
+    // Each chip is gated on the beat that makes it true, in CSS — no per-frame JavaScript.
+    for (const [phase, n] of [["gather", 1], ["build", 2], ["flip", 3], ["hold", 4]] as const) {
+      expect(css).toContain(`[data-story][data-phase="${phase}"] [data-story-scene][data-state="active"] [data-story-chips] > :nth-child(-n + ${n})`);
+    }
     if (scenes.some((s) => s.back)) expect(heroHtml).toContain('data-story-flip=""');
   });
 
@@ -466,16 +659,54 @@ describe("home §01 — the story", () => {
       if (s.sport) expect(heroHtml).toContain(`aria-label="${STORY_LABELS.show(s.sport.name.toLowerCase())}"`);
     }
     expect(count(heroHtml, "h-11 w-11")).toBe(scenes.length + 1);
-    expect(heroHtml).not.toContain("tabindex=\"-1\"");
+    expect(heroHtml).not.toContain('tabindex="-1"');
+  });
+});
+
+describe("home §01b — the strip under the hero is the catalog, never typed", () => {
+  const stripHtml = SECTIONS[12].html;
+  const stripSrc = read(path.join(HOME_DIR, "HeroStrip.tsx"));
+
+  it("prints the from-price, both delivery clocks and the catalog counts", () => {
+    const cells = stripCells(NOW);
+    expect(cells).toHaveLength(4);
+    expect(cells[0].figure).toBe(`from ${formatUsd(fromPrice("cards", NOW))}`);
+    expect(cells[1].figure).toBe(`${LEAD_TIMES.digitalBusinessDays[0]}–${LEAD_TIMES.digitalBusinessDays[1]} days`);
+    expect(cells[1].label).toContain(`${LEAD_TIMES.printShipBusinessDays[0]}–${LEAD_TIMES.printShipBusinessDays[1]}`);
+    expect(cells[2].figure).toBe(`${sports.length} sports · ${finishes.length} finishes`);
+    expect(cells[3].figure).toBe("Proof first");
+    for (const cell of cells) {
+      expect(text(stripHtml)).toContain(cell.figure);
+      expect(text(stripHtml)).toContain(cell.label);
+    }
+    // Six finishes is what §06 says; the seventh style is the Senior Night occasion, named as one.
+    expect(finishes.length).toBe(styles.length - 1);
+    // Nothing in the strip is typed: the figures are the ladder, the delivery table and the catalogs.
+    expect(stripSrc).not.toMatch(/\$\d/);
+    for (const source of ["fromPrice", "LEAD_TIMES", "sports.length", "finishes.length"]) expect(stripSrc).toContain(source);
+  });
+
+  it("is one ruled band aligned to the gallery container, 2 × 2 on a phone", () => {
+    expect(stripHtml).toContain("container-gallery");
+    expect(stripHtml).toContain("grid-cols-2");
+    expect(stripHtml).toContain("lg:grid-cols-4");
+    expect(count(stripHtml, "border-t border-hairline")).toBe(4);
+    expect(stripHtml).toContain("font-display");
+  });
+
+  it("ends the hero's CTA block with the trust line (C14), as DESIGN §4.3 requires", () => {
+    for (const segment of CANON.trustLine.split(" · ")) expect(text(stripHtml)).toContain(segment);
   });
 });
 
 describe("home §01 — the two columns are one row", () => {
-  it("stretches both columns instead of centring the art in the text's height", () => {
+  it("stretches both columns and gives the art the wider track", () => {
     const src = read(path.join(HOME_DIR, "Hero.tsx"));
     expect(src).toContain("lg:items-stretch");
     expect(src).not.toContain("lg:items-center");
-    // The mat fills its grid track (so its left/right edges ARE the track's) and its full height.
-    expect(src).toMatch(/className="rounded-ui bg-hairline p-4 md:p-6 lg:h-full lg:p-8"/);
+    expect(src).toContain("lg:col-span-5");
+    expect(src).toContain("lg:col-span-7");
+    // Nothing between the story and the page: no plate, no padding, no radius.
+    expect(src).toMatch(/className="lg:h-full"/);
   });
 });

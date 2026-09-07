@@ -3,10 +3,10 @@
 import { useCallback, useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
 
 /**
- * Section 01's narration (owner review, 2026-09-07). Three scenes, one box: a parent's phone photo
- * drops in, the poster and the card assemble out of it, the card turns, and the next athlete — a
- * different sport, one of them an adult — does the same. In four seconds a visitor sees that this
- * works for any athlete, any sport, any age.
+ * Section 01's narration (owner review, 2026-09-07). Three scenes, one box: the parent's phone photos
+ * are dealt in one after another, the hand closes into a pile, the poster and the card come out of it,
+ * the card turns, and the next athlete — a different sport — does the same. In five seconds a visitor
+ * sees what goes in, what comes out, and that it works for any athlete and any sport.
  *
  * The island is deliberately thin. Every frame is server-rendered markup handed in as `scenes`; this
  * component only sets two attributes — `data-phase` on the root and `data-state` on each scene — and
@@ -28,12 +28,17 @@ function subscribeReducedMotion(onChange: () => void) {
 const reducedMotionSnapshot = () => window.matchMedia(REDUCED_MOTION).matches;
 const reducedMotionServerSnapshot = () => false;
 
-/** The beats of one scene, in order, with how long each holds. 4.3 s a scene, ~13 s the loop. */
+/**
+ * The beats of one scene, in order, with how long each holds. 4.9 s a scene, ~14.7 s the loop.
+ * The chips are gated on these names in globals.css: `gather` shows the first, `build` the second,
+ * `flip` the third and `hold` the fourth — each one lands on the beat that makes it true.
+ */
 export const STORY_BEATS = [
-  { phase: "photo", ms: 800 },
-  { phase: "build", ms: 1200 },
-  { phase: "flip", ms: 1600 },
-  { phase: "hold", ms: 700 },
+  { phase: "deal", ms: 900 },
+  { phase: "gather", ms: 550 },
+  { phase: "build", ms: 850 },
+  { phase: "flip", ms: 1500 },
+  { phase: "hold", ms: 1100 },
 ] as const;
 
 export const STORY_SCENE_MS = STORY_BEATS.reduce((n, b) => n + b.ms, 0);
@@ -87,7 +92,8 @@ export function HeroStory({ scenes, captions, labels, summary, className = "" }:
 
   return (
     <div data-story="" data-phase={phase} className={`flex flex-col justify-center ${className}`.trim()}>
-      <div role="img" aria-label={summary} className="relative mx-auto aspect-[4/3] w-[86%] sm:aspect-[7/5] sm:w-full">
+      {/* No plate, no mat, no fill: the composition floats on the stock page on its own shadows. */}
+      <div role="img" aria-label={summary} className="relative mx-auto aspect-[4/3] w-full sm:aspect-[7/5]">
         {scenes.map((node, i) => (
           <div key={labels[i] ?? i} data-story-scene="" data-state={i === scene ? "active" : "idle"} className="absolute inset-0">
             {node}

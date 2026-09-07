@@ -2059,3 +2059,759 @@ page. The hand-written `life.card.*` / `life.set.*` captions from *fix-imagery* 
 - **`next-env.d.ts` was pointing at `.next-trust2`** when I finished (another builder's dist dir) and is
   restored to `./.next/types/routes.d.ts`. If their build re-writes it, it needs restoring again before the
   branch lands.
+
+---
+
+## hero-v3-assets (2026-09-07)
+
+**Owner's point**: the hero showed ONE phone photo turning into a card and a poster. "Why do we show it is
+made from one photo when in reality it is made from more?" — intake asks for 4–10. So every hero scene now
+carries a SET of four before photos. Files touched: `lib/assets.ts`, `tests/seo.test.ts` (three new `it`
+blocks inside the existing hero/lifestyle `describe`), `public/images/home/**` (9 new WebP) and
+`public/images/.manifest.json`. **`scripts/site-assets.ts` was NOT changed** — the existing pipeline (shared
+output groups, the aspect assert, the denylist gate) covered every case without a line of new code.
+
+`npx tsx scripts/site-assets.ts --check` → **130 verified keys, 27 locate keys, 150 files scanned,
+0 failures**. `npx tsc --noEmit --incremental false` clean, `npx vitest run` **817 passed**, `eslint` clean.
+
+### The new keys
+
+    hero.story.<n>.before.1 | .2 | .3 | .4      n = 1 | 2 | 3   — four phone photos of that ONE athlete
+    hero.story.<n>.registered                   — no image; `alt` is the chip, `note` carries id + date
+
+`hero.story.<n>.before` is **unchanged** and still points at the single photo it always did.
+**`.before.1` is that same file** — the same `out`, so it is one download serving three keys, not a copy.
+`.2 … .4` are new. Scene 3 is the one place where `.before.1` does not come from the athlete's `before/`
+folder: the existing key already used the Etsy sled frame, which is a tighter crop of the same moment as
+`football/before/photo3.png`, so **photo3 was left out of the set as a near-duplicate** and photo1, photo2
+and photo4 fill `.2 … .4`.
+
+| key | source | status | out | px | KB |
+| --- | --- | --- | --- | --- | --- |
+| `hero.story.1.before.1` | `art-pipeline/out/athletes/basketball/before/photo2.png` | verified (shared) | `/images/home/phone-photo-basketball-player-before.webp` | 960 × 1286 | 72 |
+| `hero.story.1.before.2` | `…/basketball/before/photo1.png` | verified | `…/phone-photo-basketball-player-at-home.webp` | 672 × 900 | 52 |
+| `hero.story.1.before.3` | `…/basketball/before/photo3.png` | verified | `…/phone-photo-basketball-player-at-practice.webp` | 672 × 900 | 36 |
+| `hero.story.1.before.4` | `…/basketball/before/photo4.png` | verified | `…/phone-photo-basketball-player-in-the-car.webp` | 672 × 900 | 69 |
+| `hero.story.2.before.1` | `…/softball/before/photo2.png` | verified (shared) | `/images/home/phone-photo-softball-player-before.webp` | 896 × 1200 | 109 |
+| `hero.story.2.before.2` | `…/softball/before/photo1.png` | verified | `…/phone-photo-softball-player-at-home.webp` | 672 × 900 | 59 |
+| `hero.story.2.before.3` | `…/softball/before/photo3.png` | verified | `…/phone-photo-softball-player-at-practice.webp` | 672 × 900 | 91 |
+| `hero.story.2.before.4` | `…/softball/before/photo4.png` | verified | `…/phone-photo-softball-player-at-the-table.webp` | 672 × 900 | 54 |
+| `hero.story.3.before.1` | `etsy/listing-images/01-football-card/src/s02-before-b.png` | verified (shared) | `/images/home/phone-photo-football-player-before.webp` | 960 × 1211 | 184 |
+| `hero.story.3.before.2` | `…/football/before/photo1.png` | verified | `…/phone-photo-football-player-at-home.webp` | 672 × 900 | 45 |
+| `hero.story.3.before.3` | `…/football/before/photo2.png` | verified | `…/phone-photo-football-player-in-uniform.webp` | 672 × 900 | 89 |
+| `hero.story.3.before.4` | `…/football/before/photo4.png` | verified | `…/phone-photo-football-player-at-the-table.webp` | 672 × 900 | 49 |
+
+Every NEW file is 672 × 900 (the sources are all 1792 × 2400), WebP q82, **36–91 KB** — the test asserts
+`< 120 KB` and `long edge ≤ 900` for `.2 … .4`. No crop was applied to any of them, so there is no crop box
+to record; every output is the whole frame. **No new AVIF**: scene 1's shared `.before.1` already carries one
+because `hero.story.1.before` is an LCP key, and nine more AVIF siblings would cost repo bytes for photos
+that arrive after the first paint. If the animation turns out to paint the whole set at once, add `lcp: true`
+to the nine and re-run — that is the only change needed.
+
+**One inherited cost, deliberately not paid twice**: `hero.story.3.before.1` is the existing 960 × 1211 /
+184 KB football file. It is over the 120 KB the new photos hold to, but re-encoding it would change
+`home.hero.before.football` and `hero.story.3.before` as well, and the brief said the existing key stays as
+it is. Cutting that group to 672 px would save ~125 KB above the fold and is a clean follow-up.
+
+### The softball uniform decision — the earlier rejection is REVERSED for the set
+
+The `assets-hero-lifestyle` pass rejected `softball/before/photo1|photo3|photo4.png` because only photo2 is
+in the maroon Bell Hollow uniform the card and poster show. That reasoning was right **for a single before
+photo** and is wrong for a set. A parent's camera roll is not styled: photo1 is Brooke at the kitchen counter
+in a hoodie, photo3 is her on the infield in a plain practice shirt, photo4 is her laughing at the kitchen
+table. All three are the same girl, all three are what a phone actually holds, and showing four frames in
+four different outfits is the honest picture of what we ask for. **Decision: all four ship as
+`hero.story.2.before.1 … .4`; `hero.story.2.before` keeps photo2** on its own, because a LONE before photo
+still reads best in the kit the card shows. Same rule applied to the other two scenes — scene 1 mixes gym
+jersey, hoodie on the doorstep, practice tee and a car seat; scene 3 mixes the sled, a hoodie at home, the
+green #54 uniform and the dinner table.
+
+### `hero.story.<n>.registered`
+
+Same shape as `hero.story.<n>.athlete` — `out: ""`, `status: "locate"`, so `asset()` throws and `hasAsset()`
+is false. There is no cleaner home for non-image metadata in `lib/assets.ts` and none was invented: `SiteAsset`
+already carries `alt` + `note`, and `scale.sizes` and the three `.athlete` entries set the precedent, so a
+fourth pattern would have been the worse choice.
+
+| key | `alt` (the chip line) | card ID | `registeredAtOf` |
+| --- | --- | --- | --- |
+| `hero.story.1.registered` | `Registered 2026-08-27` | `GDE-SN-BKB-2026-12` | 2026-08-27 |
+| `hero.story.2.registered` | `Registered 2026-09-05` | `GDE-SR-SFB-2026-03` | 2026-09-05 |
+| `hero.story.3.registered` | `Registered 2026-08-27` | `GDE-FS-FTB-2026-54` | 2026-08-27 |
+
+Read `SITE_ASSETS["hero.story.<n>.registered"].alt` and print it. Never call `asset()` on it, and never write
+the date into a component — the test re-derives all three from `cards` + `registeredAtOf()` and fails the
+moment the map and the registry disagree. All three records use `createdAt` (none sets `registeredAt`), which
+is exactly the GAPS #36 fallback `registeredAtOf` exists for.
+
+### Provenance
+
+All twelve sources were thumbnailed and looked at on 2026-09-07: three 2 × 2 contact sheets (one per athlete,
+480 × 640 per tile), the Etsy football frame at full height, two zoom crops at 900 px on the two frames that
+had other people in them, and one 4 × 3 sheet of the twelve WRITTEN outputs to prove each file is the photo
+its key claims. Source + sha256 + dimensions for every new output are in `public/images/.manifest.json`.
+
+Checked for and clear of: the pre-rename athlete (Nia Brooks, #23, Northside Wolves), a real customer, any
+path under `art-pipeline/out/athletes/{Order 01,Order 02,order 03,order-4164205493}/**` (never read), a pack
+face, a certificate printing a card count, and baked marketing type. Each scene's four photos are the same
+person as that scene's card and poster.
+
+**The two frames that needed a zoom**, and the judgement:
+
+- `softball/before/photo4.png` — an out-of-focus foreground head fills the bottom-right corner. The zoom
+  shows the top of a head only: no eyes, no mouth, no identifiable face. Shipped whole, not cropped.
+- `football/before/photo4.png` — a family dinner: one boy mid-table has a visible face and an adult at the
+  left edge is cut off at the chin. Tui's face is in the foreground, in focus, and roughly four times the
+  area of the boy's, so it passes "never a group where another child's face is the same size" on the letter
+  and on the read. Shipped whole. If a later reviewer disagrees, the fix is a `box:` crop from about
+  `left 0.47`, not a different photo — the frame is the best "at home, with his family" moment in the set.
+
+**Rejected**:
+
+- `art-pipeline/out/athletes/football/before/photo3.png` — the sled push at dusk. Not a defect: it is the
+  same moment as the Etsy frame `hero.story.3.before.1` already ships, only wider. Two near-identical frames
+  in a four-photo set would have made the set look padded.
+- Nothing else. Every other candidate passed, including the three softball frames the previous pass had
+  turned down.
+
+## hero-v3
+
+Second owner review of section 01, 2026-09-07. His words, in substance: *"the hero sliders are too
+messy. Why is there a grey background behind the animated slider? Why do we show it is made from ONE
+photo when in reality it is made from more? Is 'Look up a card' really the most important call to action
+there? A lot of this is not needed — the hero should seduce and convince that this is cool; the price
+and how fast we deliver go lower down. It must be much cleaner and stronger."* Files: `Hero.tsx`,
+`HeroStory.tsx`, the new `HeroStrip.tsx`, one line in `page.tsx`, `components/TrustLine.tsx`, one block
+in `app/globals.css`, `tests/home.test.ts`, one assertion in `tests/components.test.ts`.
+
+### 1. The hero says one thing
+
+Left column: **H1 → subhead → one filled "Order on Etsy →" → one quiet "See how it's made ↓"**. Gone
+from above the fold: the two claim labels, the price line, the `DeliveryChips`, the `TrustLine` and the
+outline "Look up a card" button.
+
+**The label line was dropped, not kept.** `FROM YOUR PHOTOS · REGISTERED EDITION` restates the subhead
+almost word for word — the subhead already says "from your photos" and "One registered edition per
+athlete" — so keeping it would have put a third type size above the headline to say what the sentence
+under the headline already says. The claims are made once, in the sentence a visitor actually reads.
+(The accent tick that carried the one accent claim now lives on the registry chip in the art, so the
+page still makes exactly one accent claim above the fold beside the button.) `Pill variant="label"` is
+untouched and still tested — nothing else on the site used it, but the recipe stays for whoever needs it.
+
+**The secondary is a text link, not a second offer.** It targets `#s-08` — the id `SectionHeading` puts
+on §08's H2 ("MADE BY A PERSON. AI IS IN THE TOOLBOX."), which is the how-it's-made section. The
+sticky header would otherwise cover the heading it jumps to, so `globals.css` gained one line —
+`h2[id^="s-"] { scroll-margin-top: 5rem; }`. Measured: the H2 lands 14.9 px below the header's bottom
+edge. This is the one rule in that file that is not the story's animation; every numbered section on
+every page gets the same clearance from it.
+
+### 2. The plate is gone and the story tells the truth about the input
+
+No mat, no `bg-hairline`, no radius, no padding: the composition floats on the stock page on the
+shadows the objects already carry (`--shadow-card-stock`), like the two heroes he pointed at.
+
+Five beats a scene now, 4.9 s a scene, **14.7 s the loop** (measured phase timeline: deal 916 ms,
+gather 550, build 850, flip 1500, hold 1100):
+
+| beat | what a visitor sees | the chip it lands |
+|---|---|---|
+| `deal` | four of the parent's phone photos arrive one after another, 150 ms apart, into a fanned hand | — |
+| `gather` | the hand closes into one pile | `4 photos in` |
+| `build` | the poster rises out of the pile, the card 170 ms behind it | `Reference plate locked` |
+| `flip` | the card turns to its back (stats, registered ID, QR) | `Proof approved` |
+| `hold` | the finished edition, held | `Registered · Aug 27, 2026` |
+
+The chips are gated on `data-phase` in CSS (`:nth-child(-n + N)` per phase), so they still cost no
+per-frame JavaScript. **Every chip is true of the scene it sits beside and of the real pipeline** —
+`art:intake` counts the photos, the identity plate is approved and locked before a pose is generated,
+the watermarked proof is approved before anything prints, and the registration date is
+`registeredAtOf(getCard(id))` for the card ID the back asset is QR-patched to (`cardId` in
+`lib/assets.ts`), formatted with `formatEt`. Nothing about a chip is typed: the photo count is
+`deck.length` (so a scene with three photos would say "3 photos in"), and a scene whose card is not in
+the registry simply renders three chips. A fifth element, the `Sport · Finish` label top right, is read
+off the card front's own COPY §0.5 alt line (`styleFromAlt`, longest name first, like `sportFromAlt`).
+
+The deck is `hero.story.<n>.before.1 … .4`; all twelve landed while this was being built, so all three
+scenes deal four. If none of a scene's deck keys exist the scene falls back to the single
+`hero.story.<n>.before` photo and deals a hand of one — never an empty stage, never a wrong count.
+
+**The signature flip is unchanged**: same `@keyframes card-flip`, same `--ease-flip`, same
+`--duration-flip-story: 1600ms`. The keyframe count in `globals.css` is still asserted at three.
+
+The C13 label rides the photo that ends up **on top** of the pile (the last dealt). On the first photo
+the pile buried it; at 390 px it is also the only photo wide enough to hold the word.
+
+### 3. The strip under the hero
+
+`HeroStrip.tsx`, mounted in `page.tsx` directly under `<Hero />`, `container-gallery` so it rules
+edge-to-edge with the hero's own columns. Four cells, none of them typed:
+
+| figure | source | label |
+|---|---|---|
+| `from $32.99` | `formatUsd(fromPrice("cards", now))` | digital edition |
+| `1–2 days` | `LEAD_TIMES.digitalBusinessDays` | digital files · prints ship in 5–7 (`printShipBusinessDays`) |
+| `17 sports · 6 finishes` | `sports.length` / `finishes.length` | plus the Senior Night edition |
+| `Proof first` | — | nothing prints until you approve |
+
+**Six finishes, not seven.** The brief said "17 sports · 7 finishes" from the `styles` count, but
+`styles` is six finishes **plus** the Senior Night occasion, and §06 of the same page says "SIX
+FINISHES. ONE ATHLETE." Seven would have contradicted the section two screens below it, so the figure
+is `finishes.length` and the seventh style is named in the label instead. The `dt` reserves two lines
+(`min-h-[2em]`) because the counts cell always wraps at four across and a ragged row of labels reads as
+a mistake.
+
+The strip also carries the `TrustLine`, so the hero's CTA block still ends with C14 (DESIGN §4.3) —
+one screen lower than before, which is what "much cleaner" bought.
+
+### 4. TrustLine is a row of check-marks now (every page)
+
+The middot line put its separators at the end of wrapped lines. It is a `ul` of three items, each with
+a 1.5 px `CheckIcon` (`aria-hidden`, the text carries the meaning) and its own sentence, so a claim can
+only wrap inside itself. The sentences are still `trustLineSegments()` — unchanged, and the fourth
+segment still appears only when both flags flip. Every page that renders `<TrustLine>` inherits the new
+form; `justify-center text-center` (home §12) still works on the flex row.
+
+### Measured
+
+Built with `NEXT_DIST_DIR=.next-hero3 npx next build` and served from `.next-hero3/server/app/index.html`
+by a plain Node file server that maps `/_next/image?url=…` to `public/` (no `next start` this session;
+that server does not resize, so the byte figures below are re-encodes at the widths the browser actually
+requested, `sharp`, webp q75).
+
+| viewport | text left vs container | art right vs container | strip left / right | column top / bottom | horizontal overflow |
+|---|---|---|---|---|---|
+| 1024 | 0.00 | 0.00 | 0.00 / 0.00 | 0.00 / 0.00 | 0 |
+| 1280 | 0.00 | 0.00 | 0.00 / 0.00 | 0.00 / 0.00 | 0 |
+| 1440 | 0.00 | 0.00 | 0.00 / 0.00 | 0.00 / 0.00 | 0 |
+| 1728 | 0.00 | 0.00 | 0.00 / 0.00 | 0.00 / 0.00 | 0 |
+
+- **CLS 0.00000** over a full 14.7 s loop at both 1440 and 390 (`layout-shift` observer, `buffered`,
+  ignoring input-driven shifts). Every frame is `absolute` inside one fixed-ratio box; the caption and
+  the control row are fixed-height as before.
+- **Nothing preloaded**: no `link[rel=preload][as=image]` on the page, all 21 hero images `loading=lazy`,
+  none `fetchpriority=high`, no `priority` prop anywhere in the owned files (asserted in the tests).
+  The mobile LCP is still the headline.
+- **Beats and chips in order**, measured off `data-phase` frame by frame: still → deal → gather → build
+  → flip → hold, three scenes, then round again.
+- **`prefers-reduced-motion`** (matchMedia patched before hydration): phase stays `still` after 6 s and
+  after a dot click 3 s later; all four photos fanned, poster and card up, all four chips at opacity 1,
+  the pause button replaced by an invisible 44 × 44 spacer, the three dots still switch scenes.
+- **Weight.** Desktop asks for `w=256` for all 21 images (≈ 241 KB total). At 390 px / DPR 3 it asks for
+  `w=384` for the twelve photos and the six card faces (≈ 368 KB) and **loads no poster at all** (the
+  poster is `hidden sm:block`). The card's mobile `sizes` was trimmed from 40vw to 32vw (and the card
+  from `w-[38%]` to `w-[35%]`), which moved the six card faces from `w=640` to `w=384` and saved 106 KB
+  on a phone. **This is the one budget worth watching**: four photos a scene instead of one took the
+  hero from ~200 KB to ~368 KB at 390, against DESIGN §8's ≤ 600 KB for the whole page. The levers, if
+  the rest of the page needs the room, are (a) deal two photos on a phone and four from `sm` — the chip
+  count follows `deck.length`, so it stays honest — or (b) hold scenes 2 and 3 out of the DOM until the
+  first advance. Neither is done.
+- **Island**: `HeroStory` is **1.4 KB gzipped** (2.7 KB minified, esbuild, react external) — unchanged
+  by this pass, since the only edit was the beat table. `HeroStrip` is a server component.
+
+### Not done / worth a second opinion
+
+- **Scene order is the manifest's.** Basketball → softball → football, all fictional roster athletes.
+  There is still no adult scene (no adult roster athlete has a card or poster export).
+- **The chips are inside the `role="img"` stage**, so assistive tech gets the one summary label and not
+  four chip strings. That is deliberate — the process they describe is stated in words in §08 — but if
+  the owner wants them announced, they need to move out of the stage and get their own list semantics.
+- **`Pill variant="label"` now has no caller.** It stays because it is a good recipe and it is tested;
+  delete it if nobody adopts it.
+- **The photo fan overlaps the poster's top-left corner by a few pixels in the `still` state** at ≥ 640.
+  It reads as depth (photos in front, poster behind) and was tuned down from a much bigger overlap; if
+  it bothers the owner, the fan's fourth offset (`HAND[3].fx`) is the single number to change.
+- `.next-hero3` was deleted afterwards; `tsconfig.json` and `next-env.d.ts` are restored (the build
+  appends its dist dir to both).
+
+## fix-B-trust-pages
+
+The 2026-09-07 owner review, the trust-pages / registry / card-page half: "blocks have fallen in
+wrongly — everything is too crammed". Everything below was measured on the prerendered HTML served
+statically (`NEXT_DIST_DIR=.next-fixB2 next build`, then Chrome at 1440 x 900 and 390 x 844); the
+before / after numbers are the ones the browser reported, not estimates.
+
+### 1 + 2 — /how-it-works: the sticky gate rail, and the gate rows (`components/GateRow.tsx`)
+
+**The rail scrolls with the page now.** It was `sticky top-14` under a `sticky top-0` header, so a
+57 / 65 px header plus a 107 px rail occluded **172 px of a 900 px screen (163 of 844 on mobile) for
+the whole length of a 10,000 px page**, cut paragraph lines in half at every scroll position, kept
+six PASS / NOTE chips permanently on screen, and — `top-14` = 56 px under a 57 px header — overlapped
+the header by 1 px. It is one plain 51 px index row of `01 / 06 · PHOTO CHECK` anchors, in flow. The
+chips left the rail: each gate's own summary already prints its verdict, next to the gate it is
+about. Occlusion **172 px → 65 px at 1440, 163 px → 57 px at 390** (the header alone, which every
+page has). `scroll-mt-32` → `scroll-mt-20`, since only the header can cover an anchor now.
+
+**The two columns of a gate end together.** Content-bottom spread, left column vs artefact column,
+at 1440:
+
+| gate | before | after |
+| --- | --- | --- |
+| 01 photo check | 444 | 96 |
+| 02 kit build | 22 | 6 |
+| 03 reference plate | 597 | 64 |
+| 04 the shots | 167 | 73 |
+| 05 verification | 279 | 107 |
+| 06 finish | 362 | 119 |
+
+Three changes did it: the row is `lg:items-center`; the artefact is capped at `lg:max-w-[25rem]` and
+pushed to its side of the track with `lg:justify-self-{start,end}`; and a gate whose artefact is HTML
+rather than an image sets the new `wide` flag (text 5 cols, artefact 7) — the verdict Ledger gets
+SHORTER as it gets wider, so it wants the opposite treatment to a picture.
+
+**Trap, and the reason for `justify-self`:** `lg:ml-auto` on a grid item does not keep the track
+width — an auto margin makes the item `fit-content` and shoves it right. With `ml-auto` the "wide"
+gate's 7-column artefact rendered 378 px wide instead of 611 and the spread stayed at 160.
+`justify-self-end` is the alignment that belongs in a grid; keep it that way.
+
+/how-it-works page height 1440: **10,063 → 8,565 px**. At 390: 12,162 (audit) → 12,693, and that
+last number is not a regression of this pass — `components/ProofRejectedPair` was changed by another
+builder mid-session to stack its two takes below `md`, which adds ~630 px to section 03 on a phone.
+Everything this pass changed made the mobile page shorter or left it alone.
+
+### 3 — /c/[cardId]: the CTA, the duplicate pill, the fine print
+
+- The buy button is the **filled primary**. `ctaFor("card-page", card)` still decides the SKU (GAPS
+  #18) and the label, and a `demo-etsy` card still links nowhere but Etsy (S19/D26) — the page
+  overrides `kind` only: `<CtaPair {...cardCta} primary={{ ...cardCta.primary, kind: "primary" }} size="lg" />`.
+  `lib/cta.ts` is untouched, so nothing else moved.
+- The quiet text link beside it is **"What is a registered edition? →"**, which the EditionPanel used
+  to carry. `EditionPanel` grew `registryLink` (default true) and /c passes `false`, so the label is
+  on the page once.
+- The **REGISTERED EDITION pill** was printed twice in one viewport (arena header + panel). The panel
+  drops the plain pill on `tone="arena"`; the gold SENIOR EDITION · 1 OF 1 pill says something else
+  and stays on every surface, and the stock panels (home, /trading-cards, /complete-set) are
+  unchanged — `tests/components.test.ts` still asserts the pill there.
+- The three grey report / unlist / fiction paragraphs are **one small block** at `text-[0.8125rem]`,
+  62ch, under a hairline, with the report link the only thing to find in it.
+- The card **floats**: the grid is `lg:items-center`, so it sits in the middle of its track instead
+  of pinned to the top with 400 px of empty arena under it, and it is bigger (`maxWidth` 340 → 400 at
+  lg). No plate is drawn — CardFace's arena shadow is the only ground.
+- `/c` first-load JS: **214 KB gzipped** over 12 files (< 300 KB). This pass added no client
+  component to the route.
+
+### 4 — /how-it-works section 03, "One that didn't ship"
+
+The site's largest imagery belonged to a QA failure: two 563 x 800 frames in `container-gallery`,
+bigger than any product photograph anywhere. The section is a `container-site` band now — the
+heading and its one sentence on the left, the pair on the right capped at `lg:max-w-[32rem]`. Frames
+**563 → 187 px wide**. The arena Mat under the pair STAYS: `ProofRejectedPair` writes its titles in
+`text-white` on that plate, so dropping it would leave white type on stock. Sizing it down was the
+fix that was available without editing another builder's component.
+
+The reference-plate exhibit is **one row**: front and back plate side by side at equal height
+(`flex` + `flex-1`), instead of the front full width with the back hanging under it at half width —
+that second row alone was ~300 px of the 597 px spread on gate 03.
+
+### 5 — /about: five bands, five objects
+
+Zero images in 4,914 px, and three of five sections ended at x ≈ 838 of 1440. There is still **no
+founder photograph** (`about.founder` is `locate`, `founderPhotoExists()` false) and none was
+invented. What the page shows instead is the studio's own work, each beside the text it belongs to,
+through a small local `Band` (text ≤ 62ch left, object right, `lg:items-center`) and `assetOrNull`,
+so a key that has not landed leaves the text alone:
+
+| section | object |
+| --- | --- |
+| the story | `life.poster.room` — the wall the first sentence is about |
+| a card without a record | `cards.demo.back` through `CardFace` |
+| why you see it first | `show.proof.basketball` in a BracketFrame |
+| independent / your crest | `how.gate.kit` in a BracketFrame |
+| designed in LT, printed in the US | `life.set.printed` |
+
+Right-hand content edge per section, of 1440: **838 → 1199–1265**. Images in `main`: **0 → 5**. Page
+height 4,914 → 5,504 px.
+
+### 6 — /photo-guide
+
+- Four real "before" photographs in the first screen (`hero.story.1.before.1…4` — one athlete, four
+  days, what a camera roll actually holds), beside the H1. First photograph at **y ≈ 145 px**, was
+  1,240 px.
+- "Send 4–10" was written twice in one screen. The block (`photos-that-work-best`) is the canon
+  sentence, so the subhead drops it.
+- The six-panel sheet **cannot be split**: `photo-guide.panels` is one flat 1232 x 821 image with the
+  numerals baked in, and splitting it needs six new assets. The captions are a grid of their own
+  under it on the sheet's 3 x 2 geometry, `gap-x-8 gap-y-5`, `text-small` on ink, each ruled — was
+  `grid-cols-3 gap-2` at `text-[0.75rem]` in muted grey.
+- **New copy, flagged:** `BEFORE_CAPTION = "Four photos from one parent's phone."` — a plain caption
+  for a photograph, not a COPY sentence. Replace it if COPY writes one.
+
+### 7 — /registry
+
+The exhibit is the page's whole argument and it was 200 px wide with its credit wrapped to four
+lines. The lookup band is a 12-column row now (form 7, exhibit 5): the card back at **280 px, 340 px
+from lg**, the QR ring over the QR it is about, the credit centred under the column at `max-w-[34ch]`
+(**4 lines → 2**). The prose section below keeps its `max-w-[46rem]` measure.
+
+The card's shadow is re-aimed: `--shadow-card-stock` is `0 1px 0` + a 40 px drop, and under a
+square-cut card that hard 1 px line read as a second, mis-registered rectangle. `CardFace` owns the
+shadow and belongs to another builder, so the re-aim is a child rule on the wrapper —
+`[&>div]:shadow-[0_30px_54px_-30px_rgb(20_25_31/0.45)]`, one soft shadow straight down. A plain
+`className` on CardFace does **not** work: same specificity, and the component's own arbitrary
+shadow wins. If CardFace ever takes a `shadow` prop, move this there.
+
+The H1 "LOOK UP A CARD." **stays**: the header's "Look up a card" is global chrome on every page, and
+the page it names may not go untitled to avoid repeating it.
+
+### 8 — /guarantee
+
+- The BracketFrame around the promise is **gone**. Brackets are the audit mark of a process artefact
+  (DESIGN §4.6); around a paragraph they left ~90 px of empty stock inside the corners. The promise
+  is set larger (1.25 / 1.375 rem) against one accent rule. Hero column spread **130 → 11 px**.
+- "WHAT THAT MEANS, EXACTLY." to its first item: **110 → 48 px** (`mt-8 lg:mt-12` + `border-y` →
+  `mt-6` + `border-b`, so there is one rule under the heading, not two).
+- Two of the three paragraphs under the shipping table were the table retyped: **C10 deliveryClocks**
+  (the Timing column, verbatim) and **C12 stagedDelivery** (one row per package) are dropped here.
+  **C11 `CANON.shipping` stays** — free in the US, US only, which the table does not say anywhere.
+  Both dropped sentences still stand on /how-it-works, in the FAQ (faq-14, faq-16) and in the terms;
+  `tests/trust-pages.test.ts` now asserts their absence here and their presence there.
+
+### 9 — /contact
+
+The address was printed three times in one screen (subhead link, button, imprint). The subhead is now
+"Include your order number if you have one." and the **button carries the address**. The closing
+`TrustLine` — about photo deletion — is gone; it had nothing to do with writing to us. The imprint
+fallback at the foot of the page still ends in the address, because that is what an imprint is; it is
+the only other occurrence and it is below the fold.
+
+### 10 — /faq group rail
+
+Ten identical grey links with no current state. `app/(marketing)/faq/rail.tsx` is a small client
+island that marks the group whose section is at the reading line: `aria-current="true"` plus ink type
+and a 3 px accent tick (the hero-claim tick, never a filled pill), `min-h-11` per row. With no
+JavaScript every link still jumps to its group — only the marker depends on the island.
+
+### 11 — mobile 390
+
+`/how-it-works` 12,693 px under a **57 px** header (was 12,162 under 163 px of header + rail); no
+horizontal overflow on any of the eight pages. Every in-page link this pass touched is `min-h-11`
+(`inline-flex min-h-11 items-center gap-1.5` — the gap matters: an `inline-flex` swallows the space
+before the arrow). Still under 44 px and **not fixed here**, because they belong to shared chrome
+outside this scope: `Breadcrumbs` links (32 px) and the `SiteFooter` / `MobileMenu` link lists
+(35 px).
+
+### Not fixed, and why
+
+- **The arena Mat under the rejected pair** (finding 4, "drop the plate") — `ProofRejectedPair`
+  writes white type on it and is shared with the home page's ProofWall. Sized down instead.
+- **`--shadow-card-stock` itself** — the token lives in `app/globals.css` and CardFace applies it;
+  both belong to other builders. Re-aimed locally on /registry only. The card faces on the product
+  pages still carry the hairline.
+- **`ProofRejectedPair`'s `sizes`** now over-fetches: it asks for 360 px at ≥ 1024 and renders 187 px
+  in this layout. One-line fix in that component when its owner is next in it.
+- **Breadcrumbs / footer / mobile-menu tap targets** — shared chrome, listed above.
+
+---
+
+## fix-A-product-pages
+
+Owner review, 2026-09-07 — *"in many places the blocks have fallen in wrongly, everything is too
+crammed; why is there a grey background behind the animated slider; it must be much cleaner and
+stronger"*, against the QPMN reference (products FLOAT on the page ground at a slight angle with soft
+shadows, no plate, lots of air) and ViewEconomy (pages that breathe inside the hero and move quickly
+between bands). Files touched: `(families)/_shared/*`, the four product pages, `components/{Mat,
+FamilyCard,Ledger,ToScaleSheet}.tsx`, `tests/{families,senior-night,components}.test.ts`. Nothing in
+the home hero's or the trust pages' file set was edited.
+
+Everything below was measured on the built pages (`NEXT_DIST_DIR=.next-fixA2 npx next build`, deleted
+afterwards; `tsconfig.json` and `next-env.d.ts` restored) served as static HTML, driven with
+chrome-devtools at 1440 x 900 and 390 x 844. The three family pages are `ƒ`, so they were rendered
+with `renderToStaticMarkup` and wrapped in the built `<head>` of a prerendered page (real Tailwind,
+real fonts, scripts stripped) — the same harness *fix-product-heroes* describes. Because the flip never
+hydrates in that harness, the page carries the server DOM: one back face, not two.
+
+### 1. The grey plate is gone (finding 1)
+
+`HeroPlate` was `rounded-ui bg-hairline p-4 md:p-6 lg:h-full lg:p-8`. Its only job was to make the
+art's edges meet the copy's, and it bought that with a ground: on `/trading-cards` the box measured
+616 x 697 with the art in the middle band alone — 188 px of dead grey above it, 223 below. It is now
+`flex flex-col justify-center lg:h-full`: the row's `lg:items-stretch` plus `lg:h-full` do the
+alignment (still 0.00 px top/bottom, 0 px left/right), and the product floats on the page's own stock
+with `--shadow-card-stock` at a few degrees.
+
+`Mat` was dropped everywhere the art is already dark: the two card heroes, the poster hero, the
+senior-night hero, the six-finish row (card and poster variants), the 17-sport grid, the cheer pair,
+the section-03 flip, the `/complete-set` fallback poster, the senior-night sport tiles and the
+senior-night die-cut pair. **`Mat` itself is unchanged** and still exported — the one caller left is
+`FamilyCard`'s 4 : 5 media well, a bounded tile on the home page rather than a ground behind a
+product. Its doc comment now says so. No mat was kept for "light art": the die-cut pair was the only
+candidate and its gold-on-black reads on stock (it measured 26 % filled on its hairline mat).
+
+Painted grounds that contain an image, measured at 1440 — **every page now has zero below 85 % fill**:
+
+| page | plates with an image | any below 85 % |
+|---|---|---|
+| `/trading-cards` | 1 (the moment photo's own box) | none — 100 % |
+| `/posters` | 6 (the room-gallery boxes) | none — 100 % |
+| `/complete-set` | 1 (the set photo's box) | none — 100 % |
+| `/senior-night` | 1 (the team-order photo's box) | none — 100 % |
+
+### 2. `/senior-night` §04 — the card is the tile (finding 2)
+
+Was a hairline plate around a `aspect-[4/5] p-[8%] bg-arena` mat with the card at 76 % of it: tile
+285 x 356, card 182 x 254, **46 %**, 51 px of dead black each side, nine times, inside a
+`max-w-[900px]` grid that left ~300 px of the container unused. Now: tile 352 x 556, card 352 x 493,
+**89 %** (the rest is the sport name and the cheerleading caption), grid `max-w-[1120px]`,
+`gap-x-6 gap-y-10`. The ice-hockey text tile (no SR front, GAPS #17) moved from 4 : 5 to the card's own
+5 : 7 so the grid stays level.
+
+### 3. `/posters` §03 — the sheet holds the poster (finding 3)
+
+`ToScaleSheet` was a 788 x 689 SVG on a 938 x 840 `bg-hairline` plate: a stick figure between two empty
+grey rectangles, the biggest object on a page about posters.
+
+- **The plate is gone.** The sheet is line work on stock, `mx-auto max-w-[56rem]` (896 x 784 at 1440).
+- **The rectangles hold the artwork.** New optional `art` prop (`{ small, large }`); `/posters` resolves
+  it through `hasAsset` over `posters.finish.SN → FS → CA` and hands the SAME design to both frames, so
+  the only thing that differs between them is the size. Measured: 18 x 24 renders **168 x 224**, 24 x 36
+  renders **224 x 336** — 1.333 and 1.5, the true ratios — and both centres sit on the 58 in line.
+  The frames are `next/image` boxes positioned by `boxStyle()`, which derives left/top/width/height from
+  the SAME inch grid the SVG draws in, so one unit is still one inch by construction (asserted).
+  `alt=""` on both: the sheet is one figure and the SVG over it carries the label; two identical alt
+  sentences inside a picture that has already named itself is noise. C13 sits under the sheet.
+- **The stick figure is a body.** Same 69 in tall, same 16 in across the shoulders, fingertips at 26 in,
+  knees at 19 in; drawn as a filled outline at 14 % ink from a half-outline that is mirrored in code, so
+  the two sides cannot drift. `SHEET`, `HANG_HEIGHT_IN` and `posterCentreIn` are untouched and the hang
+  test still passes.
+- Section 03 went from a 7/5 split (sheet left, four lines of text right — 550 px of spread) to one
+  column. Section height 2258 → **2111** with the room gallery still in it.
+
+### 4. The spine counts what it draws (finding 4)
+
+`FAMILY_SECTION_TOTAL` was 7 while the template emitted 02, 03, 04, 05, 07 — a reader looking for 06
+could not find it, because 06 ("Still deciding?") is the strip inside the closing block. The total is
+now **6** and `ClosingSection` renders `06 / 06`. Measured on all three pages: `02 / 06 · 03 / 06 ·
+04 / 06 · 05 / 06 · 06 / 06`, no gap. `/senior-night` already numbered 01–06 and is unchanged.
+
+The `layout="rail"` branch was **removed** rather than fixed. It put the section rule in a 252 px
+track (finding 12) and left the spec sheet's two columns 460 px apart (finding 5); one column solves
+both, and the rule spans the container like the home pages.
+
+### 5. Columns that end together (finding 5)
+
+| row | before | after |
+|---|---|---|
+| `/trading-cards` §02 spec sheet | 460 px (rail 288 / ledger 748) | no two-column row — heading above table |
+| `/trading-cards` §03 | — | **29 px** (677 / 706) |
+| `/complete-set` §03 | 693 px | **79 px** (334 / 413) |
+| `/posters` §03 | 550 px | no two-column row |
+| `/senior-night` §03 | 554 px (see 6) | exhibit cells **61 px** (456 / 395) |
+| every hero row | 0 px | **0 px** |
+
+`/complete-set` §03: the 500 px `EditionPanel` moved out of the right column into its own row under
+both (`mt-14 lg:max-w-[42rem]`), the ledger went to `size="lg"` and the photograph to a 3 : 2 crop.
+Section height 1883 → **1589**. `/trading-cards` §03 got the same treatment — the edition panel is a
+row of its own under the two columns.
+
+### 6. `/senior-night` §03 is one system (finding 6)
+
+Three cells, three shapes: a 640 px bracketed card with its heading UNDER it, a bare paragraph, and a
+small grey-plated image pair — headings at y **394 / 645 / 1038** and ~800 px of white in the middle
+cell. Every cell is now heading → sentence → exhibit; the two exhibits share one `aspect-[4/3]` box
+inside a `BracketFrame`; the die-cuts stack in that box instead of sitting on a mat; and the cell with
+no exhibit — the certificate, deliberately not shown (GAPS #32) — is **last**, so the short cell ends
+the row instead of holing it. Measured: all three headings at **y 1655**, cells 456 / 395 / 78.
+
+### 7. `/trading-cards` §03 — one back, one photo (finding 7)
+
+The flip carried `staticBackBeside`, which rendered `back.webp` at 360 px inside the flip and again at
+222 px next to it, uncaptioned. The static back now sits beside the flip at the SAME width
+(`sm:w-[48%]` each, `maxWidth={360}`), which is what "FRONT + BACK" is meant to show; the QR ring still
+points at the real QR. Server DOM carries exactly **one** back image (was two). The right column's two
+near-identical "athlete holding his card" frames dropped to one (`limit: 2` → `limit: 1`) at 4 : 5 —
+`moment.card.hallway` is simply the next key in the list if the first ever goes.
+
+### 8. `Ledger` — a container query, not a breakpoint (finding 8)
+
+The key column was `sm:grid-cols-[38%_1fr]`, sized against the viewport rather than against the box the
+ledger stands in: 293 px of key for the word "Size" on the spec sheet, ~22 characters per line in a
+narrow column. Now:
+
+- the `<dl>` is a `@container`;
+- rows are `grid-cols-1 @lg:grid-cols-[minmax(0,12rem)_1fr]` — stacked below **32 rem of the ledger's
+  own width**, side by side above it, key capped at 12 rem so a one-word key can never buy a third of
+  the table;
+- new **`stacked` prop** forces the stacked form at any width. `<Ledger rows={...} stacked />`. That is
+  the whole API — for the home builder, `stacked` is the only new prop and it is a boolean.
+
+Every other Ledger caller (trust pages, home, `/registry`, `GateRow`, `OrderByCalculator`) inherits the
+narrower key column and the automatic stack; nothing needed changing at any call site and all their
+tests pass.
+
+### 9. Room-gallery captions (finding 9)
+
+`ShowcaseFigure` / `ShowcaseRow` gained `showCaption` (default true). `/posters` passes
+`showCaption={false}` on the wall row: the caption there was `captionFromAlt()` — the asset's own alt
+line printed under the photograph it describes, read twice by a sighted reader and twice by a screen
+reader. `showSport` stays, so each tile still says BASKETBALL / BASEBALL / FOOTBALL / SOCCER /
+CHEERLEADING / VOLLEYBALL, which is what a buyer needs from a wall gallery. The sentence is untouched in
+`alt`. Measured: 0 figcaptions on `/posters` (was 6). **No copy was rewritten** — a caption was hidden,
+not reworded.
+
+### 10. Vertical rhythm (finding 11)
+
+`Section` (and `ClosingSection`, and `/senior-night`'s `SECTION`) went from `py-16 md:py-24 lg:py-32`
+to **`py-14 md:py-20 lg:py-24`** — 192 px between two bands instead of 256 — and the space went inside:
+section body `mt-10 lg:mt-12`, two-column rows `lg:gap-x-10`, the sport grid `gap-y-8`, the finish
+row's C13 `mt-4` → the block gaps below, `FamilyCard`'s truths `mt-5 space-y-2.5`, `mt-16` before the
+picker. `SECTION_PADDING` is exported from `_shared/section.tsx` so the closing block and any future
+band cannot drift from it.
+
+### 11. Nits (finding 12)
+
+- **`FamilyCard` CTA.** `mt-auto pt-6` gave the tallest tile 24 px above the CTA and the others ~70.
+  It is a flat `mt-8` now: the same gap under every tile's truths, tiles still equal height via
+  `h-full`.
+- **The section rule is full width** on all four pages — see 4; the rail is gone.
+- **`/trading-cards` hero: one claim system.** It stacked a middot claim line with an accent tick, a
+  price line, two outline delivery chips and a grey shipping sentence — four blocks between the subhead
+  and the button. The delivery chips are the page's one claim and they stay. The claim line
+  (FRONT + BACK / REGISTERED EDITION / SQUARE-CUT · UV-COATED) said what section 03's own title says
+  and what rows 2–3 of the spec sheet say, and the C11 shipping sentence is repeated on every tier card
+  below it and on `/guarantee` — both are gone from that hero. What is left: headline, subhead, price,
+  chips, buttons, TrustLine.
+
+### 12. `/trading-cards` at 390 px (finding 13)
+
+**3 320 px → 2 088 px (3.93 → 2.47 phone screens, −37 %.)** Where it went: the claim line and the
+shipping sentence (−75), the hero plate's padding, and above all **`TierRow` is a snap scroller under
+`md`** (`-mx-5 flex snap-x snap-mandatory ... md:grid`) instead of three stacked cards — one card
+visible, the ladder readable as a ladder, ~1 200 px saved. Horizontal overflow is **0** at 390 and at
+1440 on all four pages.
+
+It is **not under two screens (1 688 px)**, and the reason is one number: a single `TierCard` measures
+632 px tall at 390 (name, price, a six-row `<dl>`, ships-from, chip, button). The remaining band is
+breadcrumbs 32 + copy 635 + art 338 + picker 103 + ladder 716 + padding. `components/TierCard.tsx` is
+not in this agent's file set; shortening that card is the only remaining lever and would take the band
+to roughly 1 800. The first 844 px now carries four things (breadcrumb, headline + subhead, price line,
+delivery chips) rather than the eight the audit counted.
+
+### Not done / owner calls
+
+- **`/posters` and `/complete-set` heroes still stack three claim systems** (claim line + chips + grey
+  shipping sentence). The audit named only `/trading-cards`, so only that page was cut; the same three
+  lines are one edit away on the other two if the owner wants the family consistent.
+- **`/senior-night` §03's certificate cell is still 78 px against 456.** The alternative the audit
+  offered — a plate of the same height stating what the certificate is — needs a sentence to put in it,
+  and COPY has none beyond the one already in the cell. Moving it last is what was done instead. If the
+  certificate photograph ever lands (GAPS #32) the cell takes the same 4 : 3 exhibit and the row closes.
+- **`/senior-night` §04 is 2 269 px tall** now that the nine cards are full-size tiles. That is the
+  cost of the fix and it looks right; if it reads as too long, the row wants a `lg:grid-cols-3` →
+  scroller treatment like the finish row, which is a bigger change than this pass.
+- **The `SeniorNightCluster` fallback got the float treatment but is not rendered today** —
+  `moment.senior.field` has landed, so the hero is that photograph. The cluster is still the fallback
+  and now floats with the stock shadow like everything else.
+- **`ToScaleSheet` hangs football art on a page whose picker says basketball.** `posters.finish.*` is
+  the six-finish football poster set; there is no per-sport poster export to key the sheet off. The
+  sheet is about size, not sport, and its two frames now carry one design so the comparison is clean —
+  but if the owner wants the sheet to follow the picker it needs a `posters.sport.<slug>` key.
+- **`next-env.d.ts` was restored** to `./.next/types/routes.d.ts`; `tsconfig.json` keeps the other two
+  builders' `.next-hero3` / `.next-fixC2` include lines (theirs to remove) and none of mine.
+
+## fix-C-home
+
+The owner's third review of 2026-09-07, in substance: *"in many places the blocks have fallen in
+wrongly — everything is too crammed. It must be much cleaner and stronger."* What he admires: products
+floating on the page's own ground with a soft shadow and a lot of air (no plates), one filled CTA plus
+one quiet arrow link, and pages that breathe inside a block and move quickly between bands. Every
+number below was measured on the prerendered `/` served statically, Chrome at 1440 × 900 and at
+390 × 844 (mobile emulation), before and after.
+
+### The spine (finding 13)
+
+The counter read **02 / 13 … 12 / 13**: it began at 02, ended at 12 and promised a thirteenth section
+nobody ever sees (the hero carries no index; 13 was the footer, which the layout renders). It now reads
+**01 / 11 … 11 / 11** with no gap. The *anchor ids did not move* — `HOME_INDEXED_SECTIONS` in
+`_home/Section.tsx` maps a section's anchor number (`#s-08`, linked from the hero; `#registry`) to its
+position in the printed spine, so `sectionIndex(8)` prints `07 / 11` while the id stays `s-08`.
+
+### Rhythm (finding 12)
+
+`HomeSection` default padding `py-16 md:py-24 lg:py-32` → **`py-12 md:py-20 lg:py-24`** (256 px between
+bands → 192 desktop, 96 mobile), and the space went inside the blocks: every section's content now
+opens at `mt-10`/`mt-12` and rows use `gap-8`/`gap-y-10` instead of `gap-3`/`gap-6`.
+
+| Measure | Before | After |
+|---|---|---|
+| Page height, 1440 | ~15 700 (13 bands at 256 px apart) | **14 979** |
+| Page height, 390 | 20 128 | **22 568** — see the note below |
+| §08 three exhibit frames | 659 / 366 / 358 px | **607 / 607 / 607** |
+| §05 two-column bottom spread | 175 px (and 303 px to the section end) | **104 px** |
+| §04 two-column bottom spread | 130 px | **101 px** |
+| §09 two-column bottom spread | 122 px | **102 px** |
+| §10 three columns → two | 400 / 508 / 292 px | **850 / 816** |
+| §06 tiles | 7 tiles, 167 px wide, one 44 px off the baseline | **6 tiles, 300 px, identical 502 px** |
+| §07 tiles | 191 × 201 plate holding a 120 × 169 card (35 px dead black each side) | **184 × 258, the card IS the tile** |
+| §10 gallery cards | 8 at 94 px | **4 at 242 px** |
+| Arrow links / footer links | 20–24 px / 35 px tall | **44 px** (padding cancelled by an equal negative margin, so nothing moved) |
+
+**The mobile page got 2 440 px longer, on purpose.** Two of the fixes buy their honesty with height:
+§07's seventeen tiles are now whole 5 : 7 cards instead of near-square plates holding a small card
+(2 691 → 3 221 px), and §10's FAIL/PASS pair stacks below `md` instead of running nine lines at 20
+characters in a 138 px column (that block alone is 1 244 px). The padding cut gave back about 400 px.
+The remaining lever on a phone would be three columns in §07 (108 px cards — the tile would still be
+60 % larger than the 68 px the earlier review rejected), but that reverses a decision from the same
+review cycle, so it is left to the owner.
+
+### Block by block
+
+- **§03 families (7).** The three tiles showed three product scales — the card fills more than half its
+  photograph, the single framed poster of `life.poster.room.baseball` about a tenth of its frame.
+  `POSTER_LIFE` now prefers `life.poster.room.wide` (three frames spanning ~80 % of the width), so the
+  product is the largest thing in all three tiles. The 4 : 5 box and its `object-cover` crop live in
+  `components/FamilyCard.tsx`, which belongs to fixer A — the choice of photograph was the lever
+  available here.
+- **§04 proof (10).** The pill moved from above the H2 into the rule row (`SectionRule rail`), where
+  every other section's pill sits, and the row went 7 / 5 → **6 / 6** so the centred columns are no
+  longer inset 130 px.
+- **§05 registry (2).** The lookup form left the right-hand column and now runs the **full width under
+  the row** on its own rule: it is what the whole section asks you to do, not part of either column's
+  argument. The card also lost its mat (a dark card on a dark 8 % mat filled 74 % of its plate) and
+  floats on the page's own stock at 340 px.
+- **§06 finishes (3).** The heading said SIX over a row of SEVEN. The row is the **six finishes**, in
+  three columns over two rows (300 px tiles, no plate, no mat); **Senior Night is its own item** under
+  it — gold rule, the pill, the COPY §2.2 (4) sentence and a link — because it is an occasion, not a
+  finish. The clipped "SENIOR NIGHT EDITION" pill disappears with the 138 px box it was clipping in.
+- **§07 sports (4).** No plate at all: every tile is the card's own 5 : 7 box with its shadow, and the
+  two sports with **no art at all** (pickleball, skateboarding — owner ticket, nothing was fabricated)
+  use that same box with the shield in it and their name and back line in the caption row, exactly
+  like the other fifteen. The back line is printed **only where it differs** from the rule the subhead
+  states, so "their number" no longer repeats under eight tiles in a row.
+- **§08 process (1).** `items-start` → `items-stretch` with a new `fill` prop on `BracketFrame`: the
+  three frames take the row's height, the two photographs are drawn at that height (`object-contain`,
+  nothing cropped), and the verdict `Ledger` uses fixer A's `stacked` mode — at 138 px of value column
+  it was setting 22 characters to a line over seven lines.
+- **§09 photos.** The ledger is `size="lg"` so the two halves of the block end together (102 px).
+- **§10 proof wall (5, 6).** Four editions at 242 px instead of eight at 94; two columns instead of
+  three, ending 34 px apart; **"We are new" is a full-width line under both** — it is an admission
+  about the studio, not a third exhibit. One fictional credit for the group (the pair's), plus C18
+  under the gallery. `ProofRejectedPair` stacks below `md`.
+- **§11 founder (8).** Single column, deliberately: there is no founder photograph
+  (`public/brand/founder.jpg` does not exist, COPY §6 #1) and a face is never generated. Nothing is
+  reserved for one; the measure went 52 → 62 ch and the section is now as tall as what it says (781 px).
+- **§12 occasions (9).** Reading order is now image → H3 → paragraph → caption → credit → CTA (the
+  caption and C13 used to sit between a photograph and its own heading, which put the two H3s at
+  different heights). The senior-night CTA is the **filled** primary; the team CTA is the quiet arrow
+  link.
+- **Footer strip (11).** Every cell carries a real figure now: `17` sports · `7` styles ·
+  `2.5 × 3.5 in` · `1` free printed certificate · `1` registered card ID. Two of the five were plain
+  sentences beside 44 px numerals, 49 px off their neighbours' baseline; `TRUE_COUNTS[3]` and `[4]`
+  changed from "Free printed Certificate of Authenticity **with** every shipped package" and "**A**
+  registered card ID on every card" to the same two promises **counted** ("1 free printed … **in**
+  every shipped package", "1 registered card ID on every card"). The figure row is a fixed-height
+  baseline, a long figure (the dimension) is set smaller so it fits it, and the hover underline belongs
+  to the sentence, never to the numeral. `tests/libs.test.ts`'s "exactly three numerals" assertion
+  moved with the data (it is the only file outside this agent's set that was touched, and only that
+  line). The strip deliberately carries **no price and no delivery cell** — `HeroStrip` owns those now.
+
+### Not done / owner calls
+
+- **§03's crop.** `FamilyCard` renders its 4 : 5 media well with `object-cover object-[50%_38%]`; that
+  file is fixer A's. If the owner wants the product bigger still in the poster tile, the box wants a
+  per-key focus rectangle, which belongs in `FamilyCard`.
+- **No art for pickleball and skateboarding.** Their tiles are structurally identical to the other
+  fifteen but hold the shield, not a card. Nothing was invented; the export is the owner's ticket.
+- **The imprint's `mailto:` link in the footer is 18 px tall.** It is an inline link inside a running
+  sentence, not a tap target in a list; growing it would break the line. Every other footer link is 44.
+- **§06 is 1 948 px at 1440.** That is the cost of tiles you can actually read (300 px against 167) plus
+  the Senior Night item. If it reads as too long, the row wants three columns at `md` and six at `2xl`
+  — one class, and the tiles fall back to ~200 px.

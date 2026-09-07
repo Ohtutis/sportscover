@@ -1,6 +1,5 @@
 import { CardFace } from "../../../../components/CardFace";
 import { FictionalLabel } from "../../../../components/FictionalLabel";
-import { Mat } from "../../../../components/Mat";
 import { assetOrNull } from "../../../../lib/assets";
 import { backLine, sports } from "../../../../lib/catalog/sports";
 import { CANON } from "../../../../lib/copy/canon";
@@ -50,15 +49,13 @@ export function SportGrid({ className = "", faces = true }: { className?: string
   }
   return (
     <div className={className || undefined}>
-      <ul className="grid grid-cols-3 gap-3 md:grid-cols-4 lg:grid-cols-6">
+      <ul className="grid grid-cols-3 gap-x-4 gap-y-8 md:grid-cols-4 lg:grid-cols-6">
         {sports.map((sport) => {
           const spec = assetOrNull(`sport.${sport.slug}.front`);
           return (
             <li key={sport.slug}>
               {spec ? (
-                <Mat tone="arena">
-                  <CardFace {...spec} labelled surface="arena" sizes={TILE_SIZES} />
-                </Mat>
+                <CardFace {...spec} labelled sizes={TILE_SIZES} />
               ) : (
                 <div className="flex aspect-[5/7] items-center justify-center rounded-ui border border-hairline bg-stock p-3 text-center font-body text-small text-muted-text">
                   {sport.name}
@@ -82,17 +79,16 @@ function CheerPair() {
   if (!front || !back) return null;
   return (
     <div>
-      <Mat tone="arena">
-        <div className="flex w-full items-center justify-center gap-[8%]">
-          <div className="w-[46%]">
-            <CardFace {...front} labelled surface="arena" sizes="(min-width: 1024px) 240px, 40vw" />
-          </div>
-          <div className="w-[46%]">
-            <CardFace {...back} labelled surface="arena" sizes="(min-width: 1024px) 240px, 40vw" />
-          </div>
+      {/* Floated, not matted: two dark faces on a dark 8 % mat spent a quarter of the block on grey. */}
+      <div className="flex w-full items-center justify-center gap-[7%]">
+        <div className="w-[44%] rotate-[-3deg]">
+          <CardFace {...front} labelled sizes="(min-width: 1024px) 240px, 40vw" />
         </div>
-      </Mat>
-      <FictionalLabel className="mt-2" />
+        <div className="w-[44%] rotate-[3deg]">
+          <CardFace {...back} labelled sizes="(min-width: 1024px) 240px, 40vw" />
+        </div>
+      </div>
+      <FictionalLabel className="mt-6" />
     </div>
   );
 }
@@ -130,7 +126,7 @@ export function NumberlessSection({ variant }: NumberlessSectionProps) {
           )}
         </div>
       </div>
-      <SportGrid className="mt-12" faces={!poster} />
+      <SportGrid className="mt-14" faces={!poster} />
     </Section>
   );
 }

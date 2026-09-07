@@ -7,6 +7,7 @@ import { Fears } from "./_home/Fears";
 import { Finishes } from "./_home/Finishes";
 import { Founder } from "./_home/Founder";
 import { Hero } from "./_home/Hero";
+import { HeroStrip } from "./_home/HeroStrip";
 import { Occasions } from "./_home/Occasions";
 import { Photos } from "./_home/Photos";
 import { Process } from "./_home/Process";
@@ -28,7 +29,8 @@ export default function Home() {
   const now = new Date();
   return (
     <>
-      <Hero now={now} />
+      <Hero />
+      <HeroStrip now={now} />
       <Fears />
       <Families now={now} />
       <ProofBand />

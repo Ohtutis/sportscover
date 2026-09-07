@@ -5,15 +5,32 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArrowRightIcon } from "../../../components/icons";
 
-/** The home page numbers its sections 01 / 13 … 13 / 13 (DESIGN §2.5). */
-export const HOME_SECTION_COUNT = 13;
+/**
+ * The sections that carry a visible index, in page order (the hero opens on the H1 with no rule, and
+ * the footer is the layout's, not the page's). The counter used to read "02 / 13 … 12 / 13": it began
+ * at 02, ended at 12 and promised a 13 nobody ever sees — a counter that does not count, on a page
+ * whose whole pitch is that everything here is counted (design review 2026-09-07). The `n` values
+ * below stay the anchor numbers (`#s-08` is linked from the hero and must not move); what changed is
+ * the number PRINTED on the rule, which is now this list's own 01 … 11.
+ */
+export const HOME_INDEXED_SECTIONS = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as const;
 
-export const sectionIndex = (n: number): string => `${String(n).padStart(2, "0")} / ${HOME_SECTION_COUNT}`;
+/** How many indices the page actually prints — the denominator on every rule. */
+export const HOME_SECTION_COUNT = HOME_INDEXED_SECTIONS.length;
+
+/** Where a section's anchor number sits in the printed spine (1 … HOME_SECTION_COUNT). */
+export const spinePosition = (n: number): number => HOME_INDEXED_SECTIONS.indexOf(n as (typeof HOME_INDEXED_SECTIONS)[number]) + 1;
+
+export const sectionIndex = (n: number): string => {
+  const at = spinePosition(n);
+  if (at < 1) throw new Error(`sectionIndex: section ${n} carries no printed index`);
+  return `${String(at).padStart(2, "0")} / ${HOME_SECTION_COUNT}`;
+};
 
 export const sectionId = (n: number): string => `s-${String(n).padStart(2, "0")}`;
 
 export interface HomeSectionProps {
-  /** 1 … 13 — drives the id and the index string. */
+  /** 1 … 12 — drives the id and the index string. */
   n: number;
   container?: "site" | "gallery";
   tone?: "stock" | "arena";
@@ -25,8 +42,12 @@ export interface HomeSectionProps {
   className?: string;
 }
 
-/** `<section>` + its container. Padding is DESIGN §2.3 unless a section overrides it. */
-export function HomeSection({ n, container = "site", tone = "stock", labelledBy, id, children, className = "py-16 md:py-24 lg:py-32" }: HomeSectionProps) {
+/**
+ * `<section>` + its container. The rhythm was inverted (owner review 2026-09-07): 256 px of air
+ * BETWEEN sections while the blocks inside sat 8–24 px apart, so every band read as a pile with a
+ * canyon under it. The band gap comes down to 96 px and the space is spent inside the blocks.
+ */
+export function HomeSection({ n, container = "site", tone = "stock", labelledBy, id, children, className = "py-12 md:py-20 lg:py-24" }: HomeSectionProps) {
   return (
     <section
       id={id}
@@ -86,9 +107,13 @@ export function HomeHeading({ id, title, subhead, pills, align = "left", tone = 
   );
 }
 
-/** A body link with the 16 px accent arrow that moves 2 px on hover (DESIGN §4.8, §5.1-09). */
+/**
+ * A body link with the 16 px accent arrow that moves 2 px on hover (DESIGN §4.8, §5.1-09). The hit
+ * area is 44 px tall (checklist minimum — the audit measured 20–24 px); the padding is cancelled by
+ * an equal negative margin, so the link still SITS where it did and only the target grew.
+ */
 export function ArrowLink({ href, children, tone = "stock", className = "" }: { href: string; children: ReactNode; tone?: "stock" | "arena"; className?: string }) {
-  const cls = `group inline-flex min-h-6 items-center gap-2 font-body text-small font-medium decoration-1 underline-offset-4 transition-[text-decoration-thickness] duration-hover ease-out hover:underline ${
+  const cls = `group -my-2.5 inline-flex min-h-11 items-center gap-2 py-2.5 font-body text-small font-medium decoration-1 underline-offset-4 transition-[text-decoration-thickness] duration-hover ease-out hover:underline ${
     tone === "arena" ? "text-white" : "text-ink"
   } ${className}`.trim();
   const inner = (

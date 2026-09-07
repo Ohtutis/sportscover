@@ -53,7 +53,7 @@ import { Ledger } from "../components/Ledger";
 import { StatusChip } from "../components/StatusChip";
 import { BeforeAfter } from "../components/BeforeAfter";
 import { TrueNumbers } from "../components/TrueNumbers";
-import { HANG_HEIGHT_IN, SHEET, ToScaleSheet, posterCentreIn } from "../components/ToScaleSheet";
+import { HANG_HEIGHT_IN, SHEET, ToScaleSheet, boxStyle, posterCentreIn } from "../components/ToScaleSheet";
 import { PhotoChecklist } from "../components/PhotoChecklist";
 import { FICTIONAL_LABEL_SHORT, FictionalLabel } from "../components/FictionalLabel";
 import { ButtonLink } from "../components/ButtonLink";
@@ -161,13 +161,16 @@ describe("Pill / DeliveryChips / TrustLine / StatusChip / Plate / Mat / Ledger",
     for (const s of trustLineSegments()) expect(html).toContain(s);
     expect(html).not.toContain("AI training");
     expect(html).toContain(CANON.trustLine.split(" · ")[0]);
-    // The middot travels with the segment before it, so a wrapped line never opens with "·".
+    // Owner review 2026-09-07: a row of check-mark items, not a middot-separated line — the
+    // separators fell at the end of a wrapped line and read as punctuation adrift.
     const segments = trustLineSegments();
-    for (const [i, segment] of segments.entries()) {
-      const expected = i < segments.length - 1 ? `<span>${segment}</span><span aria-hidden="true">·</span>` : `<span>${segment}</span></span>`;
-      expect(unescape(html)).toContain(expected);
-    }
-    expect(html).not.toContain('<span aria-hidden="true">·</span><span>');
+    expect(html.match(/<li/g)?.length).toBe(segments.length);
+    expect(html).not.toContain("·");
+    for (const segment of segments) expect(unescape(html)).toContain(`<span>${segment}</span>`);
+    // The tick is decorative: 1.5 px stroke, aria-hidden, the text beside it carries the meaning.
+    expect(html.match(/aria-hidden="true"/g)?.length).toBe(segments.length);
+    expect(html).toContain('stroke-width="1.5"');
+    expect(render(createElement(TrustLine, { tone: "arena" }))).toContain("text-arena-muted");
   });
   it("StatusChip carries visible text and is outline", () => {
     const html = render(createElement(StatusChip, { status: "fail" }));
@@ -187,6 +190,19 @@ describe("Pill / DeliveryChips / TrustLine / StatusChip / Plate / Mat / Ledger",
     expect(ledger).toMatch(/^<dl/);
     expect(ledger.match(/<dt/g)?.length).toBe(2);
     expect(ledger).toContain("Square-cut");
+  });
+  // Owner review, 2026-09-07: the key column was a flat 38 % of the VIEWPORT breakpoint, so a one-word
+  // key took 293 px on the spec sheet and left ~22 characters per line in a narrow page column. The row
+  // is a container query on the ledger's own width now, with the key capped, and `stacked` forces it.
+  it("Ledger stacks key over value in a narrow container, and caps the key column in a wide one", () => {
+    const rows = [{ key: "Size", value: "2.5 × 3.5 in (63.5 × 89 mm)" }];
+    const wide = render(createElement(Ledger, { rows }));
+    expect(wide).toContain("@container");
+    expect(wide).toContain("@lg:grid-cols-[minmax(0,12rem)_1fr]");
+    expect(wide).not.toContain("38%");
+    const stacked = render(createElement(Ledger, { rows, stacked: true }));
+    expect(stacked).not.toContain("@lg:grid-cols-");
+    expect(stacked).toContain("grid-cols-1");
   });
 });
 
@@ -452,6 +468,28 @@ describe("FourFears / GateRow / FounderNote / ConsentRow / CapacityNote / PhotoC
     expect(html).toContain('fill-opacity="0.06"');
     expect(html).toContain('stroke="var(--color-hairline)"');
     expect(html).not.toContain('fill="#FFFFFF"');
+  });
+  // Owner review, 2026-09-07: the biggest object on the posters page was a stick figure between two
+  // empty grey rectangles. The rectangles hold the real artwork now, in the same inch grid.
+  it("ToScaleSheet hangs real artwork in the two frames, in the inch grid, without moving the scale", () => {
+    const art = { src: "/images/posters/football-poster-stadium-night.webp", alt: "poster", width: 1200, height: 1600, fictional: true };
+    const html = render(createElement(ToScaleSheet, { art: { small: art, large: art } }));
+    expect(html.match(/<img/g)?.length).toBe(2);
+    // Both frames are placed by the same inch grid the drawing uses, so one unit is still one inch.
+    for (const box of [SHEET.poster1824, SHEET.poster2436]) {
+      const style = boxStyle(box);
+      expect(style.left).toBe(`${(box.x / SHEET.width) * 100}%`);
+      expect(style.width).toBe(`${(box.w / SHEET.width) * 100}%`);
+      expect(html).toContain(`width:${style.width}`);
+    }
+    expect(posterCentreIn(SHEET.poster1824)).toBe(HANG_HEIGHT_IN);
+    expect(html).toContain(`${HANG_HEIGHT_IN} IN · HANG CENTER`);
+    expect(html).toContain("5 FT 9 IN");
+    // The sheet is one figure with one label: the frames are inside it, not two extra announcements.
+    expect(html.match(/alt=""/g)?.length).toBe(2);
+    // No plate under it any more, and the figure is a filled body rather than a stick.
+    expect(html).not.toContain("bg-hairline");
+    expect(html).toContain('fill-opacity="0.14"');
   });
 });
 

@@ -211,6 +211,44 @@ describe("the page", () => {
     expect(section.includes("grid items-start")).toBe(true);
   });
 
+  // Owner review, 2026-09-07: three cells, three different shapes — headings at y 394, 645 and 1038,
+  // and about 800 px of white under the middle one. One system: heading, sentence, exhibit; the two
+  // exhibits share a 4 : 3 box; the cell with no exhibit is last so the short cell ends the row.
+  it("section 03 is one system — every heading first, both exhibits the same box", () => {
+    const section = page.slice(page.indexOf('id="sn-what"'), page.indexOf('id="sn-sports"'));
+    // Heading before its own exhibit in every cell: no <BracketFrame> may precede the first <h3>.
+    expect(section.indexOf("<h3")).toBeLessThan(section.indexOf("<BracketFrame"));
+    for (const m of section.matchAll(/<BracketFrame/g)) {
+      const before = section.slice(0, m.index);
+      expect(before.lastIndexOf("<h3")).toBeGreaterThan(before.lastIndexOf("</div>") - 400);
+    }
+    expect(section.match(/aspect-\[4\/3\]/g)?.length).toBe(2);
+    // The certificate cell is the last of the three.
+    expect(section.lastIndexOf("The certificate")).toBeGreaterThan(section.lastIndexOf("The badge and sticker"));
+  });
+
+  // Owner review, 2026-09-07: the card was 46 % of its own tile — a 285 × 356 arena mat around a
+  // 182 × 254 card, 51 px of dead black each side, nine times over. The card IS the tile now.
+  it("section 04 lets each card be its own tile — no mat, no 8 % inset, no dead track", () => {
+    const tile = page.slice(page.indexOf("function SportTile"), page.indexOf("export default function"));
+    expect(tile.includes("bg-arena")).toBe(false);
+    expect(tile.includes('w-[76%]')).toBe(false);
+    expect(tile.includes("<CardFace")).toBe(true);
+    // The one tile with no SR front keeps the card's own ratio so the grid stays level.
+    expect(tile.includes("aspect-[5/7]")).toBe(true);
+    expect(tile.includes("aspect-[4/5]")).toBe(false);
+    const grid = page.slice(page.indexOf('id="sn-sports"'), page.indexOf('id="sn-class"'));
+    expect(grid.includes("max-w-[900px]")).toBe(false);
+  });
+
+  // The hero object is dark art; the mat around it was a grey border that shrank the product.
+  it("the hero object floats on the page ground, with no mat and the stock shadow", () => {
+    const media = page.slice(page.indexOf("function SeniorNightCluster"), page.indexOf("function SportTile"));
+    expect(media.includes("<Mat")).toBe(false);
+    expect(media.includes("shadow-[var(--shadow-card-arena)]")).toBe(false);
+    expect(media.includes("shadow-[var(--shadow-card-stock)]")).toBe(true);
+  });
+
   it("keeps gold inside the media and the gold pill only", () => {
     expect(page.match(/tone="gold"/g)?.length).toBe(1);
     expect(page.includes("text-gold")).toBe(false);

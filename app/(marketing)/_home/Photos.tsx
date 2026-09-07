@@ -15,18 +15,20 @@ export function Photos() {
   return (
     <HomeSection n={9}>
       <SectionRule n={9} />
-      <div className="mt-8 lg:mt-12 lg:grid lg:grid-cols-12 lg:gap-x-8">
+      <div className="mt-10 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-10">
         <div className="lg:col-span-7">
-          <HomeHeading id={sectionId(9)} title={PHOTOS_H2} />
+          <HomeHeading id={sectionId(9)} title={PHOTOS_H2} className="-mt-6" />
           <p className="mt-4 max-w-[62ch] font-body text-body font-medium text-pretty">{block("photo-privacy")}</p>
           <TrustLine />
-          <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
+          <div className="mt-8 flex flex-wrap gap-x-8 gap-y-2">
             <ArrowLink href="/privacy#subprocessors">Who processes the photos</ArrowLink>
             <ArrowLink href="/privacy/biometric">The likeness check, in writing</ArrowLink>
           </div>
         </div>
-        <div className="mt-8 lg:col-span-4 lg:col-start-9 lg:mt-0">
-          <Ledger rows={PHOTOS_LEDGER} />
+        <div className="mt-10 lg:col-span-4 lg:col-start-9 lg:mt-0">
+          {/* `lg` rows: the ledger is the only object in this column and the block's two halves must
+              end together (the audit's ≤ 120 px rule) — at the default size it stopped 122 px short. */}
+          <Ledger rows={PHOTOS_LEDGER} size="lg" />
         </div>
       </div>
     </HomeSection>

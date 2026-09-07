@@ -5,10 +5,10 @@ import { TrustLine } from "../../../../components/TrustLine";
 import { block } from "../../../../lib/blocks";
 import { faqSubset } from "../../../../lib/catalog/faq";
 import type { CtaPairProps } from "../../../../lib/cta";
-import { sectionIndex } from "./section";
+import { SECTION_PADDING, sectionIndex } from "./section";
 
 /**
- * Section 07 — the four canon blocks, the six-question FAQ subset with its FAQPage markup (exactly the
+ * Section 06 — the four canon blocks, the six-question FAQ subset with its FAQPage markup (exactly the
  * items rendered, one per page — CONTRACTS §3), and the closing CTA block: pair → "Still deciding?"
  * strip → TrustLine, which is always the last element of a CTA block (DESIGN §4.3). The delivery chips
  * are claimed once per page, in the hero, so they are not repeated here.
@@ -31,11 +31,11 @@ export interface ClosingSectionProps {
 export function ClosingSection({ faq, cta }: ClosingSectionProps) {
   const items = faqSubset(faq);
   return (
-    <section aria-label="Questions and ordering" className="py-16 md:py-24 lg:py-32">
+    <section aria-label="Questions and ordering" className={SECTION_PADDING}>
       <div className="container-site">
         <div className="flex items-center justify-between gap-4 border-t border-hairline pt-3">
           <span aria-hidden="true" className="font-body text-[0.8125rem] font-medium tabular-nums tracking-[0.14em] text-muted-text">
-            {sectionIndex(7)}
+            {sectionIndex(6)}
           </span>
         </div>
         <div className="mt-8 grid gap-x-12 gap-y-10 md:grid-cols-2 lg:mt-12">
@@ -46,7 +46,7 @@ export function ClosingSection({ faq, cta }: ClosingSectionProps) {
             </div>
           ))}
         </div>
-        <FaqList items={items} jsonLd id="faq" className="mt-16" />
+        <FaqList items={items} jsonLd id="faq" className="mt-14" />
         <div className="mt-12 border-t border-hairline pt-8">
           <CtaPair {...cta} size="lg" />
           <FourFears variant="short" className="mt-6" />

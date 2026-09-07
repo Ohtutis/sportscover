@@ -145,6 +145,37 @@ function deltaE(a: [number, number, number], b: [number, number, number]): numbe
 const WHITE: [number, number, number] = [255, 255, 255];
 const STOCK: [number, number, number] = [0xf4, 0xf3, 0xef];
 
+/* ---------- crop (lib/assets.ts AssetCrop) ---------- */
+interface Box {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+}
+
+/**
+ * "inset-5" is the GAPS #3 five-percent inset. `box:<l>,<t>,<w>,<h>` is an explicit box in fractions of the
+ * source, used to trim baked marketing type (a headline, a price, a slide number) off a listing photograph
+ * before it is ever encoded — the trim is declared in lib/assets.ts and recorded in the manifest.
+ */
+function cropBox(crop: SiteAsset["crop"], w: number, h: number): Box | null {
+  if (!crop) return null;
+  if (crop === "inset-5") {
+    const l = Math.round(w * 0.05);
+    const t = Math.round(h * 0.05);
+    return { left: l, top: t, width: w - 2 * l, height: h - 2 * t };
+  }
+  const m = /^box:(\d*\.?\d+),(\d*\.?\d+),(\d*\.?\d+),(\d*\.?\d+)$/.exec(crop);
+  if (!m) throw new Error(`unknown crop "${crop}"`);
+  const [fl, ft, fw, fh] = m.slice(1, 5).map(Number);
+  if (fw <= 0 || fh <= 0 || fl + fw > 1.0001 || ft + fh > 1.0001) throw new Error(`crop "${crop}" leaves the frame`);
+  const left = Math.round(w * fl);
+  const top = Math.round(h * ft);
+  const box = { left, top, width: Math.min(Math.round(w * fw), w - left), height: Math.min(Math.round(h * fh), h - top) };
+  if (box.width < 1 || box.height < 1) throw new Error(`crop "${crop}" is empty`);
+  return box;
+}
+
 /**
  * DESIGN §6.2 — edge continuity in both directions. A corner fails when its alpha < 255, or when it sits within
  * ΔE 8 of white / stock AND the pixel 16 px diagonally inward differs from it by ΔE > 20 (the step a rounded
@@ -281,12 +312,11 @@ async function convert(g: Group, deny: Map<string, DenyEntry>, manifest: Manifes
   let w = meta.width ?? 0;
   let h = meta.height ?? 0;
   if (!w || !h) throw new Error(`cannot read ${a.source}`);
-  if (a.crop === "inset-5") {
-    const l = Math.round(w * 0.05);
-    const t = Math.round(h * 0.05);
-    img = img.extract({ left: l, top: t, width: w - 2 * l, height: h - 2 * t });
-    w -= 2 * l;
-    h -= 2 * t;
+  const box = cropBox(a.crop, w, h);
+  if (box) {
+    img = img.extract(box);
+    w = box.width;
+    h = box.height;
   }
   if (a.width > w || a.height > h) throw new Error(`${a.out}: declared ${a.width}×${a.height} would upscale ${w}×${h} (${a.source})`);
   const expectH = Math.round((h * a.width) / w);

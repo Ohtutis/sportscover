@@ -57,24 +57,13 @@ const VERDICT: { status: "fail" | "note" | "pass"; text: string }[] = [
 
 function VerdictCard() {
   return (
-    <div>
-      <Ledger
-        rows={VERDICT.map((row, i) => ({
-          id: `verdict-${i + 1}`,
-          key: <StatusChip status={row.status} />,
-          value: row.text,
-        }))}
-      />
-      <p className="mt-4 max-w-[62ch] font-body text-body font-medium text-pretty text-ink">
-        If your photos can&rsquo;t carry the likeness and you have no stronger ones, you get every cent back — before any art is
-        made.
-      </p>
-      <p className="mt-2 font-body text-small">
-        <Link href="/photo-guide" className="text-ink underline-offset-4 decoration-1 hover:underline">
-          What to send
-        </Link>
-      </p>
-    </div>
+    <Ledger
+      rows={VERDICT.map((row, i) => ({
+        id: `verdict-${i + 1}`,
+        key: <StatusChip status={row.status} />,
+        value: row.text,
+      }))}
+    />
   );
 }
 
@@ -139,7 +128,7 @@ function KitPlates() {
           alt={spec.alt}
           width={spec.width}
           height={spec.height}
-          sizes="(min-width: 1024px) 320px, 45vw"
+          sizes="(min-width: 1024px) 240px, 45vw"
           className="aspect-square h-auto w-full rounded-none object-contain"
         />
       ))}
@@ -147,27 +136,26 @@ function KitPlates() {
   );
 }
 
+/**
+ * Front and back plate in ONE row. The exhibit used to run the front plate full width and hang the
+ * back one underneath at half width — three views in row 1, two in row 2, an exhibit taller than the
+ * paragraph explaining it (owner review 2026-09-07). Both plates share a ratio, so a flex row with
+ * equal basis gives them the same height and the same scale.
+ */
 function ReferencePlate() {
   return (
-    <div>
-      <Image
-        src={plate.src}
-        alt={plate.alt}
-        width={plate.width}
-        height={plate.height}
-        sizes="(min-width: 1024px) 640px, 100vw"
-        className="h-auto w-full rounded-none"
-      />
-      {plateBack ? (
+    <div className="flex items-start gap-3">
+      {[plate, plateBack].filter((spec): spec is ImageSpec => Boolean(spec)).map((spec) => (
         <Image
-          src={plateBack.src}
-          alt={plateBack.alt}
-          width={plateBack.width}
-          height={plateBack.height}
-          sizes="(min-width: 1024px) 320px, 50vw"
-          className="mt-3 h-auto w-1/2 rounded-none"
+          key={spec.src}
+          src={spec.src}
+          alt={spec.alt}
+          width={spec.width}
+          height={spec.height}
+          sizes="(min-width: 1024px) 240px, 45vw"
+          className="h-auto min-w-0 flex-1 rounded-none"
         />
-      ) : null}
+      ))}
     </div>
   );
 }
@@ -182,7 +170,7 @@ function FourShots() {
             alt={spec.alt}
             width={spec.width}
             height={spec.height}
-            sizes="(min-width: 1024px) 160px, 24vw"
+            sizes="(min-width: 1024px) 120px, 24vw"
             className="aspect-[2/3] h-auto w-full rounded-none object-contain"
           />
           <span className="mt-2 block font-label text-label font-semibold uppercase tracking-[0.12em] tabular-nums text-muted-text">
@@ -202,11 +190,26 @@ const gates: Gate[] = [
     artefactName: "the verdict, as the parent reads it",
     tab: "PHOTO CHECK · VERDICT",
     fictional: false,
+    wide: true,
     body: (
-      <p>
-        Before a cent is spent we look at every photo you sent and tell you, in plain words, which ones can carry the likeness
-        and what would fix the rest. The reasons are things you can act on — never &ldquo;validation failed&rdquo;.
-      </p>
+      <>
+        <p>
+          Before a cent is spent we look at every photo you sent and tell you, in plain words, which ones can carry the likeness
+          and what would fix the rest. The reasons are things you can act on — never &ldquo;validation failed&rdquo;.
+        </p>
+        <p className="mt-4 font-medium">
+          If your photos can&rsquo;t carry the likeness and you have no stronger ones, you get every cent back — before any art
+          is made.
+        </p>
+        <p className="mt-4">
+          <Link
+            href="/photo-guide"
+            className="inline-flex min-h-11 items-center gap-1.5 font-body text-small text-ink underline-offset-4 decoration-1 hover:underline"
+          >
+            What to send <span aria-hidden="true">&rarr;</span>
+          </Link>
+        </p>
+      </>
     ),
     artefactNode: <VerdictCard />,
     artefact: {
@@ -445,21 +448,27 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      {/* 03 — the rejected take */}
+      {/* 03 — the rejected take.
+          This section used to run the gallery container and give a QA failure the largest imagery on
+          the site — two 563 × 800 frames, wider than any product photograph anywhere (owner review
+          2026-09-07). It is a footnote to the gates, so it reads as one: the sentence on the left,
+          the pair beside it at a third of the width it had. */}
       <section aria-labelledby="s-rejected" className="pb-16 md:pb-24 lg:pb-32">
-        <div className="container-gallery">
-          <SectionHeading
-            as="h2"
-            id="s-rejected"
-            index={idx(3)}
-            title="ONE THAT DIDN'T SHIP."
-            subhead="A real rejection from our own roster, not a staged one."
-          />
-          <div className="mt-8 lg:mt-12">
-            {rejectedFail && rejectedPass ? <ProofRejectedPair fail={rejectedFail} pass={rejectedPass} /> : null}
-            <p className="mt-6 max-w-[62ch] font-body text-body font-medium text-pretty text-ink">
+        <div className="container-site lg:grid lg:grid-cols-12 lg:items-center lg:gap-x-8">
+          <div className="lg:col-span-5">
+            <SectionHeading
+              as="h2"
+              id="s-rejected"
+              index={idx(3)}
+              title="ONE THAT DIDN'T SHIP."
+              subhead="A real rejection from our own roster, not a staged one."
+            />
+            <p className="mt-8 max-w-[62ch] font-body text-body font-medium text-pretty text-ink">
               A rejection is never fixed by loosening the gate. The input is fixed, or you are asked for a better photo.
             </p>
+          </div>
+          <div className="mt-8 lg:col-span-7 lg:mt-0 lg:max-w-[32rem] lg:justify-self-end">
+            {rejectedFail && rejectedPass ? <ProofRejectedPair fail={rejectedFail} pass={rejectedPass} /> : null}
           </div>
         </div>
       </section>
