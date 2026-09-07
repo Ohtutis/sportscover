@@ -62,3 +62,18 @@ export function backLine(s: Sport): BackLine {
 
 /** The sports the /posters page can show and sell today (GAPS #16), in roster order. */
 export const postersSports = (): Sport[] => sports.filter((s) => s.hasPosterArt);
+
+/**
+ * The sports that have their OWN Etsy listing for a family. Every other sport is still built to
+ * order, but its buyer goes to the all-sports Complete Set listing and picks the sport there — so a
+ * picker must never imply a listing that does not exist (an earlier build sent nine sports to the
+ * basketball listing, and then to a set listing from the trading-card page).
+ */
+export const sportsWithOwnListing = (family: "cards" | "posters" | "senior-night"): Sport[] =>
+  sports.filter((s) =>
+    family === "cards" ? Boolean(s.cardListingId) : family === "posters" ? Boolean(s.posterListingId) : Boolean(s.seniorNightListingId),
+  );
+
+/** Whether this sport has its own listing for the family (false → the all-sports listing). */
+export const hasOwnListing = (sport: Sport, family: "cards" | "posters" | "senior-night"): boolean =>
+  sportsWithOwnListing(family).some((s) => s.slug === sport.slug);

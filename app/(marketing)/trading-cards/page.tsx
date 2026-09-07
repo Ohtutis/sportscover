@@ -139,7 +139,7 @@ export default async function TradingCardsPage({
           </div>
 
           <div className="mt-12">
-            <SportPicker action={PATH} options={sports} selected={sport} />
+            <SportPicker action={PATH} options={sports} family="cards" selected={sport} />
             <TierRow family="cards" context="cards" sport={sport} now={now} className="mt-8" />
           </div>
         </div>
