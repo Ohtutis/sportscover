@@ -16,17 +16,24 @@ export interface BracketFrameProps {
   caption?: ReactNode;
   /** The artefact shows a fictional athlete → C13 in the figcaption. */
   fictional?: boolean;
+  /**
+   * Fill the height of the grid cell it stands in and let the artefact take what the caption does not.
+   * Three frames in one row ended 659 / 366 / 358 px tall — accent corners at three heights and a
+   * 293 px ragged bottom (owner review 2026-09-07). With `fill` on every frame of a stretched row the
+   * corners agree and each exhibit is drawn as large as the row allows.
+   */
+  fill?: boolean;
   className?: string;
 }
 
 const CORNER = "pointer-events-none absolute size-7 border-accent";
 
-export function BracketFrame({ children, label, tone = "stock", caption, fictional, className = "" }: BracketFrameProps) {
+export function BracketFrame({ children, label, tone = "stock", caption, fictional, fill, className = "" }: BracketFrameProps) {
   const arena = tone === "arena";
   const hasCaption = Boolean(caption) || Boolean(fictional);
   const Tag = label || hasCaption ? "figure" : "div";
   return (
-    <Tag className={`group relative rounded-none p-3 sm:p-4 ${className}`.trim()}>
+    <Tag className={`group relative rounded-none p-3 sm:p-4 ${fill ? "flex h-full flex-col" : ""} ${className}`.trim()}>
       <span aria-hidden="true" className={`${CORNER} left-0 top-0 border-l-2 border-t-2`} />
       <span aria-hidden="true" className={`${CORNER} right-0 top-0 border-r-2 border-t-2`} />
       <span aria-hidden="true" className={`${CORNER} bottom-0 left-0 border-b-2 border-l-2`} />
@@ -38,7 +45,7 @@ export function BracketFrame({ children, label, tone = "stock", caption, fiction
           {label}
         </span>
       ) : null}
-      {children}
+      {fill ? <div className="min-h-0 flex-1">{children}</div> : children}
       {hasCaption ? (
         <figcaption className={`mt-3 font-body text-[0.75rem] font-medium ${arena ? "text-arena-muted" : "text-muted-text"}`}>
           {caption ? <span className="block">{caption}</span> : null}

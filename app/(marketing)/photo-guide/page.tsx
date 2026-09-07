@@ -10,12 +10,13 @@ import { Breadcrumbs } from "../../../components/Breadcrumbs";
 import { CtaPair } from "../../../components/CtaPair";
 import { JsonLd } from "../../../components/JsonLd";
 import { Ledger } from "../../../components/Ledger";
+import { FictionalLabel } from "../../../components/FictionalLabel";
 import { PhotoChecklist } from "../../../components/PhotoChecklist";
 import { Pill } from "../../../components/Pill";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { StatusChip } from "../../../components/StatusChip";
 import { TrustLine } from "../../../components/TrustLine";
-import { assetOrNull } from "../../../lib/assets";
+import { asset, assetOrNull, hasAsset } from "../../../lib/assets";
 import { block } from "../../../lib/blocks";
 import { NEVER_ASKED_FOR, PHOTO_GUIDE_CLOSING, photoChecklist } from "../../../lib/catalog/photo-checklist";
 import { ctaFor } from "../../../lib/cta";
@@ -39,6 +40,42 @@ const PANEL_CAPTIONS: { status: "pass" | "fail"; text: string }[] = [
   { status: "fail", text: "Too dark" },
   { status: "fail", text: "Too far away" },
 ];
+
+/**
+ * The four photographs one parent sent, in the first screen. The page about which photographs work
+ * carried none for its first 1,240 px (owner review 2026-09-07); these four are already in the
+ * manifest as one scene's `before` set — one athlete, four different days, exactly what a camera
+ * roll holds. `hasAsset` keeps the block honest if a key has not landed.
+ */
+const BEFORE_KEYS = ["hero.story.1.before.1", "hero.story.1.before.2", "hero.story.1.before.3", "hero.story.1.before.4"] as const;
+/** A plain caption for a photograph (not COPY): it names what the four frames are. */
+const BEFORE_CAPTION = "Four photos from one parent's phone.";
+
+function BeforeSet() {
+  const photos = BEFORE_KEYS.filter((key) => hasAsset(key)).map((key) => asset(key));
+  if (photos.length < 4) return null;
+  return (
+    <figure className="lg:h-full">
+      <div className="grid grid-cols-2 gap-3">
+        {photos.map((photo) => (
+          <Image
+            key={photo.src}
+            src={photo.src}
+            alt={photo.alt}
+            width={photo.width}
+            height={photo.height}
+            sizes="(min-width: 1024px) 280px, 45vw"
+            className="aspect-[3/4] h-auto w-full rounded-ui object-cover"
+          />
+        ))}
+      </div>
+      <figcaption className="mt-3">
+        <span className="block font-body text-small text-muted-text">{BEFORE_CAPTION}</span>
+        <FictionalLabel className="mt-2" />
+      </figcaption>
+    </figure>
+  );
+}
 
 export default function PhotoGuidePage() {
   const meta = pageFor(PATH);
@@ -64,11 +101,14 @@ export default function PhotoGuidePage() {
           <div className="print:hidden">
             <Breadcrumbs trail={[{ name: "Home", href: "/" }, { name: "Photo guide", href: PATH }]} />
           </div>
+          <div className="mt-6 lg:grid lg:grid-cols-12 lg:items-stretch lg:gap-x-8">
+            <div className="lg:col-span-7">
+          {/* "Send 4–10" was written twice in one screen — in the subhead and in the block under it.
+              The block is the canon sentence, so the subhead drops it (owner review 2026-09-07). */}
           <SectionHeading
             as="h1"
-            className="mt-6"
             title="THE PHOTOS THAT WORK."
-            subhead="Send 4–10. These nine things are what the photo check looks for — and every one of them is something you can do with the phone you already have."
+            subhead="These nine things are what the photo check looks for — and every one of them is something you can do with the phone you already have."
             // Claims, not buttons (owner review 2026-09-07): the two claims are type with a 3 px
             // accent tick, so nothing above the CTA looks pressable that isn't.
             pills={
@@ -85,9 +125,14 @@ export default function PhotoGuidePage() {
               </>
             }
           />
-          <p className="mt-8 max-w-[62ch] font-body text-body font-medium text-pretty text-ink lg:mt-12">
-            {block("photos-that-work-best")}
-          </p>
+              <p className="mt-8 max-w-[62ch] font-body text-body font-medium text-pretty text-ink">
+                {block("photos-that-work-best")}
+              </p>
+            </div>
+            <div className="mt-10 lg:col-span-5 lg:mt-0">
+              <BeforeSet />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -132,12 +177,16 @@ export default function PhotoGuidePage() {
                   </div>
                 </div>
               </BracketFrame>
-              <ul className="mt-4 grid grid-cols-3 gap-2">
+              {/* The sheet is ONE flat 1232 x 821 image with the numerals baked in: it cannot be
+                  split into six tiles without six new assets, so the captions are a grid of their own
+                  under it, on the sheet's 3 x 2 geometry and spaced like it (owner review
+                  2026-09-07). Panel n in the picture is caption n here. */}
+              <ul className="mt-6 grid grid-cols-2 gap-x-8 gap-y-5 sm:grid-cols-3">
                 {PANEL_CAPTIONS.map((panel, i) => (
-                  <li key={panel.text} className="flex flex-col gap-2">
+                  <li key={panel.text} className="flex flex-col gap-2 border-t border-hairline pt-3">
                     <StatusChip status={panel.status} className="self-start" />
-                    <span className="font-body text-[0.75rem] font-medium leading-[1.4] text-muted-text">
-                      <span className="tabular-nums text-ink">{i + 1}</span> · {panel.text}
+                    <span className="font-body text-small font-medium text-ink">
+                      <span className="tabular-nums text-muted-text">{i + 1}</span> · {panel.text}
                     </span>
                   </li>
                 ))}
@@ -164,9 +213,9 @@ export default function PhotoGuidePage() {
             <PrintButton label="Print this checklist" />
             <Link
               href="/how-it-works"
-              className="font-body text-body text-ink underline-offset-4 decoration-1 hover:underline sm:ml-2"
+              className="inline-flex min-h-11 items-center gap-1.5 font-body text-body text-ink underline-offset-4 decoration-1 hover:underline sm:ml-2"
             >
-              See how photos become a card
+              See how photos become a card <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>
           <div className="mt-12 print:hidden">

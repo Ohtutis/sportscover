@@ -165,8 +165,13 @@ describe("trust-pages — copy comes from the catalog, not from the page", () =>
 
     const guarantee = read(PAGE_PATHS["/guarantee"]);
     expect(guarantee).toContain('block("our-promise")');
+    // C11 (free in the US, US only) is the one delivery fact the shipping table does not carry, so
+    // it is the one that stays under it; C10 and C12 were the table retyped as prose and were
+    // dropped (owner review 2026-09-07) — both still stand on /how-it-works, in the FAQ and in the
+    // terms, which the seo / libs suites assert.
     expect(guarantee).toContain("CANON.shipping");
-    expect(guarantee).toContain("CANON.stagedDelivery");
+    expect(guarantee).not.toContain("CANON.stagedDelivery");
+    expect(guarantee).not.toContain("CANON.deliveryClocks");
 
     expect(read(PAGE_PATHS["/photo-guide"])).toContain('block("photos-that-work-best")');
     expect(read(PAGE_PATHS["/about"])).toContain('block("logo-sentence")');

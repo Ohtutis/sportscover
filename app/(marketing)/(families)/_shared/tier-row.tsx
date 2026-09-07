@@ -35,7 +35,13 @@ export function TierRow({ family, context, sport, now, className = "" }: TierRow
   const columns = visible.length >= 4 ? "lg:grid-cols-4" : "lg:grid-cols-3";
   return (
     <div className={className || undefined}>
-      <div className={`grid gap-4 md:grid-cols-2 ${columns}`}>
+      {/*
+        A snap scroller under `md`, a grid above it (DESIGN §2.6). Three stacked TierCards were ~1 600 px
+        of the 3 320 px `/trading-cards` hero band on a 390 px phone — four screens before the buyer
+        reached section 02 (owner review, 2026-09-07). Side by side they are one screen and the price
+        ladder reads as a ladder.
+      */}
+      <ul className={`-mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto scroll-pl-5 px-5 pb-2 md:mx-0 md:grid md:grid-cols-2 md:overflow-visible md:px-0 ${columns}`}>
         {visible.map((tier) => {
           const sku = skuFor(tier.sku, sport.code);
           const pair = ctaFor(context, { sku, sport: sport.slug });
@@ -43,20 +49,22 @@ export function TierRow({ family, context, sport, now, className = "" }: TierRow
           // "Also on Etsy →" comes back with it, so the ladder never loses the marketplace link.
           const cta = pair.secondary?.kind === "etsy" ? pair : { primary: pair.primary, tone: pair.tone };
           return (
-            <TierCard
-              key={tier.sku}
-              tier={tier}
-              now={now}
-              box={boxContents(tier.sku)}
-              shipsFrom={shipsFromFor(sku)}
-              chip={chipSegment(chipKindFor(tier))}
-              cta={cta}
-              sportCode={sport.code}
-            />
+            <li key={tier.sku} className="flex w-[82vw] max-w-[360px] shrink-0 snap-start md:w-auto md:max-w-none">
+              <TierCard
+                tier={tier}
+                now={now}
+                box={boxContents(tier.sku)}
+                shipsFrom={shipsFromFor(sku)}
+                chip={chipSegment(chipKindFor(tier))}
+                cta={cta}
+                sportCode={sport.code}
+                className="w-full"
+              />
+            </li>
           );
         })}
-      </div>
-      <p className="mt-6 max-w-[62ch] font-body font-medium text-ink">{CERTIFICATE_LINE}</p>
+      </ul>
+      <p className="mt-8 max-w-[62ch] font-body font-medium text-ink">{CERTIFICATE_LINE}</p>
     </div>
   );
 }

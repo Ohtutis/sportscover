@@ -60,7 +60,7 @@ export function FamilyCard({
         {showLabel ? <FictionalLabel className="mt-2" /> : null}
         <h3 className="mt-5 font-display text-h3 uppercase">{FAMILY_LABELS[family]}</h3>
         <p className="mt-1 font-body text-[1.25rem] font-bold tabular-nums">from {formatUsd(from)}</p>
-        <ul className="mt-4 space-y-2 font-body text-[0.9375rem] text-ink">
+        <ul className="mt-5 space-y-2.5 font-body text-[0.9375rem] text-ink">
           {truths.map((truth) => (
             <li key={truth} className="flex gap-2">
               <span aria-hidden="true" className="mt-[0.55em] size-1.5 shrink-0 rounded-full bg-ink" />
@@ -68,7 +68,10 @@ export function FamilyCard({
             </li>
           ))}
         </ul>
-        <span className="mt-auto inline-flex items-center gap-2 pt-6 font-body text-small font-medium text-ink">
+        {/* `mt-auto pt-6` pinned the CTA to the bottom of the tallest tile and left 24 px of gap on it
+            and about 70 px on the other two (owner review, 2026-09-07). A fixed gap under the truths
+            spaces every CTA identically; the tiles stay equal height through `h-full`. */}
+        <span className="mt-8 inline-flex items-center gap-2 font-body text-small font-medium text-ink">
           {cta}
           <ArrowRightIcon size={16} className="text-accent transition-transform duration-hover ease-out group-hover:translate-x-0.5" />
         </span>

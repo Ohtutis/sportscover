@@ -11,7 +11,12 @@ const COLUMN_HREFS = new Set(FOOTER_COLUMNS.flatMap((c) => c.links.map((l) => l.
 /** Where a social platform actually points in the footer (Etsy goes through the /etsy redirect). */
 const socialHref = (platform: string, url: string): string => (platform === "Etsy" ? "/etsy" : url);
 
-const LINK = "inline-block py-1.5 font-body text-[0.9375rem] text-white/85 underline-offset-4 decoration-1 transition-[color] duration-hover ease-out hover:text-white hover:underline";
+/**
+ * Every footer link measured 35 px tall — under the 44 px tap target the checklist requires (owner
+ * review 2026-09-07). The padding grows the target, not the type.
+ */
+const LINK =
+  "inline-flex min-h-11 items-center py-2 font-body text-[0.9375rem] text-white/85 underline-offset-4 decoration-1 transition-[color] duration-hover ease-out hover:text-white hover:underline";
 
 /** The imprint block (COPY §1.2) — rendered only when `imprintComplete()`; otherwise the fallback line. */
 function Imprint() {

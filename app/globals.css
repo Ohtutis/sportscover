@@ -159,15 +159,45 @@
 [data-story-scene][data-state="idle"] { opacity: 0; pointer-events: none; }
 /* The outgoing scene holds the back it just turned to, so nothing snaps during the cross-fade. */
 [data-story-scene][data-state="idle"] [data-story-flip] { transform: rotateY(180deg); }
-[data-story-part] { transition: opacity 420ms var(--ease-flip), transform 420ms var(--ease-flip); }
-/* Beat 1 — the parent's photo drops in; the product is not there yet. */
-[data-story-scene][data-state="idle"] [data-story-part="photo"] { opacity: 0; transform: translateY(-16px); }
-[data-story][data-phase="photo"] [data-story-part="product"] { opacity: 0; transform: translateY(14px); }
-[data-story][data-phase="photo"] [data-story-part="arrow"] { opacity: 0; }
-/* Beat 2 — the poster, then the card: the finished edition assembles out of the photo. */
+[data-story-part="product"] { transition: opacity 420ms var(--ease-flip), transform 420ms var(--ease-flip); }
+
+/* Beat 1 `deal` — the parent's photos arrive one after another into a fanned hand. Each photo carries
+   its own place in the fan (--fan-*), its place in the pile (--pile-*) and its turn (--deal-delay);
+   the deal IS the transition out of the off-stage state an idle scene holds. */
+[data-story-part="photo"] {
+  transform: translate(var(--fan-x), var(--fan-y)) rotate(var(--fan-r));
+  transition: opacity 420ms var(--ease-flip), transform 520ms var(--ease-flip);
+  transition-delay: var(--deal-delay, 0ms);
+}
+[data-story-scene][data-state="idle"] [data-story-part="photo"] {
+  opacity: 0;
+  transform: translate(calc(var(--fan-x) - 18%), calc(var(--fan-y) - 34%)) rotate(0deg) scale(0.94);
+  transition-delay: 0ms;
+}
+/* Beat 2 `gather` — the hand closes into the pile the edition is built out of, and stays closed. */
+[data-story]:not([data-phase="still"]):not([data-phase="deal"]) [data-story-scene][data-state="active"] [data-story-part="photo"] {
+  transform: translate(var(--pile-x), var(--pile-y)) rotate(var(--pile-r)) scale(0.86);
+  transition-delay: 0ms;
+}
+/* Beat 3 `build` — the poster rises out of the pile, then the card 170 ms behind it. */
+[data-story][data-phase="deal"] [data-story-part="product"],
+[data-story][data-phase="gather"] [data-story-part="product"] { opacity: 0; transform: translateY(16px); }
 [data-story-part="product"][data-story-step="2"] { transition-delay: 170ms; }
-/* Beat 3 — the card turns. Only the scene on screen animates. */
+/* Beat 4 `flip` — the card turns. Only the scene on screen animates. */
 [data-story][data-phase="flip"] [data-story-scene][data-state="active"] [data-story-flip],
 [data-story][data-phase="hold"] [data-story-scene][data-state="active"] [data-story-flip] {
   animation: card-flip var(--duration-flip-story) var(--ease-flip) both;
 }
+/* The chips report the step that just happened, one per beat, and stay up for the rest of the scene.
+   `still` (the server render and reduced motion) shows the finished set. */
+[data-story-chip] { opacity: 0; transform: translateY(6px); transition: opacity 320ms var(--ease-flip), transform 320ms var(--ease-flip); }
+[data-story][data-phase="still"] [data-story-chip],
+[data-story][data-phase="gather"] [data-story-scene][data-state="active"] [data-story-chips] > :nth-child(-n + 1),
+[data-story][data-phase="build"] [data-story-scene][data-state="active"] [data-story-chips] > :nth-child(-n + 2),
+[data-story][data-phase="flip"] [data-story-scene][data-state="active"] [data-story-chips] > :nth-child(-n + 3),
+[data-story][data-phase="hold"] [data-story-scene][data-state="active"] [data-story-chips] > :nth-child(-n + 4) {
+  opacity: 1;
+  transform: none;
+}
+/* A sticky header sits over every in-page anchor target; the hero's "see how it's made" jumps to §08. */
+h2[id^="s-"] { scroll-margin-top: 5rem; }

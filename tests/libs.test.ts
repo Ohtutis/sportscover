@@ -340,7 +340,10 @@ describe("catalog additions (tiers, sports, styles, delivery, colour, alt)", () 
         expect(rest).toBe(l.label);
       }
     }
-    expect(TRUE_COUNT_LINKS.filter((l) => l.numeral)).toHaveLength(3);
+    // Every cell of the strip carries a figure now (owner review 2026-09-07): two of the five used to
+    // be plain sentences beside 44 px numerals. `numeral` stays optional for callers with their own
+    // items (/about §6 sets "Registry live since August 2026" as a sentence).
+    expect(TRUE_COUNT_LINKS.filter((l) => l.numeral)).toHaveLength(TRUE_COUNT_LINKS.length);
     expect(TRUE_COUNT_LINKS.map((l) => trueCountRest(l))[0]).toBe("sports");
     expect(TRUE_COUNT_LINKS.map((l) => trueCountRest(l))[2]).toBe("Square-cut, UV-coated cards");
   });

@@ -50,12 +50,19 @@ export const tierNotes: Record<string, string[]> = {
   "GDE-ANY-SET-ULT": ["Deluxe Set + sealed foil pack (18 cards — 4 holographic chase, 14 standard)", "Ships in three tracked packages"],
 };
 
+/**
+ * The five true numbers (COPY §1.2). Every one of them now OPENS with its figure: the strip is a score
+ * bug, and two of the five cells had no number in them at all — "Free printed Certificate…" and "A
+ * registered card ID…" were plain sentences sitting beside 44 px Anton numerals, 49 px off their
+ * neighbours' baseline (owner review 2026-09-07). "A" became "1" and "Free … with" became "1 free …
+ * in": the same two promises, counted. Nothing else changed.
+ */
 export const TRUE_COUNTS = [
   "17 sports",
   "7 styles — 6 finishes + Senior Night",
   "Square-cut, UV-coated 2.5 × 3.5 in cards",
-  "Free printed Certificate of Authenticity with every shipped package",
-  "A registered card ID on every card",
+  "1 free printed Certificate of Authenticity in every shipped package",
+  "1 registered card ID on every card",
 ];
 
 /**
@@ -63,8 +70,8 @@ export const TRUE_COUNTS = [
  * figure inside it set in Anton above the rest of the sentence. `figure` stays a case-insensitive
  * substring of `label` (tested) and `TrueNumbers` takes it OUT of the line it sets above — the two
  * were rendered whole, one under the other, so the footer read "1717 sports" (design review
- * 2026-09-07). `numeral` marks the three entries that carry a real figure; "Free" and "A registered
- * card ID" are sentences, not numbers, so they are set as sentences and get no Anton numeral.
+ * 2026-09-07). Every home-page cell now carries `numeral`; `numeral` stays optional because a caller
+ * may pass its own items (`/about` §6 sets "Registry live since August 2026" as a sentence).
  */
 export interface TrueCountLink {
   figure: string;
@@ -77,8 +84,8 @@ export const TRUE_COUNT_LINKS: TrueCountLink[] = [
   { figure: "17", label: TRUE_COUNTS[0], href: "/trading-cards#sports", numeral: true },
   { figure: "7", label: TRUE_COUNTS[1], href: "/trading-cards#finishes", numeral: true },
   { figure: "2.5 × 3.5 in", label: TRUE_COUNTS[2], href: "/trading-cards#spec", numeral: true },
-  { figure: "Free", label: TRUE_COUNTS[3], href: "/guarantee" },
-  { figure: "ID", label: TRUE_COUNTS[4], href: "/registry" },
+  { figure: "1", label: TRUE_COUNTS[3], href: "/guarantee", numeral: true },
+  { figure: "1", label: TRUE_COUNTS[4], href: "/registry", numeral: true },
 ];
 
 /**

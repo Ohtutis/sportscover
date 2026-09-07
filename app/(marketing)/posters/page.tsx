@@ -4,10 +4,9 @@ import { Breadcrumbs } from "../../../components/Breadcrumbs";
 import { RECORD_STYLE } from "../../../components/EditionPanel";
 import { FictionalLabel } from "../../../components/FictionalLabel";
 import { JsonLd } from "../../../components/JsonLd";
-import { Mat } from "../../../components/Mat";
 import { Plate } from "../../../components/Plate";
 import { SectionHeading } from "../../../components/SectionHeading";
-import { ToScaleSheet } from "../../../components/ToScaleSheet";
+import { ToScaleSheet, type PosterArt } from "../../../components/ToScaleSheet";
 import { asset, hasAsset, type ImageSpec } from "../../../lib/assets";
 import { tiersFor } from "../../../lib/catalog/prices";
 import { postersSports } from "../../../lib/catalog/sports";
@@ -79,6 +78,23 @@ const WALL_SIZES = "(min-width: 1024px) 400px, (min-width: 768px) 300px, 76vw";
  */
 const SCALE_KEYS = ["scale.sizes"] as const;
 
+/**
+ * The artwork hung in the to-scale sheet's two rectangles (owner review, 2026-09-07: the sheet was a
+ * stick figure between two empty grey boxes). ONE design in both frames, so the only thing that differs
+ * between them is the size — which is the whole point of the sheet. The 18 × 24 box is the art's own
+ * 3 : 4, so nothing is cropped; the 24 × 36 box is 2 : 3 and takes the same file cropped to it, the way
+ * the larger print is recomposed. `hasAsset` keeps the sheet drawing empty frames if the key ever goes.
+ */
+function posterArt(): PosterArt | null {
+  for (const key of ["posters.finish.SN", "posters.finish.FS", "posters.finish.CA"]) {
+    if (hasAsset(key)) {
+      const spec = asset(key);
+      return { small: spec, large: spec };
+    }
+  }
+  return null;
+}
+
 function heroRoom(): { spec: ImageSpec; measured: boolean } {
   const measured = asset("posters.room");
   for (const key of LIFE_ROOM_KEYS) {
@@ -105,6 +121,7 @@ export default async function PostersPage({
   const room = hero.spec;
   const rooms = showcaseList(GALLERY_KEYS, {}, { limit: 6, exclude: [room.src] });
   const scale = firstShowcase(SCALE_KEYS);
+  const scaleArt = posterArt();
   const meta = pageFor(PATH);
 
   return (
@@ -126,9 +143,12 @@ export default async function PostersPage({
             </div>
             {/* Nothing here is preloaded: the mobile LCP is the headline, and a room photograph the
                 phone paints below the copy has no claim on the first bytes. */}
-            <div className="mt-10 lg:col-span-6 lg:mt-0">
+            <div className="mt-12 lg:col-span-6 lg:mt-0">
               <HeroPlate>
-                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-ui">
+                {/* The room photograph is the object; it used to sit inside a grey plate that added
+                    nothing but a border of ground (owner review, 2026-09-07). It now floats on stock
+                    with the card shadow, edge to edge with the copy column. */}
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-ui shadow-[var(--shadow-card-stock)]">
                   <Image
                     src={room.src}
                     alt={room.alt}
@@ -142,14 +162,14 @@ export default async function PostersPage({
                     </Plate>
                   ) : null}
                 </div>
-                <FictionalLabel className="mt-3" />
+                <FictionalLabel className="mt-4" />
               </HeroPlate>
             </div>
           </div>
 
-          <div className="mt-12">
+          <div className="mt-12 lg:mt-16">
             <SportPicker action={PATH} options={options} family="posters" selected={sport} />
-            <TierRow family="posters" context="posters" sport={sport} now={now} className="mt-8" />
+            <TierRow family="posters" context="posters" sport={sport} now={now} className="mt-10" />
           </div>
         </div>
       </section>
@@ -163,20 +183,28 @@ export default async function PostersPage({
           heading for a room gallery, so the rooms sit inside this section rather than inventing an
           eighth H2, and every caption is the plainest description of its own frame. */}
       <Section index={3} title={SCALE_TITLE} container="gallery">
-        <div className="lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-8">
-          <div className={scale ? "lg:col-span-7" : "lg:col-span-9"}>
-            <Mat tone="stock">
-              <ToScaleSheet />
-            </Mat>
+        {/* One column, not two. The sheet is a wide, tall object and the sentence beside it is four
+            lines, so a 7/5 split ended one column 550 px above the other; and the sheet used to sit on
+            a 938 × 840 hairline plate, which made the biggest object on a page about posters a drawing
+            on grey. It is line work on the page's own stock now, the two rectangles hold the poster
+            instead of standing in for it, and the sentence sits under it. */}
+        <div className="lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-10">
+          <div className={scale ? "lg:col-span-7" : "lg:col-span-12"}>
+            <ToScaleSheet art={scaleArt} sizes="(min-width: 1024px) 230px, 30vw" className={scale ? "" : "mx-auto max-w-[56rem]"} />
+            {scaleArt ? <FictionalLabel className="mx-auto mt-5 max-w-[56rem]" /> : null}
           </div>
           {scale ? (
-            <div className="mt-8 lg:col-span-5 lg:mt-0">
+            <div className="mt-10 lg:col-span-5 lg:mt-0">
               <ShowcaseFigure item={scale} sizes="(min-width: 1024px) 440px, 92vw" />
             </div>
           ) : null}
         </div>
-        <p className="mt-6 max-w-[62ch] font-body text-body text-pretty text-ink">{SCALE_BODY}</p>
-        <ShowcaseRow items={rooms} sizes={WALL_SIZES} className="mt-12" />
+        <p className="mx-auto mt-10 max-w-[62ch] font-body text-body text-pretty text-ink">{SCALE_BODY}</p>
+        {/* The captions here used to read the picture back to someone already looking at it — the
+            asset's own alt line, printed under the photograph it describes. The sport is what a buyer
+            needs from a wall gallery, and `showSport` says it; the sentence stays in `alt`, where it
+            does its job. */}
+        <ShowcaseRow items={rooms} sizes={WALL_SIZES} showCaption={false} className="mt-16" />
       </Section>
 
       {/* 04 · One athlete, six finishes */}

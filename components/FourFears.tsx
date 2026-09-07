@@ -92,21 +92,21 @@ export function FourFears({ variant, className = "" }: { variant: "long" | "shor
     );
   }
   return (
-    <ul className={`grid auto-rows-fr gap-3 md:grid-cols-2 md:gap-4 lg:grid-cols-4 ${className}`.trim()}>
+    <ul className={`grid auto-rows-fr gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-4 lg:gap-6 ${className}`.trim()}>
       {items.map((f) => {
         const Icon = icons[f.icon];
         return (
           <li key={f.key}>
             <Link
               href={f.href}
-              className="group flex h-full flex-col rounded-ui border border-hairline bg-stock p-4 transition-[border-color] duration-hover ease-out hover:border-ink lg:p-6"
+              className="group flex h-full flex-col rounded-ui border border-hairline bg-stock p-5 transition-[border-color] duration-hover ease-out hover:border-ink lg:p-6"
             >
               <div className="flex items-start gap-3">
                 <Icon size={24} className="mt-0.5 shrink-0 text-ink" />
                 <h3 className="font-display text-[1.25rem] uppercase lg:text-h3">{f.q}</h3>
               </div>
-              <p className="mt-2 font-body text-small text-ink lg:text-[0.9375rem]">{f.a}</p>
-              <span className="mt-auto inline-flex items-center gap-2 pt-3 font-body text-small font-medium text-ink">
+              <p className="mt-3 font-body text-small text-ink lg:text-[0.9375rem]">{f.a}</p>
+              <span className="mt-auto inline-flex min-h-11 items-center gap-2 pt-4 font-body text-small font-medium text-ink">
                 {f.link}
                 <ArrowRightIcon size={16} className="text-accent transition-transform duration-hover ease-out group-hover:translate-x-0.5" />
               </span>

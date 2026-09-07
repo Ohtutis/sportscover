@@ -70,16 +70,16 @@ export function ClaimLabels({ claims }: { claims: Claim[] }): ReactNode {
 }
 
 /**
- * The hero's object column (DESIGN §2.2 two-up, §2.3 plate padding). The grid row is `items-stretch`
- * and this plate fills its track, so the four edges of the art line up with the four edges of the
- * copy at every width instead of floating in the middle of it; the object inside keeps its own fixed
- * ratio and centres, and the plate absorbs whatever height the copy adds. Measured 0.00 px top and
- * bottom against the text column at 1024 / 1280 / 1440 / 1728.
+ * The hero's object column (DESIGN §2.2 two-up).
+ *
+ * **There is no plate any more** (owner review, 2026-09-07). It was a `bg-hairline` box whose only job
+ * was to make the art's four edges meet the copy's, and it bought that alignment with a grey ground:
+ * on `/trading-cards` the box measured 616 × 697 with the art in the middle band only — 188 px of dead
+ * grey above it and 223 below, 59 % of the object column empty. The product now floats on the page's
+ * own stock at a slight angle with the card shadow, and the column alignment comes from the row
+ * (`lg:items-stretch`) plus `lg:h-full` + `justify-center` here, which is what actually did the work.
+ * Left and right edges are still flush with the copy column because the grid track decides them.
  */
 export function HeroPlate({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return (
-    <div className={`flex flex-col justify-center rounded-ui bg-hairline p-4 md:p-6 lg:h-full lg:p-8 ${className}`.trim()}>
-      {children}
-    </div>
-  );
+  return <div className={`flex flex-col justify-center lg:h-full ${className}`.trim()}>{children}</div>;
 }

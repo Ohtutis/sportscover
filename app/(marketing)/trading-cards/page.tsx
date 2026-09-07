@@ -5,7 +5,6 @@ import { CardFlip } from "../../../components/CardFlip";
 import { EditionPanel } from "../../../components/EditionPanel";
 import { FictionalLabel } from "../../../components/FictionalLabel";
 import { JsonLd } from "../../../components/JsonLd";
-import { Mat } from "../../../components/Mat";
 import { QrRing } from "../../../components/QrRing";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { asset } from "../../../lib/assets";
@@ -19,7 +18,7 @@ import { pageFor } from "../../../lib/seo/titles";
 import { ClosingSection } from "../(families)/_shared/closing";
 import { DEMO_LABEL, demoCard, demoFaces } from "../(families)/_shared/demo-card";
 import { FinishesSection } from "../(families)/_shared/finishes-row";
-import { ClaimLabels, HeroCtaBlock, HeroPlate } from "../(families)/_shared/hero";
+import { HeroCtaBlock, HeroPlate } from "../(families)/_shared/hero";
 import { NumberlessSection } from "../(families)/_shared/numberless-block";
 import { Section } from "../(families)/_shared/section";
 import { ShowcaseFigure, firstShowcase, showcaseList } from "../(families)/_shared/showcase";
@@ -85,7 +84,10 @@ export default async function TradingCardsPage({
   const cta = ctaFor("cards", { sport: sport.slug });
   const faces = demoFaces();
   const card = demoCard();
-  const moments = showcaseList(MOMENT_CARD_KEYS, LIFE_CARD_CAPTION, { limit: 2 });
+  // ONE frame, not two (owner review, 2026-09-07). The column used to run both keys side by side and
+  // they are the same picture twice: the same athlete holding the same card, one in bleachers and one
+  // in a hallway. The second is not lost — it is the next key in the list the moment the first is gone.
+  const moments = showcaseList(MOMENT_CARD_KEYS, LIFE_CARD_CAPTION, { limit: 1 });
   const life = moments.length ? null : firstShowcase(LIFE_CARD_KEYS, LIFE_CARD_CAPTION);
   const p12 = getTier("GDE-ANY-CARD-P12");
   const anchorLine = p12
@@ -101,44 +103,46 @@ export default async function TradingCardsPage({
           <Breadcrumbs trail={[{ name: "Home", href: "/" }, { name: "Trading Cards", href: PATH }]} />
           <div className="mt-8 lg:grid lg:grid-cols-12 lg:items-stretch lg:gap-x-8">
             <div className="lg:col-span-6">
-              <SectionHeading
-                as="h1"
-                id="s-01"
-                title={H1}
-                subhead={SUBHEAD}
-                pills={
-                  <ClaimLabels
-                    claims={[{ text: "FRONT + BACK", tone: "accent" }, { text: "REGISTERED EDITION" }, { text: "SQUARE-CUT · UV-COATED" }]}
-                  />
-                }
-              />
-              {anchorLine ? <p className="mt-8 max-w-[62ch] font-body text-body font-bold text-ink">{anchorLine}</p> : null}
-              <HeroCtaBlock cta={cta} notes={[CANON.shipping]} className="mt-6" />
+              {/*
+                ONE claim system, not three (owner review, 2026-09-07). This hero stacked a middot claim
+                line with an accent tick, then the price line, then two outline delivery chips, then a
+                grey shipping sentence — four blocks between the subhead and the button, three of them
+                claims. The delivery chips are the page's one claim and they stay; the claim line said
+                FRONT + BACK (the title of section 03), REGISTERED EDITION (the edition panel in it) and
+                SQUARE-CUT · UV-COATED (rows 2 and 3 of the spec sheet), and the shipping sentence is
+                said again on every tier card below and on /guarantee. What is left is the price, the
+                delivery claim and the button.
+              */}
+              <SectionHeading as="h1" id="s-01" title={H1} subhead={SUBHEAD} />
+              {anchorLine ? <p className="mt-8 max-w-[52ch] font-body text-body font-bold text-ink">{anchorLine}</p> : null}
+              <HeroCtaBlock cta={cta} notes={[]} className="mt-8" />
             </div>
             {/* A compact static pair, not the flip (DESIGN §5.2-1): the flip lives in section 03,
                 where it may autoplay once, and the hero shows both faces at a glance with no
                 interaction and nothing that moves above the fold. Nothing here is preloaded —
-                the mobile LCP is the headline. */}
-            <div className="mt-10 lg:col-span-6 lg:mt-0">
+                the mobile LCP is the headline.
+
+                The pair used to sit on a dark 16 : 10 mat inside a grey plate: 616 × 697 of ground for
+                two cards that filled the middle band of it. They now float on the page's own stock at
+                a few degrees with the card shadow — the object the owner asked for. */}
+            <div className="mt-12 lg:col-span-6 lg:mt-0">
               <HeroPlate>
-                <Mat tone="arena" plate={false} aspect="aspect-[16/10]" className="overflow-hidden rounded-ui">
-                  <div className="flex w-full items-center justify-center gap-[6%]">
-                    <div className="w-[44%]">
-                      <CardFace {...(faces?.front ?? asset("cards.demo.front"))} labelled surface="arena" sizes={HERO_SIZES} />
-                    </div>
-                    <div className="w-[44%]">
-                      <CardFace {...(faces?.back ?? asset("cards.demo.back"))} labelled surface="arena" sizes={HERO_SIZES} />
-                    </div>
+                <div className="flex w-full items-center justify-center gap-[6%]">
+                  <div className="w-[43%] rotate-[-4deg]">
+                    <CardFace {...(faces?.front ?? asset("cards.demo.front"))} labelled sizes={HERO_SIZES} />
                   </div>
-                </Mat>
-                <FictionalLabel className="mt-3" />
+                  <div className="w-[43%] rotate-[4deg]">
+                    <CardFace {...(faces?.back ?? asset("cards.demo.back"))} labelled sizes={HERO_SIZES} />
+                  </div>
+                </div>
+                <FictionalLabel className="mt-8 text-center" />
               </HeroPlate>
             </div>
           </div>
 
-          <div className="mt-12">
+          <div className="mt-12 lg:mt-16">
             <SportPicker action={PATH} options={sports} family="cards" selected={sport} />
-            <TierRow family="cards" context="cards" sport={sport} now={now} className="mt-8" />
+            <TierRow family="cards" context="cards" sport={sport} now={now} className="mt-10" />
           </div>
         </div>
       </section>
@@ -150,51 +154,47 @@ export default async function TradingCardsPage({
       {/* The page's differentiator, restored to where DESIGN §5.2-3 puts it: the flip beside the
           registered back, whose QR ring and ID are readable without touching anything. */}
       <Section index={3} title={REGISTERED_TITLE} container="gallery">
-        <div className="lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-8">
+        {/* Front and back at ONE scale. The flip used to carry a second, smaller back beside it —
+            back.webp at 360 px inside the flip and again at 222 px next to it, uncaptioned — so the
+            card the section is about appeared at two different sizes. The static back now matches the
+            flip's width, which is what "FRONT + BACK" is meant to show. The QR ring points at the real
+            QR, so the registered ID is readable without touching anything. */}
+        <div className="lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-10">
           <div className="lg:col-span-7">
             {faces ? (
-              <Mat tone="arena" matClassName="justify-center">
-                <CardFlip
-                  front={faces.front}
-                  back={faces.back}
-                  mp4={faces.mp4}
-                  maxWidth={360}
-                  sizes={FLIP_SIZES}
-                  staticBackBeside={
-                    <div className="relative w-full">
-                      <CardFace {...faces.back} labelled surface="arena" sizes="(min-width: 1024px) 200px, 40vw" />
-                      <QrRing />
-                    </div>
-                  }
-                />
-              </Mat>
-            ) : null}
-            <FictionalLabel className="mt-2" />
-          </div>
-          <div className="mt-8 lg:col-span-5 lg:mt-0">
-            {moments.length ? (
-              <div className="mb-8">
-                <ul className={`grid gap-3 ${moments.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}>
-                  {moments.map((moment) => (
-                    <li key={moment.key}>
-                      <ShowcaseFigure
-                        item={moment}
-                        aspect={moments.length > 1 ? "aspect-[4/5]" : "aspect-[4/3]"}
-                        sizes={moments.length > 1 ? "(min-width: 1024px) 210px, 46vw" : "(min-width: 1024px) 420px, 92vw"}
-                        labelled
-                      />
-                    </li>
-                  ))}
-                </ul>
-                <FictionalLabel className="mt-3" />
+              <div className="flex flex-col items-center gap-10 sm:flex-row sm:items-start sm:gap-[4%]">
+                <div className="w-full max-w-[320px] sm:w-[48%] sm:max-w-none">
+                  <CardFlip front={faces.front} back={faces.back} mp4={faces.mp4} maxWidth={360} sizes={FLIP_SIZES} />
+                </div>
+                <div className="relative w-full max-w-[320px] sm:w-[48%] sm:max-w-none">
+                  <CardFace {...faces.back} labelled sizes={FLIP_SIZES} />
+                  <QrRing />
+                </div>
               </div>
-            ) : life ? (
-              <ShowcaseFigure item={life} sizes="(min-width: 1024px) 420px, 92vw" className="mb-8" />
             ) : null}
-            <p className="max-w-[62ch] font-body text-body text-pretty text-ink">{REGISTERED_BODY}</p>
-            {card ? <EditionPanel card={card} tone="stock" demoLabel={DEMO_LABEL} className="mt-8" /> : null}
+            <FictionalLabel className="mt-6" />
+            <p className="mt-10 max-w-[62ch] font-body text-body text-pretty text-ink">{REGISTERED_BODY}</p>
+          </div>
+          <div className="mt-12 lg:col-span-5 lg:mt-0">
+            {moments.length ? (
+              <>
+                {moments.map((moment) => (
+                  <ShowcaseFigure
+                    key={moment.key}
+                    item={moment}
+                    aspect="aspect-[4/5]"
+                    sizes="(min-width: 1024px) 470px, 92vw"
+                    labelled
+                  />
+                ))}
+                <FictionalLabel className="mt-3" />
+              </>
+            ) : life ? (
+              <ShowcaseFigure item={life} sizes="(min-width: 1024px) 470px, 92vw" />
+            ) : null}
           </div>
         </div>
+        {card ? <EditionPanel card={card} tone="stock" demoLabel={DEMO_LABEL} className="mt-14 lg:max-w-[42rem]" /> : null}
       </Section>
 
       {/* 04 · One athlete, six finishes */}

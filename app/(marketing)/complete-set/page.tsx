@@ -6,7 +6,6 @@ import { EditionPanel } from "../../../components/EditionPanel";
 import { FictionalLabel } from "../../../components/FictionalLabel";
 import { Ledger } from "../../../components/Ledger";
 import { JsonLd } from "../../../components/JsonLd";
-import { Mat } from "../../../components/Mat";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { asset } from "../../../lib/assets";
 import { LEAD_TIMES } from "../../../lib/catalog/delivery";
@@ -133,30 +132,31 @@ export default async function CompleteSetPage({
               <HeroCtaBlock cta={cta} notes={[CANON.shipping, CANON.stagedDelivery]} className="mt-8" />
             </div>
             {/* Nothing here is preloaded: the mobile LCP is the headline (owner review, 2026-09-07). */}
-            <div className="mt-10 lg:col-span-6 lg:mt-0">
+            {/* Poster, front, back — floated on the page's own stock at a few degrees with the card
+                shadow (owner review, 2026-09-07). They used to sit on a dark 16 : 10 mat inside a grey
+                plate: two grounds behind three objects that are already dark. */}
+            <div className="mt-12 lg:col-span-6 lg:mt-0">
               <HeroPlate>
-                <Mat tone="arena" plate={false} aspect="aspect-[16/10]" className="overflow-hidden rounded-ui">
-                  <div className="flex w-full items-center justify-center gap-[4%]">
-                    <div className="relative aspect-[3/4] w-[30%] overflow-hidden rounded-none shadow-[var(--shadow-card-arena)]">
-                      <Image src={poster.src} alt={poster.alt} fill sizes="(min-width: 1024px) 150px, 30vw" className="object-contain" />
-                    </div>
-                    <div className="w-[24%]">
-                      <CardFace {...front} labelled surface="arena" sizes="(min-width: 1024px) 120px, 24vw" />
-                    </div>
-                    <div className="w-[24%]">
-                      <CardFace {...back} labelled surface="arena" sizes="(min-width: 1024px) 120px, 24vw" />
-                    </div>
+                <div className="flex w-full items-center justify-center gap-[4%]">
+                  <div className="relative aspect-[3/4] w-[40%] rotate-[-4deg] overflow-hidden rounded-none shadow-[var(--shadow-card-stock)]">
+                    <Image src={poster.src} alt={poster.alt} fill sizes="(min-width: 1024px) 210px, 40vw" className="object-contain" />
                   </div>
-                </Mat>
-                <FictionalLabel className="mt-3" />
+                  <div className="w-[24%] rotate-[-1deg]">
+                    <CardFace {...front} labelled sizes="(min-width: 1024px) 125px, 24vw" />
+                  </div>
+                  <div className="w-[24%] rotate-[4deg]">
+                    <CardFace {...back} labelled sizes="(min-width: 1024px) 125px, 24vw" />
+                  </div>
+                </div>
+                <FictionalLabel className="mt-8 text-center" />
               </HeroPlate>
             </div>
           </div>
 
           {/* No sport picker here: the Complete Set is ONE Etsy listing for every sport, so choosing
               a sport would change nothing. The buyer picks the sport at checkout. */}
-          <div className="mt-12">
-            <TierRow family="set" context="set" sport={sport} now={now} className="mt-8" />
+          <div className="mt-12 lg:mt-16">
+            <TierRow family="set" context="set" sport={sport} now={now} />
           </div>
         </div>
       </section>
@@ -185,24 +185,27 @@ export default async function CompleteSetPage({
         <p className="mt-8 max-w-[62ch] font-body text-body text-pretty text-ink">{CANON.deliveryClocks}</p>
         {ultimate ? <p className="mt-4 max-w-[62ch] font-body text-small text-muted-text">{ULTIMATE_LINE}</p> : null}
 
-        <div className="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-8">
+        {/* Two columns that end together (owner review, 2026-09-07). The ledger used to stop 693 px
+            above the bottom of the column beside it, because that column carried the photograph AND
+            the edition panel — a 500 px dark block stacked under a 350 px picture. The panel moved out
+            to its own row under both, and the photograph took the taller 4 : 5 crop, so the row is now
+            a table beside a picture and the two finish within about a line of each other. */}
+        <div className="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-10">
           <div className="lg:col-span-7">
-            <Ledger rows={setFolderRows()} />
+            <Ledger rows={setFolderRows()} size="lg" />
           </div>
           <div className="mt-10 lg:col-span-5 lg:mt-0">
             {life ? (
-              <ShowcaseFigure item={life} sizes="(min-width: 1024px) 420px, 92vw" labelled />
+              <ShowcaseFigure item={life} aspect="aspect-[3/2]" sizes="(min-width: 1024px) 510px, 92vw" labelled />
             ) : (
-              <Mat tone="arena">
-                <div className="relative aspect-[3/4] w-full max-w-[320px] overflow-hidden rounded-none shadow-[var(--shadow-card-arena)]">
-                  <Image src={poster.src} alt={poster.alt} fill sizes="(min-width: 1024px) 320px, 70vw" className="object-contain" />
-                </div>
-              </Mat>
+              <div className="relative mx-auto aspect-[3/4] w-full max-w-[340px] overflow-hidden rounded-none shadow-[var(--shadow-card-stock)]">
+                <Image src={poster.src} alt={poster.alt} fill sizes="(min-width: 1024px) 340px, 70vw" className="object-contain" />
+              </div>
             )}
-            <FictionalLabel className="mt-2" />
-            {card ? <EditionPanel card={card} tone="stock" demoLabel={DEMO_LABEL} className="mt-8" /> : null}
+            <FictionalLabel className="mt-3" />
           </div>
         </div>
+        {card ? <EditionPanel card={card} tone="stock" demoLabel={DEMO_LABEL} className="mt-14 lg:max-w-[42rem]" /> : null}
       </Section>
 
       {/* 04 · One athlete, six finishes */}

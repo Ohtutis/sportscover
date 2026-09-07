@@ -23,7 +23,7 @@ import {
   pathForIntent,
 } from "../lib/seo/intents";
 import { DESCRIPTION_MAX, PAGES, TITLE_MAX, f1Pages, fullTitle, matchesPagePath, substituteLongest } from "../lib/seo/titles";
-import { cards, updatedAtOf, visibilityOf } from "../lib/registry/cards";
+import { cards, registeredAtOf, updatedAtOf, visibilityOf } from "../lib/registry/cards";
 import { SITE_ASSETS } from "../lib/assets";
 import { SITE_URL } from "../lib/site";
 
@@ -435,6 +435,53 @@ describe("assets — hero story scenes and lifestyle photography", () => {
         const kb = fs.statSync(file).size / 1024;
         expect(kb, `hero.story.${n}.${p} (${a.out}) is ${Math.round(kb)} KB`).toBeLessThan(200);
       }
+    }
+  });
+
+  it("every scene ships a SET of four before photos of the one athlete (owner brief: we ask for 4-10)", () => {
+    for (const n of SCENES) {
+      const set = ["1", "2", "3", "4"].map((i) => SITE_ASSETS[`hero.story.${n}.before.${i}`]);
+      set.forEach((a, i) => {
+        const key = `hero.story.${n}.before.${i + 1}`;
+        expect(a, key).toBeDefined();
+        expect(a.status, key).toBe("verified");
+        expect(a.kind, `${key}: a parent's phone photo is never a card face`).toBe("photo");
+        expect(a.fictional, key).toBe(true);
+        expect(a.alt.toLowerCase(), `${key} names its sport`).toContain(SCENE_SPORT[n]);
+        expect(a.alt.toLowerCase(), `${key} says the photo is generated`).toContain("photo generated");
+        expect(fs.existsSync(path.join(ROOT, "public", a.out.replace(/^\//, ""))), `${key} -> ${a.out}`).toBe(true);
+      });
+      expect(set[0].out, `scene ${n}: .before.1 re-uses the single before photo, it is not a second download`)
+        .toBe(SITE_ASSETS[`hero.story.${n}.before`].out);
+      expect(new Set(set.map((a) => a.out)).size, `scene ${n}: four different photos`).toBe(4);
+    }
+  });
+
+  it("the new before photos are phone-sized (the whole set animates above the fold)", () => {
+    for (const n of SCENES) {
+      for (const i of ["2", "3", "4"]) {
+        const a = SITE_ASSETS[`hero.story.${n}.before.${i}`];
+        expect(Math.max(a.width, a.height), `hero.story.${n}.before.${i} long edge`).toBeLessThanOrEqual(900);
+        const kb = fs.statSync(path.join(ROOT, "public", a.out.replace(/^\//, ""))).size / 1024;
+        expect(kb, `hero.story.${n}.before.${i} is ${Math.round(kb)} KB`).toBeLessThan(120);
+      }
+    }
+  });
+
+  it("each scene carries its registration date as data, so no component hard-codes one", () => {
+    for (const n of SCENES) {
+      const key = `hero.story.${n}.registered`;
+      const a = SITE_ASSETS[key];
+      expect(a, key).toBeDefined();
+      expect(a.status, `${key} is metadata, not a picture`).toBe("locate");
+      expect(a.out, key).toBe("");
+      const cardId = SITE_ASSETS[`hero.story.${n}.card.back`].cardId as string;
+      const card = cards.find((c) => c.cardId === cardId);
+      expect(card, `${cardId} is in the registry`).toBeDefined();
+      const date = registeredAtOf(card!);
+      expect(a.alt, `${key} is the chip line`).toBe(`Registered ${date}`);
+      expect(a.note, `${key} names its card id`).toContain(cardId);
+      expect(a.note, `${key} names the registration date`).toContain(date);
     }
   });
 

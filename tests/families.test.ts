@@ -23,7 +23,7 @@ import { ClosingSection } from "../app/(marketing)/(families)/_shared/closing";
 import { DEMO_CARD_ID, DEMO_LABEL, demoCard, demoFaces } from "../app/(marketing)/(families)/_shared/demo-card";
 import { FinishesRow, finishRowKeys } from "../app/(marketing)/(families)/_shared/finishes-row";
 import { NumberlessSection, POSTER_NAME_BODY, SportGrid, numberlessFirstSentence, numberlessSportsClause } from "../app/(marketing)/(families)/_shared/numberless-block";
-import { sectionIndex } from "../app/(marketing)/(families)/_shared/section";
+import { FAMILY_SECTION_TOTAL, sectionIndex } from "../app/(marketing)/(families)/_shared/section";
 import { captionFromAlt, showcase, showcaseList } from "../app/(marketing)/(families)/_shared/showcase";
 import { SpecSheetSection, setFolderRows, specRows } from "../app/(marketing)/(families)/_shared/spec-sheet";
 import { ANY_LISTING_GROUP, OWN_LISTING_GROUP, SportPicker, destinationNote, SPORT_PICKER_LABEL, numberlessPickerNote, pickSport } from "../app/(marketing)/(families)/_shared/sport-picker";
@@ -143,8 +143,30 @@ describe("family pages — structure", () => {
     expect(hero).toContain('variant="label"');
     for (const page of PAGES) {
       const src = read(page.file);
-      expect(src, page.path).toContain("<ClaimLabels");
       expect(strip(src), page.path).not.toMatch(/<Pill\b/);
+    }
+  });
+
+  // Owner review, 2026-09-07: "/trading-cards" stacked a claim line, two delivery chips and a grey
+  // shipping sentence between the subhead and the button — three claim systems, one hero. The chips
+  // are the page's one claim and they stay; the claim line repeated section 03's title and rows 2-3
+  // of the spec sheet, and the shipping sentence is on every tier card below it.
+  it("no page stacks more than one claim system on the delivery chips", () => {
+    expect(read("app/(marketing)/trading-cards/page.tsx")).not.toContain("<ClaimLabels");
+    for (const page of PAGES.filter((p) => p.path !== "/trading-cards")) {
+      expect(read(page.file), page.path).toContain("<ClaimLabels");
+    }
+  });
+
+  // Owner review, 2026-09-07: a grey plate behind almost every product. The hero object floats on the
+  // page's own stock with the card shadow; nothing in these files paints a ground under dark art.
+  it("no hero plate, and no mat under art that is already dark", () => {
+    const hero = strip(read(`${SHARED_DIR}/hero.tsx`));
+    expect(hero).not.toContain("bg-hairline");
+    expect(hero).toContain("lg:h-full");
+    for (const file of [...PAGES.map((p) => p.file), `${SHARED_DIR}/finishes-row.tsx`, `${SHARED_DIR}/numberless-block.tsx`]) {
+      expect(read(file), file).not.toMatch(/<Mat\b/);
+      expect(strip(read(file)), file).not.toMatch(/shadow-\[var\(--shadow-card-arena\)\]/);
     }
   });
 
@@ -205,9 +227,14 @@ describe("family pages — structure", () => {
     }
   });
 
-  it("numbers the seven sections the way the copy does", () => {
-    expect(sectionIndex(2)).toBe("02 / 07");
-    expect(sectionIndex(7)).toBe("07 / 07");
+  // The spine used to read 02, 03, 04, 05, 07 out of seven: section 06 is the "Still deciding?" strip
+  // inside the closing block and never a band of its own, so a reader looking for 06 could not find
+  // it (owner review, 2026-09-07). The denominator now counts the bands actually drawn.
+  it("numbers the bands it actually draws, 01 to N with no gap", () => {
+    expect(FAMILY_SECTION_TOTAL).toBe(6);
+    expect(sectionIndex(2)).toBe("02 / 06");
+    expect(sectionIndex(6)).toBe("06 / 06");
+    expect(read(`${SHARED_DIR}/closing.tsx`)).toContain("sectionIndex(6)");
     for (const page of PAGES) {
       const src = read(page.file);
       expect(src, page.path).toMatch(/index=\{3\}/);
@@ -216,6 +243,18 @@ describe("family pages — structure", () => {
       expect(src, page.path).toContain("<NumberlessSection");
       expect(src, page.path).toContain("<ClosingSection");
     }
+    // The four numbered bands the template emits, plus the hero (01) and the closing block (06).
+    const emitted = [1, 2, 3, 4, 5, 6];
+    expect(emitted).toEqual(Array.from({ length: FAMILY_SECTION_TOTAL }, (_, i) => i + 1));
+  });
+
+  // Owner review, 2026-09-07: 256 px of air between bands while the blocks inside them sat 8-24 px
+  // apart. The band gap comes down and the space is spent inside.
+  it("spends its air inside the bands, not between them", () => {
+    const section = read(`${SHARED_DIR}/section.tsx`);
+    expect(section).toContain("py-14 md:py-20 lg:py-24");
+    expect(strip(section)).not.toContain("lg:py-32");
+    expect(read(`${SHARED_DIR}/closing.tsx`)).toContain("SECTION_PADDING");
   });
 });
 

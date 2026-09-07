@@ -91,18 +91,25 @@ export default function RegistryPage() {
   const back = hasAsset("cards.demo.back") ? asset("cards.demo.back") : null;
 
   return (
-    <div className="container-site max-w-[46rem] py-12 md:py-16">
-      <section>
-        {/* Every other page shows the trail it already emitted as JSON-LD; this one emitted the
-            schema and drew nothing. Breadcrumbs carries both (owner review 2026-09-07). */}
-        <Breadcrumbs trail={[{ name: "Home", href: "/" }, { name: "Registry", href: "/registry" }]} className="mb-6" />
-        <SectionHeading
-          as="h1"
-          title="LOOK UP A CARD."
-          subhead="Every card carries its registered card ID on the back and on the certificate. Type it here to open the card's page."
-        />
-        <div className="mt-8 sm:flex sm:items-start sm:gap-10">
-          <div className="min-w-0 flex-1">
+    <div className="container-site py-12 md:py-16">
+      {/*
+        The exhibit is the whole argument of this page — "this is where the ID is" — and it was
+        drawn at 200 px in a 736 px column, with its credit wrapping to four lines under a card too
+        small to read the ring, the stats or the ID it demonstrates (owner review 2026-09-07). The
+        lookup band is a full 12-column row now: the form at its own measure, the card back beside
+        it at 340 px. The prose below keeps the narrow measure it had.
+      */}
+      <section className="lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12">
+        <div className="lg:col-span-7">
+          {/* Every other page shows the trail it already emitted as JSON-LD; this one emitted the
+              schema and drew nothing. Breadcrumbs carries both (owner review 2026-09-07). */}
+          <Breadcrumbs trail={[{ name: "Home", href: "/" }, { name: "Registry", href: "/registry" }]} className="mb-6" />
+          <SectionHeading
+            as="h1"
+            title="LOOK UP A CARD."
+            subhead="Every card carries its registered card ID on the back and on the certificate. Type it here to open the card's page."
+          />
+          <div className="mt-8 max-w-[34rem]">
             <LookupForm missSlot={<Suspense fallback={null}><LookupMiss /></Suspense>} />
             <p className="mt-6 font-body text-small text-muted-text">
               Try a demo:{" "}
@@ -112,19 +119,27 @@ export default function RegistryPage() {
               (fictional athlete).
             </p>
           </div>
-          {back ? (
-            <div className="mt-8 hidden w-[200px] shrink-0 sm:block">
-              <div className="relative w-full">
-                <CardFace {...back} labelled sizes="200px" />
-                <QrRing />
-              </div>
-              <FictionalLabel className="mt-2" />
-            </div>
-          ) : null}
         </div>
+        {back ? (
+          <figure className="mt-10 hidden sm:block lg:col-span-5 lg:mt-0">
+            {/* The card floats on the page — no plate, no mat: the shadow under it is the only
+                ground it gets, and the ring is drawn over the QR the ID belongs to. */}
+            {/* The stock card shadow is `0 1px 0` + a 40 px drop, and under a square-cut card at
+                this size the hard 1 px line read as a second, mis-registered rectangle behind it
+                (owner review 2026-09-07). CardFace owns that shadow and is another builder's file, so
+                the re-aim is a child rule here — one soft shadow, straight down, no hairline. */}
+            <div className="relative mx-auto w-[280px] [&>div]:shadow-[0_30px_54px_-30px_rgb(20_25_31/0.45)] lg:w-[340px]">
+              <CardFace {...back} labelled sizes="(min-width: 1024px) 340px, 280px" />
+              <QrRing />
+            </div>
+            <figcaption className="mx-auto mt-4 max-w-[34ch] text-center">
+              <FictionalLabel />
+            </figcaption>
+          </figure>
+        ) : null}
       </section>
 
-      <section className="mt-16">
+      <section className="mt-16 max-w-[46rem] md:mt-24">
         <SectionHeading as="h2" title="WHAT A REGISTERED EDITION IS." />
         <div className="mt-8 overflow-x-auto">
           <div className="flex min-w-max items-end justify-center gap-1">

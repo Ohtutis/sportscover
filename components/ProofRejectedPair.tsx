@@ -38,7 +38,10 @@ function Take({ image, status, title, body }: { image: ImageSpec; status: "fail"
 export function ProofRejectedPair({ fail, pass, className = "" }: ProofRejectedPairProps) {
   return (
     <figure className={className || undefined}>
-      <Mat tone="arena" matClassName="items-start gap-4 p-4 sm:gap-6 sm:p-6">
+      {/* Stacked below md (owner review 2026-09-07): side by side on a 390 px phone the FAIL column was
+          138 px wide and its sentence ran nine lines at about 20 characters, while the PASS column —
+          which carries no paragraph — sat beside it with ~350 px of empty ground under its frame. */}
+      <Mat tone="arena" matClassName="flex-col items-stretch gap-6 p-4 md:flex-row md:items-start sm:p-6">
         <Take image={fail} status="fail" title={REJECTED_TITLE} body={REJECTED_BODY} />
         <Take image={pass} status="pass" title={APPROVED_TITLE} />
       </Mat>

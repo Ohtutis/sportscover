@@ -218,14 +218,19 @@ describe("/registry (COPY §2.10)", () => {
     expect(html).toContain("/terms#registry");
     expect(html).toContain("at least five years");
   });
-  it("shows the QR-ringed back at the 200 px DESIGN §5.8-1 asks for", () => {
+  it("shows the QR-ringed back at a size the ID can be read at", () => {
     // The point of the image is "this is where the ID is": the ring is drawn over the QR, and the
-    // box that holds it is a fixed 200 px that does not shrink beside the form.
+    // box that holds it is fixed and does not shrink beside the form. DESIGN §5.8-1 asked for 200 px
+    // and 200 px could not carry it — the ring, the stats and the ID were all unreadable and the
+    // credit wrapped to four lines under it (owner review 2026-09-07). 280 px, 340 px from lg.
     const src = read("app/(marketing)/registry/page.tsx");
-    expect(src).toContain('className="mt-8 hidden w-[200px] shrink-0 sm:block"');
+    expect(src).toContain("w-[280px]");
+    expect(src).toContain("lg:w-[340px]");
+    // One soft shadow under the card, not the surface `0 1px 0` hairline that read as a second rectangle.
+    expect(src).toMatch(/\[&>div\]:shadow-\[/);
     const html = renderRegistry();
     expect(html).toContain("border-accent"); // the ring is drawn by the site, never baked into the file
-    expect(html).toContain('sizes="200px"');
+    expect(html).toContain('sizes="(min-width: 1024px) 340px, 280px"');
   });
 
   it("draws the breadcrumb trail it emits, exactly once", () => {

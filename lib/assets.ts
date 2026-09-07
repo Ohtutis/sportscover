@@ -97,6 +97,7 @@ const altBack = (sport: string, finish: string) =>
 const altPoster = (sport: string, finish: string) =>
   `Custom ${sport} poster, 18 × 24 in — ${finish} finish — example artwork, fictional athlete`;
 
+const BEFORE_SET = { width: 672, height: 900 } as const; // 1792 x 2400 before photos, <= 900 px long edge
 const CARD = { width: 750, height: 1050 } as const; // 750 × 1050 sources, never upscaled
 const TILE_CROP = { width: 480, height: 672 } as const; // GAPS #3 inset tiles, ≤ 240 px display
 const POSTER = { width: 1200, height: 1600 } as const; // 1296 × 1728 sources (3 : 4)
@@ -549,6 +550,14 @@ const entries: Record<string, Entry> = {
    * carries no image: its `alt` is the caption line (sport, finish, fictional roster athlete) and its
    * `note` names the athlete for the builder. Read it as SITE_ASSETS["hero.story.1.athlete"].alt —
    * `asset()` throws on it by design. Long edge ≤ 1200 px on every scene file; scene 1 carries AVIF.
+   *
+   * Owner brief 2026-09-07 (hero v3): we ask for 4–10 photos, so the hero must show a SET arriving, not
+   * one photo. `hero.story.<n>.before.1 … .4` are FOUR phone photos of that same athlete; `.before.1` is
+   * the same file as `.before` (shared output, no second download), `.2 … .4` are new 672 × 900 WebP.
+   * They are the parent's camera roll, so everyday clothes and a different kit from the card are allowed
+   * and deliberate — only the PERSON has to match. `hero.story.<n>.registered` is the second no-image
+   * entry: `alt` is the "Registered <date>" chip and `note` carries the card ID plus the `registeredAtOf`
+   * value, so no component hard-codes a date.
    * There is NO adult scene: the only adult roster athletes (pickleball, the soccer age ladder) have no
    * card or poster export on disk, and the only adult card art that exists belongs to real orders, which
    * may never be written under public/. See docs/f1/INTEGRATION-NOTES.md "assets-hero-lifestyle".
@@ -558,11 +567,40 @@ const entries: Record<string, Entry> = {
     alt: "Basketball — Stadium Night finish — a fictional roster athlete",
     note: "Caption metadata, no image. Scene 1 = Marcus Ellison, 17, guard, number 12, Cedar Ridge Bears. Card ID GDE-SN-BKB-2026-12.",
   },
+  "hero.story.1.registered": {
+    out: "", width: 0, height: 0, kind: "sheet", status: "locate", fictional: true,
+    alt: "Registered 2026-08-27",
+    note: "Caption metadata, no image (same shape as hero.story.1.athlete). Card ID GDE-SN-BKB-2026-12, registeredAtOf() = 2026-08-27. Read SITE_ASSETS[\"hero.story.1.registered\"].alt for the chip line and .note for the id; asset() throws on it by design, and the date is never hard-coded in a component.",
+  },
   "hero.story.1.before": {
     out: OUT_BEFORE_BKB, source: "art-pipeline/out/athletes/basketball/before/photo2.png",
     width: 960, height: 1286, kind: "photo", fictional: true, status: "verified", lcp: true,
     alt: "The phone photo a parent sent: a fictional basketball player in the gym, in the jersey the card shows; photo generated",
     note: "Same file as home.hero.before — one download for both.",
+  },
+  "hero.story.1.before.1": {
+    out: OUT_BEFORE_BKB, source: "art-pipeline/out/athletes/basketball/before/photo2.png",
+    width: 960, height: 1286, kind: "photo", fictional: true, status: "verified", lcp: true,
+    alt: "One of the phone photos a parent sent: a fictional basketball player in the gym, in the jersey the card shows; photo generated",
+    note: "Photo 1 of the scene-1 set. Same file as hero.story.1.before and home.hero.before — one download for all three.",
+  },
+  "hero.story.1.before.2": {
+    out: "/images/home/phone-photo-basketball-player-at-home.webp",
+    source: "art-pipeline/out/athletes/basketball/before/photo1.png",
+    ...BEFORE_SET, kind: "photo", fictional: true, status: "verified",
+    alt: "One of the phone photos a parent sent: a fictional basketball player outside the front door at home in a hoodie; photo generated",
+  },
+  "hero.story.1.before.3": {
+    out: "/images/home/phone-photo-basketball-player-at-practice.webp",
+    source: "art-pipeline/out/athletes/basketball/before/photo3.png",
+    ...BEFORE_SET, kind: "photo", fictional: true, status: "verified",
+    alt: "One of the phone photos a parent sent: a fictional basketball player at practice, dribbling in an empty gym; photo generated",
+  },
+  "hero.story.1.before.4": {
+    out: "/images/home/phone-photo-basketball-player-in-the-car.webp",
+    source: "art-pipeline/out/athletes/basketball/before/photo4.png",
+    ...BEFORE_SET, kind: "photo", fictional: true, status: "verified",
+    alt: "One of the phone photos a parent sent: a fictional basketball player laughing in the car on the way home; photo generated",
   },
   "hero.story.1.card.front": {
     out: OUT_DEMO_FRONT, source: `${BK}/BK-SN-card-FRONT.png`, ...CARD, kind: "card", fictional: true,
@@ -582,11 +620,41 @@ const entries: Record<string, Entry> = {
     alt: "Softball — Senior Night finish — a fictional roster athlete",
     note: "Caption metadata, no image. Scene 2 = Brooke Danner, 15, pitcher, number 3, Bell Hollow Wrens. Card ID GDE-SR-SFB-2026-03. She is the girl in the cast.",
   },
+  "hero.story.2.registered": {
+    out: "", width: 0, height: 0, kind: "sheet", status: "locate", fictional: true,
+    alt: "Registered 2026-09-05",
+    note: "Caption metadata, no image (same shape as hero.story.2.athlete). Card ID GDE-SR-SFB-2026-03, registeredAtOf() = 2026-09-05. Read SITE_ASSETS[\"hero.story.2.registered\"].alt for the chip line and .note for the id; asset() throws on it by design, and the date is never hard-coded in a component.",
+  },
   "hero.story.2.before": {
     out: "/images/home/phone-photo-softball-player-before.webp",
     source: "art-pipeline/out/athletes/softball/before/photo2.png",
     width: 896, height: 1200, kind: "photo", fictional: true, status: "verified",
     alt: "The phone photo a parent sent: a fictional softball player at the field after a game, in the maroon uniform the card shows; photo generated",
+  },
+  "hero.story.2.before.1": {
+    out: "/images/home/phone-photo-softball-player-before.webp",
+    source: "art-pipeline/out/athletes/softball/before/photo2.png",
+    width: 896, height: 1200, kind: "photo", fictional: true, status: "verified",
+    alt: "One of the phone photos a parent sent: a fictional softball player at the field after a game with her medal, in the maroon uniform the card shows; photo generated",
+    note: "Photo 1 of the scene-2 set. Same file as hero.story.2.before — one download for both.",
+  },
+  "hero.story.2.before.2": {
+    out: "/images/home/phone-photo-softball-player-at-home.webp",
+    source: "art-pipeline/out/athletes/softball/before/photo1.png",
+    ...BEFORE_SET, kind: "photo", fictional: true, status: "verified",
+    alt: "One of the phone photos a parent sent: a fictional softball player at the kitchen counter at home in a hoodie; photo generated",
+  },
+  "hero.story.2.before.3": {
+    out: "/images/home/phone-photo-softball-player-at-practice.webp",
+    source: "art-pipeline/out/athletes/softball/before/photo3.png",
+    ...BEFORE_SET, kind: "photo", fictional: true, status: "verified",
+    alt: "One of the phone photos a parent sent: a fictional softball player warming up on the infield in a practice shirt; photo generated",
+  },
+  "hero.story.2.before.4": {
+    out: "/images/home/phone-photo-softball-player-at-the-table.webp",
+    source: "art-pipeline/out/athletes/softball/before/photo4.png",
+    ...BEFORE_SET, kind: "photo", fictional: true, status: "verified",
+    alt: "One of the phone photos a parent sent: a fictional softball player laughing at the kitchen table at home; photo generated",
   },
   "hero.story.2.card.front": {
     out: OUT_SFB_SR_FRONT, source: `${SNS}/sfb-sr-front.png`, ...CARD, kind: "card", fictional: true,
@@ -609,11 +677,40 @@ const entries: Record<string, Entry> = {
     alt: "Football — Fire & Smoke finish — a fictional roster athlete",
     note: "Caption metadata, no image. Scene 3 = Tui Fa'agata, 18, offensive line, number 54, Millbrook Bison. Card ID GDE-FS-FTB-2026-54. Same athlete as the life.* photography.",
   },
+  "hero.story.3.registered": {
+    out: "", width: 0, height: 0, kind: "sheet", status: "locate", fictional: true,
+    alt: "Registered 2026-08-27",
+    note: "Caption metadata, no image (same shape as hero.story.3.athlete). Card ID GDE-FS-FTB-2026-54, registeredAtOf() = 2026-08-27. Read SITE_ASSETS[\"hero.story.3.registered\"].alt for the chip line and .note for the id; asset() throws on it by design, and the date is never hard-coded in a component.",
+  },
   "hero.story.3.before": {
     out: OUT_BEFORE_FTB, source: `${FBC}/s02-before-b.png`,
     width: 960, height: 1211, kind: "photo", fictional: true, status: "verified",
     alt: "The phone photo a parent sent: a fictional football player pushing a sled at dusk; photo generated",
     note: "Same file as home.hero.before.football — one download for both.",
+  },
+  "hero.story.3.before.1": {
+    out: OUT_BEFORE_FTB, source: `${FBC}/s02-before-b.png`,
+    width: 960, height: 1211, kind: "photo", fictional: true, status: "verified",
+    alt: "One of the phone photos a parent sent: a fictional football player pushing a blocking sled at dusk; photo generated",
+    note: "Photo 1 of the scene-3 set. Same file as hero.story.3.before and home.hero.before.football — one download for all three.",
+  },
+  "hero.story.3.before.2": {
+    out: "/images/home/phone-photo-football-player-at-home.webp",
+    source: "art-pipeline/out/athletes/football/before/photo1.png",
+    ...BEFORE_SET, kind: "photo", fictional: true, status: "verified",
+    alt: "One of the phone photos a parent sent: a fictional football player at the kitchen table at home in a hoodie; photo generated",
+  },
+  "hero.story.3.before.3": {
+    out: "/images/home/phone-photo-football-player-in-uniform.webp",
+    source: "art-pipeline/out/athletes/football/before/photo2.png",
+    ...BEFORE_SET, kind: "photo", fictional: true, status: "verified",
+    alt: "One of the phone photos a parent sent: a fictional football player walking off the field with his helmet, in the green uniform the card shows; photo generated",
+  },
+  "hero.story.3.before.4": {
+    out: "/images/home/phone-photo-football-player-at-the-table.webp",
+    source: "art-pipeline/out/athletes/football/before/photo4.png",
+    ...BEFORE_SET, kind: "photo", fictional: true, status: "verified",
+    alt: "One of the phone photos a parent sent: a fictional football player laughing at the family dinner table; photo generated",
   },
   "hero.story.3.card.front": {
     out: OUT_FTB_FS_FRONT, source: `${FBC}/FB-FS-front.png`, ...CARD, kind: "card", fictional: true,

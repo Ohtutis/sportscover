@@ -76,10 +76,16 @@ export function specRows(family: Family): LedgerRow[] {
   return SET_ROWS;
 }
 
+/**
+ * The band runs heading-above-table, not heading-beside-table (owner review, 2026-09-07). The rail put
+ * the section rule in a 252 px track and left the two columns ending 460 px apart — a two-line heading
+ * beside a ten-row ledger. One column: the rule spans the container, the table spans the container, and
+ * every row is one line instead of a 38 % key column wrapping the value into four.
+ */
 export function SpecSheetSection({ family }: { family: Family }) {
   const heading = SPEC_HEADINGS[family];
   return (
-    <Section index={2} id="spec" title={heading.title} subhead={heading.subhead} layout="rail">
+    <Section index={2} id="spec" title={heading.title} subhead={heading.subhead}>
       <Ledger rows={specRows(family)} size="lg" />
     </Section>
   );

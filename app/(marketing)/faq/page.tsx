@@ -11,6 +11,7 @@ import { PlusIcon } from "../../../components/icons";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { TrustLine } from "../../../components/TrustLine";
 import { faqAll, faqGroups } from "../../../lib/catalog/faq";
+import { FaqRail } from "./rail";
 import { ctaFor } from "../../../lib/cta";
 import { faqPage } from "../../../lib/seo/jsonld";
 import { pageMeta } from "../../../lib/seo/meta";
@@ -56,18 +57,7 @@ export default function FaqPage() {
 
           <div className="mt-8 lg:mt-12 lg:grid lg:grid-cols-12 lg:gap-x-8">
             <nav aria-label="FAQ groups" className="hidden lg:sticky lg:top-20 lg:col-span-3 lg:block lg:self-start">
-              <ul className="space-y-1">
-                {groups.map((group) => (
-                  <li key={group.group}>
-                    <a
-                      href={`#faq-${group.group}`}
-                      className="block py-1.5 font-body text-small text-muted-text underline-offset-4 decoration-1 hover:text-ink hover:underline"
-                    >
-                      {group.title}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+              <FaqRail groups={groups.map((group) => ({ id: `faq-${group.group}`, title: group.title }))} />
             </nav>
 
             <div className="lg:col-span-9">

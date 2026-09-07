@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-07T10:55:56.605Z",
+  "generatedAt": "2026-09-07T14:45:28.812Z",
   "script": "scripts/site-assets.ts",
   "entries": {
     "/images/cards/basketball-trading-card-back-registered-stadium-night.webp": {
@@ -149,6 +149,32 @@
       ],
       "generatedAt": "2026-09-06T22:05:21.318Z"
     },
+    "/images/home/phone-photo-basketball-player-at-home.webp": {
+      "out": "/images/home/phone-photo-basketball-player-at-home.webp",
+      "source": "art-pipeline/out/athletes/basketball/before/photo1.png",
+      "sourceSha256": "fa0298da36699673a25593e4ade576fb1d1723137085b901e2c34d64c883f6e4",
+      "sha256": "51ba91b2b0e93b4b110dc596e6eae72209f4c5e386736635fc04880effd3ab4b",
+      "width": 672,
+      "height": 900,
+      "kind": "photo",
+      "keys": [
+        "hero.story.1.before.2"
+      ],
+      "generatedAt": "2026-09-07T14:45:22.336Z"
+    },
+    "/images/home/phone-photo-basketball-player-at-practice.webp": {
+      "out": "/images/home/phone-photo-basketball-player-at-practice.webp",
+      "source": "art-pipeline/out/athletes/basketball/before/photo3.png",
+      "sourceSha256": "e1501faffac6a092d7f63c525d611bb1b9b3e1c8e2c56d517db52a86395dfa0a",
+      "sha256": "c5d059c439033f973926d933dcfe8168f8b5505438267ce7f4bff67cf8c2c880",
+      "width": 672,
+      "height": 900,
+      "kind": "photo",
+      "keys": [
+        "hero.story.1.before.3"
+      ],
+      "generatedAt": "2026-09-07T14:45:22.452Z"
+    },
     "/images/home/phone-photo-basketball-player-before.webp": {
       "out": "/images/home/phone-photo-basketball-player-before.webp",
       "source": "art-pipeline/out/athletes/basketball/before/photo2.png",
@@ -159,10 +185,50 @@
       "kind": "photo",
       "keys": [
         "home.hero.before",
-        "hero.story.1.before"
+        "hero.story.1.before",
+        "hero.story.1.before.1"
       ],
       "avif": "/images/home/phone-photo-basketball-player-before.avif",
       "generatedAt": "2026-09-07T08:47:47.224Z"
+    },
+    "/images/home/phone-photo-basketball-player-in-the-car.webp": {
+      "out": "/images/home/phone-photo-basketball-player-in-the-car.webp",
+      "source": "art-pipeline/out/athletes/basketball/before/photo4.png",
+      "sourceSha256": "50cd8e28888aaa6b3d20a48f976ba252f4bfad5a409d107e48316399bfc1bce4",
+      "sha256": "6df782452724e02b4713917625a628c6b290144e1c3408efd87d2a31240b7a56",
+      "width": 672,
+      "height": 900,
+      "kind": "photo",
+      "keys": [
+        "hero.story.1.before.4"
+      ],
+      "generatedAt": "2026-09-07T14:45:22.586Z"
+    },
+    "/images/home/phone-photo-football-player-at-home.webp": {
+      "out": "/images/home/phone-photo-football-player-at-home.webp",
+      "source": "art-pipeline/out/athletes/football/before/photo1.png",
+      "sourceSha256": "16ddf60897693b93ebe95f44e05008d19088b266b08afdb97ab5f026a23a7e60",
+      "sha256": "d2f827c9bc156cf12dfe791c1340190e8d4662bb2ac66bb093817d2801347cc2",
+      "width": 672,
+      "height": 900,
+      "kind": "photo",
+      "keys": [
+        "hero.story.3.before.2"
+      ],
+      "generatedAt": "2026-09-07T14:45:23.109Z"
+    },
+    "/images/home/phone-photo-football-player-at-the-table.webp": {
+      "out": "/images/home/phone-photo-football-player-at-the-table.webp",
+      "source": "art-pipeline/out/athletes/football/before/photo4.png",
+      "sourceSha256": "fe67f371d01370f068526843678a517354cc00351e28d23c3bf2c3e31ea0a3a4",
+      "sha256": "3684b0dac954ab63693b1f6d0db134de97c9fcf8b9e09d998c951a7b1c3d32f7",
+      "width": 672,
+      "height": 900,
+      "kind": "photo",
+      "keys": [
+        "hero.story.3.before.4"
+      ],
+      "generatedAt": "2026-09-07T14:45:23.379Z"
     },
     "/images/home/phone-photo-football-player-before.webp": {
       "out": "/images/home/phone-photo-football-player-before.webp",
@@ -174,9 +240,62 @@
       "kind": "photo",
       "keys": [
         "home.hero.before.football",
-        "hero.story.3.before"
+        "hero.story.3.before",
+        "hero.story.3.before.1"
       ],
       "generatedAt": "2026-09-06T22:05:18.897Z"
+    },
+    "/images/home/phone-photo-football-player-in-uniform.webp": {
+      "out": "/images/home/phone-photo-football-player-in-uniform.webp",
+      "source": "art-pipeline/out/athletes/football/before/photo2.png",
+      "sourceSha256": "47dba12d9e8afc7cde7ccbd275400435d0eccb359bee23a5a68190955720683b",
+      "sha256": "f4df0f5145b98828b87441b3fb38fc616f658680dfdac4ac669ccd0292741e4e",
+      "width": 672,
+      "height": 900,
+      "kind": "photo",
+      "keys": [
+        "hero.story.3.before.3"
+      ],
+      "generatedAt": "2026-09-07T14:45:23.252Z"
+    },
+    "/images/home/phone-photo-softball-player-at-home.webp": {
+      "out": "/images/home/phone-photo-softball-player-at-home.webp",
+      "source": "art-pipeline/out/athletes/softball/before/photo1.png",
+      "sourceSha256": "68d2aa90076e9e02a7dcc3c12026e66e40a46620a340b4af05e96e905d7bbdfc",
+      "sha256": "c5578bc26aeab83891005ba03f36421d07b4abf28abb3cc68a43a49094a1ce4c",
+      "width": 672,
+      "height": 900,
+      "kind": "photo",
+      "keys": [
+        "hero.story.2.before.2"
+      ],
+      "generatedAt": "2026-09-07T14:45:22.718Z"
+    },
+    "/images/home/phone-photo-softball-player-at-practice.webp": {
+      "out": "/images/home/phone-photo-softball-player-at-practice.webp",
+      "source": "art-pipeline/out/athletes/softball/before/photo3.png",
+      "sourceSha256": "b38804a579715855b6697bcc040953931c2b83d22e82a866497e597dba6770a7",
+      "sha256": "a019436edb40aa29b9568e2e1390ba601720256e4a9ca484cf86cf140e875bba",
+      "width": 672,
+      "height": 900,
+      "kind": "photo",
+      "keys": [
+        "hero.story.2.before.3"
+      ],
+      "generatedAt": "2026-09-07T14:45:22.862Z"
+    },
+    "/images/home/phone-photo-softball-player-at-the-table.webp": {
+      "out": "/images/home/phone-photo-softball-player-at-the-table.webp",
+      "source": "art-pipeline/out/athletes/softball/before/photo4.png",
+      "sourceSha256": "99cb4033b5647ee8bbda3b93b25f281ae616dc3e3889b2acee2a6cf0d80bb7a8",
+      "sha256": "41db21eeb66471fb78fb9b3e4c8d4818f874ddc55417e24288829b19d0edbe05",
+      "width": 672,
+      "height": 900,
+      "kind": "photo",
+      "keys": [
+        "hero.story.2.before.4"
+      ],
+      "generatedAt": "2026-09-07T14:45:22.983Z"
     },
     "/images/home/phone-photo-softball-player-before.webp": {
       "out": "/images/home/phone-photo-softball-player-before.webp",
@@ -187,7 +306,8 @@
       "height": 1200,
       "kind": "photo",
       "keys": [
-        "hero.story.2.before"
+        "hero.story.2.before",
+        "hero.story.2.before.1"
       ],
       "generatedAt": "2026-09-07T08:47:48.034Z"
     },
@@ -1364,6 +1484,22 @@
       "out": "/images/home/phone-photo-basketball-player-before.webp",
       "status": "verified"
     },
+    "hero.story.1.before.1": {
+      "out": "/images/home/phone-photo-basketball-player-before.webp",
+      "status": "verified"
+    },
+    "hero.story.1.before.2": {
+      "out": "/images/home/phone-photo-basketball-player-at-home.webp",
+      "status": "verified"
+    },
+    "hero.story.1.before.3": {
+      "out": "/images/home/phone-photo-basketball-player-at-practice.webp",
+      "status": "verified"
+    },
+    "hero.story.1.before.4": {
+      "out": "/images/home/phone-photo-basketball-player-in-the-car.webp",
+      "status": "verified"
+    },
     "hero.story.1.card.back": {
       "out": "/images/cards/basketball-trading-card-back-registered-stadium-night.webp",
       "status": "verified"
@@ -1376,12 +1512,32 @@
       "out": "/images/posters/basketball-poster-stadium-night.webp",
       "status": "verified"
     },
+    "hero.story.1.registered": {
+      "out": "",
+      "status": "locate"
+    },
     "hero.story.2.athlete": {
       "out": "",
       "status": "locate"
     },
     "hero.story.2.before": {
       "out": "/images/home/phone-photo-softball-player-before.webp",
+      "status": "verified"
+    },
+    "hero.story.2.before.1": {
+      "out": "/images/home/phone-photo-softball-player-before.webp",
+      "status": "verified"
+    },
+    "hero.story.2.before.2": {
+      "out": "/images/home/phone-photo-softball-player-at-home.webp",
+      "status": "verified"
+    },
+    "hero.story.2.before.3": {
+      "out": "/images/home/phone-photo-softball-player-at-practice.webp",
+      "status": "verified"
+    },
+    "hero.story.2.before.4": {
+      "out": "/images/home/phone-photo-softball-player-at-the-table.webp",
       "status": "verified"
     },
     "hero.story.2.card.back": {
@@ -1396,12 +1552,32 @@
       "out": "/images/senior-night/softball-poster-senior-night.webp",
       "status": "verified"
     },
+    "hero.story.2.registered": {
+      "out": "",
+      "status": "locate"
+    },
     "hero.story.3.athlete": {
       "out": "",
       "status": "locate"
     },
     "hero.story.3.before": {
       "out": "/images/home/phone-photo-football-player-before.webp",
+      "status": "verified"
+    },
+    "hero.story.3.before.1": {
+      "out": "/images/home/phone-photo-football-player-before.webp",
+      "status": "verified"
+    },
+    "hero.story.3.before.2": {
+      "out": "/images/home/phone-photo-football-player-at-home.webp",
+      "status": "verified"
+    },
+    "hero.story.3.before.3": {
+      "out": "/images/home/phone-photo-football-player-in-uniform.webp",
+      "status": "verified"
+    },
+    "hero.story.3.before.4": {
+      "out": "/images/home/phone-photo-football-player-at-the-table.webp",
       "status": "verified"
     },
     "hero.story.3.card.back": {
@@ -1415,6 +1591,10 @@
     "hero.story.3.poster": {
       "out": "/images/posters/football-poster-fire-and-smoke.webp",
       "status": "verified"
+    },
+    "hero.story.3.registered": {
+      "out": "",
+      "status": "locate"
     },
     "home.hero.after": {
       "out": "",

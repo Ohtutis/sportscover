@@ -9,7 +9,7 @@
 import Image from "next/image";
 import { ButtonLink } from "../../../components/ButtonLink";
 import { CardFace } from "../../../components/CardFace";
-import { CtaPair } from "../../../components/CtaPair";
+import { CtaPair, PRIMARY_BUTTON_CLASS } from "../../../components/CtaPair";
 import { DeliveryChips } from "../../../components/DeliveryChips";
 import { FictionalLabel } from "../../../components/FictionalLabel";
 import { Mat } from "../../../components/Mat";
@@ -18,7 +18,7 @@ import { asset, assetOrNull, hasAsset, type ImageSpec } from "../../../lib/asset
 import { christmasDates, formatEt } from "../../../lib/capacity";
 import { activeOccasions, occasionHref, type Occasion } from "../../../lib/catalog/seasons";
 import { ctaFor } from "../../../lib/cta";
-import { BlockTitle, HomeHeading, HomeSection, SectionRule, sectionId } from "./Section";
+import { ArrowLink, BlockTitle, HomeHeading, HomeSection, SectionRule, sectionId } from "./Section";
 
 export const CLOSING_H2 = "ONE ATHLETE. ONE EDITION.";
 
@@ -70,38 +70,50 @@ function OccasionPlate({ occasion, now }: { occasion: Occasion; now: Date }) {
     occasion.id === "christmas"
       ? `Order by ${formatEt(christmas.printedBy, "medium")} for printed sets under the tree; digital files by ${formatEt(christmas.digitalBy, "medium")}.`
       : copy.body;
+  const senior = occasion.id === "senior-night";
+  const media = photo ? (
+    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-ui bg-arena">
+      <Image src={photo.spec.src} alt={photo.spec.alt} fill sizes="(min-width: 1024px) 380px, (min-width: 768px) 42vw, 88vw" className="object-cover" />
+    </div>
+  ) : face ? (
+    <Mat tone="arena" plate={false} aspect="aspect-[4/3]" className="overflow-hidden rounded-ui">
+      <div className="w-[48%]">
+        <CardFace {...face} labelled surface="arena" sizes="(min-width: 1024px) 200px, 40vw" />
+      </div>
+    </Mat>
+  ) : null;
+  /*
+    Reading order (owner review 2026-09-07): image → H3 → paragraph → caption and credit → CTA. The
+    caption and the C13 used to sit BETWEEN the photograph and its own heading, so the H3 landed about
+    90 px under its picture behind two grey lines and a rule, and card 2's caption wrapped, which put
+    the two H3s of the row at different heights. The credit belongs to the picture, so it stays in the
+    same <figure> — just after the sentence it illustrates, not in front of it.
+  */
   return (
     <article className="flex flex-col rounded-ui border border-hairline p-6">
-      {photo ? (
-        <figure>
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-ui bg-arena">
-            <Image
-              src={photo.spec.src}
-              alt={photo.spec.alt}
-              fill
-              sizes="(min-width: 1024px) 380px, (min-width: 768px) 42vw, 88vw"
-              className="object-cover"
-            />
-          </div>
-          <figcaption className="mt-2 font-body text-[0.75rem] font-medium text-muted-text">
-            {PHOTO_CAPTION[photo.key] ?? photo.spec.alt}
-          </figcaption>
-          {photo.spec.fictional ? <FictionalLabel className="mt-2" /> : null}
-        </figure>
-      ) : face ? (
-        <>
-          <Mat tone="arena" plate={false} aspect="aspect-[4/3]" className="overflow-hidden rounded-ui">
-            <div className="w-[48%]">
-              <CardFace {...face} labelled surface="arena" sizes="(min-width: 1024px) 200px, 40vw" />
-            </div>
-          </Mat>
-          <FictionalLabel className="mt-2" />
-        </>
-      ) : null}
-      <BlockTitle className={photo || face ? "mt-5" : ""}>{copy.title}</BlockTitle>
+      {media}
+      <BlockTitle className={media ? "mt-6" : ""}>{copy.title}</BlockTitle>
       <p className="mt-3 max-w-[62ch] font-body text-body text-pretty">{body}</p>
+      {media ? (
+        <div className="mt-4">
+          {photo ? (
+            <p className="font-body text-[0.75rem] font-medium leading-[1.4] tracking-[0.01em] text-muted-text">{PHOTO_CAPTION[photo.key] ?? photo.spec.alt}</p>
+          ) : null}
+          <FictionalLabel className={photo ? "mt-2" : ""} />
+        </div>
+      ) : null}
+      {/*
+        One filled button in the row, and it is the senior night — the occasion that has a date on it.
+        Both plates used to wear the same outline button, so neither was the offer (owner review).
+      */}
       <div className="mt-auto pt-6">
-        <ButtonLink href={occasionHref(occasion)}>{copy.cta}</ButtonLink>
+        {senior ? (
+          <ButtonLink href={occasionHref(occasion)} variant="bare" className={`${PRIMARY_BUTTON_CLASS} w-full sm:w-auto`}>
+            {copy.cta}
+          </ButtonLink>
+        ) : (
+          <ArrowLink href={occasionHref(occasion)}>{copy.cta}</ArrowLink>
+        )}
       </div>
     </article>
   );
@@ -112,12 +124,12 @@ export function Occasions({ now }: { now: Date }) {
   return (
     <HomeSection n={12} container="gallery">
       <SectionRule n={12} />
-      <div className={`mt-8 grid gap-6 lg:mt-12 ${occasions.length >= 3 ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
+      <div className={`mt-10 grid gap-8 ${occasions.length >= 3 ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
         {occasions.map((occasion) => (
           <OccasionPlate key={occasion.id} occasion={occasion} now={now} />
         ))}
       </div>
-      <div className="mt-16 border-t border-hairline pt-12 text-center lg:mt-24">
+      <div className="mt-14 border-t border-hairline pt-12 text-center lg:mt-20">
         <HomeHeading id={sectionId(12)} title={CLOSING_H2} align="center" />
         <div className="mt-8 flex flex-col items-center gap-4">
           <CtaPair {...ctaFor("home")} size="lg" className="justify-center" />

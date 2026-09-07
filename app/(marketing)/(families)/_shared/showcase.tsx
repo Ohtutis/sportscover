@@ -103,6 +103,13 @@ export interface ShowcaseFigureProps {
   showSport?: boolean;
   /** A parent renders C13 once for the group. */
   labelled?: boolean;
+  /**
+   * Draw the caption. Off for a row whose caption would only describe the picture to someone who can
+   * already see it (owner review, 2026-09-07): the sentence is the asset's own alt line, so a sighted
+   * reader gets it twice and a screen-reader user gets it twice. `showSport` still names the sport,
+   * which is the thing a buyer actually needs from a wall gallery.
+   */
+  showCaption?: boolean;
   className?: string;
 }
 
@@ -111,7 +118,7 @@ export interface ShowcaseFigureProps {
  * reserves exactly its space and the page cannot shift when it loads. Never `priority`, never eager —
  * every one of these sits below the first screen or beside copy that is the LCP.
  */
-export function ShowcaseFigure({ item, sizes, aspect = "aspect-[4/3]", showSport = false, labelled = false, className = "" }: ShowcaseFigureProps) {
+export function ShowcaseFigure({ item, sizes, aspect = "aspect-[4/3]", showSport = false, labelled = false, showCaption = true, className = "" }: ShowcaseFigureProps) {
   return (
     <figure className={className || undefined}>
       <div className={`relative ${aspect} w-full overflow-hidden rounded-ui bg-arena`}>
@@ -120,9 +127,11 @@ export function ShowcaseFigure({ item, sizes, aspect = "aspect-[4/3]", showSport
       {showSport && item.sport ? (
         <p className="mt-3 font-body text-small font-bold uppercase tracking-[0.04em] text-ink">{item.sport.name}</p>
       ) : null}
-      <figcaption className="mt-2 max-w-[44ch] font-body text-[0.75rem] font-medium leading-[1.4] tracking-[0.01em] text-muted-text">
-        {item.caption}
-      </figcaption>
+      {showCaption ? (
+        <figcaption className="mt-2 max-w-[44ch] font-body text-[0.75rem] font-medium leading-[1.4] tracking-[0.01em] text-muted-text">
+          {item.caption}
+        </figcaption>
+      ) : null}
       {!labelled && item.spec.fictional ? <FictionalLabel className="mt-2" /> : null}
     </figure>
   );
@@ -134,6 +143,8 @@ export interface ShowcaseRowProps {
   aspect?: string;
   /** Name the sport over each caption. */
   showSport?: boolean;
+  /** Draw the per-frame caption (see ShowcaseFigure). */
+  showCaption?: boolean;
   className?: string;
 }
 
@@ -141,7 +152,7 @@ export interface ShowcaseRowProps {
  * A row of photographs: the DESIGN §2.6 snap scroller under `lg`, a grid above it — two columns for a
  * short row, three once there are enough frames to fill them. C13 once for the whole row (§4.22).
  */
-export function ShowcaseRow({ items, sizes, aspect = "aspect-[4/3]", showSport = true, className = "" }: ShowcaseRowProps) {
+export function ShowcaseRow({ items, sizes, aspect = "aspect-[4/3]", showSport = true, showCaption = true, className = "" }: ShowcaseRowProps) {
   if (!items.length) return null;
   const columns = items.length >= 3 ? "lg:grid-cols-3" : "lg:grid-cols-2";
   return (
@@ -149,7 +160,7 @@ export function ShowcaseRow({ items, sizes, aspect = "aspect-[4/3]", showSport =
       <ul className={`-mx-5 flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-pl-5 px-5 pb-2 md:gap-4 lg:mx-0 lg:grid ${columns} lg:gap-6 lg:overflow-visible lg:px-0`}>
         {items.map((item) => (
           <li key={item.key} className="w-[76vw] max-w-[340px] shrink-0 snap-start md:w-[300px] lg:w-auto lg:max-w-none">
-            <ShowcaseFigure item={item} sizes={sizes} aspect={aspect} showSport={showSport} labelled />
+            <ShowcaseFigure item={item} sizes={sizes} aspect={aspect} showSport={showSport} showCaption={showCaption} labelled />
           </li>
         ))}
       </ul>

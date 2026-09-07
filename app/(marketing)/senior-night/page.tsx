@@ -8,7 +8,6 @@ import { CtaPair } from "../../../components/CtaPair";
 import { DeliveryChips } from "../../../components/DeliveryChips";
 import { FaqList } from "../../../components/FaqList";
 import { FictionalLabel } from "../../../components/FictionalLabel";
-import { Mat } from "../../../components/Mat";
 import { Shield } from "../../../components/brand/Shield";
 import { OrderByCalculator } from "../../../components/OrderByCalculator";
 import { Pill } from "../../../components/Pill";
@@ -84,7 +83,8 @@ function firstAsset(keys: readonly string[]): ImageSpec | null {
   return null;
 }
 
-const SECTION = "py-16 md:py-24 lg:py-32";
+/* Owner review 2026-09-07: 256 px between bands while the blocks inside sat 8–24 px apart. */
+const SECTION = "py-14 md:py-20 lg:py-24";
 const INDEX_ROW = "flex items-center justify-between gap-4 border-t border-hairline pt-3";
 const INDEX_TEXT = "font-body text-[0.8125rem] font-medium tabular-nums tracking-[0.14em] text-muted-text";
 
@@ -95,21 +95,21 @@ function SeniorNightCluster() {
   const back = asset("sn.hero.back");
   return (
     <div className="relative w-full">
-      <div className="mx-auto w-[62%]">
+      <div className="mx-auto w-[66%] rotate-[-2deg]">
         <Image
           src={poster.src}
           alt={poster.alt}
           width={poster.width}
           height={poster.height}
           sizes="(min-width: 1024px) 420px, 45vw"
-          className="h-auto w-full shadow-[var(--shadow-card-arena)]"
+          className="h-auto w-full shadow-[var(--shadow-card-stock)]"
         />
       </div>
       <div className="absolute bottom-[4%] right-[20%] hidden w-[22%] sm:block">
-        <CardFace {...back} surface="arena" labelled sizes="(min-width: 1024px) 150px, 16vw" />
+        <CardFace {...back} labelled sizes="(min-width: 1024px) 150px, 16vw" />
       </div>
       <div className="absolute bottom-0 right-0 w-[24%]">
-        <CardFace {...front} surface="arena" labelled sizes="(min-width: 1024px) 165px, 18vw" />
+        <CardFace {...front} labelled sizes="(min-width: 1024px) 165px, 18vw" />
       </div>
     </div>
   );
@@ -129,7 +129,10 @@ function SeniorNightHeroMedia() {
       aria-label={moment ? undefined : SN_HERO_GROUP_LABEL}
       className="flex w-full flex-col justify-center lg:h-full"
     >
-      <Mat tone="arena" className="w-full">
+      {/* No mat. The SR poster and the two card faces are dark art; a dark 8 % mat inside a ruled plate
+          put a grey border around them and shrank the product by a sixth (owner review, 2026-09-07).
+          They float on the page's own stock with the card shadow instead. */}
+      <div className="w-full">
         <div className="relative w-full">
           {moment ? (
             /* The photograph keeps its own ratio — the showcase frames are landscape, and a fixed
@@ -140,7 +143,7 @@ function SeniorNightHeroMedia() {
               width={moment.width}
               height={moment.height}
               sizes="(min-width: 1024px) 620px, 92vw"
-              className="h-auto w-full rounded-none shadow-[var(--shadow-card-arena)]"
+              className="h-auto w-full rounded-none shadow-[var(--shadow-card-stock)]"
             />
           ) : (
             <SeniorNightCluster />
@@ -153,8 +156,8 @@ function SeniorNightHeroMedia() {
             </Plate>
           </div>
         </div>
-      </Mat>
-      <figcaption className="mt-3">
+      </div>
+      <figcaption className="mt-6">
         <FictionalLabel />
       </figcaption>
     </figure>
@@ -162,10 +165,12 @@ function SeniorNightHeroMedia() {
 }
 
 /**
- * A Senior Night sport tile (DESIGN §5.3-4 on the §5.1-07 tile recipe): hairline plate → 4 : 5 mat →
- * the sport's SR card front at 76 %, then the sport name. Ice hockey has no SR front (GAPS #17), so it
- * renders the navy text tile — silver shield, the name in Anton with a full stop — and carries its name
- * once, inside the tile.
+ * A Senior Night sport tile: the card IS the tile, then the sport name. It used to be a ruled plate
+ * around a 4 : 5 arena mat with the card at 76 % of it — 285 × 356 of tile for a 182 × 254 card, 51 px
+ * of dead black down each side, nine times over (owner review, 2026-09-07). The card now runs the full
+ * width of its column and floats on the page's own stock. Ice hockey has no SR front (GAPS #17), so it
+ * renders the navy text tile — silver shield, the name in Anton with a full stop — at the card's own
+ * 5 : 7, and carries its name once, inside the tile.
  */
 function SportTile({ slug, caption }: { slug: string; caption?: string }) {
   const sport = sportBySlug(slug);
@@ -173,21 +178,19 @@ function SportTile({ slug, caption }: { slug: string; caption?: string }) {
   const name = sport?.name ?? slug;
   return (
     <a href={etsyHref(seniorNightSku(slug))} className="group block outline-offset-4">
-      <div className="overflow-hidden rounded-ui border border-hairline transition-[border-color] duration-hover ease-out group-hover:border-ink/30">
-        <div className={`flex aspect-[4/5] items-center justify-center p-[8%] ${face ? "bg-arena" : "bg-navy"}`}>
-          {face ? (
-            <div className="w-[76%]">
-              <CardFace {...face} surface="arena" labelled sizes="(min-width: 1024px) 220px, 24vw" />
-            </div>
-          ) : (
-            <span className="flex flex-col items-center gap-3 text-center">
-              <Shield tone="arena" size={40} />
-              <span className="font-display text-h3 uppercase leading-none text-white">{name}.</span>
-            </span>
-          )}
+      {face ? (
+        <CardFace {...face} labelled sizes="(min-width: 1024px) 280px, 30vw" />
+      ) : (
+        <div className="flex aspect-[5/7] items-center justify-center rounded-ui bg-navy p-[8%] shadow-[var(--shadow-card-stock)]">
+          <span className="flex flex-col items-center gap-3 text-center">
+            <Shield tone="arena" size={40} />
+            <span className="font-display text-h3 uppercase leading-none text-white">{name}.</span>
+          </span>
         </div>
-      </div>
-      {face ? <span className="mt-3 block font-body text-[0.9375rem] font-medium text-ink">{name}</span> : null}
+      )}
+      {face ? (
+        <span className="mt-4 block font-body text-[0.9375rem] font-medium text-ink underline-offset-4 group-hover:underline">{name}</span>
+      ) : null}
       {caption ? <span className="mt-1 block font-body text-small text-muted-text">{caption}</span> : null}
     </a>
   );
@@ -257,47 +260,62 @@ export default function SeniorNightPage() {
         <section aria-labelledby="sn-what" className={SECTION}>
           <div className="container-site">
             <SectionHeading as="h2" id="sn-what" index="03 / 06" title="WHAT MAKES IT A SENIOR EDITION." />
-            {/* items-start: a bracket frame must wrap its own content — stretched to the tallest
-                cell, its corners float in empty space below the caption. The certificate has no
-                image (GAPS #32), so it is a plain block: brackets around text alone read as a
-                missing exhibit. Each item is named once — the file tab on a frame, the h3 here. */}
-            <div className="mt-8 grid items-start gap-6 md:grid-cols-2 lg:mt-12 lg:grid-cols-3">
-              <BracketFrame fictional>
-                <CardFace {...asset("sn.back")} labelled sizes="(min-width: 1024px) 320px, 80vw" />
-                <h3 className="mt-4 font-display text-h3 uppercase">The back</h3>
-                <p className="mt-2 font-body text-small text-muted-text">
+            {/*
+              One system for three cells (owner review, 2026-09-07). They used to be three different
+              shapes — a 640 px bracketed card with its heading UNDER it, a bare paragraph, and a small
+              grey-plated image pair — so the three headings sat at y 394, 645 and 1038 and the middle
+              cell left about 800 px of white. Every cell is now heading → sentence → exhibit, the two
+              exhibits share one 4 : 3 box, and the cell with no exhibit (the certificate is deliberately
+              not shown — GAPS #32) is last, so the short cell ends the row instead of holing it.
+            */}
+            <div className="mt-10 grid items-start gap-x-10 gap-y-12 md:grid-cols-2 lg:mt-12 lg:grid-cols-3">
+              <div>
+                <h3 className="font-display text-h3 uppercase">The back</h3>
+                <p className="mt-3 max-w-[42ch] font-body text-small text-muted-text">
                   Career highs, class year, the four-year line — FR · SO · JR · SR — the senior quote, the athlete signature line, and
                   SENIOR EDITION · 1 OF 1 beside the registered card ID.
                 </p>
-              </BracketFrame>
-              <div className="p-3 sm:p-4">
+                <BracketFrame fictional className="mt-6">
+                  <div className="flex aspect-[4/3] items-center justify-center">
+                    <div className="h-full aspect-[5/7]">
+                      <CardFace {...asset("sn.back")} labelled sizes="(min-width: 1024px) 175px, 42vw" />
+                    </div>
+                  </div>
+                </BracketFrame>
+              </div>
+              <div>
+                <h3 className="font-display text-h3 uppercase">The badge and sticker</h3>
+                <p className="mt-3 max-w-[42ch] font-body text-small text-muted-text">Die-cut bonus files in the senior gold.</p>
+                <BracketFrame fictional className="mt-6">
+                  {/* No mat here either: the die-cuts are black and gold, they read on stock, and the
+                      8 % hairline mat they used to sit on was filled 26 % (measured). They stack in the
+                      same 4 : 3 box the card opposite them uses, so the two exhibits are one system. */}
+                  <div className="flex aspect-[4/3] flex-col items-center justify-center gap-[6%]">
+                    <Image
+                      src={asset("sn.badge").src}
+                      alt={asset("sn.badge").alt}
+                      width={asset("sn.badge").width}
+                      height={asset("sn.badge").height}
+                      sizes="(min-width: 1024px) 125px, 26vw"
+                      className="h-auto w-[36%]"
+                    />
+                    <Image
+                      src={asset("sn.sticker").src}
+                      alt={asset("sn.sticker").alt}
+                      width={asset("sn.sticker").width}
+                      height={asset("sn.sticker").height}
+                      sizes="(min-width: 1024px) 235px, 50vw"
+                      className="h-auto w-[68%]"
+                    />
+                  </div>
+                </BracketFrame>
+              </div>
+              <div>
                 <h3 className="font-display text-h3 uppercase">The certificate</h3>
-                <p className="mt-2 font-body text-small text-muted-text">
+                <p className="mt-3 max-w-[42ch] font-body text-small text-muted-text">
                   A printed Certificate of Authenticity ships with every printed set.
                 </p>
               </div>
-              <BracketFrame fictional>
-                <div className="flex items-center gap-4 bg-hairline p-[8%]">
-                  <Image
-                    src={asset("sn.badge").src}
-                    alt={asset("sn.badge").alt}
-                    width={asset("sn.badge").width}
-                    height={asset("sn.badge").height}
-                    sizes="(min-width: 1024px) 140px, 30vw"
-                    className="h-auto w-[42%]"
-                  />
-                  <Image
-                    src={asset("sn.sticker").src}
-                    alt={asset("sn.sticker").alt}
-                    width={asset("sn.sticker").width}
-                    height={asset("sn.sticker").height}
-                    sizes="(min-width: 1024px) 180px, 40vw"
-                    className="h-auto w-[58%]"
-                  />
-                </div>
-                <h3 className="mt-4 font-display text-h3 uppercase">The badge and sticker</h3>
-                <p className="mt-2 font-body text-small text-muted-text">Die-cut bonus files in the senior gold.</p>
-              </BracketFrame>
             </div>
           </div>
         </section>
@@ -312,12 +330,12 @@ export default function SeniorNightPage() {
               title="NINE SENIOR NIGHTS, MEASURED."
               subhead="The sports parents search for by name. Every other sport gets its senior edition at the order."
             />
-            <div className="mt-8 grid max-w-[900px] grid-cols-3 gap-3 sm:gap-5 lg:mt-12">
+            <div className="mt-10 grid max-w-[1120px] grid-cols-3 gap-x-6 gap-y-10 sm:gap-x-8 lg:mt-12">
               {SN_SPORTS.map((tile) => (
                 <SportTile key={tile.slug} slug={tile.slug} caption={tile.caption} />
               ))}
             </div>
-            <FictionalLabel className="mt-4 max-w-[900px]" />
+            <FictionalLabel className="mt-8 max-w-[1120px]" />
             <p className="mt-8 font-body text-body">
               <a href={etsyHref(SENIOR_NIGHT_ANY_SKU)} className="underline-offset-4 decoration-1 hover:underline">
                 Another sport? Choose it at the order — all 17 get the senior edition.

@@ -1,76 +1,97 @@
 // 06 · Six finishes, one athlete (DESIGN §5.1-06, COPY §2.1-6). Finish names are Space Grotesk 700
 // uppercase text — no SVG labels and no finish fonts outside /c (GAPS #15).
+//
+// Owner review 2026-09-07, three defects in one row: the heading said SIX over a row of SEVEN; the
+// seventh tile carried a pill nothing else carried, so its plate was 266 px against the others' 222
+// and its material line fell 44 px below the rest; and seven tiles across the gallery made each one
+// 167 px wide, which is too small to see what a finish IS. So: the row is the six FINISHES, in three
+// columns over two rows (a tile is now ~300 px, not 167), and the Senior Night edition — which is an
+// occasion, not a finish — stands under it as its own item. The heading counts what the row holds.
 import Link from "next/link";
 import { CardFace } from "../../../components/CardFace";
 import { FictionalLabel } from "../../../components/FictionalLabel";
-import { Mat } from "../../../components/Mat";
 import { Pill } from "../../../components/Pill";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { assetOrNull } from "../../../lib/assets";
-import { styleByCode, styleHrefF1, styles, type Style } from "../../../lib/catalog/styles";
-import { HomeSection, sectionId } from "./Section";
+import { finishes, styleByCode, styleHrefF1, type Style } from "../../../lib/catalog/styles";
+import { ArrowLink, HomeSection, sectionId, sectionIndex } from "./Section";
 
 export const FINISHES_H2 = "SIX FINISHES. ONE ATHLETE.";
 export const FINISHES_SUBHEAD = "Same athlete, same photos. The finish changes the material, not the layout.";
 export const SENIOR_TILE_PILL = "SENIOR NIGHT EDITION";
+/** COPY §2.2 (4) — the same sentence the product pages put under their finish row. */
+export const SENIOR_NIGHT_LINE =
+  "Ordering for senior night? The Senior Night edition replaces the finish picker with class year, career line and senior quote.";
+export const SENIOR_NIGHT_CTA = "See the Senior Night edition";
 
-const TILE_SIZES = "(min-width: 1024px) 180px, 62vw";
+const TILE_SIZES = "(min-width: 1024px) 300px, (min-width: 768px) 30vw, 68vw";
+const SENIOR_SIZES = "(min-width: 768px) 200px, 44vw";
 
-function Tile({ style, assetKey }: { style: Style; assetKey: string }) {
-  // A key that is still `locate` renders the text fallback, never an empty box (CONTRACTS §5.8).
-  const face = assetOrNull(assetKey);
-  const gold = style.isOccasion;
+/**
+ * One finish. No plate and no mat: the art is already dark, so a mat behind it is a grey box the tile
+ * spends a quarter of its area on (DESIGN §4.5 as revised 2026-09-07). The face floats on the page's
+ * own stock with the card shadow.
+ */
+function Tile({ style }: { style: Style }) {
+  const face = assetOrNull(`finish.${style.code}.front`);
   return (
-    <li className="w-[62vw] max-w-[260px] shrink-0 snap-start lg:w-auto lg:max-w-none">
+    <li className="w-[68vw] max-w-[300px] shrink-0 snap-start md:mx-auto md:w-full">
       <Link href={styleHrefF1(style)} className="group block">
-        <div
-          className={`overflow-hidden rounded-ui border transition-[border-color] duration-hover ease-out ${
-            gold ? "border-gold" : "border-hairline group-hover:border-ink"
-          }`}
-        >
-          {/* The mat is a flex row: two bare children make the card an unsized flex item and it
-              collapsed to 0 × 0 — the Senior Night tile showed its gold pill on an empty mat. One
-              block child owns the width, and the pill sits under the face inside it. */}
-          <Mat tone="arena" plate={false}>
-            <div className="w-full">
-              {face ? (
-                <CardFace {...face} labelled surface="arena" sizes={TILE_SIZES} />
-              ) : (
-                <span className="flex aspect-[5/7] w-full items-center justify-center bg-navy p-4 text-center font-body text-[0.9375rem] font-bold uppercase tracking-[0.04em] text-white">
-                  {style.name}
-                </span>
-              )}
-              {gold ? (
-                <span className="mt-3 flex justify-center">
-                  <Pill tone="gold">{SENIOR_TILE_PILL}</Pill>
-                </span>
-              ) : null}
-            </div>
-          </Mat>
-        </div>
+        {face ? (
+          <CardFace {...face} labelled sizes={TILE_SIZES} />
+        ) : (
+          // A key that is still `locate` renders the text fallback, never an empty box (CONTRACTS §5.8).
+          <span className="flex aspect-[5/7] w-full items-center justify-center rounded-ui border border-hairline bg-stock p-4 text-center font-body text-small text-muted-text">
+            {style.material}
+          </span>
+        )}
         {/* Two reserved lines: only SIGNATURE SPOTLIGHT wraps, and without the box the material lines
             under the row sat at two different heights (review 2026-09-07). */}
-        <p className="mt-3 min-h-[2.6em] font-body text-[0.9375rem] font-bold uppercase leading-[1.3] tracking-[0.04em] text-ink">{style.name}</p>
-        <p className="mt-1 font-body text-[0.75rem] font-medium leading-[1.4] tracking-[0.01em] text-muted-text">{style.material}</p>
+        <p className="mt-4 min-h-[2.6em] font-body text-[1rem] font-bold uppercase leading-[1.3] tracking-[0.04em] text-ink transition-[text-decoration-thickness] duration-hover ease-out group-hover:underline">
+          {style.name}
+        </p>
+        <p className="mt-1 font-body text-small font-medium text-muted-text">{style.material}</p>
       </Link>
     </li>
   );
 }
 
-export function Finishes() {
+/** The seventh style is an occasion, not a finish: its own item, its own gold rule, its own link. */
+function SeniorNightItem() {
   const senior = styleByCode("SR");
+  if (!senior) return null;
+  const face = assetOrNull("finish.SR.tile");
+  return (
+    <div className="mt-12 rounded-ui border border-gold p-6 sm:flex sm:items-center sm:gap-8 lg:mt-16 lg:p-8">
+      {face ? (
+        <div className="w-[52%] max-w-[200px] shrink-0 sm:w-[200px]">
+          <CardFace {...face} labelled sizes={SENIOR_SIZES} />
+        </div>
+      ) : null}
+      <div className={face ? "mt-6 sm:mt-0" : undefined}>
+        <Pill tone="gold">{SENIOR_TILE_PILL}</Pill>
+        <p className="mt-4 max-w-[52ch] font-body text-[1.125rem] font-medium text-pretty text-ink">{SENIOR_NIGHT_LINE}</p>
+        <ArrowLink href={styleHrefF1(senior)} className="mt-4">
+          {SENIOR_NIGHT_CTA}
+        </ArrowLink>
+      </div>
+    </div>
+  );
+}
+
+export function Finishes() {
   return (
     <HomeSection n={6} container="gallery">
-      <SectionHeading as="h2" id={sectionId(6)} index="06 / 13" title={FINISHES_H2} subhead={FINISHES_SUBHEAD} />
-      <ul className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-pl-5 pb-2 lg:mt-12 lg:grid lg:grid-cols-7 lg:overflow-visible lg:pb-0">
-        {styles
-          .filter((s) => !s.isOccasion)
-          .map((style) => (
-            <Tile key={style.code} style={style} assetKey={`finish.${style.code}.front`} />
-          ))}
-        {senior ? <Tile key={senior.code} style={senior} assetKey="finish.SR.tile" /> : null}
+      <SectionHeading as="h2" id={sectionId(6)} index={sectionIndex(6)} title={FINISHES_H2} subhead={FINISHES_SUBHEAD} />
+      {/* A scroller on a phone (a 300 px tile beats six 60 px ones); three columns from md up, so the
+          six finishes fall into two rows of tiles you can actually read. */}
+      <ul className="-mx-5 mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-pl-5 px-5 pb-2 md:mx-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10 md:overflow-visible md:px-0 md:pb-0">
+        {finishes.map((style) => (
+          <Tile key={style.code} style={style} />
+        ))}
       </ul>
-      <FictionalLabel className="mt-4" />
+      <FictionalLabel className="mt-6" />
+      <SeniorNightItem />
     </HomeSection>
   );
 }

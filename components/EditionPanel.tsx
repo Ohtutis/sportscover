@@ -31,12 +31,24 @@ export interface EditionPanelProps {
   registryHref?: string;
   /** On /c the labels use the finish's supporting face. */
   labelFont?: "label" | "finish";
+  /** Render "What is a registered edition?" inside the panel (default). Off where the page prints it beside its CTA. */
+  registryLink?: boolean;
   className?: string;
 }
 
 export const RECORD_STYLE = "font-label text-[0.9375rem] font-semibold uppercase tracking-[0.06em] tabular-nums";
 
-export function EditionPanel({ card, tone, demoLabel, copyButton, lastUpdated, registryHref = "/registry", labelFont = "label", className = "" }: EditionPanelProps) {
+export function EditionPanel({
+  card,
+  tone,
+  demoLabel,
+  copyButton,
+  lastUpdated,
+  registryHref = "/registry",
+  labelFont = "label",
+  registryLink = true,
+  className = "",
+}: EditionPanelProps) {
   const senior = styleCode(card.styleName) === "SR";
   const sportName = sportByCode(card.sportCode)?.name ?? card.sportCode;
   const dt = `${labelFont === "finish" ? "font-finish-supporting" : "font-label"} text-label font-semibold uppercase tracking-[0.12em] text-arena-muted`;
@@ -68,8 +80,13 @@ export function EditionPanel({ card, tone, demoLabel, copyButton, lastUpdated, r
             : "shadow-[var(--shadow-card-stock)]"
         }`}
       >
-        <div className="flex items-center justify-between gap-4">
-          <Pill tone={senior ? "gold" : "outline-silver"}>{senior ? SENIOR_EDITION_LINE : REGISTERED_EDITION_PILL}</Pill>
+        {/* On the arena surface the /c header already prints REGISTERED EDITION, and the two pills
+            landed in one viewport (owner review 2026-09-07). The senior pill says something else —
+            SENIOR EDITION · 1 OF 1 — so it stays on every surface. */}
+        <div className={`flex items-center gap-4 ${senior || tone === "stock" ? "justify-between" : "justify-end"}`}>
+          {senior || tone === "stock" ? (
+            <Pill tone={senior ? "gold" : "outline-silver"}>{senior ? SENIOR_EDITION_LINE : REGISTERED_EDITION_PILL}</Pill>
+          ) : null}
           <Shield tone="arena" size={20} />
         </div>
         <dl className="mt-5 grid grid-cols-[6.5rem_1fr] gap-x-6 gap-y-3">
@@ -82,12 +99,19 @@ export function EditionPanel({ card, tone, demoLabel, copyButton, lastUpdated, r
         </dl>
         <p className="mt-5 font-body text-small text-white/90">{EDITION_SENTENCE}</p>
         <p className="mt-2 font-body text-small text-arena-muted">{CANON.aiActLine}</p>
-        <p className="mt-4 flex flex-wrap gap-x-3 gap-y-1 font-body text-small text-arena-muted">
-          {lastUpdated ? <span>Last updated {formatEt(updatedAtOf(card), "medium")}</span> : null}
-          <Link href={registryHref} className="text-white underline-offset-4 decoration-1 transition-[text-decoration-thickness] duration-hover ease-out hover:underline">
-            {REGISTRY_LINK_LABEL}
-          </Link>
-        </p>
+        {lastUpdated || registryLink ? (
+          <p className="mt-4 flex flex-wrap gap-x-3 gap-y-1 font-body text-small text-arena-muted">
+            {lastUpdated ? <span>Last updated {formatEt(updatedAtOf(card), "medium")}</span> : null}
+            {registryLink ? (
+              <Link
+                href={registryHref}
+                className="text-white underline-offset-4 decoration-1 transition-[text-decoration-thickness] duration-hover ease-out hover:underline"
+              >
+                {REGISTRY_LINK_LABEL}
+              </Link>
+            ) : null}
+          </p>
+        ) : null}
       </section>
     </div>
   );
