@@ -1,0 +1,199 @@
+{
+  "cardId": "GDE-PR-CHR-2026-01",
+  "generatedAt": "2026-09-06T22:06:57.681Z",
+  "generator": "scripts/card-assets.ts",
+  "sourceKind": "demo",
+  "sources": {
+    "front": {
+      "path": "etsy/listing-images/01-cheerleading-card/src/CH-PR-card-FRONT.png",
+      "sha256": "51257d7c6b287c82730aa734dd8f71ea54a31728f38693fb6130ea55c74611a2",
+      "width": 750,
+      "height": 1050,
+      "bleedTrimmed": false
+    },
+    "back": {
+      "path": "etsy/listing-images/01-cheerleading-card/src/CH-PR-card-BACK.png",
+      "sha256": "0bf5b9babab174e2085ce5b21ad9748d3a67cff2602eeac5a4328f3dc43c6456",
+      "width": 750,
+      "height": 1050,
+      "bleedTrimmed": false
+    },
+    "mp4": null
+  },
+  "outputs": {
+    "front": {
+      "path": "/cards/GDE-PR-CHR-2026-01/front.webp",
+      "width": 750,
+      "height": 1050,
+      "bytes": 126100,
+      "sha256": "08dddd48d29ccc3df52ee91faff8fec35587d4d5a716eb65d50bfdab24d0da36"
+    },
+    "back": {
+      "path": "/cards/GDE-PR-CHR-2026-01/back.webp",
+      "width": 750,
+      "height": 1050,
+      "bytes": 74326,
+      "sha256": "3670d8f309ba55bf7034501d5aa1a3640a61c08bda3c1f9ae26f8718c95ebb7f"
+    },
+    "flipMp4": null,
+    "poster": null
+  },
+  "cornerAudit": {
+    "front": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            35,
+            45,
+            134
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 71.1,
+          "fail": false
+        },
+        {
+          "at": [
+            747,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            59,
+            32,
+            126
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 72.9,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            1047
+          ],
+          "alpha": 255,
+          "rgb": [
+            1,
+            2,
+            8
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 82.7,
+          "fail": false
+        },
+        {
+          "at": [
+            747,
+            1047
+          ],
+          "alpha": 255,
+          "rgb": [
+            3,
+            2,
+            10
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 82.5,
+          "fail": false
+        }
+      ]
+    },
+    "back": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            15,
+            14,
+            42
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 92.5,
+          "fail": false
+        },
+        {
+          "at": [
+            747,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            17,
+            9,
+            35
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 93.1,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            1047
+          ],
+          "alpha": 255,
+          "rgb": [
+            15,
+            10,
+            33
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 92.1,
+          "fail": false
+        },
+        {
+          "at": [
+            747,
+            1047
+          ],
+          "alpha": 255,
+          "rgb": [
+            21,
+            10,
+            39
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 93.1,
+          "fail": false
+        }
+      ]
+    },
+    "pass": true
+  },
+  "qr": {
+    "expected": "https://gamedayedition.com/c/GDE-PR-CHR-2026-01",
+    "sourceDecoded": "https://gamedayedition.com/c/GDE-SN-BKB-2026-23",
+    "located": {
+      "x": 54,
+      "y": 902,
+      "w": 90,
+      "h": 90
+    },
+    "version": 4,
+    "modulePx": 2.727,
+    "patched": true,
+    "method": "nearest",
+    "decoded": "https://gamedayedition.com/c/GDE-PR-CHR-2026-01",
+    "pass": true
+  },
+  "flip": null
+}

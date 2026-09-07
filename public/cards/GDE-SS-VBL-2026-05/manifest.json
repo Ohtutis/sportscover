@@ -1,0 +1,199 @@
+{
+  "cardId": "GDE-SS-VBL-2026-05",
+  "generatedAt": "2026-09-06T22:07:00.124Z",
+  "generator": "scripts/card-assets.ts",
+  "sourceKind": "demo",
+  "sources": {
+    "front": {
+      "path": "card-flip/assets/volleyball-ss/card-front.png",
+      "sha256": "c452028c4a1f51521f045edb7f2edfa5374995a3b0aa4a10485ac8d5d65986ba",
+      "width": 1500,
+      "height": 2100,
+      "bleedTrimmed": false
+    },
+    "back": {
+      "path": "card-flip/assets/volleyball-ss/card-back.png",
+      "sha256": "663bec97f95d47d38ad82984282855d2bac1a36327b135d2906c8cded737195b",
+      "width": 1500,
+      "height": 2100,
+      "bleedTrimmed": false
+    },
+    "mp4": null
+  },
+  "outputs": {
+    "front": {
+      "path": "/cards/GDE-SS-VBL-2026-05/front.webp",
+      "width": 900,
+      "height": 1260,
+      "bytes": 110876,
+      "sha256": "785aa25e6616ad616ce869676d69fd3112ce4d7f9b7ef31ec5b85871cbfad52b"
+    },
+    "back": {
+      "path": "/cards/GDE-SS-VBL-2026-05/back.webp",
+      "width": 900,
+      "height": 1260,
+      "bytes": 73440,
+      "sha256": "009c180ddebb450a6361e54748e3ee8559f64c074d2639cab13d22b23b36a95d"
+    },
+    "flipMp4": null,
+    "poster": null
+  },
+  "cornerAudit": {
+    "front": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            54,
+            53,
+            64
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 2.1,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            47,
+            43,
+            58
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 2.3,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            3,
+            2,
+            5
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.4,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            2,
+            1,
+            4
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.5,
+          "fail": false
+        }
+      ]
+    },
+    "back": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            14,
+            17,
+            23
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.7,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            11,
+            13,
+            19
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.4,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            17,
+            17,
+            20
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.7,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            12,
+            13,
+            17
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 1.1,
+          "fail": false
+        }
+      ]
+    },
+    "pass": true
+  },
+  "qr": {
+    "expected": "https://gamedayedition.com/c/GDE-SS-VBL-2026-05",
+    "sourceDecoded": "https://gamedayedition.com/c/GDE-SN-BKB-2026-23",
+    "located": {
+      "x": 64,
+      "y": 1082,
+      "w": 108,
+      "h": 107
+    },
+    "version": 4,
+    "modulePx": 3.273,
+    "patched": true,
+    "method": "nearest",
+    "decoded": "https://gamedayedition.com/c/GDE-SS-VBL-2026-05",
+    "pass": true
+  },
+  "flip": null
+}

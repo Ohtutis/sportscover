@@ -240,3 +240,12 @@ VOLLEYBALL `1161:127`, CHEERLEADING `1168:127`, SOCCER `1168:1140`, BASEBALL `11
 seką, su SAVO sporto SR sekcijomis 02–05 sporto failuose (§1 skola uždaryta), registro įrašais ir QR. Neeksportuota,
 Etsy nepublikuota. JSON: `03e`–`03h`. Kaina: žr. `etsy/LISTING-STATE.md` (generacijos ~€6 keturiems sportams).
 Prieš publikavimą: savininko peržiūra + eksportas 20×4 + copy pack'o A1–A4 titulai/žymos.
+
+## 10 · 2026-09-05 — softball ir wrestling
+
+Savininkas paprašė dar dviejų sportų visiems trims SN listingams. Pasirinkti pagal
+`etsy/SEO/NICHE-REPORT-2026-08.md` §6: **softball** (103/mėn, +130%, 4.9k/metus, balandžio pikas) ir
+**wrestling** (1.2k/metus, sausio pikas). Abu sporto failai neturėjo SR puslapio — masteriai perkelti iš
+baseball per SVG, sekcijos 02–05 klonuotos iš Prism Rush ir pervestos. SET sekcijos Figmoje: softball
+`1237:127`, wrestling `1237:1140`. JSON: `03i`, `03j`. **Neeksportuota, Etsy nepublikuota.**
+Liko: card-only ir poster-only sekcijos (03b/03c puslapiuose per-sportinės struktūros dar nėra).

@@ -1,0 +1,199 @@
+{
+  "cardId": "GDE-HE-BSB-2026-07",
+  "generatedAt": "2026-09-06T22:06:58.558Z",
+  "generator": "scripts/card-assets.ts",
+  "sourceKind": "demo",
+  "sources": {
+    "front": {
+      "path": "card-flip/assets/baseball-he/card-front.png",
+      "sha256": "4722b35906875fa7f3126c6b56a62eaa32c8e898db74a8bf68fcb28c65fb1c8e",
+      "width": 1500,
+      "height": 2100,
+      "bleedTrimmed": false
+    },
+    "back": {
+      "path": "card-flip/assets/baseball-he/card-back.png",
+      "sha256": "8917f29e33c73de4ad11f69b9c50d388f307ff881f77c272c496397e7d04ed09",
+      "width": 1500,
+      "height": 2100,
+      "bleedTrimmed": false
+    },
+    "mp4": null
+  },
+  "outputs": {
+    "front": {
+      "path": "/cards/GDE-HE-BSB-2026-07/front.webp",
+      "width": 900,
+      "height": 1260,
+      "bytes": 172438,
+      "sha256": "bbd8af15ce672c2c7f776f0613e6ea61b603624a3ceb5bc6ae94080033c49418"
+    },
+    "back": {
+      "path": "/cards/GDE-HE-BSB-2026-07/back.webp",
+      "width": 900,
+      "height": 1260,
+      "bytes": 96248,
+      "sha256": "9ebcdd05213dd840b5bea3c637a170286c31d501c0d602ca5115730810c35291"
+    },
+    "flipMp4": null,
+    "poster": null
+  },
+  "cornerAudit": {
+    "front": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            135,
+            134,
+            114
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 4,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            235,
+            213,
+            174
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 1.8,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            3,
+            2,
+            4
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.8,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            2,
+            2,
+            4
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.5,
+          "fail": false
+        }
+      ]
+    },
+    "back": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            38,
+            34,
+            26
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 1.1,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            43,
+            37,
+            27
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.8,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            27,
+            17,
+            10
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.7,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            24,
+            16,
+            9
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.9,
+          "fail": false
+        }
+      ]
+    },
+    "pass": true
+  },
+  "qr": {
+    "expected": "https://gamedayedition.com/c/GDE-HE-BSB-2026-07",
+    "sourceDecoded": "https://gamedayedition.com/c/GDE-SN-BKB-2026-23",
+    "located": {
+      "x": 64,
+      "y": 1082,
+      "w": 108,
+      "h": 107
+    },
+    "version": 4,
+    "modulePx": 3.273,
+    "patched": true,
+    "method": "nearest",
+    "decoded": "https://gamedayedition.com/c/GDE-HE-BSB-2026-07",
+    "pass": true
+  },
+  "flip": null
+}

@@ -9,12 +9,10 @@ export const SENIOR_NIGHT_ANY_LISTING_ID = "4564565764";
 
 export const listingUrl = (listingId: string): string => `${ETSY_LISTING_BASE}${listingId}`;
 
-/** Any-sport card/poster CTAs (pricing table) land on the flagship sport's listing, not the Complete Set. */
-const flagship = sports.find((s) => s.slug === "basketball");
-
 /**
  * Resolve a SKU like GDE-BKB-CARD-P12 / GDE-ANY-SET-DIG / GDE-FTB-SNSET-PRINT to a listing id.
- * Unknown or tail sports fall back to the Complete Set (or the any-sport Senior Night set).
+ * A sport with no live listing of its own falls back to the Complete Set, which is sold for any sport —
+ * never to another sport's listing, which would show a basketball card to a gymnastics buyer.
  */
 export function listingIdForSku(sku: string): string {
   const m = /^GDE-([A-Z]{3})-(CARD|POST|SET|SNSET)(?:-[A-Z0-9]+)?$/.exec(sku.toUpperCase());
@@ -23,8 +21,8 @@ export function listingIdForSku(sku: string): string {
   const sport = sports.find((s) => s.code === code);
   if (product === "SNSET") return sport?.seniorNightListingId ?? SENIOR_NIGHT_ANY_LISTING_ID;
   if (product === "SET") return COMPLETE_SET_LISTING_ID;
-  if (product === "CARD") return sport?.cardListingId ?? flagship?.cardListingId ?? COMPLETE_SET_LISTING_ID;
-  if (product === "POST") return sport?.posterListingId ?? flagship?.posterListingId ?? COMPLETE_SET_LISTING_ID;
+  if (product === "CARD") return sport?.cardListingId ?? COMPLETE_SET_LISTING_ID;
+  if (product === "POST") return sport?.posterListingId ?? COMPLETE_SET_LISTING_ID;
   return COMPLETE_SET_LISTING_ID;
 }
 

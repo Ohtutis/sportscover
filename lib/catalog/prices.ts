@@ -85,3 +85,26 @@ export const FAMILY_LABELS: Record<Family, string> = {
   set: "Complete Set",
   snset: "Senior Night Set",
 };
+
+/** Round UP to the next half unit: 4.499 → 4.5, 6.416 → 6.5, 4.5 → 4.5. */
+export function ceilToHalf(n: number): number {
+  return Math.ceil(n * 2 - 1e-9) / 2;
+}
+
+/**
+ * The per-card anchor the trading-cards page renders as "less than {perCard} per card" (COPY §0.2,
+ * D23): the 12-card tier's current site price divided by twelve, rounded up to the next half.
+ * Computed, never typed — when the sale lapses the anchor moves with it.
+ */
+export function perCardAnchor(now?: Date): number {
+  const p12 = getTier("GDE-ANY-CARD-P12");
+  if (!p12) throw new Error("perCardAnchor: GDE-ANY-CARD-P12 is missing from the ladder");
+  return ceilToHalf(sitePrice(p12, now) / 12);
+}
+
+/** SALE_EXPIRES_AT as the site prints it in the "Sale price until …" line: "Sep 24, 2026" (US Eastern). */
+export function saleEndsLabel(): string {
+  return new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", month: "short", day: "numeric", year: "numeric" }).format(
+    new Date(SALE_EXPIRES_AT),
+  );
+}

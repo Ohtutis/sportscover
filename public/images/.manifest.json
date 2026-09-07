@@ -1,0 +1,1179 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-06T22:07:07.430Z",
+  "script": "scripts/site-assets.ts",
+  "entries": {
+    "/images/cards/basketball-trading-card-back-registered-stadium-night.webp": {
+      "out": "/images/cards/basketball-trading-card-back-registered-stadium-night.webp",
+      "source": "etsy/listing-images/01-basketball-card/src/BK-SN-card-BACK.png",
+      "sourceSha256": "42ce03b6071b58c77e05e23a561f9c8e8e3c10361f24c5792d518c8364ed3cd3",
+      "sha256": "ffa86e7d887a1815549a5c1fea6de62984a30fcd943fd803d00ae3c86e9984c2",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "home.hero.after.back",
+        "cards.demo.back",
+        "home.qr-ring",
+        "set.hero.back"
+      ],
+      "qr": {
+        "cardId": "GDE-SN-BKB-2026-12",
+        "patched": true,
+        "printed": "https://gamedayedition.com/c/GDE-SN-BKB-2026-23",
+        "decodes": "https://gamedayedition.com/c/GDE-SN-BKB-2026-12"
+      },
+      "generatedAt": "2026-09-06T22:05:19.596Z"
+    },
+    "/images/cards/basketball-trading-card-front-stadium-night.webp": {
+      "out": "/images/cards/basketball-trading-card-front-stadium-night.webp",
+      "source": "etsy/listing-images/01-basketball-card/src/BK-SN-card-FRONT.png",
+      "sourceSha256": "de63e3c90c7319aa7e5dc9ffd9abbb6721717696aec96ecda87687312308a2a2",
+      "sha256": "d01d24d7ed0b0ffd6c6a7c418efbd5b86a10140f406a9499ea7076606da9ee5e",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "home.hero.after.front",
+        "cards.demo.front",
+        "finish.SN.front",
+        "sport.basketball.front",
+        "set.hero.front"
+      ],
+      "avif": "/images/cards/basketball-trading-card-front-stadium-night.avif",
+      "generatedAt": "2026-09-06T22:05:19.309Z"
+    },
+    "/images/cards/cheerleading-trading-card-back-registered-prism-rush.webp": {
+      "out": "/images/cards/cheerleading-trading-card-back-registered-prism-rush.webp",
+      "source": "etsy/listing-images/01-cheerleading-card/src/CH-PR-card-BACK.png",
+      "sourceSha256": "0bf5b9babab174e2085ce5b21ad9748d3a67cff2602eeac5a4328f3dc43c6456",
+      "sha256": "7b2625347bbf74d34c52ac39dc11278daf1df98ef40340d60de03fa447b04aa9",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "cards.cheer.back"
+      ],
+      "qr": {
+        "cardId": "GDE-PR-CHR-2026-01",
+        "patched": true,
+        "printed": "https://gamedayedition.com/c/GDE-SN-BKB-2026-23",
+        "decodes": "https://gamedayedition.com/c/GDE-PR-CHR-2026-01"
+      },
+      "generatedAt": "2026-09-06T22:05:23.156Z"
+    },
+    "/images/finishes/basketball-trading-card-front-chrome-all-star.webp": {
+      "out": "/images/finishes/basketball-trading-card-front-chrome-all-star.webp",
+      "source": "etsy/listing-images/01-basketball-card/src/BK-CA-front.png",
+      "sourceSha256": "0275e46d31a3ff884e726e57ed064f0478a900a8cedd38a0ff4e0559d425d0c0",
+      "sha256": "c7eebde21075546e3fbc4c2b14b4421bb3c43fe2bcb15dabacb3174f840c83d5",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "finish.CA.front"
+      ],
+      "generatedAt": "2026-09-06T22:05:20.960Z"
+    },
+    "/images/finishes/basketball-trading-card-front-fire-and-smoke.webp": {
+      "out": "/images/finishes/basketball-trading-card-front-fire-and-smoke.webp",
+      "source": "etsy/listing-images/01-basketball-card/src/BK-FS-front.png",
+      "sourceSha256": "2cf9662458a8efcf24eeea569cadc2e387166684476f57aea829e58386aab4ff",
+      "sha256": "717039588bc8ba5f498f57560acf55d12311e3f6da3ac2d10cbdcc28a246f36d",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "finish.FS.front"
+      ],
+      "generatedAt": "2026-09-06T22:05:21.077Z"
+    },
+    "/images/finishes/basketball-trading-card-front-heritage.webp": {
+      "out": "/images/finishes/basketball-trading-card-front-heritage.webp",
+      "source": "etsy/listing-images/01-basketball-card/src/BK-HE-front.png",
+      "sourceSha256": "f77a2db9d2f8625ad974aee29adbc21830b298759ddc61a87784917340281569",
+      "sha256": "7f8c1b1dfdb959750f01b171dcaae49272fcb8385b71045b4acf2c338e385ab8",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "finish.HE.front"
+      ],
+      "generatedAt": "2026-09-06T22:05:21.199Z"
+    },
+    "/images/finishes/basketball-trading-card-front-prism-rush.webp": {
+      "out": "/images/finishes/basketball-trading-card-front-prism-rush.webp",
+      "source": "etsy/listing-images/01-basketball-card/src/BK-PR-front.png",
+      "sourceSha256": "25a0e8d7d7c6e840d816a3bbcd9e209df0da53e2cabb0f99acede0a7227bf2e5",
+      "sha256": "5765a51e117530604dce58fd0059db9b2f9d62a8d28c60f5185d66f9e027e5f9",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "finish.PR.front"
+      ],
+      "generatedAt": "2026-09-06T22:05:21.446Z"
+    },
+    "/images/finishes/basketball-trading-card-front-signature-spotlight.webp": {
+      "out": "/images/finishes/basketball-trading-card-front-signature-spotlight.webp",
+      "source": "etsy/listing-images/01-basketball-card/src/BK-SS-front.png",
+      "sourceSha256": "5fcd92f2885b01d43591d7985a6eabce22fea6677ef07659aaec39d97e52f8b6",
+      "sha256": "e3a03ae1206ee20f193e8feea5f344597c2ccbead8c579fcd6992a4fc95276c0",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "finish.SS.front"
+      ],
+      "generatedAt": "2026-09-06T22:05:21.318Z"
+    },
+    "/images/home/phone-photo-basketball-player-before.webp": {
+      "out": "/images/home/phone-photo-basketball-player-before.webp",
+      "source": "art-pipeline/out/athletes/basketball/before/photo2.png",
+      "sourceSha256": "d8b6939c89995ed0e7ccc2c9240cb4039e3893403f71d99a524ed4a3ce9fb869",
+      "sha256": "5745a139b518b3d8499c5a5392fcc49673670afdd8f448c3ca60be4b27a4a077",
+      "width": 960,
+      "height": 1286,
+      "kind": "photo",
+      "keys": [
+        "home.hero.before"
+      ],
+      "generatedAt": "2026-09-06T22:05:18.754Z"
+    },
+    "/images/home/phone-photo-football-player-before.webp": {
+      "out": "/images/home/phone-photo-football-player-before.webp",
+      "source": "etsy/listing-images/01-football-card/src/s02-before-b.png",
+      "sourceSha256": "14c423acff6a9517945c644ca3c43ee7cd83bf10f01477c6af2a51a8966ff5ad",
+      "sha256": "469a65345a104c46c08722d71f62e1ec54754c57fb166bb8889f8c8f80092bcc",
+      "width": 960,
+      "height": 1211,
+      "kind": "photo",
+      "keys": [
+        "home.hero.before.football"
+      ],
+      "generatedAt": "2026-09-06T22:05:18.897Z"
+    },
+    "/images/how-it-works/approved-take-ice-hockey.webp": {
+      "out": "/images/how-it-works/approved-take-ice-hockey.webp",
+      "source": "art-pipeline/out/athletes/ice-hockey/action2.png",
+      "sourceSha256": "ae0dcb1cbd494e63128d54b16bb44b666abc8271c5d696c9b92b3a81dd9ec8f7",
+      "sha256": "9d4eb44b0f57351060ac403e321192b0cab6e38118112ce12ffb3f334437f3b1",
+      "width": 900,
+      "height": 1342,
+      "kind": "artefact",
+      "keys": [
+        "home.rejected.pass"
+      ],
+      "generatedAt": "2026-09-06T22:05:20.842Z"
+    },
+    "/images/how-it-works/frame-beside-plate-wrestling.webp": {
+      "out": "/images/how-it-works/frame-beside-plate-wrestling.webp",
+      "source": "art-pipeline/out/athletes/wrestling/_diff/hero-vs-_kit.png",
+      "sourceSha256": "eee32ab939ca4c0bb58aa4e0520bad68b6275aef1cac5a8e8e26083e7cac6986",
+      "sha256": "8eac6316b76f7e196c597ac216389371825a70534fcc0d43ea8a9b8a1d3910d9",
+      "width": 1600,
+      "height": 948,
+      "kind": "sheet",
+      "keys": [
+        "how.gate.verification"
+      ],
+      "generatedAt": "2026-09-06T22:05:29.642Z"
+    },
+    "/images/how-it-works/kit-plate-back-basketball.webp": {
+      "out": "/images/how-it-works/kit-plate-back-basketball.webp",
+      "source": "art-pipeline/out/approved/basketball/_kit-back.png",
+      "sourceSha256": "42b01e8158b99995086d53450bf8fac7811666048059a1a50cc21a29f3e22665",
+      "sha256": "0e153e559097351ff3ff578c91344753756d435d0d72c9430999a3668f908f2e",
+      "width": 1200,
+      "height": 1200,
+      "kind": "plate",
+      "keys": [
+        "how.gate.kit-back"
+      ],
+      "generatedAt": "2026-09-06T22:05:28.910Z"
+    },
+    "/images/how-it-works/kit-plate-front-basketball.webp": {
+      "out": "/images/how-it-works/kit-plate-front-basketball.webp",
+      "source": "art-pipeline/out/approved/basketball/_kit.png",
+      "sourceSha256": "ddfa506d39c05427ed2a8f88383d3f2133372d39f04c93b578343b41907728d8",
+      "sha256": "bc608c5663820c995a9275697e34573372873c2cc7f435131b8b0ecf590a134d",
+      "width": 1200,
+      "height": 1200,
+      "kind": "plate",
+      "keys": [
+        "how.gate.kit"
+      ],
+      "generatedAt": "2026-09-06T22:05:28.768Z"
+    },
+    "/images/how-it-works/reference-plate-back-basketball.webp": {
+      "out": "/images/how-it-works/reference-plate-back-basketball.webp",
+      "source": "art-pipeline/out/approved/basketball/_identity-back.png",
+      "sourceSha256": "abfae4145641b4ba02fa70d50c0cdc606a6ce669653286f3f53e0d47c8271069",
+      "sha256": "60857149d4c9284c2daec9d643fffa8b3760158d48ba3d64f8d705849ffd306b",
+      "width": 1600,
+      "height": 1195,
+      "kind": "plate",
+      "keys": [
+        "how.gate.plate-back"
+      ],
+      "generatedAt": "2026-09-06T22:05:29.116Z"
+    },
+    "/images/how-it-works/reference-plate-three-views-basketball.webp": {
+      "out": "/images/how-it-works/reference-plate-three-views-basketball.webp",
+      "source": "art-pipeline/out/approved/basketball/_identity.png",
+      "sourceSha256": "e985f95f4790b28149e9029feecf0cdbf895e42c5998be98b8ce6941235cc195",
+      "sha256": "d8fedb6c2db3ffcb9526a9587e255243256278fe46f7a449998f289d06e103ab",
+      "width": 1600,
+      "height": 1195,
+      "kind": "plate",
+      "keys": [
+        "home.process.plate",
+        "how.gate.plate"
+      ],
+      "generatedAt": "2026-09-06T22:05:20.557Z"
+    },
+    "/images/how-it-works/rejected-take-ice-hockey.webp": {
+      "out": "/images/how-it-works/rejected-take-ice-hockey.webp",
+      "source": "art-pipeline/out/athletes/ice-hockey/_versions/action2-1.png",
+      "sourceSha256": "8d5315bf6fb2d50398caed3bf793771cf158101c497d4139e2c480167822c797",
+      "sha256": "0b6ff5eb67934d3657eabcd17726e52693c6211c3afa377fc9fafbdd98d51be6",
+      "width": 900,
+      "height": 1342,
+      "kind": "artefact",
+      "keys": [
+        "home.rejected.fail"
+      ],
+      "generatedAt": "2026-09-06T22:05:20.700Z"
+    },
+    "/images/how-it-works/shot-1-hero-basketball.webp": {
+      "out": "/images/how-it-works/shot-1-hero-basketball.webp",
+      "source": "art-pipeline/out/approved/basketball/hero.png",
+      "sourceSha256": "148ff1c4d3ad1732a880884c1df42ec7cb1d26dc87350a6a3166fb39c6c45c53",
+      "sha256": "4ffca3cb2c8a7eff10a9a1eb6e2333e60254d6e34b9e509c2b3ea45bd60f40db",
+      "width": 600,
+      "height": 894,
+      "kind": "artefact",
+      "keys": [
+        "how.gate.shots.1"
+      ],
+      "generatedAt": "2026-09-06T22:05:29.216Z"
+    },
+    "/images/how-it-works/shot-2-action-basketball.webp": {
+      "out": "/images/how-it-works/shot-2-action-basketball.webp",
+      "source": "art-pipeline/out/approved/basketball/action2.png",
+      "sourceSha256": "c1cd003479df08d1167962babe4c2b31cb878b1d2878c872332871687171d99e",
+      "sha256": "ed1234af5a5ce5cc8cbb442d97b33c78d636e63549a12d6d84e27840dd3aaac1",
+      "width": 600,
+      "height": 894,
+      "kind": "artefact",
+      "keys": [
+        "how.gate.shots.2"
+      ],
+      "generatedAt": "2026-09-06T22:05:29.318Z"
+    },
+    "/images/how-it-works/shot-3-action-basketball.webp": {
+      "out": "/images/how-it-works/shot-3-action-basketball.webp",
+      "source": "art-pipeline/out/approved/basketball/action3.png",
+      "sourceSha256": "63b23b0423e43021cf14af66f22d54b312d2239ebfa1579589449bcc2d73213d",
+      "sha256": "fc46a5a51b92beea0582f0de610b25bbec0b670e30b6f32161041f311b741c3e",
+      "width": 600,
+      "height": 894,
+      "kind": "artefact",
+      "keys": [
+        "how.gate.shots.3"
+      ],
+      "generatedAt": "2026-09-06T22:05:29.417Z"
+    },
+    "/images/how-it-works/shot-4-back-basketball.webp": {
+      "out": "/images/how-it-works/shot-4-back-basketball.webp",
+      "source": "art-pipeline/out/approved/basketball/back.png",
+      "sourceSha256": "f840c4eaaafe8f2ef640b9acfd590c7877d47653efb06197ca7c13bfcd00d196",
+      "sha256": "94bd929dd95c65c55c3af61ffbdb0b3c993d3e0f255f6e34d041e99434fec134",
+      "width": 600,
+      "height": 894,
+      "kind": "artefact",
+      "keys": [
+        "how.gate.shots.4"
+      ],
+      "generatedAt": "2026-09-06T22:05:29.512Z"
+    },
+    "/images/how-it-works/watermarked-proof-baseball-senior-night.webp": {
+      "out": "/images/how-it-works/watermarked-proof-baseball-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/bsb-sr-proof.png",
+      "sourceSha256": "e98e4d9a5a198b8cde1e2ac1e69af04b47f291460cbbf453c9337aef14b1170e",
+      "sha256": "371a04f3a6bf6691365a8279bbfce851eff0c93d68c1031110b5e0755fa725a9",
+      "width": 1400,
+      "height": 1092,
+      "kind": "artefact",
+      "keys": [
+        "home.proof",
+        "home.process.proof",
+        "how.gate.finish"
+      ],
+      "generatedAt": "2026-09-06T22:05:20.323Z"
+    },
+    "/images/photo-guide/photo-check-examples.webp": {
+      "out": "/images/photo-guide/photo-check-examples.webp",
+      "source": "public/images/photo-guide.webp",
+      "sourceSha256": "a92b7d279e6f132c39e4153933f2aaeb5ce377774bd11d03482f6d7cd1dbf99b",
+      "sha256": "b93308609754ad34f63f09b6d518703c4a430745d29804c17cc074290deb5a7d",
+      "width": 1536,
+      "height": 1024,
+      "kind": "sheet",
+      "keys": [
+        "photo-guide.panels"
+      ],
+      "generatedAt": "2026-09-06T22:05:29.774Z"
+    },
+    "/images/posters/basketball-poster-stadium-night.webp": {
+      "out": "/images/posters/basketball-poster-stadium-night.webp",
+      "source": "etsy/listing-images/04-complete-set/src/marcus-sn-poster.png",
+      "sourceSha256": "5fd9945e66945b3b8c7c66a7217dea93d8d79562513ab0fae50bf144a4fbe6ea",
+      "sha256": "d291aaab23a83596058923e6a0a69a3552ff515b767a4a30d1c3613c1254c40b",
+      "width": 1200,
+      "height": 1600,
+      "kind": "poster",
+      "keys": [
+        "home.hero.after.poster",
+        "set.hero.poster"
+      ],
+      "avif": "/images/posters/basketball-poster-stadium-night.avif",
+      "generatedAt": "2026-09-06T22:05:20.187Z"
+    },
+    "/images/posters/football-poster-chrome-all-star.webp": {
+      "out": "/images/posters/football-poster-chrome-all-star.webp",
+      "source": "etsy/listing-images/02-football-poster/src/FB-CA-poster.png",
+      "sourceSha256": "7cd4cad27378f78416e5b3cfa590d96ab7d8468b8d488851f873d0b7b0f7c48f",
+      "sha256": "559ad7005c408653059a435634740c5d68c218cf74d8bc0821f60e8f7aa7abd8",
+      "width": 1200,
+      "height": 1600,
+      "kind": "poster",
+      "keys": [
+        "posters.finish.CA"
+      ],
+      "generatedAt": "2026-09-06T22:05:24.257Z"
+    },
+    "/images/posters/football-poster-fire-and-smoke.webp": {
+      "out": "/images/posters/football-poster-fire-and-smoke.webp",
+      "source": "etsy/listing-images/02-football-poster/src/FB-FS-poster.png",
+      "sourceSha256": "d66ff992ca215535749783b5ab8265503872f506a25f951c81e4ce78efffa120",
+      "sha256": "909e81da9f70c9a6feacfdf79d1152db3948b52bc774edeed7ecbfe5a65b13af",
+      "width": 1200,
+      "height": 1600,
+      "kind": "poster",
+      "keys": [
+        "posters.finish.FS"
+      ],
+      "generatedAt": "2026-09-06T22:05:24.491Z"
+    },
+    "/images/posters/football-poster-heritage.webp": {
+      "out": "/images/posters/football-poster-heritage.webp",
+      "source": "etsy/listing-images/02-football-poster/src/FB-HE-poster.png",
+      "sourceSha256": "a9ed3ad6f6560d1a764c708f9c211b29b23dcd2687b0ab6201522fdc390101de",
+      "sha256": "9d402f907a3dc7dd6b63810e0f0e372e26b79b823ec71f8ecf0b1d4cd2b6b5fa",
+      "width": 1200,
+      "height": 1600,
+      "kind": "poster",
+      "keys": [
+        "posters.finish.HE"
+      ],
+      "generatedAt": "2026-09-06T22:05:24.753Z"
+    },
+    "/images/posters/football-poster-prism-rush.webp": {
+      "out": "/images/posters/football-poster-prism-rush.webp",
+      "source": "etsy/listing-images/02-football-poster/src/FB-PR-poster.png",
+      "sourceSha256": "1a54491f5ed8d962ce753239e911e5c7e1dc02631029308cff8687d0636c928a",
+      "sha256": "cb58184e4d2082ec71dc254def95254d0b5781ba9d0e0bb75efbf0e9eba14c03",
+      "width": 1200,
+      "height": 1600,
+      "kind": "poster",
+      "keys": [
+        "posters.finish.PR"
+      ],
+      "generatedAt": "2026-09-06T22:05:25.242Z"
+    },
+    "/images/posters/football-poster-signature-spotlight.webp": {
+      "out": "/images/posters/football-poster-signature-spotlight.webp",
+      "source": "etsy/listing-images/02-football-poster/src/FB-SS-poster.png",
+      "sourceSha256": "2624e190d8ca85b7dc4ebc27d6f3005336c193e4987335b790af4a89f8e42ef8",
+      "sha256": "afede665610056eefb46b63d36774de101c2bec40df21f3ace98c78b55d56d6d",
+      "width": 1200,
+      "height": 1600,
+      "kind": "poster",
+      "keys": [
+        "posters.finish.SS"
+      ],
+      "generatedAt": "2026-09-06T22:05:24.991Z"
+    },
+    "/images/posters/football-poster-stadium-night.webp": {
+      "out": "/images/posters/football-poster-stadium-night.webp",
+      "source": "etsy/listing-images/02-football-poster/src/FB-SN-poster.png",
+      "sourceSha256": "ffff266ab64aad99279ee06b8cd7d4f9f87e8ec2455c0540f87027dd860ba710",
+      "sha256": "0fa11a9661b22af4feafa50794385b0e417f9d712c6fd90830cd3875a96e5cef",
+      "width": 1200,
+      "height": 1600,
+      "kind": "poster",
+      "keys": [
+        "posters.finish.SN"
+      ],
+      "generatedAt": "2026-09-06T22:05:24.025Z"
+    },
+    "/images/posters/poster-in-room-stadium-night.webp": {
+      "out": "/images/posters/poster-in-room-stadium-night.webp",
+      "source": "etsy/listing-images/02-basketball-poster/room-SN.png",
+      "sourceSha256": "27b0d78a69b1d5555d4ae65ba5b10df080728945d60ceb739f3c05940e618e3c",
+      "sha256": "9d2cf4810cfdbd5fecf61828f6a27c2c35d909b78267e549761c43c45c14409c",
+      "width": 1600,
+      "height": 1600,
+      "kind": "room",
+      "keys": [
+        "posters.room"
+      ],
+      "avif": "/images/posters/poster-in-room-stadium-night.avif",
+      "generatedAt": "2026-09-06T22:05:23.751Z"
+    },
+    "/images/senior-night/baseball-poster-senior-night.webp": {
+      "out": "/images/senior-night/baseball-poster-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/bsb-sr-poster.png",
+      "sourceSha256": "d64ba7a1bc5a747f7cba158f7291885494ba3ffe32696a5f037dc44265319e9e",
+      "sha256": "e8ad024e776f3b60e11a95890f9c5ad650857feb3de606b35e8654e192512f16",
+      "width": 1200,
+      "height": 1600,
+      "kind": "poster",
+      "keys": [
+        "sn.hero.baseball.poster"
+      ],
+      "avif": "/images/senior-night/baseball-poster-senior-night.avif",
+      "generatedAt": "2026-09-06T22:05:27.250Z"
+    },
+    "/images/senior-night/baseball-trading-card-back-class-year-senior-night.webp": {
+      "out": "/images/senior-night/baseball-trading-card-back-class-year-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/bsb-sr-back.png",
+      "sourceSha256": "d3e453bde4e164b90eb8970e209e4e5bb9bc03d783e6bfcf4e40908afe3d6196",
+      "sha256": "3d765b83ee1f525e0327afdb97d1249545ce6215425fb0accac799384fa2d2dc",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "sn.back"
+      ],
+      "qr": {
+        "cardId": "GDE-SR-BSB-2026-07",
+        "patched": false,
+        "printed": "https://gamedayedition.com/c/GDE-SR-BSB-2026-07",
+        "decodes": "https://gamedayedition.com/c/GDE-SR-BSB-2026-07"
+      },
+      "generatedAt": "2026-09-06T22:05:27.506Z"
+    },
+    "/images/senior-night/baseball-trading-card-front-senior-night.webp": {
+      "out": "/images/senior-night/baseball-trading-card-front-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/bsb-sr-front.png",
+      "sourceSha256": "307a5d99dd329e192a7688f8e127be0d3fa2017053366c541abecab283671e6c",
+      "sha256": "0b49a44bac272be072fae5fbb5358de5119e4736dfd962eaa864b337c707515e",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "sn.sport.baseball.front"
+      ],
+      "generatedAt": "2026-09-06T22:05:28.615Z"
+    },
+    "/images/senior-night/basketball-poster-senior-night.webp": {
+      "out": "/images/senior-night/basketball-poster-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/sr-poster.png",
+      "sourceSha256": "4bed6122e37e445aa4b6681fe0dcd4968b6e82e8f277a787493a2ad2505e1bed",
+      "sha256": "a4cf8c1517d709781d10913830ede10cede4a1483967ec4393b3f4ce12a07753",
+      "width": 1200,
+      "height": 1600,
+      "kind": "poster",
+      "keys": [
+        "sn.hero.poster"
+      ],
+      "avif": "/images/senior-night/basketball-poster-senior-night.avif",
+      "generatedAt": "2026-09-06T22:05:25.933Z"
+    },
+    "/images/senior-night/basketball-trading-card-back-senior-night.webp": {
+      "out": "/images/senior-night/basketball-trading-card-back-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/sr-card-back.png",
+      "sourceSha256": "eff6d7000c7cbc2e50fcd15741121599e1b17e92843d4d9e38dce8b785f419f9",
+      "sha256": "73682db8afb6529d8900177c93eee7e314634c64dbc0a76de1ba17c1c3b317e5",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "sn.hero.back"
+      ],
+      "qr": {
+        "cardId": "GDE-SR-BKB-2026-12",
+        "patched": true,
+        "printed": "https://gamedayedition.com/c/GDE-SN-BKB-2026-23",
+        "decodes": "https://gamedayedition.com/c/GDE-SR-BKB-2026-12"
+      },
+      "generatedAt": "2026-09-06T22:05:26.206Z"
+    },
+    "/images/senior-night/basketball-trading-card-front-senior-night.webp": {
+      "out": "/images/senior-night/basketball-trading-card-front-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/sr-card-front.png",
+      "sourceSha256": "5d5e69b3409cf3099c9ef47ac6f40b35d50c2fffc42b37e44f3ddbe2b3aa9f55",
+      "sha256": "7f0e0622d1e3ee395f091a40b1f5787b45781017a096b777d535e70ef028c099",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "finish.SR.tile",
+        "sn.hero.front",
+        "sn.sport.basketball.front"
+      ],
+      "generatedAt": "2026-09-06T22:05:21.569Z"
+    },
+    "/images/senior-night/cheerleading-trading-card-front-senior-night.webp": {
+      "out": "/images/senior-night/cheerleading-trading-card-front-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/chr-sr-front.png",
+      "sourceSha256": "8c2c9eda4933fa19d52b52214372e396584aee73cc5d45177f166d9347995f65",
+      "sha256": "2c735099d0990703d947b9fe806c314d06d7fb6fa81ea0d72aaaf19cc060cdac",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "sn.sport.cheerleading.front"
+      ],
+      "generatedAt": "2026-09-06T22:05:28.364Z"
+    },
+    "/images/senior-night/football-trading-card-front-senior-night.webp": {
+      "out": "/images/senior-night/football-trading-card-front-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/ftb-sr-front.png",
+      "sourceSha256": "15a58c58dbaaeaecffe25a48d3a762d169486269f4a541ab7bc64af06be9f23c",
+      "sha256": "562673bc2109dfce4d62e7c3df0966154d0b798fdf2b605c41205097f299f735",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "sn.sport.football.front"
+      ],
+      "generatedAt": "2026-09-06T22:05:28.119Z"
+    },
+    "/images/senior-night/senior-night-badge.webp": {
+      "out": "/images/senior-night/senior-night-badge.webp",
+      "source": "etsy/listing-images/03-senior-night/src/bsb-sr-badge.png",
+      "sourceSha256": "d0112996bfdcfd41724d716fe986573c306d0d3db48ad55908536348dd341df4",
+      "sha256": "a3bb45413af0ab80d62a0bae9044b5edd14a34662f1984f5c15cda2f4d2e871c",
+      "width": 800,
+      "height": 800,
+      "kind": "artefact",
+      "keys": [
+        "sn.hero.badge",
+        "sn.badge"
+      ],
+      "generatedAt": "2026-09-06T22:05:26.602Z"
+    },
+    "/images/senior-night/senior-night-sticker.webp": {
+      "out": "/images/senior-night/senior-night-sticker.webp",
+      "source": "etsy/listing-images/03-senior-night/src/bsb-sr-sticker.png",
+      "sourceSha256": "3f1c5072ee99ef9e28316502053d859f9e5c143f6bdd9a49b2767123e49250da",
+      "sha256": "f40a41ab61bfd736cc8401b619c3b9a1be50b26debf0132aa425f83e19250b9d",
+      "width": 1300,
+      "height": 640,
+      "kind": "artefact",
+      "keys": [
+        "sn.sticker"
+      ],
+      "generatedAt": "2026-09-06T22:05:27.998Z"
+    },
+    "/images/senior-night/soccer-trading-card-front-senior-night.webp": {
+      "out": "/images/senior-night/soccer-trading-card-front-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/soc-sr-front.png",
+      "sourceSha256": "349e5a7ce8c97f02a2b08a8dc5d63ad02205edc6c6e43a0b7ee35ad7424eadce",
+      "sha256": "739285fe00f4286a9a8e50c15a29ff5ed2c837a6574c93a3831e4246ea3549e4",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "sn.sport.soccer.front"
+      ],
+      "generatedAt": "2026-09-06T22:05:28.491Z"
+    },
+    "/images/senior-night/softball-trading-card-front-senior-night.webp": {
+      "out": "/images/senior-night/softball-trading-card-front-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/sfb-sr-front.png",
+      "sourceSha256": "81bb85a24bd0136d59267abad42d0748aca8186fe53ef96d8b4de6399a08c4a7",
+      "sha256": "6f214817073282af2efd107e7253afe6376247072e46b162c6c6e3f83ac65c2d",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "sport.softball.front",
+        "sn.sport.softball.front"
+      ],
+      "generatedAt": "2026-09-06T22:05:21.933Z"
+    },
+    "/images/senior-night/volleyball-trading-card-front-senior-night.webp": {
+      "out": "/images/senior-night/volleyball-trading-card-front-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/vbl-sr-front.png",
+      "sourceSha256": "debb2a059955026317ea3e1c2cc40ec71d6c0de767bb67b7f088bb04b6be495c",
+      "sha256": "96439a53a6f99bc613e0a9eb0920a2a34d34ef2945194f674504e099350cc814",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "sn.sport.volleyball.front"
+      ],
+      "generatedAt": "2026-09-06T22:05:28.241Z"
+    },
+    "/images/senior-night/wrestling-trading-card-front-senior-night.webp": {
+      "out": "/images/senior-night/wrestling-trading-card-front-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/wrs-sr-front.png",
+      "sourceSha256": "2bc3e6a525bb62a254fec197a6ba67b00aba8624ef7a2b4c5b80c7619c5788e8",
+      "sha256": "f8b1047842437a6bc6a2d198eda254ceeb996d259d12e51260c5535482487315",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "sport.wrestling.front",
+        "sn.sport.wrestling.front"
+      ],
+      "generatedAt": "2026-09-06T22:05:22.427Z"
+    },
+    "/images/sports/baseball-trading-card-front-heritage.webp": {
+      "out": "/images/sports/baseball-trading-card-front-heritage.webp",
+      "source": "etsy/listing-images/01-baseball-card/src/BB-HE-front.png",
+      "sourceSha256": "97673771582f42e7edc490cacad2eb954144816f07a60bbbec438f8156688039",
+      "sha256": "fbdd7e0422d985a112e6b31f836450824a087027c890429b4e215c12c2bbbacb",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "sport.baseball.front"
+      ],
+      "generatedAt": "2026-09-06T22:05:21.812Z"
+    },
+    "/images/sports/cheerleading-trading-card-front-prism-rush.webp": {
+      "out": "/images/sports/cheerleading-trading-card-front-prism-rush.webp",
+      "source": "etsy/listing-images/01-cheerleading-card/src/CH-PR-front.png",
+      "sourceSha256": "51257d7c6b287c82730aa734dd8f71ea54a31728f38693fb6130ea55c74611a2",
+      "sha256": "55e7dbacfee7cc71af7fecd8d740c356367080daa34efcf1030e2f9557a477c8",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "sport.cheerleading.front",
+        "cards.cheer.front"
+      ],
+      "generatedAt": "2026-09-06T22:05:22.556Z"
+    },
+    "/images/sports/football-trading-card-front-fire-and-smoke.webp": {
+      "out": "/images/sports/football-trading-card-front-fire-and-smoke.webp",
+      "source": "etsy/listing-images/01-football-card/src/FB-FS-front.png",
+      "sourceSha256": "bef457cac04a491267a77bb8f9bdc6f762e9954fae1ab2e021435d336f75d528",
+      "sha256": "e05053ab5de4ea8056f6b29ffdfbe275d660ea5a23586a1ad5ba0d5907503ac6",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "sport.football.front"
+      ],
+      "generatedAt": "2026-09-06T22:05:21.685Z"
+    },
+    "/images/sports/golf-trading-card-front-stadium-night.webp": {
+      "out": "/images/sports/golf-trading-card-front-stadium-night.webp",
+      "source": "marketing/cards/golf-front.png",
+      "sourceSha256": "3a2122e81310d096814711f2a93f1bb93c4c59e5433a3273e5c13f3ab1749563",
+      "sha256": "1222097f450de57317dfe62f99cc5edb99387a5ec5effa005dcc0222806d7484",
+      "width": 480,
+      "height": 672,
+      "kind": "card",
+      "keys": [
+        "sport.golf.front"
+      ],
+      "crop": "inset-5",
+      "generatedAt": "2026-09-06T22:05:22.885Z"
+    },
+    "/images/sports/gymnastics-trading-card-front-stadium-night.webp": {
+      "out": "/images/sports/gymnastics-trading-card-front-stadium-night.webp",
+      "source": "marketing/cards/gymnastics-front.png",
+      "sourceSha256": "7b208563d848b47d7505bfe26468a3088ae86f9e4d247b118e78c436eee20a7f",
+      "sha256": "9771ca4a33e68ec1f3371ca443b3f41cfc18c153728b52b40d282689c0e60d5b",
+      "width": 480,
+      "height": 672,
+      "kind": "card",
+      "keys": [
+        "sport.gymnastics.front"
+      ],
+      "crop": "inset-5",
+      "generatedAt": "2026-09-06T22:05:22.622Z"
+    },
+    "/images/sports/ice-hockey-trading-card-front-stadium-night.webp": {
+      "out": "/images/sports/ice-hockey-trading-card-front-stadium-night.webp",
+      "source": "marketing/cards/ice-hockey-front.png",
+      "sourceSha256": "d83f324c9882aabfd428b12827895b6cd75c40b471b765b063faf3e2e586d060",
+      "sha256": "40d4fe0339d28db91ae6842dbd22128cd736f629f6ba8d5d5356fada10ac48fc",
+      "width": 480,
+      "height": 672,
+      "kind": "card",
+      "keys": [
+        "sport.ice-hockey.front"
+      ],
+      "crop": "inset-5",
+      "generatedAt": "2026-09-06T22:05:22.121Z"
+    },
+    "/images/sports/lacrosse-trading-card-front-stadium-night.webp": {
+      "out": "/images/sports/lacrosse-trading-card-front-stadium-night.webp",
+      "source": "marketing/cards/lacrosse-front.png",
+      "sourceSha256": "5e90a92b5003e8e028942151c661b52c7e34f0ff9cc8f33abd1204141479ef29",
+      "sha256": "2e2c2f6c1d999363edf0277e7f4889768bf7f8e06d135abaac95cb9234245c25",
+      "width": 480,
+      "height": 672,
+      "kind": "card",
+      "keys": [
+        "sport.lacrosse.front"
+      ],
+      "crop": "inset-5",
+      "generatedAt": "2026-09-06T22:05:22.306Z"
+    },
+    "/images/sports/soccer-trading-card-front-chrome-all-star.webp": {
+      "out": "/images/sports/soccer-trading-card-front-chrome-all-star.webp",
+      "source": "etsy/listing-images/01-soccer-card/src/SC-CA-front.png",
+      "sourceSha256": "4097b4749d1cb820097ab70cba03153a02fe88b937e4e2cf45d5d4b870dc2eca",
+      "sha256": "a473f972b93a0d97bafa6a34b1fade50a12098bf0308ec5e493617c4d10e281b",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "sport.soccer.front"
+      ],
+      "generatedAt": "2026-09-06T22:05:22.056Z"
+    },
+    "/images/sports/swimming-trading-card-front-stadium-night.webp": {
+      "out": "/images/sports/swimming-trading-card-front-stadium-night.webp",
+      "source": "marketing/cards/swimming-front.png",
+      "sourceSha256": "83f17832df156681c2bdc9efa138825fa232372f0b64bf84ec3d57682cc8ab61",
+      "sha256": "036a836f289fc9ba010feadf8cc15a97a2d737810aa62559dc05f96fd26179eb",
+      "width": 480,
+      "height": 672,
+      "kind": "card",
+      "keys": [
+        "sport.swimming.front"
+      ],
+      "crop": "inset-5",
+      "generatedAt": "2026-09-06T22:05:22.751Z"
+    },
+    "/images/sports/tennis-trading-card-front-stadium-night.webp": {
+      "out": "/images/sports/tennis-trading-card-front-stadium-night.webp",
+      "source": "marketing/cards/tennis-front.png",
+      "sourceSha256": "5dc23a3de265711e03ecd2a2048efb9801ce3dad8ee97bc0b30696c35a4833e3",
+      "sha256": "4afa266e4aacba9ff7a114028960bc0a16761046d2496aa0140d37a6b5009ea8",
+      "width": 480,
+      "height": 672,
+      "kind": "card",
+      "keys": [
+        "sport.tennis.front"
+      ],
+      "crop": "inset-5",
+      "generatedAt": "2026-09-06T22:05:22.820Z"
+    },
+    "/images/sports/track-and-field-trading-card-front-stadium-night.webp": {
+      "out": "/images/sports/track-and-field-trading-card-front-stadium-night.webp",
+      "source": "marketing/cards/track-field-front.png",
+      "sourceSha256": "5481481782f73db14dddc86641f13e350d8af8f3449a67d902e6eb73651e9813",
+      "sha256": "67a32a90be7cd1342930fb7698d9ac5663ce61a13e6f03cd9e7a72f6c1758ec7",
+      "width": 480,
+      "height": 672,
+      "kind": "card",
+      "keys": [
+        "sport.track-field.front"
+      ],
+      "crop": "inset-5",
+      "generatedAt": "2026-09-06T22:05:22.688Z"
+    },
+    "/images/sports/volleyball-trading-card-front-signature-spotlight.webp": {
+      "out": "/images/sports/volleyball-trading-card-front-signature-spotlight.webp",
+      "source": "etsy/listing-images/01-volleyball-card/src/VB-SS-front.png",
+      "sourceSha256": "2d79c198e404e80aa8e6177d8cff4cef9513ca17451eec1525edd15aaa7c2356",
+      "sha256": "dabf29f310ea7a375b23ba1c8b6175fecba03e122a90009b53160769f4035271",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "sport.volleyball.front"
+      ],
+      "generatedAt": "2026-09-06T22:05:22.239Z"
+    }
+  },
+  "keys": {
+    "about.founder": {
+      "out": "/images/about/john-birch-founder.webp",
+      "status": "locate"
+    },
+    "cards.cheer.back": {
+      "out": "/images/cards/cheerleading-trading-card-back-registered-prism-rush.webp",
+      "status": "verified"
+    },
+    "cards.cheer.front": {
+      "out": "/images/sports/cheerleading-trading-card-front-prism-rush.webp",
+      "status": "verified"
+    },
+    "cards.demo.back": {
+      "out": "/images/cards/basketball-trading-card-back-registered-stadium-night.webp",
+      "status": "verified"
+    },
+    "cards.demo.front": {
+      "out": "/images/cards/basketball-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "cards.four-shots": {
+      "out": "",
+      "status": "locate"
+    },
+    "cards.front-back": {
+      "out": "",
+      "status": "locate"
+    },
+    "cards.six-finishes": {
+      "out": "",
+      "status": "locate"
+    },
+    "finish.CA.front": {
+      "out": "/images/finishes/basketball-trading-card-front-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "finish.FS.front": {
+      "out": "/images/finishes/basketball-trading-card-front-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "finish.HE.front": {
+      "out": "/images/finishes/basketball-trading-card-front-heritage.webp",
+      "status": "verified"
+    },
+    "finish.PR.front": {
+      "out": "/images/finishes/basketball-trading-card-front-prism-rush.webp",
+      "status": "verified"
+    },
+    "finish.SN.front": {
+      "out": "/images/cards/basketball-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "finish.SR.tile": {
+      "out": "/images/senior-night/basketball-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "finish.SS.front": {
+      "out": "/images/finishes/basketball-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "home.hero.after": {
+      "out": "",
+      "status": "locate"
+    },
+    "home.hero.after.back": {
+      "out": "/images/cards/basketball-trading-card-back-registered-stadium-night.webp",
+      "status": "verified"
+    },
+    "home.hero.after.front": {
+      "out": "/images/cards/basketball-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "home.hero.after.poster": {
+      "out": "/images/posters/basketball-poster-stadium-night.webp",
+      "status": "verified"
+    },
+    "home.hero.before": {
+      "out": "/images/home/phone-photo-basketball-player-before.webp",
+      "status": "verified"
+    },
+    "home.hero.before.football": {
+      "out": "/images/home/phone-photo-football-player-before.webp",
+      "status": "verified"
+    },
+    "home.process.intake": {
+      "out": "",
+      "status": "locate"
+    },
+    "home.process.plate": {
+      "out": "/images/how-it-works/reference-plate-three-views-basketball.webp",
+      "status": "verified"
+    },
+    "home.process.proof": {
+      "out": "/images/how-it-works/watermarked-proof-baseball-senior-night.webp",
+      "status": "verified"
+    },
+    "home.proof": {
+      "out": "/images/how-it-works/watermarked-proof-baseball-senior-night.webp",
+      "status": "verified"
+    },
+    "home.qr-ring": {
+      "out": "/images/cards/basketball-trading-card-back-registered-stadium-night.webp",
+      "status": "verified"
+    },
+    "home.rejected.fail": {
+      "out": "/images/how-it-works/rejected-take-ice-hockey.webp",
+      "status": "verified"
+    },
+    "home.rejected.pass": {
+      "out": "/images/how-it-works/approved-take-ice-hockey.webp",
+      "status": "verified"
+    },
+    "how.gate.finish": {
+      "out": "/images/how-it-works/watermarked-proof-baseball-senior-night.webp",
+      "status": "verified"
+    },
+    "how.gate.kit": {
+      "out": "/images/how-it-works/kit-plate-front-basketball.webp",
+      "status": "verified"
+    },
+    "how.gate.kit-back": {
+      "out": "/images/how-it-works/kit-plate-back-basketball.webp",
+      "status": "verified"
+    },
+    "how.gate.photo-check": {
+      "out": "",
+      "status": "locate"
+    },
+    "how.gate.plate": {
+      "out": "/images/how-it-works/reference-plate-three-views-basketball.webp",
+      "status": "verified"
+    },
+    "how.gate.plate-back": {
+      "out": "/images/how-it-works/reference-plate-back-basketball.webp",
+      "status": "verified"
+    },
+    "how.gate.shots": {
+      "out": "",
+      "status": "locate"
+    },
+    "how.gate.shots.1": {
+      "out": "/images/how-it-works/shot-1-hero-basketball.webp",
+      "status": "verified"
+    },
+    "how.gate.shots.2": {
+      "out": "/images/how-it-works/shot-2-action-basketball.webp",
+      "status": "verified"
+    },
+    "how.gate.shots.3": {
+      "out": "/images/how-it-works/shot-3-action-basketball.webp",
+      "status": "verified"
+    },
+    "how.gate.shots.4": {
+      "out": "/images/how-it-works/shot-4-back-basketball.webp",
+      "status": "verified"
+    },
+    "how.gate.verification": {
+      "out": "/images/how-it-works/frame-beside-plate-wrestling.webp",
+      "status": "verified"
+    },
+    "photo-guide.panels": {
+      "out": "/images/photo-guide/photo-check-examples.webp",
+      "status": "verified"
+    },
+    "posters.finish.CA": {
+      "out": "/images/posters/football-poster-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "posters.finish.FS": {
+      "out": "/images/posters/football-poster-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "posters.finish.HE": {
+      "out": "/images/posters/football-poster-heritage.webp",
+      "status": "verified"
+    },
+    "posters.finish.PR": {
+      "out": "/images/posters/football-poster-prism-rush.webp",
+      "status": "verified"
+    },
+    "posters.finish.SN": {
+      "out": "/images/posters/football-poster-stadium-night.webp",
+      "status": "verified"
+    },
+    "posters.finish.SS": {
+      "out": "/images/posters/football-poster-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "posters.pairs.fs-he": {
+      "out": "",
+      "status": "locate"
+    },
+    "posters.pairs.sn-ca": {
+      "out": "",
+      "status": "locate"
+    },
+    "posters.pairs.ss-pr": {
+      "out": "",
+      "status": "locate"
+    },
+    "posters.room": {
+      "out": "/images/posters/poster-in-room-stadium-night.webp",
+      "status": "verified"
+    },
+    "posters.scale": {
+      "out": "",
+      "status": "locate"
+    },
+    "set.counted": {
+      "out": "",
+      "status": "locate"
+    },
+    "set.hero": {
+      "out": "",
+      "status": "locate"
+    },
+    "set.hero.back": {
+      "out": "/images/cards/basketball-trading-card-back-registered-stadium-night.webp",
+      "status": "verified"
+    },
+    "set.hero.front": {
+      "out": "/images/cards/basketball-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "set.hero.poster": {
+      "out": "/images/posters/basketball-poster-stadium-night.webp",
+      "status": "verified"
+    },
+    "set.tile.printed": {
+      "out": "",
+      "status": "locate"
+    },
+    "sn.back": {
+      "out": "/images/senior-night/baseball-trading-card-back-class-year-senior-night.webp",
+      "status": "verified"
+    },
+    "sn.badge": {
+      "out": "/images/senior-night/senior-night-badge.webp",
+      "status": "verified"
+    },
+    "sn.cert": {
+      "out": "",
+      "status": "locate"
+    },
+    "sn.hero": {
+      "out": "",
+      "status": "locate"
+    },
+    "sn.hero.back": {
+      "out": "/images/senior-night/basketball-trading-card-back-senior-night.webp",
+      "status": "verified"
+    },
+    "sn.hero.badge": {
+      "out": "/images/senior-night/senior-night-badge.webp",
+      "status": "verified"
+    },
+    "sn.hero.baseball.poster": {
+      "out": "/images/senior-night/baseball-poster-senior-night.webp",
+      "status": "verified"
+    },
+    "sn.hero.front": {
+      "out": "/images/senior-night/basketball-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "sn.hero.poster": {
+      "out": "/images/senior-night/basketball-poster-senior-night.webp",
+      "status": "verified"
+    },
+    "sn.sport.baseball.front": {
+      "out": "/images/senior-night/baseball-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "sn.sport.basketball.front": {
+      "out": "/images/senior-night/basketball-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "sn.sport.cheerleading.front": {
+      "out": "/images/senior-night/cheerleading-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "sn.sport.football.front": {
+      "out": "/images/senior-night/football-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "sn.sport.ice-hockey.front": {
+      "out": "",
+      "status": "locate"
+    },
+    "sn.sport.soccer.front": {
+      "out": "/images/senior-night/soccer-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "sn.sport.softball.front": {
+      "out": "/images/senior-night/softball-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "sn.sport.volleyball.front": {
+      "out": "/images/senior-night/volleyball-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "sn.sport.wrestling.front": {
+      "out": "/images/senior-night/wrestling-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "sn.sticker": {
+      "out": "/images/senior-night/senior-night-sticker.webp",
+      "status": "verified"
+    },
+    "sport.baseball.front": {
+      "out": "/images/sports/baseball-trading-card-front-heritage.webp",
+      "status": "verified"
+    },
+    "sport.basketball.front": {
+      "out": "/images/cards/basketball-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "sport.cheerleading.front": {
+      "out": "/images/sports/cheerleading-trading-card-front-prism-rush.webp",
+      "status": "verified"
+    },
+    "sport.football.front": {
+      "out": "/images/sports/football-trading-card-front-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "sport.golf.front": {
+      "out": "/images/sports/golf-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "sport.gymnastics.front": {
+      "out": "/images/sports/gymnastics-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "sport.ice-hockey.front": {
+      "out": "/images/sports/ice-hockey-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "sport.lacrosse.front": {
+      "out": "/images/sports/lacrosse-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "sport.other-sport.front": {
+      "out": "",
+      "status": "locate"
+    },
+    "sport.pickleball.front": {
+      "out": "",
+      "status": "locate"
+    },
+    "sport.soccer.front": {
+      "out": "/images/sports/soccer-trading-card-front-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "sport.softball.front": {
+      "out": "/images/senior-night/softball-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "sport.swimming.front": {
+      "out": "/images/sports/swimming-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "sport.tennis.front": {
+      "out": "/images/sports/tennis-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "sport.track-field.front": {
+      "out": "/images/sports/track-and-field-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "sport.volleyball.front": {
+      "out": "/images/sports/volleyball-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "sport.wrestling.front": {
+      "out": "/images/senior-night/wrestling-trading-card-front-senior-night.webp",
+      "status": "verified"
+    }
+  }
+}

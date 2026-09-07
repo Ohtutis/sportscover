@@ -1,0 +1,199 @@
+{
+  "cardId": "GDE-CA-SOC-2026-10",
+  "generatedAt": "2026-09-06T22:06:59.371Z",
+  "generator": "scripts/card-assets.ts",
+  "sourceKind": "demo",
+  "sources": {
+    "front": {
+      "path": "card-flip/assets/soccer-ca/card-front.png",
+      "sha256": "b37bd6de4a02d5268d23fd33b8cdb89c96de2b962c561497a1f4a94db10dbbee",
+      "width": 1500,
+      "height": 2100,
+      "bleedTrimmed": false
+    },
+    "back": {
+      "path": "card-flip/assets/soccer-ca/card-back.png",
+      "sha256": "4bd09dc38a44b4ba3b59156452083ec6aec395fa7ef8bf02590d63a45ce93d8a",
+      "width": 1500,
+      "height": 2100,
+      "bleedTrimmed": false
+    },
+    "mp4": null
+  },
+  "outputs": {
+    "front": {
+      "path": "/cards/GDE-CA-SOC-2026-10/front.webp",
+      "width": 900,
+      "height": 1260,
+      "bytes": 137178,
+      "sha256": "90d459877d8834d730868ee8408e0bfb4ced3a76c9abb9e89aaed2a6f4914236"
+    },
+    "back": {
+      "path": "/cards/GDE-CA-SOC-2026-10/back.webp",
+      "width": 900,
+      "height": 1260,
+      "bytes": 86354,
+      "sha256": "188925433d091053058dabebeea7a98b0c7cb02417ef5f53b5c45fe14824cbef"
+    },
+    "flipMp4": null,
+    "poster": null
+  },
+  "cornerAudit": {
+    "front": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            85,
+            105,
+            130
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 2.8,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            99,
+            110,
+            137
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 2.3,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            1,
+            1,
+            5
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.5,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            1,
+            1,
+            5
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.3,
+          "fail": false
+        }
+      ]
+    },
+    "back": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            24,
+            32,
+            42
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 1,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            16,
+            21,
+            31
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.8,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            12,
+            18,
+            27
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 1.8,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            8,
+            11,
+            20
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.7,
+          "fail": false
+        }
+      ]
+    },
+    "pass": true
+  },
+  "qr": {
+    "expected": "https://gamedayedition.com/c/GDE-CA-SOC-2026-10",
+    "sourceDecoded": "https://gamedayedition.com/c/GDE-SN-BKB-2026-23",
+    "located": {
+      "x": 64,
+      "y": 1082,
+      "w": 108,
+      "h": 107
+    },
+    "version": 4,
+    "modulePx": 3.273,
+    "patched": true,
+    "method": "nearest",
+    "decoded": "https://gamedayedition.com/c/GDE-CA-SOC-2026-10",
+    "pass": true
+  },
+  "flip": null
+}

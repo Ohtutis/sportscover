@@ -1,0 +1,571 @@
+{
+  "note": "sha256 of every source scripts/site-assets.ts and scripts/card-assets.ts must refuse (CONTRACTS \u00a74.12, DESIGN \u00a76.1). Hashes of gitignored files were computed on the owner's Mac on the date below. A file that hash-matches and sits at its own listed path is a legacy original awaiting deletion, not a derivative.",
+  "generatedAt": "2026-09-06T22:02:16Z",
+  "entries": [
+    {
+      "sha256": "b5fc69ba707a0b53bbe669a9fed6015cd21c074b2535258572289bd9dcd8eb5f",
+      "path": "print-sources/output/chrome-allstar/GDE-CA-booster-pack-FLAT-2032x1560-300dpi.png",
+      "reason": "count-bearing pack face (prints a card count)"
+    },
+    {
+      "sha256": "0cba9c93521c54275bc7d41fdcb57503170b70a9ec05996579a6cb7fc8d4aaee",
+      "path": "print-sources/output/fire-and-smoke/GDE-FS-booster-pack-FLAT-2032x1560-300dpi.png",
+      "reason": "count-bearing pack face (prints a card count)"
+    },
+    {
+      "sha256": "5b0ca1bed1ee5a841cb2cfca58e2efa72510884c940bf860f8aba65dc3ad8270",
+      "path": "print-sources/output/heritage/GDE-HE-booster-pack-FLAT-2032x1560-300dpi.png",
+      "reason": "count-bearing pack face (prints a card count)"
+    },
+    {
+      "sha256": "89d3ddf57e67ace7353379b6604fb0acd59dc124609af4d8140a7bda2b0725a0",
+      "path": "print-sources/output/prism-rush/GDE-PR-booster-pack-FLAT-2032x1560-300dpi.png",
+      "reason": "count-bearing pack face (prints a card count)"
+    },
+    {
+      "sha256": "260735dc4baf88b48956230f9c386dece3c484b4152bdd4a3749069377e71f0c",
+      "path": "print-sources/output/signature-spotlight/GDE-SS-booster-pack-FLAT-2032x1560-300dpi.png",
+      "reason": "count-bearing pack face (prints a card count)"
+    },
+    {
+      "sha256": "e4de3d626a3d07e6f90a297300ebc6272f030659c1be099626aadd4ccae0c2f3",
+      "path": "print-sources/output/stadium-night/GDE-SN-booster-pack-FLAT-2032x1560-300dpi.png",
+      "reason": "count-bearing pack face (prints a card count)"
+    },
+    {
+      "sha256": "0c4e83f7cd714e22cae8458d216a7631c3884346dca6557c538558ef204620e4",
+      "path": "print-sources/output/tgc/GDE-SN-poker-booster-pack-975x1350-TGC.png",
+      "reason": "count-bearing pack face (prints a card count)"
+    },
+    {
+      "sha256": "cac407d6bbb473771cc93c3a2d3d755e6f7096c11e7ff7dbc26be185d9655a60",
+      "path": "art-pipeline/out/etsy-shots/packages/pack-front-panel.png",
+      "reason": "count-bearing pack face (prints a card count)"
+    },
+    {
+      "sha256": "0ef726d9b03476b2a6d5f193ef4fe54f244606e3d9188af9da81f1f07ac53798",
+      "path": "art-pipeline/out/etsy-shots/packages/pkg-pack-real.png",
+      "reason": "count-bearing pack face (prints a card count)"
+    },
+    {
+      "sha256": "925969c34ee2e22ac5f12fa323784245b3bab0a252f0c29b9bf8c03aee154368",
+      "path": "art-pipeline/out/etsy-shots/packages/tile-pack.png",
+      "reason": "count-bearing pack face (prints a card count)",
+      "also": [
+        "etsy/listing-images/01-basketball-card/src/pkg-04-foil-pack.png"
+      ]
+    },
+    {
+      "sha256": "ed9d1f4f69f7067485ef59891391bd3741767c1860ea80207bcb6ae5bf27a67a",
+      "path": "art-pipeline/out/etsy-shots/packages/out-pack.png",
+      "reason": "count-bearing pack face (prints a card count)"
+    },
+    {
+      "sha256": "9fea7ee333c434e49e9dec2b7ebb9b71ee39bb97262cf75da69f91e7343ab08e",
+      "path": "art-pipeline/out/etsy-shots/packages/out-pack-raw.png",
+      "reason": "count-bearing pack face (prints a card count)"
+    },
+    {
+      "sha256": "322695ac1e88e8429f5f4fc8b03dab6298ffdefb71c9651af287eaa407453294",
+      "path": "art-pipeline/out/etsy-shots/packages/out-pack-scene.png",
+      "reason": "count-bearing pack face (prints a card count)"
+    },
+    {
+      "sha256": "921f37c4c3d8f4004a8fd327d3c8c8309a62df4c80d87cf4f9d5ef084f2c8161",
+      "path": "art-pipeline/out/etsy-shots/packages/_baseball/pack.png",
+      "reason": "count-bearing pack face (prints a card count)"
+    },
+    {
+      "sha256": "3ca1d11d210c4d348fa409630e14d3c9b2732ae4f9ac00878e62fc722e3b71a1",
+      "path": "art-pipeline/out/etsy-shots/packages/_cheerleading/pack.png",
+      "reason": "count-bearing pack face (prints a card count)"
+    },
+    {
+      "sha256": "264125125a88b081b7b0842967f65aa70de96e1d45ecf2ea06e80189c3dd3610",
+      "path": "art-pipeline/out/etsy-shots/packages/_football/pack.png",
+      "reason": "count-bearing pack face (prints a card count)",
+      "also": [
+        "art-pipeline/out/etsy-shots/packages/_wrestling/pack.png"
+      ]
+    },
+    {
+      "sha256": "f2a1615f90f2ee55dc037a17071e2a5b25a7f9cfc0aae8d525ed3a9e69dcb593",
+      "path": "art-pipeline/out/etsy-shots/packages/_soccer/pack.png",
+      "reason": "count-bearing pack face (prints a card count)",
+      "also": [
+        "art-pipeline/out/etsy-shots/packages/_softball/pack.png"
+      ]
+    },
+    {
+      "sha256": "fa8c64174fe7771002e7d3220bbd2486190217c158af1f7d798ac44d9819fa4b",
+      "path": "art-pipeline/out/etsy-shots/packages/_volleyball/pack.png",
+      "reason": "count-bearing pack face (prints a card count)"
+    },
+    {
+      "sha256": "ecbfeb0bfa5606a788d63079ad4c8abda291556dddd817edbb4c1ca29b5b1d0c",
+      "path": "art-pipeline/out/etsy-shots/packages/_baseball/panel.png",
+      "reason": "count-bearing pack face (prints a card count)"
+    },
+    {
+      "sha256": "e3a2c0020192822acc89688f973f58ea61b93c4e81ffac911ee6db0eca73cbbe",
+      "path": "art-pipeline/out/etsy-shots/packages/_cheerleading/panel.png",
+      "reason": "count-bearing pack face (prints a card count)"
+    },
+    {
+      "sha256": "b7fa27b9035cd276b0ea20595e5ba7849af9bdb70bcfe9c8befad04ed2d8c630",
+      "path": "art-pipeline/out/etsy-shots/packages/_football/panel.png",
+      "reason": "count-bearing pack face (prints a card count)",
+      "also": [
+        "art-pipeline/out/etsy-shots/packages/_wrestling/panel.png"
+      ]
+    },
+    {
+      "sha256": "747d14d8bf0666564fc475ef7f1f6b2411afa4e30b2296018c03423647da76b0",
+      "path": "art-pipeline/out/etsy-shots/packages/_soccer/panel.png",
+      "reason": "count-bearing pack face (prints a card count)",
+      "also": [
+        "art-pipeline/out/etsy-shots/packages/_softball/panel.png"
+      ]
+    },
+    {
+      "sha256": "44f37f218e03713d630f17d87f3245bc3367156403b37ca78a7526fe5c951205",
+      "path": "art-pipeline/out/etsy-shots/packages/_volleyball/panel.png",
+      "reason": "count-bearing pack face (prints a card count)"
+    },
+    {
+      "sha256": "116d46a9a7fa00bba9b17fe4f39869e5096a24e49803860d7cd679b96fe18262",
+      "path": "etsy/listing-images/01-baseball-card/src/pkg-04-foil-pack.png",
+      "reason": "count-bearing pack face (prints a card count)"
+    },
+    {
+      "sha256": "9875d5266e10000129a60bba39b3e7e79152b6a57d2056d98296dd0d396aade3",
+      "path": "etsy/listing-images/01-cheerleading-card/src/pkg-04-foil-pack.png",
+      "reason": "count-bearing pack face (prints a card count)"
+    },
+    {
+      "sha256": "316254928daea1b702603496e46bbfa08b4627f75706687d8d1e0733039be718",
+      "path": "etsy/listing-images/01-football-card/src/pkg-04-foil-pack.png",
+      "reason": "count-bearing pack face (prints a card count)",
+      "also": [
+        "etsy/listing-images/01-wrestling-card/src/pkg-04-foil-pack.png"
+      ]
+    },
+    {
+      "sha256": "aa273390e6355412c84a2d29d3d99800882ce8a2861a40a3188165178b90b684",
+      "path": "etsy/listing-images/01-soccer-card/src/pkg-04-foil-pack.png",
+      "reason": "count-bearing pack face (prints a card count)",
+      "also": [
+        "etsy/listing-images/01-softball-card/src/pkg-04-foil-pack.png"
+      ]
+    },
+    {
+      "sha256": "3d190a2f451fc91f98a9ddcb16a6003dc7d6ee99721948fdcb15fb4dd10ae520",
+      "path": "etsy/listing-images/01-volleyball-card/src/pkg-04-foil-pack.png",
+      "reason": "count-bearing pack face (prints a card count)"
+    },
+    {
+      "sha256": "5b26553e3eb2068a91f3d2dd3343950994852ec2f187f9fcae300f61bee8af1f",
+      "path": "etsy/listing-images/03-senior-night/src/bsb-sr-pack-flat.png",
+      "reason": "sealed pack imagery \u2014 none in F1 (GAPS #12)"
+    },
+    {
+      "sha256": "71e2a2f977c9fae272fea94b82508d15d51401dcf1deb3b862a4d80831f679c4",
+      "path": "etsy/listing-images/03-senior-night/src/chr-sr-pack-flat.png",
+      "reason": "sealed pack imagery \u2014 none in F1 (GAPS #12)"
+    },
+    {
+      "sha256": "f0a76701433bf7a326b9f1feb241244080a8be39103ee4e856361854a42688e6",
+      "path": "etsy/listing-images/03-senior-night/src/sfb-sr-pack-flat.png",
+      "reason": "sealed pack imagery \u2014 none in F1 (GAPS #12)"
+    },
+    {
+      "sha256": "d646f12d0e429268fcc2237a44134359489e72cde6fb7361c867f9254bbdd19e",
+      "path": "etsy/listing-images/03-senior-night/src/soc-sr-pack-flat.png",
+      "reason": "sealed pack imagery \u2014 none in F1 (GAPS #12)"
+    },
+    {
+      "sha256": "970b62e9f341b55d80894d27684f1e456cf5a04ba89fe9854324ddd2d5644d9b",
+      "path": "etsy/listing-images/03-senior-night/src/vlb-sr-pack-flat.png",
+      "reason": "sealed pack imagery \u2014 none in F1 (GAPS #12)"
+    },
+    {
+      "sha256": "11ec70da1448994238ef345248bf48a9a1e5f38416769422690db2bd769b02f9",
+      "path": "etsy/listing-images/03-senior-night/src/wrs-sr-pack-flat.png",
+      "reason": "sealed pack imagery \u2014 none in F1 (GAPS #12)"
+    },
+    {
+      "sha256": "35249c023d5a762c3532bd6fc934f42a32c83913aadd83438af4b4051a59d486",
+      "path": "etsy/listing-images/03-senior-night/src/bsb-sr-pack-front-panel.png",
+      "reason": "sealed pack imagery \u2014 none in F1 (GAPS #12)"
+    },
+    {
+      "sha256": "5244be8fc291220ab0115725c6b2b7c098cbb1480e6a7d796a41edb6da6789fa",
+      "path": "etsy/listing-images/03-senior-night/src/chr-sr-pack-front-panel.png",
+      "reason": "sealed pack imagery \u2014 none in F1 (GAPS #12)"
+    },
+    {
+      "sha256": "5d202541b2ffa5ef884eaeee1d48904fd29b152e831118107a2fbf40871562f2",
+      "path": "etsy/listing-images/03-senior-night/src/sfb-sr-pack-front-panel.png",
+      "reason": "sealed pack imagery \u2014 none in F1 (GAPS #12)",
+      "also": [
+        "etsy/listing-images/03-senior-night/src/wrs-sr-pack-front-panel.png"
+      ]
+    },
+    {
+      "sha256": "516811b492868aaa849bb9db0115ed6764ffbff7df3810b48056b7b473c503f4",
+      "path": "etsy/listing-images/03-senior-night/src/soc-sr-pack-front-panel.png",
+      "reason": "sealed pack imagery \u2014 none in F1 (GAPS #12)"
+    },
+    {
+      "sha256": "fdd11430189f823b9da90e8f8f5d1190c99d7f6f76809f9489879d68de7d1d3c",
+      "path": "etsy/listing-images/03-senior-night/src/vlb-sr-pack-front-panel.png",
+      "reason": "sealed pack imagery \u2014 none in F1 (GAPS #12)"
+    },
+    {
+      "sha256": "9f15c87b462b544a901cf1d0c0f5441947fca92f9565691fcb0b421943ce599e",
+      "path": "etsy/listing-images/04-complete-set/v3/tile-printed.jpg",
+      "reason": "sealed pack imagery \u2014 none in F1 (GAPS #12)"
+    },
+    {
+      "sha256": "28b52d0c118af90c3ba500aa3a00da5db54d8cefb56eb2c212837f2a5e013638",
+      "path": "etsy/listing-images/04-complete-set/v3/tile-ultimate.jpg",
+      "reason": "sealed pack imagery \u2014 none in F1 (GAPS #12)"
+    },
+    {
+      "sha256": "706d3578951fb0ff08fd45eb1afb384c5c47d9e038fdfcccc382d77493ab2e1c",
+      "path": "etsy/listing-images/04-complete-set/01-hero.png",
+      "reason": "sealed pack imagery \u2014 none in F1 (GAPS #12)"
+    },
+    {
+      "sha256": "8032a4375cfa301f96f83e4cc9d6f972363613393d981002f2789c20d9a015fa",
+      "path": "print-sources/output/chrome-allstar/GDE-CA-certificate-2550x3300-300dpi.png",
+      "reason": "count-bearing evergreen certificate"
+    },
+    {
+      "sha256": "27ad3012ee4f99aec3c17981cc8086b00355bf0160ccbe7a32cba03fa0eea241",
+      "path": "print-sources/output/fire-and-smoke/GDE-FS-certificate-2550x3300-300dpi.png",
+      "reason": "count-bearing evergreen certificate"
+    },
+    {
+      "sha256": "3c60af9946d3272732dc8fbf09db3f0a0c74da9ff4e46174237b7f18e3aeca05",
+      "path": "print-sources/output/heritage/GDE-HE-certificate-2550x3300-300dpi.png",
+      "reason": "count-bearing evergreen certificate"
+    },
+    {
+      "sha256": "e98a0f71de9d75bd88439fca6503a15f12638f992376449f2daaacf88f7aa2a4",
+      "path": "print-sources/output/prism-rush/GDE-PR-certificate-2550x3300-300dpi.png",
+      "reason": "count-bearing evergreen certificate"
+    },
+    {
+      "sha256": "708ed9f306ec6b71ebbea0760de35a844ecf570b45dc61cf9a3ec75aca70433e",
+      "path": "print-sources/output/signature-spotlight/GDE-SS-certificate-2550x3300-300dpi.png",
+      "reason": "count-bearing evergreen certificate"
+    },
+    {
+      "sha256": "f14de7843a49b99b946b107994cf85c95e6d103a6658aa7880cbd82f7cf7e675",
+      "path": "print-sources/output/stadium-night/GDE-SN-certificate-2550x3300-300dpi.png",
+      "reason": "count-bearing evergreen certificate"
+    },
+    {
+      "sha256": "507ea44b66777429befdfa2e867714476475b04ed66626d3f9e27059514863df",
+      "path": "etsy/listing-images/04-complete-set/src/baseball-certificate.png",
+      "reason": "count-bearing evergreen certificate"
+    },
+    {
+      "sha256": "9a122fe82305532051bcb0016196d843919a5ceb2e9f6979888bf9ad6e7a6f0d",
+      "path": "etsy/listing-images/04-complete-set/src/cheer-certificate.png",
+      "reason": "count-bearing evergreen certificate"
+    },
+    {
+      "sha256": "657bdae1aa3b230317e48193039e7dd04c914cad2f7ed186cfc713e1743d84a6",
+      "path": "etsy/listing-images/04-complete-set/src/football-certificate.png",
+      "reason": "count-bearing evergreen certificate"
+    },
+    {
+      "sha256": "83d3da878471b29c0e5eec1a4a64936bafa4155727ebe28747c00b781458e98f",
+      "path": "etsy/listing-images/04-complete-set/src/marcus-sn-certificate.png",
+      "reason": "count-bearing evergreen certificate"
+    },
+    {
+      "sha256": "0a98efec123c9ebfe37f7df8b1805659fcb5393b0a7af55a0562568c5f2184d0",
+      "path": "etsy/listing-images/04-complete-set/src/soccer-certificate.png",
+      "reason": "count-bearing evergreen certificate"
+    },
+    {
+      "sha256": "6d1c5469e324756d35be9f6423bb28eeb629cdb206c15277b039a468a52124e3",
+      "path": "etsy/listing-images/04-complete-set/src/volleyball-certificate.png",
+      "reason": "count-bearing evergreen certificate"
+    },
+    {
+      "sha256": "1c52baa8fd233ca69a79d070a95b568564b878cdd0285834d1b726e3669ec943",
+      "path": "etsy/listing-images/01-football-card/src/FB-FS-certificate.png",
+      "reason": "count-bearing evergreen certificate"
+    },
+    {
+      "sha256": "640f9a65d791057cb93374adbcd70f6fa3670b1a4299c682ff97534f79c4bfc4",
+      "path": "etsy/listing-images/01-football-card/src/FB-certificate.png",
+      "reason": "count-bearing evergreen certificate"
+    },
+    {
+      "sha256": "cef741eca15a726de872893b5957a1de76ff458b3581ea92599fffbf219eba2f",
+      "path": "etsy/listing-images/01-cheerleading-card/src/CH-certificate.png",
+      "reason": "count-bearing evergreen certificate"
+    },
+    {
+      "sha256": "2d3bf7a03946817655ee1f113ebeb1c181fb3c0bf585395a7c8b18872aa72835",
+      "path": "print-sources/output/chrome-allstar/GDE-CA-card-FRONT-816x1110-300dpi.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "762a17d55b1ee896e2bece97a17206101a5294b91d3b6b25dcb3a50d312bb5c5",
+      "path": "print-sources/output/fire-and-smoke/GDE-FS-card-FRONT-816x1110-300dpi.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "d4842bf122c3fac576b8d16e97eb950f449796e353a55c8c9482402d63e52548",
+      "path": "print-sources/output/heritage/GDE-HE-card-FRONT-816x1110-300dpi.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "13d2866593fcc11e2034839f9c9bc56c765679b24eb2319afebdf84d47edd8f3",
+      "path": "print-sources/output/prism-rush/GDE-PR-card-FRONT-816x1110-300dpi.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "13746a821cb8138e7e1c48c48edb74a690fbca98d8cb539fb4c1d0fb2083701a",
+      "path": "print-sources/output/signature-spotlight/GDE-SS-card-FRONT-816x1110-300dpi.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "d4c75229d1bd6ca5a0e991d937994d64ba2a9adf363fcee22a8d10d0c5073358",
+      "path": "print-sources/output/stadium-night/GDE-SN-card-FRONT-816x1110-300dpi.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "76301bd8df1fb89140a1a8f2b7d57dc313355fbb3363df1674f0b8f81971acac",
+      "path": "print-sources/output/tgc/GDE-SN-BKB-card-FRONT-825x1125-TGC.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)",
+      "also": [
+        "print-sources/output/tgc/GDE-SN-BKB-card-FRONT-825x1125-TGC.png"
+      ]
+    },
+    {
+      "sha256": "b105afa747c705da7097d74b026dbf232db812a213fc2889c849c75d052849e9",
+      "path": "print-sources/output/chrome-allstar/GDE-CA-card-BACK-816x1110-300dpi.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "958474e8450275deb112e9bad2cdbe9275caaf9410ccaf61451a5ffad183a589",
+      "path": "print-sources/output/fire-and-smoke/GDE-FS-card-BACK-816x1110-300dpi.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "321212f80d396d128820be50510279d5893f5c6d26e715a82d43c4379eb24b4d",
+      "path": "print-sources/output/heritage/GDE-HE-card-BACK-816x1110-300dpi.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "14fa50407775eb19fcfcf42fd471c782e7c78e4366c4e57a7a183d56a161db23",
+      "path": "print-sources/output/prism-rush/GDE-PR-card-BACK-816x1110-300dpi.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "304ef79ebf3212aa366323432a0423881292b659e50f495f96d3732afad6643f",
+      "path": "print-sources/output/signature-spotlight/GDE-SS-card-BACK-816x1110-300dpi.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "07f25d7b9259b6d9763605d3d5651170776e27ee9b30f34a04b67da3e69a705c",
+      "path": "print-sources/output/stadium-night/GDE-SN-card-BACK-816x1110-300dpi.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "2196a7921871f3b9f3c74e3c5a1defacbf7cb9771dd720766716b26521c10716",
+      "path": "print-sources/output/tgc/GDE-SN-BKB-card-BACK-825x1125-TGC.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)",
+      "also": [
+        "print-sources/output/tgc/GDE-SN-BKB-card-BACK-825x1125-TGC.png"
+      ]
+    },
+    {
+      "sha256": "0ec6c6a610f605dd8dd2faf7a886bd3417e841a00f0cc276fc2fda1155f44a8f",
+      "path": "card-flip/assets/ca/card-back.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "85f61f47f1ae875f0c491d1642fd6f198500a62a59963b5722935dfbe99c0082",
+      "path": "card-flip/assets/ca/card-front.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "09e800e8677232df23741a1208b38460d5b38d095a555a9f228845789f4249c1",
+      "path": "card-flip/assets/fs/card-back.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "32794280b7b4e8104d8c9b444f42c7d17f650d2154525e643df7c6bd575661f2",
+      "path": "card-flip/assets/fs/card-front.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "670174bd86be874a0be05b9a44ad9c3e2f815d2fb176fbc0f23e6f65c867225f",
+      "path": "card-flip/assets/he/card-back.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "04819522572ae6fa6bdd91ef1c57dd592bbd60486ccba5709cfe42d74c849942",
+      "path": "card-flip/assets/he/card-front.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "41298a97ee590252bbd0459b9deb67ab465263989468cc1c2782b5e8ad4f40cb",
+      "path": "card-flip/assets/pr/card-back.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "6d8c8fbea284bd84073d852f386fbfbec4ae0331d3826e8056e57fc74e19338f",
+      "path": "card-flip/assets/pr/card-front.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "f761f4a6e2735f3e37f42142abaa6b1fce5ad3ee3459c240e2ac7622e58605b4",
+      "path": "card-flip/assets/ss/card-back.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "8ff84beae261bcc45eb2000e2936fe2cf0212fe6bbf1e1b92dc41fcb6fa6b851",
+      "path": "card-flip/assets/ss/card-front.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "85d538ae4b100eb897307ceaaf673fbd969ca668c8ee61bdc4f271793abc47a5",
+      "path": "card-flip/assets/card-front.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "3e240d3bdbb59dca800d76c536a668fe6f17da3fa3f2f2fce50a74eec73919ce",
+      "path": "card-flip/assets/card-back.png",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02)"
+    },
+    {
+      "sha256": "a971e1cba3d4b423d94d131ecfe14cc190c689c5193a1125d4864f28f2fb01f4",
+      "path": "etsy/listing-images/03-senior-night/01-hero.png",
+      "reason": "whole listing slide with baked headline / pill / counter text (DESIGN \u00a76.6)"
+    },
+    {
+      "sha256": "165db291f13baf39314da3b839c8c0084e48754a90ce310e4051dfb63fe8e755",
+      "path": "etsy/listing-images/01-basketball-card/02-front-back-registered.png",
+      "reason": "whole listing slide with baked headline / pill / counter text (DESIGN \u00a76.6)"
+    },
+    {
+      "sha256": "e990f61fc4127646fea9519edc616cbfe0e3a20bcdf2f4b9db892766257aead1",
+      "path": "etsy/listing-images/01-cheerleading-card/02-front-back-registered.png",
+      "reason": "whole listing slide with baked headline / pill / counter text (DESIGN \u00a76.6)"
+    },
+    {
+      "sha256": "dfa91056949453e242419a35dc238c35aaa04b5706c9c4cf56cd250bf1d15cd8",
+      "path": "etsy/listing-images/01-football-card/02-front-back-registered.png",
+      "reason": "whole listing slide with baked headline / pill / counter text (DESIGN \u00a76.6)"
+    },
+    {
+      "sha256": "8c1126c02940a92b4e25b8ef7454160c95de5303697207c507542c493ca8aae5",
+      "path": "etsy/listing-images/04-complete-set/19-everything-counted.png",
+      "reason": "whole listing slide with baked headline / pill / counter text (DESIGN \u00a76.6)"
+    },
+    {
+      "sha256": "f3f650be5c312fdf0b0d04df0a22de575bf3dd16aeff6b16034c6b5de200ff53",
+      "path": "etsy/listing-images/02-basketball-poster/02-two-sizes-to-scale.png",
+      "reason": "whole listing slide with baked headline / pill / counter text (DESIGN \u00a76.6)"
+    },
+    {
+      "sha256": "fad38b312f03b1ad0493fc4abaebd274d9988eb81266523de7ef4905da858dd1",
+      "path": "public/images/sport-examples/baseball.webp",
+      "reason": "legacy sprite retired in Wave 0 (CONTRACTS \u00a75.1 D) \u2014 never a derivative"
+    },
+    {
+      "sha256": "14a1784d61b780e7a951aa3825f4acf4b88329935cfba2f83d65575969386d9a",
+      "path": "public/images/sport-examples/basketball.webp",
+      "reason": "legacy sprite retired in Wave 0 (CONTRACTS \u00a75.1 D) \u2014 never a derivative"
+    },
+    {
+      "sha256": "8f489c398add16baaee123b4ce2f53c3a65391f2ea7bf4b8ae79f23115301254",
+      "path": "public/images/sport-examples/cheerleading.webp",
+      "reason": "legacy sprite retired in Wave 0 (CONTRACTS \u00a75.1 D) \u2014 never a derivative"
+    },
+    {
+      "sha256": "def84b4cf9e5a9c869171eb2400fddc8442fa1de5408f50564fa23768de14350",
+      "path": "public/images/sport-examples/football.webp",
+      "reason": "legacy sprite retired in Wave 0 (CONTRACTS \u00a75.1 D) \u2014 never a derivative"
+    },
+    {
+      "sha256": "e40490fc1284924985e32bfbe485f2baff7be4dc66121acd40d0475b81f54d53",
+      "path": "public/images/sport-examples/golf.webp",
+      "reason": "legacy sprite retired in Wave 0 (CONTRACTS \u00a75.1 D) \u2014 never a derivative"
+    },
+    {
+      "sha256": "0201f46bcbecd098159b2c16ba2476a3a326179586376fc25c52edd3c0cecd72",
+      "path": "public/images/sport-examples/gymnastics.webp",
+      "reason": "legacy sprite retired in Wave 0 (CONTRACTS \u00a75.1 D) \u2014 never a derivative"
+    },
+    {
+      "sha256": "4175e19b682b9ca6b4d60938852f78f66370c2689051e74003fbfa39dd91491a",
+      "path": "public/images/sport-examples/ice-hockey.webp",
+      "reason": "legacy sprite retired in Wave 0 (CONTRACTS \u00a75.1 D) \u2014 never a derivative"
+    },
+    {
+      "sha256": "8a2f7f61d860fff909269ca1e5528ed43b1751c24a00fc84b88e44d5ce7ffb68",
+      "path": "public/images/sport-examples/lacrosse.webp",
+      "reason": "legacy sprite retired in Wave 0 (CONTRACTS \u00a75.1 D) \u2014 never a derivative"
+    },
+    {
+      "sha256": "8ab750c66a59eaa154e7fd9ffa30c23e14ae220046e228d64166312a2364d3d7",
+      "path": "public/images/sport-examples/other-sport.webp",
+      "reason": "legacy sprite retired in Wave 0 (CONTRACTS \u00a75.1 D) \u2014 never a derivative"
+    },
+    {
+      "sha256": "ee4678225ad3c425ef6f79846d45fa37fc3d623c39d2b4377a75b356bb3195be",
+      "path": "public/images/sport-examples/pickleball.webp",
+      "reason": "legacy sprite retired in Wave 0 (CONTRACTS \u00a75.1 D) \u2014 never a derivative"
+    },
+    {
+      "sha256": "b67d6d5d17649b56b01bf6bc7b0599d8a95f03906ddb32976af22a82b2aae17e",
+      "path": "public/images/sport-examples/soccer.webp",
+      "reason": "legacy sprite retired in Wave 0 (CONTRACTS \u00a75.1 D) \u2014 never a derivative"
+    },
+    {
+      "sha256": "d1ab5f5fe59f3da63d33a1293fd4079dcf93bb5f4fd45cc13618cbdfcacf94e0",
+      "path": "public/images/sport-examples/softball.webp",
+      "reason": "legacy sprite retired in Wave 0 (CONTRACTS \u00a75.1 D) \u2014 never a derivative"
+    },
+    {
+      "sha256": "bf3ad670df28a21de442646e6e7f8f56fbbd59251f604c02aaf6e46e49a8e57d",
+      "path": "public/images/sport-examples/swimming.webp",
+      "reason": "legacy sprite retired in Wave 0 (CONTRACTS \u00a75.1 D) \u2014 never a derivative"
+    },
+    {
+      "sha256": "ab684c4491ba6f0088d2f52048314c0270b10596f3862ed08a0986a8f30ef4e1",
+      "path": "public/images/sport-examples/tennis.webp",
+      "reason": "legacy sprite retired in Wave 0 (CONTRACTS \u00a75.1 D) \u2014 never a derivative"
+    },
+    {
+      "sha256": "907e68f73ceaa23752df010be8bf7d054219a85d08b34633b022b1578bb5dc17",
+      "path": "public/images/sport-examples/track-field.webp",
+      "reason": "legacy sprite retired in Wave 0 (CONTRACTS \u00a75.1 D) \u2014 never a derivative"
+    },
+    {
+      "sha256": "337a9692b6f610b828651ebade78ec6acb3c7edf3e04d32f2593b114539617ee",
+      "path": "public/images/sport-examples/volleyball.webp",
+      "reason": "legacy sprite retired in Wave 0 (CONTRACTS \u00a75.1 D) \u2014 never a derivative"
+    },
+    {
+      "sha256": "7995b2094837731d1dfa348112a5328cf9912073a7ea589b93ffe1e447532c88",
+      "path": "public/images/sport-examples/wrestling.webp",
+      "reason": "legacy sprite retired in Wave 0 (CONTRACTS \u00a75.1 D) \u2014 never a derivative"
+    },
+    {
+      "sha256": "3137b8e068f824e39951306b02b0526033ea8f892c44a96c8202fe748f4df1d0",
+      "path": "card-flip/out/GDE_CA_CardFlip_1080x1350.mp4",
+      "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02) \u2014 frame checked 2026-09-07"
+    }
+  ]
+}

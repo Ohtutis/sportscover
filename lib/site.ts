@@ -15,15 +15,6 @@ export const OWNER_NAME = "John Birch";
 export const TAGLINE = "Custom sports posters & trading cards from your photo";
 export const ETSY_SHOP_URL = "https://gamedayedition.etsy.com";
 
-/** Social profiles for Organization JSON-LD — only the ones that are set are emitted. */
-export const SOCIAL_URLS: string[] = [
-  process.env.NEXT_PUBLIC_INSTAGRAM_URL,
-  process.env.NEXT_PUBLIC_TIKTOK_URL,
-  process.env.NEXT_PUBLIC_YOUTUBE_URL,
-  process.env.NEXT_PUBLIC_PINTEREST_URL,
-  process.env.NEXT_PUBLIC_FACEBOOK_URL,
-].filter((u): u is string => Boolean(u && u.trim()));
-
 /** Seller identification. The footer imprint renders only when the block is complete. */
 export const IMPRINT = {
   legalName: process.env.NEXT_PUBLIC_IMPRINT_LEGAL_NAME || "",
@@ -43,3 +34,46 @@ export const VERIFICATION = {
   pinterest: process.env.NEXT_PUBLIC_PINTEREST_DOMAIN_VERIFY || "",
   facebook: process.env.NEXT_PUBLIC_FACEBOOK_DOMAIN_VERIFICATION || "",
 };
+
+// --- F1 additions (CONTRACTS §4.9, GAPS #25 / #31) --------------------------------------------
+
+/** F2 flips this to true → every CtaPair switches to /order/new with Etsy as the outline secondary. */
+export const SITE_SELLS_DIRECT = false;
+
+/** Real delivered orders. 0 → the "So far: {n} editions delivered." sentence is omitted (rendered only when ≥ 5). */
+export const DELIVERED_COUNT = 0;
+
+export const OWNER_CITY = process.env.NEXT_PUBLIC_OWNER_CITY || "";
+
+export type SocialPlatform = "Etsy" | "Instagram" | "TikTok" | "YouTube" | "Facebook" | "Pinterest";
+export interface SocialLink {
+  platform: SocialPlatform;
+  url: string;
+}
+
+/** Footer social row, COPY §1.2 order. Etsy is always present; the others only when their env var is set. */
+export const SOCIAL_LINKS: SocialLink[] = (
+  [
+    { platform: "Etsy", url: ETSY_SHOP_URL },
+    { platform: "Instagram", url: process.env.NEXT_PUBLIC_INSTAGRAM_URL },
+    { platform: "TikTok", url: process.env.NEXT_PUBLIC_TIKTOK_URL },
+    { platform: "YouTube", url: process.env.NEXT_PUBLIC_YOUTUBE_URL },
+    { platform: "Facebook", url: process.env.NEXT_PUBLIC_FACEBOOK_URL },
+    { platform: "Pinterest", url: process.env.NEXT_PUBLIC_PINTEREST_URL },
+  ] as { platform: SocialPlatform; url: string | undefined }[]
+).filter((l): l is SocialLink => Boolean(l.url && l.url.trim()));
+
+/** Social profile URLs for Organization JSON-LD `sameAs` (Etsy is added there separately). */
+export const SOCIAL_URLS: string[] = SOCIAL_LINKS.filter((l) => l.platform !== "Etsy").map((l) => l.url);
+
+/**
+ * Whether the real founder photo (public/brand/founder.jpg, D10) exists. Server-only by nature; the
+ * check goes through `process.getBuiltinModule` (Node ≥ 22.3) instead of a static `node:fs` import
+ * because this module is also imported by client components (app/error.tsx needs SUPPORT_EMAIL) and a
+ * Node built-in in a client bundle fails the build. In the browser it simply returns false.
+ */
+export function founderPhotoExists(): boolean {
+  if (typeof window !== "undefined" || typeof process === "undefined" || typeof process.getBuiltinModule !== "function") return false;
+  const fs = process.getBuiltinModule("node:fs");
+  return fs.existsSync(`${process.cwd()}/public/brand/founder.jpg`);
+}

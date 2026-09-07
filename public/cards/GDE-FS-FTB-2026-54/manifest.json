@@ -1,0 +1,199 @@
+{
+  "cardId": "GDE-FS-FTB-2026-54",
+  "generatedAt": "2026-09-06T22:06:57.152Z",
+  "generator": "scripts/card-assets.ts",
+  "sourceKind": "demo",
+  "sources": {
+    "front": {
+      "path": "etsy/listing-images/01-football-card/src/FB-FS-card-FRONT.png",
+      "sha256": "bef457cac04a491267a77bb8f9bdc6f762e9954fae1ab2e021435d336f75d528",
+      "width": 750,
+      "height": 1050,
+      "bleedTrimmed": false
+    },
+    "back": {
+      "path": "etsy/listing-images/01-football-card/src/FB-FS-card-BACK.png",
+      "sha256": "77437d40a459483439b006fe6600f93d2525b0e32bb0f33957e58c9f0f04512c",
+      "width": 750,
+      "height": 1050,
+      "bleedTrimmed": false
+    },
+    "mp4": null
+  },
+  "outputs": {
+    "front": {
+      "path": "/cards/GDE-FS-FTB-2026-54/front.webp",
+      "width": 750,
+      "height": 1050,
+      "bytes": 95234,
+      "sha256": "209136578b8fdd01e111cc90fa8b1c72b63c81223e0b57e477e19ba36fedab86"
+    },
+    "back": {
+      "path": "/cards/GDE-FS-FTB-2026-54/back.webp",
+      "width": 750,
+      "height": 1050,
+      "bytes": 74056,
+      "sha256": "c5ec6f1757a05d9daf60dea7851fa9c9d9b9949dda14fe152d086acc2c25f079"
+    },
+    "flipMp4": null,
+    "poster": null
+  },
+  "cornerAudit": {
+    "front": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            8,
+            8,
+            6
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 94.1,
+          "fail": false
+        },
+        {
+          "at": [
+            747,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            14,
+            10,
+            6
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 92.9,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            1047
+          ],
+          "alpha": 255,
+          "rgb": [
+            9,
+            6,
+            7
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 91.8,
+          "fail": false
+        },
+        {
+          "at": [
+            747,
+            1047
+          ],
+          "alpha": 255,
+          "rgb": [
+            5,
+            3,
+            5
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 92.8,
+          "fail": false
+        }
+      ]
+    },
+    "back": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            12,
+            7,
+            5
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 94.1,
+          "fail": false
+        },
+        {
+          "at": [
+            747,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            13,
+            6,
+            4
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 93.8,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            1047
+          ],
+          "alpha": 255,
+          "rgb": [
+            57,
+            35,
+            16
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 71.9,
+          "fail": false
+        },
+        {
+          "at": [
+            747,
+            1047
+          ],
+          "alpha": 255,
+          "rgb": [
+            29,
+            12,
+            5
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 86.4,
+          "fail": false
+        }
+      ]
+    },
+    "pass": true
+  },
+  "qr": {
+    "expected": "https://gamedayedition.com/c/GDE-FS-FTB-2026-54",
+    "sourceDecoded": "https://gamedayedition.com/c/GDE-SN-BKB-2026-23",
+    "located": {
+      "x": 54,
+      "y": 902,
+      "w": 90,
+      "h": 90
+    },
+    "version": 4,
+    "modulePx": 2.727,
+    "patched": true,
+    "method": "nearest",
+    "decoded": "https://gamedayedition.com/c/GDE-FS-FTB-2026-54",
+    "pass": true
+  },
+  "flip": null
+}
