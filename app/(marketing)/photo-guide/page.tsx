@@ -69,10 +69,19 @@ export default function PhotoGuidePage() {
             className="mt-6"
             title="THE PHOTOS THAT WORK."
             subhead="Send 4–10. These nine things are what the photo check looks for — and every one of them is something you can do with the phone you already have."
+            // Claims, not buttons (owner review 2026-09-07): the two claims are type with a 3 px
+            // accent tick, so nothing above the CTA looks pressable that isn't.
             pills={
               <>
-                <Pill tone="accent">4–10 PHOTOS</Pill>
-                <Pill tone="outline">ORIGINALS, NOT SCREENSHOTS</Pill>
+                <Pill variant="label" tone="accent">
+                  4–10 PHOTOS
+                </Pill>
+                <span aria-hidden="true" className="font-label text-label font-semibold leading-none text-muted-text">
+                  ·
+                </span>
+                <Pill variant="label" tone="outline">
+                  ORIGINALS, NOT SCREENSHOTS
+                </Pill>
               </>
             }
           />

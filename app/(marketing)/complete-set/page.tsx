@@ -7,9 +7,8 @@ import { FictionalLabel } from "../../../components/FictionalLabel";
 import { Ledger } from "../../../components/Ledger";
 import { JsonLd } from "../../../components/JsonLd";
 import { Mat } from "../../../components/Mat";
-import { Pill } from "../../../components/Pill";
 import { SectionHeading } from "../../../components/SectionHeading";
-import { asset, hasAsset, type ImageSpec } from "../../../lib/assets";
+import { asset } from "../../../lib/assets";
 import { LEAD_TIMES } from "../../../lib/catalog/delivery";
 import { getTier, tiersFor } from "../../../lib/catalog/prices";
 import { sports } from "../../../lib/catalog/sports";
@@ -21,9 +20,10 @@ import { pageFor } from "../../../lib/seo/titles";
 import { ClosingSection } from "../(families)/_shared/closing";
 import { DEMO_LABEL, demoCard } from "../(families)/_shared/demo-card";
 import { FinishesSection } from "../(families)/_shared/finishes-row";
-import { HeroCtaBlock } from "../(families)/_shared/hero";
+import { ClaimLabels, HeroCtaBlock, HeroPlate } from "../(families)/_shared/hero";
 import { NumberlessSection } from "../(families)/_shared/numberless-block";
 import { Section } from "../(families)/_shared/section";
+import { ShowcaseFigure, firstShowcase } from "../(families)/_shared/showcase";
 import { SpecSheetSection, setFolderRows } from "../(families)/_shared/spec-sheet";
 import { pickSport } from "../(families)/_shared/sport-picker";
 import { TierRow } from "../(families)/_shared/tier-row";
@@ -56,22 +56,23 @@ const [packMin, packMax] = LEAD_TIMES.sealedPackWeeks;
  * plainest description of the frame that resolved (INTEGRATION-NOTES § fix-imagery). The poster on an
  * arena mat is the fallback, exactly as it was.
  */
-const LIFE_SET_KEYS = ["life.set.printed", "life.set.deluxe"] as const;
+const LIFE_SET_KEYS = [
+  // The showcase names the asset contract publishes for a photographed set; the `life.*` keys below
+  // are the sets already in the map, so this slot has a real photograph today and takes the better
+  // one the moment it lands. `moment.team.senior` is last on purpose: a team's order is six
+  // athletes' packages, and this section counts what ONE order contains — it may only ever stand in
+  // for an empty slot, never displace the set itself.
+  "set.showcase.printed",
+  "set.showcase.deluxe",
+  "life.set.printed",
+  "life.set.deluxe",
+  "moment.team.senior",
+] as const;
 
 const LIFE_SET_CAPTION: Record<string, string> = {
   "life.set.printed": "The printed set on a table: the poster, the shipping tube and a fan of cards.",
   "life.set.deluxe": "The printed set on a table: the poster, the shipping tube and rows of cards.",
 };
-
-function lifeSet(): { spec: ImageSpec; caption: string } | null {
-  for (const key of LIFE_SET_KEYS) {
-    if (hasAsset(key)) {
-      const spec = asset(key);
-      return { spec, caption: LIFE_SET_CAPTION[key] ?? spec.alt };
-    }
-  }
-  return null;
-}
 
 interface Stage {
   name: string;
@@ -102,7 +103,7 @@ export default async function CompleteSetPage({
   const front = asset("set.hero.front");
   const back = asset("set.hero.back");
   const meta = pageFor(PATH);
-  const life = lifeSet();
+  const life = firstShowcase(LIFE_SET_KEYS, LIFE_SET_CAPTION);
   const timeline = stages();
   const ultimate = Boolean(getTier("GDE-ANY-SET-ULT")?.enabled);
 
@@ -112,7 +113,7 @@ export default async function CompleteSetPage({
       <section aria-labelledby="s-01" className="pt-8 pb-16 md:pb-24 lg:pt-12 lg:pb-32">
         <div className="container-gallery">
           <Breadcrumbs trail={[{ name: "Home", href: "/" }, { name: "Complete Set", href: PATH }]} />
-          <div className="mt-8 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-8">
+          <div className="mt-8 lg:grid lg:grid-cols-12 lg:items-stretch lg:gap-x-8">
             <div className="lg:col-span-6">
               <SectionHeading
                 as="h1"
@@ -124,30 +125,31 @@ export default async function CompleteSetPage({
                 title={H1}
                 subhead={SUBHEAD}
                 pills={
-                  <>
-                    <Pill tone="accent">EVERYTHING COUNTED</Pill>
-                    <Pill tone="outline">REGISTERED EDITION</Pill>
-                    <Pill tone="outline">SHIPS IN STAGES</Pill>
-                  </>
+                  <ClaimLabels
+                    claims={[{ text: "EVERYTHING COUNTED", tone: "accent" }, { text: "REGISTERED EDITION" }, { text: "SHIPS IN STAGES" }]}
+                  />
                 }
               />
               <HeroCtaBlock cta={cta} notes={[CANON.shipping, CANON.stagedDelivery]} className="mt-8" />
             </div>
+            {/* Nothing here is preloaded: the mobile LCP is the headline (owner review, 2026-09-07). */}
             <div className="mt-10 lg:col-span-6 lg:mt-0">
-              <Mat tone="arena" aspect="aspect-[16/10]">
-                <div className="flex w-full items-center justify-center gap-[4%]">
-                  <div className="relative aspect-[3/4] w-[30%] overflow-hidden rounded-none shadow-[var(--shadow-card-arena)]">
-                    <Image src={poster.src} alt={poster.alt} fill priority sizes="(min-width: 1024px) 200px, 30vw" className="object-contain" />
+              <HeroPlate>
+                <Mat tone="arena" plate={false} aspect="aspect-[16/10]" className="overflow-hidden rounded-ui">
+                  <div className="flex w-full items-center justify-center gap-[4%]">
+                    <div className="relative aspect-[3/4] w-[30%] overflow-hidden rounded-none shadow-[var(--shadow-card-arena)]">
+                      <Image src={poster.src} alt={poster.alt} fill sizes="(min-width: 1024px) 150px, 30vw" className="object-contain" />
+                    </div>
+                    <div className="w-[24%]">
+                      <CardFace {...front} labelled surface="arena" sizes="(min-width: 1024px) 120px, 24vw" />
+                    </div>
+                    <div className="w-[24%]">
+                      <CardFace {...back} labelled surface="arena" sizes="(min-width: 1024px) 120px, 24vw" />
+                    </div>
                   </div>
-                  <div className="w-[24%]">
-                    <CardFace {...front} labelled surface="arena" sizes="(min-width: 1024px) 160px, 24vw" />
-                  </div>
-                  <div className="w-[24%]">
-                    <CardFace {...back} labelled surface="arena" sizes="(min-width: 1024px) 160px, 24vw" />
-                  </div>
-                </div>
-              </Mat>
-              <FictionalLabel className="mt-2" />
+                </Mat>
+                <FictionalLabel className="mt-3" />
+              </HeroPlate>
             </div>
           </div>
 
@@ -189,12 +191,7 @@ export default async function CompleteSetPage({
           </div>
           <div className="mt-10 lg:col-span-5 lg:mt-0">
             {life ? (
-              <figure>
-                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-ui bg-arena">
-                  <Image src={life.spec.src} alt={life.spec.alt} fill sizes="(min-width: 1024px) 420px, 92vw" className="object-cover" />
-                </div>
-                <figcaption className="mt-2 font-body text-[0.75rem] font-medium text-muted-text">{life.caption}</figcaption>
-              </figure>
+              <ShowcaseFigure item={life} sizes="(min-width: 1024px) 420px, 92vw" labelled />
             ) : (
               <Mat tone="arena">
                 <div className="relative aspect-[3/4] w-full max-w-[320px] overflow-hidden rounded-none shadow-[var(--shadow-card-arena)]">

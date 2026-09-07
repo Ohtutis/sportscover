@@ -9,15 +9,17 @@ import { Breadcrumbs } from "../../../components/Breadcrumbs";
 import { CtaPair } from "../../../components/CtaPair";
 import { DeliveryChips } from "../../../components/DeliveryChips";
 import { FaqList } from "../../../components/FaqList";
+import { FictionalLabel } from "../../../components/FictionalLabel";
 import { GateRow, type Gate } from "../../../components/GateRow";
 import { JsonLd } from "../../../components/JsonLd";
 import { Ledger } from "../../../components/Ledger";
+import { Mat } from "../../../components/Mat";
 import { Pill } from "../../../components/Pill";
 import { ProofRejectedPair } from "../../../components/ProofRejectedPair";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { StatusChip } from "../../../components/StatusChip";
 import { TrustLine } from "../../../components/TrustLine";
-import { asset, assetOrNull } from "../../../lib/assets";
+import { asset, assetOrNull, hasAsset, type ImageSpec } from "../../../lib/assets";
 import { block } from "../../../lib/blocks";
 import { LABS_SENTENCE, visiblePartners } from "../../../lib/catalog/shipping";
 import { faqSubset } from "../../../lib/catalog/faq";
@@ -73,6 +75,45 @@ function VerdictCard() {
         </Link>
       </p>
     </div>
+  );
+}
+
+/* ---------- the hero object ----------
+ * DESIGN §5.4-1 gave this page no hero media ("the gates are the media"), and the page opened on a
+ * bare heading over two paragraphs. The owner's 2026-09-07 review asks every page to open the way the
+ * home page does — and where a real photograph exists, to show it. The one that belongs here is what
+ * the six gates are FOR: the finished card in the athlete's own hand. It is a photograph, not a
+ * process artefact, so it sits on a mat and not in a BracketFrame; the artefacts keep the brackets.
+ * Nothing is preloaded and the box is reserved, so the mobile LCP is still the headline.
+ */
+const HERO_KEYS = ["moment.card.hallway", "moment.card.bleachers", "life.card.hand"] as const;
+
+/** The first key the manifest has produced, or null. `hasAsset` is safe on a key it has never heard of. */
+function firstAsset(keys: readonly string[]): ImageSpec | null {
+  for (const key of keys) if (hasAsset(key)) return asset(key);
+  return null;
+}
+
+function HeroMedia() {
+  const shot = firstAsset(HERO_KEYS);
+  if (!shot) return null;
+  return (
+    <figure className="flex w-full flex-col justify-center lg:h-full">
+      <Mat tone="arena" className="w-full">
+        {/* The photograph keeps its own ratio: a fixed box would crop the showcase frames. */}
+        <Image
+          src={shot.src}
+          alt={shot.alt}
+          width={shot.width}
+          height={shot.height}
+          sizes="(min-width: 1024px) 620px, 92vw"
+          className="h-auto w-full rounded-none shadow-[var(--shadow-card-arena)]"
+        />
+      </Mat>
+      <figcaption className="mt-3">
+        <FictionalLabel />
+      </figcaption>
+    </figure>
   );
 }
 
@@ -354,25 +395,42 @@ export default function HowItWorksPage() {
 
       {/* 01 — hero */}
       <section className="pt-6 pb-16 md:pb-24 lg:pb-32">
+        {/* The page container, not the gallery one (DESIGN §5.4-1): every section below is
+            `container-site`, and a wider hero would jog the left edge on the first scroll. */}
         <div className="container-site">
           <Breadcrumbs trail={[{ name: "Home", href: "/" }, { name: "How it's made", href: PATH }]} />
-          <SectionHeading
-            as="h1"
-            className="mt-6"
-            title="MADE BY A PERSON. AI IS IN THE TOOLBOX."
-            pills={
-              <>
-                <Pill tone="accent">SIX GATES</Pill>
-                <Pill tone="outline">YOU SEE IT FIRST</Pill>
-              </>
-            }
-          />
-          <div className="mt-8 lg:mt-12">
-            <p className="max-w-[62ch] font-body text-body font-medium text-pretty text-ink">{block("how-its-made")}</p>
-            <p className="mt-4 max-w-[62ch] font-body text-body text-pretty text-ink">
-              Six gates stand between your photos and the print. Each one produces something you can look at, and each one can
-              say no. Here is every gate, with the real artefact it makes.
-            </p>
+          {/*
+            The opener follows the home page's rhythm (owner review 2026-09-07): H1 → subhead → label
+            claims → lead. COPY §2.6 (1) writes no subhead, so the subhead is COPY's own second hero
+            paragraph, moved up whole; C2 stays the lead sentence under it. The two columns are one
+            stretched row, so the object ends where the copy ends.
+          */}
+          <div className="mt-6 lg:grid lg:grid-cols-12 lg:items-stretch lg:gap-x-8">
+            <div className="lg:col-span-6">
+              <SectionHeading
+                as="h1"
+                title="MADE BY A PERSON. AI IS IN THE TOOLBOX."
+                subhead="Six gates stand between your photos and the print. Each one produces something you can look at, and each one can say no. Here is every gate, with the real artefact it makes."
+                // Claims, not buttons: type with a 3 px accent tick, never a pair of lozenges.
+                pills={
+                  <>
+                    <Pill variant="label" tone="accent">
+                      SIX GATES
+                    </Pill>
+                    <span aria-hidden="true" className="font-label text-label font-semibold leading-none text-muted-text">
+                      ·
+                    </span>
+                    <Pill variant="label" tone="outline">
+                      YOU SEE IT FIRST
+                    </Pill>
+                  </>
+                }
+              />
+              <p className="mt-8 max-w-[62ch] font-body text-body font-medium text-pretty text-ink">{block("how-its-made")}</p>
+            </div>
+            <div className="mt-10 lg:col-span-6 lg:mt-0">
+              <HeroMedia />
+            </div>
           </div>
         </div>
       </section>

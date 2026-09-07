@@ -5,7 +5,6 @@ import { RECORD_STYLE } from "../../../components/EditionPanel";
 import { FictionalLabel } from "../../../components/FictionalLabel";
 import { JsonLd } from "../../../components/JsonLd";
 import { Mat } from "../../../components/Mat";
-import { Pill } from "../../../components/Pill";
 import { Plate } from "../../../components/Plate";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { ToScaleSheet } from "../../../components/ToScaleSheet";
@@ -19,9 +18,10 @@ import { pageMeta } from "../../../lib/seo/meta";
 import { pageFor } from "../../../lib/seo/titles";
 import { ClosingSection } from "../(families)/_shared/closing";
 import { FinishesSection } from "../(families)/_shared/finishes-row";
-import { HeroCtaBlock } from "../(families)/_shared/hero";
+import { ClaimLabels, HeroCtaBlock, HeroPlate } from "../(families)/_shared/hero";
 import { NumberlessSection } from "../(families)/_shared/numberless-block";
 import { Section } from "../(families)/_shared/section";
+import { ShowcaseFigure, ShowcaseRow, firstShowcase, showcaseList } from "../(families)/_shared/showcase";
 import { SpecSheetSection } from "../(families)/_shared/spec-sheet";
 import { SportPicker, pickSport } from "../(families)/_shared/sport-picker";
 import { TierRow } from "../(families)/_shared/tier-row";
@@ -47,13 +47,37 @@ const SCALE_BODY =
   "Hung at a 58-inch center, the way galleries hang. The athlete on the sheet stands 5 ft 9 in — measure the poster against them, not against the frame.";
 
 /**
- * A poster is bought for a wall, so the hero is a wall (DESIGN §5.2-1). Any real-life room the site
- * map carries leads; `posters.room` is the fallback and the only frame whose print size was measured,
- * so the `18 × 24 SHOWN · FRAMED` plate rides with that one file and is not asserted over a room the
- * manifest has not measured. Ordering the wide room first keeps this hero off the athlete the home
- * page's poster tile shows.
+ * A poster is bought for a wall, so the hero is a wall (DESIGN §5.2-1). The **measured** room leads:
+ * it is the only frame whose print size is known, so it is the only one that may carry the
+ * `18 × 24 SHOWN · FRAMED` plate, and one framed poster above a desk says what one order contains.
+ * The wide three-poster wall used to lead here; it now opens the gallery in section 03 instead, where
+ * it is one room among several and its own caption says what is on the wall — in the hero it could be
+ * read as three posters per order. A room the manifest has not measured still renders without the
+ * plate rather than inheriting the claim.
  */
-const LIFE_ROOM_KEYS = ["life.poster.room.wide", "life.poster.room", "life.poster.room.baseball"] as const;
+const LIFE_ROOM_KEYS = ["life.poster.room", "life.poster.room.wide", "life.poster.room.baseball"] as const;
+
+/**
+ * Section 03's wall gallery (owner review, 2026-09-07: *"poster page missing showing posters in
+ * different settings, like we have in Figma"*). Six rooms, six sports, six athletes — one poster
+ * framed in each, so a visitor sees the thing hanging in a home rather than floating on a plate.
+ *
+ * The keys are the asset contract; the rooms already in the map follow them, so the row is never
+ * empty and never a box waiting for a file. Every entry is read through `hasAsset()`, and the file
+ * the hero is already showing is excluded — the same photograph is never on the page twice.
+ */
+const WALL_KEYS = ["wall.basketball", "wall.baseball", "wall.football", "wall.soccer", "wall.cheerleading", "wall.volleyball"] as const;
+
+const GALLERY_KEYS = [...WALL_KEYS, ...LIFE_ROOM_KEYS] as const;
+
+const WALL_SIZES = "(min-width: 1024px) 400px, (min-width: 768px) 300px, 76vw";
+
+/**
+ * The to-scale photograph beside the drawn sheet, when one exists that shows only sizes we sell.
+ * `ToScaleSheet` stays the measurement — the photograph is the same fact in a room, not a
+ * replacement for it (DESIGN §4.15, finding 9).
+ */
+const SCALE_KEYS = ["scale.sizes"] as const;
 
 function heroRoom(): { spec: ImageSpec; measured: boolean } {
   const measured = asset("posters.room");
@@ -79,6 +103,8 @@ export default async function PostersPage({
   const cta = ctaFor("posters", { sport: sport.slug });
   const hero = heroRoom();
   const room = hero.spec;
+  const rooms = showcaseList(GALLERY_KEYS, {}, { limit: 6, exclude: [room.src] });
+  const scale = firstShowcase(SCALE_KEYS);
   const meta = pageFor(PATH);
 
   return (
@@ -87,32 +113,27 @@ export default async function PostersPage({
       <section aria-labelledby="s-01" className="pt-8 pb-16 md:pb-24 lg:pt-12 lg:pb-32">
         <div className="container-gallery">
           <Breadcrumbs trail={[{ name: "Home", href: "/" }, { name: "Posters", href: PATH }]} />
-          <div className="mt-8 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-8">
+          <div className="mt-8 lg:grid lg:grid-cols-12 lg:items-stretch lg:gap-x-8">
             <div className="lg:col-span-6">
               <SectionHeading
                 as="h1"
                 id="s-01"
                 title={H1}
                 subhead={SUBHEAD}
-                pills={
-                  <>
-                    <Pill tone="accent">FROM YOUR PHOTOS</Pill>
-                    <Pill tone="outline">TWO PRINT SIZES</Pill>
-                    <Pill tone="outline">300 DPI</Pill>
-                  </>
-                }
+                pills={<ClaimLabels claims={[{ text: "FROM YOUR PHOTOS", tone: "accent" }, { text: "TWO PRINT SIZES" }, { text: "300 DPI" }]} />}
               />
               <HeroCtaBlock cta={cta} notes={[CANON.shipping]} className="mt-8" />
             </div>
+            {/* Nothing here is preloaded: the mobile LCP is the headline, and a room photograph the
+                phone paints below the copy has no claim on the first bytes. */}
             <div className="mt-10 lg:col-span-6 lg:mt-0">
-              <div className="overflow-hidden rounded-ui border border-hairline">
-                <div className="relative aspect-[4/3] w-full">
+              <HeroPlate>
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-ui">
                   <Image
                     src={room.src}
                     alt={room.alt}
                     fill
-                    priority
-                    sizes="(min-width: 1024px) 660px, 100vw"
+                    sizes="(min-width: 1024px) 560px, (min-width: 640px) 90vw, 100vw"
                     className={hero.measured ? "object-cover object-[50%_40%]" : "object-cover object-center"}
                   />
                   {hero.measured ? (
@@ -121,8 +142,8 @@ export default async function PostersPage({
                     </Plate>
                   ) : null}
                 </div>
-              </div>
-              <FictionalLabel className="mt-2" />
+                <FictionalLabel className="mt-3" />
+              </HeroPlate>
             </div>
           </div>
 
@@ -136,12 +157,26 @@ export default async function PostersPage({
       {/* 02 · The spec sheet */}
       <SpecSheetSection family="posters" />
 
-      {/* 03 · To scale */}
-      <Section index={3} title={SCALE_TITLE}>
-        <Mat tone="stock">
-          <ToScaleSheet />
-        </Mat>
+      {/* 03 · To scale, and the same poster on six walls */}
+      {/* The drawn sheet answers "how big is it"; the photographs under it answer "where does it
+          live" — six rooms, six sports, six athletes (owner review, 2026-09-07). COPY writes no
+          heading for a room gallery, so the rooms sit inside this section rather than inventing an
+          eighth H2, and every caption is the plainest description of its own frame. */}
+      <Section index={3} title={SCALE_TITLE} container="gallery">
+        <div className="lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-8">
+          <div className={scale ? "lg:col-span-7" : "lg:col-span-9"}>
+            <Mat tone="stock">
+              <ToScaleSheet />
+            </Mat>
+          </div>
+          {scale ? (
+            <div className="mt-8 lg:col-span-5 lg:mt-0">
+              <ShowcaseFigure item={scale} sizes="(min-width: 1024px) 440px, 92vw" />
+            </div>
+          ) : null}
+        </div>
         <p className="mt-6 max-w-[62ch] font-body text-body text-pretty text-ink">{SCALE_BODY}</p>
+        <ShowcaseRow items={rooms} sizes={WALL_SIZES} className="mt-12" />
       </Section>
 
       {/* 04 · One athlete, six finishes */}

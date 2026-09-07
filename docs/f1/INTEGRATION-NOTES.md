@@ -1765,3 +1765,297 @@ hero slot — a room the manifest has not measured renders without the claim.
 - **`next-env.d.ts` is pointing at a scratch dist dir.** Next rewrites its `import "./.next/types/routes.d.ts"`
   line to whatever `NEXT_DIST_DIR` was set to on the last build; it currently reads `./.next-hero/…`. Whoever
   lands last must put `./.next/types/routes.d.ts` back, or a checkout without that directory will not typecheck.
+
+## showcase-assets (2026-09-07)
+
+Owner brief: *"Explore all the Etsy listings and add to our website the best examples and showcases from there."*
+Full survey — every slide type across the 25 live listing sets, with a USE / SKIP / OWNER verdict — is
+`docs/f1/ETSY-SHOWCASE-SURVEY.md`. This note is only what a page builder needs.
+
+### What landed
+
+**20 new keys in `lib/assets.ts`, 19 files under `public/images/showcase/`.** Sources are
+`Exportai Etsy/**` — the current listing exports on the owner's Mac (git-ignored), newer than
+`etsy/listing-images/`.
+
+- `wall.basketball` `wall.baseball` `wall.football` `wall.soccer` `wall.cheerleading` `wall.volleyball` —
+  1400 × 1050, `kind: "room"`. Six athletes, six rooms, a framed poster in each. Three bedrooms, three living
+  rooms. Use them as a set; they are the strongest thing in the folder.
+- `moment.card.bleachers` `moment.card.hallway` — 1400 × 1019. The same athlete as `hero.story.1` and the demo
+  card (Marcus, `GDE-SN-BKB-2026-12`) holding his own card, in two places.
+- `show.kid.baseball` `.cheerleading` `.soccer` `.volleyball` `.football` — same size, same idea, five more
+  sports. With `moment.card.bleachers` that is a **six-sport row of six different athletes each holding their
+  own card**, for `/trading-cards`.
+- `moment.senior.field` (1400 × 931) and `show.senior.class` (1400 × 949) — `/senior-night`: the senior with a
+  parent under the stadium lights, and four seniors with their posters on easels in a full gym.
+- `moment.team.senior` (1400 × 808) — the whole-class order: poster stack, tubes, card stacks, shipping box.
+- `show.proof.basketball` (1400 × 1077) — the watermarked proof sheet for the demo athlete. Consider it for
+  `/how-it-works` gate 5 and the home proof section: `home.proof` is a **baseball Senior Night** proof, so the
+  page currently proofreads somebody else's order in the middle of Marcus's story.
+- `show.friends.cards` (1400 × 949) — two teammates, two cards, a framed poster behind. `/complete-set`.
+- `show.screens.desktop` (1400 × 1372) — the artwork as a desktop wallpaper on a real monitor; the digital-files
+  section.
+
+All are `kind: "photo"` / `"room"` / `"artefact"` — never `"card"`. They are photographs OF cards, so the 5 : 7
+box and the corner audit do not apply and the components must not put them in a `CardFace`.
+
+### The one thing that changed in the pipeline
+
+`AssetCrop` used to be the single literal `"inset-5"`. It is now `"inset-5" | \`box:${string}\`` — an explicit
+crop box in fractions of the source, applied in `scripts/site-assets.ts` before the resize and recorded in
+`public/images/.manifest.json`.
+
+That exists because of one rule: **every slide in this folder carries baked marketing type** — a headline, the
+wordmark, an `NN / 20` slide number, often a promise or a count. None of it may ship as a picture. So each key
+declares the box that removes it, and the box is auditable rather than remembered. `crop: "inset-5"` behaves
+exactly as before; nothing else in `lib/assets.ts` changed shape.
+
+### Owner call, one
+
+**`scale.sizes` is `locate`.** All six poster listings' "Three sizes, to scale" slide draws 18 × 24, 24 × 36
+**and** 30 × 40. `GDE-ANY-POST-P3040` is `enabled: false`, so the sheet would advertise a size that cannot be
+ordered, and the size labels are the picture — they cannot be cropped away. Pages keep rendering `ToScaleSheet`
+(SVG). Ticket for the owner: export a two-size version, or enable the third tier.
+
+### Deliberately not converted
+
+Package tables, deliverable ledgers, callout diagrams, step strips, style pairs, sport grids, the photo-guide
+pass/fail grid, the crest-policy diagram, the age ladder, the Etsy shop banner — the site says all of it in HTML
+where the truth lint can read it. Also rejected on provenance: card counts, sealed pack faces, certificates
+(GAPS #32), an acrylic slab we do not ship, and a phone rendering a registry page that is not `/c/<id>`. The
+"social & screens" slide's phone half mocks another company's feed interface — only the monitor half was cut
+out. Reasons per slide are in the survey.
+
+### Verification
+
+`npx tsx scripts/site-assets.ts --check` → 118 verified keys, 24 locate, 122 files, 0 failures.
+`npx tsc --noEmit` clean. `npx vitest run tests/seo.test.ts` → 48 passed (six new asset assertions, including
+"every listing slide is cropped before it ships"). No decodable code survives in any written file, checked with
+the same `jsqr` the pipeline uses — so nothing on the site points a phone at a stale URL.
+
+---
+
+## fix-trust-heroes
+
+Owner review, 2026-09-07. The home hero was rebuilt (label claims, two columns stretched to one row,
+nothing preloaded); these nine pages were brought to the same rules. `app/(marketing)/{senior-night,
+how-it-works,guarantee,photo-guide,about,faq,registry,contact,accessibility}/page.tsx` plus
+`tests/{senior-night,trust-pages,registry-page}.test.ts`. No shared component was edited.
+
+### A claim is not a button
+
+Every pill above a call to action is now `<Pill variant="label">` — type with a 3 px accent tick, no
+fill, no border, no lozenge height. Converted: `/senior-night` **SENIOR EDITION · 1 OF 1** (accent),
+`/how-it-works` **SIX GATES** · **YOU SEE IT FIRST**, `/photo-guide` **4–10 PHOTOS** ·
+**ORIGINALS, NOT SCREENSHOTS**. The middot between two labels is a decorative `<span aria-hidden>`, the
+same separator the home hero uses. Still chips, on purpose: the gold **FROM YOUR PHOTOS** pill inside the
+`/senior-night` arena mat (DESIGN §5.3-1, a label on media, nowhere near a button) and `DeliveryChips`
+(DESIGN §4.2 — a record line the whole site shares; changing it is a components-owner decision).
+`tests/trust-pages.test.ts` now fails any `<Pill>` in a hero that is not `variant="label"`, and any page
+with more than one `tone="accent"`.
+
+### The columns line up
+
+Measured on the built pages (`NEXT_DIST_DIR=.next-trust2 next build`, prerendered HTML served statically,
+Chrome DevTools, `getBoundingClientRect` on the hero grid's two children). Top and bottom deltas, px:
+
+| page | 1024 | 1280 | 1440 | 1728 |
+|---|---|---|---|---|
+| `/senior-night` | 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.00 |
+| `/how-it-works` | 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.00 |
+| `/guarantee` | 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.00 |
+| `/about` | 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.00 |
+
+What was wrong and what changed:
+
+- **`/senior-night`** — the chips, the CTA and the TrustLine were a THIRD grid item (`lg:col-span-5`,
+  after a `lg:col-start-7` media column). They fell into grid row two, which the tall media had already
+  sized, so the buttons sat roughly 300 px below the end of the copy at 1280. Now one text column
+  (heading → chips → CTA → TrustLine) and one object column, `lg:grid-cols-12 lg:items-stretch`, 6 + 6.
+- **`/how-it-works`** — the hero was a bare H1 over two paragraphs, full width, no object. Now two
+  stretched columns with a photograph. Its container stays `container-site` (DESIGN §5.4-1): the gates
+  below are `container-site`, and a gallery-width hero jogged the left edge on the first scroll.
+- **`/guarantee`** — H1 and subhead full width with the bracketed promise a screen below. Now the
+  heading is the left column and the `BracketFrame` the right one (`lg:h-full`, contents centred). Still
+  no imagery: on this page the authority is the typesetting.
+- **`/about`** — the founder ledger was a three-row rail (`lg:col-span-4`) against ~900 px of story, so
+  it ended before the second paragraph and left a column of empty stock under it while the right half of
+  the heading row sat empty. The ledger is now the opener's second column and the story runs full width
+  at its own measure underneath.
+- Unchanged single-column openers, correctly: `/photo-guide`, `/faq`, `/contact`, `/accessibility`,
+  `/registry`. They have no second object, and `/accessibility` keeps the plain legal shell.
+
+### The opener rhythm
+
+`/how-it-works` had no subhead — COPY §2.6 (1) writes none. Rather than invent one, COPY's own second
+hero paragraph ("Six gates stand between your photos and the print…") is now the subhead, and C2
+(`block("how-its-made")`) stays as the lead paragraph under the claims. Both strings are verbatim; only
+their order changed. Every other page already ended its H1 in a full stop and carried a subhead.
+
+`/registry` emitted `BreadcrumbList` JSON-LD and drew no trail. It now renders `<Breadcrumbs>`, which
+carries both, and the standalone `JsonLd` block was removed so the schema is still emitted exactly once.
+
+### Nothing above the fold is preloaded
+
+`priority` is gone from `/senior-night` (it was on the SR poster) and appears on none of these nine
+pages. Measured on the built HTML at 390 × 844: zero `link[rel=preload][as=image]`, zero
+`fetchpriority="high"`, zero `<video>`, exactly one `<h1>`, and `scrollWidth - clientWidth = 0` on all
+nine, every `<img>` carries `sizes`, and no `<figure>`/`<section>` renders empty. The mobile LCP is the
+headline everywhere. Media boxes are reserved by the asset's own `width`/`height`, so CLS stays 0 — and no
+empty box can render, because a key that is not verified falls back rather than reserving nothing.
+
+### Showcase keys used, and what they fall back to
+
+Read with `hasAsset()`, which answers `false` for a key the manifest has never heard of, so a contract key
+that lands later switches the page over with no further edit. `asset("moment.…")` and `asset("life.…")`
+never appear as literals.
+
+| page | keys, in order | resolving today |
+|---|---|---|
+| `/senior-night` hero | `moment.senior.field` → `life.gift.moment` → the composed SR cluster | **`moment.senior.field`** — a senior and his mother with the framed baseball poster under the lights. It landed mid-session; the page picked it up with no edit. Before it landed the fallback was `life.gift.moment` (Tui, his parents, the framed poster and the card in his hand) and it rendered correctly. GAPS #7 holds either way: a photograph OF the product, never a listing slide. |
+| `/senior-night` §05 | `moment.team.senior` → `life.team.order` → `life.team.order.baseball` | **`moment.team.senior`** |
+| `/how-it-works` hero | `moment.card.hallway` → `moment.card.bleachers` → `life.card.hand` | **`moment.card.hallway`** — Marcus in the hallway holding his own card, the same athlete as `hero.story.1` and the demo record |
+
+Every showcase frame is landscape (`moment.senior.field` 1400 × 931, `moment.team.senior` 1400 × 808,
+`moment.card.hallway` 1400 × 1019) while the `life.*` fallbacks are square. So no media box on these pages
+declares a ratio of its own: each `<Image>` carries the spec's `width`/`height` and `h-auto w-full`, which
+reserves the exact box and crops nothing. A fixed `aspect-square` would have taken a third of the field
+out of the senior-night hero.
+
+`wall.<sport>` and the `show.*` ideas are not referenced from these pages — no trust page has a section
+they belong to (`show.senior.class` is a candidate for `/senior-night` §05 if the owner prefers seniors to
+a staged table; the section shows one photograph, and it shows the thing the copy describes). The SR
+cluster stays in the file as `SeniorNightCluster`, the fallback for a map with no photograph.
+
+### Requests for component owners (not edited here)
+
+1. `FaqList` still has no "open the first row" prop — `/faq` duplicates one row's markup as `OpenAnswer`.
+2. `DeliveryChips` renders lozenges directly above the hero CTA on every page. If the owner wants the
+   home hero's "a claim is not a button" rule applied to the delivery claim as well, that is one change
+   in `components/DeliveryChips.tsx` and it changes every page at once.
+
+### Verification
+
+`npx tsc --noEmit --incremental false` clean. `npx eslint app lib tests` → 0 problems.
+`npx vitest run` → 814 passed, 14 files, 0 failures — including the suites owned here (`trust-pages` 58,
+`senior-night` 25, `registry-page` 25; 11 assertions added across the three).
+`NEXT_DIST_DIR=.next-trust2 npx next build` succeeded; the dist dir was deleted, the two
+`.next-trust2/**` entries the build writes into `tsconfig.json` were removed again, and `next-env.d.ts`
+is untouched.
+
+Measurement method, for whoever repeats it: build to a private dist dir, copy the prerendered
+`.next-<you>/server/app/<route>.html` plus `.next-<you>/static` and `public/` into one directory, and
+serve it with a static server that maps `/_next/image?url=X` to `X` (Next's optimiser is not running).
+That gives real CSS and real images with no dev server and no port collision with another builder.
+
+## fix-product-heroes
+
+Owner review, 2026-09-07, applied to the three product families (`/trading-cards`, `/posters`,
+`/complete-set`) after the home hero rebuild set the standard, plus his one specific ask: *"poster page
+missing showing posters in different settings, like we have in Figma."* Files touched: the three page
+files, `(families)/_shared/hero.tsx`, the new `(families)/_shared/showcase.tsx`, `tests/families.test.ts`.
+Nothing under `components/` was edited.
+
+### 1. A claim is not a button
+
+All three heroes showed a filled accent lozenge beside two outlined lozenges, a few pixels above a filled
+accent button beside an outlined button — the button pattern printed twice. They now use `Pill
+variant="label"` through a shared `ClaimLabels` (Barlow 12 px semibold, 0.12 em, hairline middots), and the
+one accent claim per page keeps its accent as the 3 px tick, exactly as on `/`. No `<Pill>` chip is left in
+any of the three hero blocks; a test asserts it.
+
+### 2. The columns line up
+
+Each hero grid became `lg:items-stretch`, and the art column is a shared `HeroPlate`
+(`flex flex-col justify-center rounded-ui bg-hairline p-4 md:p-6 lg:h-full lg:p-8`) that fills its grid
+track. The object inside keeps its own fixed ratio and centres; the plate absorbs whatever height the copy
+adds, so the four edges of the art meet the four edges of the copy at every width. Measured with
+`getBoundingClientRect()` on `NEXT_DIST_DIR=.next-prod npx next build` output:
+
+| page | 1024 | 1280 | 1440 | 1728 |
+|---|---|---|---|---|
+| `/trading-cards` top / bottom / text-left / art-right | 0.00 / 0.00 / 0.00 / 0.00 | 0.00 / 0.00 / 0.00 / 0.00 | 0.00 / 0.00 / 0.00 / 0.00 | 0.00 / 0.00 / 0.00 / 0.00 |
+| `/posters` | 0.00 / 0.00 / 0.00 / 0.00 | 0.00 / 0.00 / 0.00 / 0.00 | 0.00 / 0.00 / 0.00 / 0.00 | 0.00 / 0.00 / 0.00 / 0.00 |
+| `/complete-set` | 0.00 / 0.00 / 0.00 / 0.00 | 0.00 / 0.00 / 0.00 / 0.00 | 0.00 / 0.00 / 0.00 / 0.00 | 0.00 / 0.00 / 0.00 / 0.00 |
+
+(top/bottom = the art plate against the text column; text-left / art-right = each column against the
+container's content edge, so the row is flush on both sides.) Horizontal overflow
+(`documentElement.scrollWidth − clientWidth`) is **0** at 390, 1024, 1280, 1440 and 1728 on all three; the
+only element wider than the viewport at 390 is inside the gallery's own `overflow-x-auto` snap row.
+
+### 3. Nothing above the fold is preloaded
+
+`priority` is gone from all three pages (`/trading-cards` hero front face, `/posters` room, `/complete-set`
+poster). Measured on the built pages: `link[rel=preload][as=image]` = **0**, images with
+`loading !== "lazy"` = **0**, `fetchPriority` = absent, no `<video>`. The mobile LCP is the headline; at 390
+the primary CTA is reached before the art on every page (the object is the second grid child), so removing
+the preload costs nothing above the fold. This is a deliberate deviation from DESIGN §11 #10 ("exactly one
+priority image per page") — the same deviation `/` took, and the families test now asserts zero.
+
+### 4. `/posters` — the poster in six rooms
+
+Section 03 keeps `ToScaleSheet` (the drawn sheet is the measurement) and gains a **six-room gallery** under
+it: `wall.basketball · wall.baseball · wall.football · wall.soccer · wall.cheerleading · wall.volleyball`,
+six sports, six athletes, a framed poster in each. Snap scroller under `lg`, `lg:grid-cols-3` above; each
+tile names the sport in Space Grotesk bold and carries the plainest description of its own frame; C13 once
+under the row. All six were verified by the time this was measured (tiles 405 × 304 at 1440, 296 px at 390).
+`life.poster.room{,.wide,.baseball}` follow the wall keys in the same list, so the row is never empty and
+never a placeholder — before the walls landed it rendered the two rooms that were not the hero.
+
+**The hero swapped back to the measured room.** `LIFE_ROOM_KEYS` now prefers `life.poster.room` over
+`life.poster.room.wide`. The wide shot (three framed posters on one wall) was flagged in *fix-imagery* as
+possibly reading "three posters per order"; it is now one tile in a gallery where its own caption says what
+is on the wall, and the hero shows one framed poster with `18 × 24 SHOWN · FRAMED` — the only file whose
+print size is measured. That plate still rides with the FILE, not the slot.
+
+`scale.sizes` is wired: when it lands, section 03 becomes a 7/5 split with the drawn sheet left and the
+photograph right; while it is absent the sheet runs at `lg:col-span-9` as before. It was still not in the
+manifest at the end of this pass.
+
+### 5. `/trading-cards` and `/complete-set`
+
+- `/trading-cards` section 03's right column now opens with **`moment.card.bleachers` + `moment.card.hallway`**
+  as a 2-up of 4 : 5 frames (the athlete holding their own card — the moment the page sells), C13 once for
+  the pair. Both were verified by the end of this pass. `life.card.hand/desk/case/binder` remain the
+  fallback and render as a single 4 : 3 frame when no moment key has landed; with neither, the column
+  starts on the body copy, exactly as before.
+- `/complete-set` section 03 keeps the photograph beside the five-folder ledger and now prefers
+  `set.showcase.printed` → `set.showcase.deluxe` → `life.set.printed` → `life.set.deluxe`. Today it
+  resolves to `life.set.printed`.
+
+### Captions — agent-written, want the owner's eye
+
+COPY writes no line for a photograph, so `captionFromAlt()` takes the asset's own alt line up to its first
+em dash: the clause the COPY §0.5 patterns use to say what is in the frame. Nothing is invented and a
+fallback can never inherit another frame's words, but the sentences are the **asset builder's** alt text
+read aloud — e.g. "Three framed custom football posters on a bedroom wall with the athlete crouched below
+them holding his helmet." If any of those read wrong, the fix is the alt line in `lib/assets.ts`, not the
+page. The hand-written `life.card.*` / `life.set.*` captions from *fix-imagery* are unchanged.
+
+### Not done / owner calls
+
+- **`moment.team.senior` is wired nowhere on these pages.** It is last in `/complete-set`'s list, so it can
+  only ever stand in for an empty slot, never displace the set. A team's order is six athletes' packages,
+  and section 03 counts what ONE order contains — a team photograph beside "EVERYTHING COUNTED" invites the
+  same misread *fix-imagery* avoided when it kept `life.team.order` off this page. It belongs on
+  `/senior-night` §05 or home §12 (both other agents' files). Say the word and it goes in.
+- **The room gallery has no H2 of its own.** COPY §2.3 numbers seven sections and writes no heading for a
+  room gallery, so the rooms sit inside section 03 under "TO SCALE. THE PERSON IS THE RULER." rather than
+  inventing an eighth H2 and renumbering all three families. If the owner wants it as its own numbered
+  section, it needs one line of copy (a title and a subhead) and `FAMILY_SECTION_TOTAL` goes to 8 on
+  `/posters` only.
+- **The "set showcase" key names were not in the contract I was given.** I coded `set.showcase.printed` and
+  `set.showcase.deluxe` against the pattern of the other new keys; `hasAsset()` makes a wrong guess
+  harmless (it renders the `life.set.*` photograph), but if the asset builder publishes different names
+  those two strings are the only thing to change.
+- **The build could not be served with `next start`** (forbidden this session). The three pages are
+  `ƒ` (they read `?sport=`), so the build emits no HTML for them: the measurements above come from
+  rendering each page with `renderToStaticMarkup`, wrapping it in the built `<head>` of a prerendered page
+  (real Tailwind CSS, real self-hosted fonts, scripts stripped so nothing hydrates) and serving that with a
+  plain Node file server that maps `/_next/image?url=…` to `public/`. Layout chrome (header, footer) is not
+  in that render, so the absolute pixel offsets of the fold are ~56 px optimistic; every number above is a
+  delta between two elements in the same render and is unaffected. `.next-prod` was deleted afterwards and
+  `tsconfig.json` carries no `.next-prod` entry.
+- **`next-env.d.ts` was pointing at `.next-trust2`** when I finished (another builder's dist dir) and is
+  restored to `./.next/types/routes.d.ts`. If their build re-writes it, it needs restoring again before the
+  branch lands.

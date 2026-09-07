@@ -102,8 +102,11 @@ describe("the page", () => {
     expect(page.includes(CHIPS.seniorNight)).toBe(false);
   });
 
-  it("has one priority image and nothing that plays above the fold", () => {
-    expect(page.match(/\bpriority\b/g)?.length).toBe(1);
+  it("preloads nothing above the fold and plays nothing", () => {
+    // Owner review 2026-09-07: the mobile LCP is the headline. `priority` fetches the hero art at top
+    // priority whatever the layout does with it afterwards, so the hero reserves its box instead.
+    expect(page.match(/\bpriority\b/g) ?? []).toEqual([]);
+    expect(page.includes("fetchPriority")).toBe(false);
     expect(page.includes("<video")).toBe(false);
     expect(page.includes("CardFlip")).toBe(false);
   });
@@ -162,14 +165,40 @@ describe("the page", () => {
     }
   });
 
-  it("claims the edition once, in the text column, and keeps accent off the artwork", () => {
-    // One edition PILL on the page (section 03 names the line as a fact about the printed back).
-    expect(page.match(/<Pill[^>]*>SENIOR EDITION · 1 OF 1<\/Pill>/g)?.length).toBe(1);
-    expect(page.includes('pills={<Pill tone="accent">SENIOR EDITION · 1 OF 1</Pill>}')).toBe(true);
+  it("claims the edition once, as a label rather than a lozenge, and keeps accent off the artwork", () => {
+    // One edition claim on the page (section 03 names the line as a fact about the printed back).
+    expect(page.match(/<Pill[\s\S]{0,60}?SENIOR EDITION · 1 OF 1/g)?.length).toBe(1);
+    // A claim is not a button: the pill that sits above the CTA is typographic (Pill variant="label").
+    expect(/<Pill variant="label" tone="accent">\s*SENIOR EDITION · 1 OF 1\s*<\/Pill>/.test(page)).toBe(true);
     // The only pill inside the mat is the gold one; no accent pill sits on the artwork.
     const media = page.slice(page.indexOf("function SeniorNightHeroMedia"), page.indexOf("function SportTile"));
     expect(media.includes('tone="accent"')).toBe(false);
     expect(media.match(/tone="gold"/g)?.length).toBe(1);
+  });
+
+  it("gives the hero one text column and one object column, stretched to one row", () => {
+    // The chips and the CTA were a third grid item: they fell into row two, which the tall media had
+    // already sized, and the buttons sat far below the end of the copy.
+    const hero = page.slice(page.indexOf('aria-labelledby="sn-hero"'), page.indexOf('aria-labelledby="sn-calc"'));
+    expect(hero.includes("lg:items-stretch")).toBe(true);
+    expect(hero.match(/lg:col-span-6/g)?.length).toBe(2);
+    expect(hero.includes("lg:col-start-7")).toBe(false);
+    // One column: heading, chips, CTA and TrustLine in that order, before the media column opens.
+    const text = hero.slice(0, hero.indexOf("<SeniorNightHeroMedia"));
+    expect(text.includes("<DeliveryChips")).toBe(true);
+    expect(text.indexOf("<CtaPair")).toBeGreaterThan(text.indexOf("<DeliveryChips"));
+    expect(text.indexOf("<TrustLine")).toBeGreaterThan(text.indexOf("<CtaPair"));
+  });
+
+  it("leads the hero with the senior-night moment where the map carries one", () => {
+    // The photograph shows the athlete, his parents, the framed poster and the card in one frame —
+    // both products, one athlete. Until such a key lands the composed cluster is still the object.
+    expect(page.includes("moment.senior.field")).toBe(true);
+    expect(page.includes("life.gift.moment")).toBe(true);
+    expect(page.includes("SeniorNightCluster")).toBe(true);
+    // A key the manifest has never heard of must not reach asset().
+    expect(page.includes('asset("moment.')).toBe(false);
+    expect(page.includes('asset("life.')).toBe(false);
   });
 
   it("gives the text-only certificate a plain block and each exhibit one name", () => {
@@ -190,7 +219,7 @@ describe("the page", () => {
 
   it("section 05 shows a team's order where the map has that photograph, and text where it does not", () => {
     // Owner review 2026-09-07: "we had a team photo option" — §05 was a heading and two sentences.
-    for (const key of ["life.team.order", "life.team.order.baseball"]) expect(page.includes(key)).toBe(true);
+    for (const key of ["moment.team.senior", "life.team.order", "life.team.order.baseball"]) expect(page.includes(key)).toBe(true);
     // A key the site map has not landed must not reach asset() — hasAsset answers for unknown keys.
     expect(page.includes("hasAsset")).toBe(true);
     expect(page.includes('asset("life.')).toBe(false);

@@ -166,17 +166,24 @@ export default function GuaranteePage() {
       <section className="pt-6 pb-16 md:pb-24 lg:pb-32">
         <div className="container-site">
           <Breadcrumbs trail={[{ name: "Home", href: "/" }, { name: "Our promise", href: PATH }]} />
-          <SectionHeading
-            as="h1"
-            className="mt-6"
-            title="OUR PROMISE, IN WRITING."
-            subhead="Because we are new, the risk of trying us is ours."
-          />
-          <BracketFrame label="OUR PROMISE" className="mt-8 max-w-[64rem] lg:mt-12">
-            <div className="rounded-ui bg-stock p-6 lg:p-10">
-              <p className="max-w-[60ch] font-body text-[1.125rem] leading-[1.5] text-pretty text-ink">{block("our-promise")}</p>
+          {/*
+            The opener is the home page's rhythm in two stretched columns (owner review 2026-09-07):
+            the heading and its subhead on the left, the promise itself — the one exhibit this page
+            has — beside them rather than a screen below. No imagery: on this page the authority is
+            the typesetting (DESIGN §5.5), so the object column is the bracketed paragraph.
+          */}
+          <div className="mt-6 lg:grid lg:grid-cols-12 lg:items-stretch lg:gap-x-8">
+            <div className="lg:col-span-6">
+              <SectionHeading as="h1" title="OUR PROMISE, IN WRITING." subhead="Because we are new, the risk of trying us is ours." />
             </div>
-          </BracketFrame>
+            <div className="mt-8 lg:col-span-6 lg:mt-0">
+              <BracketFrame label="OUR PROMISE" className="lg:h-full">
+                <div className="flex h-full items-center rounded-ui bg-stock p-6 lg:p-10">
+                  <p className="max-w-[60ch] font-body text-[1.125rem] leading-[1.5] text-pretty text-ink">{block("our-promise")}</p>
+                </div>
+              </BracketFrame>
+            </div>
+          </div>
         </div>
       </section>
 

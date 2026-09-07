@@ -5,8 +5,7 @@ import { Suspense } from "react";
 import { LookupMiss } from "../../../components/LookupMiss";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { JsonLd } from "../../../components/JsonLd";
-import { breadcrumbList } from "../../../lib/seo/jsonld";
+import { Breadcrumbs } from "../../../components/Breadcrumbs";
 import { CardFace } from "../../../components/CardFace";
 import { EDITION_SENTENCE } from "../../../components/EditionPanel";
 import { FictionalLabel } from "../../../components/FictionalLabel";
@@ -92,10 +91,11 @@ export default function RegistryPage() {
   const back = hasAsset("cards.demo.back") ? asset("cards.demo.back") : null;
 
   return (
-    <>
-      <JsonLd data={breadcrumbList([{ name: "Home", href: "/" }, { name: "Registry", href: "/registry" }])} />
-      <div className="container-site max-w-[46rem] py-12 md:py-16">
+    <div className="container-site max-w-[46rem] py-12 md:py-16">
       <section>
+        {/* Every other page shows the trail it already emitted as JSON-LD; this one emitted the
+            schema and drew nothing. Breadcrumbs carries both (owner review 2026-09-07). */}
+        <Breadcrumbs trail={[{ name: "Home", href: "/" }, { name: "Registry", href: "/registry" }]} className="mb-6" />
         <SectionHeading
           as="h1"
           title="LOOK UP A CARD."
@@ -145,6 +145,5 @@ export default function RegistryPage() {
         <Ledger className="mt-8" rows={ROWS} />
       </section>
     </div>
-    </>
   );
 }
