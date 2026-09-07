@@ -188,6 +188,16 @@ describe("the page", () => {
     expect(page.includes("bg-gold")).toBe(false);
   });
 
+  it("section 05 shows a team's order where the map has that photograph, and text where it does not", () => {
+    // Owner review 2026-09-07: "we had a team photo option" — §05 was a heading and two sentences.
+    for (const key of ["life.team.order", "life.team.order.baseball"]) expect(page.includes(key)).toBe(true);
+    // A key the site map has not landed must not reach asset() — hasAsset answers for unknown keys.
+    expect(page.includes("hasAsset")).toBe(true);
+    expect(page.includes('asset("life.')).toBe(false);
+    // COPY writes no line for the frame, so the caption describes what is in it.
+    expect(page.includes("A team's order staged on a table: posters, shipping tubes, stacks of cards and the box they ship in.")).toBe(true);
+  });
+
   it("revalidates hourly and never sets outline-none", () => {
     expect(page.includes("export const revalidate = 3600")).toBe(true);
     expect(page.includes("outline-none")).toBe(false);

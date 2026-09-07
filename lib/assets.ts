@@ -54,9 +54,13 @@ export interface ImageSpec {
 
 /* ---------- sources (repo-relative) ---------- */
 const BK = "etsy/listing-images/01-basketball-card/src";
+const FBC = "etsy/listing-images/01-football-card/src";
+const FBP = "etsy/listing-images/02-football-poster/src";
 const SNS = "etsy/listing-images/03-senior-night/src";
 const APPROVED_BKB = "art-pipeline/out/approved/basketball";
 const MARKETING = "marketing/cards";
+const SHOTS = "art-pipeline/out/etsy-shots";
+const SHOTS_SN = `${SHOTS}/senior-night`;
 
 /* ---------- shared outputs ---------- */
 const OUT_DEMO_FRONT = "/images/cards/basketball-trading-card-front-stadium-night.webp";
@@ -69,6 +73,12 @@ const OUT_SR_BADGE = "/images/senior-night/senior-night-badge.webp";
 const OUT_SFB_SR_FRONT = "/images/senior-night/softball-trading-card-front-senior-night.webp";
 const OUT_WRS_SR_FRONT = "/images/senior-night/wrestling-trading-card-front-senior-night.webp";
 const OUT_CHR_PR_FRONT = "/images/sports/cheerleading-trading-card-front-prism-rush.webp";
+const OUT_BEFORE_BKB = "/images/home/phone-photo-basketball-player-before.webp";
+const OUT_BEFORE_FTB = "/images/home/phone-photo-football-player-before.webp";
+const OUT_FTB_FS_FRONT = "/images/sports/football-trading-card-front-fire-and-smoke.webp";
+const OUT_FTB_FS_POSTER = "/images/posters/football-poster-fire-and-smoke.webp";
+const OUT_ROOM_SN = "/images/posters/poster-in-room-stadium-night.webp";
+const BKP_ROOM_SN = "etsy/listing-images/02-basketball-poster/room-SN.png";
 
 /* ---------- alt helpers (COPY §0.5) ---------- */
 const altFront = (sport: string, finish: string) =>
@@ -90,14 +100,14 @@ type Entry = Omit<SiteAsset, "key">;
 const entries: Record<string, Entry> = {
   /* ---------- / hero (GAPS #1: the after composite is CODE — three faces from square sources) ---------- */
   "home.hero.before": {
-    out: "/images/home/phone-photo-basketball-player-before.webp",
+    out: OUT_BEFORE_BKB,
     source: "art-pipeline/out/athletes/basketball/before/photo2.png",
     width: 960, height: 1286, kind: "photo", fictional: true, status: "verified",
     alt: "Phone photo of a fictional basketball player — the starting point; photo generated",
     note: "Same athlete as the GAPS #1 after composite (Marcus, basketball) — in the gym, in the jersey the card shows. DESIGN §10.3 named the football sideline photo; that file is `home.hero.before.football`.",
   },
   "home.hero.before.football": {
-    out: "/images/home/phone-photo-football-player-before.webp",
+    out: OUT_BEFORE_FTB,
     source: "etsy/listing-images/01-football-card/src/s02-before-b.png",
     width: 960, height: 1211, kind: "photo", fictional: true, status: "verified",
     alt: "Phone photo of a fictional football player on the sideline — the starting point; photo generated",
@@ -204,8 +214,8 @@ const entries: Record<string, Entry> = {
     alt: altFront("basketball", "Stadium Night"),
   },
   "sport.football.front": {
-    out: "/images/sports/football-trading-card-front-fire-and-smoke.webp",
-    source: "etsy/listing-images/01-football-card/src/FB-FS-front.png", ...CARD, kind: "card", fictional: true,
+    out: OUT_FTB_FS_FRONT,
+    source: `${FBC}/FB-FS-front.png`, ...CARD, kind: "card", fictional: true,
     status: "verified", alt: altFront("football", "Fire & Smoke"),
   },
   "sport.baseball.front": {
@@ -298,7 +308,7 @@ const entries: Record<string, Entry> = {
 
   /* ---------- /posters ---------- */
   "posters.room": {
-    out: "/images/posters/poster-in-room-stadium-night.webp", source: "etsy/listing-images/02-basketball-poster/room-SN.png",
+    out: OUT_ROOM_SN, source: BKP_ROOM_SN,
     width: 1600, height: 1600, kind: "room", fictional: true, status: "verified", lcp: true,
     alt: "Custom basketball poster hung on a bedroom wall — Stadium Night finish — example artwork, fictional athlete",
   },
@@ -327,7 +337,7 @@ const entries: Record<string, Entry> = {
     ...POSTER, kind: "poster", fictional: true, status: "verified", alt: altPoster("football", "Chrome All-Star"),
   },
   "posters.finish.FS": {
-    out: "/images/posters/football-poster-fire-and-smoke.webp", source: "etsy/listing-images/02-football-poster/src/FB-FS-poster.png",
+    out: OUT_FTB_FS_POSTER, source: `${FBP}/FB-FS-poster.png`,
     ...POSTER, kind: "poster", fictional: true, status: "verified", alt: altPoster("football", "Fire & Smoke"),
   },
   "posters.finish.HE": {
@@ -517,6 +527,183 @@ const entries: Record<string, Entry> = {
     out: "/images/about/john-birch-founder.webp", source: "public/brand/founder.jpg", width: 0, height: 0, kind: "photo",
     fictional: false, status: "locate", alt: "John Birch, designer and founder of Game Day Edition",
     note: "public/brand/founder.jpg is absent (DESIGN finding 10) — founder blocks render text-first with no reserved slot.",
+  },
+
+  /* ---------- home hero: three story scenes, three sports, one athlete per scene ----------
+   * Owner brief 2026-09-07: the hero told one athlete's story (Marcus, basketball) on every page.
+   * Each scene is FOUR files that belong to the SAME roster athlete — the parent's phone photo, the
+   * card front, the card back and the poster — so a scene never mixes two people. `hero.story.<n>.athlete`
+   * carries no image: its `alt` is the caption line (sport, finish, fictional roster athlete) and its
+   * `note` names the athlete for the builder. Read it as SITE_ASSETS["hero.story.1.athlete"].alt —
+   * `asset()` throws on it by design. Long edge ≤ 1200 px on every scene file; scene 1 carries AVIF.
+   * There is NO adult scene: the only adult roster athletes (pickleball, the soccer age ladder) have no
+   * card or poster export on disk, and the only adult card art that exists belongs to real orders, which
+   * may never be written under public/. See docs/f1/INTEGRATION-NOTES.md "assets-hero-lifestyle".
+   */
+  "hero.story.1.athlete": {
+    out: "", width: 0, height: 0, kind: "sheet", status: "locate", fictional: true,
+    alt: "Basketball — Stadium Night finish — a fictional roster athlete",
+    note: "Caption metadata, no image. Scene 1 = Marcus Ellison, 17, guard, number 12, Cedar Ridge Bears. Card ID GDE-SN-BKB-2026-12.",
+  },
+  "hero.story.1.before": {
+    out: OUT_BEFORE_BKB, source: "art-pipeline/out/athletes/basketball/before/photo2.png",
+    width: 960, height: 1286, kind: "photo", fictional: true, status: "verified", lcp: true,
+    alt: "The phone photo a parent sent: a fictional basketball player in the gym, in the jersey the card shows; photo generated",
+    note: "Same file as home.hero.before — one download for both.",
+  },
+  "hero.story.1.card.front": {
+    out: OUT_DEMO_FRONT, source: `${BK}/BK-SN-card-FRONT.png`, ...CARD, kind: "card", fictional: true,
+    status: "verified", lcp: true, alt: altFront("basketball", "Stadium Night"),
+  },
+  "hero.story.1.card.back": {
+    out: OUT_DEMO_BACK, source: `${BK}/BK-SN-card-BACK.png`, ...CARD, kind: "card", fictional: true,
+    status: "verified", lcp: true, cardId: "GDE-SN-BKB-2026-12", alt: altBack("basketball", "Stadium Night"),
+  },
+  "hero.story.1.poster": {
+    out: OUT_DEMO_POSTER, source: "etsy/listing-images/04-complete-set/src/marcus-sn-poster.png", ...POSTER,
+    kind: "poster", fictional: true, status: "verified", lcp: true, alt: altPoster("basketball", "Stadium Night"),
+  },
+
+  "hero.story.2.athlete": {
+    out: "", width: 0, height: 0, kind: "sheet", status: "locate", fictional: true,
+    alt: "Softball — Senior Night finish — a fictional roster athlete",
+    note: "Caption metadata, no image. Scene 2 = Brooke Danner, 15, pitcher, number 3, Bell Hollow Wrens. Card ID GDE-SR-SFB-2026-03. She is the girl in the cast.",
+  },
+  "hero.story.2.before": {
+    out: "/images/home/phone-photo-softball-player-before.webp",
+    source: "art-pipeline/out/athletes/softball/before/photo2.png",
+    width: 896, height: 1200, kind: "photo", fictional: true, status: "verified",
+    alt: "The phone photo a parent sent: a fictional softball player at the field after a game, in the maroon uniform the card shows; photo generated",
+  },
+  "hero.story.2.card.front": {
+    out: OUT_SFB_SR_FRONT, source: `${SNS}/sfb-sr-front.png`, ...CARD, kind: "card", fictional: true,
+    status: "verified", alt: altFront("softball", "Senior Night"),
+  },
+  "hero.story.2.card.back": {
+    out: "/images/senior-night/softball-trading-card-back-registered-senior-night.webp",
+    source: `${SNS}/sfb-sr-back.png`, ...CARD, kind: "card", fictional: true, status: "verified",
+    cardId: "GDE-SR-SFB-2026-03",
+    alt: "Custom softball trading card back with career highs, the class year, registered card ID and QR code — Senior Night finish — example artwork, fictional athlete",
+  },
+  "hero.story.2.poster": {
+    out: "/images/senior-night/softball-poster-senior-night.webp", source: `${SNS}/sfb-sr-poster.png`,
+    width: 900, height: 1200, kind: "poster", fictional: true, status: "verified",
+    alt: altPoster("softball", "Senior Night"),
+  },
+
+  "hero.story.3.athlete": {
+    out: "", width: 0, height: 0, kind: "sheet", status: "locate", fictional: true,
+    alt: "Football — Fire & Smoke finish — a fictional roster athlete",
+    note: "Caption metadata, no image. Scene 3 = Tui Fa'agata, 18, offensive line, number 54, Millbrook Bison. Card ID GDE-FS-FTB-2026-54. Same athlete as the life.* photography.",
+  },
+  "hero.story.3.before": {
+    out: OUT_BEFORE_FTB, source: `${FBC}/s02-before-b.png`,
+    width: 960, height: 1211, kind: "photo", fictional: true, status: "verified",
+    alt: "The phone photo a parent sent: a fictional football player pushing a sled at dusk; photo generated",
+    note: "Same file as home.hero.before.football — one download for both.",
+  },
+  "hero.story.3.card.front": {
+    out: OUT_FTB_FS_FRONT, source: `${FBC}/FB-FS-front.png`, ...CARD, kind: "card", fictional: true,
+    status: "verified", alt: altFront("football", "Fire & Smoke"),
+    note: "FB-FS-front.png and FB-FS-card-FRONT.png are byte-identical; the former is the name sport.football.front already uses.",
+  },
+  "hero.story.3.card.back": {
+    out: "/images/cards/football-trading-card-back-registered-fire-and-smoke.webp",
+    source: `${FBC}/FB-FS-card-BACK.png`, ...CARD, kind: "card", fictional: true, status: "verified",
+    cardId: "GDE-FS-FTB-2026-54",
+    alt: altBack("football", "Fire & Smoke"),
+  },
+  "hero.story.3.poster": {
+    out: OUT_FTB_FS_POSTER, source: `${FBP}/FB-FS-poster.png`, ...POSTER, kind: "poster", fictional: true,
+    status: "verified", alt: altPoster("football", "Fire & Smoke"),
+    note: "Same file as posters.finish.FS — one download for both.",
+  },
+
+  /* ---------- lifestyle photography (owner brief 2026-09-07: the product in a life, not a flat render) ----------
+   * Every source below was thumbnailed and looked at on 2026-09-07 before conversion. All show roster
+   * athletes' art; none shows a pack face, a certificate, a card count, a person outside the roster, a blank
+   * plate or baked marketing type. Long edge ≤ 1400 px. `kind` is never "card" here — these are photographs of
+   * cards, so the 5 : 7 box and the corner audit do not apply to them (the CARD FACES they contain were audited
+   * as their own keys). Rejected sources are listed in docs/f1/INTEGRATION-NOTES.md "assets-hero-lifestyle".
+   */
+  "life.card.desk": {
+    out: "/images/life/football-trading-card-on-a-desk-senior-night.webp",
+    source: `${SHOTS_SN}/card-on-desk-composited.png`, width: 1400, height: 1400, kind: "photo",
+    fictional: true, status: "verified",
+    alt: "A custom football trading card lying on a wooden desk beside a pen and a coin, for scale — Senior Night finish — example artwork, fictional athlete; photo generated",
+  },
+  "life.card.case": {
+    out: "/images/life/football-trading-card-in-a-stand-senior-night.webp",
+    source: `${SHOTS_SN}/card-in-case-composited.png`, width: 1400, height: 1400, kind: "photo",
+    fictional: true, status: "verified",
+    alt: "A custom football trading card standing in a clear display stand on a shelf beside a trophy — Senior Night finish — example artwork, fictional athlete; photo generated",
+  },
+  "life.card.binder": {
+    out: "/images/life/football-trading-cards-in-a-binder-senior-night.webp",
+    source: `${SHOTS_SN}/card-in-binder-composited.png`, width: 1400, height: 1400, kind: "photo",
+    fictional: true, status: "verified",
+    alt: "Three custom football trading cards in the sleeves of a collector's binder — Senior Night finish — example artwork, fictional athlete; photo generated",
+  },
+  "life.phone": {
+    out: "/images/life/football-poster-art-on-a-phone-senior-night.webp",
+    source: `${SHOTS_SN}/phone-in-hand-composited.png`, width: 1400, height: 1400, kind: "photo",
+    fictional: true, status: "verified",
+    alt: "Someone looking at their custom football artwork on a phone in a bedroom — Senior Night finish — example artwork, fictional athlete; photo generated",
+  },
+  "life.gift.moment": {
+    out: "/images/life/family-with-a-framed-football-poster-senior-night.webp",
+    source: `${SHOTS_SN}/gift-composited.png`, width: 1400, height: 1400, kind: "photo",
+    fictional: true, status: "verified",
+    alt: "A family on the court holding a framed custom football poster at a senior night ceremony — Senior Night finish — example artwork, fictional athlete; photo generated",
+  },
+  "life.card.hand": {
+    out: "/images/life/basketball-trading-card-held-on-the-court.webp",
+    source: "etsy/listing-images/01-basketball-card/02-card-in-hand.png", width: 1024, height: 1024,
+    kind: "photo", fictional: true, status: "verified",
+    alt: "A player holding up their custom basketball trading card in the gym — Stadium Night finish — example artwork, fictional athlete; photo generated",
+  },
+  "life.set.printed": {
+    out: "/images/life/printed-set-basketball-poster-and-cards.webp",
+    source: `${SHOTS}/complete-set/set-printed-real.png`, width: 1024, height: 1024, kind: "photo",
+    fictional: true, status: "verified",
+    alt: "A printed set laid out on a table: the custom basketball poster, the shipping tube and a fan of trading cards — Stadium Night finish — example artwork, fictional athlete; photo generated",
+  },
+  "life.set.deluxe": {
+    out: "/images/life/deluxe-set-basketball-poster-and-cards.webp",
+    source: `${SHOTS}/complete-set/set-deluxe-real.png`, width: 1024, height: 1024, kind: "photo",
+    fictional: true, status: "verified",
+    alt: "A larger printed set laid out on a table: the custom basketball poster, the shipping tube and rows of trading cards — Stadium Night finish — example artwork, fictional athlete; photo generated",
+  },
+  "life.poster.room": {
+    out: OUT_ROOM_SN, source: BKP_ROOM_SN, width: 1600, height: 1600, kind: "room", fictional: true,
+    status: "verified", lcp: true,
+    alt: "A framed custom basketball poster on a bedroom wall above a desk — Stadium Night finish — example artwork, fictional athlete; photo generated",
+    note: "Same file as posters.room (1600 px, 129 KB) — reused rather than re-encoded at 1400 so the page reuses one download.",
+  },
+  "life.poster.room.wide": {
+    out: "/images/life/three-framed-basketball-posters-in-a-room.webp",
+    source: "etsy/listing-images/02-basketball-poster/03-room.png", width: 1400, height: 1400, kind: "room",
+    fictional: true, status: "verified",
+    alt: "Three framed custom basketball posters on a wall while the athlete ties his shoes below them — example artwork, fictional athlete; photo generated",
+  },
+  "life.poster.room.baseball": {
+    out: "/images/life/framed-baseball-poster-in-a-bedroom.webp",
+    source: `${SHOTS}/packages/lifeart-baseball.png`, width: 1024, height: 1024, kind: "room",
+    fictional: true, status: "verified",
+    alt: "A framed custom baseball poster on a bedroom wall while the athlete sits below it with his glove — example artwork, fictional athlete; photo generated",
+    note: "A different sport and a different athlete from life.poster.room on purpose (owner brief 2026-09-07).",
+  },
+  "life.team.order": {
+    out: "/images/life/team-order-softball-posters-and-cards.webp",
+    source: `${SHOTS}/senior-night-softball/team-order-staged-composited.png`, width: 1400, height: 1400,
+    kind: "photo", fictional: true, status: "verified",
+    alt: "A team order staged on a table: six custom softball posters, six shipping tubes, six stacks of trading cards and the box they ship in — Senior Night finish — example artwork, fictional athlete; photo generated",
+  },
+  "life.team.order.baseball": {
+    out: "/images/life/team-order-baseball-posters-and-cards.webp",
+    source: `${SHOTS}/senior-night-baseball/team-order-staged-composited.png`, width: 1400, height: 1400,
+    kind: "photo", fictional: true, status: "verified",
+    alt: "A team order staged on a table: six custom baseball posters, six shipping tubes, six stacks of trading cards and the box they ship in — Senior Night finish — example artwork, fictional athlete; photo generated",
   },
 };
 

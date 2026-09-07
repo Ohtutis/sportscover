@@ -1429,3 +1429,339 @@ before and on `NEXT_DIST_DIR=.next-fixB npx next build` after.
   an owner call, not a page fix.
 - **`/complete-set` H1**: setting an H1 at the H2 size is a compromise. A shorter H1 from the owner
   would let it keep `text-display`.
+
+## assets-hero-lifestyle (2026-09-07)
+
+**Owner brief**: the home page showed one athlete (Marcus, basketball) almost everywhere and the product
+tiles were flat renders. Two things were added to `lib/assets.ts`: **three hero story scenes** across three
+sports, and **fourteen real-life product photographs**. Files touched: `lib/assets.ts`, `tests/seo.test.ts`
+(one new `describe`), `public/images/**` (16 new WebP + 2 new AVIF) and `public/images/.manifest.json`.
+`scripts/site-assets.ts` and `scripts/denylist.json` were NOT changed — the existing pipeline covered every
+case. `npx tsx scripts/site-assets.ts --check` → **99 verified keys, 23 locate keys, 103 files scanned,
+0 failures**. `npx tsc --noEmit --incremental false` clean, `npx vitest run` 776 passed, `eslint` clean.
+
+### Hero story scenes — the contract
+
+Twelve image keys plus three caption entries:
+
+    hero.story.<n>.before | .card.front | .card.back | .poster      n = 1 | 2 | 3
+    hero.story.<n>.athlete    no image — read SITE_ASSETS["hero.story.<n>.athlete"].alt for the caption
+
+`hero.story.<n>.athlete` is `status: "locate"` on purpose, so `asset()` throws on it: it is metadata, not a
+picture. Its `alt` is the caption line (sport + finish + "a fictional roster athlete") and its `note` names
+the athlete and card ID for whoever writes the section. Use `SITE_ASSETS[key].alt`, never `asset(key)`.
+
+**All four files in a scene belong to the SAME roster athlete** — that is the whole point of the grouping, so
+never swap one athlete's card into another's scene. The cast:
+
+| scene | sport | athlete | finish | card ID |
+| --- | --- | --- | --- | --- |
+| 1 | basketball | Marcus Ellison, 17, guard, #12, Cedar Ridge Bears | Stadium Night | `GDE-SN-BKB-2026-12` |
+| 2 | softball | Brooke Danner, 15, pitcher, #3, Bell Hollow Wrens (the girl in the cast) | Senior Night | `GDE-SR-SFB-2026-03` |
+| 3 | football | Tui Fa'agata, 18, off. line, #54, Millbrook Bison | Fire & Smoke | `GDE-FS-FTB-2026-54` |
+
+**Scene 1 is the LCP scene**: all four of its files carry an AVIF sibling (`ImageSpec.avif`). Scenes 2 and 3
+are WebP only — load them lazily. Every scene file is under 200 KB; the largest is scene 2's before photo at
+109 KB. Nine of the twelve files were already on disk (the demo pair, the demo poster, both existing before
+photos, the softball SR front, the football FS front and the football FS poster) and are shared, so the three
+scenes cost only four new downloads in total.
+
+**Open gap — there is no adult scene.** The owner asked for range including an adult, and that cannot be built
+from the art that exists. The only adult roster athletes are `pickleball` (Ray Solberg, 58) and the soccer age
+ladder (`soccer-age-22 | -32 | -50`); none of them has a card front, a card back or a poster export anywhere in
+the repo (`marketing/cards/` has no pickleball file and `lib/assets.ts` has carried `sport.pickleball.front` as
+`locate` since F1 for the same reason). `art-pipeline/out/etsy-shots/07-age-row/` is studio portraits on a grey
+backdrop — athletes, no product, and not a parent's phone photo either, so it cannot stand in for a before
+frame. The only adult CARD art on disk belongs to real orders (`orders/**`), which may never be written under
+`public/images/`. **Ticket for the owner: render a card front, a card back and a poster for Ray Solberg
+(pickleball) and shoot a before frame for him, and the fourth scene drops straight in as `hero.story.4.*`.**
+Until then the cast is 15–18 and two boys to one girl. Nothing was padded and nothing was substituted.
+
+### Lifestyle photography
+
+Fourteen keys, all `kind: "photo"` or `"room"` — never `"card"`, because a photograph OF a card is not a card
+face: the 5 : 7 box and the corner audit apply to the faces themselves (already audited under their own keys),
+not to a desk shot. Long edge 1024–1400 px; every file under 200 KB.
+
+| key | source | size |
+| --- | --- | --- |
+| `life.card.desk` | `art-pipeline/out/etsy-shots/senior-night/card-on-desk-composited.png` | 1400 × 1400 |
+| `life.card.case` | `…/senior-night/card-in-case-composited.png` | 1400 × 1400 |
+| `life.card.binder` | `…/senior-night/card-in-binder-composited.png` | 1400 × 1400 |
+| `life.phone` | `…/senior-night/phone-in-hand-composited.png` | 1400 × 1400 |
+| `life.gift.moment` | `…/senior-night/gift-composited.png` | 1400 × 1400 |
+| `life.card.hand` | `etsy/listing-images/01-basketball-card/02-card-in-hand.png` | 1024 × 1024 |
+| `life.set.printed` | `…/etsy-shots/complete-set/set-printed-real.png` | 1024 × 1024 |
+| `life.set.deluxe` | `…/etsy-shots/complete-set/set-deluxe-real.png` | 1024 × 1024 |
+| `life.poster.room` | `etsy/listing-images/02-basketball-poster/room-SN.png` | 1600 × 1600 |
+| `life.poster.room.wide` | `etsy/listing-images/02-basketball-poster/03-room.png` | 1400 × 1400 |
+| `life.poster.room.baseball` | `…/etsy-shots/packages/lifeart-baseball.png` | 1024 × 1024 |
+| `life.team.order` | `…/etsy-shots/senior-night-softball/team-order-staged-composited.png` | 1400 × 1400 |
+| `life.team.order.baseball` | `…/etsy-shots/senior-night-baseball/team-order-staged-composited.png` | 1400 × 1400 |
+
+`life.poster.room` re-uses the file `posters.room` already ships (1600 px, 129 KB) rather than re-encoding a
+near-identical 1400 px copy — one download serves both pages. **The room shots deliberately vary by athlete**:
+`life.poster.room` is Marcus (basketball), `life.poster.room.wide` is Marcus's wall of three, and
+`life.poster.room.baseball` is Casey Whitlock (baseball). Do not present them as the same room.
+
+`life.card.desk | .case | .binder | .phone | .gift.moment` are all **Tui, football, Senior Night** — the same
+athlete as hero scene 3, which is why scene 3 is football: the hero and the lifestyle strip read as one story.
+The two `life.team.order*` shots are Brooke (softball) and Casey (baseball).
+
+### Provenance
+
+Every source below was thumbnailed at ≤ 360 px and looked at on 2026-09-07 before conversion (25 thumbnails
+plus 5 zoom crops at 400–960 px on the small print). Checked for, and clear of: the pre-rename athlete (Nia
+Brooks, #23, Northside Wolves), a pack face, a certificate printing a card count, a card with a softened
+corner, a real customer, a blank plate or easel, and baked marketing type. The zoom crops were the point of
+doubt: the six card stacks in each team-order shot are **stacks of loose cards, not sealed packs**, and the
+fine print on the card backs in `set-printed-real.png` reads finish + edition + year with **no count**. The
+QR symbols inside the lifestyle photographs are generated texture, not scannable codes — they are pictures of
+cards, not card faces, so DESIGN §6.4 does not apply to them.
+
+Two new card backs went through the §6.4 QR gate: `sfb-sr-back.png` already printed `/c/GDE-SR-SFB-2026-03`
+and was left alone; `FB-FS-card-BACK.png` was patched with `public/cards/qr/GDE-FS-FTB-2026-54.png` and the
+written file decodes to `/c/GDE-FS-FTB-2026-54`. Both passed the §6.2 corner audit.
+
+**Rejected, and why** (do not resurrect without new art):
+
+- `senior-night/celebration-seniors.png` — blank easels. (Owner-flagged; confirmed.)
+- `softball|wrestling/p-room-lead.png`, `packages/life-*.png` — blank plates. (Owner-flagged.)
+- `02-their-wall.png`, `04-complete-set/03-card-in-hand-poster-on-wall.png` — whole listing slides with baked
+  headline and slide-number type. A crop clear of every baked word is allowed, but both crops would have cost
+  the composition the slide was built around, and `03-room.png` and `02-card-in-hand.png` already give the
+  same two ideas with no type on them at all.
+- `art-pipeline/out/etsy-shots/07-age-row/*` — studio portraits of the soccer age ladder on a grey backdrop.
+  No product in frame and not a phone photo; kept out rather than dressed up as a before frame.
+- `art-pipeline/out/athletes/{Order 01,Order 02,order 03,order-4164205493}/**` — real orders. Never read,
+  never written under `public/`.
+- `art-pipeline/out/athletes/softball/before/photo1|photo3|photo4.png` — photo1 and photo4 are indoors out of
+  kit and photo3 is in a practice tee; `photo2` is the only one in the maroon Bell Hollow uniform the card and
+  poster show, which is what makes the before → after read as one athlete.
+
+### Two things to know before editing these keys
+
+1. **Several keys share one output file, and `scripts/site-assets.ts` refuses a group whose members disagree.**
+   The group key is the output path, and `source`, `width`, `height`, `kind`, `crop` and `cardId` must match
+   character for character across every key that names it — `alt`, `note` and `lcp` may differ (`lcp` ORs
+   across the group). `FB-FS-front.png` and `FB-FS-card-FRONT.png` are byte-identical; the map uses the former
+   everywhere so `sport.football.front` and `hero.story.3.card.front` land in one group.
+2. **Adding `lcp: true` to a key re-encodes the file its whole group shares** and writes an AVIF sibling next
+   to it. That is why `/images/cards/basketball-trading-card-back-registered-stadium-night.avif` and
+   `/images/home/phone-photo-basketball-player-before.avif` are new in this pass although no source changed:
+   scene 1 needs those two as AVIF. The WebP files themselves re-encoded byte-for-byte identical, so git sees
+   only the two added AVIFs.
+
+---
+
+## fix-hero-story
+
+Section 01 only (`app/(marketing)/_home/Hero.tsx`, the new `HeroStory.tsx` island, `components/Pill.tsx`,
+`components/BeforeAfter.tsx`'s `Arrow`, one block in `app/globals.css`, tests). Three owner complaints, three
+answers; everything else on the page is untouched.
+
+### 1. The claims are labels now, not lozenges
+
+The complaint: *"from your photos / registered edition looks the same as the buttons — that's not good."* It
+was exactly right. The hero showed a **filled accent pill beside an outlined pill**, thirty-eight pixels above
+a **filled accent button beside an outlined button** — the same shape, the same case, the same face, the same
+pairing, twice. Nothing in a lozenge says "this is not a control".
+
+`Pill` gained `variant`. The default `chip` is DESIGN §4.1 unchanged, so every other page and every existing
+test is unaffected. `variant="label"` drops the whole button vocabulary — no fill, no border, no radius, no
+32 px height — and states the claim as **type**: Barlow 12 px semibold, 0.12em, ink for the primary claim and
+`muted-text` for the second, separated by a hairline middot. DESIGN allows one accent claim per page, so the
+accent survives as a **3 × 12 px tick** in front of `FROM YOUR PHOTOS`: a mark, not a target. Accent is never
+the text colour (2.6 : 1); the tick is decorative and `aria-hidden`.
+
+Why a label and not, say, a smaller pill: shrinking a button-shaped thing makes a smaller button. The only
+reliable signal is to leave the control vocabulary altogether. D12's order (title → subhead → pills) is
+unchanged — the claims sit where COPY puts them, they simply stopped impersonating the CTA pair.
+
+### 2. The art is a story, not a still
+
+`HeroStory` is a **1.4 KB gzipped** island (2.8 KB minified; measured with esbuild, no animation library, no
+new dependency). Its whole job is to set **two attributes** — `data-phase` on the root and `data-state` on
+each scene. Every frame is server-rendered markup handed in as a prop, and the ~25 lines added to
+`app/globals.css` do the animating. So there is no per-frame JavaScript, and the page renders complete and
+correct with JS off.
+
+Four beats a scene, 4.3 s a scene, ~13 s the loop:
+
+| beat | ms | what a visitor sees |
+|---|---|---|
+| `photo` | 800 | the parent's phone photo drops in; nothing else exists yet |
+| `build` | 1200 | the poster rises, then the card 170 ms behind it — the edition assembles out of the photo |
+| `flip` | 1600 | the card turns to its back (stats, registered ID, QR) |
+| `hold` | 700 | the finished edition, held, then the next athlete |
+
+**The flip is the signature move, shortened, not a second one.** It runs the existing `@keyframes card-flip`
+on the existing `--ease-flip` curve; only the duration is new (`--duration-flip-story: 1600ms`, beside
+`--duration-flip: 5000ms`). A 4.3 s scene cannot hold a 5 s move, and inventing a second easing would have
+given the site two motion languages. The keyframe count in `globals.css` is asserted at three, so a future
+builder cannot quietly add a fourth. The story defines no other animation: the photo drop and the assembly
+are `opacity` + `translateY` transitions on the same curve.
+
+Scenes come from the contract keys `hero.story.<n>.{before,card.front,card.back,poster}` for n = 1…3. All
+three are verified as of this pass (basketball · softball · football), so the fallbacks below are not in use —
+but they stay, because the resolution rule matters:
+
+- A key that is **missing from the manifest** and a key that is **still `locate`** mean the same thing here.
+  `assetOrNull()` throws on an unknown key, so `maybeAsset()` checks `SITE_ASSET_KEYS` first; the story could
+  therefore be coded against the contract before `lib/assets.ts` had heard of it.
+- Fallback is **whole scenes, never parts**. A real "before" photo of one athlete beside a fallback card of
+  another would be a lie about what the product does. Scene 1 falls back to the four verified faces of Marcus
+  (basketball); scene 2 to the football pair; scene 3 to nothing at all.
+- A scene needs `before` + `card.front`. `poster` and `card.back` are optional parts: without a back the card
+  simply does not flip, without a poster the card assembles alone. **No key ever renders an empty box** — a
+  test walks every `<img>` in the hero and asserts `src` and `sizes`.
+- One scene renders as a correct static hero with no controls; two or more add the controls and the loop.
+
+The sport in each caption is read back out of the asset's own COPY §0.5 alt line and matched against
+`lib/catalog/sports.ts` (longest name first, so "track & field" and "ice hockey" win over their substrings).
+Nothing about the scene is typed by hand, so a new asset changes the caption without a code edit.
+
+**Accessibility.** The stage is one `role="img"` with one `aria-label` (the old BeforeAfter label plus C13):
+twelve images narrate as one picture, and no frame announces itself. The controls are a real pause/play button
+and one dot per scene, each **44 × 44** with the DESIGN §4.19 ring (measured: 2 px accent outline, 3 px offset,
+1 px ink halo). A dot is also the replay — it restarts its scene from beat one. Focus is never trapped, and
+there is no live region: nothing here is news.
+
+**`prefers-reduced-motion`.** The phase stays `still` for ever: no advancing, no flip, no fade, scene 1
+assembled and legible. The dots still switch scenes. The pause button is replaced by an invisible 44 × 44
+spacer so the swap after hydration costs no layout shift. Measured: phase `still` after 6 s, a dot click moves
+to scene 3, still `still` 3 s later.
+
+**Weight.** Twelve images, none preloaded, none `priority`, none `fetchPriority="high"`, all lazy — the mobile
+LCP stays the headline. Desktop serves `w=256` (144 KB for all twelve, measured by re-encoding at that width);
+a 390 px phone at DPR 3 serves `w=384` for nine of them (200 KB) and **loads no poster at all** — the poster is
+`hidden sm:block`, so the lazy image never intersects and never fetches. Caption and controls sit in
+fixed-height rows, so a longer athlete name cannot resize the column.
+
+### 3. The two columns are one row
+
+The complaint: *"there is no perfect alignment left and right, at least in some resolutions."* The hero grid
+was `lg:items-center`, so the art column floated in the middle of the text column's height and lined up with
+nothing. The art was also a `Mat` whose 8 % inset ate ~50 px a side, so its visual edge never reached the
+track.
+
+Now: `lg:items-stretch`, and the story is a mat that fills its grid track (`w-full`, `lg:h-full`,
+`rounded-ui bg-hairline`, DESIGN §2.3 plate padding instead of the 8 % mat inset). The stage is a fixed-ratio
+box (`aspect-[4/3]` under 640 px, `aspect-[7/5]` above) chosen so the mat is always **shorter** than the text
+column at ≥ 1024 px — the text therefore drives the row height and the art absorbs the difference by centring
+inside it, which is what a mat is for. Measured with `getBoundingClientRect()` on the built page:
+
+| viewport | top delta | bottom delta | mat right vs container | text left vs container | text drives the row | horizontal overflow |
+|---|---|---|---|---|---|---|
+| 1024 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0 |
+| 1280 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0 |
+| 1440 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0 |
+| 1728 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0 |
+
+("text drives the row" = the TrustLine's bottom minus the row's bottom; 0.00 means the art never forces the
+row taller than the copy.) At 390 px: overflow 0, CLS **0.00007** over a full 14 s loop — one shift, and it is
+the Barlow font swap re-flowing the label row and the delivery chips, not the story. Nothing in the stage
+shifts: every scene is `absolute inset-0` in one reserved box.
+
+### What I could not do
+
+- **The build could not be served with `next start`** (forbidden this session), so the measurements above come
+  from `NEXT_DIST_DIR=.next-hero npx next build` served by a plain Node static file server that maps
+  `/_next/image?url=…` straight to `public/`. That server does **not** resize, so the byte figures quoted are
+  re-encodes of the same sources at the widths the browser actually requested (`sharp`, webp q75) rather than
+  responses measured off the wire. The dist dir was deleted afterwards and `tsconfig.json` carries no
+  `.next-hero` entry.
+- **Whether scene 3 is the adult athlete is the asset builder's call.** The three verified scenes today are
+  basketball, softball and football; the story does not care which athletes they are, and the caption follows
+  the manifest.
+- The story replaces `BeforeAfter` in the hero (DESIGN §4.16 lists `/` hero as a placement). It keeps the
+  device's grammar — pinned phone photo with the in-frame compact C13, the accent arrow, product on the right —
+  and reuses the same `Arrow`, which gained an optional `size` so it can be sized as a share of the stage
+  instead of a fixed 56 px (at 1024 the fixed arrow's head disappeared behind the poster). `BeforeAfter`
+  itself is otherwise untouched and every other placement is unchanged.
+
+## fix-imagery
+
+Owner review, 2026-09-07. Three notes, verbatim in substance: *"use images then all of them from real
+life"* (the product tiles are flat renders; he wants the card on a table or in a stand, the set held with
+the poster on the wall, a room for the poster — *"product renders are still fine, but let's mix with
+combination of products in emotional set-ups"*), *"reference should be same sports; we need a full mixture
+of sports on the home page"* (nearly every image was the same basketball athlete), and *"here we are
+missing proper images — we had a team photo option and also senior night options"*.
+
+Every photograph is read through `hasAsset()` → `asset()`, never `assetOrNull()`: `hasAsset` also answers
+`false` for a key the map does not carry at all, so these pages were safe to build while `lib/assets.ts`
+was still gaining its `life.*` entries in another branch, and they stay safe if a key is ever removed. No
+page types an image path; nothing new was added to the manifest by this pass.
+
+### Section → sport → asset
+
+| Page · section | Photograph | Sport / athlete | Fallback if the key goes away |
+| --- | --- | --- | --- |
+| `/` 03 · Trading Cards tile | `life.card.desk` (`.case`, `.binder`, `.hand`) | football, Senior Night | the cheerleading front + back pair (`cards.cheer.front|back`) |
+| `/` 03 · Posters tile | `life.poster.room.baseball` (`.room`, `.room.wide`) | baseball | `posters.room` (basketball) |
+| `/` 03 · Complete Set tile | `life.set.printed` (`.deluxe`) | basketball | football poster + football front, both Fire & Smoke |
+| `/` 04 · Proof band | `home.proof` (unchanged) | baseball, Senior Night | — |
+| `/` 05 · Registered | `home.qr-ring` (unchanged) | basketball — locked to the demo ID `GDE-SN-BKB-2026-12` and to the measured ring constant | — |
+| `/` 06 · Six finishes | `finish.*.front` (unchanged) | basketball — the H2 *is* "one athlete", and only the basketball athlete has all six finish fronts | — |
+| `/` 07 · Seventeen sports | `sport.*.front` (unchanged) | fifteen different sports; pickleball and skateboarding are text tiles | — |
+| `/` 12 · Senior Night plate | `life.gift.moment` | football, Senior Night | `sn.sport.baseball.front` card render |
+| `/` 12 · Team plate | `life.team.order` (`.baseball`) | softball, Senior Night | text only, as before |
+| `/trading-cards` 03 | `life.card.hand` (`.desk`, `.case`, `.binder`) | basketball — the page's demo athlete | nothing; the column starts on the body copy |
+| `/posters` 01 hero | `life.poster.room.wide` (`.room`, `.room.baseball`) | basketball | `posters.room` |
+| `/complete-set` 03 | `life.set.printed` (`.deluxe`) | basketball | the poster on an arena mat, as before |
+| `/senior-night` 05 | `life.team.order` (`.baseball`) | softball, Senior Night | text only, as before |
+
+The home page now carries five sports where four sections used to carry one: football (03 cards, 12 senior),
+baseball (03 posters, 04 proof), basketball (03 set, 05, 06), softball (12 team) and the fifteen of §07.
+
+### Captions
+
+COPY writes no line for a real-life photograph, so each caption is the plainest description of the frame,
+keyed to the asset that actually resolved — a fallback can never inherit another frame's words. **These
+seven strings are agent-written and want the owner's eye:**
+
+- `life.card.hand` "A printed card held up in the gym." · `life.card.desk` "A printed card on a desk, beside
+  a pen and a coin for scale." · `life.card.case` "A printed card standing in a display stand on a shelf." ·
+  `life.card.binder` "Printed cards in the sleeves of a collector's binder."
+- `life.set.printed` / `life.set.deluxe` "The printed set on a table: the poster, the shipping tube and a fan
+  of cards." / "… and rows of cards."
+- `life.gift.moment` "A family on the court with the framed poster, at a senior night ceremony."
+- `life.team.order` / `.baseball` "A team's order staged on a table: posters, shipping tubes, stacks of cards
+  and the box they ship in."
+
+No caption names a sport: the photographs are chosen by key and the sport belongs to the alt text, so a
+caption can never contradict the frame under it. The `18 × 24 SHOWN · FRAMED` plate on `/posters` is a fact
+about one measured file and now rides with that FILE (`spec.src === asset("posters.room").src`), not with the
+hero slot — a room the manifest has not measured renders without the claim.
+
+### Fixed in passing
+
+- **`/` §06, the Senior Night tile was an empty mat.** `Mat` lays its children out with `flex`; the gold tile
+  passed two bare children (the `CardFace` and the pill), so the face became an unsized flex item and
+  collapsed to 0 × 0 — measured 165 × 70 against 138 × 194 on the other six. One block child now owns the
+  width. Pre-existing; it is not visible in any test because the tests count tiles, not pixels.
+
+### Not done / owner calls
+
+- **`/posters` hero is now the three-poster wall** (`life.poster.room.wide`). It is the strongest room we
+  have and it is a different athlete from the home tile, but three framed posters on one wall could be read
+  as "three posters per order". The tier ladder sits directly under it and states what an order contains.
+  Say the word and the single framed poster (`posters.room`, with its measured caption) goes back.
+- **`life.phone` is unused.** Its alt reads "looking at their custom football artwork on a phone", which is
+  the wallpaper, not the registered card page — so it does not belong beside the registry story, and there is
+  no other section in DESIGN §5.1/§5.2 that wants it.
+- **`/` §06 stays one basketball athlete.** The heading is "SIX FINISHES. ONE ATHLETE." and the basketball
+  athlete is the only one with all six `finish.*.front` exports. A second set (any sport × six finishes)
+  would let this section rotate.
+- **`/senior-night` §01 hero is untouched** (composed in code, GAPS #7). `life.gift.moment` would be a
+  stronger hero than the composed cluster, but that is a DESIGN §5.3-1 change, not a page fix.
+- **Verified against a local `next start` on an isolated dist dir.** Its image optimizer stalls under
+  concurrency on this machine — AVIF encodes of the 1400 px life photos take tens of seconds cold, and
+  killing them wedges the sharp pool until the server restarts (`public/images` sits in the iCloud-synced
+  Documents tree; see memory *GDE iCloud eviction*). Nothing to fix in the pages — measured with a
+  `webp`-only `Accept` header. Screens checked at 1440 and 390: no empty box, no horizontal overflow
+  (`scrollWidth − innerWidth === 0` on `/`, `/trading-cards`, `/posters`, `/complete-set`, `/senior-night`).
+- **`next-env.d.ts` is pointing at a scratch dist dir.** Next rewrites its `import "./.next/types/routes.d.ts"`
+  line to whatever `NEXT_DIST_DIR` was set to on the last build; it currently reads `./.next-hero/…`. Whoever
+  lands last must put `./.next/types/routes.d.ts` back, or a checkout without that directory will not typecheck.

@@ -9,7 +9,7 @@ import { Pill } from "../../../components/Pill";
 import { Plate } from "../../../components/Plate";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { ToScaleSheet } from "../../../components/ToScaleSheet";
-import { asset } from "../../../lib/assets";
+import { asset, hasAsset, type ImageSpec } from "../../../lib/assets";
 import { tiersFor } from "../../../lib/catalog/prices";
 import { postersSports } from "../../../lib/catalog/sports";
 import { CANON } from "../../../lib/copy/canon";
@@ -46,6 +46,27 @@ const SCALE_TITLE = "TO SCALE. THE PERSON IS THE RULER.";
 const SCALE_BODY =
   "Hung at a 58-inch center, the way galleries hang. The athlete on the sheet stands 5 ft 9 in — measure the poster against them, not against the frame.";
 
+/**
+ * A poster is bought for a wall, so the hero is a wall (DESIGN §5.2-1). Any real-life room the site
+ * map carries leads; `posters.room` is the fallback and the only frame whose print size was measured,
+ * so the `18 × 24 SHOWN · FRAMED` plate rides with that one file and is not asserted over a room the
+ * manifest has not measured. Ordering the wide room first keeps this hero off the athlete the home
+ * page's poster tile shows.
+ */
+const LIFE_ROOM_KEYS = ["life.poster.room.wide", "life.poster.room", "life.poster.room.baseball"] as const;
+
+function heroRoom(): { spec: ImageSpec; measured: boolean } {
+  const measured = asset("posters.room");
+  for (const key of LIFE_ROOM_KEYS) {
+    if (hasAsset(key)) {
+      const spec = asset(key);
+      // Several keys may resolve to the same file; the caption follows the FILE, not the key.
+      return { spec, measured: spec.src === measured.src };
+    }
+  }
+  return { spec: measured, measured: true };
+}
+
 export default async function PostersPage({
   searchParams,
 }: {
@@ -56,7 +77,8 @@ export default async function PostersPage({
   const options = postersSports();
   const sport = pickSport(params.sport, options, "basketball");
   const cta = ctaFor("posters", { sport: sport.slug });
-  const room = asset("posters.room");
+  const hero = heroRoom();
+  const room = hero.spec;
   const meta = pageFor(PATH);
 
   return (
@@ -91,11 +113,13 @@ export default async function PostersPage({
                     fill
                     priority
                     sizes="(min-width: 1024px) 660px, 100vw"
-                    className="object-cover object-[50%_40%]"
+                    className={hero.measured ? "object-cover object-[50%_40%]" : "object-cover object-center"}
                   />
-                  <Plate tone="stock" padding="sm" className={`absolute bottom-3 left-3 ${RECORD_STYLE}`}>
-                    {ROOM_CAPTION}
-                  </Plate>
+                  {hero.measured ? (
+                    <Plate tone="stock" padding="sm" className={`absolute bottom-3 left-3 ${RECORD_STYLE}`}>
+                      {ROOM_CAPTION}
+                    </Plate>
+                  ) : null}
                 </div>
               </div>
               <FictionalLabel className="mt-2" />
