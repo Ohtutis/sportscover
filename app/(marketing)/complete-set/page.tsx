@@ -25,7 +25,7 @@ import { HeroCtaBlock } from "../(families)/_shared/hero";
 import { NumberlessSection } from "../(families)/_shared/numberless-block";
 import { Section } from "../(families)/_shared/section";
 import { SpecSheetSection, setFolderRows } from "../(families)/_shared/spec-sheet";
-import { SportPicker, pickSport } from "../(families)/_shared/sport-picker";
+import { pickSport } from "../(families)/_shared/sport-picker";
 import { TierRow } from "../(families)/_shared/tier-row";
 
 /**
@@ -151,8 +151,9 @@ export default async function CompleteSetPage({
             </div>
           </div>
 
+          {/* No sport picker here: the Complete Set is ONE Etsy listing for every sport, so choosing
+              a sport would change nothing. The buyer picks the sport at checkout. */}
           <div className="mt-12">
-            <SportPicker action={PATH} options={sports} selected={sport} />
             <TierRow family="set" context="set" sport={sport} now={now} className="mt-8" />
           </div>
         </div>

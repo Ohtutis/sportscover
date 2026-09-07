@@ -127,7 +127,7 @@ export default async function PostersPage({
           </div>
 
           <div className="mt-12">
-            <SportPicker action={PATH} options={options} selected={sport} />
+            <SportPicker action={PATH} options={options} family="posters" selected={sport} />
             <TierRow family="posters" context="posters" sport={sport} now={now} className="mt-8" />
           </div>
         </div>

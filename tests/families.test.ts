@@ -12,7 +12,7 @@ import { SITE_ASSETS, hasAsset } from "../lib/assets";
 import { chipSegment } from "../lib/catalog/delivery";
 import { faqSubset } from "../lib/catalog/faq";
 import { formatUsd, getTier, perCardAnchor, priceDisplay, sitePrice, skuFor, tiersFor, type Family } from "../lib/catalog/prices";
-import { NUMBERLESS_CODES, backLine, isNumberless, postersSports, sportBySlug, sports } from "../lib/catalog/sports";
+import { NUMBERLESS_CODES, backLine, hasOwnListing, isNumberless, postersSports, sportBySlug, sports } from "../lib/catalog/sports";
 import { finishes } from "../lib/catalog/styles";
 import { boxContents, FILE_COUNTS } from "../lib/catalog/tiers";
 import { EDITION_SENTENCE } from "../components/EditionPanel";
@@ -25,7 +25,7 @@ import { FinishesRow, finishRowKeys } from "../app/(marketing)/(families)/_share
 import { NumberlessSection, POSTER_NAME_BODY, SportGrid, numberlessFirstSentence, numberlessSportsClause } from "../app/(marketing)/(families)/_shared/numberless-block";
 import { sectionIndex } from "../app/(marketing)/(families)/_shared/section";
 import { SpecSheetSection, setFolderRows, specRows } from "../app/(marketing)/(families)/_shared/spec-sheet";
-import { SportPicker, SPORT_PICKER_LABEL, numberlessPickerNote, pickSport } from "../app/(marketing)/(families)/_shared/sport-picker";
+import { ANY_LISTING_GROUP, OWN_LISTING_GROUP, SportPicker, destinationNote, SPORT_PICKER_LABEL, numberlessPickerNote, pickSport } from "../app/(marketing)/(families)/_shared/sport-picker";
 import { CERTIFICATE_LINE, TierRow, chipKindFor } from "../app/(marketing)/(families)/_shared/tier-row";
 import { ctaFor } from "../lib/cta";
 import TradingCardsPage from "../app/(marketing)/trading-cards/page";
@@ -287,22 +287,39 @@ describe("family pages — the sport picker", () => {
   });
 
   it("is a plain GET form that prefills from ?sport= and needs no JavaScript", () => {
-    const html = render(createElement(SportPicker, { action: "/trading-cards", options: sports, selected: sportBySlug("soccer")! }));
+    const html = render(createElement(SportPicker, { action: "/trading-cards", options: sports, family: "cards", selected: sportBySlug("soccer")! }));
     expect(html).toContain('method="get"');
     expect(html).toContain('action="/trading-cards"');
     expect(html).toContain('name="sport"');
     expect(html).toContain(SPORT_PICKER_LABEL);
     expect(html).toMatch(/<option[^>]*value="soccer"[^>]*selected/);
     expect(count(html, /<option/g)).toBe(sports.length);
+    // Every sport stays orderable, but the two groups say which ones have a listing of their own.
+    expect(html).toContain(OWN_LISTING_GROUP);
+    expect(html).toContain(ANY_LISTING_GROUP);
+  });
+
+  it("names the destination before the buyer clicks, and never promises a listing that does not exist", () => {
+    for (const family of ["cards", "posters"] as const) {
+      for (const sport of sports) {
+        const note = destinationNote(sport, family);
+        if (hasOwnListing(sport, family)) expect(note).toContain(sport.name.toLowerCase());
+        else expect(note).toContain("Complete Set listing");
+      }
+    }
+    const own = render(createElement(SportPicker, { action: "/trading-cards", options: sports, family: "cards", selected: sportBySlug("basketball")! }));
+    expect(own).toContain(destinationNote(sportBySlug("basketball")!, "cards"));
+    const any = render(createElement(SportPicker, { action: "/trading-cards", options: sports, family: "cards", selected: sportBySlug("gymnastics")! }));
+    expect(any).toContain("Complete Set listing");
   });
 
   it("says what a numberless sport carries instead — and never a number", () => {
     const cheer = sportBySlug("cheerleading")!;
-    const html = render(createElement(SportPicker, { action: "/trading-cards", options: sports, selected: cheer }));
+    const html = render(createElement(SportPicker, { action: "/trading-cards", options: sports, family: "cards", selected: cheer }));
     expect(html).toContain(numberlessPickerNote(cheer));
     expect(numberlessPickerNote(cheer)).toBe("No jersey number in cheerleading — the card carries their name and club crest instead.");
     expect(html).not.toMatch(/#\d/);
-    const numbered = render(createElement(SportPicker, { action: "/trading-cards", options: sports, selected: sportBySlug("basketball")! }));
+    const numbered = render(createElement(SportPicker, { action: "/trading-cards", options: sports, family: "cards", selected: sportBySlug("basketball")! }));
     expect(numbered).not.toContain("No jersey number");
   });
 });
