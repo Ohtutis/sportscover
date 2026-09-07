@@ -470,6 +470,80 @@ describe("family pages — open-graph images", () => {
   });
 });
 
+/**
+ * Owner review 2026-09-07: "use images then all of them from real life… but let's mix with
+ * combination of products in emotional set-ups." The spec sheet and the tier ladder stay a table of
+ * facts; the sections around them lead with a photograph of the printed thing where the site map has
+ * one. Every one of those keys may still be `locate` (or absent while the asset builder runs), so the
+ * pages read them through `hasAsset()` and fall back to the render that was there before.
+ */
+describe("family pages — real life beside the flat renders", () => {
+  const LIFE = {
+    cards: ["life.card.hand", "life.card.desk", "life.card.case", "life.card.binder"],
+    posters: ["life.poster.room.wide", "life.poster.room", "life.poster.room.baseball"],
+    set: ["life.set.printed", "life.set.deluxe"],
+  } as const;
+  const resolved = (keys: readonly string[]): string | null => keys.find((k) => hasAsset(k)) ?? null;
+
+  it("never hands a life key straight to asset() — a key the map has not landed would throw", () => {
+    for (const file of PAGES.map((p) => p.file)) {
+      const src = read(file);
+      if (!src.includes('"life.')) continue;
+      expect(src, file).toContain("hasAsset");
+      expect(src, file).not.toContain('asset("life.');
+      expect(src, file).not.toContain('assetOrNull("life.');
+    }
+  });
+
+  it("/trading-cards opens section 03's column with a printed card, or with nothing at all", () => {
+    const src = read(PAGES[0].file);
+    for (const key of LIFE.cards) expect(src).toContain(key);
+    // The photograph is captioned by the frame that resolved, never by another frame's words.
+    expect(src).toContain("A printed card held up in the gym.");
+    expect(src).toContain("Printed cards in the sleeves of a collector's binder.");
+    // Still one image ahead of the fold, and the flip is still the only thing that moves.
+    expect(count(strip(src), /\bpriority\b/g)).toBe(1);
+  });
+
+  it("/posters leads with a room and keeps the measured caption on the measured room only", () => {
+    const src = read(PAGES[1].file);
+    for (const key of LIFE.posters) expect(src).toContain(key);
+    expect(src).toContain('asset("posters.room")');
+    // `18 × 24 SHOWN · FRAMED` is a fact about one file; a room the manifest has not measured
+    // renders without it rather than inheriting the claim.
+    expect(src).toMatch(/hero\.measured \? \(/);
+  });
+
+  it("/complete-set photographs the set beside the ledger, and the ledger stays the count", () => {
+    const src = read(PAGES[2].file);
+    for (const key of LIFE.set) expect(src).toContain(key);
+    expect(src).toContain("setFolderRows()");
+    expect(src).toContain('asset("set.hero.poster")');
+  });
+
+  it("shows the photograph the map resolved, on every page that has one", async () => {
+    const render3 = async (i: number) =>
+      render(
+        await (
+          [TradingCardsPage, PostersPage, CompleteSetPage][i] as unknown as (props: {
+            searchParams: Promise<Record<string, string | string[] | undefined>>;
+          }) => Promise<React.ReactElement>
+        )({ searchParams: Promise.resolve({}) }),
+      );
+    const wanted: [number, string | null][] = [
+      [0, resolved(LIFE.cards)],
+      [1, resolved(LIFE.posters)],
+      [2, resolved(LIFE.set)],
+    ];
+    for (const [i, key] of wanted) {
+      if (!key) continue;
+      const out = await render3(i);
+      const srcs = [...out.matchAll(/[?&]url=([^&"]+)/g)].map((m) => decodeURIComponent(m[1]));
+      expect(srcs, `${PAGES[i].path} does not show ${key}`).toContain(SITE_ASSETS[key].out);
+    }
+  });
+});
+
 describe("family pages — assets referenced only through the map", () => {
   it("every SITE_ASSETS key the shared pieces build is either verified or has a text fallback", () => {
     for (const sport of sports) {

@@ -22,10 +22,19 @@ export interface BeforeAfterProps {
   className?: string;
 }
 
-export function Arrow({ direction = "auto", className = "" }: { direction?: "auto" | "right" | "down"; className?: string }) {
-  const size = direction === "down" ? "h-14 w-6 rotate-90" : direction === "right" ? "h-6 w-14" : "h-14 w-6 rotate-90 lg:h-6 lg:w-14 lg:rotate-0";
+export function Arrow({
+  direction = "auto",
+  size,
+  className = "",
+}: {
+  direction?: "auto" | "right" | "down";
+  /** Replaces the preset box classes (the home hero story draws a smaller arrow at 390 px). */
+  size?: string;
+  className?: string;
+}) {
+  const preset = direction === "down" ? "h-14 w-6 rotate-90" : direction === "right" ? "h-6 w-14" : "h-14 w-6 rotate-90 lg:h-6 lg:w-14 lg:rotate-0";
   return (
-    <svg viewBox="0 0 56 24" aria-hidden="true" focusable="false" className={`shrink-0 stroke-accent ${size} ${className}`.trim()}>
+    <svg viewBox="0 0 56 24" aria-hidden="true" focusable="false" className={`shrink-0 stroke-accent ${size ?? preset} ${className}`.trim()}>
       <path d="M2 12h46M40 4l8 8-8 8" fill="none" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );

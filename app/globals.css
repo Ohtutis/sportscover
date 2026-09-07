@@ -67,6 +67,9 @@
   --animate-card-flip-back: card-flip-back var(--duration-flip) var(--ease-flip) both;
   /* DESIGN §10.1: user-initiated replays after the first 5 s run — set --from / --to on the element. */
   --animate-card-flip-quick: card-flip-quick 900ms var(--ease-flip) both;
+  /* The home story runs the SAME keyframes and the same curve at 1.6 s: a 4.3 s scene cannot hold a
+     5 s move, and a second easing would be a second motion language (DESIGN §7). */
+  --duration-flip-story: 1600ms;
   @keyframes card-flip {
     0%, 30%   { transform: rotateY(0deg) scale(1); }
     36%       { transform: rotateY(38deg) scale(1.03); }
@@ -143,4 +146,28 @@
   width: 100%; max-width: var(--container-gallery); margin-inline: auto; padding-inline: 1.25rem;
   @media (width >= 40rem) { padding-inline: 2rem; }
   @media (width >= 64rem) { padding-inline: 3rem; }
+}
+
+/* ---------------------------------------------------------------------------------------------
+   The home story (section 01). Every frame is server-rendered markup; the client island sets two
+   attributes — `data-phase` on the root and `data-state` on each scene — and these rules do the rest,
+   so the narration costs no per-frame JavaScript and the page renders complete without it.
+   `data-phase="still"` is the server render and the reduced-motion render: scene 1, assembled, front
+   face up. The one animation is the signature flip keyframes at --duration-flip-story (DESIGN §7).
+   --------------------------------------------------------------------------------------------- */
+[data-story-scene] { transition: opacity 380ms var(--ease-flip); }
+[data-story-scene][data-state="idle"] { opacity: 0; pointer-events: none; }
+/* The outgoing scene holds the back it just turned to, so nothing snaps during the cross-fade. */
+[data-story-scene][data-state="idle"] [data-story-flip] { transform: rotateY(180deg); }
+[data-story-part] { transition: opacity 420ms var(--ease-flip), transform 420ms var(--ease-flip); }
+/* Beat 1 — the parent's photo drops in; the product is not there yet. */
+[data-story-scene][data-state="idle"] [data-story-part="photo"] { opacity: 0; transform: translateY(-16px); }
+[data-story][data-phase="photo"] [data-story-part="product"] { opacity: 0; transform: translateY(14px); }
+[data-story][data-phase="photo"] [data-story-part="arrow"] { opacity: 0; }
+/* Beat 2 — the poster, then the card: the finished edition assembles out of the photo. */
+[data-story-part="product"][data-story-step="2"] { transition-delay: 170ms; }
+/* Beat 3 — the card turns. Only the scene on screen animates. */
+[data-story][data-phase="flip"] [data-story-scene][data-state="active"] [data-story-flip],
+[data-story][data-phase="hold"] [data-story-scene][data-state="active"] [data-story-flip] {
+  animation: card-flip var(--duration-flip-story) var(--ease-flip) both;
 }

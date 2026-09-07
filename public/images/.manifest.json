@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-06T22:07:07.430Z",
+  "generatedAt": "2026-09-07T08:47:50.829Z",
   "script": "scripts/site-assets.ts",
   "entries": {
     "/images/cards/basketball-trading-card-back-registered-stadium-night.webp": {
@@ -15,7 +15,8 @@
         "home.hero.after.back",
         "cards.demo.back",
         "home.qr-ring",
-        "set.hero.back"
+        "set.hero.back",
+        "hero.story.1.card.back"
       ],
       "qr": {
         "cardId": "GDE-SN-BKB-2026-12",
@@ -23,7 +24,8 @@
         "printed": "https://gamedayedition.com/c/GDE-SN-BKB-2026-23",
         "decodes": "https://gamedayedition.com/c/GDE-SN-BKB-2026-12"
       },
-      "generatedAt": "2026-09-06T22:05:19.596Z"
+      "avif": "/images/cards/basketball-trading-card-back-registered-stadium-night.avif",
+      "generatedAt": "2026-09-07T08:47:47.736Z"
     },
     "/images/cards/basketball-trading-card-front-stadium-night.webp": {
       "out": "/images/cards/basketball-trading-card-front-stadium-night.webp",
@@ -38,7 +40,8 @@
         "cards.demo.front",
         "finish.SN.front",
         "sport.basketball.front",
-        "set.hero.front"
+        "set.hero.front",
+        "hero.story.1.card.front"
       ],
       "avif": "/images/cards/basketball-trading-card-front-stadium-night.avif",
       "generatedAt": "2026-09-06T22:05:19.309Z"
@@ -61,6 +64,25 @@
         "decodes": "https://gamedayedition.com/c/GDE-PR-CHR-2026-01"
       },
       "generatedAt": "2026-09-06T22:05:23.156Z"
+    },
+    "/images/cards/football-trading-card-back-registered-fire-and-smoke.webp": {
+      "out": "/images/cards/football-trading-card-back-registered-fire-and-smoke.webp",
+      "source": "etsy/listing-images/01-football-card/src/FB-FS-card-BACK.png",
+      "sourceSha256": "77437d40a459483439b006fe6600f93d2525b0e32bb0f33957e58c9f0f04512c",
+      "sha256": "7cf391368ad599d8b9fd1f34a1d6d411424208de45e62f3df5f20c74d3a384cf",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "hero.story.3.card.back"
+      ],
+      "qr": {
+        "cardId": "GDE-FS-FTB-2026-54",
+        "patched": true,
+        "printed": "https://gamedayedition.com/c/GDE-SN-BKB-2026-23",
+        "decodes": "https://gamedayedition.com/c/GDE-FS-FTB-2026-54"
+      },
+      "generatedAt": "2026-09-07T08:47:48.689Z"
     },
     "/images/finishes/basketball-trading-card-front-chrome-all-star.webp": {
       "out": "/images/finishes/basketball-trading-card-front-chrome-all-star.webp",
@@ -136,9 +158,11 @@
       "height": 1286,
       "kind": "photo",
       "keys": [
-        "home.hero.before"
+        "home.hero.before",
+        "hero.story.1.before"
       ],
-      "generatedAt": "2026-09-06T22:05:18.754Z"
+      "avif": "/images/home/phone-photo-basketball-player-before.avif",
+      "generatedAt": "2026-09-07T08:47:47.224Z"
     },
     "/images/home/phone-photo-football-player-before.webp": {
       "out": "/images/home/phone-photo-football-player-before.webp",
@@ -149,9 +173,23 @@
       "height": 1211,
       "kind": "photo",
       "keys": [
-        "home.hero.before.football"
+        "home.hero.before.football",
+        "hero.story.3.before"
       ],
       "generatedAt": "2026-09-06T22:05:18.897Z"
+    },
+    "/images/home/phone-photo-softball-player-before.webp": {
+      "out": "/images/home/phone-photo-softball-player-before.webp",
+      "source": "art-pipeline/out/athletes/softball/before/photo2.png",
+      "sourceSha256": "34284e315a5759c5e6a7dfa193e696250ef8889de4e5572e9f82b40b0c864267",
+      "sha256": "93b58479da9a6612401bc9ec1c84f32ff719ab71575238ac14e6ffff4a54ee95",
+      "width": 896,
+      "height": 1200,
+      "kind": "photo",
+      "keys": [
+        "hero.story.2.before"
+      ],
+      "generatedAt": "2026-09-07T08:47:48.034Z"
     },
     "/images/how-it-works/approved-take-ice-hockey.webp": {
       "out": "/images/how-it-works/approved-take-ice-hockey.webp",
@@ -312,6 +350,162 @@
       ],
       "generatedAt": "2026-09-06T22:05:20.323Z"
     },
+    "/images/life/basketball-trading-card-held-on-the-court.webp": {
+      "out": "/images/life/basketball-trading-card-held-on-the-court.webp",
+      "source": "etsy/listing-images/01-basketball-card/02-card-in-hand.png",
+      "sourceSha256": "2c82ad3326db4981ca01570acae3203d55c6f1350eb3a4c401c426b3ce887303",
+      "sha256": "be53f8133f8d25a91662bca9a23a8ea768954cc25d525695f6f08fc0121eab2f",
+      "width": 1024,
+      "height": 1024,
+      "kind": "photo",
+      "keys": [
+        "life.card.hand"
+      ],
+      "generatedAt": "2026-09-07T08:47:49.834Z"
+    },
+    "/images/life/deluxe-set-basketball-poster-and-cards.webp": {
+      "out": "/images/life/deluxe-set-basketball-poster-and-cards.webp",
+      "source": "art-pipeline/out/etsy-shots/complete-set/set-deluxe-real.png",
+      "sourceSha256": "627eb9bdf423d392109533cfcc2066035f414529ca1c33365f6cb76a32725a18",
+      "sha256": "ee80a7fa1984c52088e680491f0fa9a66597f2f04e0a16f120fe87e63ebc2cf6",
+      "width": 1024,
+      "height": 1024,
+      "kind": "photo",
+      "keys": [
+        "life.set.deluxe"
+      ],
+      "generatedAt": "2026-09-07T08:47:50.050Z"
+    },
+    "/images/life/family-with-a-framed-football-poster-senior-night.webp": {
+      "out": "/images/life/family-with-a-framed-football-poster-senior-night.webp",
+      "source": "art-pipeline/out/etsy-shots/senior-night/gift-composited.png",
+      "sourceSha256": "3c1cff2c4577ac4b6f1ef2fefbf2eb1f1846bf2454b90ba800ad6b156a3769f1",
+      "sha256": "183386e50f63e41be6e3cfc213db3cee6935230482224a1f02d1a35b8dbdde4b",
+      "width": 1400,
+      "height": 1400,
+      "kind": "photo",
+      "keys": [
+        "life.gift.moment"
+      ],
+      "generatedAt": "2026-09-07T08:47:49.749Z"
+    },
+    "/images/life/football-poster-art-on-a-phone-senior-night.webp": {
+      "out": "/images/life/football-poster-art-on-a-phone-senior-night.webp",
+      "source": "art-pipeline/out/etsy-shots/senior-night/phone-in-hand-composited.png",
+      "sourceSha256": "9de7662ead0ec683fde0c7c14b2fac8d23e8ada427b13d55432b7f9fe18020e5",
+      "sha256": "a3d65379f6a1bdbc402eedd7fa89f658ed4bde379d3ff8fd58fe60baee5a79e8",
+      "width": 1400,
+      "height": 1400,
+      "kind": "photo",
+      "keys": [
+        "life.phone"
+      ],
+      "generatedAt": "2026-09-07T08:47:49.523Z"
+    },
+    "/images/life/football-trading-card-in-a-stand-senior-night.webp": {
+      "out": "/images/life/football-trading-card-in-a-stand-senior-night.webp",
+      "source": "art-pipeline/out/etsy-shots/senior-night/card-in-case-composited.png",
+      "sourceSha256": "a57e0b3a60de9c627466d90f6ec4c56c818c7f756d39ad842c9322cd743f8eda",
+      "sha256": "ebe67721b79ef6443bc7390871f8e500d93b14ba928c87573911d742dcd2d36d",
+      "width": 1400,
+      "height": 1400,
+      "kind": "photo",
+      "keys": [
+        "life.card.case"
+      ],
+      "generatedAt": "2026-09-07T08:47:49.116Z"
+    },
+    "/images/life/football-trading-card-on-a-desk-senior-night.webp": {
+      "out": "/images/life/football-trading-card-on-a-desk-senior-night.webp",
+      "source": "art-pipeline/out/etsy-shots/senior-night/card-on-desk-composited.png",
+      "sourceSha256": "8fdb80a70aecd0a7796ce05720171b60c37385a109d06c0f0d02b68fe92a357d",
+      "sha256": "cba90b94acb86796add88ea2111f552cc1ad3e19294b494db8a5fc5669de4002",
+      "width": 1400,
+      "height": 1400,
+      "kind": "photo",
+      "keys": [
+        "life.card.desk"
+      ],
+      "generatedAt": "2026-09-07T08:47:48.920Z"
+    },
+    "/images/life/football-trading-cards-in-a-binder-senior-night.webp": {
+      "out": "/images/life/football-trading-cards-in-a-binder-senior-night.webp",
+      "source": "art-pipeline/out/etsy-shots/senior-night/card-in-binder-composited.png",
+      "sourceSha256": "73f093b20284ca21ba4e8dbf720debea67e48074bb7269cf11db138dc92abf12",
+      "sha256": "e58f8d8ab04155faddf65d12a9b1becc203a3f306bfabbc7d1f32218e5eae6f1",
+      "width": 1400,
+      "height": 1400,
+      "kind": "photo",
+      "keys": [
+        "life.card.binder"
+      ],
+      "generatedAt": "2026-09-07T08:47:49.335Z"
+    },
+    "/images/life/framed-baseball-poster-in-a-bedroom.webp": {
+      "out": "/images/life/framed-baseball-poster-in-a-bedroom.webp",
+      "source": "art-pipeline/out/etsy-shots/packages/lifeart-baseball.png",
+      "sourceSha256": "bf4dffd9f0832d8fdc1a30fca22e1f8c3d1c9d8cbf29b5a5b23b76867415f4b0",
+      "sha256": "b0c919697d5de02b841aac9ae48350089c6838a8a7d4e0873ddcfd016df588d8",
+      "width": 1024,
+      "height": 1024,
+      "kind": "room",
+      "keys": [
+        "life.poster.room.baseball"
+      ],
+      "generatedAt": "2026-09-07T08:47:50.341Z"
+    },
+    "/images/life/printed-set-basketball-poster-and-cards.webp": {
+      "out": "/images/life/printed-set-basketball-poster-and-cards.webp",
+      "source": "art-pipeline/out/etsy-shots/complete-set/set-printed-real.png",
+      "sourceSha256": "66942b2cb704e91c8283cc5209486704acbe72a1619125933e6398154cd6e0eb",
+      "sha256": "9f1634ee89c6ab3bbdfb146785febc8e7d195b8efb0e64f0b4705ce9bbd5d895",
+      "width": 1024,
+      "height": 1024,
+      "kind": "photo",
+      "keys": [
+        "life.set.printed"
+      ],
+      "generatedAt": "2026-09-07T08:47:49.943Z"
+    },
+    "/images/life/team-order-baseball-posters-and-cards.webp": {
+      "out": "/images/life/team-order-baseball-posters-and-cards.webp",
+      "source": "art-pipeline/out/etsy-shots/senior-night-baseball/team-order-staged-composited.png",
+      "sourceSha256": "f18f29b60976f9123d78c59cff7941fb9da234d68f05e9ae7c1cbeb63e714581",
+      "sha256": "8b5f4884731eb33cc7ec30672c8762c03241630121354eb641de0be85b9dd4e1",
+      "width": 1400,
+      "height": 1400,
+      "kind": "photo",
+      "keys": [
+        "life.team.order.baseball"
+      ],
+      "generatedAt": "2026-09-07T08:47:50.829Z"
+    },
+    "/images/life/team-order-softball-posters-and-cards.webp": {
+      "out": "/images/life/team-order-softball-posters-and-cards.webp",
+      "source": "art-pipeline/out/etsy-shots/senior-night-softball/team-order-staged-composited.png",
+      "sourceSha256": "8c5e5d7269c79f0658f35bf789d4d624312edead4c6135894dc9f2c58f546a79",
+      "sha256": "cc0864bca83a2ee31f8c87f96b83983a61f0bcaf5f45bf072b4dca8d16c87ffa",
+      "width": 1400,
+      "height": 1400,
+      "kind": "photo",
+      "keys": [
+        "life.team.order"
+      ],
+      "generatedAt": "2026-09-07T08:47:50.585Z"
+    },
+    "/images/life/three-framed-basketball-posters-in-a-room.webp": {
+      "out": "/images/life/three-framed-basketball-posters-in-a-room.webp",
+      "source": "etsy/listing-images/02-basketball-poster/03-room.png",
+      "sourceSha256": "d63d8c7b0e8a290afa2ea90e2c2e96a29e8b5bd5b9e547d192b3862c7f32578d",
+      "sha256": "966db4b2e50fb7d9a4b3b788d9b387a4302271c9c920d8048c51423e66457187",
+      "width": 1400,
+      "height": 1400,
+      "kind": "room",
+      "keys": [
+        "life.poster.room.wide"
+      ],
+      "generatedAt": "2026-09-07T08:47:50.258Z"
+    },
     "/images/photo-guide/photo-check-examples.webp": {
       "out": "/images/photo-guide/photo-check-examples.webp",
       "source": "public/images/photo-guide.webp",
@@ -335,7 +529,8 @@
       "kind": "poster",
       "keys": [
         "home.hero.after.poster",
-        "set.hero.poster"
+        "set.hero.poster",
+        "hero.story.1.poster"
       ],
       "avif": "/images/posters/basketball-poster-stadium-night.avif",
       "generatedAt": "2026-09-06T22:05:20.187Z"
@@ -362,7 +557,8 @@
       "height": 1600,
       "kind": "poster",
       "keys": [
-        "posters.finish.FS"
+        "posters.finish.FS",
+        "hero.story.3.poster"
       ],
       "generatedAt": "2026-09-06T22:05:24.491Z"
     },
@@ -427,7 +623,8 @@
       "height": 1600,
       "kind": "room",
       "keys": [
-        "posters.room"
+        "posters.room",
+        "life.poster.room"
       ],
       "avif": "/images/posters/poster-in-room-stadium-night.avif",
       "generatedAt": "2026-09-06T22:05:23.751Z"
@@ -592,6 +789,38 @@
       ],
       "generatedAt": "2026-09-06T22:05:28.491Z"
     },
+    "/images/senior-night/softball-poster-senior-night.webp": {
+      "out": "/images/senior-night/softball-poster-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/sfb-sr-poster.png",
+      "sourceSha256": "36b884eb8af7253eda486dbf44c0d845a11ee3423ca06a7886c911c0747f75ea",
+      "sha256": "a5ca75c9e28c20cc11ee42472febbca9b2ec03db2937875548a2aa50c33b5deb",
+      "width": 900,
+      "height": 1200,
+      "kind": "poster",
+      "keys": [
+        "hero.story.2.poster"
+      ],
+      "generatedAt": "2026-09-07T08:47:48.410Z"
+    },
+    "/images/senior-night/softball-trading-card-back-registered-senior-night.webp": {
+      "out": "/images/senior-night/softball-trading-card-back-registered-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/sfb-sr-back.png",
+      "sourceSha256": "e4c6c02b4e16d1193d7cea29e067fc48cb5dc7210eebd86f60337c09e997be35",
+      "sha256": "c27aea499fd07c6c9b77185b6c8dcccc253916f93219229be4c8f38c9bfee03e",
+      "width": 750,
+      "height": 1050,
+      "kind": "card",
+      "keys": [
+        "hero.story.2.card.back"
+      ],
+      "qr": {
+        "cardId": "GDE-SR-SFB-2026-03",
+        "patched": false,
+        "printed": "https://gamedayedition.com/c/GDE-SR-SFB-2026-03",
+        "decodes": "https://gamedayedition.com/c/GDE-SR-SFB-2026-03"
+      },
+      "generatedAt": "2026-09-07T08:47:48.277Z"
+    },
     "/images/senior-night/softball-trading-card-front-senior-night.webp": {
       "out": "/images/senior-night/softball-trading-card-front-senior-night.webp",
       "source": "etsy/listing-images/03-senior-night/src/sfb-sr-front.png",
@@ -602,7 +831,8 @@
       "kind": "card",
       "keys": [
         "sport.softball.front",
-        "sn.sport.softball.front"
+        "sn.sport.softball.front",
+        "hero.story.2.card.front"
       ],
       "generatedAt": "2026-09-06T22:05:21.933Z"
     },
@@ -669,7 +899,8 @@
       "height": 1050,
       "kind": "card",
       "keys": [
-        "sport.football.front"
+        "sport.football.front",
+        "hero.story.3.card.front"
       ],
       "generatedAt": "2026-09-06T22:05:21.685Z"
     },
@@ -859,6 +1090,66 @@
       "out": "/images/finishes/basketball-trading-card-front-signature-spotlight.webp",
       "status": "verified"
     },
+    "hero.story.1.athlete": {
+      "out": "",
+      "status": "locate"
+    },
+    "hero.story.1.before": {
+      "out": "/images/home/phone-photo-basketball-player-before.webp",
+      "status": "verified"
+    },
+    "hero.story.1.card.back": {
+      "out": "/images/cards/basketball-trading-card-back-registered-stadium-night.webp",
+      "status": "verified"
+    },
+    "hero.story.1.card.front": {
+      "out": "/images/cards/basketball-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "hero.story.1.poster": {
+      "out": "/images/posters/basketball-poster-stadium-night.webp",
+      "status": "verified"
+    },
+    "hero.story.2.athlete": {
+      "out": "",
+      "status": "locate"
+    },
+    "hero.story.2.before": {
+      "out": "/images/home/phone-photo-softball-player-before.webp",
+      "status": "verified"
+    },
+    "hero.story.2.card.back": {
+      "out": "/images/senior-night/softball-trading-card-back-registered-senior-night.webp",
+      "status": "verified"
+    },
+    "hero.story.2.card.front": {
+      "out": "/images/senior-night/softball-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "hero.story.2.poster": {
+      "out": "/images/senior-night/softball-poster-senior-night.webp",
+      "status": "verified"
+    },
+    "hero.story.3.athlete": {
+      "out": "",
+      "status": "locate"
+    },
+    "hero.story.3.before": {
+      "out": "/images/home/phone-photo-football-player-before.webp",
+      "status": "verified"
+    },
+    "hero.story.3.card.back": {
+      "out": "/images/cards/football-trading-card-back-registered-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "hero.story.3.card.front": {
+      "out": "/images/sports/football-trading-card-front-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "hero.story.3.poster": {
+      "out": "/images/posters/football-poster-fire-and-smoke.webp",
+      "status": "verified"
+    },
     "home.hero.after": {
       "out": "",
       "status": "locate"
@@ -957,6 +1248,58 @@
     },
     "how.gate.verification": {
       "out": "/images/how-it-works/frame-beside-plate-wrestling.webp",
+      "status": "verified"
+    },
+    "life.card.binder": {
+      "out": "/images/life/football-trading-cards-in-a-binder-senior-night.webp",
+      "status": "verified"
+    },
+    "life.card.case": {
+      "out": "/images/life/football-trading-card-in-a-stand-senior-night.webp",
+      "status": "verified"
+    },
+    "life.card.desk": {
+      "out": "/images/life/football-trading-card-on-a-desk-senior-night.webp",
+      "status": "verified"
+    },
+    "life.card.hand": {
+      "out": "/images/life/basketball-trading-card-held-on-the-court.webp",
+      "status": "verified"
+    },
+    "life.gift.moment": {
+      "out": "/images/life/family-with-a-framed-football-poster-senior-night.webp",
+      "status": "verified"
+    },
+    "life.phone": {
+      "out": "/images/life/football-poster-art-on-a-phone-senior-night.webp",
+      "status": "verified"
+    },
+    "life.poster.room": {
+      "out": "/images/posters/poster-in-room-stadium-night.webp",
+      "status": "verified"
+    },
+    "life.poster.room.baseball": {
+      "out": "/images/life/framed-baseball-poster-in-a-bedroom.webp",
+      "status": "verified"
+    },
+    "life.poster.room.wide": {
+      "out": "/images/life/three-framed-basketball-posters-in-a-room.webp",
+      "status": "verified"
+    },
+    "life.set.deluxe": {
+      "out": "/images/life/deluxe-set-basketball-poster-and-cards.webp",
+      "status": "verified"
+    },
+    "life.set.printed": {
+      "out": "/images/life/printed-set-basketball-poster-and-cards.webp",
+      "status": "verified"
+    },
+    "life.team.order": {
+      "out": "/images/life/team-order-softball-posters-and-cards.webp",
+      "status": "verified"
+    },
+    "life.team.order.baseball": {
+      "out": "/images/life/team-order-baseball-posters-and-cards.webp",
       "status": "verified"
     },
     "photo-guide.panels": {

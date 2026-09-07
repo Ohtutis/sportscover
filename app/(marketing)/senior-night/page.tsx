@@ -15,7 +15,7 @@ import { Pill } from "../../../components/Pill";
 import { Plate } from "../../../components/Plate";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { TrustLine } from "../../../components/TrustLine";
-import { asset, assetOrNull } from "../../../lib/assets";
+import { asset, assetOrNull, hasAsset, type ImageSpec } from "../../../lib/assets";
 import { block } from "../../../lib/blocks";
 import { toEtDate } from "../../../lib/capacity";
 import { faqSubset } from "../../../lib/catalog/faq";
@@ -57,6 +57,22 @@ const TRUST_BLOCKS = [
   { title: "Photo privacy", body: block("photo-privacy") },
   { title: "Independent studio", body: block("independent-studio") },
 ] as const;
+
+/**
+ * Section 05 is about a whole class ordering at once, and it was a heading and two sentences. Where
+ * the site map carries the photograph of a team's order — the stack of tubes and card boxes before it
+ * is handed out — the section leads with it. COPY writes no line for that frame, so the caption is the
+ * plainest description of what is in it (INTEGRATION-NOTES § fix-imagery); with no photograph the
+ * section reads exactly as it did.
+ */
+const TEAM_ORDER_KEYS = ["life.team.order", "life.team.order.baseball"] as const;
+
+const TEAM_ORDER_CAPTION = "A team's order staged on a table: posters, shipping tubes, stacks of cards and the box they ship in.";
+
+function teamOrderPhoto(): ImageSpec | null {
+  for (const key of TEAM_ORDER_KEYS) if (hasAsset(key)) return asset(key);
+  return null;
+}
 
 const SECTION = "py-16 md:py-24 lg:py-32";
 const INDEX_ROW = "flex items-center justify-between gap-4 border-t border-hairline pt-3";
@@ -139,6 +155,7 @@ export default function SeniorNightPage() {
   const todayEt = toEtDate(new Date());
   const cta = ctaFor("senior-night");
   const faq = faqSubset("senior-night");
+  const teamOrder = teamOrderPhoto();
 
   return (
     <>
@@ -274,6 +291,21 @@ export default function SeniorNightPage() {
                 One link for every family. You set the crest, the colors and the deadline once; every parent orders and pays for their own
                 athlete, and every card is built and proofed on its own.
               </p>
+              {teamOrder ? (
+                <figure className="mt-8">
+                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-ui bg-arena">
+                    <Image
+                      src={teamOrder.src}
+                      alt={teamOrder.alt}
+                      fill
+                      sizes="(min-width: 1024px) 560px, 92vw"
+                      className="object-cover"
+                    />
+                  </div>
+                  <figcaption className="mt-2 font-body text-[0.75rem] font-medium text-muted-text">{TEAM_ORDER_CAPTION}</figcaption>
+                  {teamOrder.fictional ? <FictionalLabel className="mt-2" /> : null}
+                </figure>
+              ) : null}
               <div className="mt-8 flex justify-center">
                 <ButtonLink href={`mailto:${SUPPORT_EMAIL}?subject=Senior%20night%20team`}>Email us about the class</ButtonLink>
               </div>

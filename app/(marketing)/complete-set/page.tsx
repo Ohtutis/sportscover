@@ -9,7 +9,7 @@ import { JsonLd } from "../../../components/JsonLd";
 import { Mat } from "../../../components/Mat";
 import { Pill } from "../../../components/Pill";
 import { SectionHeading } from "../../../components/SectionHeading";
-import { asset } from "../../../lib/assets";
+import { asset, hasAsset, type ImageSpec } from "../../../lib/assets";
 import { LEAD_TIMES } from "../../../lib/catalog/delivery";
 import { getTier, tiersFor } from "../../../lib/catalog/prices";
 import { sports } from "../../../lib/catalog/sports";
@@ -50,6 +50,29 @@ const [digitalMin, digitalMax] = LEAD_TIMES.digitalBusinessDays;
 const [shipMin, shipMax] = LEAD_TIMES.printShipBusinessDays;
 const [packMin, packMax] = LEAD_TIMES.sealedPackWeeks;
 
+/**
+ * The count stays a Ledger of facts (GAPS #10); beside it goes the set as it lands on a table, where
+ * the site map has that photograph. COPY writes no line for these frames, so the caption is the
+ * plainest description of the frame that resolved (INTEGRATION-NOTES § fix-imagery). The poster on an
+ * arena mat is the fallback, exactly as it was.
+ */
+const LIFE_SET_KEYS = ["life.set.printed", "life.set.deluxe"] as const;
+
+const LIFE_SET_CAPTION: Record<string, string> = {
+  "life.set.printed": "The printed set on a table: the poster, the shipping tube and a fan of cards.",
+  "life.set.deluxe": "The printed set on a table: the poster, the shipping tube and rows of cards.",
+};
+
+function lifeSet(): { spec: ImageSpec; caption: string } | null {
+  for (const key of LIFE_SET_KEYS) {
+    if (hasAsset(key)) {
+      const spec = asset(key);
+      return { spec, caption: LIFE_SET_CAPTION[key] ?? spec.alt };
+    }
+  }
+  return null;
+}
+
 interface Stage {
   name: string;
   detail: string;
@@ -79,6 +102,7 @@ export default async function CompleteSetPage({
   const front = asset("set.hero.front");
   const back = asset("set.hero.back");
   const meta = pageFor(PATH);
+  const life = lifeSet();
   const timeline = stages();
   const ultimate = Boolean(getTier("GDE-ANY-SET-ULT")?.enabled);
 
@@ -163,11 +187,20 @@ export default async function CompleteSetPage({
             <Ledger rows={setFolderRows()} />
           </div>
           <div className="mt-10 lg:col-span-5 lg:mt-0">
-            <Mat tone="arena">
-              <div className="relative aspect-[3/4] w-full max-w-[320px] overflow-hidden rounded-none shadow-[var(--shadow-card-arena)]">
-                <Image src={poster.src} alt={poster.alt} fill sizes="(min-width: 1024px) 320px, 70vw" className="object-contain" />
-              </div>
-            </Mat>
+            {life ? (
+              <figure>
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-ui bg-arena">
+                  <Image src={life.spec.src} alt={life.spec.alt} fill sizes="(min-width: 1024px) 420px, 92vw" className="object-cover" />
+                </div>
+                <figcaption className="mt-2 font-body text-[0.75rem] font-medium text-muted-text">{life.caption}</figcaption>
+              </figure>
+            ) : (
+              <Mat tone="arena">
+                <div className="relative aspect-[3/4] w-full max-w-[320px] overflow-hidden rounded-none shadow-[var(--shadow-card-arena)]">
+                  <Image src={poster.src} alt={poster.alt} fill sizes="(min-width: 1024px) 320px, 70vw" className="object-contain" />
+                </div>
+              </Mat>
+            )}
             <FictionalLabel className="mt-2" />
             {card ? <EditionPanel card={card} tone="stock" demoLabel={DEMO_LABEL} className="mt-8" /> : null}
           </div>

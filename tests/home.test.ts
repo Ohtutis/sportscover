@@ -10,7 +10,8 @@ import { Families } from "../app/(marketing)/_home/Families";
 import { Fears } from "../app/(marketing)/_home/Fears";
 import { Finishes } from "../app/(marketing)/_home/Finishes";
 import { Founder } from "../app/(marketing)/_home/Founder";
-import { Hero } from "../app/(marketing)/_home/Hero";
+import { HERO_H1, HERO_STORY_SUMMARY, HERO_SUBHEAD, Hero, sportFromAlt, storyScenes } from "../app/(marketing)/_home/Hero";
+import { STORY_LABELS } from "../app/(marketing)/_home/HeroStory";
 import { Occasions } from "../app/(marketing)/_home/Occasions";
 import { Photos } from "../app/(marketing)/_home/Photos";
 import { Process } from "../app/(marketing)/_home/Process";
@@ -19,7 +20,7 @@ import { ProofWall } from "../app/(marketing)/_home/ProofWall";
 import { Registered } from "../app/(marketing)/_home/Registered";
 import { Sports } from "../app/(marketing)/_home/Sports";
 import { metadata } from "../app/(marketing)/page";
-import { SITE_ASSETS } from "../lib/assets";
+import { SITE_ASSETS, hasAsset } from "../lib/assets";
 import { CHIPS } from "../lib/catalog/delivery";
 import { sports } from "../lib/catalog/sports";
 import { styles } from "../lib/catalog/styles";
@@ -263,5 +264,218 @@ describe("home — the catalog is the source of truth", () => {
     for (const line of [CANON.registeredIdLine, CANON.numberlessLine, CANON.galleryCaption, CANON.weAreNewShort]) {
       expect(PAGE_TEXT).toContain(line);
     }
+  });
+});
+
+/**
+ * Owner review 2026-09-07: the product tiles were three flat renders of one basketball athlete, and
+ * the occasions row had a team block with no picture at all. §03 and §12 now read a real-life
+ * photograph out of the site map where one exists — and where one does not, they fall back to a
+ * render or to text, never to an empty frame.
+ */
+describe("home — real life, and more than one athlete", () => {
+  const familiesSrc = read(path.join(HOME_DIR, "Families.tsx"));
+  const occasionsSrc = read(path.join(HOME_DIR, "Occasions.tsx"));
+  const familiesHtml = SECTIONS[2].html;
+  const occasionsHtml = SECTIONS[11].html;
+
+  /** The first verified key of a preference list — the same choice the section makes. */
+  const resolved = (keys: string[]): string | null => keys.find((k) => hasAsset(k)) ?? null;
+
+  it("reads every life-photograph key through hasAsset, so a key the map has not landed cannot throw", () => {
+    for (const src of [familiesSrc, occasionsSrc]) {
+      expect(src).toContain("hasAsset");
+      expect(src).not.toContain('asset("life.');
+      expect(src).not.toContain('assetOrNull("life.');
+    }
+  });
+
+  it("§03 gives each of the three tiles an image — a photograph where the map has one", () => {
+    // One <article> per family, and not one of them is an empty box.
+    const articles = familiesHtml.split("<article").slice(1);
+    expect(articles).toHaveLength(3);
+    for (const article of articles) expect(article).toContain("<img");
+    for (const keys of [
+      ["life.card.desk", "life.card.case", "life.card.binder", "life.card.hand"],
+      ["life.poster.room.baseball", "life.poster.room", "life.poster.room.wide"],
+      ["life.set.printed", "life.set.deluxe"],
+    ]) {
+      const key = resolved(keys);
+      if (key) expect(imageSources(familiesHtml), key).toContain(SITE_ASSETS[key].out);
+    }
+  });
+
+  it("§03 falls back to three different athletes, never the same one three times", () => {
+    // Cheerleading pair · the basketball room · the football poster with its own card front.
+    if (!resolved(["life.card.desk", "life.card.case", "life.card.binder", "life.card.hand"])) {
+      expect(familiesSrc).toContain('asset("cards.cheer.front")');
+      expect(familiesSrc).toContain('asset("cards.cheer.back")');
+    }
+    if (!resolved(["life.set.printed", "life.set.deluxe"])) {
+      expect(familiesSrc).toContain('asset("posters.finish.FS")');
+      expect(familiesSrc).toContain('asset("sport.football.front")');
+    }
+    expect(familiesSrc).toContain('asset("posters.room")');
+  });
+
+  it("§12 shows the senior-night moment and the team's order, each captioned by what is in it", () => {
+    const senior = resolved(["life.gift.moment"]);
+    const team = resolved(["life.team.order", "life.team.order.baseball"]);
+    const srcs = imageSources(occasionsHtml);
+    if (senior) {
+      expect(srcs).toContain(SITE_ASSETS[senior].out);
+      expect(text(occasionsHtml)).toContain("A family on the court with the framed poster, at a senior night ceremony.");
+    } else {
+      // The senior plate keeps the baseball card render rather than losing its media.
+      expect(srcs).toContain(SITE_ASSETS["sn.sport.baseball.front"].out);
+    }
+    if (team) {
+      expect(srcs).toContain(SITE_ASSETS[team].out);
+      expect(text(occasionsHtml)).toContain("A team's order staged on a table: posters, shipping tubes, stacks of cards and the box they ship in.");
+    }
+    // No photograph on either plate: no reserved empty frame is left behind.
+    if (!senior && !team) expect(occasionsHtml).not.toContain("<figure");
+  });
+});
+
+// ---------------------------------------------------------------------------------------------
+// §01 · the hero story (owner review, 2026-09-07). Three complaints, three groups of assertions:
+// the claims must not read as buttons, the art must tell the story, and the columns must line up.
+// ---------------------------------------------------------------------------------------------
+describe("home §01 — the claims are labels, not buttons", () => {
+  const heroHtml = SECTIONS[0].html;
+  const claim = (label: string): string => {
+    const m = new RegExp(`<span class="([^"]*)"[^>]*>(?:<span[^>]*></span>)?${label}</span>`).exec(heroHtml);
+    expect(m, `no claim element for ${label}`).not.toBeNull();
+    return m![1];
+  };
+
+  it("neither claim wears the button geometry (no pill radius, no fill, no border, no button height)", () => {
+    for (const label of ["FROM YOUR PHOTOS", "REGISTERED EDITION"]) {
+      const cls = claim(label);
+      expect(cls, `${label} still looks like a lozenge`).not.toMatch(/rounded-pill|rounded-ui/);
+      expect(cls, `${label} is filled like the primary button`).not.toContain("bg-accent");
+      expect(cls, `${label} is outlined like the secondary button`).not.toMatch(/\bborder\b/);
+      expect(cls, `${label} keeps the 32 px chip height`).not.toContain("h-8");
+      expect(cls).toContain("font-label");
+    }
+  });
+
+  it("keeps exactly one accent claim, and only as a tick — never as running accent text", () => {
+    const accent = /<span aria-hidden="true" class="inline-block h-3 w-\[3px\] shrink-0 bg-accent"><\/span>/g;
+    expect(heroHtml.match(accent)?.length).toBe(1);
+    expect(claim("FROM YOUR PHOTOS")).not.toContain("text-accent");
+    expect(claim("REGISTERED EDITION")).not.toContain("text-accent");
+  });
+
+  it("still says what COPY §2.1-1 says, in the D12 order title → subhead → claims", () => {
+    const t = text(heroHtml);
+    expect(t).toContain(HERO_H1);
+    expect(t).toContain(HERO_SUBHEAD);
+    expect(t.indexOf(HERO_H1)).toBeLessThan(t.indexOf(HERO_SUBHEAD));
+    expect(t.indexOf(HERO_SUBHEAD)).toBeLessThan(t.indexOf("FROM YOUR PHOTOS"));
+  });
+});
+
+describe("home §01 — the story", () => {
+  const heroHtml = SECTIONS[0].html;
+  const scenes = storyScenes();
+
+  it("builds only from scenes that are complete, and always has at least one", () => {
+    expect(scenes.length).toBeGreaterThanOrEqual(1);
+    expect(scenes.length).toBeLessThanOrEqual(3);
+    for (const s of scenes) {
+      expect(s.before.src).toMatch(/^\/images\//);
+      expect(s.front.src).toMatch(/^\/images\//);
+    }
+    expect(count(heroHtml, 'data-story-scene=""')).toBe(scenes.length);
+  });
+
+  it("names an unknown key rather than rendering an empty box", () => {
+    // `hero.story.<n>.*` may not be in the manifest yet; resolving must not throw and must not
+    // produce a src-less <img>. Every rendered image is a real, verified output.
+    for (const img of heroHtml.split("<img").slice(1)) {
+      const tag = img.slice(0, img.indexOf(">"));
+      expect(tag).toContain("src=");
+      expect(tag).toContain("sizes=");
+      expect(tag).not.toContain('src=""');
+    }
+  });
+
+  it("reads the sport off the COPY §0.5 alt line", () => {
+    expect(sportFromAlt("Custom basketball trading card front — Stadium Night finish")?.slug).toBe("basketball");
+    expect(sportFromAlt("Custom ice hockey trading card front — Stadium Night finish")?.slug).toBe("ice-hockey");
+    expect(sportFromAlt("Custom baseball trading card front — Heritage finish")?.slug).toBe("baseball");
+    expect(sportFromAlt("Custom softball trading card front — Senior Night finish")?.slug).toBe("softball");
+    expect(sportFromAlt("A phone photo of nothing in particular")).toBeUndefined();
+  });
+
+  it("captions every scene with its sport and the canon example line, in one fixed-height row", () => {
+    const t = text(heroHtml);
+    for (const s of scenes) {
+      if (s.sport) expect(t).toContain(`${s.sport.name} · ${CANON.galleryCaptionShort}`);
+    }
+    // One box, one height: a longer athlete name can never resize the column.
+    expect(heroHtml).toContain('class="relative mt-3 h-[2.8em] overflow-hidden"');
+  });
+
+  it("stacks every scene in ONE box, so no scene change can shift the page", () => {
+    expect(count(heroHtml, 'data-story-scene="" data-state')).toBe(scenes.length);
+    expect(count(heroHtml, 'data-story-scene="" data-state="active"')).toBe(1);
+    expect(count(heroHtml, 'class="absolute inset-0"')).toBeGreaterThanOrEqual(scenes.length);
+    expect(heroHtml).toMatch(/aspect-\[4\/3\][^"]*sm:aspect-\[7\/5\]/);
+  });
+
+  it("renders complete and still on the server — the correct static hero, front face up", () => {
+    // No JS, or reduced motion: `still` is the phase, so globals.css animates nothing and hides nothing.
+    expect(heroHtml).toContain('data-phase="still"');
+    expect(heroHtml).not.toContain('data-phase="photo"');
+    expect(heroHtml).not.toContain("<video");
+  });
+
+  it("gives the whole narration ONE accessible name and announces no frame of its own", () => {
+    expect(heroHtml).toContain(`role="img" aria-label="${HERO_STORY_SUMMARY}"`);
+    expect(HERO_STORY_SUMMARY).toContain(CANON.fictionalLabel);
+    expect(count(heroHtml, 'role="img"')).toBe(1);
+    expect(heroHtml).not.toContain('aria-live');
+  });
+
+  it("puts every card face through CardFace — 5:7, radius 0, contained, never cropped or scaled", () => {
+    const src = read(path.join(HOME_DIR, "Hero.tsx"));
+    expect(src).not.toMatch(/scale-\[/);
+    expect(src).not.toContain("mask");
+    expect(src).toMatch(/<CardFace \{\.\.\.scene\.front\}/);
+    expect(heroHtml).toContain("aspect-[5/7]");
+    // The only object-cover in the hero is the parent's phone photo, never a card.
+    expect(count(heroHtml, "object-cover")).toBe(scenes.length);
+  });
+
+  it("reuses the signature flip — same keyframes, same curve, one shortened duration token", () => {
+    const css = read(path.join(process.cwd(), "app", "globals.css"));
+    expect(css).toContain("--duration-flip-story: 1600ms;");
+    expect(css).toContain("animation: card-flip var(--duration-flip-story) var(--ease-flip) both;");
+    // No second motion language: the story defines no keyframes of its own.
+    expect(css.match(/@keyframes/g)?.length).toBe(3);
+    if (scenes.some((s) => s.back)) expect(heroHtml).toContain('data-story-flip=""');
+  });
+
+  it("offers a keyboard-reachable pause and one dot per scene, every control 44 px", () => {
+    if (scenes.length < 2) return;
+    expect(heroHtml).toContain(`aria-label="${STORY_LABELS.pause}"`);
+    for (const s of scenes) {
+      if (s.sport) expect(heroHtml).toContain(`aria-label="${STORY_LABELS.show(s.sport.name.toLowerCase())}"`);
+    }
+    expect(count(heroHtml, "h-11 w-11")).toBe(scenes.length + 1);
+    expect(heroHtml).not.toContain("tabindex=\"-1\"");
+  });
+});
+
+describe("home §01 — the two columns are one row", () => {
+  it("stretches both columns instead of centring the art in the text's height", () => {
+    const src = read(path.join(HOME_DIR, "Hero.tsx"));
+    expect(src).toContain("lg:items-stretch");
+    expect(src).not.toContain("lg:items-center");
+    // The mat fills its grid track (so its left/right edges ARE the track's) and its full height.
+    expect(src).toMatch(/className="rounded-ui bg-hairline p-4 md:p-6 lg:h-full lg:p-8"/);
   });
 });

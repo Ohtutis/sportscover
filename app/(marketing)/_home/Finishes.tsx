@@ -28,19 +28,24 @@ function Tile({ style, assetKey }: { style: Style; assetKey: string }) {
             gold ? "border-gold" : "border-hairline group-hover:border-ink"
           }`}
         >
+          {/* The mat is a flex row: two bare children make the card an unsized flex item and it
+              collapsed to 0 × 0 — the Senior Night tile showed its gold pill on an empty mat. One
+              block child owns the width, and the pill sits under the face inside it. */}
           <Mat tone="arena" plate={false}>
-            {face ? (
-              <CardFace {...face} labelled surface="arena" sizes={TILE_SIZES} />
-            ) : (
-              <span className="flex aspect-[5/7] w-full items-center justify-center bg-navy p-4 text-center font-body text-[0.9375rem] font-bold uppercase tracking-[0.04em] text-white">
-                {style.name}
-              </span>
-            )}
-            {gold ? (
-              <span className="mt-3 flex justify-center">
-                <Pill tone="gold">{SENIOR_TILE_PILL}</Pill>
-              </span>
-            ) : null}
+            <div className="w-full">
+              {face ? (
+                <CardFace {...face} labelled surface="arena" sizes={TILE_SIZES} />
+              ) : (
+                <span className="flex aspect-[5/7] w-full items-center justify-center bg-navy p-4 text-center font-body text-[0.9375rem] font-bold uppercase tracking-[0.04em] text-white">
+                  {style.name}
+                </span>
+              )}
+              {gold ? (
+                <span className="mt-3 flex justify-center">
+                  <Pill tone="gold">{SENIOR_TILE_PILL}</Pill>
+                </span>
+              ) : null}
+            </div>
           </Mat>
         </div>
         {/* Two reserved lines: only SIGNATURE SPOTLIGHT wraps, and without the box the material lines

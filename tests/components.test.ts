@@ -131,6 +131,21 @@ describe("Pill / DeliveryChips / TrustLine / StatusChip / Plate / Mat / Ledger",
     expect(html).toContain("rounded-pill");
     expect(render(createElement(Pill, { tone: "gold", as: "li", children: "SENIOR EDITION · 1 OF 1" }))).toMatch(/^<li/);
   });
+  it("Pill variant=label is a claim, not a control (owner review 2026-09-07)", () => {
+    const accent = render(createElement(Pill, { variant: "label", tone: "accent", children: "FROM YOUR PHOTOS" }));
+    // No lozenge: nothing a visitor could read as a second pair of buttons above the real ones.
+    for (const button of ["rounded-pill", "h-8", "bg-accent text-ink", "border border-ink"]) expect(accent).not.toContain(button);
+    expect(accent).toContain("FROM YOUR PHOTOS");
+    expect(accent).toContain("font-label");
+    // The one accent claim survives as a tick, never as accent-coloured text (2.6:1).
+    expect(accent).toContain('<span aria-hidden="true" class="inline-block h-3 w-[3px] shrink-0 bg-accent">');
+    expect(accent).toContain("text-ink");
+    expect(accent).not.toContain("text-accent");
+    const outline = render(createElement(Pill, { variant: "label", tone: "outline", children: "REGISTERED EDITION" }));
+    expect(outline).not.toContain("bg-accent");
+    expect(outline).not.toContain("border");
+    expect(outline).toContain("text-muted-text");
+  });
   it("DeliveryChips splits the chip and can render one segment", () => {
     const html = render(createElement(DeliveryChips, { kind: "standard" }));
     expect(html).toContain('aria-label="Delivery times"');

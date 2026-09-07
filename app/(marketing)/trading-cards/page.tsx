@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Breadcrumbs } from "../../../components/Breadcrumbs";
 import { CardFace } from "../../../components/CardFace";
 import { CardFlip } from "../../../components/CardFlip";
@@ -9,7 +10,7 @@ import { Mat } from "../../../components/Mat";
 import { Pill } from "../../../components/Pill";
 import { QrRing } from "../../../components/QrRing";
 import { SectionHeading } from "../../../components/SectionHeading";
-import { asset } from "../../../lib/assets";
+import { asset, hasAsset, type ImageSpec } from "../../../lib/assets";
 import { formatUsd, getTier, perCardAnchor, sitePrice, tiersFor } from "../../../lib/catalog/prices";
 import { sports } from "../../../lib/catalog/sports";
 import { CANON } from "../../../lib/copy/canon";
@@ -50,6 +51,33 @@ const REGISTERED_BODY = `Four shots of your athlete, composed on one card. The b
 const HERO_SIZES = "(min-width: 1024px) 300px, 44vw";
 const FLIP_SIZES = "(min-width: 1024px) 360px, 80vw";
 
+/**
+ * The spec sheet and the tier ladder stay a table of facts (DESIGN §5.2-2); section 03 is where the
+ * card stops being a file and becomes an object someone holds, so it opens the right column with a
+ * photograph of a printed card where the site map has one. COPY writes no line for these frames, so
+ * each caption is the plainest description of its own photograph (INTEGRATION-NOTES § fix-imagery),
+ * keyed to the asset that resolved — a fallback never inherits another frame's words.
+ */
+const LIFE_CARD_KEYS = ["life.card.hand", "life.card.desk", "life.card.case", "life.card.binder"] as const;
+
+const LIFE_CARD_CAPTION: Record<string, string> = {
+  "life.card.hand": "A printed card held up in the gym.",
+  "life.card.desk": "A printed card on a desk, beside a pen and a coin for scale.",
+  "life.card.case": "A printed card standing in a display stand on a shelf.",
+  "life.card.binder": "Printed cards in the sleeves of a collector's binder.",
+};
+
+/** The first verified key with its caption, or null while every one is still `locate`. */
+function lifeCard(): { spec: ImageSpec; caption: string } | null {
+  for (const key of LIFE_CARD_KEYS) {
+    if (hasAsset(key)) {
+      const spec = asset(key);
+      return { spec, caption: LIFE_CARD_CAPTION[key] ?? spec.alt };
+    }
+  }
+  return null;
+}
+
 export default async function TradingCardsPage({
   searchParams,
 }: {
@@ -61,6 +89,7 @@ export default async function TradingCardsPage({
   const cta = ctaFor("cards", { sport: sport.slug });
   const faces = demoFaces();
   const card = demoCard();
+  const life = lifeCard();
   const p12 = getTier("GDE-ANY-CARD-P12");
   const anchorLine = p12
     ? `Twelve printed cards for ${formatUsd(sitePrice(p12, now))} — less than ${formatUsd(perCardAnchor(now))} per card.`
@@ -145,6 +174,21 @@ export default async function TradingCardsPage({
             <FictionalLabel className="mt-2" />
           </div>
           <div className="mt-8 lg:col-span-5 lg:mt-0">
+            {life ? (
+              <figure className="mb-8">
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-ui bg-arena">
+                  <Image
+                    src={life.spec.src}
+                    alt={life.spec.alt}
+                    fill
+                    sizes="(min-width: 1024px) 420px, 92vw"
+                    className="object-cover"
+                  />
+                </div>
+                <figcaption className="mt-2 font-body text-[0.75rem] font-medium text-muted-text">{life.caption}</figcaption>
+                {life.spec.fictional ? <FictionalLabel className="mt-2" /> : null}
+              </figure>
+            ) : null}
             <p className="max-w-[62ch] font-body text-body text-pretty text-ink">{REGISTERED_BODY}</p>
             {card ? <EditionPanel card={card} tone="stock" demoLabel={DEMO_LABEL} className="mt-8" /> : null}
           </div>

@@ -392,3 +392,92 @@ describe("assets — provenance and output", () => {
     }
   });
 });
+
+describe("assets — hero story scenes and lifestyle photography", () => {
+  const SCENES = ["1", "2", "3"] as const;
+  const PARTS = ["before", "card.front", "card.back", "poster"] as const;
+  const SCENE_SPORT: Record<string, string> = { "1": "basketball", "2": "softball", "3": "football" };
+
+  it("every scene is four verified files plus a caption entry", () => {
+    for (const n of SCENES) {
+      const meta = SITE_ASSETS[`hero.story.${n}.athlete`];
+      expect(meta, `hero.story.${n}.athlete`).toBeDefined();
+      expect(meta.out, "the caption entry carries no image").toBe("");
+      expect(meta.alt.toLowerCase()).toContain(SCENE_SPORT[n]);
+      expect(meta.alt.toLowerCase()).toContain("fictional roster athlete");
+      for (const p of PARTS) {
+        const a = SITE_ASSETS[`hero.story.${n}.${p}`];
+        expect(a, `hero.story.${n}.${p}`).toBeDefined();
+        expect(a.status, `hero.story.${n}.${p}`).toBe("verified");
+        expect(a.out, `hero.story.${n}.${p}`).not.toBe("");
+      }
+    }
+  });
+
+  it("a scene never mixes two athletes — one sport per scene, three different sports", () => {
+    const sports = SCENES.map((n) => SCENE_SPORT[n]);
+    expect(new Set(sports).size, "three different sports").toBe(3);
+    for (const n of SCENES) {
+      for (const p of PARTS) {
+        const a = SITE_ASSETS[`hero.story.${n}.${p}`];
+        expect(a.alt.toLowerCase(), `hero.story.${n}.${p} names its sport`).toContain(SCENE_SPORT[n]);
+        expect(a.fictional, `hero.story.${n}.${p} depicts a roster athlete`).toBe(true);
+      }
+    }
+  });
+
+  it("hero scene art stays inside the above-the-fold budget", () => {
+    for (const n of SCENES) {
+      for (const p of PARTS) {
+        const a = SITE_ASSETS[`hero.story.${n}.${p}`];
+        expect(Math.max(a.width, a.height), `hero.story.${n}.${p} long edge`).toBeLessThanOrEqual(1600);
+        const file = path.join(ROOT, "public", a.out.replace(/^\//, ""));
+        const kb = fs.statSync(file).size / 1024;
+        expect(kb, `hero.story.${n}.${p} (${a.out}) is ${Math.round(kb)} KB`).toBeLessThan(200);
+      }
+    }
+  });
+
+  it("scene 1 is the LCP scene and carries AVIF", () => {
+    for (const p of PARTS) {
+      const a = SITE_ASSETS[`hero.story.1.${p}`];
+      expect(a.lcp, `hero.story.1.${p}`).toBe(true);
+      const avif = path.join(ROOT, "public", a.out.replace(/^\//, "").replace(/\.webp$/, ".avif"));
+      expect(fs.existsSync(avif), `hero.story.1.${p} AVIF`).toBe(true);
+    }
+  });
+
+  it("hero card faces keep the square-cut 5 : 7 box", () => {
+    for (const n of SCENES) {
+      for (const p of ["card.front", "card.back"] as const) {
+        const a = SITE_ASSETS[`hero.story.${n}.${p}`];
+        expect(a.kind, `hero.story.${n}.${p}`).toBe("card");
+        expect(a.crop, `hero.story.${n}.${p} is audited, never inset-cropped`).toBeUndefined();
+        expect(Math.abs(a.width / a.height - 5 / 7)).toBeLessThan(0.01);
+      }
+      expect(SITE_ASSETS[`hero.story.${n}.card.back`].cardId, `scene ${n} back`).toMatch(/^GDE-[A-Z]{2}-[A-Z]{3}-\d{4}-\d+$/);
+    }
+  });
+
+  it("every lifestyle photograph is verified, labelled and inside its size budget", () => {
+    const life = Object.values(SITE_ASSETS).filter((a) => a.key.startsWith("life."));
+    expect(life.length).toBeGreaterThanOrEqual(12);
+    for (const a of life) {
+      expect(a.status, a.key).toBe("verified");
+      expect(a.kind, `${a.key}: a photograph OF a card is not a card face`).not.toBe("card");
+      expect(a.fictional, a.key).toBe(true);
+      expect(a.alt.toLowerCase(), `${a.key} says the athlete is fictional`).toContain("fictional athlete");
+      expect(Math.max(a.width, a.height), `${a.key} long edge`).toBeLessThanOrEqual(1600);
+      const file = path.join(ROOT, "public", a.out.replace(/^\//, ""));
+      expect(fs.existsSync(file), `${a.key} → ${a.out}`).toBe(true);
+      expect(fs.statSync(file).size / 1024, `${a.key} (${a.out})`).toBeLessThan(220);
+    }
+  });
+
+  it("the room shots vary by athlete (owner brief: not one athlete everywhere)", () => {
+    const rooms = Object.values(SITE_ASSETS).filter((a) => a.kind === "room" && a.key.startsWith("life."));
+    const outs = new Set(rooms.map((a) => a.out));
+    expect(outs.size, "at least two different room photographs").toBeGreaterThanOrEqual(3);
+    expect(SITE_ASSETS["life.poster.room.baseball"].alt.toLowerCase()).toContain("baseball");
+  });
+});
