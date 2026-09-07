@@ -82,6 +82,12 @@ Nothing here blocks the deploy. Items marked ⚠ block F2 (direct checkout).
     basketball card to a gymnastics buyer. Publishing those listings turns the CTA back on
     automatically (add the listing id in `lib/catalog/sports.ts`).
 
+19. **An adult athlete for the hero story (F1-ART-07).** The hero cycles three scenes — basketball,
+    softball, football — but the owner asked for an older athlete as the third beat, and no adult
+    roster athlete has card or poster art anywhere in the repo. Render a front, back, poster and one
+    "before" frame for Ray Solberg (pickleball, 58), and `hero.story.4.*` drops straight in with no
+    code change.
+
 ## Not in F1 on purpose
 
 Direct checkout and order pages, team links, `/sports/<sport>`, `/styles/<finish>`,
