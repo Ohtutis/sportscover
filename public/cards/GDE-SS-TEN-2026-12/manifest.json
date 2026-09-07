@@ -1,0 +1,199 @@
+{
+  "cardId": "GDE-SS-TEN-2026-12",
+  "generatedAt": "2026-09-06T22:07:03.370Z",
+  "generator": "scripts/card-assets.ts",
+  "sourceKind": "order",
+  "sources": {
+    "front": {
+      "path": "(order export — gated, path withheld)",
+      "sha256": "8f00b9c9a723c04a5fe053bd21362ccfbc76da392b56c4394e0e003d29e2f509",
+      "width": 1500,
+      "height": 2100,
+      "bleedTrimmed": false
+    },
+    "back": {
+      "path": "(order export — gated, path withheld)",
+      "sha256": "4042ba106147c82adbfe4e63ebb734067d0f64cd589fcb913f824cbd3c5b52ad",
+      "width": 1500,
+      "height": 2100,
+      "bleedTrimmed": false
+    },
+    "mp4": null
+  },
+  "outputs": {
+    "front": {
+      "path": "/cards/GDE-SS-TEN-2026-12/front.webp",
+      "width": 900,
+      "height": 1260,
+      "bytes": 121174,
+      "sha256": "97414767655832f4d917b4f5c39297da5744db1d44044dca36bfbf9417ecb207"
+    },
+    "back": {
+      "path": "/cards/GDE-SS-TEN-2026-12/back.webp",
+      "width": 900,
+      "height": 1260,
+      "bytes": 85164,
+      "sha256": "1527b6178548c4beef2d800ce4165ad5e695b143f394ccee11e8d242017fe649"
+    },
+    "flipMp4": null,
+    "poster": null
+  },
+  "cornerAudit": {
+    "front": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            112,
+            157,
+            198
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.6,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            150,
+            180,
+            210
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 1.8,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            6,
+            7,
+            11
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.8,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            5,
+            7,
+            11
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.8,
+          "fail": false
+        }
+      ]
+    },
+    "back": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            58,
+            80,
+            102
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.8,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            71,
+            85,
+            101
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 1.4,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            85,
+            102,
+            112
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.7,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            80,
+            95,
+            106
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.8,
+          "fail": false
+        }
+      ]
+    },
+    "pass": true
+  },
+  "qr": {
+    "expected": "https://gamedayedition.com/c/GDE-SS-TEN-2026-12",
+    "sourceDecoded": "https://gamedayedition.com/c/GDE-SS-TEN-2026-12",
+    "located": {
+      "x": 63,
+      "y": 1082,
+      "w": 108,
+      "h": 107
+    },
+    "version": 4,
+    "modulePx": 3.273,
+    "patched": true,
+    "method": "nearest",
+    "decoded": "https://gamedayedition.com/c/GDE-SS-TEN-2026-12",
+    "pass": true
+  },
+  "flip": null
+}

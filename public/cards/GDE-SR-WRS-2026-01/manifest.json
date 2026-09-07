@@ -1,0 +1,199 @@
+{
+  "cardId": "GDE-SR-WRS-2026-01",
+  "generatedAt": "2026-09-06T22:06:55.861Z",
+  "generator": "scripts/card-assets.ts",
+  "sourceKind": "demo",
+  "sources": {
+    "front": {
+      "path": "card-flip/assets/wrestling-sr/card-front.png",
+      "sha256": "963c571494de13a66925d6603d3f6573b01067cfeda50f36b0675a28d6e81db2",
+      "width": 1500,
+      "height": 2100,
+      "bleedTrimmed": false
+    },
+    "back": {
+      "path": "card-flip/assets/wrestling-sr/card-back.png",
+      "sha256": "2243bb034a9029c4dad0a0bf455d1cfdf1c521ec02db35e38a8b0e0ed385bcf2",
+      "width": 1500,
+      "height": 2100,
+      "bleedTrimmed": false
+    },
+    "mp4": null
+  },
+  "outputs": {
+    "front": {
+      "path": "/cards/GDE-SR-WRS-2026-01/front.webp",
+      "width": 900,
+      "height": 1260,
+      "bytes": 139358,
+      "sha256": "b86030426dbcd7b4fca3852e8a32a0fc45e269481c135ce06b31256d5f0d801f"
+    },
+    "back": {
+      "path": "/cards/GDE-SR-WRS-2026-01/back.webp",
+      "width": 900,
+      "height": 1260,
+      "bytes": 119930,
+      "sha256": "8b43f5d3f76e8ed4d2c79bf54630f1f4380d065f54dbf07fee9b9d38abb6547e"
+    },
+    "flipMp4": null,
+    "poster": null
+  },
+  "cornerAudit": {
+    "front": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            2,
+            2,
+            2
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.7,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            1,
+            3,
+            2
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.6,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            8,
+            6,
+            4
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            8,
+            6,
+            4
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0,
+          "fail": false
+        }
+      ]
+    },
+    "back": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            3,
+            3,
+            2
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            3,
+            4,
+            2
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.5,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            9,
+            8,
+            6
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            9,
+            8,
+            6
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.3,
+          "fail": false
+        }
+      ]
+    },
+    "pass": true
+  },
+  "qr": {
+    "expected": "https://gamedayedition.com/c/GDE-SR-WRS-2026-01",
+    "sourceDecoded": "https://gamedayedition.com/c/GDE-SR-WRS-2026-01",
+    "located": {
+      "x": 64,
+      "y": 1082,
+      "w": 107,
+      "h": 107
+    },
+    "version": 4,
+    "modulePx": 3.242,
+    "patched": true,
+    "method": "nearest",
+    "decoded": "https://gamedayedition.com/c/GDE-SR-WRS-2026-01",
+    "pass": true
+  },
+  "flip": null
+}

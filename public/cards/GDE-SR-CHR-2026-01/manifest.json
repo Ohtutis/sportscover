@@ -1,0 +1,199 @@
+{
+  "cardId": "GDE-SR-CHR-2026-01",
+  "generatedAt": "2026-09-06T22:06:56.663Z",
+  "generator": "scripts/card-assets.ts",
+  "sourceKind": "demo",
+  "sources": {
+    "front": {
+      "path": "card-flip/assets/cheer-sr/card-front.png",
+      "sha256": "70df3ee552516d0a676301cc489ef41f8d08ad7505226183f04f27cccdb72cb0",
+      "width": 1500,
+      "height": 2100,
+      "bleedTrimmed": false
+    },
+    "back": {
+      "path": "card-flip/assets/cheer-sr/card-back.png",
+      "sha256": "ca41bfdb6af04917bedfdd40c34d7c7b75a6db5b189765166974eddbbc678dd2",
+      "width": 1500,
+      "height": 2100,
+      "bleedTrimmed": false
+    },
+    "mp4": null
+  },
+  "outputs": {
+    "front": {
+      "path": "/cards/GDE-SR-CHR-2026-01/front.webp",
+      "width": 900,
+      "height": 1260,
+      "bytes": 153286,
+      "sha256": "39b5f27fadab73762efdfc75c5cb93a460e899efbaee5d28ad4b3a42a102a724"
+    },
+    "back": {
+      "path": "/cards/GDE-SR-CHR-2026-01/back.webp",
+      "width": 900,
+      "height": 1260,
+      "bytes": 121116,
+      "sha256": "db5786537465ab687a45eadd9ec5726b53b0af06c3476f2e559186f9be6b4bd6"
+    },
+    "flipMp4": null,
+    "poster": null
+  },
+  "cornerAudit": {
+    "front": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            3,
+            3,
+            3
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.6,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            2,
+            2,
+            2
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.6,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            7,
+            6,
+            4
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.4,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            7,
+            6,
+            4
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.4,
+          "fail": false
+        }
+      ]
+    },
+    "back": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            3,
+            2,
+            2
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.5,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            4,
+            2,
+            2
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.5,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            9,
+            8,
+            5
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.5,
+          "fail": false
+        },
+        {
+          "at": [
+            1497,
+            2097
+          ],
+          "alpha": 255,
+          "rgb": [
+            9,
+            8,
+            5
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 0.5,
+          "fail": false
+        }
+      ]
+    },
+    "pass": true
+  },
+  "qr": {
+    "expected": "https://gamedayedition.com/c/GDE-SR-CHR-2026-01",
+    "sourceDecoded": "https://gamedayedition.com/c/GDE-SR-CHR-2026-01",
+    "located": {
+      "x": 64,
+      "y": 1082,
+      "w": 107,
+      "h": 107
+    },
+    "version": 4,
+    "modulePx": 3.242,
+    "patched": true,
+    "method": "nearest",
+    "decoded": "https://gamedayedition.com/c/GDE-SR-CHR-2026-01",
+    "pass": true
+  },
+  "flip": null
+}

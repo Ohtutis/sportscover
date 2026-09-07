@@ -1,0 +1,464 @@
+// /how-it-works — COPY §2.6, DESIGN §5.4 (7 sections, stock). Article JSON-LD + the visible 6-item
+// FAQ's own FAQPage (CONTRACTS §5.5: two schema blocks are allowed here, never two FAQPages).
+// Every artefact comes from lib/assets.ts; gate 1 is HTML by design (GAPS: how.gate.photo-check is
+// `locate` on purpose — the verdict is a Ledger, never a screenshot of _intake.json).
+
+import Image from "next/image";
+import Link from "next/link";
+import { Breadcrumbs } from "../../../components/Breadcrumbs";
+import { CtaPair } from "../../../components/CtaPair";
+import { DeliveryChips } from "../../../components/DeliveryChips";
+import { FaqList } from "../../../components/FaqList";
+import { GateRow, type Gate } from "../../../components/GateRow";
+import { JsonLd } from "../../../components/JsonLd";
+import { Ledger } from "../../../components/Ledger";
+import { Pill } from "../../../components/Pill";
+import { ProofRejectedPair } from "../../../components/ProofRejectedPair";
+import { SectionHeading } from "../../../components/SectionHeading";
+import { StatusChip } from "../../../components/StatusChip";
+import { TrustLine } from "../../../components/TrustLine";
+import { asset, assetOrNull } from "../../../lib/assets";
+import { block } from "../../../lib/blocks";
+import { LABS_SENTENCE, visiblePartners } from "../../../lib/catalog/shipping";
+import { faqSubset } from "../../../lib/catalog/faq";
+import { CANON } from "../../../lib/copy/canon";
+import { ctaFor } from "../../../lib/cta";
+import { pageMeta } from "../../../lib/seo/meta";
+import { article } from "../../../lib/seo/jsonld";
+import { pageFor } from "../../../lib/seo/titles";
+
+export const revalidate = 3600;
+export const metadata = pageMeta("/how-it-works", { type: "article" });
+
+const PATH = "/how-it-works";
+const PUBLISHED = "2026-09-07";
+const SECTIONS = 7;
+const idx = (n: number) => `0${n} / 0${SECTIONS}`;
+
+/* ---------- gate 1: the verdict, as the parent reads it (HTML, never a screenshot) ---------- */
+
+const VERDICT: { status: "fail" | "note" | "pass"; text: string }[] = [
+  {
+    status: "fail",
+    text: "Photo 3 — 4 people in this photo and no clear subject — send one where the athlete is the closest person to the camera.",
+  },
+  {
+    status: "fail",
+    text: "Photo 5 — the eyes are hidden — sunglasses, a visor or a shadow across them; send one where both eyes are visible.",
+  },
+  {
+    status: "note",
+    text: "Every photo faces the camera square on — send two more, the head turned about 45° to one side in one and to the other side in the other.",
+  },
+  { status: "pass", text: "Photos 1, 2, 4, 6 — usable. Anchor: photo 2." },
+];
+
+function VerdictCard() {
+  return (
+    <div>
+      <Ledger
+        rows={VERDICT.map((row, i) => ({
+          id: `verdict-${i + 1}`,
+          key: <StatusChip status={row.status} />,
+          value: row.text,
+        }))}
+      />
+      <p className="mt-4 max-w-[62ch] font-body text-body font-medium text-pretty text-ink">
+        If your photos can&rsquo;t carry the likeness and you have no stronger ones, you get every cent back — before any art is
+        made.
+      </p>
+      <p className="mt-2 font-body text-small">
+        <Link href="/photo-guide" className="text-ink underline-offset-4 decoration-1 hover:underline">
+          What to send
+        </Link>
+      </p>
+    </div>
+  );
+}
+
+/* ---------- gate artefacts that are more than one image ---------- */
+
+const kitFront = asset("how.gate.kit");
+const kitBack = asset("how.gate.kit-back");
+const plate = asset("how.gate.plate");
+const plateBack = assetOrNull("how.gate.plate-back");
+const shots = [asset("how.gate.shots.1"), asset("how.gate.shots.2"), asset("how.gate.shots.3"), asset("how.gate.shots.4")];
+const verification = asset("how.gate.verification");
+const proof = asset("how.gate.finish");
+const rejectedFail = assetOrNull("home.rejected.fail");
+const rejectedPass = assetOrNull("home.rejected.pass");
+
+function KitPlates() {
+  return (
+    <div className="grid grid-cols-2 gap-3">
+      {[kitFront, kitBack].map((spec) => (
+        <Image
+          key={spec.src}
+          src={spec.src}
+          alt={spec.alt}
+          width={spec.width}
+          height={spec.height}
+          sizes="(min-width: 1024px) 320px, 45vw"
+          className="aspect-square h-auto w-full rounded-none object-contain"
+        />
+      ))}
+    </div>
+  );
+}
+
+function ReferencePlate() {
+  return (
+    <div>
+      <Image
+        src={plate.src}
+        alt={plate.alt}
+        width={plate.width}
+        height={plate.height}
+        sizes="(min-width: 1024px) 640px, 100vw"
+        className="h-auto w-full rounded-none"
+      />
+      {plateBack ? (
+        <Image
+          src={plateBack.src}
+          alt={plateBack.alt}
+          width={plateBack.width}
+          height={plateBack.height}
+          sizes="(min-width: 1024px) 320px, 50vw"
+          className="mt-3 h-auto w-1/2 rounded-none"
+        />
+      ) : null}
+    </div>
+  );
+}
+
+function FourShots() {
+  return (
+    <ol className="grid grid-cols-4 gap-2">
+      {shots.map((spec, i) => (
+        <li key={spec.src}>
+          <Image
+            src={spec.src}
+            alt={spec.alt}
+            width={spec.width}
+            height={spec.height}
+            sizes="(min-width: 1024px) 160px, 24vw"
+            className="aspect-[2/3] h-auto w-full rounded-none object-contain"
+          />
+          <span className="mt-2 block font-label text-label font-semibold uppercase tracking-[0.12em] tabular-nums text-muted-text">
+            {i + 1} / 4
+          </span>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+const gates: Gate[] = [
+  {
+    id: "gate-photo-check",
+    label: "PHOTO CHECK",
+    status: "note",
+    artefactName: "the verdict, as the parent reads it",
+    tab: "PHOTO CHECK · VERDICT",
+    fictional: false,
+    body: (
+      <p>
+        Before a cent is spent we look at every photo you sent and tell you, in plain words, which ones can carry the likeness
+        and what would fix the rest. The reasons are things you can act on — never &ldquo;validation failed&rdquo;.
+      </p>
+    ),
+    artefactNode: <VerdictCard />,
+    artefact: {
+      src: "",
+      alt: "Photo-check verdict as the parent reads it — example order",
+      caption: "Photo-check verdict as the parent reads it — example order",
+      width: 0,
+      height: 0,
+    },
+  },
+  {
+    id: "gate-kit",
+    label: "KIT BUILD",
+    status: "pass",
+    artefactName: "the kit plate",
+    tab: "KIT PLATE · FRONT / BACK",
+    body: (
+      <>
+        <p>
+          The kit is a property of the sport, not the person: shirt, shorts, socks, footwear and your crest, copied from your
+          photos exactly as they are. Nothing on the kit is invented — a mark the photos don&rsquo;t show is a mark that
+          doesn&rsquo;t exist.
+        </p>
+        <p className="mt-4">{block("logo-sentence")}</p>
+      </>
+    ),
+    sideNote:
+      "A re-rolled plate once came back with a league shield where the club crest had been. It never left the studio — that is what this gate is for.",
+    artefactNode: <KitPlates />,
+    artefact: {
+      src: kitFront.src,
+      alt: kitFront.alt,
+      caption: "Kit plate: the athlete's real kit, front and back, built once and reused for every shot",
+      width: kitFront.width,
+      height: kitFront.height,
+    },
+  },
+  {
+    id: "likeness",
+    label: "REFERENCE PLATE",
+    status: "pass",
+    artefactName: "three views of your athlete",
+    tab: "REFERENCE PLATE · THREE VIEWS",
+    body: (
+      <p>
+        From your photos we build one reference of your athlete — front and both sides — and lock it before a single pose is
+        made. You see it first and answer by email: &ldquo;that&rsquo;s them&rdquo;, or what&rsquo;s off — jaw, hair, build.
+        The plate is the anchor; every later shot is measured against it.
+      </p>
+    ),
+    artefactNode: <ReferencePlate />,
+    artefact: {
+      src: plate.src,
+      alt: plate.alt,
+      caption: "Reference plate: three views of a fictional athlete built from their photos",
+      width: plate.width,
+      height: plate.height,
+    },
+  },
+  {
+    id: "gate-shots",
+    label: "THE SHOTS",
+    status: "pass",
+    artefactName: "four frames",
+    tab: "THE SHOTS · 1–4",
+    body: (
+      <p>
+        Four shots from the locked plate — a hero, two action frames and a back or celebration frame. Hands are asked for, not
+        repaired: five separated fingers doing something real is in the brief for every pose. When a frame is right except for
+        one detail, that one detail is changed and nothing else moves.
+      </p>
+    ),
+    artefactNode: <FourShots />,
+    artefact: {
+      src: shots[0].src,
+      alt: shots[0].alt,
+      caption: "Four shots of one fictional athlete — hero, two action frames, back",
+      width: shots[0].width,
+      height: shots[0].height,
+    },
+  },
+  {
+    id: "gate-verification",
+    label: "VERIFICATION",
+    status: "pass",
+    artefactName: "the frame beside its plate",
+    tab: "FRAME BESIDE ITS PLATE",
+    body: (
+      <p>
+        Every frame goes next to the plate in one picture. Every crest, number and mark on the frame must have a twin on the
+        plate, and the face must measure as the same person. No scores are shown to anyone — a frame passes or it doesn&rsquo;t,
+        and a frame that doesn&rsquo;t never reaches the finish.
+      </p>
+    ),
+    artefact: {
+      src: verification.src,
+      alt: verification.alt,
+      caption: "Verification sheet: a frame beside its reference plate — every mark must have a twin",
+      width: verification.width,
+      height: verification.height,
+    },
+  },
+  {
+    id: "gate-finish",
+    label: "FINISH",
+    status: "pass",
+    artefactName: "the watermarked proof",
+    tab: "PROOF — NOT FINAL",
+    body: (
+      <p>
+        The finish is built around the shots — the type, the material, your team colors — and a watermarked proof comes to you.{" "}
+        {CANON.proofChecklist} One revision is included. Approve, and the files are released; for printed packages, printing
+        starts that moment.
+      </p>
+    ),
+    artefact: {
+      src: proof.src,
+      alt: proof.alt,
+      caption: "Watermarked proof of a custom card — what you approve",
+      width: proof.width,
+      height: proof.height,
+    },
+  },
+];
+
+/* ---------- section 5: the ten states ---------- */
+
+const TIMELINE: { name: string; note?: string; approval?: string }[] = [
+  { name: "PAID" },
+  { name: "PHOTOS RECEIVED" },
+  { name: "PHOTO CHECK", note: "passed · needs more photos · declined and refunded" },
+  { name: "REFERENCE PLATE", approval: "your approval, by email" },
+  { name: "THE SHOTS" },
+  { name: "PROOF", approval: "your approval, on your order page" },
+  { name: "FILES READY" },
+  { name: "PRINTING", note: "per package" },
+  { name: "SHIPPED", note: "per package, tracked" },
+  { name: "DELIVERED" },
+];
+
+function Timeline() {
+  return (
+    <ol className="border-l border-hairline lg:flex lg:border-l-0 lg:border-t lg:border-hairline">
+      {TIMELINE.map((state) => (
+        <li key={state.name} className="relative min-w-0 flex-1 py-4 pl-6 lg:py-6 lg:pl-0 lg:pr-4 lg:pt-6">
+          <span
+            aria-hidden="true"
+            className={`absolute left-0 top-6 size-2.5 -translate-x-1/2 rounded-full lg:left-0 lg:top-0 lg:-translate-y-1/2 lg:translate-x-0 ${
+              state.approval ? "size-3 bg-stock ring-[3px] ring-accent" : "bg-ink"
+            }`}
+          />
+          <span className="block font-display text-[0.875rem] uppercase leading-tight text-ink">{state.name}</span>
+          {state.approval ? (
+            <span className="mt-1 block font-body text-[0.75rem] font-medium italic leading-[1.4] text-muted-text">
+              {state.approval}
+            </span>
+          ) : null}
+          {state.note ? (
+            <span className="mt-1 block font-body text-[0.75rem] font-medium leading-[1.4] text-muted-text">{state.note}</span>
+          ) : null}
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+/* ---------- page ---------- */
+
+export default function HowItWorksPage() {
+  const meta = pageFor(PATH);
+  const cta = ctaFor("home");
+  const faq = faqSubset("how-it-works");
+
+  return (
+    <>
+      <JsonLd
+        data={article({
+          title: meta.title,
+          description: meta.description,
+          path: PATH,
+          datePublished: PUBLISHED,
+          dateModified: PUBLISHED,
+          image: proof.src,
+        })}
+      />
+
+      {/* 01 — hero */}
+      <section className="pt-6 pb-16 md:pb-24 lg:pb-32">
+        <div className="container-site">
+          <Breadcrumbs trail={[{ name: "Home", href: "/" }, { name: "How it's made", href: PATH }]} />
+          <SectionHeading
+            as="h1"
+            className="mt-6"
+            title="MADE BY A PERSON. AI IS IN THE TOOLBOX."
+            pills={
+              <>
+                <Pill tone="accent">SIX GATES</Pill>
+                <Pill tone="outline">YOU SEE IT FIRST</Pill>
+              </>
+            }
+          />
+          <div className="mt-8 lg:mt-12">
+            <p className="max-w-[62ch] font-body text-body font-medium text-pretty text-ink">{block("how-its-made")}</p>
+            <p className="mt-4 max-w-[62ch] font-body text-body text-pretty text-ink">
+              Six gates stand between your photos and the print. Each one produces something you can look at, and each one can
+              say no. Here is every gate, with the real artefact it makes.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 02 — the six gates */}
+      <section id="gates" aria-labelledby="s-gates" className="pb-16 md:pb-24 lg:pb-32">
+        <div className="container-site">
+          <SectionHeading as="h2" id="s-gates" index={idx(2)} title="SIX GATES, ONE ARTEFACT EACH." />
+        </div>
+        <div className="container-site mt-8 lg:mt-12">
+          <GateRow gates={gates} />
+        </div>
+      </section>
+
+      {/* 03 — the rejected take */}
+      <section aria-labelledby="s-rejected" className="pb-16 md:pb-24 lg:pb-32">
+        <div className="container-gallery">
+          <SectionHeading
+            as="h2"
+            id="s-rejected"
+            index={idx(3)}
+            title="ONE THAT DIDN'T SHIP."
+            subhead="A real rejection from our own roster, not a staged one."
+          />
+          <div className="mt-8 lg:mt-12">
+            {rejectedFail && rejectedPass ? <ProofRejectedPair fail={rejectedFail} pass={rejectedPass} /> : null}
+            <p className="mt-6 max-w-[62ch] font-body text-body font-medium text-pretty text-ink">
+              A rejection is never fixed by loosening the gate. The input is fixed, or you are asked for a better photo.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 04 — the effort sentence */}
+      <section aria-label="How many frames are made" className="mb-16 md:mb-24 lg:mb-32">
+        <div className="container-site">
+          <p className="max-w-[26ch] border-y border-hairline py-12 font-display text-h2 uppercase text-balance text-ink">
+            ABOUT FIFTY FRAMES ARE GENERATED FOR ONE ATHLETE. FOUR SHIP.
+          </p>
+        </div>
+      </section>
+
+      {/* 05 — what you approve, and when */}
+      <section aria-labelledby="s-approve" className="pb-16 md:pb-24 lg:pb-32">
+        <div className="container-site">
+          <SectionHeading as="h2" id="s-approve" index={idx(5)} title="WHAT YOU APPROVE, AND WHEN." />
+          <div className="mt-8 lg:mt-12">
+            <Timeline />
+            <p className="mt-8 max-w-[62ch] font-body text-body text-pretty text-ink">
+              {CANON.proofChecklist} One revision is included; a second small text fix is usually free — ask.
+            </p>
+            <p className="mt-4 max-w-[62ch] font-body text-body text-pretty text-ink">{CANON.deliveryClocks}</p>
+            <p className="mt-4 max-w-[62ch] font-body text-body text-pretty text-ink">
+              When an order needs something from you, we send up to three reminders over 14 days, then pause it. A paused order
+              can be resumed any time within 12 months.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 06 — who prints it */}
+      <section aria-labelledby="s-partners" className="pb-16 md:pb-24 lg:pb-32">
+        <div className="container-site">
+          <SectionHeading as="h2" id="s-partners" index={idx(6)} title="WHO PRINTS IT." />
+          <div className="mt-8 lg:mt-12">
+            <Ledger rows={visiblePartners().map((p) => ({ id: `partner-${p.key}`, key: p.name, value: p.makes }))} />
+            <p className="mt-6 max-w-[62ch] font-body text-body text-pretty text-ink">{LABS_SENTENCE}</p>
+            <p className="mt-4 max-w-[62ch] font-body text-body text-pretty text-ink">{block("independent-studio")}</p>
+          </div>
+        </div>
+      </section>
+
+      {/* 07 — FAQ + CTA */}
+      <section aria-labelledby="s-faq" className="pb-16 md:pb-24 lg:pb-32">
+        <div className="container-site">
+          <SectionHeading as="h2" id="s-faq" index={idx(SECTIONS)} title="QUESTIONS, ANSWERED." />
+          <div className="mt-8 lg:mt-12">
+            <FaqList items={faq} jsonLd id="faq" />
+            <div className="mt-12">
+              <CtaPair primary={cta.primary} secondary={cta.secondary} size="lg" />
+              <DeliveryChips kind="standard" className="mt-4" />
+              <TrustLine />
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}

@@ -256,6 +256,8 @@ re-themed by name (not by id — a fresh page has fresh ids). Built so far:
 | cheerleading | `XDd1HUvmnxW2YNEbA6nlNK` | `4022:146` | `4022:147` | `4022:193` | `4022:228` |
 | soccer | `zH80jD1o3jSMvFePyrtTG1` | `5015:146` | `5015:147` | `5015:193` | `5015:228` |
 | volleyball | `S8kqmhvEB5QNG8sbjgxQnF` | `5019:146` | `5019:147` | `5019:193` | `5019:228` |
+| softball | `OlFb7Clx6QqWIum6xdaG3p` | `5021:146` | `5024:146` | `5030:146` | `5030:147` |
+| wrestling | `fbQprOeTHrnzDGnUi1PzWH` | `5027:146` | `5029:146` | `5029:147` | `5029:148` |
 
 SR sections 02–05 (print, social, wallpapers, digital bonus) now exist for **all six**: basketball, football,
 volleyball (`5035:402/403/938/1323/1538`, die-cuts `5040:382/387`), cheerleading (`4034:403/938/1323/1538`, die-cuts

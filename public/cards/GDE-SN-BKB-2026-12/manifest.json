@@ -1,0 +1,199 @@
+{
+  "cardId": "GDE-SN-BKB-2026-12",
+  "generatedAt": "2026-09-06T22:06:50.408Z",
+  "generator": "scripts/card-assets.ts",
+  "sourceKind": "demo",
+  "sources": {
+    "front": {
+      "path": "etsy/listing-images/01-basketball-card/src/BK-SN-card-FRONT.png",
+      "sha256": "de63e3c90c7319aa7e5dc9ffd9abbb6721717696aec96ecda87687312308a2a2",
+      "width": 750,
+      "height": 1050,
+      "bleedTrimmed": false
+    },
+    "back": {
+      "path": "etsy/listing-images/01-basketball-card/src/BK-SN-card-BACK.png",
+      "sha256": "42ce03b6071b58c77e05e23a561f9c8e8e3c10361f24c5792d518c8364ed3cd3",
+      "width": 750,
+      "height": 1050,
+      "bleedTrimmed": false
+    },
+    "mp4": null
+  },
+  "outputs": {
+    "front": {
+      "path": "/cards/GDE-SN-BKB-2026-12/front.webp",
+      "width": 750,
+      "height": 1050,
+      "bytes": 75038,
+      "sha256": "fdfeaf392bd714921434f9ec05481ce14f7c45061ec1b4de5ecf87c25507e96a"
+    },
+    "back": {
+      "path": "/cards/GDE-SN-BKB-2026-12/back.webp",
+      "width": 750,
+      "height": 1050,
+      "bytes": 64962,
+      "sha256": "4b5de0852b9cda691d2c8a7372e8b10870e0bb2f7a5609cf4cd0ebe1fd602266"
+    },
+    "flipMp4": null,
+    "poster": null
+  },
+  "cornerAudit": {
+    "front": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            0,
+            4,
+            9
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 40.6,
+          "fail": false
+        },
+        {
+          "at": [
+            747,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            33,
+            54,
+            66
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 28.6,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            1047
+          ],
+          "alpha": 255,
+          "rgb": [
+            0,
+            1,
+            6
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 41,
+          "fail": false
+        },
+        {
+          "at": [
+            747,
+            1047
+          ],
+          "alpha": 255,
+          "rgb": [
+            0,
+            2,
+            6
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 41.2,
+          "fail": false
+        }
+      ]
+    },
+    "back": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            4,
+            7,
+            14
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 39.2,
+          "fail": false
+        },
+        {
+          "at": [
+            747,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            16,
+            26,
+            36
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 31.9,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            1047
+          ],
+          "alpha": 255,
+          "rgb": [
+            5,
+            8,
+            14
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 39.4,
+          "fail": false
+        },
+        {
+          "at": [
+            747,
+            1047
+          ],
+          "alpha": 255,
+          "rgb": [
+            7,
+            12,
+            19
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 37.9,
+          "fail": false
+        }
+      ]
+    },
+    "pass": true
+  },
+  "qr": {
+    "expected": "https://gamedayedition.com/c/GDE-SN-BKB-2026-12",
+    "sourceDecoded": "https://gamedayedition.com/c/GDE-SN-BKB-2026-23",
+    "located": {
+      "x": 54,
+      "y": 902,
+      "w": 90,
+      "h": 90
+    },
+    "version": 4,
+    "modulePx": 2.727,
+    "patched": true,
+    "method": "nearest",
+    "decoded": "https://gamedayedition.com/c/GDE-SN-BKB-2026-12",
+    "pass": true
+  },
+  "flip": null
+}

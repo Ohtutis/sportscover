@@ -1,21 +1,26 @@
+// The sitemap is generated from two tables and nothing else: `lib/seo/titles.ts` (every page that is
+// built in F1 and indexable) and `lib/registry/cards.ts` (every PUBLIC card page). Unlisted, private
+// and deleted cards never appear here — an unlisted page is meant to be reachable only from the QR on
+// the card it belongs to, and a sitemap entry would publish the whole list (CONTRACTS §6.2).
+
 import type { MetadataRoute } from "next";
-import { publicCards } from "../lib/registry/cards";
+import { publicCards, updatedAtOf } from "../lib/registry/cards";
+import { f1Pages } from "../lib/seo/titles";
 import { SITE_URL } from "../lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const pages: MetadataRoute.Sitemap = [
-    { url: `${SITE_URL}/`, changeFrequency: "weekly", priority: 1 },
-    { url: `${SITE_URL}/registry`, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${SITE_URL}/contact`, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${SITE_URL}/privacy`, changeFrequency: "yearly", priority: 0.2 },
-    { url: `${SITE_URL}/privacy/biometric`, changeFrequency: "yearly", priority: 0.2 },
-    { url: `${SITE_URL}/terms`, changeFrequency: "yearly", priority: 0.2 },
-  ];
+  const pages: MetadataRoute.Sitemap = f1Pages().map((p) => ({
+    url: `${SITE_URL}${p.path}`,
+    changeFrequency: p.changeFrequency,
+    priority: p.priority,
+  }));
+
   const cards: MetadataRoute.Sitemap = publicCards().map((c) => ({
     url: `${SITE_URL}/c/${c.cardId}`,
-    lastModified: new Date(c.createdAt),
+    lastModified: new Date(updatedAtOf(c)),
     changeFrequency: "yearly",
     priority: 0.5,
   }));
+
   return [...pages, ...cards];
 }

@@ -10,22 +10,24 @@ export interface Sport {
   hasBackNumber: boolean;
   /** True when at least one Etsy listing for this sport is live. */
   live: boolean;
+  /** Poster art exists for this sport (GAPS #16) — the /posters sport picker lists only these. */
+  hasPosterArt?: boolean;
   cardListingId?: string;
   posterListingId?: string;
   seniorNightListingId?: string;
 }
 
 export const sports: Sport[] = [
-  { slug: "basketball", code: "BKB", name: "Basketball", numbered: true, hasBackNumber: true, live: true, cardListingId: "4562666649", posterListingId: "4562700100" },
-  { slug: "football", code: "FTB", name: "Football", numbered: true, hasBackNumber: true, live: true, cardListingId: "4563878038", posterListingId: "4564301710", seniorNightListingId: "4568844304" },
-  { slug: "baseball", code: "BSB", name: "Baseball", numbered: true, hasBackNumber: true, live: true, cardListingId: "4567592965", posterListingId: "4568369175", seniorNightListingId: "4568844985" },
-  { slug: "softball", code: "SFB", name: "Softball", numbered: true, hasBackNumber: true, live: true, seniorNightListingId: "4569506845" },
-  { slug: "soccer", code: "SOC", name: "Soccer", numbered: true, hasBackNumber: true, live: true, cardListingId: "4567599879", posterListingId: "4568359117", seniorNightListingId: "4568841851" },
+  { slug: "basketball", code: "BKB", name: "Basketball", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4562666649", posterListingId: "4562700100" },
+  { slug: "football", code: "FTB", name: "Football", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4563878038", posterListingId: "4564301710", seniorNightListingId: "4568844304" },
+  { slug: "baseball", code: "BSB", name: "Baseball", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4567592965", posterListingId: "4568369175", seniorNightListingId: "4568844985" },
+  { slug: "softball", code: "SFB", name: "Softball", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, seniorNightListingId: "4569506845" },
+  { slug: "soccer", code: "SOC", name: "Soccer", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4567599879", posterListingId: "4568359117", seniorNightListingId: "4568841851" },
   { slug: "ice-hockey", code: "ICH", name: "Ice Hockey", numbered: true, hasBackNumber: true, live: false },
-  { slug: "volleyball", code: "VBL", name: "Volleyball", numbered: true, hasBackNumber: true, live: true, cardListingId: "4567597109", posterListingId: "4568365063", seniorNightListingId: "4568846696" },
+  { slug: "volleyball", code: "VBL", name: "Volleyball", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4567597109", posterListingId: "4568365063", seniorNightListingId: "4568846696" },
   { slug: "lacrosse", code: "LAX", name: "Lacrosse", numbered: true, hasBackNumber: true, live: false },
-  { slug: "wrestling", code: "WRS", name: "Wrestling", numbered: true, hasBackNumber: false, live: true, seniorNightListingId: "4569522144" },
-  { slug: "cheerleading", code: "CHR", name: "Cheerleading", numbered: false, hasBackNumber: false, live: true, cardListingId: "4564284709", posterListingId: "4564287163", seniorNightListingId: "4568849272" },
+  { slug: "wrestling", code: "WRS", name: "Wrestling", numbered: true, hasBackNumber: false, live: true, hasPosterArt: true, seniorNightListingId: "4569522144" },
+  { slug: "cheerleading", code: "CHR", name: "Cheerleading", numbered: false, hasBackNumber: false, live: true, hasPosterArt: true, cardListingId: "4564284709", posterListingId: "4564287163", seniorNightListingId: "4568849272" },
   { slug: "gymnastics", code: "GYM", name: "Gymnastics", numbered: false, hasBackNumber: false, live: false },
   { slug: "track-field", code: "TRK", name: "Track & Field", numbered: true, hasBackNumber: false, live: false },
   { slug: "swimming", code: "SWM", name: "Swimming", numbered: false, hasBackNumber: false, live: false },
@@ -41,3 +43,22 @@ export const sportBySlug = (slug: string): Sport | undefined => sports.find((s) 
 /** The one sentence that is true for every sport: numbered sports get their number, the rest their crest. */
 export const identityLine = (s: Sport): string =>
   s.numbered ? "their number, their club crest" : "their club crest, their name";
+
+/** The five sports that never carry a jersey number — in copy, alt text or example data (COPY §0.1). */
+export const NUMBERLESS_CODES: readonly string[] = ["CHR", "GYM", "SWM", "TEN", "GLF"];
+export const isNumberless = (s: Pick<Sport, "code">): boolean => NUMBERLESS_CODES.includes(s.code);
+
+export type BackLine = "their number" | "their name, their club crest" | "plain back";
+
+/**
+ * What the shirt back carries on the card (C9): a numbered sport with a back number gets the
+ * number; a numberless sport gets name + crest; a numbered sport whose kit has no back number
+ * (wrestling, track & field, pickleball, skateboarding) gets a plain back.
+ */
+export function backLine(s: Sport): BackLine {
+  if (!s.numbered) return "their name, their club crest";
+  return s.hasBackNumber ? "their number" : "plain back";
+}
+
+/** The sports the /posters page can show and sell today (GAPS #16), in roster order. */
+export const postersSports = (): Sport[] => sports.filter((s) => s.hasPosterArt);
