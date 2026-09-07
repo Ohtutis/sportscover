@@ -481,3 +481,67 @@ describe("assets — hero story scenes and lifestyle photography", () => {
     expect(SITE_ASSETS["life.poster.room.baseball"].alt.toLowerCase()).toContain("baseball");
   });
 });
+
+describe("assets — the Etsy showcase set (docs/f1/ETSY-SHOWCASE-SURVEY.md)", () => {
+  const SHOWCASE_ROOT = "Exportai Etsy/";
+  const showcase = Object.values(SITE_ASSETS).filter((a) => a.source?.startsWith(SHOWCASE_ROOT));
+  const WALL_SPORTS = ["basketball", "baseball", "football", "soccer", "cheerleading", "volleyball"] as const;
+
+  it("every listing slide is cropped before it ships — a whole slide carries baked marketing type", () => {
+    expect(showcase.length).toBeGreaterThanOrEqual(19);
+    for (const a of showcase) {
+      expect(a.crop, `${a.key}: a listing slide needs an explicit crop box`).toMatch(/^box:/);
+      expect(a.status, a.key).toBe("verified");
+    }
+  });
+
+  it("a photograph of a card is a photograph, not a card face", () => {
+    for (const a of showcase) expect(a.kind, a.key).not.toBe("card");
+  });
+
+  it("every showcase image is labelled, sized and inside its weight budget", () => {
+    for (const a of showcase) {
+      expect(a.fictional, a.key).toBe(true);
+      expect(a.alt.toLowerCase(), `${a.key} says the athlete is fictional`).toContain("fictional");
+      expect(Math.max(a.width, a.height), `${a.key} long edge`).toBeLessThanOrEqual(1400);
+      const file = path.join(ROOT, "public", a.out.replace(/^\//, ""));
+      expect(fs.existsSync(file), `${a.key} → ${a.out}`).toBe(true);
+      expect(fs.statSync(file).size / 1024, `${a.key} (${a.out})`).toBeLessThan(200);
+    }
+  });
+
+  it("the six room shots are six different sports and six different files", () => {
+    const outs = new Set<string>();
+    for (const sport of WALL_SPORTS) {
+      const a = SITE_ASSETS[`wall.${sport}`];
+      expect(a, `wall.${sport}`).toBeDefined();
+      expect(a.status, `wall.${sport}`).toBe("verified");
+      expect(a.kind, `wall.${sport}`).toBe("room");
+      expect(a.alt.toLowerCase(), `wall.${sport} names its sport`).toContain(sport);
+      outs.add(a.out);
+    }
+    expect(outs.size, "six distinct room photographs").toBe(WALL_SPORTS.length);
+  });
+
+  it("the contract keys exist and either ship a file or state why they do not", () => {
+    const CONTRACT = [
+      ...WALL_SPORTS.map((s) => `wall.${s}`),
+      "moment.card.bleachers",
+      "moment.card.hallway",
+      "moment.senior.field",
+      "moment.team.senior",
+      "scale.sizes",
+    ];
+    for (const key of CONTRACT) {
+      const a = SITE_ASSETS[key];
+      expect(a, key).toBeDefined();
+      if (a.status === "verified") expect(a.out, key).not.toBe("");
+      else expect(a.note, `${key} stays locate and must say why`).toBeTruthy();
+    }
+  });
+
+  it("scale.sizes stays locate while the sheet draws a size the site does not sell", () => {
+    expect(SITE_ASSETS["scale.sizes"].status).toBe("locate");
+    expect(SITE_ASSETS["scale.sizes"].out).toBe("");
+  });
+});

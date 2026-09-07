@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-07T08:47:50.829Z",
+  "generatedAt": "2026-09-07T10:55:56.605Z",
   "script": "scripts/site-assets.ts",
   "entries": {
     "/images/cards/basketball-trading-card-back-registered-stadium-night.webp": {
@@ -863,6 +863,272 @@
       ],
       "generatedAt": "2026-09-06T22:05:22.427Z"
     },
+    "/images/showcase/athlete-holding-baseball-card-at-the-kitchen-table.webp": {
+      "out": "/images/showcase/athlete-holding-baseball-card-at-the-kitchen-table.webp",
+      "source": "Exportai Etsy/card baseball/05 · The kid on the card.jpg",
+      "sourceSha256": "9a6ec1b8b2e1f2bd86e71d8e6a3cbd851096158404e685a1bab16b62de456a0f",
+      "sha256": "3c124708bc378868f11e4d56b87324f93b67d700b6f7a61b364dedf44f667705",
+      "width": 1400,
+      "height": 1019,
+      "kind": "photo",
+      "keys": [
+        "show.kid.baseball"
+      ],
+      "crop": "box:0,0,1,0.728",
+      "generatedAt": "2026-09-07T10:51:05.895Z"
+    },
+    "/images/showcase/athlete-holding-basketball-card-at-the-bleachers.webp": {
+      "out": "/images/showcase/athlete-holding-basketball-card-at-the-bleachers.webp",
+      "source": "Exportai Etsy/Card basketball/05 · The kid on the card.jpg",
+      "sourceSha256": "be5f5e60a34e7e77f6e1d3317d3fc9dc60085da9a033a6d11d8a07c27dffc24f",
+      "sha256": "e0f07cb1a1231ff740d47a740abc7158a46d9e598425d641c223bcacd8aeb51d",
+      "width": 1400,
+      "height": 1019,
+      "kind": "photo",
+      "keys": [
+        "moment.card.bleachers"
+      ],
+      "crop": "box:0,0,1,0.728",
+      "generatedAt": "2026-09-07T10:51:04.310Z"
+    },
+    "/images/showcase/athlete-holding-basketball-card-in-a-school-hallway.webp": {
+      "out": "/images/showcase/athlete-holding-basketball-card-in-a-school-hallway.webp",
+      "source": "Exportai Etsy/Digital card/03 · The kid on the card.jpg",
+      "sourceSha256": "2201c9c375c491c0c99be94907d74c51c3cfdc578f2ed157c5d0081f4bff21e5",
+      "sha256": "bd9998a632ba68bbb357a6e4717738f1d3338a1d96df16c2cb7f942f44fb272d",
+      "width": 1400,
+      "height": 1019,
+      "kind": "photo",
+      "keys": [
+        "moment.card.hallway"
+      ],
+      "crop": "box:0,0,1,0.728",
+      "generatedAt": "2026-09-07T10:51:04.511Z"
+    },
+    "/images/showcase/athlete-holding-cheerleading-card-outside.webp": {
+      "out": "/images/showcase/athlete-holding-cheerleading-card-outside.webp",
+      "source": "Exportai Etsy/card cheer/05 · The kid on the card.jpg",
+      "sourceSha256": "3147da5dbcee7f08588beab0d8d765d7abf4130d351e552ff35ad8fbee0bb6ef",
+      "sha256": "a8bb9555d13c9e6d5f47653f16f42f684924ef422c2264fe9e1c65e60e38adc8",
+      "width": 1400,
+      "height": 1019,
+      "kind": "photo",
+      "keys": [
+        "show.kid.cheerleading"
+      ],
+      "crop": "box:0,0,1,0.728",
+      "generatedAt": "2026-09-07T10:51:06.126Z"
+    },
+    "/images/showcase/athlete-holding-football-card-in-the-parking-lot.webp": {
+      "out": "/images/showcase/athlete-holding-football-card-in-the-parking-lot.webp",
+      "source": "Exportai Etsy/card football/05 · The kid on the card.jpg",
+      "sourceSha256": "3d90266449ee47aa8986d811d52ff394ccc14fec7c042b388ec315755f9ab81f",
+      "sha256": "35fb65fd5fe97e3e21928bb2d2af32172bd60cfd0c5d51d76705d9104c53894e",
+      "width": 1400,
+      "height": 1019,
+      "kind": "photo",
+      "keys": [
+        "show.kid.football"
+      ],
+      "crop": "box:0,0,1,0.728",
+      "generatedAt": "2026-09-07T10:55:56.605Z"
+    },
+    "/images/showcase/athlete-holding-soccer-card-in-the-bleachers.webp": {
+      "out": "/images/showcase/athlete-holding-soccer-card-in-the-bleachers.webp",
+      "source": "Exportai Etsy/card soccer/05 · The kid on the card.jpg",
+      "sourceSha256": "f7bbd305e757a96309e29a7c2133e8403bc98acace9dbe7055e517938e501dc2",
+      "sha256": "482fc01a3d3ccd436173a085c72124c78c6f2647d8ec14ae0aaf19fe187a1f86",
+      "width": 1400,
+      "height": 1019,
+      "kind": "photo",
+      "keys": [
+        "show.kid.soccer"
+      ],
+      "crop": "box:0,0,1,0.728",
+      "generatedAt": "2026-09-07T10:55:56.448Z"
+    },
+    "/images/showcase/athlete-holding-volleyball-card-by-a-window.webp": {
+      "out": "/images/showcase/athlete-holding-volleyball-card-by-a-window.webp",
+      "source": "Exportai Etsy/card volley/05 · The kid on the card.jpg",
+      "sourceSha256": "1cab90140d74a2c3fb81c925807df530dfbb7eb456079646c5f356956a544f1c",
+      "sha256": "bb74e6f419a99cb02016ee99187768fd7abacc72854b63433bdb6c9ab793ef82",
+      "width": 1400,
+      "height": 1019,
+      "kind": "photo",
+      "keys": [
+        "show.kid.volleyball"
+      ],
+      "crop": "box:0,0,1,0.728",
+      "generatedAt": "2026-09-07T10:51:06.465Z"
+    },
+    "/images/showcase/four-seniors-with-their-posters-and-cards.webp": {
+      "out": "/images/showcase/four-seniors-with-their-posters-and-cards.webp",
+      "source": "Exportai Etsy/SN Football/SN-18-SENIORS.jpg",
+      "sourceSha256": "6121f59b4f45e2881e9fbd7f6d15ae3ff9f1777cf7a924c28a62f2df7acd26b5",
+      "sha256": "18a5d81fd730ecd87c725b0c21356c2c5d571bd9bdedd4153459ff9bc5f483ea",
+      "width": 1400,
+      "height": 949,
+      "kind": "photo",
+      "keys": [
+        "show.senior.class"
+      ],
+      "crop": "box:0,0,1,0.678",
+      "generatedAt": "2026-09-07T10:51:05.166Z"
+    },
+    "/images/showcase/framed-baseball-poster-in-a-bedroom.webp": {
+      "out": "/images/showcase/framed-baseball-poster-in-a-bedroom.webp",
+      "source": "Exportai Etsy/baseball poster/02 · Their season, their wall.jpg",
+      "sourceSha256": "336ab59cf15c6d1cb267779bae14856501c8a78ce5e9d6339cede4e36d3d10ae",
+      "sha256": "bf43b2d70a4009a849f1a7c37e43c0f9ebd3ba2ed2a0d3a06c61a89c0a6c2123",
+      "width": 1400,
+      "height": 1050,
+      "kind": "room",
+      "keys": [
+        "wall.baseball"
+      ],
+      "crop": "box:0,0,1,0.75",
+      "generatedAt": "2026-09-07T10:51:03.367Z"
+    },
+    "/images/showcase/framed-basketball-posters-in-a-bedroom.webp": {
+      "out": "/images/showcase/framed-basketball-posters-in-a-bedroom.webp",
+      "source": "Exportai Etsy/basketball poster/02 · Their season, their wall.jpg",
+      "sourceSha256": "9aacbc77070fa68566a1004c71d2afe0c16c915a320f73c3a9073d7c618f9eb2",
+      "sha256": "ab2cc6dc3b916f5ea07ec41966e2fd47f36ebe123fad026c71a1a1d124ee15a5",
+      "width": 1400,
+      "height": 1050,
+      "kind": "room",
+      "keys": [
+        "wall.basketball"
+      ],
+      "crop": "box:0,0,1,0.75",
+      "generatedAt": "2026-09-07T10:51:03.196Z"
+    },
+    "/images/showcase/framed-cheerleading-poster-in-a-living-room.webp": {
+      "out": "/images/showcase/framed-cheerleading-poster-in-a-living-room.webp",
+      "source": "Exportai Etsy/Cheer poster/02 · Their season, their wall.jpg",
+      "sourceSha256": "b1c18e8b805ce015ae461d53c66ec26c1518ac38c14d83f4a7e1f440eaf2f9fb",
+      "sha256": "50754bec98acccde853ff840771d85db298aa15ee5ef5d55232b78e4cd79ea3d",
+      "width": 1400,
+      "height": 1050,
+      "kind": "room",
+      "keys": [
+        "wall.cheerleading"
+      ],
+      "crop": "box:0,0,1,0.75",
+      "generatedAt": "2026-09-07T10:51:03.928Z"
+    },
+    "/images/showcase/framed-football-posters-in-a-bedroom.webp": {
+      "out": "/images/showcase/framed-football-posters-in-a-bedroom.webp",
+      "source": "Exportai Etsy/football poster/02 · Their season, their wall.jpg",
+      "sourceSha256": "49f94c64a9b7f3889a3760ae87da7d2a35151268e958fb65d4b66d5acc5576e4",
+      "sha256": "781b682378db44f04c5310ad866025ce69c54c85600fd94a5b56fa0f03c0f4f2",
+      "width": 1400,
+      "height": 1050,
+      "kind": "room",
+      "keys": [
+        "wall.football"
+      ],
+      "crop": "box:0,0,1,0.75",
+      "generatedAt": "2026-09-07T10:51:03.588Z"
+    },
+    "/images/showcase/framed-soccer-poster-in-a-living-room.webp": {
+      "out": "/images/showcase/framed-soccer-poster-in-a-living-room.webp",
+      "source": "Exportai Etsy/soccer poster/02 · Their season, their wall.jpg",
+      "sourceSha256": "e4f930eee97b7205ec29501e6c16bd964c3e9ab0528df042bde5e3adf753aa65",
+      "sha256": "c81f7a4ef43c6f12c411eb937d41d4e71f9f264dd97fc74d9ddbb995a9cbb8c2",
+      "width": 1400,
+      "height": 1050,
+      "kind": "room",
+      "keys": [
+        "wall.soccer"
+      ],
+      "crop": "box:0,0,1,0.75",
+      "generatedAt": "2026-09-07T10:51:03.757Z"
+    },
+    "/images/showcase/framed-volleyball-poster-in-a-living-room.webp": {
+      "out": "/images/showcase/framed-volleyball-poster-in-a-living-room.webp",
+      "source": "Exportai Etsy/valley poster/02 · Their season, their wall.jpg",
+      "sourceSha256": "e16c5f3725613426f3d2dd3601cc84a0924819cf02ff00272ac9e8a582222958",
+      "sha256": "1fd44e1e9f826d6ba1718b6e1722ca5b9f7dcd2087b1509101afe311d63dd1fd",
+      "width": 1400,
+      "height": 1050,
+      "kind": "room",
+      "keys": [
+        "wall.volleyball"
+      ],
+      "crop": "box:0,0,1,0.75",
+      "generatedAt": "2026-09-07T10:51:04.094Z"
+    },
+    "/images/showcase/poster-art-as-a-desktop-wallpaper.webp": {
+      "out": "/images/showcase/poster-art-as-a-desktop-wallpaper.webp",
+      "source": "Exportai Etsy/Digital poster basketball/16 · Where it lives — social & screens.jpg",
+      "sourceSha256": "b586db05fbb6532152d1bdda9a78f2f5679f1bea35a8fb9c1097cdeeaa871c71",
+      "sha256": "125f0e2ca801762ba2b0721c230aac3c875a3312df0748da22bd09ac1ea65829",
+      "width": 1400,
+      "height": 1372,
+      "kind": "photo",
+      "keys": [
+        "show.screens.desktop"
+      ],
+      "crop": "box:0.517,0.297,0.404,0.396",
+      "generatedAt": "2026-09-07T10:51:05.763Z"
+    },
+    "/images/showcase/senior-and-parent-with-a-framed-baseball-poster.webp": {
+      "out": "/images/showcase/senior-and-parent-with-a-framed-baseball-poster.webp",
+      "source": "Exportai Etsy/SN baseball/SN-03-EMOTION.jpg",
+      "sourceSha256": "02d6d9e8f9206e15bce5aee8b8bb585b51fc10182f8bb2a5cfa4f370da7a4864",
+      "sha256": "2a9c0bd2b7f1ee668c4cddf09963fdf0471ef8efd1c970368e52d037aae3f676",
+      "width": 1400,
+      "height": 931,
+      "kind": "photo",
+      "keys": [
+        "moment.senior.field"
+      ],
+      "crop": "box:0,0,1,0.665",
+      "generatedAt": "2026-09-07T10:51:04.736Z"
+    },
+    "/images/showcase/team-order-football-posters-tubes-and-cards.webp": {
+      "out": "/images/showcase/team-order-football-posters-tubes-and-cards.webp",
+      "source": "Exportai Etsy/SN Football/SN-05-TEAM.jpg",
+      "sourceSha256": "ecb7a5c54eb1f8c77220a20eb15ba496c8e675f308a15b49effaf55cb7ce5541",
+      "sha256": "71e4193a45ebfdb8843cd20f7f644d089f1e9c0202ec6aaf7e0faa72aacdf181",
+      "width": 1400,
+      "height": 808,
+      "kind": "photo",
+      "keys": [
+        "moment.team.senior"
+      ],
+      "crop": "box:0.09,0.295,0.835,0.482",
+      "generatedAt": "2026-09-07T10:51:04.934Z"
+    },
+    "/images/showcase/two-teammates-with-their-cards-and-a-poster.webp": {
+      "out": "/images/showcase/two-teammates-with-their-cards-and-a-poster.webp",
+      "source": "Exportai Etsy/Digital complete all sports/03 · The card in hand. The poster on the wall..jpg",
+      "sourceSha256": "58c9b25428a3df1b575221ed8d2520b74ca6a2b14fe819e2f9c50e5c729e6031",
+      "sha256": "fb8c387f2c078319c5ce5c68641bdcad76e40940378dbd789cdd0e71b29ee1ee",
+      "width": 1400,
+      "height": 949,
+      "kind": "photo",
+      "keys": [
+        "show.friends.cards"
+      ],
+      "crop": "box:0,0,1,0.678",
+      "generatedAt": "2026-09-07T10:51:05.551Z"
+    },
+    "/images/showcase/watermarked-proof-basketball-stadium-night.webp": {
+      "out": "/images/showcase/watermarked-proof-basketball-stadium-night.webp",
+      "source": "Exportai Etsy/Digital card/15 · You see it first.jpg",
+      "sourceSha256": "1c9bbbe121e834f42bc29cd9572d040ec75be05814db697d5f2f2fa1f97ba4e7",
+      "sha256": "9afe6545a0a57b52d5a217989bb24056e229fc2c26ce2281dcbb51fb00a3ab18",
+      "width": 1400,
+      "height": 1077,
+      "kind": "artefact",
+      "keys": [
+        "show.proof.basketball"
+      ],
+      "crop": "box:0.11,0.243,0.78,0.60",
+      "generatedAt": "2026-09-07T10:51:05.362Z"
+    },
     "/images/sports/baseball-trading-card-front-heritage.webp": {
       "out": "/images/sports/baseball-trading-card-front-heritage.webp",
       "source": "etsy/listing-images/01-baseball-card/src/BB-HE-front.png",
@@ -1302,6 +1568,22 @@
       "out": "/images/life/team-order-baseball-posters-and-cards.webp",
       "status": "verified"
     },
+    "moment.card.bleachers": {
+      "out": "/images/showcase/athlete-holding-basketball-card-at-the-bleachers.webp",
+      "status": "verified"
+    },
+    "moment.card.hallway": {
+      "out": "/images/showcase/athlete-holding-basketball-card-in-a-school-hallway.webp",
+      "status": "verified"
+    },
+    "moment.senior.field": {
+      "out": "/images/showcase/senior-and-parent-with-a-framed-baseball-poster.webp",
+      "status": "verified"
+    },
+    "moment.team.senior": {
+      "out": "/images/showcase/team-order-football-posters-tubes-and-cards.webp",
+      "status": "verified"
+    },
     "photo-guide.panels": {
       "out": "/images/photo-guide/photo-check-examples.webp",
       "status": "verified"
@@ -1350,6 +1632,10 @@
       "out": "",
       "status": "locate"
     },
+    "scale.sizes": {
+      "out": "",
+      "status": "locate"
+    },
     "set.counted": {
       "out": "",
       "status": "locate"
@@ -1373,6 +1659,42 @@
     "set.tile.printed": {
       "out": "",
       "status": "locate"
+    },
+    "show.friends.cards": {
+      "out": "/images/showcase/two-teammates-with-their-cards-and-a-poster.webp",
+      "status": "verified"
+    },
+    "show.kid.baseball": {
+      "out": "/images/showcase/athlete-holding-baseball-card-at-the-kitchen-table.webp",
+      "status": "verified"
+    },
+    "show.kid.cheerleading": {
+      "out": "/images/showcase/athlete-holding-cheerleading-card-outside.webp",
+      "status": "verified"
+    },
+    "show.kid.football": {
+      "out": "/images/showcase/athlete-holding-football-card-in-the-parking-lot.webp",
+      "status": "verified"
+    },
+    "show.kid.soccer": {
+      "out": "/images/showcase/athlete-holding-soccer-card-in-the-bleachers.webp",
+      "status": "verified"
+    },
+    "show.kid.volleyball": {
+      "out": "/images/showcase/athlete-holding-volleyball-card-by-a-window.webp",
+      "status": "verified"
+    },
+    "show.proof.basketball": {
+      "out": "/images/showcase/watermarked-proof-basketball-stadium-night.webp",
+      "status": "verified"
+    },
+    "show.screens.desktop": {
+      "out": "/images/showcase/poster-art-as-a-desktop-wallpaper.webp",
+      "status": "verified"
+    },
+    "show.senior.class": {
+      "out": "/images/showcase/four-seniors-with-their-posters-and-cards.webp",
+      "status": "verified"
     },
     "sn.back": {
       "out": "/images/senior-night/baseball-trading-card-back-class-year-senior-night.webp",
@@ -1516,6 +1838,30 @@
     },
     "sport.wrestling.front": {
       "out": "/images/senior-night/wrestling-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "wall.baseball": {
+      "out": "/images/showcase/framed-baseball-poster-in-a-bedroom.webp",
+      "status": "verified"
+    },
+    "wall.basketball": {
+      "out": "/images/showcase/framed-basketball-posters-in-a-bedroom.webp",
+      "status": "verified"
+    },
+    "wall.cheerleading": {
+      "out": "/images/showcase/framed-cheerleading-poster-in-a-living-room.webp",
+      "status": "verified"
+    },
+    "wall.football": {
+      "out": "/images/showcase/framed-football-posters-in-a-bedroom.webp",
+      "status": "verified"
+    },
+    "wall.soccer": {
+      "out": "/images/showcase/framed-soccer-poster-in-a-living-room.webp",
+      "status": "verified"
+    },
+    "wall.volleyball": {
+      "out": "/images/showcase/framed-volleyball-poster-in-a-living-room.webp",
       "status": "verified"
     }
   }

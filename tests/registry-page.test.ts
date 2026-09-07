@@ -228,6 +228,17 @@ describe("/registry (COPY §2.10)", () => {
     expect(html).toContain('sizes="200px"');
   });
 
+  it("draws the breadcrumb trail it emits, exactly once", () => {
+    // The page emitted BreadcrumbList JSON-LD and drew no trail; Breadcrumbs renders both, so the
+    // standalone schema block went with it (owner review 2026-09-07).
+    const src = read("app/(marketing)/registry/page.tsx");
+    expect(src).toContain("<Breadcrumbs");
+    expect(src).not.toContain("breadcrumbList(");
+    const html = renderRegistry();
+    expect(html).toContain('aria-label="Breadcrumb"');
+    expect((html.match(/"BreadcrumbList"/g) ?? []).length).toBe(1);
+  });
+
   it("lists no cards", async () => {
     const html = renderRegistry();
     const ids = cards.filter((c) => c.cardId !== DEMO_WITH_ART).filter((c) => html.includes(c.cardId));

@@ -266,11 +266,15 @@ describe("trust-pages — budgets and the ban list", () => {
     }
   }
 
-  it("no page has more than one priority image, one DeliveryChips or a <video>", () => {
+  it("preloads nothing above the fold, makes one delivery claim and plays no video", () => {
+    // Owner review 2026-09-07: the mobile LCP is the headline on every one of these pages, so no
+    // trust page preloads a hero image at all — `priority` fetches ahead of everything else whatever
+    // the layout does with the pixels afterwards.
     for (const route of ROUTES) {
       for (const file of routeFiles(route)) {
         const src = read(file);
-        expect((src.match(/\bpriority\b/g) ?? []).length, `${file}: priority`).toBeLessThanOrEqual(1);
+        expect(src.match(/\bpriority\b/g) ?? [], `${file}: preloaded image`).toEqual([]);
+        expect(src, `${file}: fetchPriority`).not.toContain("fetchPriority");
         expect((src.match(/<DeliveryChips/g) ?? []).length, `${file}: DeliveryChips`).toBeLessThanOrEqual(1);
         expect(src, `${file}: <video>`).not.toContain("<video");
       }
@@ -295,5 +299,73 @@ describe("trust-pages — budgets and the ban list", () => {
         }
       }
     }
+  });
+});
+
+/* ---------- the 2026-09-07 owner review: the opener, the claims and the columns ---------- */
+
+describe("trust pages — the 2026-09-07 opener review", () => {
+  /** The hero of a page: everything before its second <section>. */
+  const heroOf = (route: Route): string => {
+    const src = read(PAGE_PATHS[route]);
+    const first = src.indexOf("<section");
+    const second = src.indexOf("<section", first + 1);
+    return src.slice(first, second === -1 ? undefined : second);
+  };
+
+  it("no page above the fold offers a claim shaped like a button", () => {
+    // A filled accent lozenge beside an outlined one, a few pixels above a filled accent button
+    // beside an outlined button, is the button pattern printed twice: people tried to click the
+    // claims. Hero claims are typographic labels; the accent survives as a 3 px tick.
+    for (const route of ROUTES) {
+      const hero = heroOf(route);
+      for (const tag of hero.match(/<Pill[^>]*>/g) ?? []) {
+        expect(tag, `${route}: a chip pill in the hero`).toContain('variant="label"');
+      }
+    }
+  });
+
+  it("makes at most one accent claim per page", () => {
+    for (const route of ROUTES) {
+      const src = read(PAGE_PATHS[route]);
+      expect((src.match(/tone="accent"/g) ?? []).length, `${route}: accent claims`).toBeLessThanOrEqual(1);
+    }
+  });
+
+  it("every H1 has a subhead, and every heading ends with a full stop", () => {
+    for (const route of ROUTES) {
+      const src = read(PAGE_PATHS[route]);
+      // /contact writes its subhead by hand because it carries a mailto link inside the sentence.
+      if (route !== "/contact") {
+        const h1 = src.slice(src.indexOf('as="h1"'));
+        expect(h1.slice(0, 700), `${route}: an H1 with no subhead`).toContain("subhead=");
+      }
+      for (const title of src.match(/title="[^"]+"/g) ?? []) {
+        expect(title.endsWith('."') || title.endsWith('?"'), `${route}: ${title}`).toBe(true);
+      }
+    }
+  });
+
+  it("gives /how-it-works and /guarantee two hero columns stretched to one row", () => {
+    // A grid whose second column is much taller leaves the first one's content stranded hundreds of
+    // pixels above the fold line; `items-stretch` plus `lg:h-full` on the object makes the two
+    // columns end together.
+    for (const route of ["/how-it-works", "/guarantee"] as Route[]) {
+      const hero = heroOf(route);
+      expect(hero, `${route}: hero grid`).toContain("lg:items-stretch");
+      expect((hero.match(/lg:col-span-6/g) ?? []).length, `${route}: two six-wide columns`).toBe(2);
+      // The object column fills the row: on /how-it-works that class lives in its HeroMedia figure.
+      expect(read(PAGE_PATHS[route]), `${route}: the object fills its track`).toContain("lg:h-full");
+    }
+  });
+
+  it("gives /how-it-works a real photograph and never a key asset() has not heard of", () => {
+    const src = read(PAGE_PATHS["/how-it-works"]);
+    for (const key of ["moment.card.hallway", "moment.card.bleachers", "life.card.hand"]) {
+      expect(src, `missing hero key ${key}`).toContain(key);
+    }
+    expect(src).toContain("hasAsset");
+    expect(src).not.toContain('asset("moment.');
+    expect(src).not.toContain('asset("life.');
   });
 });

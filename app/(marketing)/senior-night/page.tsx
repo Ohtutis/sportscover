@@ -65,12 +65,22 @@ const TRUST_BLOCKS = [
  * plainest description of what is in it (INTEGRATION-NOTES § fix-imagery); with no photograph the
  * section reads exactly as it did.
  */
-const TEAM_ORDER_KEYS = ["life.team.order", "life.team.order.baseball"] as const;
+const TEAM_ORDER_KEYS = ["moment.team.senior", "life.team.order", "life.team.order.baseball"] as const;
 
 const TEAM_ORDER_CAPTION = "A team's order staged on a table: posters, shipping tubes, stacks of cards and the box they ship in.";
 
-function teamOrderPhoto(): ImageSpec | null {
-  for (const key of TEAM_ORDER_KEYS) if (hasAsset(key)) return asset(key);
+/**
+ * The hero object (owner review, 2026-09-07). Where the site map carries the senior-night moment —
+ * the athlete, his parents and the framed poster under the lights, the card still in his hand — that
+ * photograph IS the hero: one frame carries both products, the same athlete on each, and the reason
+ * anybody buys them. Until such a key lands the object falls back to the cluster composed in code
+ * from the three SR layers (GAPS #7: layers, never the whole listing slide).
+ */
+const SN_MOMENT_KEYS = ["moment.senior.field", "life.gift.moment"] as const;
+
+/** The first of these keys the manifest has produced, or null. `hasAsset` is safe on a key it has never heard of. */
+function firstAsset(keys: readonly string[]): ImageSpec | null {
+  for (const key of keys) if (hasAsset(key)) return asset(key);
   return null;
 }
 
@@ -78,31 +88,63 @@ const SECTION = "py-16 md:py-24 lg:py-32";
 const INDEX_ROW = "flex items-center justify-between gap-4 border-t border-hairline pt-3";
 const INDEX_TEXT = "font-body text-[0.8125rem] font-medium tabular-nums tracking-[0.14em] text-muted-text";
 
-function SeniorNightHeroMedia() {
+/** The three SR layers, laid out in code — the object when no senior-night photograph exists yet. */
+function SeniorNightCluster() {
   const poster = asset("sn.hero.poster");
   const front = asset("sn.hero.front");
   const back = asset("sn.hero.back");
   return (
-    <figure aria-label={SN_HERO_GROUP_LABEL} className="w-full">
+    <div className="relative w-full">
+      <div className="mx-auto w-[62%]">
+        <Image
+          src={poster.src}
+          alt={poster.alt}
+          width={poster.width}
+          height={poster.height}
+          sizes="(min-width: 1024px) 420px, 45vw"
+          className="h-auto w-full shadow-[var(--shadow-card-arena)]"
+        />
+      </div>
+      <div className="absolute bottom-[4%] right-[20%] hidden w-[22%] sm:block">
+        <CardFace {...back} surface="arena" labelled sizes="(min-width: 1024px) 150px, 16vw" />
+      </div>
+      <div className="absolute bottom-0 right-0 w-[24%]">
+        <CardFace {...front} surface="arena" labelled sizes="(min-width: 1024px) 165px, 18vw" />
+      </div>
+    </div>
+  );
+}
+
+/**
+ * The hero media. Nothing here is preloaded: the mobile LCP is the headline, and a preload hint
+ * fetches the hero art ahead of everything else whatever the layout does with those pixels
+ * afterwards. The box is reserved by an aspect ratio, so the photograph shifts nothing as it loads.
+ */
+function SeniorNightHeroMedia() {
+  const moment = firstAsset(SN_MOMENT_KEYS);
+  return (
+    <figure
+      // One photograph names itself in its own alt; the composed cluster is three images and takes
+      // the group label instead.
+      aria-label={moment ? undefined : SN_HERO_GROUP_LABEL}
+      className="flex w-full flex-col justify-center lg:h-full"
+    >
       <Mat tone="arena" className="w-full">
         <div className="relative w-full">
-          <div className="mx-auto w-[62%]">
+          {moment ? (
+            /* The photograph keeps its own ratio — the showcase frames are landscape, and a fixed
+               square box would crop a third of the field away. width/height reserve the box. */
             <Image
-              src={poster.src}
-              alt={poster.alt}
-              width={poster.width}
-              height={poster.height}
-              sizes="(min-width: 1024px) 420px, 45vw"
-              priority
-              className="h-auto w-full shadow-[var(--shadow-card-arena)]"
+              src={moment.src}
+              alt={moment.alt}
+              width={moment.width}
+              height={moment.height}
+              sizes="(min-width: 1024px) 620px, 92vw"
+              className="h-auto w-full rounded-none shadow-[var(--shadow-card-arena)]"
             />
-          </div>
-          <div className="absolute bottom-[4%] right-[20%] hidden w-[22%] sm:block">
-            <CardFace {...back} surface="arena" labelled sizes="(min-width: 1024px) 150px, 16vw" />
-          </div>
-          <div className="absolute bottom-0 right-0 w-[24%]">
-            <CardFace {...front} surface="arena" labelled sizes="(min-width: 1024px) 165px, 18vw" />
-          </div>
+          ) : (
+            <SeniorNightCluster />
+          )}
           {/* Gold is the only pill allowed inside the media; the accent claim lives in the text
               column, and the edition line is claimed once per screen — there, not here. */}
           <div className="absolute left-0 top-0">
@@ -155,7 +197,7 @@ export default function SeniorNightPage() {
   const todayEt = toEtDate(new Date());
   const cta = ctaFor("senior-night");
   const faq = faqSubset("senior-night");
-  const teamOrder = teamOrderPhoto();
+  const teamOrder = firstAsset(TEAM_ORDER_KEYS);
 
   return (
     <>
@@ -169,23 +211,32 @@ export default function SeniorNightPage() {
                 { name: "Senior Night", href: "/senior-night" },
               ]}
             />
-            <div className="mt-8 lg:grid lg:grid-cols-12 lg:gap-x-8">
-              <div className="lg:col-span-5">
+            {/*
+              One text column, one object column, stretched to one row (owner review 2026-09-07). The
+              chips and the CTA used to be a third grid item: they fell into row two, which the tall
+              media had already sized, so the buttons sat ~300 px below the end of the copy at 1280.
+            */}
+            <div className="mt-8 lg:grid lg:grid-cols-12 lg:items-stretch lg:gap-x-8">
+              <div className="lg:col-span-6">
                 <SectionHeading
                   as="h1"
                   id="sn-hero"
                   title="ONE LAST HOME GAME."
                   subhead="A senior edition built from your athlete's own photos — gold Senior Night finish, class year, four-year career line and their senior quote, on a card and poster that are theirs alone."
-                  pills={<Pill tone="accent">SENIOR EDITION · 1 OF 1</Pill>}
+                  // A claim is not a button: a filled lozenge above a filled button is the button
+                  // pattern printed twice. The claim is type; the accent survives as the 3 px tick.
+                  pills={
+                    <Pill variant="label" tone="accent">
+                      SENIOR EDITION · 1 OF 1
+                    </Pill>
+                  }
                 />
-              </div>
-              <div className="mt-10 lg:col-span-6 lg:col-start-7 lg:mt-0">
-                <SeniorNightHeroMedia />
-              </div>
-              <div className="mt-10 lg:col-span-5 lg:mt-8">
-                <DeliveryChips kind="seniorNight" />
+                <DeliveryChips kind="seniorNight" className="mt-6" />
                 <CtaPair {...cta} size="lg" className="mt-6" />
                 <TrustLine />
+              </div>
+              <div className="mt-10 lg:col-span-6 lg:mt-0">
+                <SeniorNightHeroMedia />
               </div>
             </div>
           </div>
@@ -293,13 +344,14 @@ export default function SeniorNightPage() {
               </p>
               {teamOrder ? (
                 <figure className="mt-8">
-                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-ui bg-arena">
+                  <div className="overflow-hidden rounded-ui bg-arena">
                     <Image
                       src={teamOrder.src}
                       alt={teamOrder.alt}
-                      fill
+                      width={teamOrder.width}
+                      height={teamOrder.height}
                       sizes="(min-width: 1024px) 560px, 92vw"
-                      className="object-cover"
+                      className="h-auto w-full"
                     />
                   </div>
                   <figcaption className="mt-2 font-body text-[0.75rem] font-medium text-muted-text">{TEAM_ORDER_CAPTION}</figcaption>

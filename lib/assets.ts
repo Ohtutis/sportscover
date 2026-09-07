@@ -16,7 +16,14 @@
 
 export type AssetStatus = "verified" | "locate";
 export type AssetKind = "card" | "poster" | "photo" | "artefact" | "plate" | "room" | "sheet";
-export type AssetCrop = "inset-5";
+/**
+ * "inset-5"                 — 5 % inset on all four sides (GAPS #3 tiles).
+ * `box:<left>,<top>,<w>,<h>` — an explicit crop box in fractions of the source, applied before the resize.
+ *                             This is how a listing photograph that carries baked marketing type (a headline,
+ *                             a price, a slide number) is trimmed clean; the box is recorded here and in
+ *                             `public/images/.manifest.json`, so the trim is auditable rather than remembered.
+ */
+export type AssetCrop = "inset-5" | `box:${string}`;
 
 export interface SiteAsset {
   key: string;
@@ -30,7 +37,7 @@ export interface SiteAsset {
   kind: AssetKind;
   /** Repo-relative source file; absent for keys that have no image by design. */
   source?: string;
-  /** Percent inset applied before resize (GAPS #3 — corner audit skipped, display ≤ 240 px). */
+  /** Crop applied before the resize (GAPS #3 inset tiles — corner audit skipped; `box:` trims baked type). */
   crop?: AssetCrop;
   /** The image depicts a fictional roster athlete → the page mounts <FictionalLabel /> (CONTRACTS §0.2-6). */
   fictional?: boolean;
@@ -61,6 +68,8 @@ const APPROVED_BKB = "art-pipeline/out/approved/basketball";
 const MARKETING = "marketing/cards";
 const SHOTS = "art-pipeline/out/etsy-shots";
 const SHOTS_SN = `${SHOTS}/senior-night`;
+/** The live Etsy listing exports (git-ignored, owner's Mac). See docs/f1/ETSY-SHOWCASE-SURVEY.md. */
+const ETSY = "Exportai Etsy";
 
 /* ---------- shared outputs ---------- */
 const OUT_DEMO_FRONT = "/images/cards/basketball-trading-card-front-stadium-night.webp";
@@ -94,6 +103,10 @@ const POSTER = { width: 1200, height: 1600 } as const; // 1296 × 1728 sources (
 const SHOT = { width: 600, height: 894 } as const; // 1696 × 2528 pose frames
 const TAKE = { width: 900, height: 1342 } as const; // the rejected / approved pair
 const PLATE = { width: 1600, height: 1195 } as const; // 2400 × 1792 identity plates
+// showcase crops of the 4000 × 4000 listing slides — the fraction is the height kept above the baked headline
+const WALL = { width: 1400, height: 1050, crop: "box:0,0,1,0.75" } as const;
+const KIDSHOT = { width: 1400, height: 1019, crop: "box:0,0,1,0.728" } as const;
+const WIDESHOT = { width: 1400, height: 949, crop: "box:0,0,1,0.678" } as const;
 
 type Entry = Omit<SiteAsset, "key">;
 
@@ -704,6 +717,164 @@ const entries: Record<string, Entry> = {
     source: `${SHOTS}/senior-night-baseball/team-order-staged-composited.png`, width: 1400, height: 1400,
     kind: "photo", fictional: true, status: "verified",
     alt: "A team order staged on a table: six custom baseball posters, six shipping tubes, six stacks of trading cards and the box they ship in — Senior Night finish — example artwork, fictional athlete; photo generated",
+  },
+
+  /* ---------- showcase photography lifted from the live Etsy listing sets (owner brief 2026-09-07) ----------
+   * Source root: `Exportai Etsy/` — the CURRENT listing exports on the owner's Mac (git-ignored), newer than
+   * `etsy/listing-images/`. Survey and per-slide verdicts: docs/f1/ETSY-SHOWCASE-SURVEY.md.
+   *
+   * Every one of these slides is 4000 × 4000 and carries baked marketing type — a headline, a slide number,
+   * sometimes a price or a promise. NONE of them may ship whole. Each key below therefore declares an explicit
+   * `crop` box that removes the type before the first encode; the box is recorded in the manifest, so the trim
+   * can be re-checked rather than trusted. Anything that could not be trimmed clean is not here (it is a SKIP
+   * row in the survey), and anything the owner has to rule on stays `locate`.
+   *
+   * Provenance: every source was thumbnailed and looked at on 2026-09-07. None shows the pre-rename athlete,
+   * a sealed pack face, a certificate printing a card count, a real customer or a blank plate. `kind` is never
+   * "card": these are photographs OF cards, so the 5 : 7 box and the corner audit do not apply to them.
+   * Long edge 1400 px.
+   */
+
+  /* six rooms, six athletes, six sports — "their season, their wall" (/posters, /complete-set) */
+  "wall.basketball": {
+    out: "/images/showcase/framed-basketball-posters-in-a-bedroom.webp",
+    source: `${ETSY}/basketball poster/02 · Their season, their wall.jpg`,
+    ...WALL, kind: "room", fictional: true, status: "verified",
+    alt: "Three framed custom basketball posters on a bedroom wall with the athlete sitting on the floor below them — example artwork, fictional roster athlete; photo generated",
+  },
+  "wall.baseball": {
+    out: "/images/showcase/framed-baseball-poster-in-a-bedroom.webp",
+    source: `${ETSY}/baseball poster/02 · Their season, their wall.jpg`,
+    ...WALL, kind: "room", fictional: true, status: "verified",
+    alt: "A framed custom baseball poster on a bedroom wall above the desk where the athlete sits with his glove — example artwork, fictional roster athlete; photo generated",
+  },
+  "wall.football": {
+    out: "/images/showcase/framed-football-posters-in-a-bedroom.webp",
+    source: `${ETSY}/football poster/02 · Their season, their wall.jpg`,
+    ...WALL, kind: "room", fictional: true, status: "verified",
+    alt: "Three framed custom football posters on a bedroom wall with the athlete crouched below them holding his helmet — example artwork, fictional roster athlete; photo generated",
+  },
+  "wall.soccer": {
+    out: "/images/showcase/framed-soccer-poster-in-a-living-room.webp",
+    source: `${ETSY}/soccer poster/02 · Their season, their wall.jpg`,
+    ...WALL, kind: "room", fictional: true, status: "verified",
+    alt: "A framed custom soccer poster on a living-room wall above the sofa where the athlete is sitting — example artwork, fictional roster athlete; photo generated",
+  },
+  "wall.cheerleading": {
+    out: "/images/showcase/framed-cheerleading-poster-in-a-living-room.webp",
+    source: `${ETSY}/Cheer poster/02 · Their season, their wall.jpg`,
+    ...WALL, kind: "room", fictional: true, status: "verified",
+    alt: "A framed custom cheerleading poster on a living-room wall above the armchair where the athlete is reading — example artwork, fictional roster athlete; photo generated",
+  },
+  "wall.volleyball": {
+    out: "/images/showcase/framed-volleyball-poster-in-a-living-room.webp",
+    source: `${ETSY}/valley poster/02 · Their season, their wall.jpg`,
+    ...WALL, kind: "room", fictional: true, status: "verified",
+    alt: "A framed custom volleyball poster on a living-room wall beside the athlete — example artwork, fictional roster athlete; photo generated",
+  },
+
+  /* the athlete holding their own card (/, /trading-cards) */
+  "moment.card.bleachers": {
+    out: "/images/showcase/athlete-holding-basketball-card-at-the-bleachers.webp",
+    source: `${ETSY}/Card basketball/05 · The kid on the card.jpg`,
+    ...KIDSHOT, kind: "photo", fictional: true, status: "verified",
+    alt: "A grinning basketball player holding up his own custom trading card by the bleachers — Stadium Night finish — example artwork, fictional roster athlete; photo generated",
+    note: "Same athlete as hero.story.1 and the demo card (Marcus, GDE-SN-BKB-2026-12).",
+  },
+  "moment.card.hallway": {
+    out: "/images/showcase/athlete-holding-basketball-card-in-a-school-hallway.webp",
+    source: `${ETSY}/Digital card/03 · The kid on the card.jpg`,
+    ...KIDSHOT, kind: "photo", fictional: true, status: "verified",
+    alt: "A grinning basketball player holding up his own custom trading card in a school hallway by the lockers — Stadium Night finish — example artwork, fictional roster athlete; photo generated",
+    note: "Same athlete as moment.card.bleachers — a second room, not a second person.",
+  },
+
+  /* senior night (/senior-night) */
+  "moment.senior.field": {
+    out: "/images/showcase/senior-and-parent-with-a-framed-baseball-poster.webp",
+    source: `${ETSY}/SN baseball/SN-03-EMOTION.jpg`,
+    width: 1400, height: 931, kind: "photo", fictional: true, status: "verified",
+    crop: "box:0,0,1,0.665",
+    alt: "A senior and a parent holding his framed custom baseball poster on the field under the stadium lights — Senior Night finish — example artwork, fictional roster athlete; photo generated",
+  },
+  "moment.team.senior": {
+    out: "/images/showcase/team-order-football-posters-tubes-and-cards.webp",
+    source: `${ETSY}/SN Football/SN-05-TEAM.jpg`,
+    width: 1400, height: 808, kind: "photo", fictional: true, status: "verified",
+    crop: "box:0.09,0.295,0.835,0.482",
+    alt: "A whole-class team order laid out on a table: a stack of custom football posters, a row of shipping tubes, stacks of trading cards and the box they ship in — Senior Night finish — example artwork, fictional roster athlete; photo generated",
+    note: "The crop takes the product photograph out of the slide and leaves the headline and the message-us button behind.",
+  },
+  "show.senior.class": {
+    out: "/images/showcase/four-seniors-with-their-posters-and-cards.webp",
+    source: `${ETSY}/SN Football/SN-18-SENIORS.jpg`,
+    ...WIDESHOT, kind: "photo", fictional: true, status: "verified",
+    alt: "Four seniors in letterman jackets holding their own custom trading cards in the gym, their framed posters on easels behind them — Senior Night finish — example artwork, fictional roster athletes; photo generated",
+    note: "/senior-night — the whole-class idea in one picture (football, cheerleading, soccer and volleyball athletes together).",
+  },
+
+  /* proof and delivery (/how-it-works, /complete-set) */
+  "show.proof.basketball": {
+    out: "/images/showcase/watermarked-proof-basketball-stadium-night.webp",
+    source: `${ETSY}/Digital card/15 · You see it first.jpg`,
+    width: 1400, height: 1077, kind: "artefact", fictional: true, status: "verified",
+    crop: "box:0.11,0.243,0.78,0.60",
+    alt: "Watermarked proof sheet for a custom basketball order — the poster, the card front and the card back, stamped PROOF — NOT FINAL — Stadium Night finish — example artwork, fictional roster athlete",
+    note: "/how-it-works gate 5 and the home proof section. This is the proof for the demo athlete the rest of the site shows (GDE-SN-BKB-2026-12); home.proof is a baseball Senior Night proof and belongs to a different athlete.",
+  },
+  "show.friends.cards": {
+    out: "/images/showcase/two-teammates-with-their-cards-and-a-poster.webp",
+    source: `${ETSY}/Digital complete all sports/03 · The card in hand. The poster on the wall..jpg`,
+    ...WIDESHOT, kind: "photo", fictional: true, status: "verified",
+    alt: "Two teammates laughing in a bedroom, each holding their own custom trading card, a framed football poster on the wall behind them — example artwork, fictional roster athletes; photo generated",
+    note: "/complete-set or the home set section — the card and the poster in one room, two sports.",
+  },
+  "show.screens.desktop": {
+    out: "/images/showcase/poster-art-as-a-desktop-wallpaper.webp",
+    source: `${ETSY}/Digital poster basketball/16 · Where it lives — social & screens.jpg`,
+    width: 1400, height: 1372, kind: "photo", fictional: true, status: "verified",
+    crop: "box:0.517,0.297,0.404,0.396",
+    alt: "The custom basketball artwork set as the wallpaper on a desktop monitor in a bedroom — Stadium Night finish — example artwork, fictional roster athlete; photo generated",
+    note: "The digital-files section: the wallpaper deliverable on a real screen. The other half of that slide is a mocked social feed and is not used.",
+  },
+
+  /* one row, six sports: the athlete holding their own card (/trading-cards) */
+  "show.kid.baseball": {
+    out: "/images/showcase/athlete-holding-baseball-card-at-the-kitchen-table.webp",
+    source: `${ETSY}/card baseball/05 · The kid on the card.jpg`,
+    ...KIDSHOT, kind: "photo", fictional: true, status: "verified",
+    alt: "A baseball player at the kitchen table looking at his own custom trading card — Heritage finish — example artwork, fictional roster athlete; photo generated",
+  },
+  "show.kid.cheerleading": {
+    out: "/images/showcase/athlete-holding-cheerleading-card-outside.webp",
+    source: `${ETSY}/card cheer/05 · The kid on the card.jpg`,
+    ...KIDSHOT, kind: "photo", fictional: true, status: "verified",
+    alt: "A cheerleader outside a brick school wall holding up her own custom trading card — Prism Rush finish — example artwork, fictional roster athlete; photo generated",
+  },
+  "show.kid.soccer": {
+    out: "/images/showcase/athlete-holding-soccer-card-in-the-bleachers.webp",
+    source: `${ETSY}/card soccer/05 · The kid on the card.jpg`,
+    ...KIDSHOT, kind: "photo", fictional: true, status: "verified",
+    alt: "A soccer player in the bleachers beside the field holding up his own custom trading card — example artwork, fictional roster athlete; photo generated",
+  },
+  "show.kid.volleyball": {
+    out: "/images/showcase/athlete-holding-volleyball-card-by-a-window.webp",
+    source: `${ETSY}/card volley/05 · The kid on the card.jpg`,
+    ...KIDSHOT, kind: "photo", fictional: true, status: "verified",
+    alt: "A volleyball player by a window holding up her own custom trading card — example artwork, fictional roster athlete; photo generated",
+  },
+  "show.kid.football": {
+    out: "/images/showcase/athlete-holding-football-card-in-the-parking-lot.webp",
+    source: `${ETSY}/card football/05 · The kid on the card.jpg`,
+    ...KIDSHOT, kind: "photo", fictional: true, status: "verified",
+    alt: "A football player grinning in the parking lot after a game, holding up his own custom trading card — Fire & Smoke finish — example artwork, fictional roster athlete; photo generated",
+  },
+
+  /* owner decision */
+  "scale.sizes": {
+    out: "", width: 0, height: 0, kind: "sheet", status: "locate",
+    alt: "The poster sizes drawn to scale beside the athlete",
+    note: "OWNER: every version of the Etsy \"Three sizes, to scale\" slide (all six poster listings) draws 18 × 24, 24 × 36 AND 30 × 40. The site does not sell the third size (GDE-ANY-POST-P3040 is disabled in lib/catalog/prices.ts), so shipping the sheet would offer a size that cannot be ordered, and the size labels cannot be cropped away without destroying the point of the picture. Until a two-size version is exported the page renders ToScaleSheet (SVG) instead.",
   },
 };
 

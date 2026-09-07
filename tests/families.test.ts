@@ -24,6 +24,7 @@ import { DEMO_CARD_ID, DEMO_LABEL, demoCard, demoFaces } from "../app/(marketing
 import { FinishesRow, finishRowKeys } from "../app/(marketing)/(families)/_shared/finishes-row";
 import { NumberlessSection, POSTER_NAME_BODY, SportGrid, numberlessFirstSentence, numberlessSportsClause } from "../app/(marketing)/(families)/_shared/numberless-block";
 import { sectionIndex } from "../app/(marketing)/(families)/_shared/section";
+import { captionFromAlt, showcase, showcaseList } from "../app/(marketing)/(families)/_shared/showcase";
 import { SpecSheetSection, setFolderRows, specRows } from "../app/(marketing)/(families)/_shared/spec-sheet";
 import { ANY_LISTING_GROUP, OWN_LISTING_GROUP, SportPicker, destinationNote, SPORT_PICKER_LABEL, numberlessPickerNote, pickSport } from "../app/(marketing)/(families)/_shared/sport-picker";
 import { CERTIFICATE_LINE, TierRow, chipKindFor } from "../app/(marketing)/(families)/_shared/tier-row";
@@ -112,8 +113,12 @@ describe("family pages — structure", () => {
         expect(count(src, /productFamily\(/g)).toBe(1);
       });
 
-      it("has exactly one priority image and no video above the fold", () => {
-        expect(count(strip(src), /\bpriority\b/g)).toBe(1);
+      // Owner review, 2026-09-07 — the standard the home hero set: nothing above the fold is
+      // preloaded. `priority` preloads regardless of what the viewport paints, and on a phone the
+      // LCP is the headline, so a hero image never earns the first bytes.
+      it("preloads no hero image and plays no video above the fold", () => {
+        expect(count(strip(src), /\bpriority\b/g)).toBe(0);
+        expect(strip(src)).not.toMatch(/fetchPriority/);
         expect(src).not.toMatch(/<video/);
       });
 
@@ -130,6 +135,29 @@ describe("family pages — structure", () => {
       });
     });
   }
+
+  it("the hero claims are labels, not chips — a claim is never shaped like the button under it", () => {
+    // A filled accent lozenge beside an outlined one, a few pixels above a filled accent button
+    // beside an outlined button, is the button pattern printed twice (owner review, 2026-09-07).
+    const hero = read(`${SHARED_DIR}/hero.tsx`);
+    expect(hero).toContain('variant="label"');
+    for (const page of PAGES) {
+      const src = read(page.file);
+      expect(src, page.path).toContain("<ClaimLabels");
+      expect(strip(src), page.path).not.toMatch(/<Pill\b/);
+    }
+  });
+
+  it("the hero's two columns are one stretched row, and the art fills its track", () => {
+    for (const page of PAGES) {
+      const src = read(page.file);
+      const hero = src.slice(src.indexOf('id="s-01"') - 2000, src.indexOf('id="s-01"'));
+      expect(hero, page.path).toContain("lg:items-stretch");
+      expect(hero, page.path).not.toContain("lg:items-start");
+      expect(src, page.path).toContain("<HeroPlate>");
+    }
+    expect(read(`${SHARED_DIR}/hero.tsx`)).toContain("lg:h-full");
+  });
 
   it("the shared pieces carry no priority image and no video", () => {
     for (const file of sharedFiles) {
@@ -496,20 +524,49 @@ describe("family pages — open-graph images", () => {
  */
 describe("family pages — real life beside the flat renders", () => {
   const LIFE = {
-    cards: ["life.card.hand", "life.card.desk", "life.card.case", "life.card.binder"],
-    posters: ["life.poster.room.wide", "life.poster.room", "life.poster.room.baseball"],
-    set: ["life.set.printed", "life.set.deluxe"],
+    cards: ["moment.card.bleachers", "moment.card.hallway", "life.card.hand", "life.card.desk", "life.card.case", "life.card.binder"],
+    // The hero takes the MEASURED room first — it is the only one that may claim `18 × 24 SHOWN`.
+    posters: ["life.poster.room", "life.poster.room.wide", "life.poster.room.baseball"],
+    set: ["set.showcase.printed", "set.showcase.deluxe", "life.set.printed", "life.set.deluxe", "moment.team.senior"],
+    walls: ["wall.basketball", "wall.baseball", "wall.football", "wall.soccer", "wall.cheerleading", "wall.volleyball"],
   } as const;
   const resolved = (keys: readonly string[]): string | null => keys.find((k) => hasAsset(k)) ?? null;
 
-  it("never hands a life key straight to asset() — a key the map has not landed would throw", () => {
-    for (const file of PAGES.map((p) => p.file)) {
+  it("never hands a photograph key straight to asset() — a key the map has not landed would throw", () => {
+    // `hasAsset()` answers false for a `locate` key AND for a key the manifest has never carried, so
+    // the pages could be written against the asset contract before `lib/assets.ts` had heard of it.
+    const showcase = read(`${SHARED_DIR}/showcase.tsx`);
+    expect(showcase).toContain("if (!hasAsset(key)) return null;");
+    for (const file of [...PAGES.map((p) => p.file), `${SHARED_DIR}/showcase.tsx`]) {
       const src = read(file);
-      if (!src.includes('"life.')) continue;
-      expect(src, file).toContain("hasAsset");
-      expect(src, file).not.toContain('asset("life.');
-      expect(src, file).not.toContain('assetOrNull("life.');
+      for (const prefix of ["life.", "wall.", "moment.", "scale.", "set.showcase"]) {
+        expect(src, file).not.toContain(`asset("${prefix}`);
+        expect(src, file).not.toContain(`assetOrNull("${prefix}`);
+      }
     }
+  });
+
+  it("/posters shows the poster living in rooms — different homes, different sports", () => {
+    const src = read(PAGES[1].file);
+    for (const key of LIFE.walls) expect(src, key).toContain(key);
+    expect(src).toContain("<ShowcaseRow");
+    // The room the hero already shows is never repeated in the row under it.
+    expect(src).toContain("exclude: [room.src]");
+    const rows = showcaseList([...LIFE.walls, ...LIFE.posters], {}, { limit: 6 });
+    expect(rows.length, "no room photograph has landed at all").toBeGreaterThan(0);
+    for (const row of rows) expect(row.caption.length, row.key).toBeGreaterThan(0);
+  });
+
+  it("a caption is the plainest description of its own frame, never another frame's words", () => {
+    expect(captionFromAlt("A framed custom baseball poster on a bedroom wall — Heritage finish — example artwork")).toBe(
+      "A framed custom baseball poster on a bedroom wall.",
+    );
+    // A key that names its sport is read from the key; otherwise from the alt line.
+    expect(showcase("life.poster.room.baseball")?.sport?.slug).toBe("baseball");
+    expect(showcase("life.set.printed")?.sport?.slug).toBe("basketball");
+    // A key the manifest has never carried is not an empty box — it is nothing.
+    expect(showcase("wall.no-such-sport")).toBeNull();
+    expect(showcaseList(["wall.nothing", "scale.nothing"])).toEqual([]);
   });
 
   it("/trading-cards opens section 03's column with a printed card, or with nothing at all", () => {
@@ -518,8 +575,9 @@ describe("family pages — real life beside the flat renders", () => {
     // The photograph is captioned by the frame that resolved, never by another frame's words.
     expect(src).toContain("A printed card held up in the gym.");
     expect(src).toContain("Printed cards in the sleeves of a collector's binder.");
-    // Still one image ahead of the fold, and the flip is still the only thing that moves.
-    expect(count(strip(src), /\bpriority\b/g)).toBe(1);
+    for (const key of ["moment.card.bleachers", "moment.card.hallway"]) expect(src).toContain(key);
+    // Nothing ahead of the fold is preloaded, and the flip is still the only thing that moves.
+    expect(count(strip(src), /\bpriority\b/g)).toBe(0);
   });
 
   it("/posters leads with a room and keeps the measured caption on the measured room only", () => {
@@ -547,9 +605,13 @@ describe("family pages — real life beside the flat renders", () => {
           }) => Promise<React.ReactElement>
         )({ searchParams: Promise.resolve({}) }),
       );
+    // /posters resolves two slots, not one: the hero takes the measured room, and the gallery under
+    // section 03 takes the walls — the hero's own file is excluded from the row, so the two never
+    // show the same photograph.
     const wanted: [number, string | null][] = [
       [0, resolved(LIFE.cards)],
       [1, resolved(LIFE.posters)],
+      [1, resolved(LIFE.walls)],
       [2, resolved(LIFE.set)],
     ];
     for (const [i, key] of wanted) {
@@ -558,6 +620,19 @@ describe("family pages — real life beside the flat renders", () => {
       const srcs = [...out.matchAll(/[?&]url=([^&"]+)/g)].map((m) => decodeURIComponent(m[1]));
       expect(srcs, `${PAGES[i].path} does not show ${key}`).toContain(SITE_ASSETS[key].out);
     }
+  });
+
+  it("/posters never shows the same room twice", async () => {
+    const out = render(
+      await (PostersPage as unknown as (p: { searchParams: Promise<Record<string, string | string[] | undefined>> }) => Promise<React.ReactElement>)({
+        searchParams: Promise.resolve({}),
+      }),
+    );
+    // `src` only — a srcset lists the same file once per width descriptor.
+    const rooms = [...out.matchAll(/src="[^"]*?[?&]url=([^&"]+)/g)]
+      .map((m) => decodeURIComponent(m[1]))
+      .filter((src) => Object.values(SITE_ASSETS).some((a) => a.out === src && a.kind === "room"));
+    expect(new Set(rooms).size, "a room photograph is on the page twice").toBe(rooms.length);
   });
 });
 

@@ -117,25 +117,35 @@ export default function AboutPage() {
       <section className="pt-6 pb-16 md:pb-24 lg:pb-32">
         <div className="container-site">
           <Breadcrumbs trail={[{ name: "Home", href: "/" }, { name: "About", href: PATH }]} />
-          <SectionHeading
-            as="h1"
-            className="mt-6"
-            title="WHO IS ASKING FOR YOUR ATHLETE'S PHOTOS."
-            subhead="A designer in Lithuania, three professional labs in the US, and a registry that outlives the season."
-          />
-          <div className="mt-8 lg:mt-12 lg:grid lg:grid-cols-12 lg:gap-x-8">
-            <div className="lg:col-span-4">
-              <Ledger rows={founderRows} />
+          {/*
+            The opener answers the question the H1 asks, beside it (owner review 2026-09-07). It used
+            to be a three-row ledger in a narrow rail against nine hundred pixels of story: the rail
+            ended before the second paragraph and left a column of empty stock under it, while the
+            right half of the heading row sat empty. Two stretched columns, then the story at its own
+            measure underneath.
+          */}
+          <div className="mt-6 lg:grid lg:grid-cols-12 lg:items-stretch lg:gap-x-8">
+            <div className="lg:col-span-6">
+              <SectionHeading
+                as="h1"
+                title="WHO IS ASKING FOR YOUR ATHLETE'S PHOTOS."
+                subhead="A designer in Lithuania, three professional labs in the US, and a registry that outlives the season."
+              />
             </div>
-            <div className="mt-8 lg:col-span-7 lg:col-start-6 lg:mt-0">
-              {STORY.map((para) => (
-                <p key={para.text.slice(0, 40)} className="mt-4 max-w-[62ch] font-body text-body text-pretty text-ink first:mt-0">
-                  {para.lead ? <span className="font-medium">{para.lead} </span> : null}
-                  {para.text}
-                </p>
-              ))}
-              <FounderNote variant="about" className="mt-8" />
+            <div className="mt-8 lg:col-span-6 lg:mt-0">
+              <div className="flex h-full flex-col justify-center">
+                <Ledger rows={founderRows} />
+              </div>
             </div>
+          </div>
+          <div className="mt-8 lg:mt-12">
+            {STORY.map((para) => (
+              <p key={para.text.slice(0, 40)} className="mt-4 max-w-[62ch] font-body text-body text-pretty text-ink first:mt-0">
+                {para.lead ? <span className="font-medium">{para.lead} </span> : null}
+                {para.text}
+              </p>
+            ))}
+            <FounderNote variant="about" className="mt-8" />
           </div>
         </div>
       </section>

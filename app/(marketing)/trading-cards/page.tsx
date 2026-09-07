@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { Breadcrumbs } from "../../../components/Breadcrumbs";
 import { CardFace } from "../../../components/CardFace";
 import { CardFlip } from "../../../components/CardFlip";
@@ -7,10 +6,9 @@ import { EditionPanel } from "../../../components/EditionPanel";
 import { FictionalLabel } from "../../../components/FictionalLabel";
 import { JsonLd } from "../../../components/JsonLd";
 import { Mat } from "../../../components/Mat";
-import { Pill } from "../../../components/Pill";
 import { QrRing } from "../../../components/QrRing";
 import { SectionHeading } from "../../../components/SectionHeading";
-import { asset, hasAsset, type ImageSpec } from "../../../lib/assets";
+import { asset } from "../../../lib/assets";
 import { formatUsd, getTier, perCardAnchor, sitePrice, tiersFor } from "../../../lib/catalog/prices";
 import { sports } from "../../../lib/catalog/sports";
 import { CANON } from "../../../lib/copy/canon";
@@ -21,9 +19,10 @@ import { pageFor } from "../../../lib/seo/titles";
 import { ClosingSection } from "../(families)/_shared/closing";
 import { DEMO_LABEL, demoCard, demoFaces } from "../(families)/_shared/demo-card";
 import { FinishesSection } from "../(families)/_shared/finishes-row";
-import { HeroCtaBlock } from "../(families)/_shared/hero";
+import { ClaimLabels, HeroCtaBlock, HeroPlate } from "../(families)/_shared/hero";
 import { NumberlessSection } from "../(families)/_shared/numberless-block";
 import { Section } from "../(families)/_shared/section";
+import { ShowcaseFigure, firstShowcase, showcaseList } from "../(families)/_shared/showcase";
 import { SpecSheetSection } from "../(families)/_shared/spec-sheet";
 import { SportPicker, pickSport } from "../(families)/_shared/sport-picker";
 import { TierRow } from "../(families)/_shared/tier-row";
@@ -60,23 +59,20 @@ const FLIP_SIZES = "(min-width: 1024px) 360px, 80vw";
  */
 const LIFE_CARD_KEYS = ["life.card.hand", "life.card.desk", "life.card.case", "life.card.binder"] as const;
 
+/**
+ * The athlete holding their own card — the moment this page is actually selling, and the strongest
+ * frames the site has (owner brief, 2026-09-07). Two settings, so the column shows a card in a life
+ * rather than a card on a plate; when only one has landed it runs alone at the column's width, and
+ * when neither has, the printed-card photographs above take the slot exactly as they did before.
+ */
+const MOMENT_CARD_KEYS = ["moment.card.bleachers", "moment.card.hallway"] as const;
+
 const LIFE_CARD_CAPTION: Record<string, string> = {
   "life.card.hand": "A printed card held up in the gym.",
   "life.card.desk": "A printed card on a desk, beside a pen and a coin for scale.",
   "life.card.case": "A printed card standing in a display stand on a shelf.",
   "life.card.binder": "Printed cards in the sleeves of a collector's binder.",
 };
-
-/** The first verified key with its caption, or null while every one is still `locate`. */
-function lifeCard(): { spec: ImageSpec; caption: string } | null {
-  for (const key of LIFE_CARD_KEYS) {
-    if (hasAsset(key)) {
-      const spec = asset(key);
-      return { spec, caption: LIFE_CARD_CAPTION[key] ?? spec.alt };
-    }
-  }
-  return null;
-}
 
 export default async function TradingCardsPage({
   searchParams,
@@ -89,7 +85,8 @@ export default async function TradingCardsPage({
   const cta = ctaFor("cards", { sport: sport.slug });
   const faces = demoFaces();
   const card = demoCard();
-  const life = lifeCard();
+  const moments = showcaseList(MOMENT_CARD_KEYS, LIFE_CARD_CAPTION, { limit: 2 });
+  const life = moments.length ? null : firstShowcase(LIFE_CARD_KEYS, LIFE_CARD_CAPTION);
   const p12 = getTier("GDE-ANY-CARD-P12");
   const anchorLine = p12
     ? `Twelve printed cards for ${formatUsd(sitePrice(p12, now))} — less than ${formatUsd(perCardAnchor(now))} per card.`
@@ -102,7 +99,7 @@ export default async function TradingCardsPage({
       <section aria-labelledby="s-01" className="pt-8 pb-16 md:pb-24 lg:pt-12 lg:pb-32">
         <div className="container-gallery">
           <Breadcrumbs trail={[{ name: "Home", href: "/" }, { name: "Trading Cards", href: PATH }]} />
-          <div className="mt-8 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-8">
+          <div className="mt-8 lg:grid lg:grid-cols-12 lg:items-stretch lg:gap-x-8">
             <div className="lg:col-span-6">
               <SectionHeading
                 as="h1"
@@ -110,11 +107,9 @@ export default async function TradingCardsPage({
                 title={H1}
                 subhead={SUBHEAD}
                 pills={
-                  <>
-                    <Pill tone="accent">FRONT + BACK</Pill>
-                    <Pill tone="outline">REGISTERED EDITION</Pill>
-                    <Pill tone="outline">SQUARE-CUT · UV-COATED</Pill>
-                  </>
+                  <ClaimLabels
+                    claims={[{ text: "FRONT + BACK", tone: "accent" }, { text: "REGISTERED EDITION" }, { text: "SQUARE-CUT · UV-COATED" }]}
+                  />
                 }
               />
               {anchorLine ? <p className="mt-8 max-w-[62ch] font-body text-body font-bold text-ink">{anchorLine}</p> : null}
@@ -122,19 +117,22 @@ export default async function TradingCardsPage({
             </div>
             {/* A compact static pair, not the flip (DESIGN §5.2-1): the flip lives in section 03,
                 where it may autoplay once, and the hero shows both faces at a glance with no
-                interaction and nothing that moves above the fold. */}
+                interaction and nothing that moves above the fold. Nothing here is preloaded —
+                the mobile LCP is the headline. */}
             <div className="mt-10 lg:col-span-6 lg:mt-0">
-              <Mat tone="arena" aspect="aspect-[16/10]" matClassName="justify-center">
-                <div className="flex w-full items-center justify-center gap-[6%]">
-                  <div className="w-[44%]">
-                    <CardFace {...(faces?.front ?? asset("cards.demo.front"))} labelled surface="arena" priority sizes={HERO_SIZES} />
+              <HeroPlate>
+                <Mat tone="arena" plate={false} aspect="aspect-[16/10]" className="overflow-hidden rounded-ui">
+                  <div className="flex w-full items-center justify-center gap-[6%]">
+                    <div className="w-[44%]">
+                      <CardFace {...(faces?.front ?? asset("cards.demo.front"))} labelled surface="arena" sizes={HERO_SIZES} />
+                    </div>
+                    <div className="w-[44%]">
+                      <CardFace {...(faces?.back ?? asset("cards.demo.back"))} labelled surface="arena" sizes={HERO_SIZES} />
+                    </div>
                   </div>
-                  <div className="w-[44%]">
-                    <CardFace {...(faces?.back ?? asset("cards.demo.back"))} labelled surface="arena" sizes={HERO_SIZES} />
-                  </div>
-                </div>
-              </Mat>
-              <FictionalLabel className="mt-2" />
+                </Mat>
+                <FictionalLabel className="mt-3" />
+              </HeroPlate>
             </div>
           </div>
 
@@ -174,20 +172,24 @@ export default async function TradingCardsPage({
             <FictionalLabel className="mt-2" />
           </div>
           <div className="mt-8 lg:col-span-5 lg:mt-0">
-            {life ? (
-              <figure className="mb-8">
-                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-ui bg-arena">
-                  <Image
-                    src={life.spec.src}
-                    alt={life.spec.alt}
-                    fill
-                    sizes="(min-width: 1024px) 420px, 92vw"
-                    className="object-cover"
-                  />
-                </div>
-                <figcaption className="mt-2 font-body text-[0.75rem] font-medium text-muted-text">{life.caption}</figcaption>
-                {life.spec.fictional ? <FictionalLabel className="mt-2" /> : null}
-              </figure>
+            {moments.length ? (
+              <div className="mb-8">
+                <ul className={`grid gap-3 ${moments.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}>
+                  {moments.map((moment) => (
+                    <li key={moment.key}>
+                      <ShowcaseFigure
+                        item={moment}
+                        aspect={moments.length > 1 ? "aspect-[4/5]" : "aspect-[4/3]"}
+                        sizes={moments.length > 1 ? "(min-width: 1024px) 210px, 46vw" : "(min-width: 1024px) 420px, 92vw"}
+                        labelled
+                      />
+                    </li>
+                  ))}
+                </ul>
+                <FictionalLabel className="mt-3" />
+              </div>
+            ) : life ? (
+              <ShowcaseFigure item={life} sizes="(min-width: 1024px) 420px, 92vw" className="mb-8" />
             ) : null}
             <p className="max-w-[62ch] font-body text-body text-pretty text-ink">{REGISTERED_BODY}</p>
             {card ? <EditionPanel card={card} tone="stock" demoLabel={DEMO_LABEL} className="mt-8" /> : null}
