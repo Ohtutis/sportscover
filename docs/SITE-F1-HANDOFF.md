@@ -88,6 +88,13 @@ Nothing here blocks the deploy. Items marked ⚠ block F2 (direct checkout).
     "before" frame for Ray Solberg (pickleball, 58), and `hero.story.4.*` drops straight in with no
     code change.
 
+20. **Publish the missing Etsy listings, and the picker improves itself.** Only six sports have their
+    own trading-card and poster listing (basketball, football, baseball, soccer, volleyball,
+    cheerleading). The other eleven now tell the buyer plainly that they open the Complete Set
+    listing instead. Softball and wrestling already have drafts in `etsy/listings/`. Publishing a
+    listing is a one-line change: add its id to that sport in `lib/catalog/sports.ts` and it moves
+    into the "Has its own listing" group automatically.
+
 ## Not in F1 on purpose
 
 Direct checkout and order pages, team links, `/sports/<sport>`, `/styles/<finish>`,
