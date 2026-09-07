@@ -95,6 +95,15 @@ Nothing here blocks the deploy. Items marked ⚠ block F2 (direct checkout).
     listing is a one-line change: add its id to that sport in `lib/catalog/sports.ts` and it moves
     into the "Has its own listing" group automatically.
 
+21. **Design follow-ups the 2026-09-07 audit left open** (all small, none blocking): `/posters` and
+    `/complete-set` heroes still stack price line + chips + trust row where `/trading-cards` was
+    trimmed to one system; the arena plate under the rejected/approved pair; tap targets in the
+    breadcrumbs and mobile menu are under 44 px; the to-scale sheet always hangs football art (no
+    per-sport poster key); `/senior-night` §04 grew to ~2,300 px at 1440 with full-size tiles; the
+    home page is longer on phones now that sport tiles are whole cards and the proof pair stacks
+    (the lever is three columns in §07 on phones — a taste call); the hero's four-photo deal costs
+    ~370 KB at 390 px against a 600 KB budget (the lever is dealing two photos on phones).
+
 ## Not in F1 on purpose
 
 Direct checkout and order pages, team links, `/sports/<sport>`, `/styles/<finish>`,
