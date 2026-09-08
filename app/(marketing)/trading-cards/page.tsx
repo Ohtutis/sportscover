@@ -39,8 +39,10 @@ const PATH = "/trading-cards";
 export const metadata: Metadata = pageMeta(PATH);
 
 const H1 = "CUSTOM TRADING CARDS FROM YOUR PHOTOS.";
+// "Not a template with a photo dropped in" opened this subhead until 2026-09-08: a defence against
+// an objection nobody had made, in front of the sentence that actually says what the card is.
 const SUBHEAD =
-  "Not a template with a photo dropped in — composed around your athlete: their photos, their kit, their colors, their season. Front and back, with a registered card ID on the back.";
+  "Composed around your athlete: their photos, their kit, their colors, their season. Front and back, with a registered card ID on the back.";
 const REGISTERED_TITLE = "FRONT + BACK. REGISTERED.";
 // The "not individually numbered / sealed pack" sentence is the EditionPanel's own line
 // (EDITION_SENTENCE), and the panel sits a screen below this paragraph — it is said once, there.
@@ -127,7 +129,12 @@ export default async function TradingCardsPage({
                 a few degrees with the card shadow — the object the owner asked for. */}
             <div className="mt-12 lg:col-span-6 lg:mt-0">
               <HeroPlate>
-                <div className="flex w-full items-center justify-center gap-[6%]">
+                {/* Capped, not just proportional (layout audit, 2026-09-08): at 834 the object column
+                    is the full page width, so 43 % of it drew a 331 px card — larger than the 261 px
+                    the same card gets at 1440 — and section 01 ran 2,762 px against 1,714 on the
+                    desktop. The cap is the width the copy column has at 1440, so nothing changes
+                    there and the tablet stops enlarging the product. */}
+                <div className="mx-auto flex w-full max-w-[640px] items-center justify-center gap-[6%]">
                   <div className="w-[43%] rotate-[-4deg]">
                     <CardFace {...(faces?.front ?? asset("cards.demo.front"))} labelled sizes={HERO_SIZES} />
                   </div>
@@ -182,7 +189,10 @@ export default async function TradingCardsPage({
                   <ShowcaseFigure
                     key={moment.key}
                     item={moment}
-                    aspect="aspect-[4/5]"
+                    // The asset's own ratio. `aspect-[4/5]` on a 1.37 : 1 photograph cut 42 % of its
+                    // width — 276 px off each side — straight through the card the athlete is holding
+                    // up, which is the one thing this frame is here to show (layout audit, 2026-09-08).
+                    aspect="natural"
                     sizes="(min-width: 1024px) 470px, 92vw"
                     labelled
                   />

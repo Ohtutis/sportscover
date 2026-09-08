@@ -27,7 +27,11 @@ export function BrandMark({ href = "/", tone = "stock", size = "sm", className =
     <Link
       href={href}
       aria-label={`${BRAND} — home`}
-      className={`inline-flex items-center gap-2.5 py-1 ${tone === "arena" ? "text-white" : "text-navy"} ${className}`.trim()}
+      // The one interactive element on the page with no hover state at all, in the header AND the footer
+      // (audit 2026-09-08, N1). Opacity, because a two-colour mark has no colour to change.
+      className={`inline-flex items-center gap-2.5 py-1 transition-opacity duration-hover ease-out hover:opacity-80 ${
+        tone === "arena" ? "text-white" : "text-navy"
+      } ${className}`.trim()}
     >
       <Shield tone={tone} size={s.shield} className={tone === "arena" ? "shrink-0" : "shrink-0 text-navy"} />
       <Wordmark height={s.wordmark} className="shrink-0" />

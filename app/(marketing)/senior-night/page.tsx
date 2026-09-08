@@ -32,6 +32,9 @@ export const metadata: Metadata = pageMeta("/senior-night");
 
 const GIFT_NOTE_ID = "gift-note";
 
+/** The one sport with no Senior Night card export yet (GAPS #17) — said, not implied. */
+const NO_EXAMPLE_YET = "Built to order — no example card yet.";
+
 /** COPY §2.5 (1) — the group label of the composed hero cluster, and its OG-image alt. */
 export const SN_HERO_GROUP_LABEL =
   "Senior Night edition: custom basketball poster and trading card, front and back, in the gold senior finish — example artwork, fictional athlete";
@@ -179,13 +182,16 @@ function SportTile({ slug, caption }: { slug: string; caption?: string }) {
   return (
     <a href={etsyHref(seniorNightSku(slug))} className="group block outline-offset-4">
       {face ? (
-        <CardFace {...face} labelled sizes="(min-width: 1024px) 280px, 30vw" />
+        <CardFace {...face} labelled sizes="(min-width: 640px) 224px, 62vw" />
       ) : (
-        <div className="flex aspect-[5/7] items-center justify-center rounded-ui bg-navy p-[8%] shadow-[var(--shadow-card-stock)]">
-          <span className="flex flex-col items-center gap-3 text-center">
-            <Shield tone="arena" size={40} />
-            <span className="font-display text-h3 uppercase leading-none text-white">{name}.</span>
-          </span>
+        /* A placeholder is still a card box — 5 : 7, radius 0 (DoD §11.4). It used to be radius 12 and
+           to carry nothing but the sport name in Anton, so among eight photographed cards it read as a
+           navy card we had designed rather than as the one sport with no example yet. The second line
+           says which it is. */
+        <div className="flex aspect-[5/7] flex-col items-center justify-center gap-3 rounded-none border border-white/15 bg-navy p-[8%] text-center shadow-[var(--shadow-card-stock)]">
+          <Shield tone="arena" size={40} />
+          <span className="font-display text-h3 uppercase leading-none text-white">{name}.</span>
+          <span className="font-body text-small text-white/70">{NO_EXAMPLE_YET}</span>
         </div>
       )}
       {face ? (
@@ -268,7 +274,11 @@ export default function SeniorNightPage() {
               exhibits share one 4 : 3 box, and the cell with no exhibit (the certificate is deliberately
               not shown — GAPS #32) is last, so the short cell ends the row instead of holing it.
             */}
-            <div className="mt-10 grid items-start gap-x-10 gap-y-12 md:grid-cols-2 lg:mt-12 lg:grid-cols-3">
+            {/* Three across from `md`, not from `lg` (layout audit, 2026-09-08). At 768-1023 the row set
+                as 2 + 1 and the third cell — "The certificate", a heading and one sentence with no
+                exhibit — dropped alone into row two, followed by ~340 px of empty stock before the next
+                rule. Three cells, one row, at every width the row is a row. */}
+            <div className="mt-10 grid items-start gap-x-10 gap-y-12 md:grid-cols-3 lg:mt-12">
               <div>
                 <h3 className="font-display text-h3 uppercase">The back</h3>
                 <p className="mt-3 max-w-[42ch] font-body text-small text-muted-text">
@@ -330,12 +340,21 @@ export default function SeniorNightPage() {
               title="NINE SENIOR NIGHTS, MEASURED."
               subhead="The sports parents search for by name. Every other sport gets its senior edition at the order."
             />
-            <div className="mt-10 grid max-w-[1120px] grid-cols-3 gap-x-6 gap-y-10 sm:gap-x-8 lg:mt-12">
+            {/*
+              A snap scroller under `sm`, a grid above it (DESIGN §2.6). `grid-cols-3` with no mobile
+              step drew 100.7 x 140.9 px card faces on a 390 px phone — the names on the cards were not
+              readable (layout audit, 2026-09-08). Above `sm` the grid is capped at 720 px rather than
+              1120: at 1120 the tiles ran 347 px, wider than any card anywhere else on the site, and
+              section 04 alone was ~2,300 px at 1440.
+            */}
+            <ul className="mt-10 -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-pl-5 px-5 pb-2 sm:mx-0 sm:grid sm:max-w-[720px] sm:grid-cols-3 sm:gap-x-8 sm:gap-y-10 sm:overflow-visible sm:px-0 lg:mt-12">
               {SN_SPORTS.map((tile) => (
-                <SportTile key={tile.slug} slug={tile.slug} caption={tile.caption} />
+                <li key={tile.slug} className="w-[62vw] max-w-[260px] shrink-0 snap-start sm:w-auto sm:max-w-none">
+                  <SportTile slug={tile.slug} caption={tile.caption} />
+                </li>
               ))}
-            </div>
-            <FictionalLabel className="mt-8 max-w-[1120px]" />
+            </ul>
+            <FictionalLabel className="mt-8 max-w-[720px]" />
             <p className="mt-8 font-body text-body">
               <a href={etsyHref(SENIOR_NIGHT_ANY_SKU)} className="underline-offset-4 decoration-1 hover:underline">
                 Another sport? Choose it at the order — all 17 get the senior edition.

@@ -35,10 +35,15 @@ export function ProofWall() {
       <div className="mt-10 lg:grid lg:grid-cols-12 lg:items-start lg:gap-10">
         <div className="lg:col-span-5">
           <BlockTitle>{GALLERY_TITLE}</BlockTitle>
-          <ul className="mt-5 grid grid-cols-2 gap-5">
+          {/*
+            The grid is capped between md and lg. Two columns of an uncapped 44vw drew 375 x 525 px card
+            faces on an iPad — larger than the 260 px they are drawn at on a 1440 desktop — and this one
+            block ran 2,659 px there (layout audit 2026-09-08). The cap keeps them at desktop scale.
+          */}
+          <ul className="mt-5 grid grid-cols-2 gap-5 md:max-w-[560px] lg:max-w-none">
             {gallery.map(({ slug, face }) => (
               <li key={slug}>
-                <CardFace {...face} labelled sizes="(min-width: 1024px) 260px, 44vw" />
+                <CardFace {...face} labelled sizes="(min-width: 1024px) 260px, (min-width: 768px) 270px, 44vw" />
               </li>
             ))}
           </ul>
@@ -56,11 +61,11 @@ export function ProofWall() {
             <ProofRejectedPair fail={fail} pass={pass} className="mt-5" />
           ) : (
             <p className="mt-5 max-w-[62ch] font-body text-body text-pretty">
-              Every frame is checked against the reference plate before it reaches a finish. A frame that does not match is remade, not shipped.
+              Every shot is checked against the approved reference of your athlete. A shot that does not match is remade, not shipped.
             </p>
           )}
           <ArrowLink href="/how-it-works#gates" className="mt-5">
-            See all six gates
+            See all six checks
           </ArrowLink>
         </div>
       </div>

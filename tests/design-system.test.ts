@@ -117,7 +117,7 @@ describe("font boundaries (CONTRACTS §0.2 #10, §2.2)", () => {
   it("every finish loader call is literal (no spread) and sets preload: false", () => {
     const src = read("lib/fonts/finishes.ts");
     const calls = [...src.matchAll(/^const \w+ = \w+\((\{[^}]*\})\);/gm)].map((m) => m[1]);
-    expect(calls.length).toBe(14);
+    expect(calls.length).toBe(11);
     for (const call of calls) {
       expect(call).toContain("preload: false");
       expect(call).not.toContain("...");
@@ -421,8 +421,11 @@ describe("chrome components", () => {
   });
   it("SiteHeader: 44 px tap targets and the outline CTA held back until the nav fits beside it", () => {
     const html = render(createElement(SiteHeader));
-    // DESIGN §11 item 19: the header buttons are `sm` (h-10, 40 px) with a 44 px floor.
-    expect(html.match(/min-h-11/g)?.length).toBe(2);
+    // DESIGN §11 item 19: the header buttons are `sm` (h-10, 40 px) with a 44 px floor — two of them,
+    // plus the five extra links in the mobile sheet, which measured 38 px until 2026-09-08 (S12).
+    expect(html.match(/min-h-11/g)?.length).toBe(2 + MOBILE_EXTRA_LINKS.length);
+    // 56 / 64 / 64 (DESIGN §2.6): the 64 px step is at `md`, and it was missing.
+    expect(html).toContain("h-14 items-center justify-between gap-4 md:h-16");
     // 1024–1279 px cannot hold seven links plus both buttons; the outline one returns at xl.
     expect(html).toMatch(/class="hidden xl:block"><a [^>]*>Look up a card/);
     expect(html).not.toMatch(/class="hidden lg:block"><a [^>]*>Look up a card/);
@@ -453,7 +456,9 @@ describe("chrome components", () => {
   it("SiteFooter: score bug, columns, C4, socials, imprint fallback, bottom line", () => {
     const html = render(createElement(SiteFooter));
     expect(html).toContain("bg-navy");
-    for (const t of ["Shop", "Trust", "Legal"]) expect(html).toContain(`>${t}</h2>`);
+    // <p>, not <h2>: three sentence-less H2s in the outline of all 18 documents (audit 2026-09-08).
+    for (const t of ["Shop", "Trust", "Legal"]) expect(html).toContain(`>${t}</p>`);
+    expect(html).not.toMatch(/<h2/);
     expect(html).toContain('href="/trading-cards#sports"');
     expect(html).toContain("17 sports");
     expect(html).toContain(read("content/blocks/independent-studio.md").trim().replace(/'/g, "&#x27;"));

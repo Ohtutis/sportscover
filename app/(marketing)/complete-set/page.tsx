@@ -9,7 +9,7 @@ import { JsonLd } from "../../../components/JsonLd";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { asset } from "../../../lib/assets";
 import { LEAD_TIMES } from "../../../lib/catalog/delivery";
-import { getTier, tiersFor } from "../../../lib/catalog/prices";
+import { formatUsd, getTier, sitePrice, tiersFor } from "../../../lib/catalog/prices";
 import { sports } from "../../../lib/catalog/sports";
 import { CANON } from "../../../lib/copy/canon";
 import { ctaFor } from "../../../lib/cta";
@@ -104,6 +104,8 @@ export default async function CompleteSetPage({
   const meta = pageFor(PATH);
   const life = firstShowcase(LIFE_SET_KEYS, LIFE_SET_CAPTION);
   const timeline = stages();
+  const printed = getTier("GDE-ANY-SET-PRINT");
+  const anchorLine = printed ? `The printed set — 12 cards, an 18 × 24 poster and the certificate — for ${formatUsd(sitePrice(printed, now))}.` : null;
   const ultimate = Boolean(getTier("GDE-ANY-SET-ULT")?.enabled);
 
   return (
@@ -117,10 +119,12 @@ export default async function CompleteSetPage({
               <SectionHeading
                 as="h1"
                 id="s-01"
-                // The H1 is a four-item list (COPY §2.4 (1)) — at the display size on a 16ch measure
-                // it sets as four lines. DESIGN §3 allows two from 640 px, so this one H1 sets at the
-                // H2 size on a column-wide measure: the copy is the copy, the type gives way.
-                className="[&>h1]:max-w-[26ch] [&>h1]:text-h2"
+                // The H1 is a four-item list (COPY §2.4 (1)), so it cannot hold DESIGN's 16 ch measure.
+                // It used to be knocked all the way down to `text-h2` — the same size as every H2 on the
+                // page, which left /complete-set with no visual H1 at all (layout audit, 2026-09-08). It
+                // sets between the two instead, on a measure wide enough for three lines at 1440 and
+                // four at 390.
+                className="[&>h1]:max-w-[24ch] [&>h1]:text-[clamp(2.25rem,1.35rem+2.6vw,3.25rem)]"
                 title={H1}
                 subhead={SUBHEAD}
                 pills={
@@ -129,7 +133,11 @@ export default async function CompleteSetPage({
                   />
                 }
               />
-              <HeroCtaBlock cta={cta} notes={[CANON.shipping, CANON.stagedDelivery]} className="mt-8" />
+              {anchorLine ? <p className="mt-8 max-w-[52ch] font-body text-body font-bold text-ink">{anchorLine}</p> : null}
+              {/* One claim system, the way /trading-cards was trimmed (handoff #21): price line,
+                  delivery chips, button. C11 and C12 used to stack two more grey claims between the
+                  chips and the CTA; C12 is the whole of section 03 below and C11 is on every tier card. */}
+              <HeroCtaBlock cta={cta} notes={[]} className="mt-8" />
             </div>
             {/* Nothing here is preloaded: the mobile LCP is the headline (owner review, 2026-09-07). */}
             {/* Poster, front, back — floated on the page's own stock at a few degrees with the card
@@ -137,7 +145,10 @@ export default async function CompleteSetPage({
                 plate: two grounds behind three objects that are already dark. */}
             <div className="mt-12 lg:col-span-6 lg:mt-0">
               <HeroPlate>
-                <div className="flex w-full items-center justify-center gap-[4%]">
+                {/* Capped (layout audit, 2026-09-08): the object column is the full page under `lg`, so
+                    the cluster drew larger on a tablet than on a desktop and section 01 ran 2 593 px.
+                    The cap is the width the column has at 1440. */}
+                <div className="mx-auto flex w-full max-w-[640px] items-center justify-center gap-[4%]">
                   <div className="relative aspect-[3/4] w-[40%] rotate-[-4deg] overflow-hidden rounded-none shadow-[var(--shadow-card-stock)]">
                     <Image src={poster.src} alt={poster.alt} fill sizes="(min-width: 1024px) 210px, 40vw" className="object-contain" />
                   </div>
@@ -196,7 +207,11 @@ export default async function CompleteSetPage({
           </div>
           <div className="mt-10 lg:col-span-5 lg:mt-0">
             {life ? (
-              <ShowcaseFigure item={life} aspect="aspect-[3/2]" sizes="(min-width: 1024px) 510px, 92vw" labelled />
+              /* The asset's own ratio. `aspect-[3/2]` on a square photograph threw away 33 % of its
+                 height — 128 px off the top and 128 off the bottom at 834, clipping the poster at both
+                 ends and cutting the shipping tube in half, on the page whose H2 is "EVERYTHING YOU
+                 GET." (layout audit, 2026-09-08). */
+              <ShowcaseFigure item={life} aspect="natural" sizes="(min-width: 1024px) 510px, 92vw" labelled />
             ) : (
               <div className="relative mx-auto aspect-[3/4] w-full max-w-[340px] overflow-hidden rounded-none shadow-[var(--shadow-card-stock)]">
                 <Image src={poster.src} alt={poster.alt} fill sizes="(min-width: 1024px) 340px, 70vw" className="object-contain" />

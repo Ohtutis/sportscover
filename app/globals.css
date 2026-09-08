@@ -130,6 +130,11 @@
 }
 
 /* The only shared utilities. Everything else is Tailwind in JSX. */
+/* `duration-hover` was written on 28 elements across 20 files and matched NOTHING: Tailwind resolves
+   `duration-*` against `--duration-*` only for the bare numeric/arbitrary forms, so every hover on the
+   site ran at the 150 ms default instead of the 180 ms token (audit 2026-09-08, S1). This is the rule
+   that makes the token real. */
+@utility duration-hover { transition-duration: var(--duration-hover); }
 @utility bg-silver { background-image: linear-gradient(20deg, #FFFFFF 0%, #C7D0DC 50%, #FFFFFF 100%); }
 @utility text-silver {
   background-image: linear-gradient(20deg, #FFFFFF 0%, #C7D0DC 50%, #FFFFFF 100%);
@@ -169,9 +174,12 @@
   transition: opacity 420ms var(--ease-flip), transform 520ms var(--ease-flip);
   transition-delay: var(--deal-delay, 0ms);
 }
+/* The incoming scene CROSS-FADES IN PLACE. It used to slide in from 18 % left / 34 % above at 0.94
+   scale, so mid-transition a visitor saw a small stack of photos in the top-left corner of an otherwise
+   empty stage with the chips stranded below — it read as a broken load, and it auto-plays (layout audit
+   2026-09-08). The deal still reads one photo at a time: --deal-delay staggers the fades. */
 [data-story-scene][data-state="idle"] [data-story-part="photo"] {
   opacity: 0;
-  transform: translate(calc(var(--fan-x) - 18%), calc(var(--fan-y) - 34%)) rotate(0deg) scale(0.94);
   transition-delay: 0ms;
 }
 /* Beat 2 `gather` — the hand closes into the pile the edition is built out of, and stays closed. */
@@ -199,5 +207,8 @@
   opacity: 1;
   transform: none;
 }
-/* A sticky header sits over every in-page anchor target; the hero's "see how it's made" jumps to §08. */
-h2[id^="s-"] { scroll-margin-top: 5rem; }
+/* A sticky header (57 px at 390, 65 px at 1024+) sits over every in-page anchor target, so EVERY id a
+   link can land on reserves the header's height plus a little air — not only the home spine's H2s. The
+   rail links on /faq, the footer's TrueNumbers destinations (#finishes, #spec) and #registry all landed
+   flush under the header before this (audit 2026-09-08, S7). */
+[id] { scroll-margin-top: 5rem; }

@@ -1,6 +1,6 @@
 // /how-it-works — COPY §2.6, DESIGN §5.4 (7 sections, stock). Article JSON-LD + the visible 6-item
 // FAQ's own FAQPage (CONTRACTS §5.5: two schema blocks are allowed here, never two FAQPages).
-// Every artefact comes from lib/assets.ts; gate 1 is HTML by design (GAPS: how.gate.photo-check is
+// Every exhibit comes from lib/assets.ts; check 1 is HTML by design (GAPS: how.gate.photo-check is
 // `locate` on purpose — the verdict is a Ledger, never a screenshot of _intake.json).
 
 import Image from "next/image";
@@ -128,7 +128,7 @@ function KitPlates() {
           alt={spec.alt}
           width={spec.width}
           height={spec.height}
-          sizes="(min-width: 1024px) 240px, 45vw"
+          sizes="(min-width: 1024px) 240px, 200px"
           className="aspect-square h-auto w-full rounded-none object-contain"
         />
       ))}
@@ -152,7 +152,7 @@ function ReferencePlate() {
           alt={spec.alt}
           width={spec.width}
           height={spec.height}
-          sizes="(min-width: 1024px) 240px, 45vw"
+          sizes="(min-width: 1024px) 240px, 200px"
           className="h-auto min-w-0 flex-1 rounded-none"
         />
       ))}
@@ -170,7 +170,7 @@ function FourShots() {
             alt={spec.alt}
             width={spec.width}
             height={spec.height}
-            sizes="(min-width: 1024px) 120px, 24vw"
+            sizes="(min-width: 1024px) 120px, 100px"
             className="aspect-[2/3] h-auto w-full rounded-none object-contain"
           />
           <span className="mt-2 block font-label text-label font-semibold uppercase tracking-[0.12em] tabular-nums text-muted-text">
@@ -224,12 +224,12 @@ const gates: Gate[] = [
     id: "gate-kit",
     label: "KIT BUILD",
     status: "pass",
-    artefactName: "the kit plate",
-    tab: "KIT PLATE · FRONT / BACK",
+    artefactName: "the kit reference",
+    tab: "KIT REFERENCE · FRONT / BACK",
     body: (
       <>
         <p>
-          The kit is a property of the sport, not the person: shirt, shorts, socks, footwear and your crest, copied from your
+          The kit belongs to the sport, not to the person: shirt, shorts, socks, footwear and your crest, copied from your
           photos exactly as they are. Nothing on the kit is invented — a mark the photos don&rsquo;t show is a mark that
           doesn&rsquo;t exist.
         </p>
@@ -237,34 +237,34 @@ const gates: Gate[] = [
       </>
     ),
     sideNote:
-      "A re-rolled plate once came back with a league shield where the club crest had been. It never left the studio — that is what this gate is for.",
+      "A regenerated kit reference once came back with a league shield where the club crest had been. It never left the studio — that is what this check is for.",
     artefactNode: <KitPlates />,
     artefact: {
       src: kitFront.src,
       alt: kitFront.alt,
-      caption: "Kit plate: the athlete's real kit, front and back, built once and reused for every shot",
+      caption: "Kit reference: the athlete's real kit, front and back, built once and reused for every shot",
       width: kitFront.width,
       height: kitFront.height,
     },
   },
   {
     id: "likeness",
-    label: "REFERENCE PLATE",
+    label: "REFERENCE SET",
     status: "pass",
     artefactName: "three views of your athlete",
-    tab: "REFERENCE PLATE · THREE VIEWS",
+    tab: "REFERENCE PHOTOS · THREE VIEWS",
     body: (
       <p>
-        From your photos we build one reference of your athlete — front and both sides — and lock it before a single pose is
+        From your photos we build one reference of your athlete — front and both sides — and settle it before a single pose is
         made. You see it first and answer by email: &ldquo;that&rsquo;s them&rdquo;, or what&rsquo;s off — jaw, hair, build.
-        The plate is the anchor; every later shot is measured against it.
+        That reference is the anchor; every later shot is measured against it.
       </p>
     ),
     artefactNode: <ReferencePlate />,
     artefact: {
       src: plate.src,
       alt: plate.alt,
-      caption: "Reference plate: three views of a fictional athlete built from their photos",
+      caption: "Reference photos: three views of a fictional athlete built from their photos",
       width: plate.width,
       height: plate.height,
     },
@@ -273,12 +273,12 @@ const gates: Gate[] = [
     id: "gate-shots",
     label: "THE SHOTS",
     status: "pass",
-    artefactName: "four frames",
+    artefactName: "four shots",
     tab: "THE SHOTS · 1–4",
     body: (
       <p>
-        Four shots from the locked plate — a hero, two action frames and a back or celebration frame. Hands are asked for, not
-        repaired: five separated fingers doing something real is in the brief for every pose. When a frame is right except for
+        Four shots from the approved reference — a hero, two action shots and a back or celebration shot. Hands are asked for,
+        not fixed afterwards: every pose asks for five separated fingers doing something real. When a shot is right except for
         one detail, that one detail is changed and nothing else moves.
       </p>
     ),
@@ -286,7 +286,7 @@ const gates: Gate[] = [
     artefact: {
       src: shots[0].src,
       alt: shots[0].alt,
-      caption: "Four shots of one fictional athlete — hero, two action frames, back",
+      caption: "Four shots of one fictional athlete — hero, two action shots, back",
       width: shots[0].width,
       height: shots[0].height,
     },
@@ -295,19 +295,19 @@ const gates: Gate[] = [
     id: "gate-verification",
     label: "VERIFICATION",
     status: "pass",
-    artefactName: "the frame beside its plate",
-    tab: "FRAME BESIDE ITS PLATE",
+    artefactName: "the shot beside its reference",
+    tab: "SHOT BESIDE ITS REFERENCE",
     body: (
       <p>
-        Every frame goes next to the plate in one picture. Every crest, number and mark on the frame must have a twin on the
-        plate, and the face must measure as the same person. No scores are shown to anyone — a frame passes or it doesn&rsquo;t,
-        and a frame that doesn&rsquo;t never reaches the finish.
+        Every shot goes next to the reference in one picture. Every crest, number and mark on the shot must have a twin on the
+        reference, and the face must measure as the same person. No scores are shown to anyone — a shot passes or it
+        doesn&rsquo;t, and one that doesn&rsquo;t never reaches the finish.
       </p>
     ),
     artefact: {
       src: verification.src,
       alt: verification.alt,
-      caption: "Verification sheet: a frame beside its reference plate — every mark must have a twin",
+      caption: "Verification sheet: a shot beside its reference — every mark must have a twin",
       width: verification.width,
       height: verification.height,
     },
@@ -341,7 +341,7 @@ const TIMELINE: { name: string; note?: string; approval?: string }[] = [
   { name: "PAID" },
   { name: "PHOTOS RECEIVED" },
   { name: "PHOTO CHECK", note: "passed · needs more photos · declined and refunded" },
-  { name: "REFERENCE PLATE", approval: "your approval, by email" },
+  { name: "REFERENCE SET", approval: "your approval, by email" },
   { name: "THE SHOTS" },
   { name: "PROOF", approval: "your approval, on your order page" },
   { name: "FILES READY" },
@@ -413,12 +413,12 @@ export default function HowItWorksPage() {
               <SectionHeading
                 as="h1"
                 title="MADE BY A PERSON. AI IS IN THE TOOLBOX."
-                subhead="Six gates stand between your photos and the print. Each one produces something you can look at, and each one can say no. Here is every gate, with the real artefact it makes."
+                subhead="Six checks stand between your photos and the print. Each one makes something you can look at, and each one can say no. Here is every check, and the real thing it makes."
                 // Claims, not buttons: type with a 3 px accent tick, never a pair of lozenges.
                 pills={
                   <>
                     <Pill variant="label" tone="accent">
-                      SIX GATES
+                      SIX CHECKS
                     </Pill>
                     <span aria-hidden="true" className="font-label text-label font-semibold leading-none text-muted-text">
                       ·
@@ -441,7 +441,7 @@ export default function HowItWorksPage() {
       {/* 02 — the six gates */}
       <section id="gates" aria-labelledby="s-gates" className="pb-16 md:pb-24 lg:pb-32">
         <div className="container-site">
-          <SectionHeading as="h2" id="s-gates" index={idx(2)} title="SIX GATES, ONE ARTEFACT EACH." />
+          <SectionHeading as="h2" id="s-gates" index={idx(2)} title="SIX CHECKS, AND WHAT EACH ONE MAKES." />
         </div>
         <div className="container-site mt-8 lg:mt-12">
           <GateRow gates={gates} />
@@ -464,7 +464,7 @@ export default function HowItWorksPage() {
               subhead="A real rejection from our own roster, not a staged one."
             />
             <p className="mt-8 max-w-[62ch] font-body text-body font-medium text-pretty text-ink">
-              A rejection is never fixed by loosening the gate. The input is fixed, or you are asked for a better photo.
+              A rejection is never fixed by lowering the bar. We fix what went in, or we ask you for a better photo.
             </p>
           </div>
           <div className="mt-8 lg:col-span-7 lg:mt-0 lg:max-w-[32rem] lg:justify-self-end">
@@ -477,7 +477,7 @@ export default function HowItWorksPage() {
       <section aria-label="How many frames are made" className="mb-16 md:mb-24 lg:mb-32">
         <div className="container-site">
           <p className="max-w-[26ch] border-y border-hairline py-12 font-display text-h2 uppercase text-balance text-ink">
-            ABOUT FIFTY FRAMES ARE GENERATED FOR ONE ATHLETE. FOUR SHIP.
+            ABOUT FIFTY SHOTS ARE MADE FOR ONE ATHLETE. FOUR SHIP.
           </p>
         </div>
       </section>

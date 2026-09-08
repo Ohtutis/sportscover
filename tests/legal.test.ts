@@ -206,8 +206,10 @@ describe("/privacy/biometric — the state-law policy", () => {
 describe("/terms — the promises the copy is built on", () => {
   const m = () => html("/terms");
 
-  it("lets a buyer cancel with a full refund until the reference plate is approved", () => {
-    expect(m()).toContain("Until you approve the reference plate you may cancel for any reason with a full refund.");
+  it("lets a buyer cancel with a full refund until the reference set is approved", () => {
+    // "reference plate" was studio vocabulary in a contract clause; the site calls it the reference
+    // set, which is the name /how-it-works gives the same object (copy-voice pass, 2026-09-08).
+    expect(m()).toContain("Until you approve the reference set you may cancel for any reason with a full refund.");
   });
 
   it("carries the personalized-goods and digital-content waivers", () => {

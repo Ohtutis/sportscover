@@ -78,9 +78,11 @@ describe("trust-pages — schema", () => {
     const { default: FaqPage } = await import("../app/(marketing)/faq/page");
     const html = renderToStaticMarkup(FaqPage() as ReactElement);
     const groups = faqGroups();
-    const open = html.match(/<details open/g)?.length ?? 0;
+    // The open row is FaqList's own `openFirst` now — /faq no longer keeps a second copy of the
+    // accordion markup, so both accordions on the site can only ever look the same (audit N8).
+    const open = html.match(/<details[^>]*\sopen=""/g)?.length ?? 0;
     expect(open).toBe(groups.length);
-    const openIds = [...html.matchAll(/<details open[^>]*?id="([^"]+)"/g)].map((m) => m[1]);
+    const openIds = [...html.matchAll(/<details id="([^"]+)"[^>]*\sopen=""/g)].map((m) => m[1]);
     expect(openIds).toEqual(groups.map((g) => g.items[0].id));
     expect(html.match(/<details/g)?.length).toBe(faqAll().length);
   });
@@ -221,7 +223,7 @@ describe("trust-pages — the GAPS overrides", () => {
   it("the six gates are the six COPY names, in order, each with one artefact", () => {
     const src = read(PAGE_PATHS["/how-it-works"]);
     const labels = Array.from(src.matchAll(/^\s{4}label: "([A-Z &]+)",$/gm)).map((m) => m[1]);
-    expect(labels).toEqual(["PHOTO CHECK", "KIT BUILD", "REFERENCE PLATE", "THE SHOTS", "VERIFICATION", "FINISH"]);
+    expect(labels).toEqual(["PHOTO CHECK", "KIT BUILD", "REFERENCE SET", "THE SHOTS", "VERIFICATION", "FINISH"]);
     expect(src).toContain("<GateRow");
     expect(src).toContain("<ProofRejectedPair");
     expect(src).toContain('assetOrNull("home.rejected.fail")');

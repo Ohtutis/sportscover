@@ -47,7 +47,9 @@ export function BracketFrame({ children, label, tone = "stock", caption, fiction
       ) : null}
       {fill ? <div className="min-h-0 flex-1">{children}</div> : children}
       {hasCaption ? (
-        <figcaption className={`mt-3 font-body text-[0.75rem] font-medium ${arena ? "text-arena-muted" : "text-muted-text"}`}>
+        // max-w-[62ch]: a plate caption ran the full 770 px of a tablet column at 12 px — 100 characters
+        // to a line, against the 62 ch measure DESIGN §2.1 puts on every paragraph.
+        <figcaption className={`mt-3 max-w-[62ch] font-body text-[0.75rem] font-medium ${arena ? "text-arena-muted" : "text-muted-text"}`}>
           {caption ? <span className="block">{caption}</span> : null}
           {fictional ? <FictionalLabel tone={tone} className={caption ? "mt-2" : ""} /> : null}
         </figcaption>

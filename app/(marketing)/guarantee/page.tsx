@@ -45,8 +45,8 @@ const LIMITS: { title: string; body: React.ReactNode }[] = [
     title: "No cancellation once printing starts.",
     body: (
       <>
-        Printing starts the moment you approve the proof. Until you approve the reference plate you can cancel for any reason
-        with a full refund; between plate approval and proof approval the promise above applies.
+        Printing starts the moment you approve the proof. Until you approve the reference set you can cancel for any reason with a
+        full refund; between that approval and the proof approval the promise above applies.
       </>
     ),
   },
@@ -68,7 +68,7 @@ const LIMITS: { title: string; body: React.ReactNode }[] = [
 /* ---------- 4) the refund ladder ---------- */
 
 const LADDER: { stage: string; happens: string }[] = [
-  { stage: "Before you approve the reference plate", happens: "Cancel any time — full refund" },
+  { stage: "Before you approve the reference set", happens: "Cancel any time — full refund" },
   {
     stage: "Photo check not passed and no stronger photos",
     happens: "Automatic full refund, within 1 business day — before any art is made",
@@ -199,7 +199,10 @@ export default function GuaranteePage() {
           <div className="mt-6 divide-y divide-hairline border-b border-hairline">
             {LIMITS.map((limit) => (
               <div key={limit.title} className="py-6">
-                <h3 className="font-body text-[1rem] font-bold text-ink">{limit.title}</h3>
+                {/* The H3 recipe, DESIGN §3: 1.5 rem display — these four were 16 px Space Grotesk,
+                    the only H3s on the site at that size, and half the size of the shipping table's
+                    own H3s on this same page (layout audit). */}
+                <h3 className="font-display text-h3 uppercase text-ink">{limit.title}</h3>
                 <p className="mt-2 max-w-[62ch] font-body text-body text-pretty text-ink">{limit.body}</p>
               </div>
             ))}

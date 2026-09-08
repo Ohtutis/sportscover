@@ -8,9 +8,8 @@ import { Plate } from "../../../components/Plate";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { ToScaleSheet, type PosterArt } from "../../../components/ToScaleSheet";
 import { asset, hasAsset, type ImageSpec } from "../../../lib/assets";
-import { tiersFor } from "../../../lib/catalog/prices";
+import { formatUsd, getTier, sitePrice, tiersFor } from "../../../lib/catalog/prices";
 import { postersSports } from "../../../lib/catalog/sports";
-import { CANON } from "../../../lib/copy/canon";
 import { ctaFor } from "../../../lib/cta";
 import { productFamily } from "../../../lib/seo/jsonld";
 import { pageMeta } from "../../../lib/seo/meta";
@@ -38,8 +37,10 @@ const PATH = "/posters";
 export const metadata: Metadata = pageMeta(PATH);
 
 const H1 = "CUSTOM SPORTS POSTERS FROM YOUR PHOTOS.";
+// "Not a template with a photo dropped in" opened this subhead until 2026-09-08 — a defence against
+// an objection nobody had made, ahead of the sentence that says what a poster is.
 const SUBHEAD =
-  "Not a template with a photo dropped in — composed around your athlete. The poster is art for the wall; the stats live on the card.";
+  "Composed around your athlete. The poster is art for the wall; the stats live on the card.";
 const ROOM_CAPTION = "18 × 24 SHOWN · FRAMED";
 const SCALE_TITLE = "TO SCALE. THE PERSON IS THE RULER.";
 const SCALE_BODY =
@@ -85,8 +86,15 @@ const SCALE_KEYS = ["scale.sizes"] as const;
  * 3 : 4, so nothing is cropped; the 24 × 36 box is 2 : 3 and takes the same file cropped to it, the way
  * the larger print is recomposed. `hasAsset` keeps the sheet drawing empty frames if the key ever goes.
  */
-function posterArt(): PosterArt | null {
-  for (const key of ["posters.finish.SN", "posters.finish.FS", "posters.finish.CA"]) {
+const SHEET_POSTER_KEYS: Record<string, readonly string[]> = {
+  basketball: ["set.hero.poster"],
+  softball: ["hero.story.2.poster"],
+  baseball: ["sn.hero.baseball.poster"],
+  football: ["posters.finish.SN"],
+};
+
+function posterArt(slug: string): PosterArt | null {
+  for (const key of [...(SHEET_POSTER_KEYS[slug] ?? []), "posters.finish.SN", "posters.finish.FS", "posters.finish.CA"]) {
     if (hasAsset(key)) {
       const spec = asset(key);
       return { small: spec, large: spec };
@@ -121,7 +129,9 @@ export default async function PostersPage({
   const room = hero.spec;
   const rooms = showcaseList(GALLERY_KEYS, {}, { limit: 6, exclude: [room.src] });
   const scale = firstShowcase(SCALE_KEYS);
-  const scaleArt = posterArt();
+  const scaleArt = posterArt(sport.slug);
+  const p1824 = getTier("GDE-ANY-POST-P1824");
+  const anchorLine = p1824 ? `An 18 × 24 printed poster for ${formatUsd(sitePrice(p1824, now))}.` : null;
   const meta = pageFor(PATH);
 
   return (
@@ -139,7 +149,11 @@ export default async function PostersPage({
                 subhead={SUBHEAD}
                 pills={<ClaimLabels claims={[{ text: "FROM YOUR PHOTOS", tone: "accent" }, { text: "TWO PRINT SIZES" }, { text: "300 DPI" }]} />}
               />
-              <HeroCtaBlock cta={cta} notes={[CANON.shipping]} className="mt-8" />
+              {anchorLine ? <p className="mt-8 max-w-[52ch] font-body text-body font-bold text-ink">{anchorLine}</p> : null}
+              {/* One claim system, the way /trading-cards was trimmed (handoff #21): the price line,
+                  the delivery chips, the button. C11 used to sit between the chips and the CTA as a
+                  third grey claim, and it is printed again on every tier card below and on /guarantee. */}
+              <HeroCtaBlock cta={cta} notes={[]} className="mt-8" />
             </div>
             {/* Nothing here is preloaded: the mobile LCP is the headline, and a room photograph the
                 phone paints below the copy has no claim on the first bytes. */}
@@ -148,7 +162,11 @@ export default async function PostersPage({
                 {/* The room photograph is the object; it used to sit inside a grey plate that added
                     nothing but a border of ground (owner review, 2026-09-07). It now floats on stock
                     with the card shadow, edge to edge with the copy column. */}
-                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-ui shadow-[var(--shadow-card-stock)]">
+                {/* Capped (layout audit, 2026-09-08): at 834 the object column is the whole page, so a
+                    4 : 3 box drew a 770 × 578 room — bigger than the 616 × 462 the same photograph gets
+                    at 1440. The cap is the width the column has at 1440, so the desktop is untouched
+                    and the tablet stops drawing the product larger than the desktop does. */}
+                <div className="relative mx-auto aspect-[4/3] w-full max-w-[620px] overflow-hidden rounded-ui shadow-[var(--shadow-card-stock)]">
                   <Image
                     src={room.src}
                     alt={room.alt}

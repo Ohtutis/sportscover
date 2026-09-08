@@ -21,6 +21,7 @@ import { GALLERY_SPORTS, ProofWall } from "../app/(marketing)/_home/ProofWall";
 import { Registered } from "../app/(marketing)/_home/Registered";
 import { HOME_INDEXED_SECTIONS, HOME_SECTION_COUNT, sectionIndex } from "../app/(marketing)/_home/Section";
 import { Sports } from "../app/(marketing)/_home/Sports";
+import { SPORT_GRID_COLUMNS } from "../app/(marketing)/(families)/_shared/numberless-block";
 import { metadata } from "../app/(marketing)/page";
 import { SITE_ASSETS, hasAsset } from "../lib/assets";
 import { CHIPS, LEAD_TIMES } from "../lib/catalog/delivery";
@@ -232,10 +233,18 @@ describe("home — performance budget", () => {
 });
 
 describe("home — the 2026-09-07 design review", () => {
-  it("§07 falls to two columns under 480 px and every tile IS the card — no plate, no dead ground", () => {
+  // 2026-09-08: 3 / 5 / 6, never 2 or 4. Seventeen tiles in an even number of columns leave exactly ONE
+  // tile alone on the last row (17 mod 2 = 17 mod 4 = 1); 3 leaves two, 5 leaves two, 6 leaves five.
+  // Six columns at 1024 also drew a 125 px card face, below what a card can carry.
+  it("§07 uses column counts that never orphan a single tile, and every tile IS the card", () => {
     const src = read(path.join(HOME_DIR, "Sports.tsx"));
-    expect(src).toContain("grid-cols-2");
-    expect(src).toContain("min-[480px]:grid-cols-3");
+    // One scale for every 17-sport grid on the site: home and the product pages share the constant.
+    expect(src).toContain("${SPORT_GRID_COLUMNS}");
+    expect(SPORT_GRID_COLUMNS).toBe("grid-cols-3 md:grid-cols-5 xl:grid-cols-6");
+    for (const orphaning of ["grid-cols-2", "grid-cols-4"]) expect(src).not.toContain(`:${orphaning}`);
+    // /go/etsy is a redirect: a <Link> prefetch preflights it and the preflight is rejected (S2).
+    expect(src).not.toMatch(/<Link\b/);
+    expect(src).not.toMatch(/^import Link/m);
     expect(src).not.toContain("aspect-[4/5]");
     // The plate is gone (it held a 120 px card in a 191 px box); the card floats in its own 5 : 7 box,
     // and the two sports with no export use that same box (owner review 2026-09-07).
@@ -291,7 +300,9 @@ describe("home — the third design review (blocks, rhythm, targets)", () => {
 
   it("spends the air INSIDE the blocks: 96 px between bands, never 128", () => {
     const section = src("Section.tsx");
-    expect(section).toContain("py-12 md:py-20 lg:py-24");
+    // py-14, the same band padding `_shared/section.tsx` and /senior-night use — the home page was the
+    // only one opening 48 px gaps at 390 where the rest of the site opens 56 (audit 2026-09-08).
+    expect(section).toContain("py-14 md:py-20 lg:py-24");
     expect(section).not.toContain("lg:py-32");
     // Nothing inside a block opens at less than 24 px any more.
     for (const file of ["Families.tsx", "Finishes.tsx", "Sports.tsx", "Process.tsx", "ProofWall.tsx", "Occasions.tsx"]) {
@@ -313,11 +324,15 @@ describe("home — the third design review (blocks, rhythm, targets)", () => {
     expect(src("Registered.tsx")).not.toContain("<Mat");
   });
 
-  it("§08 draws its three exhibits at one height and stacks the verdict's keys", () => {
+  // 2026-09-08: the row no longer stretches. `fill` + `object-contain` drew a landscape photograph
+  // 181 x 135 inside a 181 x 713 box at 768 px — 578 px of dead ground per frame. Each photograph owns
+  // a 4 : 3 frame now and the row hangs from its top edge.
+  it("§08 gives each photograph its own 4 : 3 frame and hangs the row from the top", () => {
     const process = src("Process.tsx");
-    expect(process).toContain("items-stretch");
-    expect(process).not.toContain("items-start");
-    expect(count(process, "fill>")).toBe(3);
+    expect(process).toContain("items-start");
+    expect(process).not.toContain("items-stretch");
+    expect(count(process, "fill>")).toBe(0);
+    expect(count(process, "aspect-[4/3]")).toBe(2);
     expect(process).toContain("<Ledger\n            stacked");
   });
 
@@ -554,7 +569,8 @@ describe("home §01 — the story", () => {
     for (const scene of scenes) {
       const chips = sceneChips(scene);
       expect(chips[0]).toBe(`${scene.deck.length} photo${scene.deck.length === 1 ? "" : "s"} in`);
-      expect(chips[1]).toBe("Reference plate locked");
+      // Plain words, not the pipeline's: "reference plate" and "locked" are internal terms (COPY voice).
+      expect(chips[1]).toBe("Athlete reference approved");
       expect(chips[2]).toBe("Proof approved");
       for (const chip of chips) expect(text(heroHtml)).toContain(chip);
     }
@@ -700,12 +716,15 @@ describe("home §01b — the strip under the hero is the catalog, never typed", 
 });
 
 describe("home §01 — the two columns are one row", () => {
-  it("stretches both columns and gives the art the wider track", () => {
+  // 6 / 6 from 2026-09-08 (DESIGN §5.1-01). At 5 / 7 the text column was 362 px at 1024 and set a
+  // 46-character H1 in four lines at every width, while the stage beside it ran ~320 px of blank ground.
+  it("splits the row evenly and gives the H1 a measure it can actually fit in", () => {
     const src = read(path.join(HOME_DIR, "Hero.tsx"));
     expect(src).toContain("lg:items-stretch");
     expect(src).not.toContain("lg:items-center");
-    expect(src).toContain("lg:col-span-5");
-    expect(src).toContain("lg:col-span-7");
+    expect(count(src, "lg:col-span-6")).toBe(2);
+    expect(src).not.toContain("lg:col-span-7");
+    expect(src).toContain("[&>h1]:max-w-[20ch]");
     // Nothing between the story and the page: no plate, no padding, no radius.
     expect(src).toMatch(/className="lg:h-full"/);
   });

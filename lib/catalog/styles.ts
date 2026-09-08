@@ -19,7 +19,7 @@ export const styles: Style[] = [
   { code: "SN", name: "Stadium Night", slug: "stadium-night", isOccasion: false, material: "Soft silver foil, floodlit arena atmosphere.", fontPair: { display: "Anton", supporting: "Barlow" } },
   { code: "CA", name: "Chrome All-Star", slug: "chrome-all-star", isOccasion: false, material: "High-contrast chrome, clean studio light.", fontPair: { display: "Russo One", supporting: "Saira Condensed" } },
   { code: "FS", name: "Fire & Smoke", slug: "fire-and-smoke", isOccasion: false, material: "Ember glow, drifting smoke, high energy.", fontPair: { display: "Passion One", supporting: "Khand" } },
-  { code: "HE", name: "Heritage", slug: "heritage", isOccasion: false, material: "Classic card character with a warm plate.", fontPair: { display: "Graduate", supporting: "Archivo Narrow" } },
+  { code: "HE", name: "Heritage", slug: "heritage", isOccasion: false, material: "Classic card character with a warm, printed feel.", fontPair: { display: "Graduate", supporting: "Archivo Narrow" } },
   { code: "SS", name: "Signature Spotlight", slug: "signature-spotlight", isOccasion: false, material: "Clean spotlight and a signature line.", fontPair: { display: "Space Grotesk", supporting: "Archivo" } },
   { code: "PR", name: "Prism Rush", slug: "prism-rush", isOccasion: false, material: "Prismatic light and split-type energy.", fontPair: { display: "Orbitron", supporting: "Chakra Petch" } },
   { code: "SR", name: "Senior Night", slug: "senior-night", isOccasion: true, material: "Gold senior edition — class year, four-year career line, senior quote.", fontPair: { display: "Playfair Display", supporting: "Oswald" }, displayCase: "title" },

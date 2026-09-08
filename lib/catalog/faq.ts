@@ -150,7 +150,7 @@ export const faq: FaqItem[] = [
     q: "Do I approve it before it prints?",
     a: "Yes. You receive a proof and approve it before anything is finalized or printed. One revision is included.",
   },
-  { id: "faq-19", group: "process", q: "Do you use AI?", a: `Yes, as a tool. ${C2} The full process, gate by gate, is on the how-it-works page.` },
+  { id: "faq-19", group: "process", q: "Do you use AI?", a: `Yes, as a tool. ${C2} The whole process, check by check, is on the how-it-works page.` },
   {
     id: "faq-20",
     group: "process",
@@ -177,7 +177,7 @@ export const faq: FaqItem[] = [
     id: "faq-25",
     group: "refunds",
     q: "Can I cancel?",
-    a: "Until you approve the reference plate, any time, with a full refund. After proof approval printing starts and the order cannot be cancelled — but a print defect is reprinted free or refunded in full.",
+    a: "Until you approve the reference set, any time, with a full refund. After proof approval printing starts and the order cannot be cancelled — but a print defect is reprinted free or refunded in full.",
   },
   {
     id: "faq-26",

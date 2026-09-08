@@ -32,7 +32,14 @@ export interface TierRowProps {
 
 export function TierRow({ family, context, sport, now, className = "" }: TierRowProps) {
   const visible = tiersFor(family, true).filter((tier) => tier.enabled);
-  const columns = visible.length >= 4 ? "lg:grid-cols-4" : "lg:grid-cols-3";
+  /*
+    The ladder never orphans a tier (DESIGN §2.2: "Never an empty slot"). `md:grid-cols-2` used to be
+    hard-coded, so at 768–1023 three tiers set as 2 + 1: two 377 px cards in row 1 and the third alone
+    in row 2 beside a 377 × 634 hole, 78 px shorter than its neighbours (layout audit, 2026-09-08). The
+    column count now follows the tier count all the way down: three tiers go three across from `md`,
+    four tiers keep the 2 → 4 step because four 176 px cards do not fit a 768 px page.
+  */
+  const columns = visible.length >= 4 ? "md:grid-cols-2 lg:grid-cols-4" : "md:grid-cols-3";
   return (
     <div className={className || undefined}>
       {/*
@@ -41,7 +48,7 @@ export function TierRow({ family, context, sport, now, className = "" }: TierRow
         reached section 02 (owner review, 2026-09-07). Side by side they are one screen and the price
         ladder reads as a ladder.
       */}
-      <ul className={`-mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto scroll-pl-5 px-5 pb-2 md:mx-0 md:grid md:grid-cols-2 md:overflow-visible md:px-0 ${columns}`}>
+      <ul className={`-mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto scroll-pl-5 px-5 pb-2 md:mx-0 md:grid md:overflow-visible md:px-0 ${columns}`}>
         {visible.map((tier) => {
           const sku = skuFor(tier.sku, sport.code);
           const pair = ctaFor(context, { sku, sport: sport.slug });

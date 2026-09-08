@@ -18,7 +18,7 @@ import { FictionalLabel } from "../../../../components/FictionalLabel";
 import { Pill } from "../../../../components/Pill";
 import { ShareRow } from "../../../../components/ShareRow";
 import { StatChip } from "../../../../components/StatChip";
-import { ButtonLink } from "../../../../components/ButtonLink";
+import { ButtonLink, buttonClass } from "../../../../components/ButtonLink";
 import { ALT_REGISTERED_BACK, altRegisteredFront, videoLabel } from "../../../../lib/alt";
 import { sportByCode } from "../../../../lib/catalog/sports";
 import { styleByCode, styleByName } from "../../../../lib/catalog/styles";
@@ -68,6 +68,8 @@ export const PRIVACY_LINES = {
 
 const ARTWORK_PENDING_PILL = "ARTWORK PENDING";
 const DOWNLOADS_LABEL = "DOWNLOADS";
+/** The download rows are plain anchors to files, so they carry the button recipe themselves. */
+const DOWNLOAD_BUTTON = buttonClass("outline-arena", "sm", "min-h-11");
 
 /**
  * The order the stats are PRINTED in, per sport, when the record's own array disagrees with the
@@ -148,10 +150,12 @@ export default async function CardPage({ params }: { params: Promise<{ cardId: s
         </>
       ) : null}
       <div className="container-site max-w-[35rem] pb-16 lg:max-w-(--container-site)">
-        {/* The card floats in the middle of its track — the object with air around it, not a card
-            pinned to the top of a column with 400 px of empty arena under it (owner review
-            2026-09-07). */}
-        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-center lg:gap-12">
+        {/* DESIGN §5.10: `items-start`. `items-center` centred a 586 px card against a 1104 px
+            record panel, so at 1440 the card started 259 px below the panel with ~260 px of empty
+            arena above it and ~283 px below (layout audit blocker 8). Both columns now start on the
+            same line, and the card is flush-left in its column like the H1 and the panel — it was
+            the only centred object on the page at 834. */}
+        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-start lg:gap-12">
           <header className="pt-6 lg:col-span-2">
             <h1
               className={`font-finish-display text-[2.25rem] leading-[0.95] text-balance md:text-[3.5rem] ${style.displayCase === "title" ? "" : "uppercase"}`.trim()}
@@ -171,7 +175,7 @@ export default async function CardPage({ params }: { params: Promise<{ cardId: s
           <div className="mt-6">
             {art ? (
               <CardFlip
-                className="mx-auto max-w-[340px] lg:max-w-[400px]"
+                className="max-w-[340px] lg:max-w-[400px]"
                 front={{
                   src: art.front,
                   alt: sport ? altRegisteredFront(sport, style, Boolean(card.isFictional)) : `Registered card front — ${style.name} finish`,
@@ -187,7 +191,7 @@ export default async function CardPage({ params }: { params: Promise<{ cardId: s
                 sizes={faceSizes}
               />
             ) : (
-              <section aria-label="Card artwork" className="mx-auto max-w-[340px] lg:max-w-[400px]">
+              <section aria-label="Card artwork" className="max-w-[340px] lg:max-w-[400px]">
                 <div className="flex aspect-[5/7] w-full items-center justify-center border border-arena-hairline bg-arena-surface">
                   <Shield tone="arena" size={72} />
                 </div>
@@ -238,19 +242,24 @@ export default async function CardPage({ params }: { params: Promise<{ cardId: s
                 <>
                   {/* front · back · flip (DESIGN §5.10-5). Button labels are set uppercase, so the
                       file format goes in the accessible name, not into the label a parent reads as
-                      "CARD FRONT (WEBP)". The flip row appears only when the render exists. */}
+                      "CARD FRONT (WEBP)". The flip row appears only when the render exists.
+                      These are FILES, not routes: a <Link> made the router prefetch each .webp as an
+                      RSC payload (two 404s per load, smooth audit S4) and, with no `download`
+                      attribute, opening one replaced the page with the image instead of saving it.
+                      A plain <a download> does both jobs and prefetches nothing. `min-h-11` lifts
+                      the sm button off 40 px onto the 44 px touch floor. */}
                   <h2 className={LABEL}>{DOWNLOADS_LABEL}</h2>
                   <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                    <ButtonLink href={downloads.front} variant="outline-arena" size="sm" ariaLabel="Download the card front (WebP)">
+                    <a href={downloads.front} download className={DOWNLOAD_BUTTON} aria-label="Download the card front (WebP)">
                       Card front
-                    </ButtonLink>
-                    <ButtonLink href={downloads.back} variant="outline-arena" size="sm" ariaLabel="Download the card back (WebP)">
+                    </a>
+                    <a href={downloads.back} download className={DOWNLOAD_BUTTON} aria-label="Download the card back (WebP)">
                       Card back
-                    </ButtonLink>
+                    </a>
                     {downloads.flipMp4 ? (
-                      <ButtonLink href={downloads.flipMp4} variant="outline-arena" size="sm" ariaLabel="Download the card flip (MP4)">
+                      <a href={downloads.flipMp4} download className={DOWNLOAD_BUTTON} aria-label="Download the card flip (MP4)">
                         Card flip
-                      </ButtonLink>
+                      </a>
                     ) : null}
                   </div>
                 </>
@@ -304,7 +313,7 @@ export default async function CardPage({ params }: { params: Promise<{ cardId: s
           <p className="mt-2">
             <a
               href={`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(`Report card ${card.cardId}`)}`}
-              className="text-white underline-offset-4 decoration-1 hover:underline"
+              className="inline-flex min-h-6 items-center text-white underline-offset-4 decoration-1 hover:underline"
             >
               Report this card
             </a>{" "}

@@ -3,11 +3,10 @@
 // duplicating questions or covering only one group: it is emitted once here, from faqAll(), and every
 // group list renders plain. faqAll() IS the set of items the groups render (faqGroups filters it).
 
-import { FaqList, type FaqListItem } from "../../../components/FaqList";
+import { FaqList } from "../../../components/FaqList";
 import { Breadcrumbs } from "../../../components/Breadcrumbs";
 import { CtaPair } from "../../../components/CtaPair";
 import { JsonLd } from "../../../components/JsonLd";
-import { PlusIcon } from "../../../components/icons";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { TrustLine } from "../../../components/TrustLine";
 import { faqAll, faqGroups } from "../../../lib/catalog/faq";
@@ -20,21 +19,12 @@ export const revalidate = 3600;
 export const metadata = pageMeta("/faq");
 
 /**
- * One FAQ row, open on load — the same markup `FaqList` renders for a row, with `open` set. It is
- * still a `<details>`, so the reader can shut it, and the schema is unaffected (this page emits one
- * FAQPage over `faqAll()`, above).
+ * The group titles are set as H2s, and every H1/H2 on the site ends with a full stop (checklist
+ * §11-2) — these ten were the only ones that did not (smooth audit S16). The stop is added here, in
+ * the typesetting: `lib/catalog/faq.ts` holds the group NAME, which is also the rail's label and the
+ * jump list's, where a sentence stop would be wrong.
  */
-function OpenAnswer({ item, alone }: { item: FaqListItem; alone?: boolean }) {
-  return (
-    <details open id={item.id} className={`group border-t border-hairline py-5 ${alone ? "border-b" : ""}`.trim()}>
-      <summary className="flex cursor-pointer list-none items-start justify-between gap-6 [&::-webkit-details-marker]:hidden">
-        <h3 className="font-body text-[1.125rem] font-bold normal-case tracking-normal text-ink">{item.q}</h3>
-        <PlusIcon size={24} className="mt-0.5 shrink-0 text-ink transition-transform duration-hover ease-out group-open:rotate-45" />
-      </summary>
-      <p className="mt-3 max-w-[62ch] font-body text-body text-pretty text-ink">{item.a}</p>
-    </details>
-  );
-}
+const titleWithStop = (title: string): string => (/[.?!]$/.test(title) ? title : `${title}.`);
 
 export default function FaqPage() {
   const groups = faqGroups();
@@ -55,29 +45,42 @@ export default function FaqPage() {
             subhead="Everything we are asked, in one place — products, photos, timing, privacy, refunds."
           />
 
+          {/* Below lg the sticky rail is hidden, so a page of 34 accordions had no index at all
+              (smooth audit S16). This is the same ten anchors as one wrapped row of 44 px chips —
+              plain links, so it needs no JavaScript and lands on the same headings. */}
+          <nav aria-label="Jump to a group" className="mt-8 lg:hidden">
+            <ul className="flex flex-wrap gap-2">
+              {groups.map((group) => (
+                <li key={group.group}>
+                  <a
+                    href={`#faq-${group.group}`}
+                    className="inline-flex min-h-11 items-center rounded-ui border border-hairline px-3 font-body text-small text-ink transition-colors duration-hover ease-out hover:bg-ink/5"
+                  >
+                    {group.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
           <div className="mt-8 lg:mt-12 lg:grid lg:grid-cols-12 lg:gap-x-8">
             <nav aria-label="FAQ groups" className="hidden lg:sticky lg:top-20 lg:col-span-3 lg:block lg:self-start">
               <FaqRail groups={groups.map((group) => ({ id: `faq-${group.group}`, title: group.title }))} />
             </nav>
 
             <div className="lg:col-span-9">
-              {groups.map((group) => {
-                const [first, ...rest] = group.items;
-                return (
-                  <section key={group.group} aria-labelledby={`faq-${group.group}`} className="mt-12 first:mt-0 scroll-mt-20">
-                    <h2 id={`faq-${group.group}`} className="font-display text-h3 uppercase text-ink">
-                      {group.title}
-                    </h2>
-                    {/* The first answer in each group is open: a page of 34 shut rows answers nothing
-                        above the fold and gives the reader no sample of the voice. The rest stay shut.
-                        FaqList has no "open the first" prop yet — see INTEGRATION-NOTES. */}
-                    <div className="mt-4">
-                      {first ? <OpenAnswer item={first} alone={rest.length === 0} /> : null}
-                      {rest.length ? <FaqList items={rest} /> : null}
-                    </div>
-                  </section>
-                );
-              })}
+              {groups.map((group) => (
+                <section key={group.group} aria-labelledby={`faq-${group.group}`} className="mt-12 first:mt-0 scroll-mt-20">
+                  <h2 id={`faq-${group.group}`} className="font-display text-h3 uppercase text-ink">
+                    {titleWithStop(group.title)}
+                  </h2>
+                  {/* The first answer in each group is open: a page of 34 shut rows answers nothing
+                      above the fold and gives the reader no sample of the voice. The rest stay shut. */}
+                  <div className="mt-4">
+                    <FaqList items={group.items} openFirst />
+                  </div>
+                </section>
+              ))}
 
               <div className="mt-16">
                 <CtaPair primary={cta.primary} secondary={cta.secondary} size="lg" />

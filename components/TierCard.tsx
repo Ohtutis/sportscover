@@ -63,7 +63,14 @@ export function TierCard({ tier, now, box, shipsFrom, chip, cta, id, sportCode, 
         ) : null}
       </p>
       {onSale ? <p className="mt-1 font-body text-small text-muted-text">Sale price until {saleEndsLabel()}</p> : null}
-      <dl className="mt-6 divide-y divide-hairline border-y border-hairline">
+      {/*
+        `grow` on the table, not on the space above the CTA (layout audit, 2026-09-08). The cards are
+        stretched to one height, so the shortest ladder rung had to absorb the difference somewhere:
+        with the slack sitting between the table and the chip it read as a 78–115 px hole punched into
+        the featured card. Inside the ruled block it is the table's own last row, every card's bottom
+        rule lands on one line, and the chip and CTA still sit on one baseline across the ladder.
+      */}
+      <dl className="mt-6 grow divide-y divide-hairline border-y border-hairline">
         <div className="py-3">
           <dt className={LABEL}>What&apos;s in the box</dt>
           <dd className="mt-2">

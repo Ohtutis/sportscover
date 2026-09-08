@@ -156,6 +156,10 @@ export function storyScenes(): StoryScene[] {
 }
 
 const PHOTO_SIZES = "(min-width: 1024px) 130px, (min-width: 640px) 15vw, 25vw";
+// Photos 3 and 4 are `hidden sm:block` (S17 — the page weighed 1508 KB at 390 against a 600 KB budget,
+// and four 3 : 4 photos in a 350 px stage were unreadable anyway). The 1 px candidate keeps them off the
+// phone entirely, the same trick the poster uses one line down.
+const PHOTO_SIZES_WIDE = "(max-width: 639px) 1px, (min-width: 1024px) 130px, 15vw";
 const CARD_SIZES = "(min-width: 1024px) 200px, (min-width: 640px) 24vw, 32vw";
 // The poster is `hidden sm:block`; the 1 px candidate keeps it off the phone entirely.
 const POSTER_SIZES = "(max-width: 639px) 1px, (min-width: 1024px) 180px, 22vw";
@@ -180,13 +184,15 @@ const HAND = [
  */
 export function sceneChips(scene: StoryScene): string[] {
   const n = scene.deck.length;
-  return [`${n} photo${n === 1 ? "" : "s"} in`, "Reference plate locked", "Proof approved", scene.registered].filter(
+  return [`${n} photo${n === 1 ? "" : "s"} in`, "Athlete reference approved", "Proof approved", scene.registered].filter(
     (c): c is string => c !== null,
   );
 }
 
 const CHIP_CLASS =
-  "inline-flex items-center gap-1.5 rounded-[4px] border border-hairline bg-stock px-2 py-1 font-label text-[0.5625rem] font-semibold uppercase leading-none tracking-[0.1em] text-ink shadow-[0_1px_2px_rgb(20_25_31/.10)] sm:text-label";
+  // 0.6875rem = 11 px, the floor everything else on the site respects (StatusChip). It was 9 px here,
+  // uppercase Barlow at 0.1em tracking — the only 9 px type on the site, and only on the phone.
+  "inline-flex items-center gap-1.5 rounded-[4px] border border-hairline bg-stock px-2 py-1 font-label text-[0.6875rem] font-semibold uppercase leading-none tracking-[0.1em] text-ink shadow-[0_1px_2px_rgb(20_25_31/.10)] sm:text-label";
 
 /**
  * One scene of the story, laid out in the stage box. Percentages, never pixels: the box has a fixed
@@ -196,15 +202,21 @@ const CHIP_CLASS =
  */
 function Scene({ scene }: { scene: StoryScene }) {
   const chips = sceneChips(scene);
+  // The phone deals TWO photos, the tablet and desktop all four (S17). C13 has to ride whichever photo
+  // ends up ON TOP — index 1 on the phone, the last one everywhere else — so on a four-photo hand the
+  // label is rendered twice and each copy is shown at exactly one of the two widths.
+  const topPhone = Math.min(1, scene.deck.length - 1);
+  const topWide = scene.deck.length - 1;
   return (
     <>
       {scene.deck.map((photo, i) => {
         const hand = HAND[i % HAND.length];
+        const wideOnly = i > 1;
         return (
           <div
             key={photo.src + i}
             data-story-part="photo"
-            className="absolute left-[1%] top-[5%] w-[27%] sm:left-0 sm:top-[14%] sm:w-[17%]"
+            className={`absolute left-[1%] top-[5%] w-[27%] sm:left-0 sm:top-[14%] sm:w-[17%] ${wideOnly ? "hidden sm:block" : ""}`.trim()}
             style={
               {
                 "--fan-x": hand.fx,
@@ -219,9 +231,9 @@ function Scene({ scene }: { scene: StoryScene }) {
             }
           >
             <div className="relative aspect-[3/4] w-full overflow-hidden rounded-none shadow-[var(--shadow-card-stock)] ring-[5px] ring-white">
-              <Image src={photo.src} alt={photo.alt} fill sizes={PHOTO_SIZES} className="object-cover" />
-              {/* C13 rides the photo that ends up ON TOP — on the first one the pile buries it. */}
-              {i === scene.deck.length - 1 ? <FictionalLabel inFrame compact /> : null}
+              <Image src={photo.src} alt={photo.alt} fill sizes={wideOnly ? PHOTO_SIZES_WIDE : PHOTO_SIZES} className="object-cover" />
+              {i === topPhone ? <FictionalLabel inFrame compact className={topPhone === topWide ? "" : "sm:hidden"} /> : null}
+              {i === topWide && topWide !== topPhone ? <FictionalLabel inFrame compact className="hidden sm:inline-flex" /> : null}
             </div>
           </div>
         );
@@ -252,14 +264,17 @@ function Scene({ scene }: { scene: StoryScene }) {
       {scene.sport && scene.style ? (
         <p
           data-story-part="label"
-          className="absolute right-0 top-[6%] z-30 font-label text-[0.5625rem] font-semibold uppercase leading-none tracking-[0.12em] text-muted-text sm:text-label"
+          className="absolute right-0 top-[6%] z-30 font-label text-[0.6875rem] font-semibold uppercase leading-none tracking-[0.12em] text-muted-text sm:text-label"
         >
           {scene.sport.name} · {scene.style.name}
         </p>
       ) : null}
       <div
         data-story-chips=""
-        className="absolute bottom-[1%] left-0 z-30 flex w-[56%] flex-col items-start gap-[3%] sm:bottom-[3%] sm:w-[40%] sm:gap-[2.5%]"
+        // 68 % at 390, not 56 %: at the 11 px floor (the 9 px this used to set was the only 9 px type on
+        // the site) "Athlete reference approved" wrapped to two lines and the registration chip pushed
+        // 3 px past the stage. Every chip is one line again.
+        className="absolute bottom-[1%] left-0 z-30 flex w-[68%] flex-col items-start gap-[3%] sm:bottom-[3%] sm:w-[40%] sm:gap-[2.5%]"
       >
         {chips.map((chip, i) => (
           <span key={chip} data-story-chip="" className={CHIP_CLASS}>
@@ -282,9 +297,15 @@ export function Hero() {
   const { primary } = ctaFor("home");
   return (
     <section aria-labelledby={sectionId(1)} className="pb-10 pt-8 lg:pb-16 lg:pt-16">
+      {/*
+        6 / 6, per DESIGN §5.1-01. At 5 / 7 the text column was 362 px at 1024 and 508 px at 1440, which
+        set a 46-character H1 in FOUR lines at every width, while the 724 px stage beside it had ~320 px
+        of blank ground on its right (layout audit 2026-09-08, blocker 5). The H1's own measure goes to
+        20ch for the same reason — `max-w-[16ch]` cannot hold this sentence in three lines at any width.
+      */}
       <div className="container-gallery lg:grid lg:grid-cols-12 lg:items-stretch lg:gap-x-8">
-        <div className="flex flex-col justify-center lg:col-span-5">
-          <SectionHeading as="h1" id={sectionId(1)} title={HERO_H1} subhead={HERO_SUBHEAD} />
+        <div className="flex flex-col justify-center lg:col-span-6">
+          <SectionHeading as="h1" id={sectionId(1)} title={HERO_H1} subhead={HERO_SUBHEAD} className="[&>h1]:max-w-[20ch]" />
           <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
             <CtaPair primary={primary} size="lg" className="w-full sm:w-auto" />
             <a
@@ -295,7 +316,7 @@ export function Hero() {
             </a>
           </div>
         </div>
-        <div className="mt-10 lg:col-span-7 lg:mt-0">
+        <div className="mt-10 lg:col-span-6 lg:mt-0">
           <HeroStory
             summary={HERO_STORY_SUMMARY}
             labels={scenes.map((s, i) => s.sport?.name.toLowerCase() ?? `${i + 1}`)}

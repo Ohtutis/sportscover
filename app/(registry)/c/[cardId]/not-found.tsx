@@ -2,15 +2,16 @@
 // for a `deleted` record whose /api/gone rewrite is missing. Unknown IDs never reach a function
 // (`dynamicParams = false`), they fall to the root 404, whose NotFoundBody renders this same copy
 // by pathname. Server component: the lookup is a plain POST that works without JS.
+//
+// The two 404s had drifted apart (audit 2026-09-08, N10): the copy was declared twice and the root
+// one hand-rolled the input, so it shipped without the help line under the field. One string table,
+// one form component, one primary button.
 import { Shield } from "../../../../components/brand/Shield";
 import { ButtonLink } from "../../../../components/ButtonLink";
 import { LookupForm } from "../../../../components/LookupForm";
+import { CARD_NOT_FOUND } from "../../../../components/NotFoundBody";
 
-export const CARD_NOT_FOUND = {
-  title: "NO CARD REGISTERED UNDER THIS ID.",
-  body: "Check the back of the card — the ID reads GDE-XX-XXX-YYYY-NN. Mind O versus 0 and I versus 1.",
-  link: "What is a registered edition?",
-} as const;
+export { CARD_NOT_FOUND };
 
 export default function CardNotFound() {
   return (

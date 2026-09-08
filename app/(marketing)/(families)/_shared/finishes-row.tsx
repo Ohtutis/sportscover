@@ -16,8 +16,14 @@ import { Section } from "./section";
  * one athlete each, never a mixture, and never a room shot at tile size.
  */
 export const FINISHES_TITLE = "ONE ATHLETE. SIX FINISHES.";
+/*
+  The old line — "The finish speaks through material … never through a different layout" — was a
+  design-system rule read out to the customer, and the word "plate" in the middle of it meant a
+  material, a third sense of a word the site was already using two ways (smooth audit, 2026-09-08).
+  What a parent needs from this row is what changes and what does not.
+*/
 export const FINISHES_SUBHEAD =
-  "The finish speaks through material — foil, chrome, ember, plate, spotlight, prism — never through a different layout.";
+  "Six materials, one layout: silver foil, chrome, ember, classic card, spotlight and prism. The finish changes the material and the light, never where anything sits.";
 export const SENIOR_NIGHT_LINE =
   "Ordering for senior night? The Senior Night edition replaces the finish picker with class year, career line and senior quote.";
 export const SENIOR_NIGHT_LINK = "/senior-night";
@@ -43,7 +49,7 @@ export function FinishesRow({ variant }: { variant: "card" | "poster" }) {
                   <CardFace {...spec} labelled sizes={TILE_SIZES} />
                 )
               ) : (
-                <div className="flex aspect-[5/7] items-center justify-center rounded-ui border border-hairline bg-stock p-4 text-center font-body text-small text-muted-text">
+                <div className="flex aspect-[5/7] items-center justify-center rounded-none border border-dashed border-hairline bg-stock p-4 text-center font-body text-small text-muted-text">
                   {style.material}
                 </div>
               )}

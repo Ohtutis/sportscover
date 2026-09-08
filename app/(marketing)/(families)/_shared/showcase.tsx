@@ -97,7 +97,16 @@ export function showcaseList(
 export interface ShowcaseFigureProps {
   item: Showcase;
   sizes: string;
-  /** Tailwind aspect class for the reserved box — the photograph never decides the layout. */
+  /**
+   * Tailwind aspect class for the reserved box, or `"natural"` — the asset's own ratio, so the box
+   * reserves exactly the picture and `object-cover` crops nothing.
+   *
+   * A fixed ratio is right for a ROW of frames, which has to sit on one baseline. It is wrong for a
+   * single frame whose subject is the product: `aspect-[4/5]` on a 1.37 : 1 photograph cut 42 % of the
+   * width off `/trading-cards` — 276 px from each side, straight through the card the athlete is
+   * holding up — and `aspect-[3/2]` on a square one cut 33 % of the height off `/complete-set`, top
+   * and bottom, on the page whose H2 is "EVERYTHING YOU GET." (layout audit, 2026-09-08).
+   */
   aspect?: string;
   /** Name the sport above the caption (a row of frames whose whole point is that they differ). */
   showSport?: boolean;
@@ -119,9 +128,13 @@ export interface ShowcaseFigureProps {
  * every one of these sits below the first screen or beside copy that is the LCP.
  */
 export function ShowcaseFigure({ item, sizes, aspect = "aspect-[4/3]", showSport = false, labelled = false, showCaption = true, className = "" }: ShowcaseFigureProps) {
+  const natural = aspect === "natural";
   return (
     <figure className={className || undefined}>
-      <div className={`relative ${aspect} w-full overflow-hidden rounded-ui bg-arena`}>
+      <div
+        className={`relative ${natural ? "" : aspect} w-full overflow-hidden rounded-ui bg-arena`}
+        style={natural ? { aspectRatio: `${item.spec.width} / ${item.spec.height}` } : undefined}
+      >
         <Image src={item.spec.src} alt={item.spec.alt} fill sizes={sizes} className="object-cover" />
       </div>
       {showSport && item.sport ? (

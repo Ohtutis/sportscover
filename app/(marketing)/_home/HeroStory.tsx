@@ -78,7 +78,12 @@ export function HeroStory({ scenes, captions, labels, summary, className = "" }:
   const beat = started ? step % STORY_BEATS.length : 0;
   const scene = started ? Math.floor(step / STORY_BEATS.length) % count : 0;
   const still = reduced || !started || count < 2;
-  const phase = still ? "still" : STORY_BEATS[beat].phase;
+  // PAUSED RESOLVES TO "still", NOT TO THE FRAME THAT HAPPENED TO BE RUNNING (audit 2026-09-08, B1/B2).
+  // Freezing the live beat left a motion-averse visitor — the one person certain to press pause — looking
+  // at `deal` or `gather` for ever: no poster, no card, no chips, two thirds of an empty stage. It also
+  // broke the dots: `go(i)` sets the step to that scene's first beat, and with the timer stopped the
+  // chosen example never assembled. "still" is the server frame — the scene `step` points at, complete.
+  const phase = still || paused ? "still" : STORY_BEATS[beat].phase;
   const running = !reduced && count > 1 && !paused;
 
   useEffect(() => {
@@ -121,7 +126,8 @@ export function HeroStory({ scenes, captions, labels, summary, className = "" }:
             <button
               type="button"
               onClick={() => setPaused((p) => !p)}
-              aria-pressed={paused}
+              // No `aria-pressed`: the label already changes with the state, and the two together made a
+              // screen reader say "Play the example, toggle button, pressed" (audit 2026-09-08, S14).
               aria-label={paused ? STORY_LABELS.play : STORY_LABELS.pause}
               className="inline-flex h-11 w-11 items-center justify-center rounded-ui text-ink transition-[background-color] duration-hover ease-out hover:bg-ink/5"
             >
@@ -138,11 +144,13 @@ export function HeroStory({ scenes, captions, labels, summary, className = "" }:
                   onClick={() => go(i)}
                   aria-current={i === scene ? "true" : undefined}
                   aria-label={STORY_LABELS.show(label)}
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-ui"
+                  className="group inline-flex h-11 w-11 items-center justify-center rounded-ui"
                 >
                   <span
                     aria-hidden="true"
-                    className={`block h-2 w-2 rounded-full transition-colors duration-hover ease-out ${i === scene ? "bg-ink" : "bg-ink/25"}`}
+                    className={`block h-2 w-2 rounded-full transition-colors duration-hover ease-out ${
+                      i === scene ? "bg-ink" : "bg-ink/25 group-hover:bg-ink/60"
+                    }`}
                   />
                 </button>
               </li>

@@ -35,11 +35,19 @@ export interface CardFlipProps {
   autoplay?: boolean;
   /** The front is the page's LCP image. */
   priority?: boolean;
-  labels?: { flip: string; flipBack: string };
+  labels?: { flip: string; flipBack: string; click?: string; clickBack?: string };
   /** aria-label of the noscript video, e.g. "Card flip video, Marcus Ellison, Stadium Night finish". */
   videoLabel?: string;
   /** A static back rendered beside the flip at ≥ md (product §3) so the QR and ID are seen without interaction. */
   staticBackBeside?: ReactNode;
+  /**
+   * The band the card sits on. Everything used to be hard-wired to arena — on the stock product pages
+   * the caption measured 1.84 : 1 (#AEB6C2 on #F4F3EF at 12 px) and it is the ONLY thing telling anyone
+   * the card is interactive (audit 2026-09-08, B3). Defaults to stock, and the stock classes carry
+   * `arena:` overrides, so a page inside `[data-surface="arena"]` that never passes the prop still gets
+   * the arena caption, the arena shadow and the arena switch.
+   */
+  tone?: "stock" | "arena";
   sizes?: string;
   className?: string;
 }
@@ -47,11 +55,33 @@ export interface CardFlipProps {
 type Side = "front" | "back";
 type Signature = "none" | "flip" | "flip-back";
 
-export const FLIP_LABELS = { flip: "Tap to flip", flipBack: "Tap to flip back" } as const;
-export const FLIP_ARIA = { toBack: "Tap to flip — show the back", toFront: "Tap to flip — show the front" } as const;
+/**
+ * "Tap" is the caption on a desktop mouse too (audit 2026-09-08, N8). Both wordings ship and CSS picks
+ * one by pointer type, so the touch string stays exactly what it was.
+ */
+export const FLIP_LABELS = { flip: "Tap to flip", flipBack: "Tap to flip back", click: "Click to flip", clickBack: "Click to flip back" } as const;
+/**
+ * The aria-label names the ACTION, so it changes with the side and carries no `aria-pressed` — the two
+ * together made a screen reader say "Tap to flip — show the front, toggle button, pressed" (S14).
+ */
+export const FLIP_ARIA = { toBack: "Show the back of the card", toFront: "Show the front of the card" } as const;
 export const FLIP_ANNOUNCE = { back: "Showing the back", front: "Showing the front" } as const;
 
 const escapeAttr = (s: string): string => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+
+/**
+ * The caption is the flip's only affordance, so it is held to body-text contrast on both bands, and it
+ * lights up on hover — the largest interactive object on four pages answered the pointer with nothing
+ * at all (N2). `group-hover` comes from the button.
+ */
+const CAPTION = {
+  stock: "text-muted-text transition-colors duration-hover ease-out group-hover:text-ink arena:text-arena-muted arena:group-hover:text-white",
+  arena: "text-arena-muted transition-colors duration-hover ease-out group-hover:text-white",
+} as const;
+
+/** A stock-toned face still needs the arena shadow and the inset hairline when the band around it is dark. */
+const faceAdapt =
+  "arena:shadow-[var(--shadow-card-arena)] arena:after:pointer-events-none arena:after:absolute arena:after:inset-0 arena:after:ring-1 arena:after:ring-inset arena:after:ring-white/10";
 
 export function CardFlip({
   front,
@@ -63,6 +93,7 @@ export function CardFlip({
   labels = FLIP_LABELS,
   videoLabel,
   staticBackBeside,
+  tone = "stock",
   sizes = "(min-width: 768px) 360px, 80vw",
   className = "",
 }: CardFlipProps) {
@@ -146,9 +177,8 @@ export function CardFlip({
           <button
             type="button"
             onClick={toggle}
-            aria-pressed={side === "back"}
             aria-label={side === "front" ? FLIP_ARIA.toBack : FLIP_ARIA.toFront}
-            className="block w-full rounded-none text-left perspective-[1200px]"
+            className="group block w-full rounded-none text-left perspective-[1200px]"
           >
             <div
               ref={cardRef}
@@ -157,17 +187,26 @@ export function CardFlip({
               className={`relative aspect-[5/7] w-full transform-3d rounded-none ${motion}`.trim()}
             >
               <div className="absolute inset-0 backface-hidden rounded-none">
-                <CardFace {...front} fill surface="arena" sizes={sizes} priority={priority} />
+                <CardFace {...front} fill surface={tone} className={faceAdapt} sizes={sizes} priority={priority} />
               </div>
               <div className="absolute inset-0 rotate-y-180 backface-hidden rounded-none">
-                <CardFace {...back} fill surface="arena" sizes={sizes} loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "low" : undefined} />
+                <CardFace
+                  {...back}
+                  fill
+                  surface={tone}
+                  className={faceAdapt}
+                  sizes={sizes}
+                  loading={priority ? "eager" : "lazy"}
+                  fetchPriority={priority ? "low" : undefined}
+                />
               </div>
             </div>
-            <span aria-hidden="true" className="mt-3 block text-center font-label text-label font-semibold uppercase tracking-[0.12em] text-arena-muted">
-              {side === "front" ? labels.flip : labels.flipBack}
+            <span aria-hidden="true" className={`mt-3 block text-center font-label text-label font-semibold uppercase tracking-[0.12em] ${CAPTION[tone]}`}>
+              <span className="[@media(pointer:fine)]:hidden">{side === "front" ? labels.flip : labels.flipBack}</span>
+              <span className="hidden [@media(pointer:fine)]:inline">{side === "front" ? (labels.click ?? labels.flip) : (labels.clickBack ?? labels.flipBack)}</span>
             </span>
           </button>
-          {reduced ? <FlipSideSwitch side={side} onChange={show} className="mt-3" /> : null}
+          {reduced ? <FlipSideSwitch side={side} onChange={show} tone={tone} className="mt-3" /> : null}
           <span role="status" aria-live="polite" className="sr-only">
             {announce}
           </span>

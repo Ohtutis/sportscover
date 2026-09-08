@@ -12,14 +12,17 @@
 // preload: true all 14 files would be <link rel=preload>ed on every /c page (~500 KB+).
 //
 // Every declaration sets the SAME two CSS variables (--ff-display, --ff-supporting): only one pair's
-// className is applied per page, so the wrapper element resolves the finish's family. Anton / Barlow /
-// Space Grotesk are declared a second time here under the finish variable names — the underlying
-// woff2 is content-hashed by next/font, so the browser fetches the same URL it already has.
+// className is applied per page, so the wrapper element resolves the finish's family.
+//
+// A finish face that is ALREADY a site family is never re-declared here. Re-declaring it did NOT
+// reuse the file: next/font marks a preloaded face `<hash>-s.p.woff2` and a non-preloaded one
+// `<hash>-s.woff2`, so Stadium Night (Anton + Barlow, the site pair) downloaded Anton twice and
+// Barlow twice — 7 files / 113 KB on a mobile-first QR landing page (smooth audit S5). Those pairs
+// point --ff-display / --ff-supporting at the site variables instead, with a Tailwind arbitrary
+// property; the CSS in globals.css already falls back to the same two families.
 import {
-  Anton,
   Archivo,
   Archivo_Narrow,
-  Barlow,
   Chakra_Petch,
   Graduate,
   Khand,
@@ -29,22 +32,22 @@ import {
   Playfair_Display,
   Russo_One,
   Saira_Condensed,
-  Space_Grotesk,
 } from "next/font/google";
 import type { Style } from "../catalog/styles";
 
 /** Same shape as `StyleCode` in lib/catalog/styles.ts (derived here so this file does not depend on that export landing). */
 type StyleCode = Style["code"];
 
-const snDisplay = Anton({ weight: "400", subsets: ["latin"], display: "swap", preload: false, variable: "--ff-display" });
-const snSupporting = Barlow({ weight: ["500", "600"], subsets: ["latin"], display: "swap", preload: false, variable: "--ff-supporting" });
+// Stadium Night IS the site pair (Anton + Barlow): no font is loaded for it at all.
+const SITE_ANTON = "[--ff-display:var(--font-anton)]";
+const SITE_BARLOW = "[--ff-supporting:var(--font-barlow)]";
+const SITE_SPACE_GROTESK = "[--ff-display:var(--font-space-grotesk)]";
 const caDisplay = Russo_One({ weight: "400", subsets: ["latin"], display: "swap", preload: false, variable: "--ff-display" });
 const caSupporting = Saira_Condensed({ weight: ["500", "600", "700"], subsets: ["latin"], display: "swap", preload: false, variable: "--ff-supporting" });
 const fsDisplay = Passion_One({ weight: ["400", "700"], subsets: ["latin"], display: "swap", preload: false, variable: "--ff-display" });
 const fsSupporting = Khand({ weight: ["500", "600"], subsets: ["latin"], display: "swap", preload: false, variable: "--ff-supporting" });
 const heDisplay = Graduate({ weight: "400", subsets: ["latin"], display: "swap", preload: false, variable: "--ff-display" });
 const heSupporting = Archivo_Narrow({ subsets: ["latin"], display: "swap", preload: false, variable: "--ff-supporting" }); // variable
-const ssDisplay = Space_Grotesk({ subsets: ["latin"], display: "swap", preload: false, variable: "--ff-display" }); // variable
 const ssSupporting = Archivo({ subsets: ["latin"], display: "swap", preload: false, variable: "--ff-supporting" }); // variable
 const prDisplay = Orbitron({ subsets: ["latin"], display: "swap", preload: false, variable: "--ff-display" }); // variable
 const prSupporting = Chakra_Petch({ weight: ["500", "700"], subsets: ["latin"], display: "swap", preload: false, variable: "--ff-supporting" });
@@ -58,11 +61,11 @@ export interface FinishFonts {
 }
 
 export const FINISH_FONTS: Record<StyleCode, FinishFonts> = {
-  SN: { className: `${snDisplay.variable} ${snSupporting.variable}`, display: "Anton", supporting: "Barlow" },
+  SN: { className: `${SITE_ANTON} ${SITE_BARLOW}`, display: "Anton", supporting: "Barlow" },
   CA: { className: `${caDisplay.variable} ${caSupporting.variable}`, display: "Russo One", supporting: "Saira Condensed" },
   FS: { className: `${fsDisplay.variable} ${fsSupporting.variable}`, display: "Passion One", supporting: "Khand" },
   HE: { className: `${heDisplay.variable} ${heSupporting.variable}`, display: "Graduate", supporting: "Archivo Narrow" },
-  SS: { className: `${ssDisplay.variable} ${ssSupporting.variable}`, display: "Space Grotesk", supporting: "Archivo" },
+  SS: { className: `${SITE_SPACE_GROTESK} ${ssSupporting.variable}`, display: "Space Grotesk", supporting: "Archivo" },
   PR: { className: `${prDisplay.variable} ${prSupporting.variable}`, display: "Orbitron", supporting: "Chakra Petch" },
   SR: { className: `${srDisplay.variable} ${srSupporting.variable}`, display: "Playfair Display", supporting: "Oswald" },
 };
