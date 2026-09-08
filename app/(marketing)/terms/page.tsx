@@ -29,7 +29,7 @@ function Section({ id, title, children }: { id?: string; title: string; children
 }
 
 const REFUND_LADDER: string[] = [
-  "Until you approve the reference plate you may cancel for any reason with a full refund.",
+  "Until you approve the reference set you may cancel for any reason with a full refund.",
   "If the photo check is not passed and you have no stronger photos, the order is refunded in full within 1 business day.",
   "If after one revision you are still not happy with the proof, we refund every cent.",
   "After proof approval printing starts and the order cannot be cancelled. If anything about a printed item is wrong when it arrives, we reprint it free or refund you in full and you keep the cards. That remedy covers defects — damage, mis-cutting, wrong color — not a change of mind, and we may decline repeated claims on one order or ask for a photo of the defect.",
@@ -115,7 +115,7 @@ export default function TermsPage() {
 
           <Section title="5. Approvals.">
             <p>
-              Two approvals are yours: the reference plate (by email) and the proof (on your order page, or by Etsy message for Etsy orders).{" "}
+              Two approvals are yours: the reference set — the three views of your athlete, by email — and the proof (on your order page, or by Etsy message for Etsy orders).{" "}
               {CANON.proofChecklist} One revision is included. Printing starts only after your proof approval.
             </p>
           </Section>
@@ -154,8 +154,8 @@ export default function TermsPage() {
             <p>
               <strong>
                 We keep every registered page online for at least five years from the order date. If the service ever winds down, we will keep
-                the registry resolving for the rest of that period or tell you how to keep a copy of your page; the domain is locked and set to
-                renew automatically.
+                the registry resolving for the rest of that period or tell you how to keep a copy of your page; the domain is protected against
+                transfer and set to renew automatically.
               </strong>
             </p>
             <p>

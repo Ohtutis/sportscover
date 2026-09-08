@@ -172,7 +172,7 @@ const entries: Record<string, Entry> = {
   },
   "home.process.plate": {
     out: OUT_PLATE, source: `${APPROVED_BKB}/_identity.png`, ...PLATE, kind: "plate", fictional: true, status: "verified",
-    alt: "Reference plate: three views of a fictional athlete built from their photos",
+    alt: "Three views of a fictional athlete, built from their photos",
   },
   "home.process.proof": {
     out: OUT_PROOF, source: `${SNS}/bsb-sr-proof.png`, width: 1400, height: 1092, kind: "artefact",
@@ -484,21 +484,21 @@ const entries: Record<string, Entry> = {
   "how.gate.kit": {
     out: "/images/how-it-works/kit-plate-front-basketball.webp", source: `${APPROVED_BKB}/_kit.png`, width: 1200, height: 1200,
     kind: "plate", fictional: true, status: "verified",
-    alt: "Kit plate, front: the fictional athlete's jersey, shorts and crest copied from their photos",
+    alt: "The uniform, front: the fictional athlete's jersey, shorts and crest copied from their photos",
   },
   "how.gate.kit-back": {
     out: "/images/how-it-works/kit-plate-back-basketball.webp", source: `${APPROVED_BKB}/_kit-back.png`, width: 1200, height: 1200,
     kind: "plate", fictional: true, status: "verified",
-    alt: "Kit plate, back: the fictional athlete's jersey from behind, number and crest as photographed",
+    alt: "The uniform, back: the fictional athlete's jersey from behind, number and crest as photographed",
   },
   "how.gate.plate": {
     out: OUT_PLATE, source: `${APPROVED_BKB}/_identity.png`, ...PLATE, kind: "plate", fictional: true, status: "verified",
-    alt: "Reference plate: three views of a fictional athlete built from their photos",
+    alt: "Three views of a fictional athlete, built from their photos",
   },
   "how.gate.plate-back": {
     out: "/images/how-it-works/reference-plate-back-basketball.webp", source: `${APPROVED_BKB}/_identity-back.png`, ...PLATE,
     kind: "plate", fictional: true, status: "verified",
-    alt: "Reference plate, from behind: the fictional athlete's back view built from their photos",
+    alt: "The reference from behind: the fictional athlete's back view built from their photos",
   },
   "how.gate.shots": {
     out: "", width: 0, height: 0, kind: "sheet", status: "locate", alt: "",
@@ -506,15 +506,15 @@ const entries: Record<string, Entry> = {
   },
   "how.gate.shots.1": {
     out: "/images/how-it-works/shot-1-hero-basketball.webp", source: `${APPROVED_BKB}/hero.png`, ...SHOT, kind: "artefact",
-    fictional: true, status: "verified", alt: "Shot 1 of 4: the hero frame of a fictional basketball player, built from the reference plate",
+    fictional: true, status: "verified", alt: "Shot 1 of 4: the main shot of a fictional basketball player, built from the approved reference",
   },
   "how.gate.shots.2": {
     out: "/images/how-it-works/shot-2-action-basketball.webp", source: `${APPROVED_BKB}/action2.png`, ...SHOT, kind: "artefact",
-    fictional: true, status: "verified", alt: "Shot 2 of 4: an action frame of the same fictional basketball player",
+    fictional: true, status: "verified", alt: "Shot 2 of 4: an action shot of the same fictional basketball player",
   },
   "how.gate.shots.3": {
     out: "/images/how-it-works/shot-3-action-basketball.webp", source: `${APPROVED_BKB}/action3.png`, ...SHOT, kind: "artefact",
-    fictional: true, status: "verified", alt: "Shot 3 of 4: a second action frame of the same fictional basketball player",
+    fictional: true, status: "verified", alt: "Shot 3 of 4: a second action shot of the same fictional basketball player",
   },
   "how.gate.shots.4": {
     out: "/images/how-it-works/shot-4-back-basketball.webp", source: `${APPROVED_BKB}/back.png`, ...SHOT, kind: "artefact",
@@ -523,7 +523,7 @@ const entries: Record<string, Entry> = {
   "how.gate.verification": {
     out: "/images/how-it-works/frame-beside-plate-wrestling.webp", source: "art-pipeline/out/athletes/wrestling/_diff/hero-vs-_kit.png",
     width: 1600, height: 948, kind: "sheet", fictional: true, status: "verified",
-    alt: "Frame beside its reference plate — verification sheet, fictional athlete",
+    alt: "A shot beside the approved reference — verification sheet, fictional athlete",
   },
   "how.gate.finish": {
     out: OUT_PROOF, source: `${SNS}/bsb-sr-proof.png`, width: 1400, height: 1092, kind: "artefact", fictional: true, status: "verified",

@@ -45,7 +45,7 @@ const STORY: { lead?: string; text: string }[] = [
   },
   {
     lead: "What makes it different.",
-    text: "This is not a template with a photo dropped in. Every piece is composed for the athlete in it — the crop, the light, the type, the color. Six finishes, each with its own materials and mood, from a floodlit stadium at night to high-contrast chrome. Seventeen sports, from basketball and football to gymnastics, wrestling and pickleball.",
+    text: "Every piece is composed for the athlete in it — the crop, the light, the type, the color. Six finishes, each with its own materials and mood, from a floodlit stadium at night to high-contrast chrome. Seventeen sports, from basketball and football to gymnastics, wrestling and pickleball.",
   },
   {
     lead: "How it is made.",
@@ -62,10 +62,10 @@ const STORY: { lead?: string; text: string }[] = [
 ];
 
 const REGISTRY_ESSAY =
-  "A trading card is a claim: this player, this season, this edition. A photo print makes no claim; it is just a nice picture. That is why every card we make carries its registered card ID on the back and opens its own page here — the edition, the finish, the season, the stats, the date it was registered. One registered edition per athlete, per finish, per season. Physical cards are not individually numbered; the record is the registration, not a serial. We keep every registered page online for at least five years from the order, and if the studio ever winds down we keep the registry resolving for that period or tell you how to keep a copy. The domain is locked and renews on its own. A kid who scans the card in 2031 should see what their parent saw in 2026.";
+  "A trading card is a claim: this player, this season, this edition. A photo print makes no claim; it is just a nice picture. That is why every card we make carries its registered card ID on the back and opens its own page here — the edition, the finish, the season, the stats, the date it was registered. One registered edition per athlete, per finish, per season. Physical cards are not individually numbered; the record is the registration, not a serial. We keep every registered page online for at least five years from the order, and if the studio ever winds down we keep the registry resolving for that period or tell you how to keep a copy. The domain is protected against transfer and renews on its own. A kid who scans the card in 2031 should see what their parent saw in 2026.";
 
 const PROOF_ESSAY =
-  "Every edition goes through the same six gates: a photo check that says which photos can carry the likeness; a kit plate copied from your photos; a reference plate of your athlete — three views — that you approve before a single pose is made; four shots built from that plate; a verification sheet where every crest, number and mark on a frame must have a twin on the plate and the face must measure as the same person; and a watermarked proof you approve before anything prints. About fifty frames are generated for one athlete. Four ship. The rest are the rejected takes — the kit that changed between shots, the frame that drifted from the plate — and they are the reason the promise can say what it says.";
+  "Every edition goes through the same six checks: a look at the photos you send, which says which of them can carry the likeness; a drawing of the uniform, copied from those photos; a reference set of your athlete — three views — that you approve before a single pose is made; four shots built from that reference set; a side-by-side check, where every crest, number and mark on a shot has to match that reference set and the face has to measure as the same person; and a watermarked proof you approve before anything prints. About fifty images are made for one athlete. Four ship. The rest are the ones we throw away — the uniform that changed between shots, the shot that drifted away from the reference set — and they are the reason the promise can say what it says.";
 
 /**
  * COPY §2.9 (6). The page used to set five figures of its own (17 · 7 · 27 · 2026 · 2.5 × 3.5) directly
@@ -100,13 +100,13 @@ function Essay({ id, title, children }: { id: string; title: string; children: R
  * at, and three of five sections ending at x ≈ 838 of 1440 with the right half of the screen empty
  * (owner review 2026-09-07). There is no founder photograph: `about.founder` is still `locate` and
  * one is never generated. What this page CAN show truthfully is the studio's own work — the card
- * back that carries the record, the proof a parent approves, the kit plate the crest is copied onto
+ * back that carries the record, the proof a parent approves, the uniform drawing the crest is copied onto
  * and a printed set — so each of those sections becomes text at its measure beside one object.
  * Every one goes through `assetOrNull`, so a key that has not landed leaves the text alone.
  */
 const cardBack = assetOrNull("cards.demo.back");
 const proofSheet = assetOrNull("show.proof.basketball");
-const kitPlate = assetOrNull("how.gate.kit");
+const uniformDrawing = assetOrNull("how.gate.kit");
 const printedSet = assetOrNull("life.set.printed");
 const posterRoom = assetOrNull("life.poster.room");
 
@@ -254,18 +254,18 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 4 — independence and marks, beside the plate the crest is copied onto */}
+      {/* 4 — independence and marks, beside the uniform drawing the crest is copied onto */}
       <section aria-labelledby="s-independent" className="pb-16 md:pb-24 lg:pb-32">
         <div className="container-site">
           <Band
             object={
-              kitPlate ? (
-                <BracketFrame label="KIT PLATE · FRONT" fictional>
+              uniformDrawing ? (
+                <BracketFrame label="THE UNIFORM · FRONT" fictional>
                   <Image
-                    src={kitPlate.src}
-                    alt={kitPlate.alt}
-                    width={kitPlate.width}
-                    height={kitPlate.height}
+                    src={uniformDrawing.src}
+                    alt={uniformDrawing.alt}
+                    width={uniformDrawing.width}
+                    height={uniformDrawing.height}
                     sizes="(min-width: 1024px) 380px, 92vw"
                     className="h-auto w-full rounded-none"
                   />

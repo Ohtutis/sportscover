@@ -30,6 +30,11 @@ export interface LookupFormProps {
 /**
  * The status line for a lookup result. Split out of the form so a client island can render it from
  * the search param while the page around it stays static (see components/LookupMiss.tsx).
+ *
+ * The element is ALWAYS in the DOM, empty when there is nothing to say: a live region that arrives
+ * already carrying its text is not announced by a screen reader — only a change inside a region that
+ * was already there is (smooth audit S9). LookupMiss therefore mounts this empty and fills it a tick
+ * later, and the empty state costs no space.
  */
 export function LookupStatus({ miss, tone = "stock" }: { miss?: string | boolean; tone?: "stock" | "arena" }) {
   const arena = tone === "arena";
@@ -40,11 +45,18 @@ export function LookupStatus({ miss, tone = "stock" }: { miss?: string | boolean
       : miss === "rate"
         ? { chip: "note" as const, text: LOOKUP_STRINGS.rateLimited }
         : { chip: "fail" as const, text: LOOKUP_STRINGS.miss };
-  if (!status) return null;
   return (
-    <p role="status" className={`mt-3 flex flex-wrap items-center gap-2 font-body text-small ${arena ? "text-white" : "text-ink"}`}>
-      <StatusChip status={status.chip} tone={tone} />
-      <span>{status.text}</span>
+    <p
+      role="status"
+      aria-live="polite"
+      className={status ? `mt-3 flex flex-wrap items-center gap-2 font-body text-small ${arena ? "text-white" : "text-ink"}` : undefined}
+    >
+      {status ? (
+        <>
+          <StatusChip status={status.chip} tone={tone} />
+          <span>{status.text}</span>
+        </>
+      ) : null}
     </p>
   );
 }

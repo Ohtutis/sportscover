@@ -128,11 +128,13 @@ export default function RegistryPage() {
                 this size the hard 1 px line read as a second, mis-registered rectangle behind it
                 (owner review 2026-09-07). CardFace owns that shadow and is another builder's file, so
                 the re-aim is a child rule here — one soft shadow, straight down, no hairline. */}
-            <div className="relative mx-auto w-[280px] [&>div]:shadow-[0_30px_54px_-30px_rgb(20_25_31/0.45)] lg:w-[340px]">
+            {/* Flush-left, like the H1 and the form beside it: at 834 this was the only centred
+                object on a page whose sections all open at the left margin (DESIGN §2.5). */}
+            <div className="relative w-[280px] [&>div]:shadow-[0_30px_54px_-30px_rgb(20_25_31/0.45)] lg:w-[340px]">
               <CardFace {...back} labelled sizes="(min-width: 1024px) 340px, 280px" />
               <QrRing />
             </div>
-            <figcaption className="mx-auto mt-4 max-w-[34ch] text-center">
+            <figcaption className="mt-4 max-w-[34ch]">
               <FictionalLabel />
             </figcaption>
           </figure>
@@ -142,7 +144,7 @@ export default function RegistryPage() {
       <section className="mt-16 max-w-[46rem] md:mt-24">
         <SectionHeading as="h2" title="WHAT A REGISTERED EDITION IS." />
         <div className="mt-8 overflow-x-auto">
-          <div className="flex min-w-max items-end justify-center gap-1">
+          <div className="flex min-w-max items-end gap-1">
             {ID_PARTS.map((part, i) => (
               <div key={part.label} className="flex items-end gap-1">
                 {i > 0 ? <span className={`${RECORD} pb-2 text-[1.5rem] text-muted-text md:text-[2rem]`}>-</span> : null}

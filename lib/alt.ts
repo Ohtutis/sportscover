@@ -61,8 +61,8 @@ export function altCertificate(): string {
 /** Process artefacts (COPY §0.5). */
 export const ALT_PROCESS = {
   verdict: "Photo-check verdict as the parent reads it — example order",
-  plate: "Reference plate: three views of a fictional athlete built from their photos",
-  verification: "Frame beside its reference plate — verification sheet, fictional athlete",
+  plate: "Three views of a fictional athlete, built from their photos",
+  verification: "A shot beside the approved reference — verification sheet, fictional athlete",
 } as const;
 
 export const ALT_FOUNDER = "John Birch, designer and founder of Game Day Edition";

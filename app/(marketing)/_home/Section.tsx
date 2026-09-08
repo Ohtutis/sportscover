@@ -47,7 +47,10 @@ export interface HomeSectionProps {
  * BETWEEN sections while the blocks inside sat 8–24 px apart, so every band read as a pile with a
  * canyon under it. The band gap comes down to 96 px and the space is spent inside the blocks.
  */
-export function HomeSection({ n, container = "site", tone = "stock", labelledBy, id, children, className = "py-12 md:py-20 lg:py-24" }: HomeSectionProps) {
+// `py-14`, not `py-12`: every other page uses `py-14 md:py-20 lg:py-24` (`_shared/section.tsx`,
+// `/senior-night`), so the home page alone opened 48 px band gaps at 390 where the rest of the site
+// opens 56 px (layout audit 2026-09-08).
+export function HomeSection({ n, container = "site", tone = "stock", labelledBy, id, children, className = "py-14 md:py-20 lg:py-24" }: HomeSectionProps) {
   return (
     <section
       id={id}

@@ -92,7 +92,9 @@ export function FourFears({ variant, className = "" }: { variant: "long" | "shor
     );
   }
   return (
-    <ul className={`grid auto-rows-fr gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-4 lg:gap-6 ${className}`.trim()}>
+    // 2 x 2 through lg, four across only from xl: at 1024 the four cells were 210 px, the body set
+    // 17 characters to a line and every question broke into four lines (layout audit 2026-09-08).
+    <ul className={`grid auto-rows-fr gap-4 md:grid-cols-2 md:gap-5 lg:gap-6 xl:grid-cols-4 ${className}`.trim()}>
       {items.map((f) => {
         const Icon = icons[f.icon];
         return (

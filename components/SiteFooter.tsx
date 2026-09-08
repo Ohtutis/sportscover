@@ -21,19 +21,22 @@ const LINK =
 /** The imprint block (COPY §1.2) — rendered only when `imprintComplete()`; otherwise the fallback line. */
 function Imprint() {
   const email = (
-    <a href={`mailto:${SUPPORT_EMAIL}`} className="underline decoration-1 underline-offset-4">
+    <a
+      href={`mailto:${SUPPORT_EMAIL}`}
+      className="inline-flex min-h-6 items-center underline decoration-1 underline-offset-4 transition-[color] duration-hover ease-out hover:text-white"
+    >
       {SUPPORT_EMAIL}
     </a>
   );
   if (!imprintComplete()) {
     return (
-      <p className="mt-10 font-body text-small text-white/70">
+      <p className="mt-10 max-w-[62ch] font-body text-small text-white/70">
         Game Day Edition is an independent custom design studio operated from Lithuania. {email}
       </p>
     );
   }
   return (
-    <p className="mt-10 font-body text-small text-white/70">
+    <p className="mt-10 max-w-[62ch] font-body text-small text-white/70">
       {IMPRINT.legalName} · Company code {IMPRINT.companyCode}
       {IMPRINT.vat ? `, VAT ${IMPRINT.vat}` : ""} · {IMPRINT.address} · Responsible person: {OWNER_NAME} · {email}
     </p>
@@ -60,12 +63,19 @@ export function SiteFooter({ className = "" }: { className?: string }) {
         <div className="mt-12 grid gap-10 sm:grid-cols-3">
           {FOOTER_COLUMNS.map((col) => (
             <div key={col.title}>
-              <h2 className="font-label text-label font-semibold uppercase tracking-[0.12em] text-white/60">{col.title}</h2>
+              {/* A <p>, not an <h2>: "Shop" / "Trust" / "Legal" put three sentence-less H2s into the
+                  outline of all 18 documents and were the only H2s on the site without a full stop
+                  (audit 2026-09-08, S15). They are labels; DESIGN §8 makes block titles H3 at most. */}
+              <p className="font-label text-label font-semibold uppercase tracking-[0.12em] text-white/60">{col.title}</p>
               <ul className="mt-3 flex flex-col">
                 {col.links.map((l) => (
                   <li key={l.href}>
                     {l.href.startsWith("/") ? (
-                      <Link href={l.href} className={LINK}>
+                      // prefetch off: the header nav, the body links and these columns each requested the
+                      // same routes under a different `_rsc` hash, so Next never deduped them — 66 requests
+                      // / 130 KB per home load, and /etsy 302s to a cross-origin URL that cannot be
+                      // preflighted at all (audit 2026-09-08, S2 + S3). The header nav keeps its prefetch.
+                      <Link href={l.href} prefetch={false} className={LINK}>
                         {l.label}
                       </Link>
                     ) : (
@@ -80,7 +90,7 @@ export function SiteFooter({ className = "" }: { className?: string }) {
           ))}
         </div>
 
-        <p className="mt-12 font-body text-small text-white/70">{block("independent-studio")}</p>
+        <p className="mt-12 max-w-[62ch] font-body text-small text-white/70">{block("independent-studio")}</p>
 
         {/*
           The studio elsewhere. An entry the Shop column already carries is not a second destination —
@@ -96,7 +106,7 @@ export function SiteFooter({ className = "" }: { className?: string }) {
             {SOCIAL_LINKS.map((s) =>
               s.platform === "Etsy" ? (
                 <li key={s.platform} hidden={COLUMN_HREFS.has("/etsy")}>
-                  <Link href="/etsy" aria-label={`Game Day Edition on ${s.platform}`} className={LINK}>
+                  <Link href="/etsy" prefetch={false} aria-label={`Game Day Edition on ${s.platform}`} className={LINK}>
                     {s.platform}
                   </Link>
                 </li>
@@ -113,7 +123,7 @@ export function SiteFooter({ className = "" }: { className?: string }) {
 
         <Imprint />
 
-        <p className="mt-4 font-body text-[0.75rem] font-medium leading-[1.4] tracking-[0.01em] text-white/60">
+        <p className="mt-4 max-w-[62ch] font-body text-[0.75rem] font-medium leading-[1.4] tracking-[0.01em] text-white/60">
           © {year} Game Day Edition · Designed in Lithuania · Printed by professional labs in the US
         </p>
       </div>

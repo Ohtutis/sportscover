@@ -37,14 +37,19 @@ function Tile({ style }: { style: Style }) {
   return (
     <li className="w-[68vw] max-w-[300px] shrink-0 snap-start md:mx-auto md:w-full">
       <Link href={styleHrefF1(style)} className="group block">
-        {face ? (
-          <CardFace {...face} labelled sizes={TILE_SIZES} />
-        ) : (
-          // A key that is still `locate` renders the text fallback, never an empty box (CONTRACTS §5.8).
-          <span className="flex aspect-[5/7] w-full items-center justify-center rounded-ui border border-hairline bg-stock p-4 text-center font-body text-small text-muted-text">
-            {style.material}
-          </span>
-        )}
+        {/* The whole tile is the link, so the whole tile answers the pointer — a `group-hover:underline`
+            on a 15 px caption under a 300 px card is not a hover state (audit 2026-09-08, N4). Nothing
+            scales, nothing lifts (DESIGN §4.19): a hairline ring appears beside the card. */}
+        <span className="block ring-2 ring-transparent transition-[box-shadow] duration-hover ease-out group-hover:ring-ink/15">
+          {face ? (
+            <CardFace {...face} labelled sizes={TILE_SIZES} />
+          ) : (
+            // A key that is still `locate` renders the text fallback, never an empty box (CONTRACTS §5.8).
+            <span className="flex aspect-[5/7] w-full items-center justify-center rounded-none border border-hairline bg-stock p-4 text-center font-body text-small text-muted-text">
+              {style.material}
+            </span>
+          )}
+        </span>
         {/* Two reserved lines: only SIGNATURE SPOTLIGHT wraps, and without the box the material lines
             under the row sat at two different heights (review 2026-09-07). */}
         <p className="mt-4 min-h-[2.6em] font-body text-[1rem] font-bold uppercase leading-[1.3] tracking-[0.04em] text-ink transition-[text-decoration-thickness] duration-hover ease-out group-hover:underline">

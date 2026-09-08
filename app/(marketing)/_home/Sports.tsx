@@ -10,7 +10,6 @@
 // in the caption row for all seventeen. The back line is printed only where it DIFFERS from the rule
 // the subhead already states ("numbered sports carry their number") — it was repeating under fifteen
 // tiles in a row.
-import Link from "next/link";
 import { Shield } from "../../../components/brand/Shield";
 import { CardFace } from "../../../components/CardFace";
 import { FictionalLabel } from "../../../components/FictionalLabel";
@@ -19,12 +18,13 @@ import { assetOrNull } from "../../../lib/assets";
 import { backLine, sports, type Sport } from "../../../lib/catalog/sports";
 import { CANON } from "../../../lib/copy/canon";
 import { ctaFor } from "../../../lib/cta";
+import { SPORT_GRID_COLUMNS } from "../(families)/_shared/numberless-block";
 import { HomeSection, sectionId, sectionIndex } from "./Section";
 
 export const SPORTS_H2 = "SEVENTEEN SPORTS. THEIR NAME, THEIR CLUB CREST.";
 export const SPORTS_SUBHEAD = `Numbered sports carry their number. ${CANON.numberlessLine}`;
 
-const TILE_SIZES = "(min-width: 1024px) 200px, (min-width: 640px) 22vw, (min-width: 480px) 29vw, 44vw";
+const TILE_SIZES = "(min-width: 1024px) 200px, (min-width: 768px) 18vw, 30vw";
 
 /** The back line the subhead already states for every numbered sport — printed only where it differs. */
 const DEFAULT_BACK_LINE = "their number";
@@ -35,16 +35,25 @@ function SportTile({ sport }: { sport: Sport }) {
   const line = backLine(sport);
   return (
     <li>
-      <Link href={href} className="group block">
-        {face ? (
-          <CardFace {...face} labelled surface="stock" sizes={TILE_SIZES} />
-        ) : (
-          // No card export exists for this sport yet: the same 5 : 7 box, the shield, and the caption
-          // row below saying exactly what a card tile's caption row says.
-          <span className="flex aspect-[5/7] w-full items-center justify-center rounded-none bg-navy shadow-[var(--shadow-card-stock)]">
-            <Shield tone="arena" size={44} />
-          </span>
-        )}
+      {/*
+        A PLAIN <a>, never next/link: every one of these 17 hrefs is `/go/etsy/<sku>`, and Next prefetched
+        each redirect on hover/idle — 7 preflighted OPTIONS per page load, all of them dying on
+        "Redirect is not allowed for a preflight request", 4 red console errors on the home page
+        (audit 2026-09-08, S2). `ButtonLink` already renders a plain anchor for these hrefs; this row
+        bypassed it.
+      */}
+      <a href={href} className="group block">
+        <span className="block ring-2 ring-transparent transition-[box-shadow] duration-hover ease-out group-hover:ring-ink/15">
+          {face ? (
+            <CardFace {...face} labelled surface="stock" sizes={TILE_SIZES} />
+          ) : (
+            // No card export exists for this sport yet: the same 5 : 7 box, the shield, and the caption
+            // row below saying exactly what a card tile's caption row says.
+            <span className="flex aspect-[5/7] w-full items-center justify-center rounded-none bg-navy shadow-[var(--shadow-card-stock)]">
+              <Shield tone="arena" size={44} />
+            </span>
+          )}
+        </span>
         {/* One reserved height for the caption row, so a tile with a back line and a tile without it
             are the same object. */}
         <div className="mt-3 sm:min-h-[3.2em]">
@@ -53,7 +62,7 @@ function SportTile({ sport }: { sport: Sport }) {
             <p className="mt-1 font-body text-[0.75rem] font-medium leading-[1.4] tracking-[0.01em] text-muted-text">{line}</p>
           )}
         </div>
-      </Link>
+      </a>
     </li>
   );
 }
@@ -62,8 +71,14 @@ export function Sports() {
   return (
     <HomeSection n={7} container="gallery">
       <SectionHeading as="h2" id={sectionId(7)} index={sectionIndex(7)} title={SPORTS_H2} subhead={SPORTS_SUBHEAD} />
-      {/* Two columns under 480 px: three made the card 68 px wide at 390 and nothing on it could be read. */}
-      <ul className="mt-10 grid grid-cols-2 gap-x-5 gap-y-6 min-[480px]:grid-cols-3 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-8 lg:grid-cols-6 lg:gap-x-8">
+      {/*
+        Column counts chosen so 17 never leaves ONE tile alone on the last row: 3 → 3·5 + 2, 5 → 5·3 + 2,
+        6 → 6 + 6 + 5. The old ladder (2 / 3 / 4 / 6) orphaned a single tile at 390 and again at 768–1023,
+        and made the 1024 tile 125 px wide — below what a card face can carry (layout audit 2026-09-08).
+        Three across at 390 puts the tile at ~111 px, which is why the gutter is tighter there than the
+        `gap-x-5` this row used to open with; from 420 px up the gutter goes back to normal.
+      */}
+      <ul className={`mt-10 grid ${SPORT_GRID_COLUMNS} gap-x-2 gap-y-5 min-[420px]:gap-x-4 sm:gap-y-7 lg:gap-x-5 lg:gap-y-8`}>
         {sports.map((sport) => (
           <SportTile key={sport.slug} sport={sport} />
         ))}

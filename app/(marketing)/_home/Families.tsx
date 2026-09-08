@@ -21,6 +21,8 @@ export const FAMILIES_SUBHEAD = "Three ways to keep the season. Every one starts
 export const CERTIFICATE_ROW_LINE = "Free printed Certificate of Authenticity in every shipped package.";
 
 const CARD_SIZES = "(min-width: 1024px) 220px, (min-width: 768px) 26vw, 52vw";
+/** The card is 3-across from `md`, so the media well is ~30vw there — `45vw` over-requested by 1.5x. */
+const FAMILY_MEDIA_SIZES = "(min-width: 1024px) 400px, (min-width: 768px) 30vw, 90vw";
 const SMALL_CARD_SIZES = "(min-width: 1024px) 100px, (min-width: 768px) 12vw, 24vw";
 const POSTER_SIZES = "(min-width: 1024px) 260px, (min-width: 768px) 30vw, 60vw";
 
@@ -91,8 +93,14 @@ export function Families({ now }: { now: Date }) {
   return (
     <HomeSection n={3} container="gallery">
       <SectionHeading as="h2" id={sectionId(3)} index={sectionIndex(3)} title={FAMILIES_H2} subhead={FAMILIES_SUBHEAD} />
-      <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {/*
+        Three across from `md`, not two. Three cards in two columns left the third alone beside an empty
+        slot (DESIGN §2.2: "Never an empty slot"), and stacking them 1-up below 1024 made this the second
+        tallest band on an iPad — 1,998 px, against 728 px at 1440 (layout audit 2026-09-08).
+      */}
+      <div className="mt-10 grid gap-6 md:grid-cols-3 md:gap-5 lg:gap-8">
         <FamilyCard
+          sizes={FAMILY_MEDIA_SIZES}
           family="cards"
           from={fromPrice("cards", now)}
           {...(cardsPhoto ? { image: cardsPhoto } : { media: <CardsMedia /> })}
@@ -106,6 +114,7 @@ export function Families({ now }: { now: Date }) {
           cta="See trading cards"
         />
         <FamilyCard
+          sizes={FAMILY_MEDIA_SIZES}
           family="posters"
           from={fromPrice("posters", now)}
           image={posterPhoto}
@@ -119,6 +128,7 @@ export function Families({ now }: { now: Date }) {
           cta="See posters"
         />
         <FamilyCard
+          sizes={FAMILY_MEDIA_SIZES}
           family="set"
           from={fromPrice("set", now)}
           {...(setPhoto ? { image: setPhoto } : { media: <SetMedia /> })}

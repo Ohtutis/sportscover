@@ -3,7 +3,18 @@
 // Page files import next/image and next/og, so the structural rules are asserted by reading the source
 // (CONTRACTS §9.2 #10) and the behavioural ones by rendering the shared sections with
 // renderToStaticMarkup — every shared piece is a synchronous server component, so both work.
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+/*
+  The sport picker's island replaces the URL through the app router instead of submitting the form,
+  so that changing the sport no longer reloads the document and throws the reader back to the top
+  (smooth audit, 2026-09-08). `renderToStaticMarkup` has no app-router context — Next's own
+  `useRouter` throws "invariant expected app router to be mounted" outside one — so the tests below
+  render it with the router stubbed. Nothing else in these files touches next/navigation.
+*/
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ replace: () => {}, push: () => {}, refresh: () => {}, back: () => {}, forward: () => {}, prefetch: () => {} }),
+}));
 import fs from "node:fs";
 import path from "node:path";
 import { createElement } from "react";
@@ -61,8 +72,11 @@ const PAGES: FamilyPage[] = [
     family: "cards",
     faq: "trading-cards",
     h1: "CUSTOM TRADING CARDS FROM YOUR PHOTOS.",
+    // "Not a template with a photo dropped in" opened this subhead until 2026-09-08 (smooth audit,
+    // copy-voice table): a defence against an objection nobody had made, in front of the sentence
+    // that says what the card is.
     subhead:
-      "Not a template with a photo dropped in — composed around your athlete: their photos, their kit, their colors, their season. Front and back, with a registered card ID on the back.",
+      "Composed around your athlete: their photos, their kit, their colors, their season. Front and back, with a registered card ID on the back.",
   },
   {
     path: "/posters",
@@ -72,7 +86,7 @@ const PAGES: FamilyPage[] = [
     faq: "posters",
     h1: "CUSTOM SPORTS POSTERS FROM YOUR PHOTOS.",
     subhead:
-      "Not a template with a photo dropped in — composed around your athlete. The poster is art for the wall; the stats live on the card.",
+      "Composed around your athlete. The poster is art for the wall; the stats live on the card.",
   },
   {
     path: "/complete-set",
@@ -356,7 +370,9 @@ describe("family pages — the sport picker", () => {
   it("is a plain GET form that prefills from ?sport= and needs no JavaScript", () => {
     const html = render(createElement(SportPicker, { action: "/trading-cards", options: sports, family: "cards", selected: sportBySlug("soccer")! }));
     expect(html).toContain('method="get"');
-    expect(html).toContain('action="/trading-cards"');
+    // The action carries the picker's own anchor, so the no-JavaScript submit lands on the picker
+    // instead of the top of the page (smooth audit, 2026-09-08).
+    expect(html).toContain('action="/trading-cards#sport-picker"');
     expect(html).toContain('name="sport"');
     expect(html).toContain(SPORT_PICKER_LABEL);
     expect(html).toMatch(/<option[^>]*value="soccer"[^>]*selected/);
@@ -495,7 +511,11 @@ describe("family pages — the sections that were unfinished", () => {
     expect(rows).toHaveLength(5);
     expect(rows.map((r) => String(r.key))).toEqual(["01-print", "02-social", "03-wallpapers", "04-bonus", "05-video"]);
     // The H1 is a four-item list: it may not set on a 16ch measure at the display size (DESIGN §3).
-    expect(src).toContain('className="[&>h1]:max-w-[26ch] [&>h1]:text-h2"');
+    // It may not set at `text-h2` either — that is the size of every H2 on the page, and it left
+    // /complete-set with no visual H1 (layout audit, 2026-09-08). It sets between the two.
+    expect(src).toContain('[&>h1]:max-w-[24ch]');
+    expect(src).not.toContain('[&>h1]:text-h2');
+    expect(src).toMatch(/\[&>h1\]:text-\[clamp\(/);
   });
 
   it("/trading-cards says the not-numbered sentence once — the EditionPanel owns it", () => {

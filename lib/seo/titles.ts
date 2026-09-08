@@ -32,7 +32,7 @@ export const PAGES: Record<string, PageMeta> = Object.fromEntries([
     title: "Game Day Edition — Custom Sports Trading Cards & Posters",
     absolute: true,
     description:
-      "Custom sports trading cards and posters from your photos. One registered edition per athlete; you approve a proof before anything prints. Not a template.",
+      "Custom sports trading cards and posters from your photos. One registered edition per athlete; you approve a proof before anything prints.",
     phase: "F1",
     priority: 1,
     changeFrequency: "weekly",
@@ -41,7 +41,7 @@ export const PAGES: Record<string, PageMeta> = Object.fromEntries([
     path: "/trading-cards",
     title: "Custom Trading Cards From Your Photos",
     description:
-      "Custom trading cards composed around your athlete: front and back, square-cut, UV-coated, a registered card ID on the back. Not a template: built for them.",
+      "Custom trading cards composed around your athlete: front and back, square-cut, UV-coated, a registered card ID on the back. Built for them.",
     phase: "F1",
     priority: 0.9,
     changeFrequency: "weekly",
@@ -50,7 +50,7 @@ export const PAGES: Record<string, PageMeta> = Object.fromEntries([
     path: "/posters",
     title: "Custom Sports Posters From Your Photos",
     description:
-      "Custom sports posters composed around your athlete, in two print sizes at 300 DPI. Not a template — art for the wall; the stats live on the card.",
+      "Custom sports posters composed around your athlete, in two print sizes at 300 DPI. Art for the wall, built for one athlete; the stats live on the card.",
     phase: "F1",
     priority: 0.9,
     changeFrequency: "weekly",
@@ -77,7 +77,7 @@ export const PAGES: Record<string, PageMeta> = Object.fromEntries([
     path: "/how-it-works",
     title: "How Custom Trading Cards Are Made",
     description:
-      "Six gates between your photos and the print — photo check, kit, reference plate, four shots, verification, proof. Made by a person; AI is in the toolbox.",
+      "Six checks between your photos and the print: photos, uniform, reference set, four shots, verification, proof. Made by a person; AI is a tool.",
     phase: "F1",
     priority: 0.7,
     changeFrequency: "monthly",

@@ -132,7 +132,10 @@ export function MobileMenu({ links, extraLinks = [], children, className = "" }:
             <span className="sr-only">Close menu</span>
           </button>
         </div>
-        <nav aria-label="Menu" className="container-site pb-10">
+        {/* flex-1 + mt-auto on the CTA block: the sheet is full-height, and at 834 it left ~45 % of the
+            viewport empty under the trust line (layout audit 2026-09-08). The CTA pair and the trust line
+            now sit at the foot of the sheet, where a thumb is. */}
+        <nav aria-label="Menu" className="container-site flex flex-1 flex-col pb-10">
           <ul className="border-b border-hairline">
             {links.map((l, i) => (
               <li key={l.href} className="border-t border-hairline">
@@ -148,17 +151,25 @@ export function MobileMenu({ links, extraLinks = [], children, className = "" }:
             ))}
           </ul>
           {extraLinks.length ? (
-            <ul className="mt-6 flex flex-col">
+            <ul className="mt-4 flex flex-col">
               {extraLinks.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} aria-current={isCurrent(pathname, l.href) ? "page" : undefined} className="inline-block py-1.5 font-body text-body">
+                  {/* min-h-11: these five measured 38 px tall next to 60 px primary rows, on the one
+                      surface that is touch-only (audit 2026-09-08, S12). prefetch off — the header nav
+                      above already prefetches every route these repeat (S3). */}
+                  <Link
+                    href={l.href}
+                    prefetch={false}
+                    aria-current={isCurrent(pathname, l.href) ? "page" : undefined}
+                    className="inline-flex min-h-11 items-center py-2 font-body text-body"
+                  >
                     {l.label}
                   </Link>
                 </li>
               ))}
             </ul>
           ) : null}
-          {children ? <div className="mt-8 flex flex-col gap-3">{children}</div> : null}
+          {children ? <div className="mt-auto flex flex-col gap-3 pt-10">{children}</div> : null}
         </nav>
       </div>
     </div>

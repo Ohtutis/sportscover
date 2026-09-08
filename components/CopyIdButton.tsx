@@ -15,26 +15,47 @@ export interface CopyIdButtonProps {
 }
 
 export const COPY_TOAST = "Copied";
+export const COPY_FAILED_TOAST = "Copy failed — select the ID";
 
 export function CopyIdButton({ value, label = "Copy ID", tone = "arena", className = "" }: CopyIdButtonProps) {
-  const [copied, setCopied] = useState(false);
+  const [toast, setToast] = useState("");
   const timer = useRef<number | undefined>(undefined);
+  const wrapper = useRef<HTMLSpanElement>(null);
   useEffect(() => () => window.clearTimeout(timer.current), []);
 
+  /**
+   * A refused clipboard used to do nothing at all (smooth audit S13): the button was pressed and no
+   * toast, no error and no state change followed. It now says so in the same status line and
+   * selects the printed ID beside it, so the reader can copy it by hand.
+   */
   async function copy() {
     try {
       await navigator.clipboard.writeText(value);
-      setCopied(true);
+      setToast(COPY_TOAST);
       window.clearTimeout(timer.current);
-      timer.current = window.setTimeout(() => setCopied(false), 1500);
+      timer.current = window.setTimeout(() => setToast(""), 1500);
     } catch {
-      // Clipboard access refused — the ID is visible text beside the button; nothing else to do.
+      setToast(COPY_FAILED_TOAST);
+      window.clearTimeout(timer.current);
+      selectValue();
     }
+  }
+
+  /** Selects the ID text that sits beside this button, so ⌘C works without a clipboard permission. */
+  function selectValue() {
+    const host = wrapper.current?.parentElement;
+    const node = host && [...host.querySelectorAll("*")].find((el) => el.textContent?.trim() === value);
+    if (!node || typeof window.getSelection !== "function") return;
+    const range = document.createRange();
+    range.selectNodeContents(node);
+    const selection = window.getSelection();
+    selection?.removeAllRanges();
+    selection?.addRange(range);
   }
 
   const colour = tone === "arena" ? "text-arena-muted hover:text-white" : "text-muted-text hover:text-ink";
   return (
-    <span className={`inline-flex items-center gap-2 ${className}`.trim()}>
+    <span ref={wrapper} className={`inline-flex items-center gap-2 ${className}`.trim()}>
       <button
         type="button"
         onClick={copy}
@@ -45,7 +66,7 @@ export function CopyIdButton({ value, label = "Copy ID", tone = "arena", classNa
         {label}
       </button>
       <span role="status" aria-live="polite" className={`font-label text-label font-semibold uppercase tracking-[0.12em] ${tone === "arena" ? "text-arena-muted" : "text-muted-text"}`}>
-        {copied ? COPY_TOAST : ""}
+        {toast}
       </span>
     </span>
   );

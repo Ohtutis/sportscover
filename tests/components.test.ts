@@ -497,8 +497,11 @@ describe("CardFlip / CopyIdButton / ShareRow (client islands, server render)", (
   it("CardFlip server render is the front face, a real button, no animation class, MP4 in noscript", () => {
     const html = render(createElement(CardFlip, { front: IMG, back: BACK, mp4: "/cards/GDE-SN-BKB-2026-12/flip.mp4", priority: true, autoplay: false, videoLabel: "Card flip video, Marcus Ellison, Stadium Night finish" }));
     expect(html).toContain(`aria-label="${FLIP_ARIA.toBack}"`);
-    expect(html).toContain('aria-pressed="false"');
+    // No aria-pressed beside a label that already changes with the side (audit 2026-09-08, S14).
+    expect(html).not.toContain("aria-pressed");
     expect(html).toContain(FLIP_LABELS.flip);
+    // Both wordings ship; CSS picks one by pointer type, so "Tap" is never read by a mouse user.
+    expect(html).toContain(FLIP_LABELS.click);
     expect(html).toContain("aspect-[5/7]");
     expect(html).toContain("perspective-[1200px]");
     expect(html).toContain("backface-hidden");
@@ -577,7 +580,9 @@ describe("FaqList / CtaPair / EtsyButton / ButtonLink / LookupForm / OrderByCalc
     expect(html).toContain('autoCapitalize="characters"');
     expect(html).toContain('placeholder="GDE-SN-BKB-2026-12"');
     expect(html).toContain(LOOKUP_BUTTON);
-    expect(html).not.toContain('role="status"');
+    // The live region is ALWAYS in the DOM and empty when there is nothing to say — a region that
+    // arrives already carrying its text is never announced (audit 2026-09-08, S9).
+    expect(html).toContain('<p role="status" aria-live="polite"></p>');
     const miss = render(createElement(LookupForm, { miss: "1" }));
     expect(miss).toContain('role="status"');
     expect(miss).toContain(LOOKUP_STRINGS.miss);

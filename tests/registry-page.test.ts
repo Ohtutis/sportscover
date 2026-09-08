@@ -95,6 +95,18 @@ describe("/c — a public demo record with art", () => {
     expect(html).not.toContain(">Card flip<");
     expect(html).toContain("/go/etsy/GDE-BKB-CARD");
     expect(html).not.toContain("Order on Etsy");
+    // Files, not routes: a <Link> prefetched each .webp as an RSC payload (two 404s per load) and
+    // opened the image in the tab instead of saving it (smooth audit S4).
+    expect(html).toMatch(/<a href="\/cards\/GDE-SN-BKB-2026-12\/front\.webp" download/);
+    expect(html).toMatch(/<a href="\/cards\/GDE-SN-BKB-2026-12\/back\.webp" download/);
+    // 44 px touch floor on the two download rows and on ShareRow's buttons.
+    expect(html.match(/min-h-11/g)?.length).toBeGreaterThanOrEqual(4);
+  });
+  it("starts both columns on the same line and keeps the card flush-left (DESIGN §5.10)", () => {
+    const src = read("app/(registry)/c/[cardId]/page.tsx");
+    expect(src).toContain("lg:items-start");
+    expect(src).not.toContain("lg:items-center");
+    expect(src).not.toContain("mx-auto max-w-[340px]");
   });
 
   it("prints the stats in the order the card prints them, and no studio type note", () => {
@@ -251,8 +263,17 @@ describe("/registry (COPY §2.10)", () => {
   });
   it("renders the miss string only when the lookup reported a miss", () => {
     expect(renderRegistry()).not.toContain("No card is registered under that ID");
-    expect(renderMiss()).toBe("");
+    // The live region is ALWAYS in the DOM, empty when there is nothing to say: a region that
+    // arrives with its text already inside is never announced (smooth audit S9).
+    expect(renderMiss()).toBe('<p role="status" aria-live="polite"></p>');
     expect(renderMiss("1")).toContain("No card is registered under that ID");
+    expect(renderMiss("1")).toContain('aria-live="polite"');
+  });
+  it("opens flush-left at the top of its own column, like every other section (DESIGN §2.5)", () => {
+    const src = read("app/(marketing)/registry/page.tsx");
+    expect(src).not.toContain("mx-auto w-[280px]");
+    expect(src).not.toContain("justify-center gap-1");
+    expect(src).not.toContain("mx-auto mt-4 max-w-[34ch] text-center");
   });
 });
 
@@ -284,11 +305,19 @@ describe("/registry/lookup", () => {
     }
   });
   it("a miss goes back to the form the visitor used", async () => {
-    expect((await post("GDE-XX-XXX-2099-00", `${ORIGIN}/registry`)).headers.get("location")).toBe(`${ORIGIN}/registry?miss=1`);
-    expect((await post("GDE-XX-XXX-2099-00", `${ORIGIN}/`)).headers.get("location")).toBe(`${ORIGIN}/?miss=1#registry`);
-    expect((await post("GDE-XX-XXX-2099-00", `${ORIGIN}/c/GDE-XX-XXX-2099-00`)).headers.get("location")).toBe(`${ORIGIN}/registry?miss=1`);
-    expect((await post("GDE-XX-XXX-2099-00")).headers.get("location")).toBe(`${ORIGIN}/registry?miss=1`);
-    expect((await post("GDE-XX-XXX-2099-00", "not a url")).headers.get("location")).toBe(`${ORIGIN}/registry?miss=1`);
+    const MISSED = "GDE-XX-XXX-2099-00";
+    expect((await post(MISSED, `${ORIGIN}/registry`)).headers.get("location")).toBe(`${ORIGIN}/registry?miss=1&id=${MISSED}`);
+    expect((await post(MISSED, `${ORIGIN}/`)).headers.get("location")).toBe(`${ORIGIN}/?miss=1&id=${MISSED}#registry`);
+    expect((await post(MISSED, `${ORIGIN}/c/${MISSED}`)).headers.get("location")).toBe(`${ORIGIN}/registry?miss=1&id=${MISSED}`);
+    expect((await post(MISSED)).headers.get("location")).toBe(`${ORIGIN}/registry?miss=1&id=${MISSED}`);
+    expect((await post(MISSED, "not a url")).headers.get("location")).toBe(`${ORIGIN}/registry?miss=1&id=${MISSED}`);
+  });
+  it("echoes back what was typed, so the field can be refilled — but only if it is ID-shaped", async () => {
+    // Retyping 18 characters after a message about O versus 0 is the miss doing its damage twice
+    // (smooth audit S9). Anything that is not an ID is not reflected into the URL at all.
+    expect((await post("gde-sn-bkb-2o26-12")).headers.get("location")).toBe(`${ORIGIN}/registry?miss=1&id=GDE-SN-BKB-2O26-12`);
+    expect((await post("<script>alert(1)</script>")).headers.get("location")).toBe(`${ORIGIN}/registry?miss=1`);
+    expect((await post("A".repeat(40))).headers.get("location")).toBe(`${ORIGIN}/registry?miss=1`);
   });
   it("an empty field is a miss, not a redirect to /c/", async () => {
     const res = await post("   ");

@@ -1,4 +1,4 @@
-// 08 · How it's made — in plain words (DESIGN §5.1-08, COPY §2.1-8). The photo-check artefact is an
+// 08 · How it's made — in plain words (DESIGN §5.1-08, COPY §2.1-8). The photo-check exhibit is an
 // HTML verdict card typeset from COPY §2.6 gate 1 — never a frame from `_intake.json`.
 import Image from "next/image";
 import { BracketFrame } from "../../../components/BracketFrame";
@@ -33,18 +33,20 @@ export function Process() {
       <p className="mt-8 max-w-[62ch] font-body text-[1.125rem] font-medium text-pretty">{PROCESS_LEAD}</p>
       <p className="mt-4 max-w-[62ch] font-body text-body text-pretty">{block("how-its-made")}</p>
       {/*
-        items-stretch + `fill`: the three exhibits are one row of evidence, so their accent corners
-        have to agree. Left to itself the verdict ledger ran 659 px while the two photographs ran 366
-        and 358 — a 293 px ragged bottom (owner review 2026-09-07). Now every frame takes the row's
-        height and each photograph is DRAWN at that height (object-contain, so nothing is cropped);
-        the ledger stacks its key above its value, because at 138 px of value column it was setting
-        22 characters to a line.
+        The 2026-09-07 pass made all three frames take the row's height (a stretched row + `fill`) to cure
+        a 293 px ragged bottom. It cured the bottom and broke the exhibits: a landscape photograph in an
+        `object-contain` box as tall as the verdict ledger was DRAWN 181 × 135 inside a 181 × 713 box at
+        768 px — 578 px of dead ground, 81 % of the frame, reading as a failed image load (layout audit
+        2026-09-08, blocker 1). Now each photograph owns a 4 : 3 frame of its own and the row hangs from
+        its top edge (`items-start`), so the ledger is simply as tall as its four sentences need.
+        Between 768 and 1023 a third of the row is ~230 px, where the four verdict sentences stack to
+        ~800 px beside two 300 px photographs — so on that band the ledger takes the whole first row and
+        the two photographs share the second; three-up only from `lg`.
       */}
-      <div className="mt-10 grid items-stretch gap-8 md:grid-cols-3">
-        <BracketFrame label="PHOTO CHECK · VERDICT" caption="Photo check — the verdict, as the parent reads it" fill>
+      <div className="mt-10 grid items-start gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <BracketFrame label="PHOTO CHECK · VERDICT" caption="Photo check — the verdict, as the parent reads it" className="md:col-span-2 lg:col-span-1">
           <Ledger
             stacked
-            className="h-full"
             rows={VERDICT_ROWS.map((row) => ({
               key: <StatusChip status={row.status} />,
               value: <span className="text-[0.8125rem]">{row.text}</span>,
@@ -52,13 +54,13 @@ export function Process() {
             }))}
           />
         </BracketFrame>
-        <BracketFrame label="REFERENCE PLATE · THREE VIEWS" caption="Reference plate — approved and locked before a single pose" fictional fill>
-          <div className="relative h-full min-h-[220px] w-full">
+        <BracketFrame label="YOUR ATHLETE · THREE VIEWS" caption="Three views of your athlete, approved before any artwork is made" fictional>
+          <div className="relative aspect-[4/3] w-full">
             <Image src={plate.src} alt={plate.alt} fill sizes={THUMB_SIZES} className="object-contain" />
           </div>
         </BracketFrame>
-        <BracketFrame label="PROOF — NOT FINAL" caption="Watermarked proof — what you approve" fictional fill>
-          <div className="relative h-full min-h-[220px] w-full">
+        <BracketFrame label="PROOF — NOT FINAL" caption="Watermarked proof — what you approve" fictional>
+          <div className="relative aspect-[4/3] w-full">
             <Image src={proof.src} alt={proof.alt} fill sizes={THUMB_SIZES} className="object-contain" />
           </div>
         </BracketFrame>

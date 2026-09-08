@@ -22,11 +22,16 @@ export function Breadcrumbs({ trail, className = "" }: { trail: Crumb[]; classNa
                 </span>
               ) : null}
               {last ? (
-                <span aria-current="page" className="py-1.5 text-ink">
+                <span aria-current="page" className="-my-3 inline-flex min-h-11 items-center py-3 text-ink">
                   {crumb.name}
                 </span>
               ) : (
-                <Link href={crumb.href} className="py-1.5 underline-offset-4 decoration-1 transition-[text-decoration-thickness] duration-hover ease-out hover:underline">
+                // -my-3/py-3 grows the TARGET to 44 px without moving the trail a pixel: the crumb
+                // measured 38 x 32 on every inner page (layout audit 2026-09-08).
+                <Link
+                  href={crumb.href}
+                  className="-my-3 inline-flex min-h-11 items-center py-3 decoration-1 underline-offset-4 transition-[text-decoration-thickness] duration-hover ease-out hover:underline"
+                >
                   {crumb.name}
                 </Link>
               )}

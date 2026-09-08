@@ -23,8 +23,8 @@ export const photoChecklist: PhotoChecklistItem[] = [
     id: "face",
     n: 1,
     title: "Face large and sharp.",
-    body: "The face should be at least a hand's width of the frame and crisp. Move closer, and send the original file — a screenshot throws the detail away.",
-    intake: ["the face is only N px across and not sharp enough", "the athlete is too far away in the frame"],
+    body: "The face should be at least a hand's width of the photo and crisp. Move closer, and send the original file — a screenshot throws the detail away.",
+    intake: ["the face is only N px across and not sharp enough", "the athlete is too far away in the photo"],
   },
   {
     id: "angles",
@@ -63,7 +63,7 @@ export const photoChecklist: PhotoChecklistItem[] = [
     id: "moments",
     n: 7,
     title: "Different moments, not the same second.",
-    body: "Four frames from one burst count as one photo.",
+    body: "Four shots from one burst count as one photo.",
     intake: ["every photo is nearly the same shot"],
   },
   {

@@ -1,4 +1,4 @@
-# Site F1 — what shipped, what the owner still has to do (2026-09-07)
+# Site F1 — what shipped, what the owner still has to do (2026-09-08)
 
 F1 rebuilt the whole marketing site and the card registry on the design system in
 `docs/f1/DESIGN.md`, the copy in `docs/f1/COPY.md` and the contracts in `docs/f1/CONTRACTS.md`.
@@ -95,14 +95,22 @@ Nothing here blocks the deploy. Items marked ⚠ block F2 (direct checkout).
     listing is a one-line change: add its id to that sport in `lib/catalog/sports.ts` and it moves
     into the "Has its own listing" group automatically.
 
-21. **Design follow-ups the 2026-09-07 audit left open** (all small, none blocking): `/posters` and
-    `/complete-set` heroes still stack price line + chips + trust row where `/trading-cards` was
-    trimmed to one system; the arena plate under the rejected/approved pair; tap targets in the
-    breadcrumbs and mobile menu are under 44 px; the to-scale sheet always hangs football art (no
-    per-sport poster key); `/senior-night` §04 grew to ~2,300 px at 1440 with full-size tiles; the
-    home page is longer on phones now that sport tiles are whole cards and the proof pair stacks
-    (the lever is three columns in §07 on phones — a taste call); the hero's four-photo deal costs
-    ~370 KB at 390 px against a 600 KB budget (the lever is dealing two photos on phones).
+21. **Closed on 2026-09-08 — the "finished and smooth" round.** Two audits (layout at 1440 / 1024 /
+    834 / 768 / 390, and motion / interaction / states / copy voice) produced 9 layout blockers, 6
+    interaction blockers, ~35 should-fixes and a jargon table; all were fixed by three parallel
+    builders with file ownership, measured before and after in Chrome. Highlights: the hero holds a
+    complete frame when paused; tap targets ≥ 44 px on every touch control (FAQ rows, mobile menu,
+    breadcrumbs, `/c` buttons); the tier ladder never orphans a tier; `/senior-night`'s nine-sport
+    row is a scroller on phones; product heroes no longer crop the poster or the held card; one
+    17-sport grid scale for the whole site; tablet pages are ~25 % shorter; the header is 64 px from
+    768; `/c` card sits at the panel's top edge and loads each font once; the registry miss keeps the
+    typed ID; the whole site speaks to a parent (no "plate", "gate", "artefact", "re-rolled").
+
+    Still open, all taste-level: the home H1 is four lines between 1024 and 1279 (it is a 46-character
+    sentence); `/senior-night` §04 is ~1,700 px at 1440 (target was 1,400); "Copy ID" on the edition
+    panel stays a 24 px inline control by DESIGN §2.6; the font-swap CLS fix (metric-matched fallbacks)
+    could not be measured against a reproducible "before"; `app/error.tsx` has no header or footer
+    by design.
 
 ## Not in F1 on purpose
 

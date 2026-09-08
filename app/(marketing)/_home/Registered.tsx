@@ -37,7 +37,7 @@ export function Registered() {
             over the QR the ID belongs to (DESIGN §4.5 as revised 2026-09-07). */}
         <figure className="mx-auto max-w-[340px] lg:col-span-5">
           <div className="relative w-full">
-            <CardFace {...back} labelled sizes="(min-width: 1024px) 340px, 76vw" />
+            <CardFace {...back} labelled sizes="340px" />
             <QrRing />
           </div>
           <figcaption className="mt-4">

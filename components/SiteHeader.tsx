@@ -41,7 +41,7 @@ export function SiteHeader({ tone = "stock", className = "" }: SiteHeaderProps) 
     return (
       <header className={`sticky top-0 z-40 border-b border-arena-hairline bg-arena text-white ${className}`.trim()}>
         <SkipLink />
-        <div className="container-site flex h-14 items-center justify-between gap-4 lg:h-16">
+        <div className="container-site flex h-14 items-center justify-between gap-4 md:h-16">
           <BrandMark tone="arena" />
           <Pill tone="outline-silver">REGISTERED EDITION</Pill>
         </div>
@@ -53,7 +53,9 @@ export function SiteHeader({ tone = "stock", className = "" }: SiteHeaderProps) 
   return (
     <header className={`sticky top-0 z-40 border-b border-hairline bg-stock text-ink ${className}`.trim()}>
       <SkipLink />
-      <div className="container-site flex h-14 items-center justify-between gap-4 lg:h-16">
+      {/* 56 / 64 / 64 per DESIGN §2.6 — the 64 px step is at `md`, not `lg`; it was measuring 57 px at
+          768 and 834 (layout audit 2026-09-08). */}
+      <div className="container-site flex h-14 items-center justify-between gap-4 md:h-16">
         <BrandMark />
         <HeaderNav links={HEADER_LINKS} className="hidden lg:block" />
         <div className="flex items-center gap-2">

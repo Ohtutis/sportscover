@@ -4,7 +4,7 @@ import { BracketFrame } from "./BracketFrame";
 import { StatusChip, type ChipStatus } from "./StatusChip";
 
 /**
- * The six gates on /how-it-works (DESIGN §4.12, §5.4-2): an index row of plain anchors, then one
+ * The six checks on /how-it-works (DESIGN §4.12, §5.4-2): an index row of plain anchors, then one
  * native `<details>` per gate, each an evidence split — text beside the artefact in a BracketFrame
  * with its file-tab label, artefact side alternating gate by gate, C13 on every gate that shows a
  * person. No JS.
@@ -56,14 +56,21 @@ const RECORD = "font-label text-[0.8125rem] font-semibold uppercase tracking-[0.
 export function GateRow({ gates, className = "" }: { gates: Gate[]; className?: string }) {
   return (
     <div className={className || undefined}>
-      <ol aria-label="The six gates" className="-mx-5 flex snap-x overflow-x-auto border-y border-hairline bg-stock sm:mx-0">
+      <ol aria-label="The six checks" className="-mx-5 flex snap-x overflow-x-auto border-y border-hairline bg-stock sm:mx-0">
         {gates.map((g, i) => (
           <li key={g.id} className="shrink-0">
             <a
               href={`#${g.id}`}
-              className="flex min-h-11 snap-start items-center gap-2 border-r border-hairline px-5 py-3 last:border-r-0 hover:bg-ink/5"
+              className="flex min-h-11 snap-start items-center gap-2 border-r border-hairline px-4 py-3 last:border-r-0 hover:bg-ink/5 xl:px-5"
             >
-              <span className={RECORD}>
+              {/*
+                The "01 / 06" prefixes cost 63 px a cell and the row is six cells: at 768 and 834 it
+                measured scrollWidth 964 against clientWidth 704 / 770, so gate 05 read "VERIF" cut at
+                the frame edge and gate 06 was off-screen with no affordance (layout audit, 2026-09-08).
+                The index is a nicety; the name is the link. It comes back at `xl`, the first step where the
+                row measurably fits with them (at 1024 it was 950 against a 928 px track).
+              */}
+              <span className={`hidden xl:inline ${RECORD}`}>
                 {nn(i + 1)} / {nn(gates.length)}
               </span>
               <span className="font-display text-[1rem] uppercase text-ink">{g.label}</span>
@@ -94,11 +101,18 @@ export function GateRow({ gates, className = "" }: { gates: Gate[]; className?: 
                     </div>
                   ) : null}
                 </div>
+                {/*
+                  Capped under `lg` too (layout audit, 2026-09-08). The artefact column was full page
+                  width below the split, so on an iPad the two kit plates drew 379 px square each and
+                  the four shots 186 x 279 each — every exhibit larger than it is on a desktop — and the
+                  gates section ran 5,053 px at 834, the longest band on the site. `wide` gates keep the
+                  track: their artefact is a table, and a table wants the width it is given.
+                */}
                 <div
                   className={`mt-6 lg:mt-0 ${
                     g.wide
                       ? "lg:col-span-7"
-                      : `lg:col-span-6 lg:max-w-[25rem] ${artefactFirst ? "lg:justify-self-start" : "lg:justify-self-end"}`
+                      : `mx-auto w-full max-w-[26rem] lg:col-span-6 lg:mx-0 lg:max-w-[25rem] ${artefactFirst ? "lg:justify-self-start" : "lg:justify-self-end"}`
                   }`}
                 >
                   <BracketFrame label={g.tab} caption={g.artefact.caption} fictional={g.fictional ?? true}>
@@ -108,7 +122,7 @@ export function GateRow({ gates, className = "" }: { gates: Gate[]; className?: 
                         alt={g.artefact.alt}
                         width={g.artefact.width}
                         height={g.artefact.height}
-                        sizes="(min-width: 1024px) 400px, 100vw"
+                        sizes="(min-width: 1024px) 400px, min(100vw, 416px)"
                         className="h-auto w-full rounded-none"
                       />
                     )}

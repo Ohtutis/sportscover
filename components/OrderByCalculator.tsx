@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState, type FormEvent } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { formatEt, seniorNightPlan, type IsoDate, type PlanRow, type SeniorNightPlan } from "../lib/capacity";
 import { LEAD_TIMES } from "../lib/catalog/delivery";
 import { buttonClass } from "./ButtonLink";
@@ -22,7 +22,7 @@ export interface OrderByCalculatorProps {
   className?: string;
 }
 
-import { CALC_COPY } from "../lib/copy/calc";
+import { CALC_COPY, planSummary } from "../lib/copy/calc";
 
 /** Re-exported so existing importers keep working; the strings themselves live on the server side. */
 export const CALC_STRINGS = CALC_COPY;
@@ -42,6 +42,22 @@ export function OrderByCalculator({ todayEt, cta, giftNoteId, className = "" }: 
   const id = useId();
   const [night, setNight] = useState("");
   const [plan, setPlan] = useState<SeniorNightPlan | null>(null);
+  const resultRef = useRef<HTMLOutputElement>(null);
+
+  /*
+    Bring the answer to the reader (smooth audit, 2026-09-08). Pressing the button with the form at
+    the bottom of a 390 px screen rendered the 612 px result at `top: 868` in an 844 px viewport —
+    `visiblePx: 0`, the page did not scroll and focus stayed on BODY, so it looked as though nothing
+    had happened. `block: "nearest"` scrolls only when the result is actually off-screen, and moving
+    focus into it puts a keyboard and screen-reader user at the answer they just asked for.
+  */
+  useEffect(() => {
+    if (!plan) return;
+    const node = resultRef.current;
+    if (!node) return;
+    node.scrollIntoView({ block: "nearest" });
+    node.focus({ preventScroll: true });
+  }, [plan]);
   // The sealed pack row belongs on the Senior Night calculator: the Ultimate senior-night set sold on
   // Etsy includes the foil pack, and the page's chip promises its lead time. `GDE-ANY-CARD-PACK` is a
   // different product — the standalone pack, which the site does not sell — so it cannot gate this row.
@@ -83,7 +99,19 @@ export function OrderByCalculator({ todayEt, cta, giftNoteId, className = "" }: 
       <button type="submit" className={buttonClass("bare", "md", `${PRIMARY_BUTTON_CLASS} mt-4 w-full sm:w-auto`)}>
         {CALC_STRINGS.button}
       </button>
-      <output aria-live="polite" htmlFor={`${id}-date`} className="mt-6 block">
+      {/*
+        The live region is the one sentence below, not this block. `<output>` announces its whole
+        subtree, and the whole subtree is a three-row ledger with chips, a paragraph and a button —
+        413 characters in one breath (smooth audit, 2026-09-08). `aria-live="off"` leaves the element
+        its meaning without its announcement; the ledger stays what a sighted reader reads.
+      */}
+      <output
+        ref={resultRef}
+        tabIndex={-1}
+        aria-live="off"
+        htmlFor={`${id}-date`}
+        className="mt-6 block scroll-mt-24"
+      >
         {plan ? (
           <div>
             <Ledger
@@ -115,6 +143,9 @@ export function OrderByCalculator({ todayEt, cta, giftNoteId, className = "" }: 
           </div>
         ) : null}
       </output>
+      <p role="status" aria-live="polite" className="sr-only">
+        {plan ? planSummary(formatEt(plan.night, "medium"), plan.rows) : ""}
+      </p>
     </form>
   );
 }

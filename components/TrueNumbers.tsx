@@ -45,7 +45,13 @@ export function TrueNumbers({ tone = "arena", items = TRUE_COUNT_LINKS, classNam
             {item.numeral ? (
               <>
                 <span aria-hidden="true" className={FIGURE_ROW}>
-                  <span className={`font-display uppercase leading-none tabular-nums ${figureSize(item.figure)} ${arena ? "text-white" : "text-ink"}`}>{item.figure}</span>
+                  {/* nowrap: at 768 the five cells are 140.8 px and "2.5 × 3.5 IN" broke between the
+                      number and its unit — a dimension is one word (layout audit 2026-09-08). */}
+                  <span
+                    className={`whitespace-nowrap font-display uppercase leading-none tabular-nums ${figureSize(item.figure)} ${arena ? "text-white" : "text-ink"}`}
+                  >
+                    {item.figure}
+                  </span>
                 </span>
                 <span
                   className={`mt-3 block font-body text-small underline-offset-4 decoration-1 group-hover:underline ${arena ? "text-white/80" : "text-muted-text"}`}

@@ -107,7 +107,7 @@ export default function PrivacyPage() {
             <ul className="space-y-4">
               <li>
                 <Lead>To make the edition:</Lead> the photos you send, the athlete details you type, your team colors and crest, the
-                reference and artwork we create from them, and your approvals (plate, proof) with their time and text version.
+                reference and artwork we create from them, and your approvals — the reference set and the proof — with their time and text version.
               </li>
               <li>
                 <Lead>To run the order:</Lead> buyer name and email, order number, payment references (payments are processed by Stripe
