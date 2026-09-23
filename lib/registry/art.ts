@@ -91,7 +91,7 @@ export function cardArtFor(cardId: string): CardArt | null {
   return art;
 }
 
-export type ArtTicket = "F1-ART-01" | "F1-ART-02" | "F1-ART-05";
+export type ArtTicket = "F1-ART-01" | "F1-ART-02" | "F1-ART-05" | "F1-ART-08";
 export interface ArtPending {
   cardId: string;
   reason: string;
@@ -99,7 +99,8 @@ export interface ArtPending {
 }
 
 /**
- * The exact five (GAPS #8). Only a landed export may remove an entry: the test
+ * GAPS #8 (five), the two back-less ids (F1-ART-05) and the eighteen listing demo cards whose QRs
+ * were printed before any face was exported (F1-ART-08, 2026-09-23). Only a landed export may remove an entry: the test
  * "a pending id has no public/cards/<id>/front.webp" fails otherwise. These records stay public —
  * their QR codes are printed, and a QR that lands on a live registration without art beats one
  * that lands on a neutral page.
@@ -142,6 +143,114 @@ export const ART_PENDING: readonly ArtPending[] = [
     ticket: "F1-ART-02",
     reason:
       "Only Nia-era art exists (pre-square-corner, swoosh) and it is denylisted; regenerate with audit (spec 11 F1) or the owner privatises the record.",
+  },
+  {
+    cardId: "GDE-CA-ICH-2026-17",
+    ticket: "F1-ART-08",
+    reason:
+      "Listing demo card whose QR is printed on the live ice hockey Etsy listing images; no square-cut Chrome All-Star face export on disk — export front + back from the ice hockey sport file (registry deploy 2026-09-23).",
+  },
+  {
+    cardId: "GDE-SN-ICH-2026-17",
+    ticket: "F1-ART-08",
+    reason:
+      "Listing demo card whose QR is printed on the live ice hockey Etsy listing images; no square-cut Stadium Night face export on disk — export front + back from the ice hockey sport file (registry deploy 2026-09-23).",
+  },
+  {
+    cardId: "GDE-SS-GYM-2026-01",
+    ticket: "F1-ART-08",
+    reason:
+      "Listing demo card whose QR is printed on the live gymnastics Etsy listing images; no square-cut Signature Spotlight face export on disk — export front + back from the gymnastics sport file (registry deploy 2026-09-23).",
+  },
+  {
+    cardId: "GDE-HE-GYM-2026-01",
+    ticket: "F1-ART-08",
+    reason:
+      "Listing demo card whose QR is printed on the live gymnastics Etsy listing images; no square-cut Heritage face export on disk — export front + back from the gymnastics sport file (registry deploy 2026-09-23).",
+  },
+  {
+    cardId: "GDE-PR-PKB-2026-02",
+    ticket: "F1-ART-08",
+    reason:
+      "Listing demo card whose QR is printed on the live pickleball Etsy listing images; no square-cut Prism Rush face export on disk — export front + back from the pickleball sport file (registry deploy 2026-09-23).",
+  },
+  {
+    cardId: "GDE-CA-PKB-2026-02",
+    ticket: "F1-ART-08",
+    reason:
+      "Listing demo card whose QR is printed on the live pickleball Etsy listing images; no square-cut Chrome All-Star face export on disk — export front + back from the pickleball sport file (registry deploy 2026-09-23).",
+  },
+  {
+    cardId: "GDE-CA-TEN-2026-01",
+    ticket: "F1-ART-08",
+    reason:
+      "Listing demo card whose QR is printed on the live tennis Etsy listing images; no square-cut Chrome All-Star face export on disk — export front + back from the tennis sport file (registry deploy 2026-09-23).",
+  },
+  {
+    cardId: "GDE-SS-TEN-2026-01",
+    ticket: "F1-ART-08",
+    reason:
+      "Listing demo card whose QR is printed on the live tennis Etsy listing images; no square-cut Signature Spotlight face export on disk — export front + back from the tennis sport file (registry deploy 2026-09-23).",
+  },
+  {
+    cardId: "GDE-HE-GLF-2026-01",
+    ticket: "F1-ART-08",
+    reason:
+      "Listing demo card whose QR is printed on the live golf Etsy listing images; no square-cut Heritage face export on disk — export front + back from the golf sport file (registry deploy 2026-09-23).",
+  },
+  {
+    cardId: "GDE-SN-GLF-2026-01",
+    ticket: "F1-ART-08",
+    reason:
+      "Listing demo card whose QR is printed on the live golf Etsy listing images; no square-cut Stadium Night face export on disk — export front + back from the golf sport file (registry deploy 2026-09-23).",
+  },
+  {
+    cardId: "GDE-FS-LAX-2026-22",
+    ticket: "F1-ART-08",
+    reason:
+      "Listing demo card whose QR is printed on the live lacrosse Etsy listing images; no square-cut Fire & Smoke face export on disk — export front + back from the lacrosse sport file (registry deploy 2026-09-23).",
+  },
+  {
+    cardId: "GDE-PR-LAX-2026-22",
+    ticket: "F1-ART-08",
+    reason:
+      "Listing demo card whose QR is printed on the live lacrosse Etsy listing images; no square-cut Prism Rush face export on disk — export front + back from the lacrosse sport file (registry deploy 2026-09-23).",
+  },
+  {
+    cardId: "GDE-PR-TRK-2026-08",
+    ticket: "F1-ART-08",
+    reason:
+      "Listing demo card whose QR is printed on the live track & field Etsy listing images; no square-cut Prism Rush face export on disk — export front + back from the track & field sport file (registry deploy 2026-09-23).",
+  },
+  {
+    cardId: "GDE-FS-TRK-2026-08",
+    ticket: "F1-ART-08",
+    reason:
+      "Listing demo card whose QR is printed on the live track & field Etsy listing images; no square-cut Fire & Smoke face export on disk — export front + back from the track & field sport file (registry deploy 2026-09-23).",
+  },
+  {
+    cardId: "GDE-SN-SWM-2026-01",
+    ticket: "F1-ART-08",
+    reason:
+      "Listing demo card whose QR is printed on the live swimming Etsy listing images; no square-cut Stadium Night face export on disk — export front + back from the swimming sport file (registry deploy 2026-09-23).",
+  },
+  {
+    cardId: "GDE-SS-SWM-2026-01",
+    ticket: "F1-ART-08",
+    reason:
+      "Listing demo card whose QR is printed on the live swimming Etsy listing images; no square-cut Signature Spotlight face export on disk — export front + back from the swimming sport file (registry deploy 2026-09-23).",
+  },
+  {
+    cardId: "GDE-SS-OTH-2026-12",
+    ticket: "F1-ART-08",
+    reason:
+      "Listing demo card whose QR is printed on the live skateboarding Etsy listing images; no square-cut Signature Spotlight face export on disk — export front + back from the skateboarding sport file (registry deploy 2026-09-23).",
+  },
+  {
+    cardId: "GDE-CA-OTH-2026-12",
+    ticket: "F1-ART-08",
+    reason:
+      "Listing demo card whose QR is printed on the live skateboarding Etsy listing images; no square-cut Chrome All-Star face export on disk — export front + back from the skateboarding sport file (registry deploy 2026-09-23).",
   },
 ];
 

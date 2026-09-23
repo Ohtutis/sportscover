@@ -112,6 +112,18 @@ Nothing here blocks the deploy. Items marked ⚠ block F2 (direct checkout).
     could not be measured against a reproducible "before"; `app/error.tsx` has no header or footer
     by design.
 
+22. **F1-ART-08 — eighteen listing demo cards have a live registry page but no face art** (deployed
+    2026-09-23 because their QRs were already printed on the Etsy listing images for ice hockey,
+    lacrosse, track, golf, gymnastics, pickleball, tennis, swimming and skateboarding). Each `/c` page
+    shows the pending block. Close-out per card: export front + back (square-cut) from the sport file,
+    drop them under the `lib/registry/art-sources.ts` path, delete the entry from `ART_PENDING`, run
+    `npm run cards:assets`. Ids: GDE-CA-ICH-2026-17, GDE-SN-ICH-2026-17, GDE-SS-GYM-2026-01,
+    GDE-HE-GYM-2026-01, GDE-PR-PKB-2026-02, GDE-CA-PKB-2026-02, GDE-CA-TEN-2026-01, GDE-SS-TEN-2026-01,
+    GDE-HE-GLF-2026-01, GDE-SN-GLF-2026-01, GDE-FS-LAX-2026-22, GDE-PR-LAX-2026-22, GDE-PR-TRK-2026-08,
+    GDE-FS-TRK-2026-08, GDE-SN-SWM-2026-01, GDE-SS-SWM-2026-01, GDE-SS-OTH-2026-12, GDE-CA-OTH-2026-12.
+    Avery O'Neal's card (`GDE-FS-FTB-2026-80`, order #4180204338) is an unlisted customer record — its
+    art is built only from `orders/**` with `--allow-orders`, never committed to `public/`.
+
 ## Not in F1 on purpose
 
 Direct checkout and order pages, team links, `/sports/<sport>`, `/styles/<finish>`,
