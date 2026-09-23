@@ -42,10 +42,12 @@ const readManifest = (id: string): Manifest => JSON.parse(fs.readFileSync(path.j
 
 // GAPS #8 (five Figma/regeneration exports) + the two back-less ids added by the integrator (ticket F1-ART-05).
 const GAPS_8 = ["GDE-CA-SFB-2026-03", "GDE-SN-SFB-2026-03", "GDE-FS-WRS-2026-01", "GDE-HE-WRS-2026-01", "GDE-SN-BKB-2026-23", "GDE-HE-FTB-2026-54", "GDE-SS-CHR-2026-01"];
+// F1-ART-08 (2026-09-23): the eighteen listing demo cards deployed after their QRs were already printed.
+const LISTING_DEMOS_PENDING = ["GDE-CA-ICH-2026-17", "GDE-SN-ICH-2026-17", "GDE-SS-GYM-2026-01", "GDE-HE-GYM-2026-01", "GDE-PR-PKB-2026-02", "GDE-CA-PKB-2026-02", "GDE-CA-TEN-2026-01", "GDE-SS-TEN-2026-01", "GDE-HE-GLF-2026-01", "GDE-SN-GLF-2026-01", "GDE-FS-LAX-2026-22", "GDE-PR-LAX-2026-22", "GDE-PR-TRK-2026-08", "GDE-FS-TRK-2026-08", "GDE-SN-SWM-2026-01", "GDE-SS-SWM-2026-01", "GDE-SS-OTH-2026-12", "GDE-CA-OTH-2026-12"];
 
 describe("ART_PENDING (GAPS #8)", () => {
   it("is exactly the pending ids", () => {
-    expect([...ART_PENDING.map((p) => p.cardId)].sort()).toEqual([...GAPS_8].sort());
+    expect([...ART_PENDING.map((p) => p.cardId)].sort()).toEqual([...GAPS_8, ...LISTING_DEMOS_PENDING].sort());
     expect(new Set(ART_PENDING.map((p) => p.cardId)).size).toBe(ART_PENDING.length);
   });
   it("every entry is a public fictional record with a ticket and a reason", () => {
@@ -54,7 +56,7 @@ describe("ART_PENDING (GAPS #8)", () => {
       expect(c, p.cardId).toBeDefined();
       expect(c?.isFictional, `${p.cardId} fictional`).toBe(true);
       expect(visibilityOf(c!), `${p.cardId} visibility`).not.toBe("deleted");
-      expect(["F1-ART-01", "F1-ART-02", "F1-ART-05"]).toContain(p.ticket);
+      expect(["F1-ART-01", "F1-ART-02", "F1-ART-05", "F1-ART-08"]).toContain(p.ticket);
       expect(p.reason.trim().length).toBeGreaterThan(20);
     }
   });
