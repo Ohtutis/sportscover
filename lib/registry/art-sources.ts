@@ -320,6 +320,14 @@ export const DEMO_ART_SOURCES: Record<string, ArtSource> = {
     sourceKind: "order",
     note: "816×1110 print files with bleed (trimmed by the converter); the back's QR decodes to this id. Built only into this customer's own public/cards/<id>/, never committed.",
   },
+
+  // ---- Order #4175354383 — Niamh Southgate, unlisted; read only with --allow-orders (GAPS #9) ----
+  "GDE-SN-GYM-2026-02": {
+    front: "orders/4175354383/print/GDE-SN-GYM-2026-02-CARD-FRONT-816x1110.png",
+    back: "orders/4175354383/print/GDE-SN-GYM-2026-02-CARD-BACK-816x1110.png",
+    sourceKind: "order",
+    note: "816×1110 print files from the proof v2 state (2026-09-26); the back's QR decodes to this id. Re-run cards:assets after the buyer's final answers change the card. Built only into this customer's own public/cards/<id>/, never committed.",
+  },
   // card:new sources insert above
 };
 

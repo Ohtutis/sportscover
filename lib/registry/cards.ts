@@ -208,6 +208,30 @@ export const cards: CardRecord[] = [
     channel: "demo-etsy",
   },
 
+  // A real customer's edition (Etsy order #4175354383, 2026-09-26): Niamh Southgate, Wirral
+  // Gymnastics Club, Stadium Night poster + card. Gymnastics is numberless, so the 02 in the id is
+  // the printed edition number and /c prints no "#" (showsJerseyNumber reads the sport, and she is
+  // a minor). No stats supplied. Unlisted: opens from the QR/ID only, never indexed.
+  {
+    cardId: "GDE-SN-GYM-2026-02",
+    athleteId: "gde-sn-gym-2026-02",
+    firstName: "Niamh",
+    lastName: "Southgate",
+    jerseyNumber: "02",
+    position: "Artistic Gymnast",
+    team: "Wirral Gymnastics Club",
+    teamColors: { primary: "#003875", secondary: "#FFFFFF" },
+    season: "2026",
+    stats: [],
+    sportCode: "GYM",
+    styleName: "Stadium Night",
+    playerHighlight: "Reaching for the Stars",
+    createdAt: "2026-09-26",
+    visibility: "unlisted",
+    channel: "etsy",
+    ageBand: "minor",
+  },
+
   // A real customer's edition (12 Printed Cards + Sealed Foil Pack upgrade, football, Fire & Smoke).
   // Etsy order #4180204338 (2026-09-20), approved by the buyer 2026-09-22. Only what is printed on
   // the card lives here; no stats were supplied, so `stats` stays empty and /c drops the chips.
