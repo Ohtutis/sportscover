@@ -326,7 +326,7 @@ export const DEMO_ART_SOURCES: Record<string, ArtSource> = {
     front: "orders/4175354383/print/GDE-SN-GYM-2026-02-CARD-FRONT-816x1110.png",
     back: "orders/4175354383/print/GDE-SN-GYM-2026-02-CARD-BACK-816x1110.png",
     sourceKind: "order",
-    note: "Pre-declared: the print files land after the buyer approves the proof (2026-09-26 proof v2). Until then /c renders the registration without the flip section.",
+    note: "816×1110 print files from the proof v2 state (2026-09-26); the back's QR decodes to this id. Re-run cards:assets after the buyer's final answers change the card. Built only into this customer's own public/cards/<id>/, never committed.",
   },
   // card:new sources insert above
 };

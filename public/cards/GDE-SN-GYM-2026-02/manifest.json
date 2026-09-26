@@ -1,0 +1,199 @@
+{
+  "cardId": "GDE-SN-GYM-2026-02",
+  "generatedAt": "2026-09-26T16:12:10.257Z",
+  "generator": "scripts/card-assets.ts",
+  "sourceKind": "order",
+  "sources": {
+    "front": {
+      "path": "(order export — gated, path withheld)",
+      "sha256": "51956ede85c8b18b493a20e35221292355232c7a6c559b02ee201fbb4b3a386a",
+      "width": 744,
+      "height": 1038,
+      "bleedTrimmed": true
+    },
+    "back": {
+      "path": "(order export — gated, path withheld)",
+      "sha256": "691fc78e59c1030ad80934c1d1538c4e0934aba27bd218d613364936c897729b",
+      "width": 744,
+      "height": 1038,
+      "bleedTrimmed": true
+    },
+    "mp4": null
+  },
+  "outputs": {
+    "front": {
+      "path": "/cards/GDE-SN-GYM-2026-02/front.webp",
+      "width": 744,
+      "height": 1042,
+      "bytes": 68336,
+      "sha256": "25f69bc1398523a1d38d25cd32f3329dd2c0461e4a4bb8646ede25c38932fbe9"
+    },
+    "back": {
+      "path": "/cards/GDE-SN-GYM-2026-02/back.webp",
+      "width": 744,
+      "height": 1042,
+      "bytes": 70946,
+      "sha256": "b6e9b503bd9d4fb9b3bfff3a74a90eb1ca05e4593878118cc752854a84b496d7"
+    },
+    "flipMp4": null,
+    "poster": null
+  },
+  "cornerAudit": {
+    "front": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1.0035,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            1,
+            5,
+            12
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 39.8,
+          "fail": false
+        },
+        {
+          "at": [
+            741,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            91,
+            108,
+            122
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 33.6,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            1035
+          ],
+          "alpha": 255,
+          "rgb": [
+            2,
+            2,
+            7
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 40.8,
+          "fail": false
+        },
+        {
+          "at": [
+            741,
+            1035
+          ],
+          "alpha": 255,
+          "rgb": [
+            2,
+            2,
+            7
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 40.2,
+          "fail": false
+        }
+      ]
+    },
+    "back": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1.0035,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            3,
+            7,
+            14
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 38.8,
+          "fail": false
+        },
+        {
+          "at": [
+            741,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            16,
+            26,
+            36
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 31.9,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            1035
+          ],
+          "alpha": 255,
+          "rgb": [
+            10,
+            16,
+            24
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 36.2,
+          "fail": false
+        },
+        {
+          "at": [
+            741,
+            1035
+          ],
+          "alpha": 255,
+          "rgb": [
+            11,
+            16,
+            24
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 35.6,
+          "fail": false
+        }
+      ]
+    },
+    "pass": true
+  },
+  "qr": {
+    "expected": "https://gamedayedition.com/c/GDE-SN-GYM-2026-02",
+    "sourceDecoded": "https://gamedayedition.com/c/GDE-SN-GYM-2026-02",
+    "located": {
+      "x": 53,
+      "y": 896,
+      "w": 89,
+      "h": 89
+    },
+    "version": 4,
+    "modulePx": 2.697,
+    "patched": true,
+    "method": "nearest",
+    "decoded": "https://gamedayedition.com/c/GDE-SN-GYM-2026-02",
+    "pass": true
+  },
+  "flip": null
+}
