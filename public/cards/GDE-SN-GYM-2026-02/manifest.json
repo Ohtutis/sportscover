@@ -1,12 +1,12 @@
 {
   "cardId": "GDE-SN-GYM-2026-02",
-  "generatedAt": "2026-09-26T16:12:10.257Z",
+  "generatedAt": "2026-09-28T07:58:04.252Z",
   "generator": "scripts/card-assets.ts",
   "sourceKind": "order",
   "sources": {
     "front": {
       "path": "(order export — gated, path withheld)",
-      "sha256": "51956ede85c8b18b493a20e35221292355232c7a6c559b02ee201fbb4b3a386a",
+      "sha256": "af44339e68d9720a415d3e98ba9a799afd40655787297a345ca7e03b5ab3d8f6",
       "width": 744,
       "height": 1038,
       "bleedTrimmed": true
@@ -25,8 +25,8 @@
       "path": "/cards/GDE-SN-GYM-2026-02/front.webp",
       "width": 744,
       "height": 1042,
-      "bytes": 68336,
-      "sha256": "25f69bc1398523a1d38d25cd32f3329dd2c0461e4a4bb8646ede25c38932fbe9"
+      "bytes": 68028,
+      "sha256": "9c8aa84e594409693b25d6846f36fa05be399320ce33121199fb9b97ae426dd5"
     },
     "back": {
       "path": "/cards/GDE-SN-GYM-2026-02/back.webp",
