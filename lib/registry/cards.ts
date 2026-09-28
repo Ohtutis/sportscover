@@ -225,7 +225,7 @@ export const cards: CardRecord[] = [
     stats: [],
     sportCode: "GYM",
     styleName: "Stadium Night",
-    playerHighlight: "Reaching for the Stars",
+    playerHighlight: "Progress, Not Perfection",
     createdAt: "2026-09-26",
     visibility: "unlisted",
     channel: "etsy",
