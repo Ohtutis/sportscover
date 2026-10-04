@@ -21,19 +21,19 @@ export const sports: Sport[] = [
   { slug: "basketball", code: "BKB", name: "Basketball", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4562666649", posterListingId: "4562700100" },
   { slug: "football", code: "FTB", name: "Football", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4563878038", posterListingId: "4564301710", seniorNightListingId: "4568844304" },
   { slug: "baseball", code: "BSB", name: "Baseball", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4567592965", posterListingId: "4568369175", seniorNightListingId: "4568844985" },
-  { slug: "softball", code: "SFB", name: "Softball", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, seniorNightListingId: "4569506845" },
+  { slug: "softball", code: "SFB", name: "Softball", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4570918285", posterListingId: "4570922925", seniorNightListingId: "4569506845" },
   { slug: "soccer", code: "SOC", name: "Soccer", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4567599879", posterListingId: "4568359117", seniorNightListingId: "4568841851" },
-  { slug: "ice-hockey", code: "ICH", name: "Ice Hockey", numbered: true, hasBackNumber: true, live: false },
+  { slug: "ice-hockey", code: "ICH", name: "Ice Hockey", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4574711059", posterListingId: "4574712739" },
   { slug: "volleyball", code: "VBL", name: "Volleyball", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4567597109", posterListingId: "4568365063", seniorNightListingId: "4568846696" },
   { slug: "lacrosse", code: "LAX", name: "Lacrosse", numbered: true, hasBackNumber: true, live: false },
-  { slug: "wrestling", code: "WRS", name: "Wrestling", numbered: true, hasBackNumber: false, live: true, hasPosterArt: true, seniorNightListingId: "4569522144" },
+  { slug: "wrestling", code: "WRS", name: "Wrestling", numbered: true, hasBackNumber: false, live: true, hasPosterArt: true, cardListingId: "4570935692", posterListingId: "4570924637", seniorNightListingId: "4569522144" },
   { slug: "cheerleading", code: "CHR", name: "Cheerleading", numbered: false, hasBackNumber: false, live: true, hasPosterArt: true, cardListingId: "4564284709", posterListingId: "4564287163", seniorNightListingId: "4568849272" },
   { slug: "gymnastics", code: "GYM", name: "Gymnastics", numbered: false, hasBackNumber: false, live: false },
   { slug: "track-field", code: "TRK", name: "Track & Field", numbered: true, hasBackNumber: false, live: false },
   { slug: "swimming", code: "SWM", name: "Swimming", numbered: false, hasBackNumber: false, live: false },
   { slug: "tennis", code: "TEN", name: "Tennis", numbered: false, hasBackNumber: false, live: false },
   { slug: "golf", code: "GLF", name: "Golf", numbered: false, hasBackNumber: false, live: false },
-  { slug: "pickleball", code: "PKB", name: "Pickleball", numbered: true, hasBackNumber: false, live: false },
+  { slug: "pickleball", code: "PKB", name: "Pickleball", numbered: false, hasBackNumber: false, live: false },
   { slug: "other-sport", code: "OTH", name: "Skateboarding", numbered: true, hasBackNumber: false, live: false },
 ];
 
@@ -45,7 +45,7 @@ export const identityLine = (s: Sport): string =>
   s.numbered ? "their number, their club crest" : "their club crest, their name";
 
 /** The five sports that never carry a jersey number — in copy, alt text or example data (COPY §0.1). */
-export const NUMBERLESS_CODES: readonly string[] = ["CHR", "GYM", "SWM", "TEN", "GLF"];
+export const NUMBERLESS_CODES: readonly string[] = ["CHR", "GYM", "SWM", "TEN", "GLF", "PKB"];
 export const isNumberless = (s: Pick<Sport, "code">): boolean => NUMBERLESS_CODES.includes(s.code);
 
 export type BackLine = "their number" | "their name, their club crest" | "plain back";

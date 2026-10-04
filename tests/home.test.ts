@@ -29,8 +29,9 @@ import { formatUsd, fromPrice } from "../lib/catalog/prices";
 import { sports } from "../lib/catalog/sports";
 import { finishes, styles } from "../lib/catalog/styles";
 import { getCard, registeredAtOf } from "../lib/registry/cards";
-import { CANON } from "../lib/copy/canon";
+import { CANON, PROOF_PATH, PROOF_PATH_LABEL } from "../lib/copy/canon";
 import { CTA_LABELS, ctaFor } from "../lib/cta";
+import { FAMILY_PROOF_CTA, familyLink } from "../app/(marketing)/_home/Families";
 import { formatEt } from "../lib/capacity";
 import { publishedReviews } from "../lib/reviews";
 import { TRUE_COUNT_LINKS } from "../lib/catalog/tiers";
@@ -436,13 +437,25 @@ describe("home — real life, and more than one athlete", () => {
     }
   });
 
+  it("§03 tiles are the shortest way to a proof: each opens /free-proof with its products ticked (D29)", () => {
+    expect(familyLink(["cards"], "/trading-cards", "See trading cards")).toEqual({ href: "/free-proof?product=cards", cta: FAMILY_PROOF_CTA });
+    expect(familyLink(["poster"], "/posters", "See posters").href).toBe("/free-proof?product=poster");
+    expect(familyLink(["cards", "poster"], "/complete-set", "See the complete set").href).toBe("/free-proof?product=cards,poster");
+    const articles = familiesHtml.split("<article").slice(1);
+    for (const [i, href] of ["/free-proof?product=cards", "/free-proof?product=poster", "/free-proof?product=cards,poster"].entries()) {
+      expect(articles[i]).toContain(`href="${href}"`);
+      expect(text(articles[i])).toContain(FAMILY_PROOF_CTA);
+    }
+    expect(FAMILY_PROOF_CTA).toBe("Get a free proof");
+  });
+
   it("§03 gives each of the three tiles an image — a photograph where the map has one", () => {
     // One <article> per family, and not one of them is an empty box.
     const articles = familiesHtml.split("<article").slice(1);
     expect(articles).toHaveLength(3);
     for (const article of articles) expect(article).toContain("<img");
     for (const keys of [
-      ["life.card.desk", "life.card.case", "life.card.binder", "life.card.hand"],
+      ["life.card.desk", "life.card.case", "life.card.binder", "product.cards"],
       ["life.poster.room.wide", "life.poster.room", "life.poster.room.baseball"],
       ["life.set.printed", "life.set.deluxe"],
     ]) {
@@ -453,7 +466,7 @@ describe("home — real life, and more than one athlete", () => {
 
   it("§03 falls back to three different athletes, never the same one three times", () => {
     // Cheerleading pair · the basketball room · the football poster with its own card front.
-    if (!resolved(["life.card.desk", "life.card.case", "life.card.binder", "life.card.hand"])) {
+    if (!resolved(["life.card.desk", "life.card.case", "life.card.binder", "product.cards"])) {
       expect(familiesSrc).toContain('asset("cards.cheer.front")');
       expect(familiesSrc).toContain('asset("cards.cheer.back")');
     }
@@ -462,6 +475,8 @@ describe("home — real life, and more than one athlete", () => {
       expect(familiesSrc).toContain('asset("sport.football.front")');
     }
     expect(familiesSrc).toContain('asset("posters.room")');
+    // 2026-10-04: the card-in-hand photograph shows a card that is not square-cut — never a fallback here.
+    expect(familiesSrc).not.toContain("life.card.hand");
   });
 
   it("§12 shows the senior-night moment and the team's order, each captioned by what is in it", () => {
@@ -494,10 +509,19 @@ describe("home §01 — one message, one button", () => {
   const heroHtml = SECTIONS[0].html;
   const t = text(heroHtml);
 
-  it("says the H1, the subhead and nothing else — no claims, no price, no chips, no trust line", () => {
+  it("says the H1, the subhead, the button and the four-step path — no claims, no price, no chips, no trust line", () => {
     expect(t).toContain(HERO_H1);
     expect(t).toContain(HERO_SUBHEAD);
     expect(t.indexOf(HERO_H1)).toBeLessThan(t.indexOf(HERO_SUBHEAD));
+    // D29 (owner, 2026-10-04): the path sits UNDER the button row, in the order a parent lives it.
+    expect(t).toContain(PROOF_PATH_LABEL);
+    expect(t.indexOf(ctaFor("home").primary.label)).toBeLessThan(t.indexOf(PROOF_PATH_LABEL));
+    let at = t.indexOf(PROOF_PATH_LABEL);
+    for (const step of PROOF_PATH) {
+      const i = t.indexOf(step.title, at);
+      expect(i, step.title).toBeGreaterThan(at);
+      at = i;
+    }
     for (const gone of ["FROM YOUR PHOTOS", "REGISTERED EDITION", CANON.trustLine.split(" · ")[0], "printed set", "digital ·"]) {
       expect(t, `${gone} is still in the hero`).not.toContain(gone);
     }
@@ -507,8 +531,14 @@ describe("home §01 — one message, one button", () => {
   it("offers ONE primary action and one quiet link to the proof — never a second offer", () => {
     const { primary, secondary } = ctaFor("home");
     expect(t).toContain(primary.label);
-    expect(secondary?.label).toBe(CTA_LABELS.lookUpACard);
+    // D29: the one button is the free proof, to the empty form; Etsy is the pair's outline elsewhere,
+    // never a second button in this hero.
+    expect(primary.label).toBe(CTA_LABELS.getFreeProof);
+    expect(heroHtml).toContain('href="/free-proof"');
+    expect(secondary?.label).toBe(CTA_LABELS.alsoOnEtsy);
+    expect(t, "Etsy is competing with the free-proof button").not.toContain(CTA_LABELS.alsoOnEtsy);
     expect(t, "the registry lookup is still competing with the order button").not.toContain(CTA_LABELS.lookUpACard);
+    expect(heroHtml).not.toContain("/go/etsy/");
     expect(t).toContain(HERO_SECONDARY.label);
     // The quiet link is a text link to §08, not a button: no button geometry anywhere near it.
     expect(heroHtml).toContain(`href="${HERO_SECONDARY.href}"`);
@@ -691,6 +721,8 @@ describe("home §01b — the strip under the hero is the catalog, never typed", 
     expect(cells[1].label).toContain(`${LEAD_TIMES.printShipBusinessDays[0]}–${LEAD_TIMES.printShipBusinessDays[1]}`);
     expect(cells[2].figure).toBe(`${sports.length} sports · ${finishes.length} finishes`);
     expect(cells[3].figure).toBe("Proof first");
+    // D29: the proof is free and nothing is paid before it is approved.
+    expect(cells[3].label).toBe("free — pay only after you approve");
     for (const cell of cells) {
       expect(text(stripHtml)).toContain(cell.figure);
       expect(text(stripHtml)).toContain(cell.label);

@@ -9,9 +9,9 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { cards, channelOf, styleCode, visibilityOf } from "../lib/registry/cards";
 import { sportByCode } from "../lib/catalog/sports";
-import { CTA_LABELS, cardPageSku, ctaFor, seniorNightSku } from "../lib/cta";
+import { CTA_LABELS, cardPageSku, ctaFor, freeProofHref, freeProofMode, optionForSku, seniorNightSku } from "../lib/cta";
 import { FOOTER_COLUMNS, HEADER_LINKS, MOBILE_EXTRA_LINKS, TEAMS_HREF } from "../lib/nav";
-import { SITE_SELLS_DIRECT, SOCIAL_LINKS, SUPPORT_EMAIL, founderPhotoExists } from "../lib/site";
+import { FREE_PROOF_FIRST, SITE_SELLS_DIRECT, SOCIAL_LINKS, SUPPORT_EMAIL, founderPhotoExists } from "../lib/site";
 import { SHIELD_PATH, Shield } from "../components/brand/Shield";
 import { WORDMARK_PATH, Wordmark } from "../components/brand/Wordmark";
 import { BrandMark } from "../components/BrandMark";
@@ -297,37 +297,96 @@ describe("lib/nav (COPY §1.1–1.2)", () => {
       { label: "About", href: "/about" },
     ]);
   });
-  it("mobile extras", () => {
-    expect(MOBILE_EXTRA_LINKS.map((l) => l.href)).toEqual(["/photo-guide", "/registry", "/faq", "/contact", "/etsy"]);
+  it("mobile extras (the blog joined them on 2026-10-04)", () => {
+    expect(MOBILE_EXTRA_LINKS.map((l) => l.href)).toEqual(["/photo-guide", "/registry", "/faq", "/blog", "/contact", "/etsy"]);
   });
-  it("footer columns and the F1 teams mailto", () => {
+  it("footer columns and the F1 teams mailto — Shop opens with the free proof (D29), Trust carries the blog", () => {
     expect(FOOTER_COLUMNS.map((c) => c.title)).toEqual(["Shop", "Trust", "Legal"]);
-    expect(FOOTER_COLUMNS[0].links.map((l) => l.label)).toEqual(["Trading Cards", "Posters", "Complete Set", "Senior Night", "Teams & clubs", "Etsy shop"]);
-    expect(FOOTER_COLUMNS[1].links.map((l) => l.href)).toEqual(["/guarantee", "/how-it-works", "/photo-guide", "/registry", "/faq", "/contact"]);
+    expect(FOOTER_COLUMNS[0].links.map((l) => l.label)).toEqual(["Free proof", "Trading Cards", "Posters", "Complete Set", "Senior Night", "Teams & clubs", "Etsy shop"]);
+    expect(FOOTER_COLUMNS[0].links[0].href).toBe("/free-proof");
+    expect(FOOTER_COLUMNS[1].links.map((l) => l.href)).toEqual(["/guarantee", "/how-it-works", "/photo-guide", "/registry", "/faq", "/blog", "/contact"]);
     expect(FOOTER_COLUMNS[2].links.map((l) => l.href)).toEqual(["/privacy", "/privacy/biometric", "/terms", "/accessibility"]);
     expect(SITE_SELLS_DIRECT).toBe(false);
     expect(TEAMS_HREF).toBe(`mailto:${SUPPORT_EMAIL}?subject=Team%20order`);
   });
 });
 
-describe("lib/cta (CONTRACTS §4.9, GAPS #18 / #25)", () => {
-  it("F1 header/home: primary Order on Etsy → /go/etsy/GDE-ANY-SET, secondary Look up a card", () => {
+describe("lib/cta (CONTRACTS §4.9, GAPS #18 / #25, D29)", () => {
+  /** The F1 Etsy-primary site, reachable through the env seam now that the live mode is proof-first. */
+  const ETSY_PRIMARY = { sellsDirect: false, freeProofFirst: false } as const;
+
+  it("D29 is the live mode: FREE_PROOF_FIRST on, not selling direct", () => {
+    expect(FREE_PROOF_FIRST).toBe(true);
+    expect(SITE_SELLS_DIRECT).toBe(false);
+    expect(freeProofMode()).toBe(true);
+    expect(freeProofMode({ sellsDirect: true })).toBe(false);
+    expect(freeProofMode(ETSY_PRIMARY)).toBe(false);
+  });
+  it("Etsy-primary mode (both flags off): primary Order on Etsy → /go/etsy/GDE-ANY-SET, secondary Look up a card", () => {
     for (const ctx of ["header", "home", "set"] as const) {
-      const pair = ctaFor(ctx);
+      const pair = ctaFor(ctx, undefined, ETSY_PRIMARY);
       expect(pair.primary).toEqual({ label: "Order on Etsy →", href: "/go/etsy/GDE-ANY-SET", kind: "primary" });
       expect(pair.secondary).toEqual({ label: "Look up a card", href: "/registry", kind: "outline" });
       expect(pair.tone).toBe("stock");
     }
-    expect(ctaFor("cards").primary.href).toBe("/go/etsy/GDE-ANY-CARD");
-    expect(ctaFor("cards", { sport: "basketball" }).primary.href).toBe("/go/etsy/GDE-BKB-CARD");
-    expect(ctaFor("posters", { sport: "FTB" }).primary.href).toBe("/go/etsy/GDE-FTB-POST");
-    expect(ctaFor("cards", { sku: "GDE-ANY-CARD-P12" }).primary.href).toBe("/go/etsy/GDE-ANY-CARD-P12");
+    expect(ctaFor("cards", undefined, ETSY_PRIMARY).primary.href).toBe("/go/etsy/GDE-ANY-CARD");
+    expect(ctaFor("cards", { sport: "basketball" }, ETSY_PRIMARY).primary.href).toBe("/go/etsy/GDE-BKB-CARD");
+    expect(ctaFor("posters", { sport: "FTB" }, ETSY_PRIMARY).primary.href).toBe("/go/etsy/GDE-FTB-POST");
+    expect(ctaFor("cards", { sku: "GDE-ANY-CARD-P12" }, ETSY_PRIMARY).primary.href).toBe("/go/etsy/GDE-ANY-CARD-P12");
+  });
+  it("proof-first: the header opens the empty form and keeps the lookup; every other page offers Etsy as the outline", () => {
+    const header = ctaFor("header");
+    expect(header.primary).toEqual({ label: "Get a free proof →", href: "/free-proof", kind: "primary", shortLabel: "Free proof →" });
+    expect(header.secondary).toEqual({ label: "Look up a card", href: "/registry", kind: "outline" });
+    const home = ctaFor("home");
+    expect(home.primary).toEqual({ label: "Get a free proof →", href: "/free-proof", kind: "primary" });
+    expect(home.secondary).toEqual({ label: "Also on Etsy →", href: "/go/etsy/GDE-ANY-SET", kind: "etsy" });
+    expect(ctaFor("cards").secondary).toEqual({ label: "Also on Etsy →", href: "/go/etsy/GDE-ANY-CARD", kind: "etsy" });
+    expect(ctaFor("posters", { sport: "FTB" }).secondary?.href).toBe("/go/etsy/GDE-FTB-POST");
+    expect(ctaFor("senior-night", { sport: "football" }).secondary?.href).toBe("/go/etsy/GDE-FTB-SNSET");
+    for (const ctx of ["header", "home", "cards", "posters", "set"] as const) expect(ctaFor(ctx).primary.label).toBe(CTA_LABELS.getFreeProof);
+    expect(ctaFor("senior-night").primary.label).toBe(CTA_LABELS.seeProofFirst);
+    // Only the header carries the phone-width label.
+    for (const ctx of ["home", "cards", "posters", "set", "senior-night"] as const) expect(ctaFor(ctx).primary.shortLabel).toBeUndefined();
+  });
+  it("proof-first: each page prefills the form with its own product, sport and style", () => {
+    expect(ctaFor("cards").primary.href).toBe("/free-proof?product=cards");
+    expect(ctaFor("cards", { sport: "basketball" }).primary.href).toBe("/free-proof?product=cards&sport=basketball");
+    expect(ctaFor("posters", { sport: "FTB" }).primary.href).toBe("/free-proof?product=poster&sport=football");
+    expect(ctaFor("set", { sport: "softball" }).primary.href).toBe("/free-proof?product=cards,poster&sport=softball");
+    expect(ctaFor("senior-night").primary.href).toBe("/free-proof?product=cards,poster&style=SR");
+    expect(ctaFor("senior-night", { sport: "wrestling" }).primary.href).toBe("/free-proof?product=cards,poster&sport=wrestling&style=SR");
+    // A tier SKU becomes the option: one key for a family's own tier, a product:option pair for a set.
+    expect(ctaFor("cards", { sku: "GDE-BKB-CARD-P12", sport: "basketball" }).primary.href).toBe("/free-proof?product=cards&option=p12&sport=basketball");
+    expect(ctaFor("posters", { sku: "GDE-ANY-POST-P2436" }).primary.href).toBe("/free-proof?product=poster&option=p2436");
+    expect(ctaFor("set", { sku: "GDE-SOC-SET-DIG", sport: "soccer" }).primary.href).toBe("/free-proof?product=cards,poster&option=digital&sport=soccer");
+    expect(ctaFor("set", { sku: "GDE-ANY-SET-PRINT" }).primary.href).toBe("/free-proof?product=cards,poster&option=cards:p12,poster:p1824");
+    expect(ctaFor("set", { sku: "GDE-ANY-SET-DLX" }).primary.href).toBe("/free-proof?product=cards,poster&option=cards:p24,poster:p2436");
+    // The Etsy outline keeps the tier's own SKU.
+    expect(ctaFor("cards", { sku: "GDE-BKB-CARD-P12", sport: "basketball" }).secondary?.href).toBe("/go/etsy/GDE-BKB-CARD-P12");
+  });
+  it("freeProofHref writes the form's contract in a fixed order and never a value the form cannot take", () => {
+    expect(freeProofHref()).toBe("/free-proof");
+    expect(freeProofHref({ products: ["cards", "poster"], sport: "basketball", style: "SN" })).toBe("/free-proof?product=cards,poster&sport=basketball&style=SN");
+    // Codes and names in, slugs and codes out.
+    expect(freeProofHref({ products: ["poster"], sport: "ICH", style: "Senior Night" })).toBe("/free-proof?product=poster&sport=ice-hockey&style=SR");
+    expect(freeProofHref({ products: ["banner", "blanket"], style: "fire-and-smoke" })).toBe("/free-proof?product=banner,blanket&style=FS");
+    expect(freeProofHref({ products: ["cards", "poster"], option: "digital", style: "SR", classOf: "2027" })).toBe("/free-proof?product=cards,poster&option=digital&style=SR&classOf=2027");
+    // Dropped, not passed through: unknown sport, style, option, class year; duplicate products.
+    expect(freeProofHref({ products: ["cards", "cards"], sport: "quidditch", style: "neon", option: "p1824", classOf: "1999" })).toBe("/free-proof?product=cards");
+    expect(freeProofHref({ products: ["cards", "poster"], option: { cards: "p12", poster: "nope" } })).toBe("/free-proof?product=cards,poster&option=cards:p12");
+    // An option needs a product that offers it.
+    expect(freeProofHref({ option: "p12" })).toBe("/free-proof");
+    expect(optionForSku("GDE-ANY-CARD-PACK")).toBeUndefined();
+    expect(optionForSku("GDE-FTB-SNSET")).toBeUndefined();
+    expect(optionForSku("GDE-ANY-BAN-2X4")).toBe("2x4");
   });
   it("senior night: the sport's own set listing when live, else the any-sport set", () => {
     expect(seniorNightSku()).toBe("GDE-ANY-SNSET");
     expect(seniorNightSku("football")).toBe("GDE-FTB-SNSET");
     expect(seniorNightSku("ice-hockey")).toBe("GDE-ANY-SNSET");
-    expect(ctaFor("senior-night", { sport: "wrestling" }).primary.href).toBe("/go/etsy/GDE-WRS-SNSET");
+    expect(ctaFor("senior-night", { sport: "wrestling" }, ETSY_PRIMARY).primary.href).toBe("/go/etsy/GDE-WRS-SNSET");
+    expect(ctaFor("senior-night", { sport: "wrestling" }).secondary?.href).toBe("/go/etsy/GDE-WRS-SNSET");
   });
   it("card-page: GAPS #18 SKU rule and the demo-etsy single outline, over every demo-etsy record", () => {
     const demos = cards.filter((c) => channelOf(c) === "demo-etsy" && visibilityOf(c) !== "deleted");
@@ -344,13 +403,20 @@ describe("lib/cta (CONTRACTS §4.9, GAPS #18 / #25)", () => {
       expect(ctaFor("card-page", card, { sellsDirect: true }).primary.href).toBe(`/go/etsy/${expected}`);
     }
   });
-  it("card-page for a real customer keeps the primary + lookup pair in F1", () => {
+  it("card-page for a real customer: the free proof with the card's sport and style, Etsy as the outline", () => {
     const real = cards.find((c) => channelOf(c) === "etsy");
     expect(real).toBeTruthy();
     const pair = ctaFor("card-page", real!);
-    expect(pair.primary.label).toBe("Order on Etsy →");
-    expect(pair.primary.href.startsWith("/go/etsy/")).toBe(true);
-    expect(pair.secondary?.href).toBe("/registry");
+    expect(pair.primary.label).toBe(CTA_LABELS.getFreeProof);
+    const slug = sportByCode(real!.sportCode)!.slug;
+    expect(pair.primary.href).toBe(`/free-proof?product=cards&sport=${slug}&style=${styleCode(real!.styleName)}`);
+    expect(pair.secondary).toEqual({ label: CTA_LABELS.alsoOnEtsy, href: `/go/etsy/${cardPageSku(real!)}`, kind: "etsy" });
+    expect(pair.tone).toBe("arena");
+    // Etsy-primary mode keeps the F1 pair.
+    const f1 = ctaFor("card-page", real!, { sellsDirect: false, freeProofFirst: false });
+    expect(f1.primary.label).toBe("Order on Etsy →");
+    expect(f1.primary.href.startsWith("/go/etsy/")).toBe(true);
+    expect(f1.secondary?.href).toBe("/registry");
   });
   it("flips to direct ordering when SITE_SELLS_DIRECT is true", () => {
     const pair = ctaFor("header", undefined, { sellsDirect: true });
@@ -361,8 +427,10 @@ describe("lib/cta (CONTRACTS §4.9, GAPS #18 / #25)", () => {
   });
   it("never emits a marketplace URL", () => {
     for (const ctx of ["header", "home", "cards", "posters", "set", "senior-night", "card-page"] as const) {
-      const pair = ctaFor(ctx);
-      for (const l of [pair.primary, pair.secondary]) if (l) expect(l.href).not.toMatch(/etsy\.com/);
+      for (const env of [undefined, { sellsDirect: false, freeProofFirst: false }, { sellsDirect: true }]) {
+        const pair = ctaFor(ctx, undefined, env);
+        for (const l of [pair.primary, pair.secondary]) if (l) expect(l.href).not.toMatch(/etsy\.com/);
+      }
     }
   });
 });
@@ -404,13 +472,16 @@ describe("chrome components", () => {
     expect(card).toContain("What is a registered edition?");
     expect((card.match(/<h1/g) ?? []).length).toBe(1);
   });
-  it("SiteHeader (stock): skip link, nav, the F1 CTA pair, the menu island", () => {
+  it("SiteHeader (stock): skip link, nav, the free-proof CTA pair, the menu island", () => {
     const html = render(createElement(SiteHeader));
     expect(html).toContain('href="#main"');
     expect(html).toContain("Skip to content");
     for (const l of HEADER_LINKS) expect(html).toContain(`href="${l.href}"`);
-    expect(html).toContain("Order on Etsy →");
-    expect(html).toContain('href="/go/etsy/GDE-ANY-SET"');
+    // D29: the header's primary opens the empty form; Etsy is no longer the header's button.
+    expect(html).toContain('href="/free-proof"');
+    expect(html).toContain("Get a free proof →");
+    expect(html).not.toContain("Order on Etsy");
+    expect(html).not.toContain('href="/go/etsy/');
     expect(html).toContain("Look up a card");
     expect(html).toContain('aria-expanded="false"');
     expect(html).toMatch(/aria-controls="mobile-menu-[A-Za-z0-9]+"/);
@@ -418,6 +489,15 @@ describe("chrome components", () => {
     for (const l of MOBILE_EXTRA_LINKS) expect(html).toContain(`href="${l.href}"`);
     expect(html).toContain("bg-stock");
     expect(html).not.toContain("REGISTERED EDITION");
+  });
+  it("SiteHeader: the phone prints the short label, 640 px up the full one — both in the one button", () => {
+    const html = render(createElement(SiteHeader));
+    expect(html).toMatch(/<span class="sm:hidden">Free proof →<\/span><span class="hidden sm:inline">Get a free proof →<\/span>/);
+    // The mobile sheet's CTA pair carries the full label (it is a full-width button there).
+    const sheet = html.slice(html.indexOf('role="dialog"'));
+    expect(sheet).toContain(">Get a free proof →<");
+    expect(sheet).not.toContain("Free proof →<");
+    expect(sheet).toContain('href="/free-proof"');
   });
   it("SiteHeader: 44 px tap targets and the outline CTA held back until the nav fits beside it", () => {
     const html = render(createElement(SiteHeader));
@@ -442,16 +522,17 @@ describe("chrome components", () => {
     expect(html).toContain("bg-arena");
     expect(html).not.toContain("Order on Etsy");
     expect(html).not.toContain("/go/etsy/");
+    expect(html).not.toContain("/free-proof");
     expect(html).toContain('href="#main"');
   });
   it("MobileMenu is closed by default and renders its children (the CTA block) inside the dialog", () => {
-    const html = render(createElement(MobileMenu, { links: HEADER_LINKS, extraLinks: MOBILE_EXTRA_LINKS }, createElement("a", { href: "/go/etsy/GDE-ANY-SET" }, "Order on Etsy →")));
+    const html = render(createElement(MobileMenu, { links: HEADER_LINKS, extraLinks: MOBILE_EXTRA_LINKS }, createElement("a", { href: "/free-proof" }, "Get a free proof →")));
     expect(html).toContain('role="dialog"');
     expect(html).toContain('aria-modal="true"');
     expect(html).toMatch(/<div id="mobile-menu-[A-Za-z0-9]+"[^>]*hidden=""/);
     expect(html).toContain("size-11");
     expect(html).toContain("text-[1.75rem]");
-    expect(html).toContain("Order on Etsy →");
+    expect(html).toContain("Get a free proof →");
   });
   it("SiteFooter: score bug, columns, C4, socials, imprint fallback, bottom line", () => {
     const html = render(createElement(SiteFooter));

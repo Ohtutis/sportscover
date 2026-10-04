@@ -28,12 +28,12 @@ import { NEVER_ASKED_FOR, photoChecklist } from "../lib/catalog/photo-checklist"
 import { SALE_EXPIRES_AT, getTier, isSaleActive, sitePrice, tiers, tiersFor } from "../lib/catalog/prices";
 import { activeOccasions, inWindow, isChristmasWindow, occasionById, occasions } from "../lib/catalog/seasons";
 import { PARTNERS, shippingRows, shipsFromFor, visibleShippingRows, visiblePartners, DIGITAL_SHIPS_FROM } from "../lib/catalog/shipping";
-import { backLine, isNumberless, NUMBERLESS_CODES, postersSports, sportByCode, sports } from "../lib/catalog/sports";
+import { backLine, isNumberless, NUMBERLESS_CODES, postersSports, sportByCode, sports, sportsWithOwnListing } from "../lib/catalog/sports";
 import { styles, styleBySlug } from "../lib/catalog/styles";
 import { boxContents, FILE_COUNTS, tierNotes, TRUE_COUNT_LINKS, TRUE_COUNTS, trueCountRest } from "../lib/catalog/tiers";
 import { trustLineSegments, TRUST_SEGMENTS } from "../lib/catalog/trust";
 import { ARENA, contrastRatio, hexToRgb, SILVER, teamAccent } from "../lib/color";
-import { CANON, LOOKUP_STRINGS } from "../lib/copy/canon";
+import { CANON, LOOKUP_STRINGS, proofPathLine } from "../lib/copy/canon";
 import { block } from "../lib/blocks";
 import { ALT_REGISTERED_BACK, altBefore, altCardBack, altCardFront, altPoster, altProof, altRegisteredFront, altRoom } from "../lib/alt";
 import { publishedReviews } from "../lib/reviews";
@@ -232,10 +232,11 @@ describe("titles + meta (CONTRACTS §4.3, §6.1, GAPS #24)", () => {
 });
 
 describe("faq (CONTRACTS §4.8, COPY §2.11)", () => {
-  it("ids are unique, the master list is the 35 numbered items, subsets resolve", () => {
+  it("ids are unique, the master list is the 35 numbered items (+ the three D29 ones), subsets resolve", () => {
     const ids = faq.map((f) => f.id);
     expect(new Set(ids).size).toBe(ids.length);
-    expect(faq.filter((f) => !f.subsetOnly).length).toBe(35);
+    expect(faq.filter((f) => !f.subsetOnly && !f.proofFirstOnly).length).toBe(35);
+    expect(faq.filter((f) => f.proofFirstOnly).map((f) => f.id)).toEqual(["faq-43", "faq-44", "faq-45"]);
     for (const [key, list] of Object.entries(FAQ_SUBSETS)) {
       for (const id of list) expect(ids, `${key}: ${id}`).toContain(id);
       const items = faqSubset(key as keyof typeof FAQ_SUBSETS);
@@ -250,7 +251,30 @@ describe("faq (CONTRACTS §4.8, COPY §2.11)", () => {
     expect(all.some((f) => f.id === "faq-04")).toBe(getTier("GDE-ANY-CARD-PACK")!.enabled);
     expect(all.some((f) => f.id === "faq-28")).toBe(true);
     expect(all.some((f) => f.subsetOnly)).toBe(false);
-    expect(faqGroups().map((g) => g.group)[0]).toBe("products");
+    // D29: while the site runs proof-first, /faq opens with the free proof and its payment.
+    expect(faqGroups().map((g) => g.group).slice(0, 2)).toEqual(["proof", "products"]);
+    expect(faqGroups()[0].title).toBe("Free proof and payment");
+    expect(faqGroups()[0].items.map((f) => f.id)).toEqual(["faq-43", "faq-44", "faq-45"]);
+  });
+  it("D29 — the free-proof answers: proof before payment, two ways to pay, nothing to pay if it is not right", () => {
+    const byId = (id: string) => faq.find((f) => f.id === id)!;
+    expect(byId("faq-43").q).toBe("Do I pay before I see anything?");
+    expect(byId("faq-43").a.startsWith(`No. ${CANON.proofFirstLine}`)).toBe(true);
+    // The four-step line rides in the answer, so the FAQ says the path the heroes show.
+    expect(byId("faq-43").a).toContain(proofPathLine());
+    expect(byId("faq-44").q).toBe("How do I pay after I approve the proof?");
+    expect(byId("faq-44").a).toBe("By secure payment link or on our Etsy shop — your choice. The site does not take card details.");
+    expect(byId("faq-45").q).toBe("What if I don't like the proof?");
+    expect(byId("faq-45").a).toBe("One revision is included. If it still isn't right, there is nothing to pay.");
+    // Etsy or here: start with a free proof here, or order on Etsy — the same edition either way.
+    for (const id of ["faq-27", "faq-28"]) {
+      expect(byId(id).a.startsWith("Start with a free proof here, or order on Etsy — same edition, same process.")).toBe(true);
+      expect(byId(id).a).toContain("your files and your card's page are delivered here.");
+      expect(byId(id).a).not.toContain("Orders are placed on our Etsy shop");
+    }
+    expect(CANON.proofFirstLine).toBe(
+      "You see a free watermarked proof before you pay anything. Pay only if you love it — then the watermark comes off and the files and prints follow.",
+    );
   });
   it("contains every question of the F0 site-config faqItems (while that file still exists)", () => {
     // app/site-config.ts is deleted by the home builder once every question lives here (CONTRACTS §5.2).
@@ -361,11 +385,21 @@ describe("catalog additions (tiers, sports, styles, delivery, colour, alt)", () 
     expect(backLine(sportByCode("BKB")!)).toBe("their number");
     expect(backLine(sportByCode("CHR")!)).toBe("their name, their club crest");
     expect(backLine(sportByCode("WRS")!)).toBe("plain back");
-    expect(backLine(sportByCode("PKB")!)).toBe("plain back");
-    expect(NUMBERLESS_CODES).toEqual(["CHR", "GYM", "SWM", "TEN", "GLF"]);
+    expect(NUMBERLESS_CODES).toEqual(sports.filter((s) => !s.numbered).map((s) => s.code));
     expect(isNumberless(sportByCode("TEN")!)).toBe(true);
-    expect(postersSports().map((s) => s.slug)).toEqual(["basketball", "football", "baseball", "softball", "soccer", "volleyball", "wrestling", "cheerleading"]);
+    // Read from the roster, not typed: the poster picker is the sports with their own poster listing.
+    expect(postersSports().map((s) => s.slug)).toEqual(sportsWithOwnListing("posters").map((s) => s.slug));
     expect(sports.length).toBe(17);
+  });
+  it("C9 names every sport the way the roster treats it (numberless → name + crest, no back number → plain back)", () => {
+    // The roster (lib/catalog/sports.ts) and the canon sentence must agree: a sport the roster prints
+    // with name + crest has to be in C9's first sentence, a plain-back sport in its second.
+    const [nameAndCrest, plainBack] = CANON.numberlessLine.toLowerCase().split(". ");
+    for (const sport of sports) {
+      const line = backLine(sport);
+      if (line === "their name, their club crest") expect(nameAndCrest, `${sport.name} is numberless in the roster`).toContain(sport.name.toLowerCase());
+      if (line === "plain back") expect(plainBack, `${sport.name} has a plain back in the roster`).toContain(sport.name.toLowerCase());
+    }
   });
   it("styles have unique slugs; SR keeps the card's case", () => {
     expect(new Set(styles.map((s) => s.slug)).size).toBe(7);

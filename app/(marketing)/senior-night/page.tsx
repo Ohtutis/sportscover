@@ -12,6 +12,7 @@ import { Shield } from "../../../components/brand/Shield";
 import { OrderByCalculator } from "../../../components/OrderByCalculator";
 import { Pill } from "../../../components/Pill";
 import { Plate } from "../../../components/Plate";
+import { ProofPath } from "../../../components/ProofPath";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { TrustLine } from "../../../components/TrustLine";
 import { asset, assetOrNull, hasAsset, type ImageSpec } from "../../../lib/assets";
@@ -21,7 +22,7 @@ import { faqSubset } from "../../../lib/catalog/faq";
 import { sportBySlug } from "../../../lib/catalog/sports";
 import { CALC_COPY } from "../../../lib/copy/calc";
 import { CANON } from "../../../lib/copy/canon";
-import { ctaFor, etsyHref, seniorNightSku, SENIOR_NIGHT_ANY_SKU } from "../../../lib/cta";
+import { ctaFor, freeProofMode } from "../../../lib/cta";
 import { pageMeta } from "../../../lib/seo/meta";
 import { SUPPORT_EMAIL } from "../../../lib/site";
 import { GiftNote } from "./_gift-note";
@@ -168,7 +169,11 @@ function SeniorNightHeroMedia() {
 }
 
 /**
- * A Senior Night sport tile: the card IS the tile, then the sport name. It used to be a ruled plate
+ * A Senior Night sport tile: the card IS the tile, then the sport name. Its link is that sport's
+ * primary CTA — since D29 the free-proof form with the sport and the Senior Night style prefilled
+ * (`ctaFor` falls back to the sport's Etsy Senior Night listing when the site is Etsy-primary).
+ *
+ * It used to be a ruled plate
  * around a 4 : 5 arena mat with the card at 76 % of it — 285 × 356 of tile for a 182 × 254 card, 51 px
  * of dead black down each side, nine times over (owner review, 2026-09-07). The card now runs the full
  * width of its column and floats on the page's own stock. Ice hockey has no SR front (GAPS #17), so it
@@ -180,7 +185,7 @@ function SportTile({ slug, caption }: { slug: string; caption?: string }) {
   const face = assetOrNull(`sn.sport.${slug}.front`);
   const name = sport?.name ?? slug;
   return (
-    <a href={etsyHref(seniorNightSku(slug))} className="group block outline-offset-4">
+    <a href={ctaFor("senior-night", { sport: slug }).primary.href} className="group block outline-offset-4">
       {face ? (
         <CardFace {...face} labelled sizes="(min-width: 640px) 224px, 62vw" />
       ) : (
@@ -243,6 +248,7 @@ export default function SeniorNightPage() {
                 <DeliveryChips kind="seniorNight" className="mt-6" />
                 <CtaPair {...cta} size="lg" className="mt-6" />
                 <TrustLine />
+                {freeProofMode() ? <ProofPath className="mt-8" /> : null}
               </div>
               <div className="mt-10 lg:col-span-6 lg:mt-0">
                 <SeniorNightHeroMedia />
@@ -356,8 +362,10 @@ export default function SeniorNightPage() {
             </ul>
             <FictionalLabel className="mt-8 max-w-[720px]" />
             <p className="mt-8 font-body text-body">
-              <a href={etsyHref(SENIOR_NIGHT_ANY_SKU)} className="underline-offset-4 decoration-1 hover:underline">
-                Another sport? Choose it at the order — all 17 get the senior edition.
+              <a href={cta.primary.href} className="underline-offset-4 decoration-1 hover:underline">
+                {freeProofMode()
+                  ? "Another sport? Choose it on the free-proof form — all 17 get the senior edition."
+                  : "Another sport? Choose it at the order — all 17 get the senior edition."}
               </a>
             </p>
           </div>

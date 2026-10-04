@@ -39,6 +39,8 @@ const NOINDEX_SOURCES = [
   "/go/:path*",
   "/etsy",
   "/registry/lookup",
+  // D29: the free-proof confirmation page — a reference number for one parent, never a search result.
+  "/free-proof/thanks",
 ];
 
 const nextConfig: NextConfig = {

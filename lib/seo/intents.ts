@@ -90,6 +90,9 @@ const TABLE: { keyword: string; path: string; note?: string }[] = [
   { keyword: "trading card registry", path: "/registry" },
   { keyword: "registered edition", path: "/registry" },
   { keyword: "trading card qr code", path: "/registry" },
+  // D29 (owner, 2026-10-04): the proof-first request page owns the free-proof intent and nothing else.
+  { keyword: "free proof custom sports card", path: "/free-proof" },
+  { keyword: "custom sports card free proof", path: "/free-proof" },
 ];
 
 export const INTENTS: readonly Intent[] = TABLE.map((row) => ({
@@ -182,4 +185,5 @@ export const KEYWORD_BEARING_F1_PATHS: readonly string[] = [
   "/how-it-works",
   "/photo-guide",
   "/registry",
+  "/free-proof",
 ];

@@ -3,8 +3,12 @@
 // block() from lib/blocks.ts; C11 and C12 live in lib/catalog/delivery.ts and are re-exported here
 // so a page has one import for every canon sentence. Never retype one of these in JSX.
 
-import { SHIPPING_SENTENCE, STAGED_DELIVERY_SENTENCE } from "../catalog/delivery";
+import { LEAD_TIMES, SHIPPING_SENTENCE, STAGED_DELIVERY_SENTENCE } from "../catalog/delivery";
 import { TRUST_SEGMENTS } from "../catalog/trust";
+import { PHOTO_RULES } from "../intake/types";
+
+/** The free proof's clock is the digital clock (lib/intake/copy.ts PROOF_CLOCK says the same). */
+const [proofMin, proofMax] = LEAD_TIMES.digitalBusinessDays;
 
 export const CANON = {
   /** C7 — the pack line. Never a plus sign, never a different count. */
@@ -13,7 +17,7 @@ export const CANON = {
   registeredIdLine: "Every card carries its registered card ID on the back.",
   /** C9 — the numberless line. */
   numberlessLine:
-    "Cheerleading, gymnastics, swimming, tennis and golf don't wear numbers — their card carries their name and club crest instead. Wrestling, track & field, pickleball and skateboarding get a plain back.",
+    "Cheerleading, gymnastics, swimming, tennis, golf and pickleball don't wear numbers — their card carries their name and club crest instead. Wrestling, track & field and skateboarding get a plain back.",
   /** C10 — the delivery clocks; the one wording, everywhere (COPY §5). */
   deliveryClocks:
     "Digital files within 1–2 business days of your order; printed items ship within 5–7 business days of your order. Both clocks start on the day you order — printing begins the moment you approve the proof, so a proof left waiting moves the ship date by the same amount.",
@@ -48,9 +52,32 @@ export const CANON = {
   /** The /c art-pending block (GAPS #8 — overrides COPY §2.15 (2b)); the only wording for that state. */
   artPendingLine:
     "This edition's card art is being prepared. The registry record below is complete — the card face appears here as soon as the export lands.",
+  /** D29 (owner, 2026-10-04) — the free-proof promise. /guarantee, /how-it-works and the FAQ say it in these words. */
+  proofFirstLine:
+    "You see a free watermarked proof before you pay anything. Pay only if you love it — then the watermark comes off and the files and prints follow.",
 } as const;
 
 export type CanonKey = keyof typeof CANON;
+
+/**
+ * D29 — the proof-first path in four steps (owner, 2026-10-04: "the parent must grasp the path at a
+ * glance"). One constant: `<ProofPath>` renders it under the hero CTA of the home page, the three
+ * family pages, /senior-night, /guarantee and /how-it-works, and `proofPathLine()` sets the same four
+ * steps as one sentence where a list cannot go (the FAQ answer). Each `detail` continues its `title`,
+ * so the line reads "1. Send photos: 4–10, straight from your phone. 2. …".
+ */
+export const PROOF_PATH = [
+  { step: 1, title: "Send photos", detail: `${PHOTO_RULES.min}–${PHOTO_RULES.max}, straight from your phone` },
+  { step: 2, title: "Free watermarked proof", detail: `within ${proofMin}–${proofMax} business days, nothing to pay` },
+  { step: 3, title: "Choose digital or printed", detail: "pay the way you prefer — secure payment link or on Etsy" },
+  { step: 4, title: "We complete the order", detail: "watermark off; the files and prints follow" },
+] as const;
+
+/** The label over the four steps (set in the Barlow label recipe, so it reads uppercase). */
+export const PROOF_PATH_LABEL = "Free proof first — how it works";
+
+/** The four steps as one sentence. */
+export const proofPathLine = (): string => PROOF_PATH.map((s) => `${s.step}. ${s.title}: ${s.detail}.`).join(" ");
 
 /** The registry miss / private / rate-limit / generic error strings (COPY §1.3). */
 export const LOOKUP_STRINGS = {

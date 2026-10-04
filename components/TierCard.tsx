@@ -12,6 +12,9 @@ import { Pill } from "./Pill";
  * are pinned to the bottom as one block: while the chip sat directly under the box list, a printed
  * tier left 54 px of dead space between it and the CTA. The FEATURED pill is inset to the card's own
  * 24 px padding, not to the border.
+ *
+ * Two buttons (D29: "Get a free proof →" and the outline "Also on Etsy →") are stacked full width:
+ * at 768 px a three-tier row leaves 176 px inside each card, and the pair side by side needs 327.
  */
 export interface TierCardProps {
   tier: Tier;
@@ -88,7 +91,7 @@ export function TierCard({ tier, now, box, shipsFrom, chip, cta, id, sportCode, 
       </dl>
       <div className="mt-auto pt-6">
         <DeliveryChips kind="standard" items={[chip]} />
-        <CtaPair {...cta} className="mt-4" />
+        <CtaPair {...cta} stack={Boolean(cta.secondary)} className="mt-4" />
       </div>
     </article>
   );

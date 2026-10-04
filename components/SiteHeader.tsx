@@ -28,13 +28,17 @@ const HEADER_BUTTON_CLASS = "min-h-11";
 /**
  * Sticky, solid, no blur, no shrink (DESIGN §4.20). Left: BrandMark. Centre (≥ lg): the seven nav
  * links. Right: the header CTA pair from `ctaFor("header")` — "Look up a card" outline and the
- * primary "Order on Etsy →" — then the menu button (< lg). The mobile sheet is the `MobileMenu`
- * island; the CTA pair and the trust line inside it are rendered here on the server and passed in as
- * children, so the island ships no extra JS.
+ * primary, which since D29 (2026-10-04) is "Get a free proof →" to `/free-proof` — then the menu
+ * button (< lg). The mobile sheet is the `MobileMenu` island; the CTA pair and the trust line inside
+ * it are rendered here on the server and passed in as children, so the island ships no extra JS.
  *
- * Between 1024 px and 1279 px the outline CTA is held back: the seven links need 633 px there and
- * only 662 px exist beside the primary button alone. It returns at 1280 px, where the container is
- * capped at 1200 px and the row measures 681 px of links inside 705 px.
+ * Between 1024 px and 1279 px the outline CTA is held back: the seven links need 633 px there, and
+ * beside "Get a free proof →" (149 px, 18 px wider than the old "Order on Etsy →") 644 px exist. It
+ * returns at 1280 px, where the container is capped at 1200 px and the 681 px of links sit inside 687.
+ *
+ * Below 640 px the primary prints its `shortLabel` ("Free proof →", 114 px): at 360 px the row is
+ * 320 px of mark (103), gaps (24), menu button (44) and button, and the full label (149 px) left
+ * 0.4 px. Both labels are in the markup; `hidden` takes the other one out of the accessibility tree.
  */
 export function SiteHeader({ tone = "stock", className = "" }: SiteHeaderProps) {
   if (tone === "arena") {
@@ -67,7 +71,14 @@ export function SiteHeader({ tone = "stock", className = "" }: SiteHeaderProps) 
             </div>
           ) : null}
           <ButtonLink href={pair.primary.href} variant="bare" size="sm" className={`${PRIMARY_BUTTON_CLASS} ${HEADER_BUTTON_CLASS}`}>
-            {pair.primary.label}
+            {pair.primary.shortLabel ? (
+              <>
+                <span className="sm:hidden">{pair.primary.shortLabel}</span>
+                <span className="hidden sm:inline">{pair.primary.label}</span>
+              </>
+            ) : (
+              pair.primary.label
+            )}
           </ButtonLink>
           <MobileMenu links={HEADER_LINKS} extraLinks={MOBILE_EXTRA_LINKS}>
             <CtaPair {...pair} />

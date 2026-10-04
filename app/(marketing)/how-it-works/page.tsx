@@ -2,6 +2,11 @@
 // FAQ's own FAQPage (CONTRACTS §5.5: two schema blocks are allowed here, never two FAQPages).
 // Every exhibit comes from lib/assets.ts; check 1 is HTML by design (GAPS: how.gate.photo-check is
 // `locate` on purpose — the verdict is a Ledger, never a screenshot of _intake.json).
+//
+// D29 (2026-10-04): while the site runs proof-first, the opener ends with the CTA pair and the
+// four-step ProofPath, the FINISH check says CANON.proofFirstLine, and the timeline puts PAID after the
+// proof — the order a free-proof request actually runs in (an Etsy order still pays first, and the
+// line under the timeline says so).
 
 import Image from "next/image";
 import Link from "next/link";
@@ -15,6 +20,7 @@ import { JsonLd } from "../../../components/JsonLd";
 import { Ledger } from "../../../components/Ledger";
 import { Mat } from "../../../components/Mat";
 import { Pill } from "../../../components/Pill";
+import { ProofPath } from "../../../components/ProofPath";
 import { ProofRejectedPair } from "../../../components/ProofRejectedPair";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { StatusChip } from "../../../components/StatusChip";
@@ -24,7 +30,7 @@ import { block } from "../../../lib/blocks";
 import { LABS_SENTENCE, visiblePartners } from "../../../lib/catalog/shipping";
 import { faqSubset } from "../../../lib/catalog/faq";
 import { CANON } from "../../../lib/copy/canon";
-import { ctaFor } from "../../../lib/cta";
+import { ctaFor, freeProofMode } from "../../../lib/cta";
 import { pageMeta } from "../../../lib/seo/meta";
 import { article } from "../../../lib/seo/jsonld";
 import { pageFor } from "../../../lib/seo/titles";
@@ -75,7 +81,9 @@ function VerdictCard() {
  * process artefact, so it sits on a mat and not in a BracketFrame; the artefacts keep the brackets.
  * Nothing is preloaded and the box is reserved, so the mobile LCP is still the headline.
  */
-const HERO_KEYS = ["moment.card.hallway", "moment.card.bleachers", "life.card.hand"] as const;
+// The third fallback is the printed card on a desk (`product.cards`, square-cut checked). It used to be
+// the old card-in-hand photograph, whose card is not square-cut — pre-2026-09-01 art, off the site.
+const HERO_KEYS = ["moment.card.hallway", "moment.card.bleachers", "product.cards"] as const;
 
 /** The first key the manifest has produced, or null. `hasAsset` is safe on a key it has never heard of. */
 function firstAsset(keys: readonly string[]): ImageSpec | null {
@@ -318,7 +326,13 @@ const gates: Gate[] = [
     status: "pass",
     artefactName: "the watermarked proof",
     tab: "PROOF — NOT FINAL",
-    body: (
+    body: freeProofMode() ? (
+      <p>
+        The finish is built around the shots — the type, the material, your team colors — and a watermarked proof comes to you.{" "}
+        {CANON.proofFirstLine} {CANON.proofChecklist} One revision is included; for printed packages, printing starts the moment
+        you approve and pay.
+      </p>
+    ) : (
       <p>
         The finish is built around the shots — the type, the material, your team colors — and a watermarked proof comes to you.{" "}
         {CANON.proofChecklist} One revision is included. Approve, and the files are released; for printed packages, printing
@@ -350,10 +364,32 @@ const TIMELINE: { name: string; note?: string; approval?: string }[] = [
   { name: "DELIVERED" },
 ];
 
+/**
+ * Proof-first (D29): the same ten states in the order a free-proof request runs — nothing is paid
+ * until the proof is approved, and the proof is approved by email (there is no order page before
+ * payment). A photo check that fails costs nothing, so "declined" needs no refund.
+ */
+const TIMELINE_PROOF_FIRST: typeof TIMELINE = [
+  { name: "PHOTOS RECEIVED" },
+  { name: "PHOTO CHECK", note: "passed · needs more photos · declined" },
+  { name: "REFERENCE SET", approval: "your approval, by email" },
+  { name: "THE SHOTS" },
+  { name: "PROOF", approval: "free and watermarked — your approval, by email" },
+  { name: "PAID", note: "secure payment link or Etsy" },
+  { name: "FILES READY" },
+  { name: "PRINTING", note: "per package" },
+  { name: "SHIPPED", note: "per package, tracked" },
+  { name: "DELIVERED" },
+];
+
+/** The line under the timeline while it runs proof-first: the one way an Etsy order differs. */
+const ETSY_ORDER_NOTE = "Ordering on Etsy instead? You pay there first, then send the photos — every other step is the same.";
+
 function Timeline() {
+  const states = freeProofMode() ? TIMELINE_PROOF_FIRST : TIMELINE;
   return (
     <ol className="border-l border-hairline lg:flex lg:border-l-0 lg:border-t lg:border-hairline">
-      {TIMELINE.map((state) => (
+      {states.map((state) => (
         <li key={state.name} className="relative min-w-0 flex-1 py-4 pl-6 lg:py-6 lg:pl-0 lg:pr-4 lg:pt-6">
           <span
             aria-hidden="true"
@@ -382,6 +418,7 @@ export default function HowItWorksPage() {
   const meta = pageFor(PATH);
   const cta = ctaFor("home");
   const faq = faqSubset("how-it-works");
+  const proofFirst = freeProofMode();
 
   return (
     <>
@@ -430,6 +467,15 @@ export default function HowItWorksPage() {
                 }
               />
               <p className="mt-8 max-w-[62ch] font-body text-body font-medium text-pretty text-ink">{block("how-its-made")}</p>
+              {proofFirst ? (
+                <>
+                  <div className="mt-8">
+                    <CtaPair primary={cta.primary} secondary={cta.secondary} size="lg" />
+                    <TrustLine />
+                  </div>
+                  <ProofPath className="mt-8" />
+                </>
+              ) : null}
             </div>
             <div className="mt-10 lg:col-span-6 lg:mt-0">
               <HeroMedia />
@@ -488,6 +534,7 @@ export default function HowItWorksPage() {
           <SectionHeading as="h2" id="s-approve" index={idx(5)} title="WHAT YOU APPROVE, AND WHEN." />
           <div className="mt-8 lg:mt-12">
             <Timeline />
+            {proofFirst ? <p className="mt-6 max-w-[62ch] font-body text-small text-muted-text">{ETSY_ORDER_NOTE}</p> : null}
             <p className="mt-8 max-w-[62ch] font-body text-body text-pretty text-ink">
               {CANON.proofChecklist} One revision is included; a second small text fix is usually free — ask.
             </p>

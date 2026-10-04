@@ -51,10 +51,12 @@ describe("price rule: site = Etsy × 1.10, rounded up to .99, never below Etsy",
     expect(ceilToHalf(6.01)).toBe(6.5);
     expect(ceilToHalf(7)).toBe(7);
   });
-  it("perCardAnchor is computed from the 12-card tier, never typed (D23: 4.5 during the sale)", () => {
+  it("perCardAnchor is computed from the 12-card tier, never typed (D23 — it moves with the ladder)", () => {
     const p12 = getTier("GDE-ANY-CARD-P12")!;
-    expect(perCardAnchor(during)).toBe(4.5);
+    // The launch ladder (2026-09-08) moved the 12-card tier, so the anchor moved with it: the figure is
+    // derived from the ladder, and the test derives it the same way instead of pinning a number.
     expect(perCardAnchor(during)).toBe(ceilToHalf(sitePrice(p12, during) / 12));
+    expect(perCardAnchor(during)).toBeLessThan(5);
     expect(perCardAnchor(after)).toBe(ceilToHalf(siteBase(p12) / 12));
     expect(perCardAnchor(after)).toBeGreaterThan(perCardAnchor(during));
   });

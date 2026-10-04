@@ -7,6 +7,10 @@
 // fallback for every key the site map has not verified yet, and the three fallbacks now carry three
 // different athletes (cheerleading · basketball · football) so the row shows the range even with no
 // photograph at all. Prices and truths are unchanged: the image carries the feeling, not the claim.
+//
+// 2026-10-04 (D29): while the site runs proof-first, each tile is the shortest way to a proof — "Get a
+// free proof" opens /free-proof with that family's products ticked (the set = cards + poster). The
+// family pages stay one tap away in the header; with both mode flags off the tiles link to them again.
 import Image from "next/image";
 import { CardFace } from "../../../components/CardFace";
 import { FamilyCard } from "../../../components/FamilyCard";
@@ -14,11 +18,20 @@ import { FictionalLabel } from "../../../components/FictionalLabel";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { asset, hasAsset, type ImageSpec } from "../../../lib/assets";
 import { fromPrice } from "../../../lib/catalog/prices";
+import { freeProofHref, freeProofMode } from "../../../lib/cta";
+import type { ProductKey } from "../../../lib/intake/products";
 import { HomeSection, sectionId, sectionIndex } from "./Section";
 
 export const FAMILIES_H2 = "CHOOSE THEIR EDITION.";
 export const FAMILIES_SUBHEAD = "Three ways to keep the season. Every one starts from the same 4–10 photos and ends with a proof you approve.";
 export const CERTIFICATE_ROW_LINE = "Free printed Certificate of Authenticity in every shipped package.";
+/** The tile CTA while the site runs proof-first (the tile's own arrow icon follows it). */
+export const FAMILY_PROOF_CTA = "Get a free proof";
+
+/** Where a family tile goes, and what it says: the free-proof form prefilled, or the family page. */
+export function familyLink(products: readonly ProductKey[], page: string, pageCta: string): { href: string; cta: string } {
+  return freeProofMode() ? { href: freeProofHref({ products }), cta: FAMILY_PROOF_CTA } : { href: page, cta: pageCta };
+}
 
 const CARD_SIZES = "(min-width: 1024px) 220px, (min-width: 768px) 26vw, 52vw";
 /** The card is 3-across from `md`, so the media well is ~30vw there — `45vw` over-requested by 1.5x. */
@@ -36,8 +49,12 @@ function firstPhoto(keys: readonly string[]): ImageSpec | null {
   return null;
 }
 
-/** A card on a desk, in a stand, or in a binder — whichever has landed. */
-const CARD_LIFE = ["life.card.desk", "life.card.case", "life.card.binder", "life.card.hand"] as const;
+/**
+ * A card on a desk, in a stand, or in a binder — whichever has landed; the desk crop (`product.cards`) last.
+ * The old card-in-hand photograph left this list on 2026-10-04: its card is not square-cut — it predates
+ * the 2026-09-01 square-cut rule and must not be on the site.
+ */
+const CARD_LIFE = ["life.card.desk", "life.card.case", "life.card.binder", "product.cards"] as const;
 /**
  * A framed poster in a room, WIDEST WALL FIRST (owner review 2026-09-07). The three tiles were three
  * different product scales: the card fills more than half of its photograph, while the single framed
@@ -87,6 +104,9 @@ function SetMedia() {
 }
 
 export function Families({ now }: { now: Date }) {
+  const cards = familyLink(["cards"], "/trading-cards", "See trading cards");
+  const posters = familyLink(["poster"], "/posters", "See posters");
+  const set = familyLink(["cards", "poster"], "/complete-set", "See the complete set");
   const cardsPhoto = firstPhoto(CARD_LIFE);
   const posterPhoto = firstPhoto(POSTER_LIFE) ?? asset("posters.room");
   const setPhoto = firstPhoto(SET_LIFE);
@@ -110,8 +130,8 @@ export function Families({ now }: { now: Date }) {
             "Registered card ID and QR code on the back — the card's own page",
             "Certificate of Authenticity and flip video included",
           ]}
-          href="/trading-cards"
-          cta="See trading cards"
+          href={cards.href}
+          cta={cards.cta}
         />
         <FamilyCard
           sizes={FAMILY_MEDIA_SIZES}
@@ -124,8 +144,8 @@ export function Families({ now }: { now: Date }) {
             "Phone and desktop wallpapers",
             "Printed matte poster, shipped free in the US",
           ]}
-          href="/posters"
-          cta="See posters"
+          href={posters.href}
+          cta={posters.cta}
         />
         <FamilyCard
           sizes={FAMILY_MEDIA_SIZES}
@@ -138,8 +158,8 @@ export function Families({ now }: { now: Date }) {
             "Wallpapers and the card's own registered page",
             "Every digital file included with printed sets",
           ]}
-          href="/complete-set"
-          cta="See the complete set"
+          href={set.href}
+          cta={set.cta}
         />
       </div>
       <p className="mt-8 max-w-[62ch] font-body text-body font-medium">{CERTIFICATE_ROW_LINE}</p>

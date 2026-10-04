@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/deps.nosync
 /.pnp
 .pnp.*
 .yarn/*
@@ -125,3 +126,4 @@ art-pipeline/out/approved/[Oo]rder*/
 art-pipeline/out/athletes/order-*
 art-pipeline/out/approved/order-*
 .shots/
+art-pipeline/scratch/

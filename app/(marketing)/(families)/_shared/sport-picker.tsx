@@ -1,5 +1,6 @@
 import { buttonClass } from "../../../../components/ButtonLink";
 import { hasOwnListing, isNumberless, sportsWithOwnListing, type Sport } from "../../../../lib/catalog/sports";
+import { freeProofMode } from "../../../../lib/cta";
 import { SportPickerAutoSubmit } from "./sport-picker-auto";
 
 /**
@@ -15,6 +16,10 @@ import { SportPickerAutoSubmit } from "./sport-picker-auto";
  * are grouped under a heading that says what will happen, and the line under the field names the
  * destination before the buyer clicks.
  *
+ * Proof-first (D29, 2026-10-04): the order button now opens the free-proof form with the sport
+ * prefilled, which works the same for all seventeen; the listing split only decides where the outline
+ * "Also on Etsy →" goes, so the group names and the note say Etsy out loud.
+ *
  * Changing the field used to submit the form, which reloaded the document and threw the reader back
  * to the top of the page — measured scroll 837 → 0 for a change that rewrites one paragraph and one
  * href (smooth audit, 2026-09-08). The island now replaces the URL through the router with
@@ -29,19 +34,25 @@ export const SPORT_PICKER_SUBMIT = "Show this sport";
 export const SPORT_QUERY_KEY = "sport";
 /** The picker's own anchor: where the no-JavaScript submit lands, instead of the top of the page. */
 export const SPORT_PICKER_ID = "sport-picker";
-export const OWN_LISTING_GROUP = "Has its own listing";
-export const ANY_LISTING_GROUP = "Ordered through the Complete Set listing";
+export const OWN_LISTING_GROUP = freeProofMode() ? "Has its own Etsy listing" : "Has its own listing";
+export const ANY_LISTING_GROUP = freeProofMode() ? "On Etsy through the Complete Set listing" : "Ordered through the Complete Set listing";
 
 /** COPY §2.2 (1): the line under the picker for a sport that never wears a number. */
 export const numberlessPickerNote = (sport: Sport): string =>
   `No jersey number in ${sport.name.toLowerCase()} — the card carries their name and club crest instead.`;
 
 /** Where the order button will go, said plainly before the buyer clicks it. */
-export function destinationNote(sport: Sport, family: "cards" | "posters"): string {
+export function destinationNote(sport: Sport, family: "cards" | "posters", proofFirst: boolean = freeProofMode()): string {
   const noun = family === "cards" ? "trading card" : "poster";
+  const name = sport.name.toLowerCase();
+  if (proofFirst) {
+    return hasOwnListing(sport, family)
+      ? `The order button opens the free-proof form with ${name} prefilled; Also on Etsy opens the ${name} ${noun} listing.`
+      : `The order button opens the free-proof form with ${name} prefilled. ${sport.name} has no ${noun} listing of its own on Etsy yet, so Also on Etsy opens our Complete Set listing, which is sold for any sport — tell us ${name} with your photos.`;
+  }
   return hasOwnListing(sport, family)
-    ? `The order button opens the ${sport.name.toLowerCase()} ${noun} listing on Etsy.`
-    : `${sport.name} is built to order like every other sport, but it has no ${noun} listing of its own yet. The order button opens our Complete Set listing, which is sold for any sport — tell us ${sport.name.toLowerCase()} with your photos.`;
+    ? `The order button opens the ${name} ${noun} listing on Etsy.`
+    : `${sport.name} is built to order like every other sport, but it has no ${noun} listing of its own yet. The order button opens our Complete Set listing, which is sold for any sport — tell us ${name} with your photos.`;
 }
 
 const LABEL = "font-label text-label font-semibold uppercase tracking-[0.12em] text-muted-text";

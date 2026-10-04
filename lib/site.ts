@@ -40,6 +40,9 @@ export const VERIFICATION = {
 /** F2 flips this to true → every CtaPair switches to /order/new with Etsy as the outline secondary. */
 export const SITE_SELLS_DIRECT = false;
 
+/** D29 — the owner's 2026-10-04 decision: every primary CTA opens the free-proof form, Etsy is the outline secondary; false restores the Etsy-primary site. */
+export const FREE_PROOF_FIRST = true;
+
 /** Real delivered orders. 0 → the "So far: {n} editions delivered." sentence is omitted (rendered only when ≥ 5). */
 export const DELIVERED_COUNT = 0;
 

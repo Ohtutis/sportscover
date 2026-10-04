@@ -4,16 +4,19 @@
 //
 // `faqAll()` is the /faq page (the numbered master list); the product, Senior Night and how-it-works
 // pages render `faqSubset(page)`. A few product-page questions exist only in a subset
-// (`subsetOnly`) — they are not on /faq, which stays the 35-item list COPY numbers.
+// (`subsetOnly`) — they are not on /faq, which is the 35-item list COPY numbers plus, while the site
+// runs proof-first (D29, owner 2026-10-04), the three free-proof questions that open it
+// (`proofFirstOnly`, group "proof").
 
 import { block } from "../blocks";
-import { CANON } from "../copy/canon";
+import { CANON, proofPathLine } from "../copy/canon";
+import { freeProofMode } from "../cta";
 import { SITE_SELLS_DIRECT, SUPPORT_EMAIL } from "../site";
 import { CHIPS, LEAD_TIMES } from "./delivery";
 import { getTier } from "./prices";
 import { deliverables, FILE_COUNTS } from "./tiers";
 
-export type FaqGroup = "products" | "photos" | "numberless" | "timing" | "process" | "privacy" | "refunds" | "etsy" | "teams" | "registry";
+export type FaqGroup = "proof" | "products" | "photos" | "numberless" | "timing" | "process" | "privacy" | "refunds" | "etsy" | "teams" | "registry";
 
 export interface FaqItem {
   id: string;
@@ -26,9 +29,12 @@ export interface FaqItem {
   requiresPack?: boolean;
   /** Lives in a page subset only, not on /faq. */
   subsetOnly?: boolean;
+  /** Rendered only while the site runs proof-first (D29) — the answer is false in any other mode. */
+  proofFirstOnly?: boolean;
 }
 
 export const FAQ_GROUP_TITLES: Record<FaqGroup, string> = {
+  proof: "Free proof and payment",
   products: "Products",
   photos: "Photos",
   numberless: "Sports without numbers",
@@ -51,11 +57,40 @@ const C1_SHIPPED = C1.slice(C1.indexOf("On shipped packages"));
 const [packMin, packMax] = LEAD_TIMES.sealedPackWeeks;
 const email = SUPPORT_EMAIL;
 
-const ETSY_OR_HERE_F1 = "Orders are placed on our Etsy shop. Every card is built and proofed the same way, and your files and your card's page are delivered here.";
+const PROOF_FIRST = freeProofMode();
+
+/** The F1 answer before D29, kept for the Etsy-primary mode (both flags off). */
+const ETSY_ONLY_F1 = "Orders are placed on our Etsy shop. Every card is built and proofed the same way, and your files and your card's page are delivered here.";
+/** D29: start with a free proof here, or order on Etsy — the same edition either way. */
+const ETSY_OR_HERE_F1 = PROOF_FIRST
+  ? "Start with a free proof here, or order on Etsy — same edition, same process. Here you pay nothing until you approve the proof; on Etsy you pay at checkout. Every card is built and proofed the same way, and your files and your card's page are delivered here."
+  : ETSY_ONLY_F1;
 const ETSY_OR_HERE_F2 =
   "Both are the same edition, built and proofed the same way, delivered on the same order page. Etsy orders are placed and refunded on Etsy; orders placed here are handled here.";
 
 export const faq: FaqItem[] = [
+  // Free proof and payment (D29 — proof-first only; numbered after COPY's 42 so no id moves)
+  {
+    id: "faq-43",
+    group: "proof",
+    proofFirstOnly: true,
+    q: "Do I pay before I see anything?",
+    a: `No. ${CANON.proofFirstLine} How it goes: ${proofPathLine()}`,
+  },
+  {
+    id: "faq-44",
+    group: "proof",
+    proofFirstOnly: true,
+    q: "How do I pay after I approve the proof?",
+    a: "By secure payment link or on our Etsy shop — your choice. The site does not take card details.",
+  },
+  {
+    id: "faq-45",
+    group: "proof",
+    proofFirstOnly: true,
+    q: "What if I don't like the proof?",
+    a: "One revision is included. If it still isn't right, there is nothing to pay.",
+  },
   // Products
   {
     id: "faq-01",
@@ -192,7 +227,9 @@ export const faq: FaqItem[] = [
     group: "etsy",
     f1Only: true,
     q: "Where do I order?",
-    a: "Orders are placed on our Etsy shop. Every card, poster and set is built and proofed the same way, and your files and your card's page are delivered here.",
+    a: PROOF_FIRST
+      ? "Start with a free proof here, or order on Etsy — same edition, same process. Every card, poster and set is built and proofed the same way, and your files and your card's page are delivered here."
+      : "Orders are placed on our Etsy shop. Every card, poster and set is built and proofed the same way, and your files and your card's page are delivered here.",
   },
   {
     id: "faq-29",
@@ -296,9 +333,10 @@ export const FAQ_SUBSETS: Record<"trading-cards" | "posters" | "complete-set" | 
 
 const packEnabled = (): boolean => Boolean(getTier("GDE-ANY-CARD-PACK")?.enabled);
 
-const renderable = (item: FaqItem): boolean => (!item.requiresPack || packEnabled()) && (!item.f1Only || !SITE_SELLS_DIRECT);
+const renderable = (item: FaqItem): boolean =>
+  (!item.requiresPack || packEnabled()) && (!item.f1Only || !SITE_SELLS_DIRECT) && (!item.proofFirstOnly || PROOF_FIRST);
 
-/** The /faq list: the numbered master items, minus the pack question while the pack is off and the F1-only one once the site sells direct. */
+/** The /faq list: the numbered master items, minus the pack question while the pack is off, the F1-only one once the site sells direct, and the free-proof three outside proof-first mode. */
 export function faqAll(): FaqItem[] {
   return faq.filter((item) => !item.subsetOnly && renderable(item));
 }

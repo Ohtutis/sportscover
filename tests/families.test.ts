@@ -23,7 +23,7 @@ import { SITE_ASSETS, hasAsset } from "../lib/assets";
 import { chipSegment } from "../lib/catalog/delivery";
 import { faqSubset } from "../lib/catalog/faq";
 import { formatUsd, getTier, perCardAnchor, priceDisplay, sitePrice, skuFor, tiersFor, type Family } from "../lib/catalog/prices";
-import { NUMBERLESS_CODES, backLine, hasOwnListing, isNumberless, postersSports, sportBySlug, sports } from "../lib/catalog/sports";
+import { NUMBERLESS_CODES, backLine, hasOwnListing, isNumberless, postersSports, sportBySlug, sports, sportsWithOwnListing } from "../lib/catalog/sports";
 import { finishes } from "../lib/catalog/styles";
 import { boxContents, FILE_COUNTS } from "../lib/catalog/tiers";
 import { EDITION_SENTENCE } from "../components/EditionPanel";
@@ -39,7 +39,9 @@ import { captionFromAlt, showcase, showcaseList } from "../app/(marketing)/(fami
 import { SpecSheetSection, setFolderRows, specRows } from "../app/(marketing)/(families)/_shared/spec-sheet";
 import { ANY_LISTING_GROUP, OWN_LISTING_GROUP, SportPicker, destinationNote, SPORT_PICKER_LABEL, numberlessPickerNote, pickSport } from "../app/(marketing)/(families)/_shared/sport-picker";
 import { CERTIFICATE_LINE, TierRow, chipKindFor } from "../app/(marketing)/(families)/_shared/tier-row";
-import { ctaFor } from "../lib/cta";
+import { ctaFor, freeProofHref, optionForSku } from "../lib/cta";
+import { PROOF_PATH_LABEL } from "../lib/copy/canon";
+import { HeroCtaBlock } from "../app/(marketing)/(families)/_shared/hero";
 import TradingCardsPage from "../app/(marketing)/trading-cards/page";
 import PostersPage from "../app/(marketing)/posters/page";
 import CompleteSetPage from "../app/(marketing)/complete-set/page";
@@ -280,11 +282,11 @@ describe("family pages — the ladder", () => {
       expect(all).toHaveLength(4);
       expect(shown).toHaveLength(3);
       expect(all.filter((t) => !t.enabled).map((t) => t.sku)).toEqual([
-        { cards: "GDE-ANY-CARD-PACK", posters: "GDE-ANY-POST-P3040", set: "GDE-ANY-SET-ULT", snset: "" }[page.family],
+        { cards: "GDE-ANY-CARD-PACK", posters: "GDE-ANY-POST-P3040", set: "GDE-ANY-SET-ULT", snset: "", banner: "" }[page.family],
       ]);
     });
 
-    it(`${page.path}: the row renders prices, chips, box contents and one Etsy CTA per tier`, () => {
+    it(`${page.path}: the row renders prices, chips, box contents, the free proof and the Etsy outline per tier`, () => {
       const now = new Date();
       const sport = sportBySlug("basketball")!;
       const html = render(
@@ -292,17 +294,32 @@ describe("family pages — the ladder", () => {
       );
       const shown = tiersFor(page.family, true).filter((t) => t.enabled);
       expect(count(html, /<article/g)).toBe(shown.length);
+      const products = { cards: ["cards"], posters: ["poster"], set: ["cards", "poster"], snset: ["cards", "poster"], banner: ["banner"] }[page.family] as ("cards" | "poster")[];
       for (const tier of shown) {
         const price = priceDisplay(tier, now);
         expect(html).toContain(formatUsd(price.current));
         expect(html).toContain(`id="tier-${tier.sku}"`);
-        expect(html).toContain(`/go/etsy/${skuFor(tier.sku, sport.code)}`);
+        // D29: the tier's own option and the picker's sport ride into the form; Etsy keeps the tier's SKU.
+        const sku = skuFor(tier.sku, sport.code);
+        expect(optionForSku(sku), sku).toBeDefined();
+        expect(html).toContain(esc(`href="${freeProofHref({ products, option: optionForSku(sku), sport: sport.slug })}"`).replace(/&quot;/g, '"'));
+        expect(html).toContain(`/go/etsy/${sku}`);
         expect(html).toContain(chipSegment(chipKindFor(tier)));
         for (const line of boxContents(tier.sku)) expect(html).toContain(esc(line));
       }
+      expect(count(html, /Get a free proof →/g)).toBe(shown.length);
+      expect(count(html, /Also on Etsy →/g)).toBe(shown.length);
       expect(html).toContain(CERTIFICATE_LINE);
     });
   }
+
+  it("the set's tiers prefill what their box holds (lib/catalog/tiers.ts boxContents)", () => {
+    expect(optionForSku("GDE-ANY-SET-DIG")).toBe("digital");
+    expect(boxContents("GDE-ANY-SET-PRINT")[0]).toContain("12 printed cards + 18 × 24 poster");
+    expect(optionForSku("GDE-BKB-SET-PRINT")).toEqual({ cards: "p12", poster: "p1824" });
+    expect(boxContents("GDE-ANY-SET-DLX")[0]).toContain("24 printed cards + 24 × 36 poster");
+    expect(optionForSku("GDE-ANY-SET-DLX")).toEqual({ cards: "p24", poster: "p2436" });
+  });
 
   it("the per-card anchor is computed, never typed", () => {
     const src = read(PAGES[0].file);
@@ -362,7 +379,9 @@ describe("family pages — the sport picker", () => {
 
   it("lists only the sports with poster art on /posters", () => {
     const options = postersSports();
-    expect(options).toHaveLength(8);
+    // Counted from the roster, not typed: the owner adds a sport's listing ids in lib/catalog/sports.ts
+    // and the picker grows with it (2026-10-04: ice hockey made it nine).
+    expect(options).toHaveLength(sportsWithOwnListing("posters").length);
     expect(options.every((s) => s.hasPosterArt)).toBe(true);
     expect(options.map((s) => s.slug)).not.toContain("golf");
   });
@@ -386,10 +405,18 @@ describe("family pages — the sport picker", () => {
     for (const family of ["cards", "posters"] as const) {
       for (const sport of sports) {
         const note = destinationNote(sport, family);
-        if (hasOwnListing(sport, family)) expect(note).toContain(sport.name.toLowerCase());
+        // D29: the order button opens the free-proof form for every sport; the Etsy outline follows the listing.
+        expect(note.startsWith(`The order button opens the free-proof form with ${sport.name.toLowerCase()} prefilled`)).toBe(true);
+        if (hasOwnListing(sport, family)) expect(note).toContain(`Also on Etsy opens the ${sport.name.toLowerCase()} ${family === "cards" ? "trading card" : "poster"} listing.`);
         else expect(note).toContain("Complete Set listing");
+        // The Etsy-primary wording is kept for the day the flags turn back.
+        const f1 = destinationNote(sport, family, false);
+        if (hasOwnListing(sport, family)) expect(f1).toContain("listing on Etsy.");
+        else expect(f1).toContain("Complete Set listing");
       }
     }
+    expect(OWN_LISTING_GROUP).toBe("Has its own Etsy listing");
+    expect(ANY_LISTING_GROUP).toBe("On Etsy through the Complete Set listing");
     const own = render(createElement(SportPicker, { action: "/trading-cards", options: sports, family: "cards", selected: sportBySlug("basketball")! }));
     expect(own).toContain(destinationNote(sportBySlug("basketball")!, "cards"));
     const any = render(createElement(SportPicker, { action: "/trading-cards", options: sports, family: "cards", selected: sportBySlug("gymnastics")! }));
@@ -404,6 +431,21 @@ describe("family pages — the sport picker", () => {
     expect(html).not.toMatch(/#\d/);
     const numbered = render(createElement(SportPicker, { action: "/trading-cards", options: sports, family: "cards", selected: sportBySlug("basketball")! }));
     expect(numbered).not.toContain("No jersey number");
+  });
+});
+
+describe("family pages — the hero CTA block (D29)", () => {
+  it("prints the CTA pair, the TrustLine, then the four-step ProofPath under them", () => {
+    const html = render(createElement(HeroCtaBlock, { cta: ctaFor("cards", { sport: "basketball" }), notes: [] }));
+    expect(html).toContain('href="/free-proof?product=cards&amp;sport=basketball"');
+    expect(html).toContain("/go/etsy/GDE-BKB-CARD");
+    const pair = html.indexOf("Get a free proof →");
+    const trust = html.indexOf("Never posted without your OK");
+    const path = html.indexOf(esc(PROOF_PATH_LABEL));
+    expect(pair).toBeGreaterThan(-1);
+    expect(trust).toBeGreaterThan(pair);
+    expect(path).toBeGreaterThan(trust);
+    expect(count(html, /<DeliveryChips|aria-label="Delivery times"/g)).toBe(1);
   });
 });
 
@@ -475,12 +517,13 @@ describe("family pages — imagery and the numberless truth", () => {
     expect(html).toContain(esc(CANON.numberlessLine));
     expect(html).not.toMatch(/#\d/);
     expect(numberlessFirstSentence()).toBe(
-      "Cheerleading, gymnastics, swimming, tennis and golf don't wear numbers — their card carries their name and club crest instead.",
+      // Pickleball joined the numberless list on 2026-09 (sports.ts) and C9 followed on 2026-10-04.
+      "Cheerleading, gymnastics, swimming, tennis, golf and pickleball don't wear numbers — their card carries their name and club crest instead.",
     );
     // The poster page may not borrow the card's sentence: it says which sports wear no number,
     // and then what the POSTER carries. C9's "their card carries …" half never appears there.
     const poster = render(createElement(NumberlessSection, { variant: "poster" }));
-    expect(numberlessSportsClause()).toBe("Cheerleading, gymnastics, swimming, tennis and golf don't wear numbers.");
+    expect(numberlessSportsClause()).toBe("Cheerleading, gymnastics, swimming, tennis, golf and pickleball don't wear numbers.");
     expect(poster).toContain(esc(numberlessSportsClause()));
     expect(poster).not.toContain(esc(numberlessFirstSentence()));
     expect(poster).not.toContain("their card carries");
@@ -583,7 +626,7 @@ describe("family pages — open-graph images", () => {
  */
 describe("family pages — real life beside the flat renders", () => {
   const LIFE = {
-    cards: ["moment.card.bleachers", "moment.card.hallway", "life.card.hand", "life.card.desk", "life.card.case", "life.card.binder"],
+    cards: ["moment.card.bleachers", "moment.card.hallway", "life.card.desk", "life.card.case", "life.card.binder", "product.cards"],
     // The hero takes the MEASURED room first — it is the only one that may claim `18 × 24 SHOWN`.
     posters: ["life.poster.room", "life.poster.room.wide", "life.poster.room.baseball"],
     set: ["set.showcase.printed", "set.showcase.deluxe", "life.set.printed", "life.set.deluxe", "moment.team.senior"],
@@ -632,8 +675,10 @@ describe("family pages — real life beside the flat renders", () => {
     const src = read(PAGES[0].file);
     for (const key of LIFE.cards) expect(src).toContain(key);
     // The photograph is captioned by the frame that resolved, never by another frame's words.
-    expect(src).toContain("A printed card held up in the gym.");
+    expect(src).toContain("A printed card on a desk, close up, beside a pen and two coins for scale.");
     expect(src).toContain("Printed cards in the sleeves of a collector's binder.");
+    // 2026-10-04: the rounded-corner card in a hand is off the site (pre-2026-09-01 art).
+    expect(src).not.toContain("life.card.hand");
     for (const key of ["moment.card.bleachers", "moment.card.hallway"]) expect(src).toContain(key);
     // Nothing ahead of the fold is preloaded, and the flip is still the only thing that moves.
     expect(count(strip(src), /\bpriority\b/g)).toBe(0);

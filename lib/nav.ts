@@ -1,5 +1,8 @@
 // Navigation tables — COPY §1.1 (header, mobile menu) and §1.2 (footer columns). Labels and hrefs are
 // pasted from the copy pack; the only computed entry is "Teams & clubs" (mailto in F1, /teams in F2).
+// 2026-10-04 additions: "Free proof" opens the footer's Shop column (D29 — the site's conversion is the
+// free-proof request) and "Blog" joins the Trust column and the mobile sheet.
+import { INTAKE_PATH } from "./intake/copy";
 import { SITE_SELLS_DIRECT, SUPPORT_EMAIL } from "./site";
 
 export interface NavLink {
@@ -18,11 +21,12 @@ export const HEADER_LINKS: NavLink[] = [
   { label: "About", href: "/about" },
 ];
 
-/** The five links the mobile sheet adds under the main nav. */
+/** The links the mobile sheet adds under the main nav (the sheet's own CTA pair carries the free proof). */
 export const MOBILE_EXTRA_LINKS: NavLink[] = [
   { label: "Photo guide", href: "/photo-guide" },
   { label: "Registry", href: "/registry" },
   { label: "FAQ", href: "/faq" },
+  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
   { label: "Etsy shop", href: "/etsy" },
 ];
@@ -36,6 +40,7 @@ export const FOOTER_COLUMNS: { title: FooterColumnTitle; links: NavLink[] }[] = 
   {
     title: "Shop",
     links: [
+      { label: "Free proof", href: INTAKE_PATH },
       { label: "Trading Cards", href: "/trading-cards" },
       { label: "Posters", href: "/posters" },
       { label: "Complete Set", href: "/complete-set" },
@@ -52,6 +57,7 @@ export const FOOTER_COLUMNS: { title: FooterColumnTitle; links: NavLink[] }[] = 
       { label: "Photo guide", href: "/photo-guide" },
       { label: "Look up a card", href: "/registry" },
       { label: "FAQ", href: "/faq" },
+      { label: "Blog", href: "/blog" },
       { label: "Contact", href: "/contact" },
     ],
   },

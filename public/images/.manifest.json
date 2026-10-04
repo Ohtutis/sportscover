@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-07T14:45:28.812Z",
+  "generatedAt": "2026-10-04T19:39:54.397Z",
   "script": "scripts/site-assets.ts",
   "entries": {
     "/images/cards/basketball-trading-card-back-registered-stadium-night.webp": {
@@ -748,6 +748,62 @@
       ],
       "avif": "/images/posters/poster-in-room-stadium-night.avif",
       "generatedAt": "2026-09-06T22:05:23.751Z"
+    },
+    "/images/products/banner.webp": {
+      "out": "/images/products/banner.webp",
+      "source": "etsy/listing-images/03-football-banner/src/use-garage.png",
+      "sourceSha256": "3e62e1a33d7fda8b15955c7e86903fdfbf447f32c07cc8c2522eec6c54161f3b",
+      "sha256": "673e687fee5140a2ab7e234100b1b470e625421b862a16f28f27dacbb1b66142",
+      "width": 800,
+      "height": 800,
+      "kind": "photo",
+      "keys": [
+        "product.banner"
+      ],
+      "crop": "box:0.055,0,0.875,0.875",
+      "generatedAt": "2026-10-04T19:39:54.395Z"
+    },
+    "/images/products/blanket.webp": {
+      "out": "/images/products/blanket.webp",
+      "source": "etsy/listing-images/05-football-blanket/src/c-bed.png",
+      "sourceSha256": "3ca644e65a764419b5e6f8eae0fc3c3295a7d1a645bb961d88ffab4fddd2ec28",
+      "sha256": "f88dfb7ed1cf665d41d424034781b86d2f3b2a641722b9eab75d754c237a2519",
+      "width": 800,
+      "height": 800,
+      "kind": "photo",
+      "keys": [
+        "product.blanket"
+      ],
+      "crop": "box:0.335,0.2,0.665,0.665",
+      "generatedAt": "2026-10-04T19:33:35.753Z"
+    },
+    "/images/products/cards.webp": {
+      "out": "/images/products/cards.webp",
+      "source": "art-pipeline/out/etsy-shots/senior-night/card-on-desk-composited.png",
+      "sourceSha256": "8fdb80a70aecd0a7796ce05720171b60c37385a109d06c0f0d02b68fe92a357d",
+      "sha256": "59780b53465639fd83beae475e59759591dbf6a6df36e7165d3ac0cab52bffac",
+      "width": 800,
+      "height": 800,
+      "kind": "photo",
+      "keys": [
+        "product.cards"
+      ],
+      "crop": "box:0.1,0.16,0.76,0.76",
+      "generatedAt": "2026-10-04T19:33:33.677Z"
+    },
+    "/images/products/poster.webp": {
+      "out": "/images/products/poster.webp",
+      "source": "etsy/listing-images/02-basketball-poster/room-SN.png",
+      "sourceSha256": "27b0d78a69b1d5555d4ae65ba5b10df080728945d60ceb739f3c05940e618e3c",
+      "sha256": "e753e7247e2bc1a33835791108d32a92790c232524216064146b24f12af27b65",
+      "width": 800,
+      "height": 800,
+      "kind": "room",
+      "keys": [
+        "product.poster"
+      ],
+      "crop": "box:0.155,0.05,0.7,0.7",
+      "generatedAt": "2026-10-04T19:33:34.373Z"
     },
     "/images/senior-night/baseball-poster-senior-night.webp": {
       "out": "/images/senior-night/baseball-poster-senior-night.webp",
@@ -1811,6 +1867,22 @@
     "posters.scale": {
       "out": "",
       "status": "locate"
+    },
+    "product.banner": {
+      "out": "/images/products/banner.webp",
+      "status": "verified"
+    },
+    "product.blanket": {
+      "out": "/images/products/blanket.webp",
+      "status": "verified"
+    },
+    "product.cards": {
+      "out": "/images/products/cards.webp",
+      "status": "verified"
+    },
+    "product.poster": {
+      "out": "/images/products/poster.webp",
+      "status": "verified"
     },
     "scale.sizes": {
       "out": "",

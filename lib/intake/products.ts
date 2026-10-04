@@ -1,0 +1,144 @@
+// What a parent can ask for on /free-proof (owner decision 2026-10-04: a free watermarked proof first,
+// payment only after approval — D4's own fallback path, now the main path while Stripe waits).
+//
+// Prices come ONLY from lib/catalog/prices.ts: an option with a `sku` shows that tier's current site
+// price (cards, posters and banners — the banner ladder is the live Etsy banner listings' four
+// variants, verified 2026-10-04), and a product's "from" line is its cheapest priced option. The
+// blanket has no listing yet: its sizes are the plush blanket the Etsy listing is being built on
+// (30 × 40 / 50 × 60 / 60 × 80 in) and the price is confirmed on the proof. Never type a price here;
+// when the owner adds the blanket tiers, set `sku` on each option and the number appears by itself.
+
+import { formatUsd, fromPrice, getTier, sitePrice, type Tier } from "../catalog/prices";
+
+export type ProductKey = "cards" | "poster" | "banner" | "blanket";
+
+export interface ProductOption {
+  key: string;
+  label: string;
+  /** One line under the label: what the option includes. */
+  detail: string;
+  /** A prices.ts tier SKU when the option is a priced tier (must be an enabled tier — tested). */
+  sku?: string;
+  printed: boolean;
+}
+
+export interface Product {
+  key: ProductKey;
+  name: string;
+  /** One sentence on the tile. */
+  blurb: string;
+  options: ProductOption[];
+}
+
+/** The one wording for an unpriced option (banner, blanket) — never a guessed number. */
+export const PRICE_ON_PROOF = "Price confirmed with your free proof";
+
+export const PRODUCTS: readonly Product[] = [
+  {
+    key: "cards",
+    name: "Trading cards",
+    blurb: "Front and back, square-cut, with a registered card ID and the card's own page.",
+    options: [
+      {
+        key: "digital",
+        label: "Digital files",
+        detail: "Front, back, certificate, flip video and the card's registry page — ready to print anywhere.",
+        sku: "GDE-ANY-CARD-DIG",
+        printed: false,
+      },
+      {
+        key: "p12",
+        label: "12 printed cards",
+        detail: "Square-cut, UV-coated 2.5 × 3.5 in cards plus every digital file. Shipped free in the US.",
+        sku: "GDE-ANY-CARD-P12",
+        printed: true,
+      },
+      {
+        key: "p24",
+        label: "24 printed cards",
+        detail: "Enough for the team and the family, plus every digital file. Shipped free in the US.",
+        sku: "GDE-ANY-CARD-P24",
+        printed: true,
+      },
+    ],
+  },
+  {
+    key: "poster",
+    name: "Poster",
+    blurb: "Art for the wall — the stats stay on the card.",
+    options: [
+      {
+        key: "digital",
+        label: "Digital files",
+        detail: "18 × 24 and 24 × 36 at 300 DPI, plus phone and desktop wallpapers.",
+        sku: "GDE-ANY-POST-DIG",
+        printed: false,
+      },
+      {
+        key: "p1824",
+        label: "18 × 24 in printed",
+        detail: "Matte poster, 189 g/m², with a printed certificate. Shipped free in the US.",
+        sku: "GDE-ANY-POST-P1824",
+        printed: true,
+      },
+      {
+        key: "p2436",
+        label: "24 × 36 in printed",
+        detail: "Matte poster, 189 g/m², with a printed certificate. Shipped free in the US.",
+        sku: "GDE-ANY-POST-P2436",
+        printed: true,
+      },
+    ],
+  },
+  {
+    key: "banner",
+    name: "Banner",
+    blurb: "A vinyl banner for the fence, the gym wall or senior night.",
+    options: [
+      { key: "digital", label: "Digital file", detail: "Print-ready banner art at full size, plus phone and desktop wallpapers.", sku: "GDE-ANY-BAN-DIG", printed: false },
+      { key: "1x2", label: "1 × 2 ft printed", detail: "Printed vinyl banner plus the digital file. Ships separately, 1–2 weeks.", sku: "GDE-ANY-BAN-1X2", printed: true },
+      { key: "2x4", label: "2 × 4 ft printed", detail: "Printed vinyl banner plus the digital file. Ships separately, 1–2 weeks.", sku: "GDE-ANY-BAN-2X4", printed: true },
+      { key: "3x6", label: "3 × 6 ft printed", detail: "Printed vinyl banner plus the digital file. Ships separately, 1–2 weeks.", sku: "GDE-ANY-BAN-3X6", printed: true },
+    ],
+  },
+  {
+    key: "blanket",
+    name: "Blanket",
+    blurb: "A plush blanket printed with their artwork — bedroom, dorm or the bleachers.",
+    options: [
+      { key: "30x40", label: "30 × 40 in", detail: "Soft plush blanket, printed on one side.", printed: true },
+      { key: "50x60", label: "50 × 60 in", detail: "Soft plush blanket, printed on one side.", printed: true },
+      { key: "60x80", label: "60 × 80 in", detail: "Soft plush blanket, printed on one side.", printed: true },
+    ],
+  },
+];
+
+export const PRODUCT_KEYS: readonly ProductKey[] = PRODUCTS.map((p) => p.key);
+
+export const productByKey = (key: string): Product | undefined => PRODUCTS.find((p) => p.key === key);
+export const optionOf = (product: Product, key: string): ProductOption | undefined => product.options.find((o) => o.key === key);
+
+const tierOf = (opt: ProductOption): Tier | undefined => (opt.sku ? getTier(opt.sku) : undefined);
+
+/** "<price>" for a priced option, PRICE_ON_PROOF otherwise. */
+export function optionPriceLabel(opt: ProductOption, now?: Date): string {
+  const tier = tierOf(opt);
+  return tier ? formatUsd(sitePrice(tier, now)) : PRICE_ON_PROOF;
+}
+
+/** "from <price>" for a product with at least one priced option; null for banner and blanket. */
+export function productFromLabel(product: Product, now?: Date): string | null {
+  const prices = product.options.map(tierOf).filter((t): t is Tier => Boolean(t)).map((t) => sitePrice(t, now));
+  return prices.length ? `from ${formatUsd(Math.min(...prices))}` : null;
+}
+
+/** The set line under the product tiles: cards + poster together are priced as a Complete Set. */
+export const setFromLabel = (now?: Date): string => `from ${formatUsd(fromPrice("set", now))}`;
+
+/** "12 printed cards" → the label a summary or an email prints for a choice. */
+export function choiceLabel(productKey: string, optionKey: string): string {
+  const product = productByKey(productKey);
+  const option = product ? optionOf(product, optionKey) : undefined;
+  if (!product || !option) return `${productKey} · ${optionKey}`;
+  return `${product.name} · ${option.label}`;
+}

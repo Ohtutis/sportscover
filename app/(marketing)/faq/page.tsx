@@ -42,7 +42,7 @@ export default function FaqPage() {
             as="h1"
             className="mt-6"
             title="QUESTIONS, ANSWERED."
-            subhead="Everything we are asked, in one place — products, photos, timing, privacy, refunds."
+            subhead="Everything we are asked, in one place — the free proof, products, photos, timing, privacy, refunds."
           />
 
           {/* Below lg the sticky rail is hidden, so a page of 34 accordions had no index at all

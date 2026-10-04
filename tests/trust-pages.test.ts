@@ -309,6 +309,52 @@ describe("trust-pages — budgets and the ban list", () => {
   });
 });
 
+/* ---------- D29 (owner, 2026-10-04): proof first, said near the top of both trust pages ---------- */
+
+describe("trust pages — proof first (D29)", () => {
+  const heroOf = (route: Route): string => {
+    const src = read(PAGE_PATHS[route]);
+    const first = src.indexOf("<section");
+    const second = src.indexOf("<section", first + 1);
+    return src.slice(first, second === -1 ? undefined : second);
+  };
+
+  it("/guarantee opens with the proof-first line, the CTA pair and the four-step path, in that order", () => {
+    const hero = heroOf("/guarantee");
+    const order = ["CANON.proofFirstLine", "<CtaPair", "<TrustLine", "<ProofPath"].map((s) => hero.indexOf(s));
+    expect(order.every((i) => i > -1), order.join(",")).toBe(true);
+    expect(order).toEqual([...order].sort((a, b) => a - b));
+    // Gated on the mode: with Etsy as the primary the opener goes back to heading + promise.
+    expect(hero).toContain("{proofFirst ? (");
+    const src = read(PAGE_PATHS["/guarantee"]);
+    expect(src).toContain("const proofFirst = freeProofMode();");
+    // The ladder's first rung is the stage that costs nothing.
+    expect(src).toContain('stage: "Before you approve the free proof"');
+    expect(src).toContain("[FREE_PROOF_RUNG, ...LADDER]");
+    expect(src).not.toContain(CANON.proofFirstLine.slice(0, 40));
+  });
+
+  it("/how-it-works ends its opener with the CTA pair and the path, and says the line at the FINISH check", () => {
+    const hero = heroOf("/how-it-works");
+    const order = ['block("how-its-made")', "<CtaPair", "<TrustLine", "<ProofPath"].map((s) => hero.indexOf(s));
+    expect(order.every((i) => i > -1), order.join(",")).toBe(true);
+    expect(order).toEqual([...order].sort((a, b) => a - b));
+    const src = read(PAGE_PATHS["/how-it-works"]);
+    const finish = src.slice(src.indexOf('id: "gate-finish"'), src.indexOf("artefact:", src.indexOf('id: "gate-finish"')));
+    expect(finish).toContain("{CANON.proofFirstLine}");
+    expect(src).not.toContain(CANON.proofFirstLine.slice(0, 40));
+  });
+
+  it("/how-it-works's timeline puts PAID after the proof while the site runs proof-first", () => {
+    const src = read(PAGE_PATHS["/how-it-works"]);
+    const block = src.slice(src.indexOf("const TIMELINE_PROOF_FIRST"), src.indexOf("];", src.indexOf("const TIMELINE_PROOF_FIRST")));
+    const names = Array.from(block.matchAll(/name: "([A-Z ]+)"/g)).map((m) => m[1]);
+    expect(names).toEqual(["PHOTOS RECEIVED", "PHOTO CHECK", "REFERENCE SET", "THE SHOTS", "PROOF", "PAID", "FILES READY", "PRINTING", "SHIPPED", "DELIVERED"]);
+    expect(src).toContain("freeProofMode() ? TIMELINE_PROOF_FIRST : TIMELINE");
+    expect(src).toContain("ETSY_ORDER_NOTE");
+  });
+});
+
 /* ---------- the 2026-09-07 owner review: the opener, the claims and the columns ---------- */
 
 describe("trust pages — the 2026-09-07 opener review", () => {
@@ -368,9 +414,11 @@ describe("trust pages — the 2026-09-07 opener review", () => {
 
   it("gives /how-it-works a real photograph and never a key asset() has not heard of", () => {
     const src = read(PAGE_PATHS["/how-it-works"]);
-    for (const key of ["moment.card.hallway", "moment.card.bleachers", "life.card.hand"]) {
+    for (const key of ["moment.card.hallway", "moment.card.bleachers", "product.cards"]) {
       expect(src, `missing hero key ${key}`).toContain(key);
     }
+    // 2026-10-04: the card-in-hand photograph shows a card that is not square-cut — off the site.
+    expect(src).not.toContain("life.card.hand");
     expect(src).toContain("hasAsset");
     expect(src).not.toContain('asset("moment.');
     expect(src).not.toContain('asset("life.');
