@@ -4,12 +4,14 @@
 //
 // Four figures, none of them typed: the price comes from the ladder, the two clocks from
 // `lib/catalog/delivery.ts`, the counts from the sport and style catalogs. The fourth is the promise
-// the whole business runs on, and it is the one cell with no number in it.
+// the whole business runs on, and it is the one cell with no number in it — since D29 (2026-10-04)
+// the proof is free and nothing is paid before it is approved, so that is what the cell says.
 //
 // The band also carries the trust line (C14). It is the last element of the hero's CTA block — the
 // block simply ends here rather than above the fold, which is what "the hero must be much cleaner"
 // bought us.
 import { TrustLine } from "../../../components/TrustLine";
+import { freeProofMode } from "../../../lib/cta";
 import { LEAD_TIMES } from "../../../lib/catalog/delivery";
 import { formatUsd, fromPrice } from "../../../lib/catalog/prices";
 import { sports } from "../../../lib/catalog/sports";
@@ -33,7 +35,7 @@ export function stripCells(now: Date): StripCell[] {
     { figure: `from ${formatUsd(fromPrice("cards", now))}`, label: "digital edition" },
     { figure: `${digitalMin}–${digitalMax} days`, label: `digital files · prints ship in ${shipMin}–${shipMax}` },
     { figure: `${sports.length} sports · ${finishes.length} finishes`, label: "plus the Senior Night edition" },
-    { figure: "Proof first", label: "nothing prints until you approve" },
+    { figure: "Proof first", label: freeProofMode() ? "free — pay only after you approve" : "nothing prints until you approve" },
   ];
 }
 

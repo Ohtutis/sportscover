@@ -21,6 +21,8 @@ export const SPEC_HEADINGS: Record<Family, { title: string; subhead: string }> =
   posters: { title: "THE SPEC SHEET.", subhead: "A table instead of adjectives." },
   set: { title: "EVERYTHING YOU GET.", subhead: `${FILE_COUNTS.set} files and one live page. Counted, not implied.` },
   snset: { title: "EVERYTHING YOU GET.", subhead: `${FILE_COUNTS.snset} files and one live page. Counted, not implied.` },
+  // No family page sells banners (they are ordered through /free-proof); the row only completes the Record.
+  banner: { title: "THE SPEC SHEET.", subhead: "A table instead of adjectives." },
 };
 
 const CARD_ROWS: LedgerRow[] = [

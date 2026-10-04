@@ -58,7 +58,9 @@ const FLIP_SIZES = "(min-width: 1024px) 360px, 80vw";
  * each caption is the plainest description of its own photograph (INTEGRATION-NOTES § fix-imagery),
  * keyed to the asset that resolved — a fallback never inherits another frame's words.
  */
-const LIFE_CARD_KEYS = ["life.card.hand", "life.card.desk", "life.card.case", "life.card.binder"] as const;
+// The old card-in-hand photograph led this list until 2026-10-04: its card is not square-cut (pre-2026-09-01
+// art) and must not be on the site. The desk crop `product.cards` (square-cut checked) closes the list instead.
+const LIFE_CARD_KEYS = ["life.card.desk", "life.card.case", "life.card.binder", "product.cards"] as const;
 
 /**
  * The athlete holding their own card — the moment this page is actually selling, and the strongest
@@ -69,10 +71,10 @@ const LIFE_CARD_KEYS = ["life.card.hand", "life.card.desk", "life.card.case", "l
 const MOMENT_CARD_KEYS = ["moment.card.bleachers", "moment.card.hallway"] as const;
 
 const LIFE_CARD_CAPTION: Record<string, string> = {
-  "life.card.hand": "A printed card held up in the gym.",
   "life.card.desk": "A printed card on a desk, beside a pen and a coin for scale.",
   "life.card.case": "A printed card standing in a display stand on a shelf.",
   "life.card.binder": "Printed cards in the sleeves of a collector's binder.",
+  "product.cards": "A printed card on a desk, close up, beside a pen and two coins for scale.",
 };
 
 export default async function TradingCardsPage({

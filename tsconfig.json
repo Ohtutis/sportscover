@@ -38,6 +38,7 @@
   ],
   "exclude": [
     "node_modules",
+    "deps.nosync",
     "db/**",
     "drizzle/**",
     "drizzle.config.ts",

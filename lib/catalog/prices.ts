@@ -6,7 +6,7 @@
 // site shows siteBase alone (never a struck-through price that is not real). Never type a price
 // into JSX — tests fail the build if a "$<digits>" literal appears outside this module.
 
-export type Family = "cards" | "posters" | "set" | "snset";
+export type Family = "cards" | "posters" | "set" | "snset" | "banner";
 
 export interface Tier {
   /** Any-sport SKU; sport-specific SKUs replace ANY with the sport code (see skuFor). */
@@ -28,18 +28,32 @@ export const SALE_EXPIRES_AT = "2026-09-24T23:59:59-04:00";
 export const SITE_MARKUP = 1.1;
 
 export const tiers: Tier[] = [
-  { sku: "GDE-ANY-CARD-DIG", family: "cards", tierKey: "DIG", name: "Digital Card Files", etsyBase: 41.99, etsySale: 29.39, physical: false, enabled: true },
-  { sku: "GDE-ANY-CARD-P12", family: "cards", tierKey: "P12", name: "12 Printed Cards", etsyBase: 69.99, etsySale: 48.99, physical: true, enabled: true, featured: true },
-  { sku: "GDE-ANY-CARD-P24", family: "cards", tierKey: "P24", name: "24 Printed Cards", etsyBase: 98.99, etsySale: 69.29, physical: true, enabled: true },
-  { sku: "GDE-ANY-CARD-PACK", family: "cards", tierKey: "PACK", name: "Sealed Foil Pack", etsyBase: 84.99, etsySale: 59.49, physical: true, enabled: false },
-  { sku: "GDE-ANY-POST-DIG", family: "posters", tierKey: "DIG", name: "Digital Poster Files", etsyBase: 41.99, etsySale: 29.39, physical: false, enabled: true },
-  { sku: "GDE-ANY-POST-P1824", family: "posters", tierKey: "P1824", name: "18×24 Printed Poster", etsyBase: 83.99, etsySale: 58.79, physical: true, enabled: true, featured: true },
-  { sku: "GDE-ANY-POST-P2436", family: "posters", tierKey: "P2436", name: "24×36 Printed Poster", etsyBase: 97.99, etsySale: 68.59, physical: true, enabled: true },
-  { sku: "GDE-ANY-POST-P3040", family: "posters", tierKey: "P3040", name: "30×40 XL Poster", etsyBase: 155.99, etsySale: 109.19, physical: true, enabled: false },
-  { sku: "GDE-ANY-SET-DIG", family: "set", tierKey: "DIG", name: "Digital Complete Set", etsyBase: 49.99, etsySale: 34.99, physical: false, enabled: true },
-  { sku: "GDE-ANY-SET-PRINT", family: "set", tierKey: "PRINT", name: "Printed Set", etsyBase: 109.99, etsySale: 76.99, physical: true, enabled: true, featured: true },
-  { sku: "GDE-ANY-SET-DLX", family: "set", tierKey: "DLX", name: "Deluxe Set", etsyBase: 135.99, etsySale: 95.19, physical: true, enabled: true },
-  { sku: "GDE-ANY-SET-ULT", family: "set", tierKey: "ULT", name: "Ultimate Set", etsyBase: 199.99, etsySale: 139.99, physical: true, enabled: false },
+  { sku: "GDE-ANY-CARD-DIG", family: "cards", tierKey: "DIG", name: "Digital Card Files", etsyBase: 24.99, etsySale: 17.49, physical: false, enabled: true },
+  { sku: "GDE-ANY-CARD-P12", family: "cards", tierKey: "P12", name: "12 Printed Cards", etsyBase: 49.99, etsySale: 34.99, physical: true, enabled: true, featured: true },
+  { sku: "GDE-ANY-CARD-P24", family: "cards", tierKey: "P24", name: "24 Printed Cards", etsyBase: 74.99, etsySale: 52.49, physical: true, enabled: true },
+  { sku: "GDE-ANY-CARD-PACK", family: "cards", tierKey: "PACK", name: "Sealed Foil Pack", etsyBase: 69.99, etsySale: 48.99, physical: true, enabled: false },
+  { sku: "GDE-ANY-POST-DIG", family: "posters", tierKey: "DIG", name: "Digital Poster Files", etsyBase: 24.99, etsySale: 17.49, physical: false, enabled: true },
+  { sku: "GDE-ANY-POST-P1824", family: "posters", tierKey: "P1824", name: "18×24 Printed Poster", etsyBase: 59.99, etsySale: 41.99, physical: true, enabled: true, featured: true },
+  { sku: "GDE-ANY-POST-P2436", family: "posters", tierKey: "P2436", name: "24×36 Printed Poster", etsyBase: 74.99, etsySale: 52.49, physical: true, enabled: true },
+  { sku: "GDE-ANY-POST-P3040", family: "posters", tierKey: "P3040", name: "30×40 XL Poster", etsyBase: 119.99, etsySale: 83.99, physical: true, enabled: false },
+  { sku: "GDE-ANY-SET-DIG", family: "set", tierKey: "DIG", name: "Digital Complete Set", etsyBase: 34.99, etsySale: 24.49, physical: false, enabled: true },
+  { sku: "GDE-ANY-SET-PRINT", family: "set", tierKey: "PRINT", name: "Printed Set", etsyBase: 89.99, etsySale: 62.99, physical: true, enabled: true, featured: true },
+  { sku: "GDE-ANY-SET-DLX", family: "set", tierKey: "DLX", name: "Deluxe Set", etsyBase: 114.99, etsySale: 80.49, physical: true, enabled: true },
+  { sku: "GDE-ANY-SET-ULT", family: "set", tierKey: "ULT", name: "Ultimate Set", etsyBase: 159.99, etsySale: 111.99, physical: true, enabled: false },
+];
+
+/**
+ * The banner ladder (etsy/LISTING-STATE.md 2026-09-22, verified live 2026-10-04): the four variants every
+ * sport's banner listing carries — Digital / 1×2 / 2×4 / 3×6 ft vinyl. Kept beside `tiers`, not inside
+ * it: the family pages, the sport picker and the Etsy SKU → listing map know nothing about banners yet
+ * (there is no any-sport banner listing; ten sports have their own). The intake form prices banner
+ * options from here through `getTier`, which searches both ladders.
+ */
+export const bannerTiers: Tier[] = [
+  { sku: "GDE-ANY-BAN-DIG", family: "banner", tierKey: "DIG", name: "Digital Banner Files", etsyBase: 24.99, etsySale: 17.49, physical: false, enabled: true },
+  { sku: "GDE-ANY-BAN-1X2", family: "banner", tierKey: "1X2", name: "1x2 ft Vinyl Banner", etsyBase: 49.99, etsySale: 34.99, physical: true, enabled: true },
+  { sku: "GDE-ANY-BAN-2X4", family: "banner", tierKey: "2X4", name: "2x4 ft Vinyl Banner", etsyBase: 74.99, etsySale: 52.49, physical: true, enabled: true, featured: true },
+  { sku: "GDE-ANY-BAN-3X6", family: "banner", tierKey: "3X6", name: "3x6 ft Vinyl Banner", etsyBase: 109.99, etsySale: 76.99, physical: true, enabled: true },
 ];
 
 export function ceilTo99(n: number): number {
@@ -66,7 +80,7 @@ export const formatUsd = (n: number): string => `$${n.toFixed(2)}`;
 export const tiersFor = (family: Family, includeDisabled = false): Tier[] =>
   tiers.filter((t) => t.family === family && (includeDisabled || t.enabled));
 
-export const getTier = (sku: string): Tier | undefined => tiers.find((t) => t.sku === sku);
+export const getTier = (sku: string): Tier | undefined => tiers.find((t) => t.sku === sku) ?? bannerTiers.find((t) => t.sku === sku);
 
 export function fromPrice(family: Family, now?: Date): number {
   const enabled = tiersFor(family);
@@ -84,6 +98,7 @@ export const FAMILY_LABELS: Record<Family, string> = {
   posters: "Posters",
   set: "Complete Set",
   snset: "Senior Night Set",
+  banner: "Banners",
 };
 
 /** Round UP to the next half unit: 4.499 → 4.5, 6.416 → 6.5, 4.5 → 4.5. */

@@ -26,6 +26,8 @@ import { DESCRIPTION_MAX, PAGES, TITLE_MAX, f1Pages, fullTitle, matchesPagePath,
 import { cards, registeredAtOf, updatedAtOf, visibilityOf } from "../lib/registry/cards";
 import { SITE_ASSETS } from "../lib/assets";
 import { SITE_URL } from "../lib/site";
+import { blogPages } from "../lib/blog";
+import { INTAKE_PATH, INTAKE_THANKS_PATH } from "../lib/intake/copy";
 
 const ROOT = path.resolve(__dirname, "..");
 
@@ -59,6 +61,9 @@ const DISK_ROUTES = new Set(routesOnDisk());
  * by the Wave-2 build; a page missing from disk that is NOT on this list is a real hole in the sitemap.
  */
 const WAVE1_IN_FLIGHT = new Set([
+  // 2026-10-04: the free-proof page is written in parallel by the form builder (its layout is already
+  // here); remove this entry once app/(marketing)/free-proof/page.tsx lands.
+  "/free-proof",
   "/trading-cards",
   "/posters",
   "/complete-set",
@@ -76,7 +81,7 @@ describe("intents — one keyword, one page", () => {
     expect(INTENTS.length).toBeGreaterThanOrEqual(44);
     expect(f1Pages().length).toBeGreaterThanOrEqual(16);
     expect(pathsWith("public").length).toBeGreaterThan(0);
-    expect(headerRules.length).toBe(1 + 7 + pathsWith("unlisted").length + pathsWith("private").length);
+    expect(headerRules.length).toBe(1 + 8 + pathsWith("unlisted").length + pathsWith("private").length);
   });
 
   it("every keyword is unique, case-insensitively", () => {
@@ -219,6 +224,66 @@ describe("sitemap", () => {
   it("has no duplicate URL and every URL is absolute on the canonical origin", () => {
     expect(new Set(urls).size).toBe(urls.length);
     for (const url of urls) expect(url.startsWith(`${SITE_URL}/`), url).toBe(true);
+  });
+});
+
+describe("D29 — the free-proof routes (owner, 2026-10-04)", () => {
+  const urls = sitemap().map((e) => e.url);
+
+  it("/free-proof is an F1 row in the sitemap; /free-proof/thanks is noindex and is not", () => {
+    expect(INTAKE_PATH).toBe("/free-proof");
+    expect(INTAKE_THANKS_PATH).toBe("/free-proof/thanks");
+    expect(PAGES[INTAKE_PATH].phase).toBe("F1");
+    expect(PAGES[INTAKE_PATH].noindex).toBeFalsy();
+    expect(urls).toContain(`${SITE_URL}/free-proof`);
+    expect(PAGES[INTAKE_THANKS_PATH].noindex).toBe(true);
+    expect(urls).not.toContain(`${SITE_URL}/free-proof/thanks`);
+    expect(urls.some((u) => u.includes("/free-proof/"))).toBe(false);
+  });
+
+  it("the thanks page carries X-Robots-Tag: noindex, and the form page does not", () => {
+    const noindex = headerRules.filter((r) => r.headers.some((h) => h.key === "X-Robots-Tag" && h.value === "noindex, nofollow")).map((r) => r.source);
+    expect(noindex).toContain("/free-proof/thanks");
+    expect(noindex).not.toContain("/free-proof");
+    expect(noindex.some((source) => source.startsWith("/free-proof/:"))).toBe(false);
+  });
+
+  it("owns the free-proof intent and nothing else moves", () => {
+    expect(pathForIntent("free proof custom sports card")).toBe("/free-proof");
+    expect(pathForIntent("custom sports card free proof")).toBe("/free-proof");
+    expect(intentsFor("/free-proof").map((i) => i.keyword)).toEqual(["free proof custom sports card", "custom sports card free proof"]);
+    expect(KEYWORD_BEARING_F1_PATHS).toContain("/free-proof");
+    expect(pathForIntent("custom trading cards")).toBe("/trading-cards");
+    expect(pathForIntent("senior night gift")).toBe("/senior-night");
+  });
+
+  it("titles stay inside the limits even while the form's own copy runs long", () => {
+    for (const path of [INTAKE_PATH, INTAKE_THANKS_PATH]) {
+      expect(fullTitle(PAGES[path]).length, path).toBeLessThanOrEqual(TITLE_MAX);
+      expect(PAGES[path].description.length, path).toBeLessThanOrEqual(DESCRIPTION_MAX);
+    }
+  });
+});
+
+describe("the blog rows (2026-10-04)", () => {
+  const entries = sitemap();
+  const urls = entries.map((e) => e.url);
+
+  it("/blog is an F1 row in the sitemap; the [slug] pattern row never is", () => {
+    expect(PAGES["/blog"].phase).toBe("F1");
+    expect(urls).toContain(`${SITE_URL}/blog`);
+    expect(PAGES["/blog/[slug]"]).toBeDefined();
+    expect(f1Pages().some((p) => p.path.includes("["))).toBe(false);
+    expect(urls.some((u) => u.includes("["))).toBe(false);
+    expect(matchesPagePath("/blog/what-photos-to-send")).toBe(true);
+  });
+
+  it("every published post is in the sitemap with its last change", () => {
+    for (const post of blogPages()) {
+      const entry = entries.find((e) => e.url === `${SITE_URL}${post.path}`);
+      expect(entry, post.path).toBeTruthy();
+      expect(new Date(entry!.lastModified!).toISOString().slice(0, 10)).toBe(post.lastModified);
+    }
   });
 });
 

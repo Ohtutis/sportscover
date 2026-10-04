@@ -126,6 +126,7 @@ export const PRODUCT_CATEGORY: Record<Family, string> = {
   posters: "Custom sports posters",
   set: "Custom sports poster and trading card set",
   snset: "Custom sports poster and trading card set",
+  banner: "Custom sports banners",
 };
 
 export const RETURN_POLICY = {
@@ -217,5 +218,39 @@ export function videoObject(v: { name: string; description: string; thumbnailUrl
     uploadDate: v.uploadDate,
     duration: "PT5S",
     url: absoluteUrl(v.path),
+  };
+}
+
+/**
+ * BlogPosting for a /blog post (master plan §7.2, spec §8). Author is the founder Person (D10), the
+ * publisher the Organization — both by @id, so they resolve to the one node the root layout emits.
+ */
+export function blogPosting(p: {
+  title: string;
+  description: string;
+  path: string;
+  datePublished: string;
+  dateModified: string;
+  section: string;
+  wordCount?: number;
+  image?: string;
+}): JsonLdObject {
+  const url = absoluteUrl(p.path);
+  return {
+    "@context": CONTEXT,
+    "@type": "BlogPosting",
+    headline: p.title,
+    description: p.description,
+    url,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    datePublished: p.datePublished,
+    dateModified: p.dateModified,
+    articleSection: p.section,
+    inLanguage: "en-US",
+    ...(p.wordCount ? { wordCount: p.wordCount } : {}),
+    ...(p.image ? { image: absoluteUrl(p.image) } : {}),
+    author: { "@type": "Person", "@id": FOUNDER_ID, name: OWNER_NAME, url: `${SITE_URL}/about` },
+    publisher: { "@type": "Organization", "@id": ORGANIZATION_ID, name: BRAND, logo: { "@type": "ImageObject", url: LOGO_URL } },
+    isPartOf: { "@type": "Blog", "@id": `${SITE_URL}/blog#blog`, name: `${BRAND} blog`, url: `${SITE_URL}/blog` },
   };
 }

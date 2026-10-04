@@ -2,8 +2,13 @@
 // lengths here — ≤ 60 characters for the rendered <title> (head phrase + TITLE_SUFFIX, or the
 // absolute string) and ≤ 155 for the description — so no page file ever invents a title.
 // F2/F3 rows exist so lib/seo/intents.ts can map every keyword to a table key; only `phase: "F1"`
-// rows reach the sitemap. Pattern rows ({Sport}, {Finish}) are measured with the longest name
-// substituted (Cheerleading, Signature Spotlight). The banned words of COPY §0.4 never appear here.
+// rows reach the sitemap, and never a pattern row (`[segment]` paths — /blog/[slug] is F1, its posts
+// reach the sitemap through lib/blog.ts). Pattern rows ({Sport}, {Finish}) are measured with the
+// longest name substituted (Cheerleading, Signature Spotlight). The banned words of COPY §0.4 never
+// appear here.
+
+import { INTAKE_COPY, INTAKE_PATH, INTAKE_THANKS_PATH, PROOF_CLOCK } from "../intake/copy";
+import { PHOTO_RULES } from "../intake/types";
 
 export type Phase = "F1" | "F2" | "F3";
 
@@ -25,6 +30,15 @@ export const TITLE_MAX = 60;
 export const DESCRIPTION_MAX = 155;
 
 const page = (p: PageMeta): [string, PageMeta] => [p.path, p];
+
+/**
+ * The free-proof rows take their words from the page's own copy (lib/intake/copy.ts) when those words
+ * fit this table's limits, and the measured line beside them when they do not. On 2026-10-04 they did
+ * not: INTAKE_COPY.title renders 61 characters with the suffix, the description is 178 and the thanks
+ * title 68 — so the fallbacks ship until the copy is trimmed, and then the copy takes over by itself.
+ */
+const fitTitle = (copy: string, fallback: string): string => (copy.length + TITLE_SUFFIX.length <= TITLE_MAX ? copy : fallback);
+const fitDescription = (copy: string, fallback: string): string => (copy.length <= DESCRIPTION_MAX ? copy : fallback);
 
 export const PAGES: Record<string, PageMeta> = Object.fromEntries([
   page({
@@ -162,6 +176,52 @@ export const PAGES: Record<string, PageMeta> = Object.fromEntries([
     priority: 0.2,
     changeFrequency: "yearly",
   }),
+  // D29 (owner, 2026-10-04) — the free-proof request is the site's conversion and the Meta ads land here.
+  page({
+    path: INTAKE_PATH,
+    title: fitTitle(INTAKE_COPY.title, "Free Proof First — Pay If You Love It"),
+    description: fitDescription(
+      INTAKE_COPY.description,
+      `Send ${PHOTO_RULES.min}–${PHOTO_RULES.max} photos and see a watermarked proof of your athlete's cards, poster, banner or blanket, free within ${PROOF_CLOCK}. Pay only if you love it.`,
+    ),
+    phase: "F1",
+    priority: 0.9,
+    changeFrequency: "monthly",
+  }),
+  page({
+    path: INTAKE_THANKS_PATH,
+    title: fitTitle(INTAKE_COPY.thanks.title, "Photos Received"),
+    description: fitDescription(
+      INTAKE_COPY.thanks.lead,
+      `Your photos arrived. We check them first, then email your free watermarked proof within ${PROOF_CLOCK}. Nothing to pay now.`,
+    ),
+    phase: "F1",
+    priority: 0.1,
+    changeFrequency: "yearly",
+    // A confirmation page: never indexed, never in the sitemap (next.config.ts NOINDEX_SOURCES too).
+    noindex: true,
+  }),
+  // The blog (spec §4.12; built 2026-10-04 in app/(marketing)/blog). The index row carries the same
+  // words as lib/blog.ts BLOG_INDEX, which the page falls back to when this row is missing.
+  page({
+    path: "/blog",
+    title: "Blog: Guides for Sports Parents",
+    description:
+      "Plain answers for sports parents: what photos to send, how a custom card is made, the free proof, senior night planning and the card registry.",
+    phase: "F1",
+    priority: 0.5,
+    changeFrequency: "weekly",
+  }),
+  page({
+    path: "/blog/[slug]",
+    // Pattern row: every post's own title and description come from lib/blog.ts (postMetadata), and its
+    // sitemap row from blogPages(). This row only lets matchesPagePath() and the intents resolve a post.
+    title: "Guide for Sports Parents",
+    description: "A plain answer for sports parents from Game Day Edition — photos, proofs, senior night, gifts and the card registry.",
+    phase: "F1",
+    priority: 0.5,
+    changeFrequency: "monthly",
+  }),
   page({
     path: "/terms",
     title: "Terms of Service",
@@ -246,8 +306,8 @@ export function pageFor(path: string): PageMeta {
   return meta;
 }
 
-/** Routes that reach the sitemap: built in F1 and indexable. */
-export const f1Pages = (): PageMeta[] => Object.values(PAGES).filter((p) => p.phase === "F1" && !p.noindex);
+/** Routes that reach the sitemap: built in F1, indexable, and a real path (a `[segment]` row never is). */
+export const f1Pages = (): PageMeta[] => Object.values(PAGES).filter((p) => p.phase === "F1" && !p.noindex && !p.path.includes("["));
 
 /** Whether a concrete path matches a table key, with `[sport]` / `[finish]` segments allowed. */
 export function matchesPagePath(path: string): boolean {

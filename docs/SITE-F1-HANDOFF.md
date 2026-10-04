@@ -124,8 +124,43 @@ Nothing here blocks the deploy. Items marked ⚠ block F2 (direct checkout).
     Avery O'Neal's card (`GDE-FS-FTB-2026-80`, order #4180204338) is an unlisted customer record — its
     art is built only from `orders/**` with `--allow-orders`, never committed to `public/`.
 
+## 2026-10-04 — free proof first (D29): what the owner still has to do
+
+The site now converts to a **free-proof request** instead of an Etsy click: every primary button opens
+`/free-proof` (prefilled from the page it sits on), Etsy is the outline "Also on Etsy →" beside it, and a
+four-step path (send photos → free watermarked proof → choose digital or printed and pay your way → we
+complete the order) sits under every hero CTA. Payment happens only after the parent approves the proof —
+by a secure payment link you send, or on Etsy. The decision, the routes, the prefill contract, the
+storage layout and the request runbook are in `docs/SITE-F2A-FREE-PROOF-2026-10.md`; one flag,
+`FREE_PROOF_FIRST` in `lib/site.ts`, turns it all back to the Etsy-primary site.
+
+23. **Vercel env vars** — `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`,
+    `SUPABASE_STORAGE_BUCKET` (default `athlete-submissions`), `SUBMISSION_SIGNING_SECRET`,
+    `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `OWNER_NOTIFICATION_EMAIL`; optional
+    `TURNSTILE_SECRET_KEY` + `NEXT_PUBLIC_TURNSTILE_SITE_KEY`. Until the Supabase three are set the form
+    tells parents to email their photos instead; `/api/intake/health` shows which parts are on.
+24. **Supabase** — keep the project awake (free projects pause after a week idle) and make sure the
+    bucket is **private**; the site only ever hands out signed upload URLs.
+25. **Resend** — verify the sending domain for `gamedayedition.com`, or the two emails (yours and the
+    parent's) fail; a failed email never loses the request, but the parent gets no confirmation.
+26. **Blanket prices** — add the blanket tiers to `lib/catalog/prices.ts` and their SKUs to the blanket
+    options in `lib/intake/products.ts`; until then the form says "Price confirmed with your free proof".
+27. **Banners on Etsy** — printed banners are made through Printify: declare it as a Production Partner
+    on Etsy before a printed banner is sold there.
+28. **Meta pixel** — set `NEXT_PUBLIC_META_PIXEL_ID` on Vercel and redeploy when the ads start. It loads
+    only on `/free-proof` and `/free-proof/thanks` (never `/c`, `/order` or the registry), sends a
+    PageView and, on the thanks page, a Lead; browsers sending Global Privacy Control get nothing.
+29. **Lawyer** — the consent sentences on the form are the spec's (D16), versioned; the written
+    biometric policy already exists at `/privacy/biometric` — confirm it covers a request that never
+    becomes an order (destroyed within 30 days), and whether running the pixel for ad targeting needs a
+    "Do Not Sell or Share" link (CCPA) before the ads scale.
+30. **Each request** — pull it with `npx tsx scripts/intake-pull.ts <requestId>`, build the proof, send it
+    with the payment choice, and after payment run the usual `card:new` → `qr:gen` → `cards:assets`
+    sequence from `docs/ORDER-TO-WEB-CARD-FLIP.md`. Delete a declined request's folder 30 days after the no.
+
 ## Not in F1 on purpose
 
 Direct checkout and order pages, team links, `/sports/<sport>`, `/styles/<finish>`,
 `/senior-night/<sport>`, `/christmas-gift`, the blog, reviews, the Meta pixel. All are F2–F4 in
-`docs/SITE-BUILD-SPEC-2026-09.md` §11.
+`docs/SITE-BUILD-SPEC-2026-09.md` §11. (2026-10-04: the blog and the Meta pixel — off until its env var
+is set, `/free-proof` only — have since been built; checkout is still F2.)

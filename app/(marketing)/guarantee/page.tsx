@@ -1,17 +1,23 @@
 // /guarantee — COPY §2.7, DESIGN §5.5 (stock; no imagery at all — the authority is the typesetting). GAPS #31 drops COPY's at-our-expense reprint clause from "Proof approval", and with
 // DELIVERED_COUNT = 0 the delivered-count sentence is not rendered at all.
+//
+// D29 (2026-10-04): while the site runs proof-first, the opener's text column says so before anything
+// else — CANON.proofFirstLine, the CTA pair, and the four-step ProofPath — and the refund ladder opens
+// with the stage that costs nothing: the free proof. Everything below it is about a paid order (an
+// Etsy order, or one paid by secure payment link after the proof was approved).
 
 import Link from "next/link";
 import { Breadcrumbs } from "../../../components/Breadcrumbs";
 import { CtaPair } from "../../../components/CtaPair";
 import { FounderNote } from "../../../components/FounderNote";
 import { Ledger } from "../../../components/Ledger";
+import { ProofPath } from "../../../components/ProofPath";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { TrustLine } from "../../../components/TrustLine";
 import { block } from "../../../lib/blocks";
 import { visibleShippingRows } from "../../../lib/catalog/shipping";
 import { CANON } from "../../../lib/copy/canon";
-import { ctaFor } from "../../../lib/cta";
+import { ctaFor, freeProofMode } from "../../../lib/cta";
 import { pageMeta } from "../../../lib/seo/meta";
 import { DELIVERED_COUNT } from "../../../lib/site";
 
@@ -66,6 +72,9 @@ const LIMITS: { title: string; body: React.ReactNode }[] = [
 ];
 
 /* ---------- 4) the refund ladder ---------- */
+
+/** Proof-first only (D29): the first rung, before any payment exists. */
+const FREE_PROOF_RUNG = { stage: "Before you approve the free proof", happens: "Nothing has been paid, so there is nothing to refund — walk away any time" };
 
 const LADDER: { stage: string; happens: string }[] = [
   { stage: "Before you approve the reference set", happens: "Cancel any time — full refund" },
@@ -157,6 +166,8 @@ function ShippingTable() {
 
 export default function GuaranteePage() {
   const cta = ctaFor("home");
+  const proofFirst = freeProofMode();
+  const ladder = proofFirst ? [FREE_PROOF_RUNG, ...LADDER] : LADDER;
 
   return (
     <>
@@ -173,6 +184,17 @@ export default function GuaranteePage() {
           <div className="mt-6 lg:grid lg:grid-cols-12 lg:items-stretch lg:gap-x-8">
             <div className="lg:col-span-6">
               <SectionHeading as="h1" title="OUR PROMISE, IN WRITING." subhead="Because we are new, the risk of trying us is ours." />
+              {proofFirst ? (
+                <>
+                  {/* D29: the promise starts before any money moves — said first, then the action, then the path. */}
+                  <p className="mt-8 max-w-[52ch] font-body text-body font-medium text-pretty text-ink">{CANON.proofFirstLine}</p>
+                  <div className="mt-8">
+                    <CtaPair primary={cta.primary} secondary={cta.secondary} size="lg" />
+                    <TrustLine />
+                  </div>
+                  <ProofPath className="mt-8" />
+                </>
+              ) : null}
             </div>
             <div className="mt-8 lg:col-span-6 lg:mt-0 lg:h-full">
               {/* The promise is prose, and prose never goes in a BracketFrame — the brackets are the
@@ -244,7 +266,7 @@ export default function GuaranteePage() {
           <Ledger
             id="refunds"
             className="mt-8 scroll-mt-20 lg:mt-12"
-            rows={LADDER.map((row) => ({ key: row.stage, value: row.happens }))}
+            rows={ladder.map((row) => ({ key: row.stage, value: row.happens }))}
           />
         </div>
       </section>

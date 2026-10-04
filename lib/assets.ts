@@ -766,6 +766,9 @@ const entries: Record<string, Entry> = {
     fictional: true, status: "verified",
     alt: "A family on the court holding a framed custom football poster at a senior night ceremony — Senior Night finish — example artwork, fictional athlete; photo generated",
   },
+  // RETIRED 2026-10-04 (builder D's audit): the card in this photograph is not square-cut — it predates
+  // the 2026-09-01 rule. No page renders it; the key stays only so the manifest check keeps its
+  // provenance. Do not add it to a gallery; replace the source before using it again.
   "life.card.hand": {
     out: "/images/life/basketball-trading-card-held-on-the-court.webp",
     source: "etsy/listing-images/01-basketball-card/02-card-in-hand.png", width: 1024, height: 1024,
@@ -965,6 +968,44 @@ const entries: Record<string, Entry> = {
     source: `${ETSY}/card football/05 · The kid on the card.jpg`,
     ...KIDSHOT, kind: "photo", fictional: true, status: "verified",
     alt: "A football player grinning in the parking lot after a game, holding up his own custom trading card — Fire & Smoke finish — example artwork, fictional roster athlete; photo generated",
+  },
+
+  /* ---------- /free-proof product tiles (2026-10-04) ----------
+   * One square tile per product the free-proof form offers (lib/intake/products.ts keys), all 800 × 800,
+   * all cut with an explicit `box:` crop from a file that already exists — nothing was generated for them.
+   * Cards and poster re-crop sources the site already ships as verified keys (life.card.desk, posters.room);
+   * banner and blanket are the football Etsy listing composites (generated empty plate + the athlete's finished
+   * art printed on with a perspective mapping), graded by the judge on the tile crop before they were added.
+   * Takes, crops and verdicts: docs/f1/ASSETS-RENDERS.md "Product tiles (2026-10-04)". The page reads these
+   * through assetOrNull() and mounts <FictionalLabel /> — every tile shows a fictional roster athlete.
+   */
+  "product.cards": {
+    out: "/images/products/cards.webp",
+    source: `${SHOTS_SN}/card-on-desk-composited.png`, width: 800, height: 800, kind: "photo",
+    crop: "box:0.1,0.16,0.76,0.76", fictional: true, status: "verified",
+    alt: "A custom football trading card lying on a wooden desk beside a pen and two coins, for scale — Senior Night finish — example artwork, fictional roster athlete; photo generated",
+    note: "Same source as life.card.desk (Tui Fa'agata, GDE-SR-FTB-2026-54), cropped closer so the card reads at tile size. Square-cut corners checked at full size.",
+  },
+  "product.poster": {
+    out: "/images/products/poster.webp",
+    source: BKP_ROOM_SN, width: 800, height: 800, kind: "room",
+    crop: "box:0.155,0.05,0.7,0.7", fictional: true, status: "verified",
+    alt: "A framed custom basketball poster on a bedroom wall — Stadium Night finish — example artwork, fictional roster athlete; photo generated",
+    note: "Same source as posters.room and life.poster.room (Marcus Ellison), cropped to centre the frame.",
+  },
+  "product.banner": {
+    out: "/images/products/banner.webp",
+    source: "etsy/listing-images/03-football-banner/src/use-garage.png", width: 800, height: 800, kind: "photo",
+    crop: "box:0.055,0,0.875,0.875", fictional: true, status: "verified",
+    alt: "A custom football banner hanging by cords from its corner grommets on the outside wall of a garage — Prism Rush finish — example artwork, fictional roster athlete; photo generated",
+    note: "Football banner listing scene (Tui Fa'agata). The other five football scenes mirror a helmet or a hand at the banner's edge and the lifestyle shot paints the print over a hand, so this is the one clean composite. Judge: 12 of 12 checks passed on the box 0.04,0,0.9,0.9; the shipped box sits inside it, tight under the hem so the soccer ball the plate put by the door shows only as a sliver.",
+  },
+  "product.blanket": {
+    out: "/images/products/blanket.webp",
+    source: "etsy/listing-images/05-football-blanket/src/c-bed.png", width: 800, height: 800, kind: "photo",
+    crop: "box:0.335,0.2,0.665,0.665", fictional: true, status: "verified",
+    alt: "A mockup of a custom plush football blanket lying on a bed, printed with the athlete's poster artwork — Heritage finish — example artwork, fictional roster athlete; generated image, not a photo of a finished blanket",
+    note: "MOCKUP until a photo of a real blanket exists: a generated white blank on a bed with the Heritage poster art printed on by fabric_onto.py. The crop leaves out a pair of sneakers that carry a maker's mark. Judge: 12 of 12 checks passed on this crop (take 3 of 3).",
   },
 
   /* owner decision */

@@ -17,18 +17,24 @@
 //   4. Small chips report the real steps beside the art as they happen — intake, reference plate, proof,
 //      registry. Every one is a step the pipeline actually has, and the registration date is read out of
 //      `lib/registry/cards.ts`, never typed.
+//
+// 2026-10-04 (D29, the owner: "make everything much clearer — the parent must grasp the path at a
+// glance"). The one button is "Get a free proof →", and under the button row sits the four-step
+// `ProofPath` — photos, a free watermarked proof, choose and pay your way, we complete the order. It is
+// type on the stock, no accent and nothing to press, so the hero still offers ONE action.
 import Image from "next/image";
 import type { CSSProperties } from "react";
 import { CardFace } from "../../../components/CardFace";
 import { CtaPair } from "../../../components/CtaPair";
 import { FictionalLabel } from "../../../components/FictionalLabel";
+import { ProofPath } from "../../../components/ProofPath";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { SITE_ASSETS, SITE_ASSET_KEYS, assetOrNull, type ImageSpec } from "../../../lib/assets";
 import { formatEt } from "../../../lib/capacity";
 import { sports, type Sport } from "../../../lib/catalog/sports";
 import { styles, type Style } from "../../../lib/catalog/styles";
 import { CANON } from "../../../lib/copy/canon";
-import { ctaFor } from "../../../lib/cta";
+import { ctaFor, freeProofMode } from "../../../lib/cta";
 import { getCard, registeredAtOf } from "../../../lib/registry/cards";
 import { HeroStory } from "./HeroStory";
 import { sectionId } from "./Section";
@@ -315,6 +321,7 @@ export function Hero() {
               {HERO_SECONDARY.label}
             </a>
           </div>
+          {freeProofMode() ? <ProofPath className="mt-8" /> : null}
         </div>
         <div className="mt-10 lg:col-span-6 lg:mt-0">
           <HeroStory

@@ -519,3 +519,78 @@ originals, so 1000 wide loses nothing). Plus `public/video/flip/<cardId>-flip-72
 scratchpad (`sheets/A-packages.jpg` … `L-back-id-lines.jpg`), plus `cv2.QRCodeDetector` output; no
 source file was opened at full size except the 816×1110 SN pack-face crop and the certificate crop
 used to confirm the "10".
+
+---
+
+## Product tiles (2026-10-04)
+
+Four square tiles for the `/free-proof` product step, one per `lib/intake/products.ts` product, declared in
+`lib/assets.ts` as `product.<key>` and written by `scripts/site-assets.ts --key <k>` (sha256 denylist gate
+passed on every source, crop recorded in `public/images/.manifest.json`). **Ratio: 1 : 1, 800 × 800 for all
+four** — every reusable source is a 2048² square, and a tile shown at up to 400 CSS px needs 800 px at 2×.
+Every tile shows a fictional roster athlete (`fictional: true` → the page mounts `<FictionalLabel />`).
+**No image was generated for this pass**; the spend was five judge calls, ≈ €0.15
+(`art-pipeline/out/_spend.jsonl`, tags `site-product-tile-*`).
+
+| Key → file | Bytes | Source (sha256 prefix) | Crop (`box:` l,t,w,h) | Shows |
+|---|---|---|---|---|
+| `product.cards` → `/images/products/cards.webp` | 82 232 | `art-pipeline/out/etsy-shots/senior-night/card-on-desk-composited.png` (`8fdb80a7`, = `life.card.desk`) | `0.1,0.16,0.76,0.76` | Tui Fa'agata's Senior Night card on a desk, pen and two quarters for scale. Square-cut corners checked at full size. |
+| `product.poster` → `/images/products/poster.webp` | 27 226 | `etsy/listing-images/02-basketball-poster/room-SN.png` (`27b0d78a`, = `posters.room`) | `0.155,0.05,0.7,0.7` | Marcus Ellison's Stadium Night poster framed on a bedroom wall (frame centred, measured: x 0.355–0.655, y 0.199–0.605). |
+| `product.banner` → `/images/products/banner.webp` | 64 992 | `etsy/listing-images/03-football-banner/src/use-garage.png` (`3e62e1a3`) | `0.055,0,0.875,0.875` | Tui's Prism Rush banner hanging by cords from its corner grommets on a garage's outside wall. |
+| `product.blanket` → `/images/products/blanket.webp` | 70 454 | `etsy/listing-images/05-football-blanket/src/c-bed.png` (`3ca644e6`) | `0.335,0.2,0.665,0.665` | **Mockup** — Tui's Heritage art printed on a white plush blanket lying on a bed. |
+
+Cards and poster re-crop sources the site already ships as verified keys (same bytes as their 2026-09-07
+manifest entries), so they were looked at, not re-graded. Banner and blanket are new to the site and went
+through the judge on the tile crop at 1200 px beside the art that was printed onto them:
+`gemini-3.1-pro-preview` (`JUDGE_MODEL`), countable checks — one continuous photograph; reads as the product;
+the print is the same artwork and the same athlete as the art file; no limb or object doubled or mirrored at
+an edge; print stays on the product; real hanging hardware / follows the folds; no readable words outside
+the art; no league or brand mark anywhere; no stray person. Script and verdict files (git-ignored):
+`art-pipeline/scratch/product-tiles/judge-tiles.ts`, `…/<take>.judge.json`.
+
+### Banner — which scene and why
+Surveyed: the seven football banner composites (`use-{fence,gym,bedroom,porch,bleachers,garage}`,
+`s02-lifestyle`), the football Senior Night fence, and the soccer and basketball fences.
+- `use-fence`, `use-gym`, `use-bleachers`, `use-porch`, `use-bedroom` (football) and the football SR
+  `use-fence`: **a helmet, a face or a hand is mirrored at the banner's edge** (the master's edge figure is
+  reflected by the warp — two helmets back to back on the right, two hands palm to palm on the left).
+- `s02-lifestyle`: the print is painted over the athlete's hand where it overlaps the banner edge (the plate
+  shows the whole hand in front), and the lower-left grommet + hook are painted over.
+- soccer `use-fence`: clean edges, but the judge failed it on a swoosh on the boots in the art.
+- basketball `use-fence`: a mirrored ball at the right edge and a Jumpman on the shoes in the art.
+- **football `use-garage` (chosen): judge 12/12** (on the box `0.04,0,0.9,0.9`; the shipped box sits inside
+  it). Plate `art-pipeline/out/etsy-shots/football/banner-scene-garage.png`: `gemini-3.1-flash-image`, plate
+  judge 8/8, art = `master-PR.png` by `warp_onto`. Known: the plate prompt asked for "a couple of football
+  things" and the model drew a **soccer ball and boots** by the door; the crop sits tight under the hem so
+  only a sliver of the ball shows.
+
+### Blanket — provenance (the chosen take)
+- **Source poster key:** `posters.finish.HE` (`etsy/listing-images/02-football-poster/src/FB-HE-poster.png`,
+  Tui Fa'agata, Heritage), widened to 5 : 6 as `05-football-blanket/src/art56-HE.png` (athletes untouched).
+- **Plate:** `art-pipeline/out/etsy-shots/football/blanket-bed.png`, model `gemini-3.1-flash-image`
+  (Nano Banana 2); prompt in `blanket-bed.json` (opens: "A photograph of a COMPLETELY BLANK WHITE PLUSH
+  BLANKET spread out on a made bed … THERE IS NO PERSON IN THE ROOM…" and names a 50 × 60 in velveteen throw); plate judge 8/8; an Apple logo on the laptop was inpainted by the blanket build (`.FIX.txt`).
+- **Print:** `art-pipeline/lib/fabric_onto.py` — homography from the hand-measured corners in
+  `_blanket-corners.json` + a Coons patch to the blanket's own outline, art multiplied by the white blank's
+  light; built by `blanket_listing_assets.py --sport football` → `c-bed.png` (2026-10-04). No model touches
+  the artwork, so the likeness is the poster's by construction — and the judge confirmed it.
+- **Takes (judge, same 1200 px protocol):**
+  1. `c-couch.png` (draped over a sofa), box `0.2,0.22,0.76,0.76` — **FAIL 9/11**: the drape mapping
+     shears the art along the seat crease (legs stretched diagonally; "helmet morphing into his leg").
+  2. `c-bed.png`, box `0.2,0.18,0.8,0.8` — **FAIL 11/12**: an "N" maker's mark on the sneakers by the bed.
+  3. `c-bed.png`, box `0.335,0.2,0.665,0.665` — **PASS 12/12** (shipped): the sneakers are outside the
+     frame; the blanket's lower-left corner runs off the edge.
+- **It is a mockup until a photograph of a real blanket exists** — the alt says "generated image, not a
+  photo of a finished blanket". Replace the tile with the production sample's photo when there is one, and
+  re-check the crop if `c-bed.png` is rebuilt (the manifest pins the source hash).
+
+### Found on the way — not fixed here (other owners' files)
+- The mirrored-edge defect above is in the **live** football banner listing's scene tiles (`tile-<place>.png`
+  are crops of the same `use-*` files) and in the football SR set; other sports were not checked
+  (basketball's fence has it too).
+- `c-couch.png` (shear) and the sneaker mark in `blanket-bed.png` / `c-bed.png` are in the blanket listing
+  deck being built now.
+- `life.card.hand` (`01-basketball-card/02-card-in-hand.png`, live on the site) shows a card with **rounded
+  corners** — it predates the square-cut rule.
+- `scripts/site-assets.ts` treats an output as current when the source, size and output hash match, so a
+  changed `crop` alone is skipped — run with `--force` after changing a box.

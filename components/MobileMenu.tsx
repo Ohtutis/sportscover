@@ -45,7 +45,7 @@ export function HeaderNav({ links, className = "" }: { links: NavLink[]; classNa
 
 export interface MobileMenuProps {
   links: NavLink[];
-  /** The five extra links under the main nav (COPY §1.1). */
+  /** The extra links under the main nav (COPY §1.1, plus the blog since 2026-10-04). */
   extraLinks?: NavLink[];
   /** The CTA block under the links — a server-rendered `<CtaPair>` + `<TrustLine>` passed in by SiteHeader. */
   children?: ReactNode;
@@ -154,7 +154,7 @@ export function MobileMenu({ links, extraLinks = [], children, className = "" }:
             <ul className="mt-4 flex flex-col">
               {extraLinks.map((l) => (
                 <li key={l.href}>
-                  {/* min-h-11: these five measured 38 px tall next to 60 px primary rows, on the one
+                  {/* min-h-11: these links measured 38 px tall next to 60 px primary rows, on the one
                       surface that is touch-only (audit 2026-09-08, S12). prefetch off — the header nav
                       above already prefetches every route these repeat (S3). */}
                   <Link

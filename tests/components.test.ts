@@ -17,7 +17,7 @@ import { chipSegment, CHIPS } from "../lib/catalog/delivery";
 import { shipsFromFor } from "../lib/catalog/shipping";
 import { faqSubset } from "../lib/catalog/faq";
 import { photoChecklist } from "../lib/catalog/photo-checklist";
-import { CANON, LOOKUP_STRINGS } from "../lib/copy/canon";
+import { CANON, LOOKUP_STRINGS, PROOF_PATH, PROOF_PATH_LABEL, proofPathLine } from "../lib/copy/canon";
 import { getCard } from "../lib/registry/cards";
 import { ctaFor } from "../lib/cta";
 import { trustLineSegments } from "../lib/catalog/trust";
@@ -56,6 +56,8 @@ import { TrueNumbers } from "../components/TrueNumbers";
 import { HANG_HEIGHT_IN, SHEET, ToScaleSheet, boxStyle, posterCentreIn } from "../components/ToScaleSheet";
 import { PhotoChecklist } from "../components/PhotoChecklist";
 import { FICTIONAL_LABEL_SHORT, FictionalLabel } from "../components/FictionalLabel";
+import { ProofPath } from "../components/ProofPath";
+import { META_PIXEL_SRC, MetaPixel, loadMetaPixel, metaPixelId, type PixelDocument, type PixelHost } from "../components/MetaPixel";
 import { ButtonLink } from "../components/ButtonLink";
 
 const ROOT = process.cwd();
@@ -74,7 +76,7 @@ const LIBS_COMPONENTS = [
   "Pill", "DeliveryChips", "TrustLine", "TierCard", "FamilyCard", "EditionPanel", "StatChip", "Plate", "Mat", "BracketFrame",
   "CapacityNote", "FourFears", "GateRow", "FounderNote", "ConsentRow", "CardFlip", "CopyIdButton", "ShareRow", "FaqList", "CtaPair",
   "EtsyButton", "OrderByCalculator", "LookupForm", "ProofRejectedPair", "CardFace", "QrRing", "Ledger", "StatusChip", "BeforeAfter",
-  "TrueNumbers", "ToScaleSheet", "PhotoChecklist", "FictionalLabel", "ButtonLink", "FlipSideSwitch",
+  "TrueNumbers", "ToScaleSheet", "PhotoChecklist", "FictionalLabel", "ButtonLink", "FlipSideSwitch", "ProofPath", "MetaPixel",
 ].map((n) => `components/${n}.tsx`);
 
 describe("component files (CONTRACTS §0.2, §1.3, DESIGN §10.4)", () => {
@@ -228,10 +230,25 @@ describe("TierCard / FamilyCard / TrueNumbers", () => {
   });
   it("TierCard pins the delivery chip and the CTA to the bottom as one block, and insets the pill", () => {
     const html = render(createElement(TierCard, { tier: p12, now: NOW_SALE, box: boxContents(p12.sku), shipsFrom: shipsFromFor(p12.sku), chip: chipSegment("prints"), cta }));
-    // The chip used to sit under the box list, leaving 54 px of dead space above the CTA.
-    expect(html).toMatch(/<div class="mt-auto pt-6"><ul aria-label="Delivery times"[^]*?<div class="flex flex-col gap-3 sm:flex-row mt-4">/);
+    // The chip used to sit under the box list, leaving 54 px of dead space above the CTA. Two buttons
+    // (D29: the free proof and the Etsy outline) stack full width — 176 px of card cannot hold a row.
+    expect(html).toMatch(/<div class="mt-auto pt-6"><ul aria-label="Delivery times"[^]*?<div class="flex flex-col gap-3 mt-4">/);
+    expect(html).not.toContain("sm:flex-row");
+    expect(html).not.toContain("sm:w-auto");
     expect(html).toContain("absolute -top-3 left-6");
     expect(html).not.toContain("absolute -top-3 left-5");
+  });
+  it("TierCard's primary is the free proof with this tier prefilled; Etsy is the outline under it (D29)", () => {
+    const html = render(createElement(TierCard, { tier: p12, now: NOW_SALE, box: boxContents(p12.sku), shipsFrom: shipsFromFor(p12.sku), chip: chipSegment("prints"), cta }));
+    expect(html).toContain('href="/free-proof?product=cards&option=p12"');
+    expect(html).toContain("Get a free proof →");
+    expect(html.indexOf("Get a free proof →")).toBeLessThan(html.indexOf("Also on Etsy →"));
+    // One filled button per card (the FEATURED pill is the card's other accent); Etsy never takes it.
+    expect(html.match(/bg-accent text-ink hover:brightness/g)?.length).toBe(1);
+    // With Etsy as the primary (both flags off) the card keeps a single, unstacked button.
+    const f1 = ctaFor("cards", { sku: "GDE-BKB-CARD-P12" }, { sellsDirect: false, freeProofFirst: false });
+    const one = render(createElement(TierCard, { tier: p12, now: NOW_SALE, box: [], shipsFrom: "", chip: chipSegment("prints"), cta: { primary: f1.primary, tone: f1.tone } }));
+    expect(one).toContain('<div class="flex flex-col gap-3 sm:flex-row mt-4">');
   });
   it("every enabled tier renders without a hand-typed price", () => {
     for (const t of tiers.filter((x) => x.enabled)) {
@@ -539,6 +556,108 @@ describe("CardFlip / CopyIdButton / ShareRow (client islands, server render)", (
   });
 });
 
+describe("ProofPath (D29) — the four steps under every hero CTA", () => {
+  const html = render(createElement(ProofPath, { className: "mt-8" }));
+  it("prints the four steps of the one constant, in order, under its label", () => {
+    expect(PROOF_PATH.map((s) => s.step)).toEqual([1, 2, 3, 4]);
+    expect(html).toContain(PROOF_PATH_LABEL);
+    let at = 0;
+    for (const step of PROOF_PATH) {
+      const i = html.indexOf(step.title, at);
+      expect(i, step.title).toBeGreaterThan(at - 1);
+      expect(html).toContain(step.detail);
+      at = i;
+    }
+    // The owner's path, word for word where it matters.
+    expect(PROOF_PATH[0].title).toBe("Send photos");
+    expect(PROOF_PATH[1].title).toBe("Free watermarked proof");
+    expect(PROOF_PATH[2].detail).toContain("secure payment link or on Etsy");
+    expect(PROOF_PATH[3].detail).toContain("watermark off");
+  });
+  it("is an ordered list named by its label, with decorative numerals and nothing to press", () => {
+    expect(html).toContain(`<ol aria-label="${PROOF_PATH_LABEL}"`);
+    expect(html.match(/<li/g)?.length).toBe(4);
+    expect(html.match(/<span aria-hidden="true" class="inline-flex size-7/g)?.length).toBe(4);
+    expect(html).not.toMatch(/<a |<button/);
+    expect(html).not.toMatch(/accent/);
+    expect(html).toContain("mt-8");
+  });
+  it("reads as one sentence where a list cannot go", () => {
+    const line = proofPathLine();
+    expect(line.startsWith("1. Send photos: ")).toBe(true);
+    for (const step of PROOF_PATH) expect(line).toContain(`${step.step}. ${step.title}: ${step.detail}.`);
+    expect(line).not.toMatch(/stripe/i);
+  });
+});
+
+describe("MetaPixel (D29, D19 kept honest)", () => {
+  /** A window and document that record what the base code does to them. */
+  function fakes(gpc = false) {
+    const inserted: { async: boolean; src: string }[] = [];
+    const w: PixelHost = { navigator: { globalPrivacyControl: gpc } };
+    const d: PixelDocument = {
+      createElement: () => ({ async: false, src: "" }),
+      getElementsByTagName: () => [{ parentNode: { insertBefore: (node: unknown) => inserted.push(node as { async: boolean; src: string }) } }],
+      head: { appendChild: (node: unknown) => inserted.push(node as { async: boolean; src: string }) },
+    };
+    return { w, d, inserted };
+  }
+
+  it("renders nothing — no script tag, no noscript beacon — and is off without a valid id", () => {
+    expect(render(createElement(MetaPixel))).toBe("");
+    expect(process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "").toBe("");
+    expect(metaPixelId()).toBeNull();
+    expect(metaPixelId("")).toBeNull();
+    expect(metaPixelId("12ab")).toBeNull();
+    expect(metaPixelId("123456789012345');alert(1)//")).toBeNull();
+    expect(metaPixelId(" 123456789012345 ")).toBe("123456789012345");
+    // Code, not the doc comment that explains why there is none.
+    const code = read("components/MetaPixel.tsx").replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
+    expect(code).not.toContain("<noscript");
+    expect(code).not.toContain("<img");
+    expect(code).not.toContain("dangerouslySetInnerHTML");
+  });
+  it("loads the base code once: one async script, autoConfig off, no pushState PageViews, init, one PageView", () => {
+    const { w, d, inserted } = fakes();
+    expect(loadMetaPixel("123456789012345", w, d)).toBe(true);
+    expect(inserted).toEqual([{ async: true, src: META_PIXEL_SRC }]);
+    const fbq = w.fbq as { queue: unknown[][]; disablePushState?: boolean };
+    expect(fbq.disablePushState).toBe(true);
+    expect(fbq.queue).toEqual([
+      ["set", "autoConfig", false, "123456789012345"],
+      ["init", "123456789012345"],
+      ["track", "PageView"],
+    ]);
+    // Idempotent: a second mount neither adds a script nor sends a second PageView.
+    expect(loadMetaPixel("123456789012345", w, d)).toBe(true);
+    expect(inserted).toHaveLength(1);
+    expect(fbq.queue).toHaveLength(3);
+  });
+  it("a browser that sends Global Privacy Control gets no pixel at all", () => {
+    const { w, d, inserted } = fakes(true);
+    expect(loadMetaPixel("123456789012345", w, d)).toBe(false);
+    expect(inserted).toEqual([]);
+    expect(w.fbq).toBeUndefined();
+  });
+  it("is mounted by the /free-proof layout and by nothing else — never /c, /order or the registry", () => {
+    const importers: string[] = [];
+    const walk = (dir: string) => {
+      for (const entry of fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true })) {
+        const rel = path.join(dir, entry.name);
+        if (entry.isDirectory()) walk(rel);
+        else if (/\.tsx?$/.test(entry.name) && rel !== path.join("components", "MetaPixel.tsx") && /from "[^"]*MetaPixel"/.test(read(rel))) importers.push(rel);
+      }
+    };
+    walk("app");
+    walk("components");
+    walk("lib");
+    expect(importers).toEqual([path.join("app", "(marketing)", "free-proof", "layout.tsx")]);
+    const layout = read("app/(marketing)/free-proof/layout.tsx");
+    expect(layout).toContain("<MetaPixel />");
+    expect(layout).toContain("{children}");
+  });
+});
+
 describe("FaqList / CtaPair / EtsyButton / ButtonLink / LookupForm / OrderByCalculator", () => {
   it("FaqList renders details rows and FAQPage JSON-LD for exactly the rendered items", () => {
     const items = faqSubset("trading-cards");
@@ -552,9 +671,15 @@ describe("FaqList / CtaPair / EtsyButton / ButtonLink / LookupForm / OrderByCalc
   it("CtaPair: accent primary, outline secondary, etsy kind delegates to EtsyButton (never accent)", () => {
     const html = render(createElement(CtaPair, ctaFor("home")));
     expect(html).toContain("bg-accent");
+    expect(html).toContain('href="/free-proof"');
+    expect(html).toContain("Get a free proof →");
     expect(html).toContain('href="/go/etsy/GDE-ANY-SET"');
-    expect(html).toContain('href="/registry"');
+    expect(html).toContain("Also on Etsy →");
+    expect(html.match(/bg-accent/g)?.length).toBe(1);
     expect(html).toContain("h-12");
+    const f1 = render(createElement(CtaPair, ctaFor("home", undefined, { sellsDirect: false, freeProofFirst: false })));
+    expect(f1).toContain('href="/go/etsy/GDE-ANY-SET"');
+    expect(f1).toContain('href="/registry"');
     const f2 = render(createElement(CtaPair, ctaFor("home", undefined, { sellsDirect: true })));
     expect(f2).toContain("Also on Etsy →");
     const etsy = render(createElement(EtsyButton, { sku: "GDE-ANY-SET" }));

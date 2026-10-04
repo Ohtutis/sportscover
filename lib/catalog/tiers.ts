@@ -25,6 +25,11 @@ export const deliverables: Record<Family, string[]> = {
     "Live registry page linked from the QR code on the card",
     "High-resolution digital files ready for printing",
   ],
+  banner: [
+    "Custom banner art, built from your athlete's photos",
+    "Print-ready digital file at full banner size",
+    "Phone and desktop wallpapers",
+  ],
   snset: [
     "Custom poster — 18 x 24 and 24 x 36 in, 300 DPI",
     "Custom trading card — FRONT and BACK",
@@ -48,6 +53,10 @@ export const tierNotes: Record<string, string[]> = {
   "GDE-ANY-SET-PRINT": ["12 printed cards + 18 × 24 poster + printed certificate", "Every digital file included", "Printed and shipped free in the US"],
   "GDE-ANY-SET-DLX": ["24 printed cards + 24 × 36 poster + printed certificate", "Every digital file included", "Printed and shipped free in the US"],
   "GDE-ANY-SET-ULT": ["Deluxe Set + sealed foil pack (18 cards — 4 holographic chase, 14 standard)", "Ships in three tracked packages"],
+  // Banner processing is the listing's own promise (1–2 weeks), not the poster/card chip.
+  "GDE-ANY-BAN-1X2": ["1 × 2 ft printed vinyl banner + the digital file", "Ships separately, 1–2 weeks"],
+  "GDE-ANY-BAN-2X4": ["2 × 4 ft printed vinyl banner + the digital file", "Ships separately, 1–2 weeks"],
+  "GDE-ANY-BAN-3X6": ["3 × 6 ft printed vinyl banner + the digital file", "Ships separately, 1–2 weeks"],
 };
 
 /**

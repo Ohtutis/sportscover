@@ -51,9 +51,11 @@ export function TierRow({ family, context, sport, now, className = "" }: TierRow
       <ul className={`-mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto scroll-pl-5 px-5 pb-2 md:mx-0 md:grid md:overflow-visible md:px-0 ${columns}`}>
         {visible.map((tier) => {
           const sku = skuFor(tier.sku, sport.code);
+          // The tier's own SKU and the picker's sport: in free-proof mode (D29) the primary opens
+          // /free-proof with this product, this option and this sport prefilled, and the outline
+          // "Also on Etsy →" opens this tier's listing. With Etsy as the primary (both flags off) the
+          // card keeps one button — the registry lookup has no place on a rate card.
           const pair = ctaFor(context, { sku, sport: sport.slug });
-          // One button per tier in F1 ("Order on Etsy →"); when the site sells direct the outline
-          // "Also on Etsy →" comes back with it, so the ladder never loses the marketplace link.
           const cta = pair.secondary?.kind === "etsy" ? pair : { primary: pair.primary, tone: pair.tone };
           return (
             <li key={tier.sku} className="flex w-[82vw] max-w-[360px] shrink-0 snap-start md:w-auto md:max-w-none">

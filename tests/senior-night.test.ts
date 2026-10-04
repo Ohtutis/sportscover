@@ -6,7 +6,7 @@ import path from "node:path";
 import { addCalendarDays, seniorNightPlan, type IsoDate, type PlanRow } from "../lib/capacity";
 import { CHIPS } from "../lib/catalog/delivery";
 import { faqSubset } from "../lib/catalog/faq";
-import { seniorNightSku } from "../lib/cta";
+import { ctaFor, seniorNightSku } from "../lib/cta";
 import { pageFor } from "../lib/seo/titles";
 import { pageMeta } from "../lib/seo/meta";
 import { CALC_COPY } from "../lib/copy/calc";
@@ -127,10 +127,18 @@ describe("the page", () => {
     for (const banned of ["dance", "track-field", "band", "lacrosse"]) expect(slugs).not.toContain(banned);
   });
 
-  it("links every tile at that sport's Senior Night listing, or the any-sport one", () => {
+  it("links every tile through that sport's primary CTA — the free proof, Senior Night and the sport prefilled (D29)", () => {
+    expect(page).toContain('<a href={ctaFor("senior-night", { sport: slug }).primary.href}');
+    expect(page).not.toContain("etsyHref(");
+    expect(ctaFor("senior-night", { sport: "football" }).primary.href).toBe("/free-proof?product=cards,poster&sport=football&style=SR");
+    expect(ctaFor("senior-night", { sport: "ice-hockey" }).primary.href).toBe("/free-proof?product=cards,poster&sport=ice-hockey&style=SR");
+    expect(ctaFor("senior-night").primary.label).toBe("See your proof first →");
+    // Etsy stays the outline beside it: the sport's own Senior Night listing, or the any-sport one.
     expect(seniorNightSku("football")).toBe("GDE-FTB-SNSET");
     expect(seniorNightSku("ice-hockey")).toBe("GDE-ANY-SNSET");
     expect(seniorNightSku("basketball")).toBe("GDE-ANY-SNSET");
+    expect(ctaFor("senior-night", { sport: "football" }).secondary?.href).toBe("/go/etsy/GDE-FTB-SNSET");
+    expect(ctaFor("senior-night").secondary?.href).toBe("/go/etsy/GDE-ANY-SNSET");
     // Never a marketplace URL, and no price on this page.
     expect(page.includes("etsy.com")).toBe(false);
     expect(/\$\d/.test(page)).toBe(false);
@@ -188,6 +196,8 @@ describe("the page", () => {
     expect(text.includes("<DeliveryChips")).toBe(true);
     expect(text.indexOf("<CtaPair")).toBeGreaterThan(text.indexOf("<DeliveryChips"));
     expect(text.indexOf("<TrustLine")).toBeGreaterThan(text.indexOf("<CtaPair"));
+    // D29: the four-step path sits under the CTA block, still inside the text column.
+    expect(text.indexOf("<ProofPath")).toBeGreaterThan(text.indexOf("<TrustLine"));
   });
 
   it("leads the hero with the senior-night moment where the map carries one", () => {
