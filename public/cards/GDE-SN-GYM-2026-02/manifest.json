@@ -1,19 +1,19 @@
 {
   "cardId": "GDE-SN-GYM-2026-02",
-  "generatedAt": "2026-09-26T16:12:10.257Z",
+  "generatedAt": "2026-10-04T16:12:04.619Z",
   "generator": "scripts/card-assets.ts",
   "sourceKind": "order",
   "sources": {
     "front": {
       "path": "(order export — gated, path withheld)",
-      "sha256": "51956ede85c8b18b493a20e35221292355232c7a6c559b02ee201fbb4b3a386a",
+      "sha256": "e27cdd66c50eff2847d1489502232e2523b2c5e2af564fe909e57978023bd38e",
       "width": 744,
       "height": 1038,
       "bleedTrimmed": true
     },
     "back": {
       "path": "(order export — gated, path withheld)",
-      "sha256": "691fc78e59c1030ad80934c1d1538c4e0934aba27bd218d613364936c897729b",
+      "sha256": "546302e7768e60fe288e4cf756b9518da624ba2debbf9c65cf288708b0dcd1ca",
       "width": 744,
       "height": 1038,
       "bleedTrimmed": true
@@ -25,15 +25,15 @@
       "path": "/cards/GDE-SN-GYM-2026-02/front.webp",
       "width": 744,
       "height": 1042,
-      "bytes": 68336,
-      "sha256": "25f69bc1398523a1d38d25cd32f3329dd2c0461e4a4bb8646ede25c38932fbe9"
+      "bytes": 83318,
+      "sha256": "b960c20ceb44e1c5c729d02e89a5ddc24c72b77e531d914e0d12185876b6e214"
     },
     "back": {
       "path": "/cards/GDE-SN-GYM-2026-02/back.webp",
       "width": 744,
       "height": 1042,
-      "bytes": 70946,
-      "sha256": "b6e9b503bd9d4fb9b3bfff3a74a90eb1ca05e4593878118cc752854a84b496d7"
+      "bytes": 84292,
+      "sha256": "693ca5fff7c94be19c9ce4b01ecc66fa24ccb3841c4f7eff2cd147e1d7c62377"
     },
     "flipMp4": null,
     "poster": null
@@ -53,12 +53,12 @@
           ],
           "alpha": 255,
           "rgb": [
-            1,
+            0,
             5,
-            12
+            13
           ],
           "whiteish": false,
-          "inwardDeltaE": 39.8,
+          "inwardDeltaE": 39.4,
           "fail": false
         },
         {
@@ -68,12 +68,12 @@
           ],
           "alpha": 255,
           "rgb": [
-            91,
-            108,
-            122
+            94,
+            112,
+            127
           ],
           "whiteish": false,
-          "inwardDeltaE": 33.6,
+          "inwardDeltaE": 33.8,
           "fail": false
         },
         {
@@ -83,12 +83,12 @@
           ],
           "alpha": 255,
           "rgb": [
+            1,
             2,
-            2,
-            7
+            6
           ],
           "whiteish": false,
-          "inwardDeltaE": 40.8,
+          "inwardDeltaE": 41.2,
           "fail": false
         },
         {
@@ -98,7 +98,7 @@
           ],
           "alpha": 255,
           "rgb": [
-            2,
+            1,
             2,
             7
           ],
@@ -123,11 +123,11 @@
           "alpha": 255,
           "rgb": [
             3,
-            7,
+            6,
             14
           ],
           "whiteish": false,
-          "inwardDeltaE": 38.8,
+          "inwardDeltaE": 38.6,
           "fail": false
         },
         {
@@ -137,12 +137,12 @@
           ],
           "alpha": 255,
           "rgb": [
-            16,
-            26,
-            36
+            20,
+            35,
+            45
           ],
           "whiteish": false,
-          "inwardDeltaE": 31.9,
+          "inwardDeltaE": 30.7,
           "fail": false
         },
         {
@@ -152,12 +152,12 @@
           ],
           "alpha": 255,
           "rgb": [
-            10,
-            16,
-            24
+            13,
+            20,
+            28
           ],
           "whiteish": false,
-          "inwardDeltaE": 36.2,
+          "inwardDeltaE": 35,
           "fail": false
         },
         {
@@ -167,12 +167,12 @@
           ],
           "alpha": 255,
           "rgb": [
-            11,
-            16,
-            24
+            13,
+            20,
+            29
           ],
           "whiteish": false,
-          "inwardDeltaE": 35.6,
+          "inwardDeltaE": 33.6,
           "fail": false
         }
       ]
