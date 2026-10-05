@@ -1,0 +1,199 @@
+{
+  "cardId": "GDE-SN-FTB-2026-25",
+  "generatedAt": "2026-10-05T19:37:13.241Z",
+  "generator": "scripts/card-assets.ts",
+  "sourceKind": "order",
+  "sources": {
+    "front": {
+      "path": "(order export — gated, path withheld)",
+      "sha256": "e201ca4d87480afdf981e94aaa3c56032ec1b57d9a29f391c8a707d79c486b6a",
+      "width": 744,
+      "height": 1038,
+      "bleedTrimmed": true
+    },
+    "back": {
+      "path": "(order export — gated, path withheld)",
+      "sha256": "1a75e9e8269a6a8114eb3e88187ea7aeb0480e875cb2142f23d9dae50e7f01f1",
+      "width": 744,
+      "height": 1038,
+      "bleedTrimmed": true
+    },
+    "mp4": null
+  },
+  "outputs": {
+    "front": {
+      "path": "/cards/GDE-SN-FTB-2026-25/front.webp",
+      "width": 744,
+      "height": 1042,
+      "bytes": 74384,
+      "sha256": "c35bd6dbee835c6dcb5c91f30b159695cf3eba1bf8064100ba27ff81e1032eca"
+    },
+    "back": {
+      "path": "/cards/GDE-SN-FTB-2026-25/back.webp",
+      "width": 744,
+      "height": 1042,
+      "bytes": 74616,
+      "sha256": "ae605abc21faabc4379fd9ff165428cd4bba10f5babf2aa793f32cbd0a8d4782"
+    },
+    "flipMp4": null,
+    "poster": null
+  },
+  "cornerAudit": {
+    "front": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1.0035,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            0,
+            4,
+            15
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 92.6,
+          "fail": false
+        },
+        {
+          "at": [
+            741,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            93,
+            110,
+            126
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 83.6,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            1035
+          ],
+          "alpha": 255,
+          "rgb": [
+            1,
+            2,
+            6
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 91.6,
+          "fail": false
+        },
+        {
+          "at": [
+            741,
+            1035
+          ],
+          "alpha": 255,
+          "rgb": [
+            1,
+            2,
+            6
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 92.3,
+          "fail": false
+        }
+      ]
+    },
+    "back": {
+      "pass": true,
+      "aspect": {
+        "ratio": 1.0035,
+        "pass": true
+      },
+      "corners": [
+        {
+          "at": [
+            2,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            3,
+            7,
+            14
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 91.9,
+          "fail": false
+        },
+        {
+          "at": [
+            741,
+            2
+          ],
+          "alpha": 255,
+          "rgb": [
+            16,
+            26,
+            36
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 91.8,
+          "fail": false
+        },
+        {
+          "at": [
+            2,
+            1035
+          ],
+          "alpha": 255,
+          "rgb": [
+            9,
+            17,
+            17
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 91.6,
+          "fail": false
+        },
+        {
+          "at": [
+            741,
+            1035
+          ],
+          "alpha": 255,
+          "rgb": [
+            8,
+            16,
+            16
+          ],
+          "whiteish": false,
+          "inwardDeltaE": 92,
+          "fail": false
+        }
+      ]
+    },
+    "pass": true
+  },
+  "qr": {
+    "expected": "https://gamedayedition.com/c/GDE-SN-FTB-2026-25",
+    "sourceDecoded": "https://gamedayedition.com/c/GDE-SN-FTB-2026-25",
+    "located": {
+      "x": 53,
+      "y": 896,
+      "w": 89,
+      "h": 89
+    },
+    "version": 4,
+    "modulePx": 2.697,
+    "patched": true,
+    "method": "nearest",
+    "decoded": "https://gamedayedition.com/c/GDE-SN-FTB-2026-25",
+    "pass": true
+  },
+  "flip": null
+}
