@@ -1000,6 +1000,24 @@ export const cards: CardRecord[] = [
     isFictional: true,
     channel: "demo-etsy",
   },
+  {
+    // Real customer — only what is printed on the card, minted by card:new on 2026-10-05.
+    cardId: "GDE-SN-FTB-2026-25",
+    athleteId: "gde-sn-ftb-2026-25",
+    firstName: "Bobby",
+    lastName: "Bond",
+    jerseyNumber: "25",
+    position: "Defensive Back",
+    team: "Crown Point Bulldogs",
+    season: "2026",
+    stats: [],
+    playerHighlight: "Class of 2027",
+    sportCode: "FTB",
+    styleName: "Stadium Night",
+    createdAt: "2026-10-05",
+    visibility: "unlisted",
+    channel: "etsy",
+  },
   // card:new inserts above
   {
     // Fire & Smoke lead card for the lacrosse CARD listing. The QR on the card back and on listing
