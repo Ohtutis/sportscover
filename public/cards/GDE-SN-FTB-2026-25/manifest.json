@@ -1,19 +1,19 @@
 {
   "cardId": "GDE-SN-FTB-2026-25",
-  "generatedAt": "2026-10-05T19:37:13.241Z",
+  "generatedAt": "2026-10-05T20:36:19.373Z",
   "generator": "scripts/card-assets.ts",
   "sourceKind": "order",
   "sources": {
     "front": {
       "path": "(order export — gated, path withheld)",
-      "sha256": "e201ca4d87480afdf981e94aaa3c56032ec1b57d9a29f391c8a707d79c486b6a",
+      "sha256": "b26da84a19487ae9ac411a03338ac46a948cb816359280e2bd7a6492f59e0053",
       "width": 744,
       "height": 1038,
       "bleedTrimmed": true
     },
     "back": {
       "path": "(order export — gated, path withheld)",
-      "sha256": "1a75e9e8269a6a8114eb3e88187ea7aeb0480e875cb2142f23d9dae50e7f01f1",
+      "sha256": "a02eef87b97c60f229f34a5f855c0ec0aa23df8cbdbf5d8e2d08ae0f2863a01e",
       "width": 744,
       "height": 1038,
       "bleedTrimmed": true
@@ -25,15 +25,15 @@
       "path": "/cards/GDE-SN-FTB-2026-25/front.webp",
       "width": 744,
       "height": 1042,
-      "bytes": 74384,
-      "sha256": "c35bd6dbee835c6dcb5c91f30b159695cf3eba1bf8064100ba27ff81e1032eca"
+      "bytes": 93454,
+      "sha256": "6b98f9f1f0c55b2758740c289fd6127a50cd96f19a7b6d979bf3f732d7eea1fe"
     },
     "back": {
       "path": "/cards/GDE-SN-FTB-2026-25/back.webp",
       "width": 744,
       "height": 1042,
-      "bytes": 74616,
-      "sha256": "ae605abc21faabc4379fd9ff165428cd4bba10f5babf2aa793f32cbd0a8d4782"
+      "bytes": 105038,
+      "sha256": "ee9afc259e409e3a2acfc4f94fdaa79ea006beda505e42a81c8a451aad531444"
     },
     "flipMp4": null,
     "poster": null
@@ -53,12 +53,12 @@
           ],
           "alpha": 255,
           "rgb": [
-            0,
-            4,
-            15
+            1,
+            9,
+            27
           ],
           "whiteish": false,
-          "inwardDeltaE": 92.6,
+          "inwardDeltaE": 93.7,
           "fail": false
         },
         {
@@ -68,12 +68,12 @@
           ],
           "alpha": 255,
           "rgb": [
-            93,
-            110,
-            126
+            147,
+            167,
+            183
           ],
           "whiteish": false,
-          "inwardDeltaE": 83.6,
+          "inwardDeltaE": 84.2,
           "fail": false
         },
         {
@@ -83,12 +83,12 @@
           ],
           "alpha": 255,
           "rgb": [
-            1,
-            2,
-            6
+            8,
+            12,
+            13
           ],
           "whiteish": false,
-          "inwardDeltaE": 91.6,
+          "inwardDeltaE": 91,
           "fail": false
         },
         {
@@ -98,12 +98,12 @@
           ],
           "alpha": 255,
           "rgb": [
-            1,
-            2,
-            6
+            7,
+            10,
+            12
           ],
           "whiteish": false,
-          "inwardDeltaE": 92.3,
+          "inwardDeltaE": 91.8,
           "fail": false
         }
       ]
@@ -122,12 +122,12 @@
           ],
           "alpha": 255,
           "rgb": [
-            3,
+            2,
             7,
-            14
+            18
           ],
           "whiteish": false,
-          "inwardDeltaE": 91.9,
+          "inwardDeltaE": 92.5,
           "fail": false
         },
         {
@@ -137,12 +137,12 @@
           ],
           "alpha": 255,
           "rgb": [
-            16,
-            26,
-            36
+            43,
+            70,
+            88
           ],
           "whiteish": false,
-          "inwardDeltaE": 91.8,
+          "inwardDeltaE": 89.8,
           "fail": false
         },
         {
@@ -152,12 +152,12 @@
           ],
           "alpha": 255,
           "rgb": [
-            9,
-            17,
-            17
+            25,
+            48,
+            37
           ],
           "whiteish": false,
-          "inwardDeltaE": 91.6,
+          "inwardDeltaE": 92.2,
           "fail": false
         },
         {
@@ -167,12 +167,12 @@
           ],
           "alpha": 255,
           "rgb": [
-            8,
-            16,
-            16
+            24,
+            46,
+            34
           ],
           "whiteish": false,
-          "inwardDeltaE": 92,
+          "inwardDeltaE": 92.6,
           "fail": false
         }
       ]
@@ -183,8 +183,8 @@
     "expected": "https://gamedayedition.com/c/GDE-SN-FTB-2026-25",
     "sourceDecoded": "https://gamedayedition.com/c/GDE-SN-FTB-2026-25",
     "located": {
-      "x": 53,
-      "y": 896,
+      "x": 54,
+      "y": 897,
       "w": 89,
       "h": 89
     },
