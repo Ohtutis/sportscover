@@ -1,7 +1,8 @@
 // The free-proof form's state and the pure functions around it: the initial state, the URL prefill,
 // the payload the API receives (raw input for parseProofRequest — the same validator runs on the client
-// first), the error-key → control-id map, the photo screening and the source capture. No React here, so
-// every rule is unit-tested (tests/intake-page.test.ts) without a browser.
+// first), the error-key → control-id map, the photo screening, the source capture, and (v2, 2026-10-04)
+// the set card and the summary's "after approval" sum. No React here, so every rule is unit-tested
+// (tests/intake-page.test.ts) without a browser.
 
 import { isNumberless, sportBySlug } from "../../lib/catalog/sports";
 import { styles } from "../../lib/catalog/styles";
@@ -69,8 +70,6 @@ export interface FormState {
   website: string;
 }
 
-export const DEFAULT_COUNTRY = "United States";
-
 export function initialState(): FormState {
   return {
     products: Object.fromEntries(PRODUCTS.map((p) => [p.key, { selected: false, option: p.options[0].key, quantity: 1 }])) as Record<
@@ -93,7 +92,9 @@ export function initialState(): FormState {
       stats: Array.from({ length: MAX_STATS }, () => ({ value: "", label: "" })),
       notes: "",
     },
-    contact: { name: "", email: "", phone: "", country: DEFAULT_COUNTRY, neededBy: "" },
+    // v2 (owner review 2026-10-04): the form no longer asks for a phone or a country. The payload keeps
+    // its shape and sends them empty; the server records its own default country (orders ship in the US).
+    contact: { name: "", email: "", phone: "", country: "", neededBy: "" },
     consents: Object.fromEntries(CONSENT_ORDER.map((k) => [k, false])) as Record<ConsentKey, boolean>,
     website: "",
   };
@@ -246,6 +247,79 @@ export function buildPayload(
   return { payload, statRows: stats.map((s) => s.row) };
 }
 
+// --- the set card and the summary sum ---------------------------------------------------------------
+
+/** One option as the summary prices it: the site price from prices.ts (computed on the server), or null — "confirmed with your proof". */
+export interface PricedOption {
+  key: string;
+  printed: boolean;
+  price: number | null;
+}
+
+/** A Complete Set tier as a pair of options (lib/cta.ts SET_TIER_OPTIONS) and its site price. */
+export interface SetCombo {
+  cards: string;
+  poster: string;
+  price: number;
+}
+
+export type OrderTotal = { kind: "empty" } | { kind: "onProof" } | { kind: "priced"; total: number; set: boolean };
+
+const cents = (n: number): number => Math.round(n * 100) / 100;
+
+/** The set card is a shortcut, not a product: it is "chosen" exactly when cards AND a poster are. */
+export const isSetChosen = (products: Record<ProductKey, ProductState>): boolean => products.cards.selected && products.poster.selected;
+
+/** Choosing the set chooses both (keeping each one's option — digital until the parent switches); clearing it clears both. */
+export function chooseSet(products: Record<ProductKey, ProductState>, chosen: boolean): Record<ProductKey, ProductState> {
+  return { ...products, cards: { ...products.cards, selected: chosen }, poster: { ...products.poster, selected: chosen } };
+}
+
+/**
+ * What the set saves against the two digital options bought apart — the number behind the set card's
+ * savings line, from the ladder only. Null when any of the three prices is missing or the set saves nothing.
+ */
+export function setSaving(products: readonly { key: ProductKey; options: readonly PricedOption[] }[], combos: readonly SetCombo[]): number | null {
+  const digital = (key: ProductKey) => products.find((p) => p.key === key)?.options.find((o) => o.key === "digital")?.price ?? null;
+  const cards = digital("cards");
+  const poster = digital("poster");
+  const set = combos.find((c) => c.cards === "digital" && c.poster === "digital")?.price ?? null;
+  if (cards === null || poster === null || set === null) return null;
+  const saved = cents(cards + poster - set);
+  return saved > 0 ? saved : null;
+}
+
+/**
+ * The summary's "after approval" figure: each chosen option's site price × its quantity (a digital option
+ * is always one), with cards + poster counted at the set price when the two options are a set tier and
+ * the quantities match — the set card promises that saving, so the sum must keep it. Any chosen option
+ * without a price (the blanket) makes the whole figure "confirmed with your proof": never a partial sum.
+ */
+export function orderTotal(
+  products: readonly { key: ProductKey; options: readonly PricedOption[] }[],
+  state: Record<ProductKey, ProductState>,
+  combos: readonly SetCombo[],
+): OrderTotal {
+  const chosen = products
+    .filter((p) => state[p.key]?.selected)
+    .map((p) => {
+      const o = p.options.find((x) => x.key === state[p.key].option) ?? p.options[0];
+      return { key: p.key, option: o.key, price: o.price, quantity: o.printed ? clampQuantity(state[p.key].quantity) : 1 };
+    });
+  if (!chosen.length) return { kind: "empty" };
+  if (chosen.some((c) => c.price === null)) return { kind: "onProof" };
+  const cards = chosen.find((c) => c.key === "cards");
+  const poster = chosen.find((c) => c.key === "poster");
+  const combo = cards && poster && cards.quantity === poster.quantity ? combos.find((c) => c.cards === cards.option && c.poster === poster.option) : undefined;
+  let total = 0;
+  for (const c of chosen) {
+    if (combo && (c.key === "cards" || c.key === "poster")) continue;
+    total += (c.price as number) * c.quantity;
+  }
+  if (combo && cards) total += combo.price * cards.quantity;
+  return { kind: "priced", total: cents(total), set: Boolean(combo) };
+}
+
 // --- errors -----------------------------------------------------------------------------------------
 
 export const FIELD_PREFIX = "fp-";
@@ -265,6 +339,20 @@ export function errorTarget(key: string, statRows: number[] = []): string {
   if (stat) return `${FIELD_PREFIX}athlete-stats-${statRows[Number(stat[1])] ?? 0}-value`;
   return fieldId(key);
 }
+
+/** The fields behind "+ Add optional details" in step 3 — an error on any of them opens the group, so focus can land on it. */
+export const OPTIONAL_DETAIL_KEYS: readonly string[] = [
+  "athlete.position",
+  "athlete.season",
+  "athlete.colors.primary",
+  "athlete.colors.secondary",
+  "athlete.headline",
+  "athlete.notes",
+  "contact.neededBy",
+];
+
+export const hasOptionalDetailError = (errors: Record<string, unknown>): boolean =>
+  Object.keys(errors).some((k) => OPTIONAL_DETAIL_KEYS.includes(k) || /^athlete\.stats\.\d+$/.test(k));
 
 /** Server/client stat errors are keyed by the SENT index; the form shows them on the row they came from. */
 export function statErrorsByRow(errors: Record<string, string>, statRows: number[]): Record<number, string> {

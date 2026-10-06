@@ -594,3 +594,21 @@ Surveyed: the seven football banner composites (`use-{fence,gym,bedroom,porch,bl
   corners** — it predates the square-cut rule.
 - `scripts/site-assets.ts` treats an output as current when the source, size and output hash match, so a
   changed `crop` alone is skipped — run with `--force` after changing a box.
+
+## Free-proof photo examples (2026-10-04)
+
+The ✓ / ✕ pair beside the step-4 drop zone on `/free-proof` (owner design review 2026-10-04, point 11: two
+examples as **images**, not icons). Keys `intake.example.good` / `intake.example.bad` in `lib/assets.ts`,
+600 × 600 WebP under `public/images/intake/`, produced with `npx tsx scripts/site-assets.ts --key <key>`
+(each source hydrated first with a single `cat <file> >/dev/null`). **Nothing was generated for them.**
+
+| Key | Source (sha256, first 12) | Crop | Output (sha256, first 12) | Check |
+|---|---|---|---|---|
+| `intake.example.good` | `art-pipeline/out/athletes/basketball/before/photo2.png` (`d8b6939c8999`) — the same audited file as `home.hero.before` (Marcus, fictional, already on the home hero) | `box:0.247,0.042,0.55,0.4108` (986 × 986 px from 1792 × 2400: head to the ball) | `/images/intake/photo-example-clear-face.webp` (`14231c767630`, 20 KB) | Looked at full size: sharp profile face in even gym light; the shoes (maker mark) are below the box. |
+| `intake.example.bad` | `art-pipeline/out/etsy-shots/football/bad-blurred.png` (`57143af98f39`) — the football card listing's generated "bad photo" (slide 12, the blurred take; later slides use the shared `12x-bad-*` set, which has no judge file) | none (2048² → 600²) | `/images/intake/photo-example-blurred.webp` (`3bf76f7ace49`, 13 KB) | `bad-blurred.judge.json` beside the source: **3 / 3 pass** — face unreadable, reads as a ruined phone photo, no brand wordmark. Looked at full size: a smeared football player in green, no feature recognisable. |
+
+- Why the blurred take and not the face-covered one: the caption the page prints under it is
+  `INTAKE_COPY.exampleBad` ("Blurry, tiny, heavily filtered"), so the picture shows exactly that.
+- Both depict fictional roster athletes → `fictional: true`; the page mounts one `FictionalLabel` under the
+  pair. The ✕ alt says "generated example image, fictional athlete".
+- Both outputs are recorded in `public/images/.manifest.json` with their source hashes; `--check` passes.

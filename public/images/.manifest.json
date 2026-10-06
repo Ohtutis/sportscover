@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-04T19:39:54.397Z",
+  "generatedAt": "2026-10-04T21:17:05.260Z",
   "script": "scripts/site-assets.ts",
   "entries": {
     "/images/cards/basketball-trading-card-back-registered-stadium-night.webp": {
@@ -469,6 +469,33 @@
         "how.gate.finish"
       ],
       "generatedAt": "2026-09-06T22:05:20.323Z"
+    },
+    "/images/intake/photo-example-blurred.webp": {
+      "out": "/images/intake/photo-example-blurred.webp",
+      "source": "art-pipeline/out/etsy-shots/football/bad-blurred.png",
+      "sourceSha256": "57143af98f39d4bfb4226767a84a70a6ca7072877bfce7d5a03cd05194d32681",
+      "sha256": "3bf76f7ace4944a9997a90f853e6578c49552e6030096eca4ef72f0560ee9b52",
+      "width": 600,
+      "height": 600,
+      "kind": "photo",
+      "keys": [
+        "intake.example.bad"
+      ],
+      "generatedAt": "2026-10-04T21:17:05.252Z"
+    },
+    "/images/intake/photo-example-clear-face.webp": {
+      "out": "/images/intake/photo-example-clear-face.webp",
+      "source": "art-pipeline/out/athletes/basketball/before/photo2.png",
+      "sourceSha256": "d8b6939c89995ed0e7ccc2c9240cb4039e3893403f71d99a524ed4a3ce9fb869",
+      "sha256": "14231c767630139491bad0cfb43543a7cdfad945073277feab01b9493c217e6a",
+      "width": 600,
+      "height": 600,
+      "kind": "photo",
+      "keys": [
+        "intake.example.good"
+      ],
+      "crop": "box:0.247,0.042,0.55,0.4108",
+      "generatedAt": "2026-10-04T21:16:56.834Z"
     },
     "/images/life/basketball-trading-card-held-on-the-court.webp": {
       "out": "/images/life/basketball-trading-card-held-on-the-court.webp",
@@ -1750,6 +1777,14 @@
     },
     "how.gate.verification": {
       "out": "/images/how-it-works/frame-beside-plate-wrestling.webp",
+      "status": "verified"
+    },
+    "intake.example.bad": {
+      "out": "/images/intake/photo-example-blurred.webp",
+      "status": "verified"
+    },
+    "intake.example.good": {
+      "out": "/images/intake/photo-example-clear-face.webp",
       "status": "verified"
     },
     "life.card.binder": {

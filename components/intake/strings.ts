@@ -11,56 +11,58 @@ const MB = Math.round(PHOTO_RULES.maxBytes / (1024 * 1024));
 export const UI = {
   breadcrumb: "Free proof",
   newTab: "(opens in a new tab)",
+  /** The accessible name of the four how-it-works cards under the hero. */
+  howItWorks: "How the free proof works",
 
   products: {
     optionsLegend: (name: string): string => `${name}: choose one`,
     quantity: "Quantity",
     fewer: "One fewer",
     more: "One more",
+    /** Inside the set card once it is chosen: the set has no options of its own. */
+    setHint: "Choose digital or printed on the trading cards and the poster.",
   },
 
   style: {
-    recommendGlyph: "?",
     classOf: "Class of",
     classOfPlaceholder: "Choose the class year",
-    eventDate: "Senior night date (optional)",
+    eventDate: "Senior night date",
   },
 
   athlete: {
+    name: "Athlete's name",
     firstName: "First name",
-    firstNameHint: "Fits best up to 12 letters — longer is fine.",
     lastName: "Last name",
-    lastNameHint: "Fits best up to 9 letters — longer is fine.",
+    nameHint: "First name fits best up to 12 letters, last name up to 9 — longer is fine, the type scales.",
     sport: "Sport",
     sportPlaceholder: "Choose the sport",
     number: "Jersey number",
     numberHint: "1–3 digits. Leave it empty if they don't wear one.",
-    position: "Position or event (optional)",
+    position: "Position or event",
     positionPlaceholder: "e.g. Point guard",
-    team: "Team or club (optional)",
+    team: "Team or club",
     teamPlaceholder: "e.g. Cedar Ridge Bears",
     season: "Season",
     colors: "Team colors",
-    colorsHint: "Optional — we read them from the kit photo otherwise.",
+    colorsHint: "We read them from the kit photo otherwise.",
     primary: "Main color",
     secondary: "Second color",
     colorUnset: "Not set",
     colorsClear: "Clear colors",
-    headline: "Headline (optional)",
+    headline: "Headline or quote",
     headlineHint: "A line for the card. Fits best up to 25 characters.",
     headlinePlaceholder: "e.g. This is my court",
-    stats: "Stats (optional)",
+    stats: "Stats",
     statsHint: "Up to three — a number and a short label, e.g. 18.4 and PPG.",
     statValue: (n: number): string => `Stat ${n} — number`,
     statLabel: (n: number): string => `Stat ${n} — label`,
-    notes: "Notes (optional)",
+    notes: "Notes",
     notesPlaceholder: "A nickname, a moment to feature, a spelling to double-check…",
   },
 
   photos: {
-    choose: "Choose photos",
-    drop: `Drop ${PHOTO_RULES.min}–${PHOTO_RULES.max} photos here`,
     types: `JPG, PNG, HEIC or WebP — the original files from the phone, up to ${MB} MB each.`,
+    examples: "Two examples",
     count: (n: number): string => `${n} of ${PHOTO_RULES.max} photos`,
     none: `No photos yet — ${PHOTO_RULES.min} is the minimum.`,
     needMore: (n: number): string => `Add ${n} more — ${PHOTO_RULES.min} is the minimum.`,
@@ -78,7 +80,7 @@ export const UI = {
     mustHavesTitle: "The four that matter most",
     avoidTitle: "Leave these out",
     guideLink: "The full photo guide",
-    crest: "Crest (optional)",
+    crest: "Crest",
     crestChoose: "Choose the crest file",
     crestRemove: "Remove the crest",
     crestRejected: (name: string): string => `${name} wasn't added — a crest must be a PNG, SVG, JPG, HEIC or WebP under 10 MB.`,
@@ -88,22 +90,14 @@ export const UI = {
     name: "Your name",
     email: "Email",
     emailHint: "The proof and our questions come to this address.",
-    phone: "Phone (optional)",
-    country: "Country",
-    neededBy: "Need it by (optional)",
+    neededBy: "Need it by",
     neededByHint: "A game, a birthday, a senior night — if there's a date, we plan around it.",
   },
 
   summary: {
-    products: "To make",
     style: "Style",
-    athlete: "Athlete",
-    photos: "Photos",
-    nothing: "Not chosen yet",
-    notYet: "Not filled in yet",
     recommend: "We'll recommend one",
-    each: "each",
-    next: "What happens next",
+    setPriced: "Cards and poster priced as a set",
   },
 
   submit: {
@@ -145,6 +139,3 @@ export const STAT_EXAMPLES: Record<string, readonly (readonly [string, string])[
 };
 
 export const STAT_EXAMPLES_DEFAULT: readonly (readonly [string, string])[] = [["18.4", "PPG"], ["21", "GOALS"], ["24.1", "TIME"]];
-
-/** The country list: the US first (orders ship there), then the places parents write from most. */
-export const COUNTRIES: readonly string[] = ["United States", "Canada", "United Kingdom", "Ireland", "Australia", "New Zealand", "Other"];
