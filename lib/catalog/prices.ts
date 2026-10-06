@@ -3,7 +3,7 @@
 // Pricing v1 (owner decision 2026-10-07): "Printed a little higher than Etsy for all listings; digital
 // $19.99. If they add more than one printed thing, the price goes down — tier discount."
 //
-//   • Digital: DIGITAL_PRICE for every product (cards, poster, banner).
+//   • Digital: DIGITAL_PRICE for every product (cards, poster, banner, blanket).
 //   • Printed: Etsy's buyer price × SITE_MARKUP, rounded UP to the next .99. Etsy's buyer price is
 //     `etsySale` — the shop-wide -30 % is permanent on Etsy (renewed continuously), so the site never
 //     switches on a date and never shows a "regular" price beside a single item.
@@ -72,11 +72,13 @@ export const bannerTiers: Tier[] = [
 
 /**
  * The blanket ladder (etsy/BLANKET-ROLLOUT-2026-10.md: all 11 sport listings live 2026-10-06, Printful):
- * the three plush sizes the /free-proof form offers. Etsy's buyer prices are 48.99 / 69.29 / 99.39 after the
- * shop-wide -30 %; `etsyBase` is that ÷ 0.7 on the .99 (the Etsy variants' listed price). The Etsy listings
- * also carry a digital variant — the site's digital blanket is not offered, so it has no tier here.
+ * the Etsy listings' four variants — the digital files (owner, 2026-10-07: "blanket digital too, 19.99")
+ * and the three plush sizes. Etsy's buyer prices are 17.49 / 48.99 / 69.29 / 99.39 after the shop-wide
+ * -30 %; `etsyBase` is that ÷ 0.7 on the .99 (the Etsy variants' listed price). "Digital Files" is the
+ * Etsy variant's own name ("Digital Blanket Files" is 21 characters, one over Etsy's limit).
  */
 export const blanketTiers: Tier[] = [
+  { sku: "GDE-ANY-BLK-DIG", family: "blanket", tierKey: "DIG", name: "Digital Files", etsyBase: 24.99, etsySale: 17.49, physical: false, enabled: true },
   { sku: "GDE-ANY-BLK-3040", family: "blanket", tierKey: "3040", name: "30x40 Plush Blanket", etsyBase: 69.99, etsySale: 48.99, physical: true, enabled: true },
   { sku: "GDE-ANY-BLK-5060", family: "blanket", tierKey: "5060", name: "50x60 Plush Blanket", etsyBase: 98.99, etsySale: 69.29, physical: true, enabled: true },
   { sku: "GDE-ANY-BLK-6080", family: "blanket", tierKey: "6080", name: "60x80 Plush Blanket", etsyBase: 141.99, etsySale: 99.39, physical: true, enabled: true },

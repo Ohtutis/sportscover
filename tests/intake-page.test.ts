@@ -448,7 +448,8 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     expect(nudge(pair)).toBe(INTAKE_COPY.bundle.nudgeMore("a banner", saving(two, [...two, ["banner", "digital"]])));
     const three = render({ ...state, cards: { selected: true, option: "p12" }, poster: { selected: true, option: "p1824" }, banner: { selected: true, option: "2x4" } });
     expect(reached(three).map((r) => r[0])).toEqual([3]);
-    expect(nudge(three)).toBe(INTAKE_COPY.bundle.nudgeMore("a blanket", saving([...two, ["banner", "2x4"]], [...two, ["banner", "2x4"], ["blanket", "30x40"]])));
+    // An unchosen blanket holds its first option, the digital files (2026-10-07), like every other product.
+    expect(nudge(three)).toBe(INTAKE_COPY.bundle.nudgeMore("a blanket", saving([...two, ["banner", "2x4"]], [...two, ["banner", "2x4"], ["blanket", "digital"]])));
     const all = render({ cards: { selected: true, option: "p12" }, poster: { selected: true, option: "p1824" }, banner: { selected: true, option: "2x4" }, blanket: { selected: true, option: "50x60" } });
     expect(reached(all).map((r) => r[0])).toEqual([4]);
     expect(nudge(all)).toBe(INTAKE_COPY.bundle.top(formatPercent(0.25)));

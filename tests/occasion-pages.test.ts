@@ -385,7 +385,7 @@ describe("/banners", () => {
     }
     for (const page of [createElement(ChristmasGiftBody, { now: NOW }), createElement(TeamsBody)]) expectOnlyCatalogPrices(render(page), productPrices());
     // The blanket ladder prices the fourth product on both gift pages.
-    expect(blanketTiers.every((t) => t.enabled && t.physical)).toBe(true);
+    expect(blanketTiers.every((t) => t.enabled)).toBe(true);
   });
 
   it("each tier card says what the catalog says, and a printed one carries the banner's own shipping line", () => {

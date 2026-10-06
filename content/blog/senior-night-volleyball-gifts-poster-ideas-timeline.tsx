@@ -85,7 +85,7 @@ export const post: BlogPost = {
       <P>
         {productByKey("banner")?.blurb} It comes as printed vinyl at 1 × 2, 2 × 4 or 3 × 6 ft, or as the print-ready file at full
         size if you would rather print it near home. Printed banners ship separately, in 1–2 weeks. And blankets are on the way:{" "}
-        {productByKey("blanket")?.blurb.toLowerCase()} Three sizes, each priced on the free-proof form.
+        {productByKey("blanket")?.blurb.toLowerCase()} Three sizes or a digital file, each priced on the free-proof form.
       </P>
 
       <H2>A TIMELINE, WORKED BACK.</H2>

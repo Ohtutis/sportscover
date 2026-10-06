@@ -37,7 +37,7 @@ const printedLabels = (product: ProductKey): string[] =>
     .filter((o) => o.printed)
     .map((o) => o.label.replace(/\s+printed(\s+cards)?$/, ""));
 
-const blanketSizeCount = productByKey("blanket")?.options.length ?? 0;
+const blanketSizeCount = productByKey("blanket")?.options.filter((o) => o.printed).length ?? 0;
 
 const FINISH_LIST = joinList(
   finishes.map((f) => f.name),
@@ -98,7 +98,7 @@ export const post: BlogPost = {
           </>,
           <>
             <strong className="font-medium">A blanket.</strong> {blurb("blanket")} New, in {word(blanketSizeCount)}{" "}
-            sizes, each priced on the free-proof form.
+            sizes or as a digital file, each priced on the free-proof form.
           </>,
         ]}
       />
