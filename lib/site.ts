@@ -32,7 +32,8 @@ export const VERIFICATION = {
   google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "",
   bing: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION || "",
   pinterest: process.env.NEXT_PUBLIC_PINTEREST_DOMAIN_VERIFY || "",
-  facebook: process.env.NEXT_PUBLIC_FACEBOOK_DOMAIN_VERIFICATION || "",
+  // Meta domain verification for the GDE business portfolio (2026-10-06; the same code is a DNS TXT record at Hostinger).
+  facebook: process.env.NEXT_PUBLIC_FACEBOOK_DOMAIN_VERIFICATION || "liky44n8kywqg7lt26ze7pia7v8yhv",
 };
 
 // --- F1 additions (CONTRACTS §4.9, GAPS #25 / #31) --------------------------------------------
