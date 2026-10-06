@@ -1,6 +1,8 @@
-// The /free-proof product tiles (2026-10-04): one square image per product the form offers, declared in
-// lib/assets.ts as `product.<key>` and produced by scripts/site-assets.ts into public/images/products/.
-// Everything is read from the map, the manifest and the files on disk — never from a page.
+// The /free-proof product tiles: one square image per product the form offers, declared in lib/assets.ts as
+// `product.<key>` and produced by scripts/site-assets.ts into public/images/products/. v1 2026-10-04 (re-crops of
+// existing photos); v2 2026-10-06 (the hero of each product card: one composite per product, built for the tile —
+// docs/f1/ASSETS-RENDERS.md "Product tiles v2 (2026-10-06)"). Everything is read from the map, the manifest, the
+// doc and the files on disk — never from a page.
 import { describe, expect, it } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
@@ -107,8 +109,19 @@ describe("assets — /free-proof product tiles", () => {
     }
   });
 
-  it("the cards and poster tiles re-crop sources the site already ships, not new art", () => {
-    expect(SITE_ASSETS["product.cards"].source).toBe(SITE_ASSETS["life.card.desk"].source);
-    expect(SITE_ASSETS["product.poster"].source).toBe(SITE_ASSETS["posters.room"].source);
+  it("v2: every product has its own picture, and its source and crop are documented in ASSETS-RENDERS", () => {
+    const doc = fs.readFileSync(path.join(ROOT, "docs/f1/ASSETS-RENDERS.md"), "utf8");
+    const at = doc.indexOf("## Product tiles v2 (2026-10-06)");
+    expect(at, 'docs/f1/ASSETS-RENDERS.md lost its "Product tiles v2 (2026-10-06)" section').toBeGreaterThan(-1);
+    const next = doc.indexOf("\n## ", at + 1);
+    const section = next === -1 ? doc.slice(at) : doc.slice(at, next);
+    const sources = new Set<string>();
+    for (const p of PRODUCT_KEYS) {
+      const a = SITE_ASSETS[`product.${p}`];
+      sources.add(a.source as string);
+      expect(section, `${a.key}: source not documented`).toContain(path.basename(a.source as string));
+      expect(section, `${a.key}: crop not documented`).toContain(a.crop as string);
+    }
+    expect(sources.size, "two products share one picture").toBe(PRODUCT_KEYS.length);
   });
 });

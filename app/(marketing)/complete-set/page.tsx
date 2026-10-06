@@ -6,13 +6,14 @@ import { EditionPanel } from "../../../components/EditionPanel";
 import { FictionalLabel } from "../../../components/FictionalLabel";
 import { Ledger } from "../../../components/Ledger";
 import { JsonLd } from "../../../components/JsonLd";
+import { ProofPathBand } from "../../../components/ProofPath";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { asset } from "../../../lib/assets";
 import { LEAD_TIMES } from "../../../lib/catalog/delivery";
 import { formatUsd, getTier, sitePrice, tiersFor } from "../../../lib/catalog/prices";
 import { sports } from "../../../lib/catalog/sports";
 import { CANON } from "../../../lib/copy/canon";
-import { ctaFor } from "../../../lib/cta";
+import { ctaFor, freeProofMode } from "../../../lib/cta";
 import { productFamily } from "../../../lib/seo/jsonld";
 import { pageMeta } from "../../../lib/seo/meta";
 import { pageFor } from "../../../lib/seo/titles";
@@ -94,6 +95,7 @@ export default async function CompleteSetPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const now = new Date();
+  const proofFirst = freeProofMode();
   const params = await searchParams;
   const sport = pickSport(params.sport, sports, "basketball");
   const cta = ctaFor("set", { sport: sport.slug });
@@ -164,9 +166,12 @@ export default async function CompleteSetPage({
             </div>
           </div>
 
+          {/* The free-proof path, its own band between the hero row and the ladder (owner review 2026-10-06):
+              it used to sit under the CTA inside the text column, with no air around it. */}
+          {proofFirst ? <ProofPathBand container="none" /> : null}
           {/* No sport picker here: the Complete Set is ONE Etsy listing for every sport, so choosing
               a sport would change nothing. The buyer picks the sport at checkout. */}
-          <div className="mt-12 lg:mt-16">
+          <div className={proofFirst ? undefined : "mt-12 lg:mt-16"}>
             <TierRow family="set" context="set" sport={sport} now={now} />
           </div>
         </div>

@@ -20,6 +20,10 @@ import { post as whatPhotos } from "../content/blog/what-photos-make-a-good-cust
 import { post as howItIsMade } from "../content/blog/how-a-custom-sports-trading-card-is-made";
 import { post as registeredEdition } from "../content/blog/what-is-a-registered-trading-card-edition";
 import { post as posterOrCards } from "../content/blog/custom-sports-poster-or-trading-cards-which-to-choose";
+import { post as christmasGifts } from "../content/blog/christmas-gifts-for-athletes-custom-card-poster-order-by";
+import { post as winterSeniorNight } from "../content/blog/winter-senior-night-january-basketball-wrestling-hockey";
+import { post as tradingCardSize } from "../content/blog/how-big-is-a-trading-card-size-bleed-square-cut";
+import { post as baseballGuide } from "../content/blog/custom-baseball-cards-from-your-photos-the-complete-guide";
 
 export const BLOG_PATH = "/blog";
 
@@ -73,6 +77,12 @@ export interface BlogPost {
  * so the order written here is the order /blog shows for posts published on the same day.
  */
 const REGISTRY: BlogPost[] = [
+  // 2026-10-06, the SEO wave: the season first (Christmas, then the winter senior nights), then the
+  // specific-question post, then the first sport guide.
+  christmasGifts,
+  winterSeniorNight,
+  tradingCardSize,
+  baseballGuide,
   // The path every CTA on the site now opens (D29) leads the list…
   freeProofFirst,
   // …then the season (senior night is September–November and January–February, BOARDS.md)…

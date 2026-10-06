@@ -11,7 +11,7 @@ import { cards, channelOf, styleCode, visibilityOf } from "../lib/registry/cards
 import { sportByCode } from "../lib/catalog/sports";
 import { CTA_LABELS, cardPageSku, ctaFor, freeProofHref, freeProofMode, optionForSku, seniorNightSku } from "../lib/cta";
 import { FOOTER_COLUMNS, HEADER_LINKS, MOBILE_EXTRA_LINKS, TEAMS_HREF } from "../lib/nav";
-import { FREE_PROOF_FIRST, SITE_SELLS_DIRECT, SOCIAL_LINKS, SUPPORT_EMAIL, founderPhotoExists } from "../lib/site";
+import { FREE_PROOF_FIRST, SITE_SELLS_DIRECT, SOCIAL_LINKS, founderPhotoExists } from "../lib/site";
 import { SHIELD_PATH, Shield } from "../components/brand/Shield";
 import { WORDMARK_PATH, Wordmark } from "../components/brand/Wordmark";
 import { BrandMark } from "../components/BrandMark";
@@ -298,16 +298,29 @@ describe("lib/nav (COPY §1.1–1.2)", () => {
     ]);
   });
   it("mobile extras (the blog joined them on 2026-10-04)", () => {
-    expect(MOBILE_EXTRA_LINKS.map((l) => l.href)).toEqual(["/photo-guide", "/registry", "/faq", "/blog", "/contact", "/etsy"]);
+    // 2026-10-06: banners and the by-sport hub joined the sheet.
+    expect(MOBILE_EXTRA_LINKS.map((l) => l.href)).toEqual(["/banners", "/sports", "/photo-guide", "/registry", "/faq", "/blog", "/contact", "/etsy"]);
   });
   it("footer columns and the F1 teams mailto — Shop opens with the free proof (D29), Trust carries the blog", () => {
     expect(FOOTER_COLUMNS.map((c) => c.title)).toEqual(["Shop", "Trust", "Legal"]);
-    expect(FOOTER_COLUMNS[0].links.map((l) => l.label)).toEqual(["Free proof", "Trading Cards", "Posters", "Complete Set", "Senior Night", "Teams & clubs", "Etsy shop"]);
+    expect(FOOTER_COLUMNS[0].links.map((l) => l.label)).toEqual([
+      "Free proof",
+      "Trading Cards",
+      "Posters",
+      "Complete Set",
+      "Senior Night",
+      "Banners",
+      "By sport",
+      "Christmas gifts",
+      "Teams & clubs",
+      "Etsy shop",
+    ]);
     expect(FOOTER_COLUMNS[0].links[0].href).toBe("/free-proof");
     expect(FOOTER_COLUMNS[1].links.map((l) => l.href)).toEqual(["/guarantee", "/how-it-works", "/photo-guide", "/registry", "/faq", "/blog", "/contact"]);
     expect(FOOTER_COLUMNS[2].links.map((l) => l.href)).toEqual(["/privacy", "/privacy/biometric", "/terms", "/accessibility"]);
     expect(SITE_SELLS_DIRECT).toBe(false);
-    expect(TEAMS_HREF).toBe(`mailto:${SUPPORT_EMAIL}?subject=Team%20order`);
+    // 2026-10-06: /teams is a built page; the mailto lives on it.
+    expect(TEAMS_HREF).toBe("/teams");
   });
 });
 
@@ -540,12 +553,14 @@ describe("chrome components", () => {
     // <p>, not <h2>: three sentence-less H2s in the outline of all 18 documents (audit 2026-09-08).
     for (const t of ["Shop", "Trust", "Legal"]) expect(html).toContain(`>${t}</p>`);
     expect(html).not.toMatch(/<h2/);
-    expect(html).toContain('href="/trading-cards#sports"');
+    // 2026-10-06: the seventeen-sports link opens the by-sport hub.
+    expect(html).toContain('href="/sports"');
     expect(html).toContain("17 sports");
     expect(html).toContain(read("content/blocks/independent-studio.md").trim().replace(/'/g, "&#x27;"));
     expect(html).toContain('aria-label="Game Day Edition on Etsy"');
     expect(html).toContain('href="/etsy"');
-    expect(html).toContain(`href="mailto:${SUPPORT_EMAIL}?subject=Team%20order"`);
+    // 2026-10-06: the footer links the /teams page; the mailto lives on it.
+    expect(html).toContain(`href="/teams"`);
     expect(html).toContain("Game Day Edition is an independent custom design studio operated from Lithuania.");
     expect(html).not.toContain("TEMPLATE");
     expect(html).toContain(`© ${new Date().getFullYear()} Game Day Edition · Designed in Lithuania · Printed by professional labs in the US`);

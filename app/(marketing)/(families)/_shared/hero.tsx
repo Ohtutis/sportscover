@@ -2,17 +2,17 @@ import { Fragment, type ReactNode } from "react";
 import { CtaPair } from "../../../../components/CtaPair";
 import { DeliveryChips } from "../../../../components/DeliveryChips";
 import { Pill, type PillTone } from "../../../../components/Pill";
-import { ProofPath } from "../../../../components/ProofPath";
 import { TrustLine } from "../../../../components/TrustLine";
-import { freeProofMode, type CtaPairProps } from "../../../../lib/cta";
+import type { CtaPairProps } from "../../../../lib/cta";
 
 /**
  * The bottom half of every family hero (DESIGN §5.2-1): the one delivery claim of the page, the
  * shipping / staged-delivery sentences from the canon, the CTA pair and the TrustLine that closes
  * every CTA block. The chips appear once per page — here — so the closing block never repeats them.
  *
- * Under the CTA block, while the site runs proof-first (D29), the four-step `ProofPath`: what happens
- * after the click — photos, a free watermarked proof, choose and pay your way, we complete the order.
+ * The four-step free-proof path used to follow the TrustLine here; since the owner review of 2026-10-06
+ * ("crammed — it looks dropped in") it is its own band between the hero row and the tier ladder
+ * (`ProofPathBand`, mounted by each family page), so this block ends on the TrustLine again.
  */
 export interface HeroCtaBlockProps {
   cta: CtaPairProps;
@@ -34,7 +34,6 @@ export function HeroCtaBlock({ cta, notes, className = "" }: HeroCtaBlockProps) 
         <CtaPair {...cta} size="lg" />
         <TrustLine />
       </div>
-      {freeProofMode() ? <ProofPath className="mt-8" /> : null}
     </div>
   );
 }

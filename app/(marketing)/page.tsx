@@ -1,6 +1,12 @@
 // `/` — the brand home, thirteen sections (DESIGN §5.1, COPY §2.1). Sections 01–03 stock,
 // 04 arena, 05–12 stock; 13 is the navy footer, which the marketing layout renders.
+//
+// While the site runs proof-first (D29), the free-proof path has its own band directly under the hero
+// (owner review 2026-10-06), above the strip of numbers. Like the hero it carries no index: the spine
+// still counts 01 … 11 over the same sections.
 import type { Metadata } from "next";
+import { ProofPathBand } from "../../components/ProofPath";
+import { freeProofMode } from "../../lib/cta";
 import { pageMeta } from "../../lib/seo/meta";
 import { Families } from "./_home/Families";
 import { Fears } from "./_home/Fears";
@@ -30,6 +36,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      {freeProofMode() ? <ProofPathBand /> : null}
       <HeroStrip now={now} />
       <Fears />
       <Families now={now} />

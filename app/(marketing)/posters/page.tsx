@@ -5,12 +5,13 @@ import { RECORD_STYLE } from "../../../components/EditionPanel";
 import { FictionalLabel } from "../../../components/FictionalLabel";
 import { JsonLd } from "../../../components/JsonLd";
 import { Plate } from "../../../components/Plate";
+import { ProofPathBand } from "../../../components/ProofPath";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { ToScaleSheet, type PosterArt } from "../../../components/ToScaleSheet";
 import { asset, hasAsset, type ImageSpec } from "../../../lib/assets";
 import { formatUsd, getTier, sitePrice, tiersFor } from "../../../lib/catalog/prices";
 import { postersSports } from "../../../lib/catalog/sports";
-import { ctaFor } from "../../../lib/cta";
+import { ctaFor, freeProofMode } from "../../../lib/cta";
 import { productFamily } from "../../../lib/seo/jsonld";
 import { pageMeta } from "../../../lib/seo/meta";
 import { pageFor } from "../../../lib/seo/titles";
@@ -22,6 +23,7 @@ import { Section } from "../(families)/_shared/section";
 import { ShowcaseFigure, ShowcaseRow, firstShowcase, showcaseList } from "../(families)/_shared/showcase";
 import { SpecSheetSection } from "../(families)/_shared/spec-sheet";
 import { SportPicker, pickSport } from "../(families)/_shared/sport-picker";
+import { SportPageLink } from "../(families)/_shared/sport-page-link";
 import { TierRow } from "../(families)/_shared/tier-row";
 
 /**
@@ -121,6 +123,7 @@ export default async function PostersPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const now = new Date();
+  const proofFirst = freeProofMode();
   const params = await searchParams;
   const options = postersSports();
   const sport = pickSport(params.sport, options, "basketball");
@@ -185,8 +188,12 @@ export default async function PostersPage({
             </div>
           </div>
 
-          <div className="mt-12 lg:mt-16">
+          {/* The free-proof path, its own band between the hero row and the ladder (owner review 2026-10-06):
+              it used to sit under the CTA inside the text column, with no air around it. */}
+          {proofFirst ? <ProofPathBand container="none" /> : null}
+          <div className={proofFirst ? undefined : "mt-12 lg:mt-16"}>
             <SportPicker action={PATH} options={options} family="posters" selected={sport} />
+            <SportPageLink sport={sport} />
             <TierRow family="posters" context="posters" sport={sport} now={now} className="mt-10" />
           </div>
         </div>

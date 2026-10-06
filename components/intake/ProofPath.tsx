@@ -1,10 +1,12 @@
-import { INTAKE_COPY } from "../../lib/intake/copy";
 import { CheckIcon } from "../icons";
 
 /**
- * The path, as one object used in three places (owner, 2026-10-04: "the path must be unmistakable at a
- * glance"): the hero, the summary rail and the thanks page. 1 send photos → 2 the free watermarked proof
- * → 3 approve and pay the way you prefer (secure payment link or Etsy) → 4 watermark off, delivered.
+ * The stateful step row of /free-proof/thanks: 1 photos received → 2 the watermarked proof → 3 approve
+ * and pay your way → 4 watermark off, delivered — with the reader's step marked.
+ *
+ * The four-step PATH itself (the how-it-works cards and the list) is ONE shared component,
+ * `components/ProofPath.tsx` (owner review 2026-10-06); the duplicate `ProofPath` that lived here is
+ * gone. What stays is this row, because only the thanks page needs a "you are here" state.
  *
  * The steps are ruled like the rest of the catalogue: a 2 px rule per step, ink up to the step the reader
  * is on and hairline after it, Anton numerals (ink for done/current, `muted` — Anton at ≥ 24 px — for the
@@ -85,9 +87,4 @@ export function StepRow({ items, current, variant = "full", label, className = "
       })}
     </ol>
   );
-}
-
-/** The four steps from INTAKE_COPY — the spine of /free-proof. */
-export function ProofPath({ current, variant = "full", label, className }: { current?: number; variant?: "full" | "compact"; label?: string; className?: string }) {
-  return <StepRow items={INTAKE_COPY.steps} current={current} variant={variant} label={label} className={className} />;
 }

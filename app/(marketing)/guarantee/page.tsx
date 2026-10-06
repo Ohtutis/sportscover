@@ -2,16 +2,17 @@
 // DELIVERED_COUNT = 0 the delivered-count sentence is not rendered at all.
 //
 // D29 (2026-10-04): while the site runs proof-first, the opener's text column says so before anything
-// else — CANON.proofFirstLine, the CTA pair, and the four-step ProofPath — and the refund ladder opens
-// with the stage that costs nothing: the free proof. Everything below it is about a paid order (an
-// Etsy order, or one paid by secure payment link after the proof was approved).
+// else — CANON.proofFirstLine and the CTA pair — the four-step path follows as its own band under the
+// opener (`ProofPathBand`, owner review 2026-10-06), and the refund ladder opens with the stage that
+// costs nothing: the free proof. Everything below it is about a paid order (an Etsy order, or one paid
+// by secure payment link after the proof was approved).
 
 import Link from "next/link";
 import { Breadcrumbs } from "../../../components/Breadcrumbs";
 import { CtaPair } from "../../../components/CtaPair";
 import { FounderNote } from "../../../components/FounderNote";
 import { Ledger } from "../../../components/Ledger";
-import { ProofPath } from "../../../components/ProofPath";
+import { ProofPathBand } from "../../../components/ProofPath";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { TrustLine } from "../../../components/TrustLine";
 import { block } from "../../../lib/blocks";
@@ -171,8 +172,8 @@ export default function GuaranteePage() {
 
   return (
     <>
-      {/* 1 — the promise and its limits */}
-      <section className="pt-6 pb-16 md:pb-24 lg:pb-32">
+      {/* 1 — the promise and its limits. Proof-first, the opener's bottom air is the path band's. */}
+      <section className={proofFirst ? "pt-6" : "pt-6 pb-16 md:pb-24 lg:pb-32"}>
         <div className="container-site">
           <Breadcrumbs trail={[{ name: "Home", href: "/" }, { name: "Our promise", href: PATH }]} />
           {/*
@@ -186,13 +187,12 @@ export default function GuaranteePage() {
               <SectionHeading as="h1" title="OUR PROMISE, IN WRITING." subhead="Because we are new, the risk of trying us is ours." />
               {proofFirst ? (
                 <>
-                  {/* D29: the promise starts before any money moves — said first, then the action, then the path. */}
+                  {/* D29: the promise starts before any money moves — said first, then the action; the path is the band below. */}
                   <p className="mt-8 max-w-[52ch] font-body text-body font-medium text-pretty text-ink">{CANON.proofFirstLine}</p>
                   <div className="mt-8">
                     <CtaPair primary={cta.primary} secondary={cta.secondary} size="lg" />
                     <TrustLine />
                   </div>
-                  <ProofPath className="mt-8" />
                 </>
               ) : null}
             </div>
@@ -210,6 +210,8 @@ export default function GuaranteePage() {
           </div>
         </div>
       </section>
+
+      {proofFirst ? <ProofPathBand container="site" /> : null}
 
       {/* what that means, exactly */}
       <section aria-labelledby="s-limits" className="pb-16 md:pb-24 lg:pb-32">

@@ -28,6 +28,11 @@ const eslintConfig = defineConfig([
     "examples/**",
     "public/**",
     "Exportai Etsy/**",
+    // Local-only trees that are not in git: the Python venv ships JavaScript (ipywidgets) and the
+    // iCloud-safe node_modules copy lives under deps.nosync (2026-10-06).
+    ".venv-matte/**",
+    "deps.nosync/**",
+    "seo/history/**",
   ]),
   eslint.configs.recommended,
   ...tseslint.configs.recommended,

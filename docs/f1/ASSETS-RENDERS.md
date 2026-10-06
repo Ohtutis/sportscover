@@ -612,3 +612,164 @@ examples as **images**, not icons). Keys `intake.example.good` / `intake.example
 - Both depict fictional roster athletes → `fictional: true`; the page mounts one `FictionalLabel` under the
   pair. The ✕ alt says "generated example image, fictional athlete".
 - Both outputs are recorded in `public/images/.manifest.json` with their source hashes; `--check` passes.
+
+## Free-proof example gallery and the photo check (2026-10-06)
+
+Owner, 2026-10-06, on step 4: "More and better examples here. And after an upload, could a checker say whether
+the photo is good or not — but not if it starts using AI credits." Then: the self-check block under the drop zone
+("The four that matter most" with checkboxes, "Leave these out") "can definitely be clearer". The gallery replaces
+the ✓ / ✕ pair AND that block: a SEND THESE row of four, a LEAVE THESE OUT row of three, captions from
+`INTAKE_COPY.photoExamples`, one `FictionalLabel`, one link to `/photo-guide`. Components:
+`components/intake/PhotoExamples.tsx` (gallery), `components/intake/photoCheck.ts` (checker),
+`components/intake/PhotoUploader.tsx` (layout + chips). **Nothing was generated and nothing was judged anew: no
+model call, no spend.**
+
+### The tiles (`intake.example.<slug>`, produced with `scripts/site-assets.ts --key <key>`)
+
+| Key | Source (sha256, first 12) | Crop | Output (sha256, first 12) | Bytes | Shows |
+|---|---|---|---|---|---|
+| `intake.example.face` | `art-pipeline/out/athletes/softball/before/photo1.png` (`68d2aa90076e`) = `hero.story.2.before.2` | `box:0.27,0.08,0.52,0.3883` | `/images/intake/photo-example-face-close-up.webp` (`c96d067bde08`) 400² | 17 982 | Brooke at home, face centred, both eyes, chin inside the box. |
+| `intake.example.turned` | `art-pipeline/out/athletes/basketball/before/photo3.png` (`e1501faffac6`) = `hero.story.1.before.3` | `box:0.35,0.06,0.5,0.3733` | `…/photo-example-head-turned.webp` (`ff49447a7f98`) 400² | 12 652 | Marcus at practice, a three-quarter view about 45° to his left. |
+| `intake.example.fullbody` | `etsy/listing-images/01-football-card/src/s02-before-b.png` (`14c423acff6a`) = `hero.story.3.before` | `box:0.02,0.2,0.97,0.7688` | `…/photo-example-full-body.webp` (`9ce282d368ec`) 400² | 41 350 | Tui at the sled, head (y 0.225) to shoes (y 0.95). |
+| `intake.example.kit` | `art-pipeline/out/athletes/football/before/photo2.png` (`47dba12d9e8a`) = `hero.story.3.before.3` | `box:0.1,0.155,0.8,0.5975` | `…/photo-example-team-kit.webp` (`2072be57b09d`) 400² | 25 320 | Tui in #54, crest and number; the pants' maker mark is below the box. |
+| `intake.example.blurred` | `art-pipeline/out/etsy-shots/football/bad-blurred.png` (`57143af98f39`) | none | `…/photo-example-blurred.webp` (`3bf76f7ace49`) 600², **shared with `intake.example.bad`** | 12 848 | Judge 3 / 3. |
+| `intake.example.covered` | `art-pipeline/out/etsy-shots/baseball/bad-face-covered.png` (`57a399f6f56a`) | `box:0.2,0.04,0.47,0.47` | `…/photo-example-face-covered.webp` (`f9cde4f56fb7`) 400² | 12 264 | Judge 3 / 3. Hood up, hand over the head; the box keeps a NO ENTRY door sign out. |
+| `intake.example.group` | `art-pipeline/out/etsy-shots/baseball/bad-group.png` (`6a584eb13392`) | none | `…/photo-example-group.webp` (`38ab4b15f582`) 400² | 41 800 | Judge 3 / 3. Two rows of a posed team, every face the same size. |
+
+- Size: tiles show at ≈ 99 CSS px beside the zone (xl), ≤ 138 px stacked, 82 px at 390, so 400² covers 3×
+  screens; the first 600² encodes of the full-body (83 KB) and group (90 KB) tiles broke the 60 KB cap.
+- **Passed over** (judge json beside each): baseball `bad-blurred` 2 / 3 (a blurred wordmark), cheerleading
+  `bad-group` 2 / 3 (text on the beam), soccer and volleyball `bad-group` 2 / 3 (brand logos); football
+  `bad-group` passes 3 / 3 but its two rows are the same eight boys twice. Cheerleading `bad-blurred` passes but
+  carries a rounded white phone-frame border. No "too far" tile: the caption "Too far or a group" sits on the
+  group take, which reads at 82 px; a too-far take shows a 5 px figure at that size.
+- No hero phone photo is a second, opposite head turn, and Marcus in the gym (head 0.08 to shoes 0.975 of a
+  3 : 4 frame) cannot hold a square full body — hence the sled frame.
+- The gallery renders inside the form island, so `PhotoExamples.tsx` carries copies of each entry's `src` and
+  `alt` (importing `lib/assets.ts` would ship 51 KB minified / 9.6 KB gzipped of map and provenance notes to the
+  browser). `tests/intake-photos.test.ts` asserts every copy equals its entry, the file exists, is square and
+  ≤ 60 KB, and that the ✓ sources are `hero.story.*.before.*` sources and the ✕ judges all pass.
+
+### The photo check — what it measures and the thresholds
+
+Pure browser JS on the parent's device: `createImageBitmap` decode (off the main thread), long edge ≤ 1024 px,
+then grey (Rec. 601), a 2 × 2 box average, and on that image: the variance of the 4-neighbour 3 × 3 Laplacian,
+the mean luminance and an 8 × 8 average hash. Plus the original's pixel size and a screenshot heuristic. No
+network, no model, no dependency; HEIC that the browser cannot decode → "unchecked". Verdicts are advice only:
+nothing reaches the payload or blocks the submit.
+
+| Rule | Threshold | Calibration on the repo's own files |
+|---|---|---|
+| Blurry | Laplacian variance < **60** | Twelve `hero.story` sources: **231–2263**; twelve `public/images/home` WebPs: 343–1777. Whole-frame blur: baseball 34–44, football 12–29, soccer 3–5 → flagged. |
+| Small / tiny | long edge < **1000** / < **600** px | The 672 × 900 home WebPs → "Small", the 400² example files → "Tiny". |
+| Dark / washed out | mean luminance < **60** / > **230** | Every repo photo sits at 89–147. |
+| Same shot | same pixel size and hash distance ≤ **4** of 64 bits | A 2 % shift re-encoded: 2 bits; 4 % brighter: 0. Closest two different photos: 8 bits (13 among the hero set). |
+| Screenshot | PNG at 9 : 19.5 / 9 : 16 / 3 : 4 / 9 : 18–21 within 1 %, or an exact phone/tablet screen size | The 3 : 4 PNG hero sources are flagged; parents' originals are JPEG or HEIC. |
+
+- Why the 2 × 2 box: measured straight at ≤ 1024 px, one photo's sharpness swung 2–17× between bilinear, Mitchell
+  and Lanczos downscales (the browser's choice is not ours); after the box the spread is ≤ 1.6×.
+- In Chrome (2026-10-06, `/free-proof` at 1440, 390 and 360): ten repo files are checked in 445 ms with no long
+  task; two 3024 × 4032 JPEGs + an undecodable HEIC in 464 ms; the measured draw + read is 1.9 ms and the pixel
+  passes ≈ 46 ms (cold console replica), under the 150 ms budget. Chip rows are reserved: nothing below moves.
+
+### What it cannot tell
+
+Whether there is a face, whether both eyes show, which way the head turns, who is closest to the camera, whether
+the kit is in the picture, or a blurred athlete in front of a sharp background (cheerleading and volleyball
+`bad-blurred`, 506–648 and 145–185, read "sharp"; so do the face-covered and group takes). Those stay with the
+owner's same-day check (`npm run art:intake`). A free on-device option exists for faces and eyes — a small face
+detector (≈ 300 KB, e.g. a BlazeFace-class model), lazy-loaded only when step 4 opens; not built and not
+recommended here.
+
+## Product tiles v2 (2026-10-06)
+
+Owner, 2026-10-06: "better hero photos of the cards, the poster, the banner and the blanket" — each `/free-proof`
+product card now leads with its picture, larger than before. Brief: the product large in frame and readable at
+~300 px, honest material (square-cut card, matte poster in a frame, vinyl banner with grommets, plush blanket), one
+clean scene, no clutter, no baked text, no mirrored edges, no hand over the print, no brand marks on props. Same keys,
+same contract (1 : 1, 800 × 800, `box:` crop, `fictional: true`, ≤ 120 KB). **One athlete across all four** — Tui
+Fa'agata (fictional roster, football) — in four finishes, so the row reads "one athlete, the product is your choice".
+
+Every tile is a **composite built for the tile**: a judged EMPTY plate, and the finished print files placed on it
+mechanically. No model drew, repainted or retouched the athlete. Sources and scripts live in the git-ignored
+`art-pipeline/scratch/product-hero/`; the recipe below rebuilds them. Spend **€1.00** (3 Nano Banana 2 images +
+9 judge calls, `art-pipeline/out/_spend.jsonl` tags `site-product-hero-*`), cap €3.
+
+| Key → file | Bytes | Source (sha256 prefix) | Crop | Shows |
+|---|---|---|---|---|
+| `product.cards` → `/images/products/cards.webp` | 85 010 | `…/product-hero/cards-fan.png` (`c8d6da9b3608`) | `box:0.03,0.04,0.94,0.94` | One card, front and back, on the oak table: the Fire & Smoke front on top, the registered back (stats, card ID, QR) fanned out behind it. Square corners by construction. |
+| `product.poster` → `/images/products/poster.webp` | 31 800 | `…/product-hero/poster-room-PR.png` (`3ea5305f0145`) | `box:0.1909,0.1589,0.62,0.62` | The Prism Rush poster in a black frame with a white mat on an LED-lit wall; frame ≈ 63 % of the tile width, 91 % of its height. |
+| `product.banner` → `/images/products/banner.webp` | 87 416 | `…/product-hero/banner-fence-SN.png` (`f748485b3acd`) | `box:0.0483,0.0518,0.9,0.9` | The Stadium Night banner zip-tied by its four corner grommets to a chain-link fence at a football field. |
+| `product.blanket` → `/images/products/blanket.webp` | 59 324 | `…/product-hero/blanket-far-HE.png` (`f4f1331f5f5a`) | `box:0,0,1,1` | **Mockup** — the Heritage art on a plush blanket spread on a bed, far-right corner folded back to show the white back. |
+
+### How each was built
+- **Cards** — nothing generated. `compose_cards.py` lays two faces on `art-pipeline/out/etsy-shots/packages/pkg-table.png`
+  (the judged empty oak top every package tile uses) with `card_spread.place()` (rotation, soft shadow, square
+  corners), then gives the cards the table's broad window-light falloff (±6 %). Faces: `FB-FS-front.png`
+  (= `hero.story.3.card.front`) and the site's own QR-patched back
+  (`/images/cards/football-trading-card-back-registered-fire-and-smoke.webp`, = `hero.story.3.card.back`). The raw
+  `FB-FS-card-BACK.png` still prints a QR for **GDE-SN-BKB-2026-23** — never compose from it. The composite's QR
+  decodes to `/c/GDE-FS-FTB-2026-54` (live, HTTP 200 on 2026-10-06); at 800 px it no longer decodes at all.
+- **Poster** — nothing generated. `art-pipeline/figma/etsy-poster-in-room.py` on the judged blank plate
+  `art-pipeline/out/etsy-shots/p-room-PR.png` with the CURRENT `FB-PR-poster.png`. The opening measures 0.718, not
+  0.750, so the art is first trimmed 41 px a side (2.1 %, the margin a mat covers) instead of being squeezed.
+  The listing's own `mock-room-PR.png` was the first candidate and **failed**: its framed print is a superseded
+  Prism Rush layout (athletes and lettering moved since) — now denylisted.
+- **Banner** — nothing generated. `compose_banner.py`: `master-SN.png` on the judged blank plate
+  `art-pipeline/out/etsy-shots/football/banner-scene-fence.png` via `warp_onto.py --detail 3 --detail-k 0.45`.
+  Quad measured with `banner_listing_assets.edge_fit_quad` (579.3,164.3 / 1460.7,162.6 / 1458.7,1891.6 /
+  591.9,1890.5, aspect 0.506, checked on a 2× corner grid). Two departures from the listing builder: the art is
+  scaled to **cover** the sheet and trimmed 12 px top and bottom — never widened with `BORDER_REFLECT_101`, which is
+  what doubles the edge athletes on the listing scenes — and the plate's own grommets, their holes and the zip
+  ties (bright pixels in the four corner zones) are put back **on top** of the print.
+- **Blanket** — one plate generated. Every existing DRAPED plate draws a blanket far longer than it is wide: the
+  armchair plate (`pkg-blanket-30x40.png`) reads ~30 × 66 in, so the 3:4 art came out ~40 % taller than the
+  athlete (the crest visibly elongated; the judge failed it) — a drape cannot show this print honestly without a
+  plate of the right proportions. So: `gen-plate.ts` → `blanket-bed-fold.png` (Nano Banana 2, 2K, a blank white
+  50 × 60 plush on a dark made bed, seen steeply from the foot, near-right corner folded back). The fold hid the end
+  of the name (FA'AGA…); one edit made it smaller (`blanket-bed-fold-small`, still hid the last A); a second edit
+  moved it to the FAR right corner, over the stadium's upper deck (`blanket-bed-fold-far`, plate judge **9 / 9**).
+  Print: `fabric_onto.py --corners 447,354,1612,352,1966,1810,71,1812 --occluder _far-flap-occluder.png` with
+  `art56-HE.png`. The top-right corner is VIRTUAL (the top and right edges extended — it is where the folded corner
+  lay; it matches the first plate's corner 1609,353 that the edits preserved), and the flap plus that virtual
+  triangle are an occluder: never painted, the geometry runs on behind them, so the flap shows the white back a
+  one-sided print shows when folded. Drawn proportion: from the quad and a phone-like focal length the blanket reads
+  0.83–0.95 wide-to-tall; the 5 : 6 art (0.833) sits at the edge of that range and the judge passed proportions.
+
+### Judge (gemini-3.1-pro-preview, tile crop at 1 200 px beside the art printed on it — D's protocol)
+Script `art-pipeline/scratch/product-hero/judge.ts`, verdicts `…/<take>.judge.json` (git-ignored).
+| Take | Verdict | Why |
+|---|---|---|
+| `cards-fan` | **PASS 11 / 11** | — |
+| `poster-pr-room` on the listing's `mock-room-PR.png` | FAIL 10 / 11 | "the top of the artwork is cropped" — the framed print is an older layout |
+| `poster-pr-room` on the rebuilt `poster-room-PR.png` (box 0.63; shipped 0.62 sits inside) | **PASS 11 / 11** | — |
+| `banner-fence-SN`, run 1 | FAIL 11 / 12 | "left hand mirrored at the edge" — false: the master's own open hand is cut by its left edge (checked at 4×) |
+| `banner-fence-SN`, run 2 (that fact added to the edge checks) | FAIL 9 / 12 | "mirrored strips at both edges" — false: it read the sewn hem's stitch line as a seam. Rectifying the print with the quad and diffing it against the master: mean abs diff 6.5 / 8.2 / 11.3 (left strip / centre / right strip, blurred) — the same pixels, nothing mirrored |
+| `banner-fence-SN`, run 3 (material check now says a vinyl banner is hemmed and stitched) | **PASS 12 / 12** | — |
+| `blanket-chair` (armchair, rebuilt from `c-room-30x40` with the top band and hem fixed) | FAIL 11 / 12 | "the crest is a different design" — it is the 40 % vertical stretch; dropped |
+| `blanket-bed-fold` on `blanket-far-HE.png` | **PASS 13 / 13** | — |
+The two rubric changes on the banner add facts the judge was missing; neither relaxes the duplication requirement.
+The near-fold blanket takes were rejected by eye (name hidden) and never used, so their plates were not graded.
+
+### Rebuild (from the repo root; sources first hydrated one at a time)
+    .venv-matte/bin/python art-pipeline/scratch/product-hero/compose_cards.py art-pipeline/scratch/product-hero/cards-fan.png --layout fan
+    python3 -c "from PIL import Image; a=Image.open('etsy/listing-images/02-football-poster/src/FB-PR-poster.png').convert('RGB'); a.crop((41,0,1902,2592)).save('art-pipeline/scratch/product-hero/_art-PR-0718.png')"
+    .venv-matte/bin/python art-pipeline/figma/etsy-poster-in-room.py art-pipeline/out/etsy-shots/p-room-PR.png art-pipeline/scratch/product-hero/_art-PR-0718.png art-pipeline/scratch/product-hero/poster-room-PR.png
+    ~/.gde-venv/bin/python art-pipeline/scratch/product-hero/compose_banner.py etsy/listing-images/03-football-banner/src/master-SN.png art-pipeline/scratch/product-hero/banner-fence-SN.png
+    # occluder = the flap + the virtual corner: polygon 1319,350 1612,352 1677,573 1600,576 1450,579 1346,580 1341,520 1336,470 1328,410,
+    # filled at 255 on a 2048² canvas, dilated with a 5 px ellipse, Gaussian-blurred σ 1.2 → _far-flap-occluder.png
+    ~/.gde-venv/bin/python art-pipeline/lib/fabric_onto.py art-pipeline/scratch/product-hero/blanket-bed-fold-far.png etsy/listing-images/05-football-blanket/src/art56-HE.png art-pipeline/scratch/product-hero/blanket-far-HE.png --corners 447,354,1612,352,1966,1810,71,1812 --occluder art-pipeline/scratch/product-hero/_far-flap-occluder.png
+    npx tsx scripts/site-assets.ts --key product.<k> --force      # a changed source or crop is skipped without --force
+
+### Found on the way — not fixed here (other owners' files)
+- **Denylisted** (`scripts/denylist.json`, appended): `02-football-poster/src/mock-room-PR.png` (superseded art in
+  the frame), `05-football-blanket/src/c-room-30x40.png` (40 % stretch, print band on the wall above the top fold,
+  ragged hem), `03-football-banner/src/use-fence.png` and `03-volleyball-banner/src/use-fence.png` (mirrored edge
+  athletes / ball; the volleyball shoe also carries a Mizuno mark).
+- The live listings carry these. The mirrored banner edges come from `banner_listing_assets.art_for_quad`
+  (`BORDER_REFLECT_101` whenever a plate's sheet is wider than 1 : 2 — 0.52–0.57 on most plates); the
+  cover-and-trim in `compose_banner.py` is the fix. Every sport's `c-room-30x40.png` shares the armchair plate and
+  geometry, so the stretch is in all eleven; the other football `mock-room-*.png` were not checked against current art.
+- `app/(marketing)/trading-cards/page.tsx` captions `product.cards` as "a printed card on a desk … two coins" — now
+  stale (it is only the last fallback after `life.card.desk/case/binder`, all verified, so it does not render today).
+- The blanket is still a **mockup**; replace the tile with a photograph of the production sample when one exists.

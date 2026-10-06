@@ -1,0 +1,28 @@
+# After every push to main: wait until production serves this commit (GET /api/version), then tell
+# IndexNow which sitemap URLs are live (scripts/seo/indexnow.ts checks every URL for a 200 first).
+# Google ignores IndexNow; it reads the sitemap on its own schedule.
+name: indexnow
+on:
+  push:
+    branches: [main]
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Wait for production to serve this commit
+        run: |
+          for i in $(seq 1 60); do
+            live=$(curl -fsS https://www.gamedayedition.com/api/version | sed -n 's/.*"sha":"\([0-9a-f]*\)".*/\1/p')
+            if [ "$live" = "${GITHUB_SHA}" ]; then echo "live: $live"; exit 0; fi
+            echo "waiting ($i): live=$live"; sleep 15
+          done
+          echo "production never served ${GITHUB_SHA}; not pinging" >&2; exit 1
+      - name: Ping IndexNow from the live sitemap
+        run: npx tsx scripts/seo/indexnow.ts

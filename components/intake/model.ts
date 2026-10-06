@@ -320,6 +320,119 @@ export function orderTotal(
   return { kind: "priced", total: cents(total), set: Boolean(combo) };
 }
 
+/** What a Complete Set tier saves against its two options bought apart, from the ladder; null when a price is missing. */
+function comboSaving(products: readonly { key: ProductKey; options: readonly PricedOption[] }[], combo: SetCombo): number | null {
+  const price = (key: ProductKey, option: string) => products.find((p) => p.key === key)?.options.find((o) => o.key === option)?.price ?? null;
+  const cards = price("cards", combo.cards);
+  const poster = price("poster", combo.poster);
+  if (cards === null || poster === null) return null;
+  return cents(cards + poster - combo.price);
+}
+
+/**
+ * v3 (owner, 2026-10-06): the set is a RESULT, not a card. The smallest saving any set tier gives — the
+ * figure behind "save from …" under the product cards before both are chosen. Null when none saves.
+ */
+export function minSetSaving(products: readonly { key: ProductKey; options: readonly PricedOption[] }[], combos: readonly SetCombo[]): number | null {
+  const savings = combos.map((c) => comboSaving(products, c)).filter((s): s is number => s !== null && s > 0);
+  return savings.length ? Math.min(...savings) : null;
+}
+
+/**
+ * Where the chosen cards + poster stand against the set tiers: `none` until both are chosen; `matched`
+ * with the saving (× the shared quantity) when the two options are a set tier in the same quantity —
+ * exactly when `orderTotal` counts them at the set price; `unmatched` otherwise.
+ */
+export type SetPair = { kind: "none" } | { kind: "matched"; saved: number | null } | { kind: "unmatched" };
+
+export function setPair(
+  products: readonly { key: ProductKey; options: readonly PricedOption[] }[],
+  state: Record<ProductKey, ProductState>,
+  combos: readonly SetCombo[],
+): SetPair {
+  if (!isSetChosen(state)) return { kind: "none" };
+  const quantity = (key: "cards" | "poster") => (isPrintedChoice(key, state[key].option) ? clampQuantity(state[key].quantity) : 1);
+  const combo = combos.find((c) => c.cards === state.cards.option && c.poster === state.poster.option);
+  if (!combo || quantity("cards") !== quantity("poster")) return { kind: "unmatched" };
+  const saved = comboSaving(products, combo);
+  return { kind: "matched", saved: saved !== null && saved > 0 ? cents(saved * quantity("cards")) : null };
+}
+
+/** The matching pairs in words, from the option labels: "Digital files + Digital files, 12 printed cards + 18 × 24 in printed, or …". */
+export function setPairsLabel(products: readonly { key: ProductKey; options: readonly { key: string; label: string }[] }[], combos: readonly SetCombo[]): string {
+  const label = (key: ProductKey, option: string) => products.find((p) => p.key === key)?.options.find((o) => o.key === option)?.label ?? option;
+  const pairs = combos.map((c) => `${label("cards", c.cards)} + ${label("poster", c.poster)}`);
+  return pairs.length > 1 ? `${pairs.slice(0, -1).join(", ")} or ${pairs[pairs.length - 1]}` : (pairs[0] ?? "");
+}
+
+// --- the live text preview (owner, 2026-10-06) -------------------------------------------------------
+
+/**
+ * How a finish sets the name block on its card front — a known property of the finish, read off the
+ * fronts themselves (the "lockup alignment" rule): Chrome All-Star and Heritage centre it, every other
+ * finish (and Senior Night) sets it flush left. The preview follows it; the per-finish typefaces stay on
+ * /c (they load only there), so the preview uses the site's own Anton and Barlow.
+ */
+export const PREVIEW_CENTERED_FINISHES: readonly string[] = ["CA", "HE"];
+export const previewAlign = (code: string): "center" | "left" => (PREVIEW_CENTERED_FINISHES.includes(code) ? "center" : "left");
+
+/** The finish whose example front the preview shows: the chosen one, Stadium Night until one is chosen (or for "recommend"). */
+export const previewFinish = (style: StyleChoice | ""): string => (style && style !== STYLE_RECOMMEND ? style : "SN");
+
+export interface PreviewText {
+  first: string;
+  last: string;
+  /** "#12" — numbered sports only, and only once a digit is typed. */
+  number: string;
+  /** "Point guard · Cedar Ridge Bears" — whichever of the two is filled. */
+  meta: string;
+  /** Senior Night only: "Class of 2027", once the class year is chosen. */
+  classLine: string;
+}
+
+/**
+ * What the parent has typed, shaped the way the card sets it — and NOTHING that was not typed: no
+ * placeholder name, no example number, no default season. Null when there is nothing to show, so the
+ * card front stays the untouched example (with its C13) until the first keystroke.
+ */
+export function previewText(athlete: Pick<AthleteState, "firstName" | "lastName" | "jerseyNumber" | "sportSlug" | "position" | "team" | "classOf">, style: StyleChoice | ""): PreviewText | null {
+  const sport = sportBySlug(athlete.sportSlug);
+  const numbered = !(sport && isNumberless(sport));
+  const digits = cleanNumber(athlete.jerseyNumber);
+  const text: PreviewText = {
+    first: athlete.firstName.trim(),
+    last: athlete.lastName.trim(),
+    number: numbered && digits ? `#${digits}` : "",
+    meta: [athlete.position.trim(), athlete.team.trim()].filter(Boolean).join(" · "),
+    classLine: style === "SR" && athlete.classOf ? `Class of ${athlete.classOf}` : "",
+  };
+  return Object.values(text).some(Boolean) ? text : null;
+}
+
+/**
+ * The athlete fields as the summary sees them. The form's state lives in IntakeForm; AthleteFields
+ * publishes every change here and "Your order" subscribes (useSyncExternalStore), so the preview follows
+ * each keystroke without the summary being re-plumbed through the form. Plain JS — no React here —
+ * client-only by construction: it is written from an effect, and the server snapshot is always null.
+ */
+type Listener = () => void;
+let sharedAthlete: AthleteState | null = null;
+const listeners = new Set<Listener>();
+
+export const athleteStore = {
+  get: (): AthleteState | null => sharedAthlete,
+  getServer: (): AthleteState | null => null,
+  set(next: AthleteState | null): void {
+    if (next === sharedAthlete) return;
+    sharedAthlete = next;
+    for (const l of listeners) l();
+  },
+  subscribe(l: Listener): () => void {
+    listeners.add(l);
+    return () => listeners.delete(l);
+  },
+};
+
 // --- errors -----------------------------------------------------------------------------------------
 
 export const FIELD_PREFIX = "fp-";
@@ -410,15 +523,32 @@ export const canPreview = (f: FileLike): boolean => !/\.(heic|heif)$/i.test(f.na
 
 export const SOURCE_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "fbclid"] as const;
 
-/** Where the request came from — the landing path, the referrer and any campaign tags. Never a name. */
-export function captureSource(pathname: string, search: string, referrer: string): SourceInfo {
+/** The session's first page, as components/EntryAttribution.tsx stored it — the shape only, so this module never imports a client component. */
+export interface EntryLike {
+  path: string;
+  referrer: string;
+  utm: Record<string, string>;
+}
+
+/**
+ * Where the request came from — the landing path, the referrer and any campaign tags. Never a name.
+ *
+ * With an `entry` (the session's FIRST page, recorded by EntryAttribution in the marketing layout) the
+ * landing path and the referrer are the entry's, not the form's: a parent who found /senior-night/volleyball
+ * on Google and clicked through reports that page, not "/free-proof" with our own hub as the referrer
+ * (SEO master plan §8: "a form on the homepage made every row say /#early-access"). Campaign tags on the
+ * form's own URL still win over the entry's — an ad that lands straight on the form carries them here.
+ */
+export function captureSource(pathname: string, search: string, referrer: string, entry?: EntryLike | null): SourceInfo {
   const params = new URLSearchParams(search);
-  const utm: Record<string, string> = {};
+  const utm: Record<string, string> = { ...(entry?.utm ?? {}) };
   for (const key of SOURCE_KEYS) {
     const v = params.get(key);
     if (v) utm[key] = v.slice(0, 200);
   }
-  return { landingPath: pathname.slice(0, 300) || "/free-proof", referrer: referrer.slice(0, 300), utm };
+  const landingPath = (entry?.path || pathname).slice(0, 300) || "/free-proof";
+  const ref = (entry ? entry.referrer : referrer).slice(0, 300);
+  return { landingPath, referrer: ref, utm };
 }
 
 // --- presentation helpers ---------------------------------------------------------------------------

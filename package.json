@@ -46,7 +46,9 @@
     "mkt:video": "python3 marketing/gen_video.py",
     "mkt:social": "python3 marketing/gen_social.py",
     "typecheck": "tsc --noEmit --incremental false",
-    "check": "npm run lint && npm run typecheck && npm run test"
+    "check": "npm run lint && npm run typecheck && npm run test",
+    "seo:monitor": "tsx scripts/seo/gsc-monitor.ts",
+    "seo:indexnow": "tsx scripts/seo/indexnow.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.112.3",

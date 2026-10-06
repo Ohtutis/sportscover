@@ -3,10 +3,10 @@
 // Every exhibit comes from lib/assets.ts; check 1 is HTML by design (GAPS: how.gate.photo-check is
 // `locate` on purpose — the verdict is a Ledger, never a screenshot of _intake.json).
 //
-// D29 (2026-10-04): while the site runs proof-first, the opener ends with the CTA pair and the
-// four-step ProofPath, the FINISH check says CANON.proofFirstLine, and the timeline puts PAID after the
-// proof — the order a free-proof request actually runs in (an Etsy order still pays first, and the
-// line under the timeline says so).
+// D29 (2026-10-04): while the site runs proof-first, the opener ends with the CTA pair, the four-step
+// path follows as its own band under the opener (`ProofPathBand`, owner review 2026-10-06), the FINISH
+// check says CANON.proofFirstLine, and the timeline puts PAID after the proof — the order a free-proof
+// request actually runs in (an Etsy order still pays first, and the line under the timeline says so).
 
 import Image from "next/image";
 import Link from "next/link";
@@ -20,7 +20,7 @@ import { JsonLd } from "../../../components/JsonLd";
 import { Ledger } from "../../../components/Ledger";
 import { Mat } from "../../../components/Mat";
 import { Pill } from "../../../components/Pill";
-import { ProofPath } from "../../../components/ProofPath";
+import { ProofPathBand } from "../../../components/ProofPath";
 import { ProofRejectedPair } from "../../../components/ProofRejectedPair";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { StatusChip } from "../../../components/StatusChip";
@@ -433,8 +433,8 @@ export default function HowItWorksPage() {
         })}
       />
 
-      {/* 01 — hero */}
-      <section className="pt-6 pb-16 md:pb-24 lg:pb-32">
+      {/* 01 — hero. Proof-first, its bottom air is the path band's. */}
+      <section className={proofFirst ? "pt-6" : "pt-6 pb-16 md:pb-24 lg:pb-32"}>
         {/* The page container, not the gallery one (DESIGN §5.4-1): every section below is
             `container-site`, and a wider hero would jog the left edge on the first scroll. */}
         <div className="container-site">
@@ -473,7 +473,6 @@ export default function HowItWorksPage() {
                     <CtaPair primary={cta.primary} secondary={cta.secondary} size="lg" />
                     <TrustLine />
                   </div>
-                  <ProofPath className="mt-8" />
                 </>
               ) : null}
             </div>
@@ -483,6 +482,8 @@ export default function HowItWorksPage() {
           </div>
         </div>
       </section>
+
+      {proofFirst ? <ProofPathBand container="site" /> : null}
 
       {/* 02 — the six gates */}
       <section id="gates" aria-labelledby="s-gates" className="pb-16 md:pb-24 lg:pb-32">

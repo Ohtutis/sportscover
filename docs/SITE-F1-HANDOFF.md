@@ -200,6 +200,66 @@ five-line first real test in `docs/SITE-F2A-FREE-PROOF-2026-10.md` — `health` 
     GDE-SN-PKB-2026-02, GDE-FS-PKB-2026-02, GDE-HE-PKB-2026-02, GDE-SS-PKB-2026-02, GDE-SN-OTH-2026-12,
     GDE-FS-OTH-2026-12, GDE-HE-OTH-2026-12, GDE-PR-OTH-2026-12.
 
+## 2026-10-06 — free-proof v3 (owner review, 7 builders) + the SEO plan applied
+
+Shipped on `site/free-proof` in one PR (every builder's work integrated, 1,660 tests green, production build green,
+browser-checked at 1440 and 375):
+
+**Free proof v3 (owner review 2026-10-06, the pasted 20 points + follow-ups)**
+- Hero with the proof visual on the right (`show.proof.basketball` + three phone photos fanned over its corner); the
+  four how-it-works cards carry pictures and sit in their own `ProofPathBand` under the hero of `/`, the three family
+  pages, `/senior-night`, `/guarantee` and `/how-it-works` (the home hero is back to three blocks).
+- Four product cards, no set card: options open INSIDE the chosen card; the set price is a computed line under the
+  cards and in "Your order". Product tiles v2: cards, poster, banner, blanket (`docs/f1/ASSETS-RENDERS.md`, €1.00).
+- Fields: white fill, 1.5 px ink-60 edge (contrast 2.5 → 4.2:1). "Your order" shows a live nameplate preview on the
+  chosen finish's card front as the parent types (first/last name, number only for numbered sports, position · team,
+  gold "Class of" for Senior Night).
+- Step 4: a seven-tile ✓/✕ photo gallery (real fictional-roster photos) replaces the text block; a free on-device
+  photo check (`components/intake/photoCheck.ts`: blur, size, light, duplicate burst, screenshot) runs with no network
+  and no model — it cannot see faces, eyes or head direction (documented in ASSETS-RENDERS).
+- Permissions: a white "THREE QUICK CONFIRMATIONS." card (four with a crest), plain titles over the verbatim consent
+  sentences; the Etsy alternative is one muted line + the house `EtsyButton`.
+
+**SEO (docs/SEO-PLAN-GDE-2026-10.md — read it; seo/README.md for the loop)**
+- New pages, every one from a fact table: `/sports` + 9 sport pages (`lib/seo/sport-facts.ts`), 9 senior-night
+  spokes (`lib/seo/senior-night-facts.ts`), `/banners`, `/christmas-gift` (order-by dates computed), `/teams`
+  (honest email-first setup). 4 blog posts (11 total). The senior-night hub tiles, the family sport pickers and the
+  home proof wall now link them.
+- Gates: `tests/seo-families.test.ts` (≤ 20 % templated sentence shapes per page, ≥ 12 own sentences),
+  `tests/seo-infra.test.ts` (fact-table hygiene, honest lastmod, llms.txt, IndexNow key, attribution, nav).
+- Fixed on the way: `pageMeta()` always set `openGraph.images`, which made Next ignore every per-route
+  `opengraph-image.tsx` (`/senior-night`, `/trading-cards` … all shared `/og.webp`). Now a route with its own image
+  gets no `images` key (`lib/seo/meta.ts routeHasOgImage`).
+- `/llms.txt`: sport lines, every FAQ answer verbatim, a "Do not say" misquote firewall, how to cite.
+- Measurement: `npm run seo:monitor` (weekly Search Console monitor → `seo/REPORT.md`; needs the owner's
+  service account), IndexNow after every main deploy (`.github/workflows/indexnow.yml` waits for `/api/version`),
+  first-touch entry attribution (`components/EntryAttribution.tsx` → the free-proof request's `source.landingPath`
+  is the ENTRY page, not `/free-proof`), the AI-answer panel (`seo/ai-panel/questions.json`, monthly by hand).
+- Banner SKUs resolve (`GDE-<code>-BAN`, `GDE-<code>-SNBAN`; `GDE-ANY-BAN` → the shop front); basketball's Senior
+  Night set listing (4580022282) is in the catalog; `/teams` is a page again (`TEAMS_HREF`).
+
+**Owner, in order (nothing on the site is blocked on these; the measurement is)**
+1. Search Console: Domain property `gamedayedition.com` (DNS TXT), second owner, submit
+   `https://www.gamedayedition.com/sitemap.xml`, inspect `/`, `/free-proof`, `/senior-night/volleyball`,
+   `/sports/baseball`, `/banners`. Then a service account for the monitor (`seo/README.md` §1), or say so and we do
+   it together. Bing Webmaster Tools: import from Search Console.
+2. Supabase (unpause + bucket `athlete-submissions`) + `RESEND_API_KEY` + redeploy — still open from 2026-10-04;
+   until then the form falls back to email and no attribution row is stored.
+3. Privacy page vs the Meta pixel: `/privacy` says "No advertising pixels" and the pixel component ships the moment
+   `NEXT_PUBLIC_META_PIXEL_ID` is set. Before the first ad: either the lawyer rewrites that bullet or the pixel stays
+   off. (The new attribution bullet on `/privacy` is already true: a path and a referrer, in the browser only.)
+4. Banner lab: declare the banner printer as an Etsy Production Partner and add it to `lib/catalog/shipping.ts` /
+   C19 — until then banner tiers say "Ships separately, 1–2 weeks" and carry no shippingDetails markup.
+5. Etsy listing images the product-tile builder found defective (on the site's denylist, still live on Etsy): the
+   football and volleyball banner `use-fence.png` mirror the athletes at the edges (BORDER_REFLECT in
+   `banner_listing_assets.art_for_quad`; scale-to-cover fixes it), all eleven armchair blanket images stretch the art,
+   `02-football-poster/src/mock-room-PR.png` shows an older poster layout.
+6. Blanket prices into `lib/catalog/prices.ts` when the blanket listings go live (then `/blankets` passes the
+   new-URL rule); swap the blanket product tile (a mockup, labelled) for a photo of the production sample.
+7. Wrestling: the catalog says `numbered: true` (number on the front) while the kit, the fact rows and C9 treat the
+   singlet as number-free (plain back). The hub line and the wrestling pages no longer promise a number; decide
+   whether the catalog flag should flip (it drives the intake's number field and `showsJerseyNumber`).
+
 ## Not in F1 on purpose
 
 Direct checkout and order pages, team links, `/sports/<sport>`, `/styles/<finish>`,

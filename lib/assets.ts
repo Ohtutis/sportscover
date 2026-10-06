@@ -970,42 +970,44 @@ const entries: Record<string, Entry> = {
     alt: "A football player grinning in the parking lot after a game, holding up his own custom trading card — Fire & Smoke finish — example artwork, fictional roster athlete; photo generated",
   },
 
-  /* ---------- /free-proof product tiles (2026-10-04) ----------
-   * One square tile per product the free-proof form offers (lib/intake/products.ts keys), all 800 × 800,
-   * all cut with an explicit `box:` crop from a file that already exists — nothing was generated for them.
-   * Cards and poster re-crop sources the site already ships as verified keys (life.card.desk, posters.room);
-   * banner and blanket are the football Etsy listing composites (generated empty plate + the athlete's finished
-   * art printed on with a perspective mapping), graded by the judge on the tile crop before they were added.
-   * Takes, crops and verdicts: docs/f1/ASSETS-RENDERS.md "Product tiles (2026-10-04)". The page reads these
-   * through assetOrNull() and mounts <FictionalLabel /> — every tile shows a fictional roster athlete.
+  /* ---------- /free-proof product tiles — v2 (2026-10-06) ----------
+   * One square tile per product the free-proof form offers (lib/intake/products.ts keys), all 800 × 800, each the
+   * HERO of its product card (owner 2026-10-06: "better hero photos of the cards, the poster, the banner and the
+   * blanket" — the product large, readable at ~300 px, honest material, one clean scene). One athlete across all
+   * four (Tui Fa'agata, fictional roster), four finishes. Every picture is a composite built for its tile: a judged
+   * EMPTY plate with the finished print files placed on it mechanically (card_spread / warp_onto / fabric_onto /
+   * etsy-poster-in-room) — no model ever drew the athlete. Sources live in the git-ignored
+   * art-pipeline/scratch/product-hero/; every take, crop, judge verdict and the rebuild recipe are in
+   * docs/f1/ASSETS-RENDERS.md "Product tiles v2 (2026-10-06)". The page reads these through asset()/assetOrNull()
+   * and mounts <FictionalLabel /> — every tile shows a fictional roster athlete.
    */
   "product.cards": {
     out: "/images/products/cards.webp",
-    source: `${SHOTS_SN}/card-on-desk-composited.png`, width: 800, height: 800, kind: "photo",
-    crop: "box:0.1,0.16,0.76,0.76", fictional: true, status: "verified",
-    alt: "A custom football trading card lying on a wooden desk beside a pen and two coins, for scale — Senior Night finish — example artwork, fictional roster athlete; photo generated",
-    note: "Same source as life.card.desk (Tui Fa'agata, GDE-SR-FTB-2026-54), cropped closer so the card reads at tile size. Square-cut corners checked at full size.",
+    source: "art-pipeline/scratch/product-hero/cards-fan.png", width: 800, height: 800, kind: "photo",
+    crop: "box:0.03,0.04,0.94,0.94", fictional: true, status: "verified",
+    alt: "A custom football trading card shown front and back on a wooden table: the athlete's card front and its back with season stats, a registered card ID and QR code, square-cut corners — Fire & Smoke finish — example artwork, fictional roster athlete; generated image",
+    note: "The approved card faces (hero.story.3.card.front + the QR-patched back of hero.story.3.card.back, /c/GDE-FS-FTB-2026-54, live 200 on 2026-10-06) laid on the packages' judged oak-table plate by card_spread.place(). Judge: 11 of 11.",
   },
   "product.poster": {
     out: "/images/products/poster.webp",
-    source: BKP_ROOM_SN, width: 800, height: 800, kind: "room",
-    crop: "box:0.155,0.05,0.7,0.7", fictional: true, status: "verified",
-    alt: "A framed custom basketball poster on a bedroom wall — Stadium Night finish — example artwork, fictional roster athlete; photo generated",
-    note: "Same source as posters.room and life.poster.room (Marcus Ellison), cropped to centre the frame.",
+    source: "art-pipeline/scratch/product-hero/poster-room-PR.png", width: 800, height: 800, kind: "room",
+    crop: "box:0.1909,0.1589,0.62,0.62", fictional: true, status: "verified",
+    alt: "A custom football poster in a black frame with a white mat on a wall lit by LED strip lights — Prism Rush finish — example artwork, fictional roster athlete; photo generated",
+    note: "The CURRENT FB-PR-poster.png warped into the empty frame of the judged p-room-PR plate (etsy-poster-in-room.py). The listing's mock-room-PR.png holds a superseded layout and is denylisted. The frame opening is 0.718, so 2.1 % of each side sits under the mat — the athletes are never squeezed. Judge: 11 of 11.",
   },
   "product.banner": {
     out: "/images/products/banner.webp",
-    source: "etsy/listing-images/03-football-banner/src/use-garage.png", width: 800, height: 800, kind: "photo",
-    crop: "box:0.055,0,0.875,0.875", fictional: true, status: "verified",
-    alt: "A custom football banner hanging by cords from its corner grommets on the outside wall of a garage — Prism Rush finish — example artwork, fictional roster athlete; photo generated",
-    note: "Football banner listing scene (Tui Fa'agata). The other five football scenes mirror a helmet or a hand at the banner's edge and the lifestyle shot paints the print over a hand, so this is the one clean composite. Judge: 12 of 12 checks passed on the box 0.04,0,0.9,0.9; the shipped box sits inside it, tight under the hem so the soccer ball the plate put by the door shows only as a sliver.",
+    source: "art-pipeline/scratch/product-hero/banner-fence-SN.png", width: 800, height: 800, kind: "photo",
+    crop: "box:0.0483,0.0518,0.9,0.9", fictional: true, status: "verified",
+    alt: "A custom vinyl football banner zip-tied by its corner grommets to a chain-link fence beside a football field — Stadium Night finish — example artwork, fictional roster athlete; photo generated",
+    note: "master-SN.png on the judged blank fence plate (football/banner-scene-fence.png) by warp_onto.py: the art is scaled to COVER the sheet and trimmed top and bottom, never mirrored, and the plate's own grommets and ties are put back on top. Judge: 12 of 12 (the rectified print matches the master at both edges).",
   },
   "product.blanket": {
     out: "/images/products/blanket.webp",
-    source: "etsy/listing-images/05-football-blanket/src/c-bed.png", width: 800, height: 800, kind: "photo",
-    crop: "box:0.335,0.2,0.665,0.665", fictional: true, status: "verified",
-    alt: "A mockup of a custom plush football blanket lying on a bed, printed with the athlete's poster artwork — Heritage finish — example artwork, fictional roster athlete; generated image, not a photo of a finished blanket",
-    note: "MOCKUP until a photo of a real blanket exists: a generated white blank on a bed with the Heritage poster art printed on by fabric_onto.py. The crop leaves out a pair of sneakers that carry a maker's mark. Judge: 12 of 12 checks passed on this crop (take 3 of 3).",
+    source: "art-pipeline/scratch/product-hero/blanket-far-HE.png", width: 800, height: 800, kind: "photo",
+    crop: "box:0,0,1,1", fictional: true, status: "verified",
+    alt: "A mockup of a custom plush football blanket spread on a bed with one corner folded back to show its soft white back, printed with the athlete's artwork — Heritage finish — example artwork, fictional roster athlete; generated image, not a photo of a finished blanket",
+    note: "MOCKUP until a photo of a real blanket exists: a generated blank white plush blanket on a bed (plate judge 9 of 9) with the 5 : 6 Heritage art printed on by fabric_onto.py; the folded corner is an occluder, so it shows the white back of a one-sided print. Judge: 13 of 13.",
   },
 
   /* ---------- /free-proof photo examples (2026-10-04) ----------
@@ -1027,6 +1029,64 @@ const entries: Record<string, Entry> = {
     source: `${SHOTS}/football/bad-blurred.png`, width: 600, height: 600, kind: "photo", fictional: true, status: "verified",
     alt: "Example of a photo that does not work: a badly blurred phone snapshot of a football player whose face cannot be made out — generated example image, fictional athlete",
     note: "The football card listing's slide-12 bad example. Judge (bad-blurred.judge.json): 3 of 3 — face unreadable, reads as a ruined phone photo, no brand wordmark.",
+  },
+
+  /* ---------- /free-proof example gallery (2026-10-06) ----------
+   * Seven square tiles beside the step-4 drop zone (owner 2026-10-06: "more and better examples"): a SEND THESE
+   * row of the four photos that matter (lib/catalog/photo-checklist.ts rows 1–4) and a LEAVE THESE OUT row of
+   * three. Nothing was generated for them. The ✓ tiles are square crops of the audited hero.story phone photos
+   * (`hero.story.<n>.before.<k>` sources); the ✕ tiles are the card listings' slide-12 "bad photo" takes whose
+   * judge json beside them passes every check. `intake.example.blurred` shares its file with
+   * `intake.example.bad`. The gallery (components/intake/PhotoExamples.tsx) carries copies of src/alt that
+   * tests/intake-photos.test.ts asserts equal to these entries. Crops and checks: docs/f1/ASSETS-RENDERS.md
+   * "Free-proof example gallery and the photo check (2026-10-06)".
+   */
+  "intake.example.face": {
+    out: "/images/intake/photo-example-face-close-up.webp",
+    source: "art-pipeline/out/athletes/softball/before/photo1.png", width: 400, height: 400, kind: "photo",
+    crop: "box:0.27,0.08,0.52,0.3883", fictional: true, status: "verified",
+    alt: "Example of a photo to send: a close-up of a fictional softball player at home, face sharp and both eyes visible — generated example photo",
+    note: "Same source as hero.story.2.before.2 (Brooke Danner), cut square on the face: forehead to chin, both braids.",
+  },
+  "intake.example.turned": {
+    out: "/images/intake/photo-example-head-turned.webp",
+    source: "art-pipeline/out/athletes/basketball/before/photo3.png", width: 400, height: 400, kind: "photo",
+    crop: "box:0.35,0.06,0.5,0.3733", fictional: true, status: "verified",
+    alt: "Example of a photo to send: a fictional basketball player at practice with his head turned to the side — generated example photo",
+    note: "Same source as hero.story.1.before.3 (Marcus Ellison), cut square on the head and shoulders: a three-quarter view, about 45° to his left.",
+  },
+  "intake.example.fullbody": {
+    out: "/images/intake/photo-example-full-body.webp",
+    source: `${FBC}/s02-before-b.png`, width: 400, height: 400, kind: "photo",
+    crop: "box:0.02,0.2,0.97,0.7688", fictional: true, status: "verified",
+    alt: "Example of a photo to send: a fictional football player seen head to shoes, pushing a blocking sled — generated example photo",
+    note: "Same source as hero.story.3.before (Tui Fa'agata). The only hero phone photo whose whole figure fits a square: head (y 0.225) to shoes (y 0.95). Marcus in the gym spans 0.08–0.975 of a 3 : 4 frame and cannot.",
+  },
+  "intake.example.kit": {
+    out: "/images/intake/photo-example-team-kit.webp",
+    source: "art-pipeline/out/athletes/football/before/photo2.png", width: 400, height: 400, kind: "photo",
+    crop: "box:0.1,0.155,0.8,0.5975", fictional: true, status: "verified",
+    alt: "Example of a photo to send: a fictional football player in his team kit, the crest and the number 54 showing — generated example photo",
+    note: "Same source as hero.story.3.before.3 (Tui Fa'agata), cut square from the hair to the jersey hem; the maker mark on the pants is below the box.",
+  },
+  "intake.example.blurred": {
+    out: "/images/intake/photo-example-blurred.webp",
+    source: `${SHOTS}/football/bad-blurred.png`, width: 600, height: 600, kind: "photo", fictional: true, status: "verified",
+    alt: "Example of a photo to leave out: a badly blurred phone snapshot of a football player whose face cannot be made out — generated example image, fictional athlete",
+    note: "Same file as intake.example.bad. Judge (bad-blurred.judge.json): 3 of 3.",
+  },
+  "intake.example.covered": {
+    out: "/images/intake/photo-example-face-covered.webp",
+    source: `${SHOTS}/baseball/bad-face-covered.png`, width: 400, height: 400, kind: "photo",
+    crop: "box:0.2,0.04,0.47,0.47", fictional: true, status: "verified",
+    alt: "Example of a photo to leave out: a fictional athlete seen from behind, hood up and a hand over the head, no face visible — generated example image",
+    note: "The baseball card listing's slide-12 face-covered take. Judge (bad-face-covered.judge.json): 3 of 3 — no facial feature visible, reads as a phone snapshot, no wordmark. The box keeps a NO ENTRY door sign out of the tile.",
+  },
+  "intake.example.group": {
+    out: "/images/intake/photo-example-group.webp",
+    source: `${SHOTS}/baseball/bad-group.png`, width: 400, height: 400, kind: "photo", fictional: true, status: "verified",
+    alt: "Example of a photo to leave out: a posed team photo of fictional baseball players, every face the same size — generated example image",
+    note: "The baseball card listing's slide-12 group take. Judge (bad-group.judge.json): 3 of 3. The football group take was passed over: its two rows are the same eight boys twice.",
   },
 
   /* owner decision */

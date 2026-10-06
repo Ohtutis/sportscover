@@ -34,7 +34,7 @@ import { Mat } from "../components/Mat";
 import { BracketFrame } from "../components/BracketFrame";
 import { CapacityNote } from "../components/CapacityNote";
 import { FourFears, PRIVACY_ANSWER_WITHOUT_IMPRINT } from "../components/FourFears";
-import { CardQrIcon, EyeIcon, IdCardIcon, RotateCcwIcon, icons } from "../components/icons";
+import { CardQrIcon, CheckCircleIcon, EyeIcon, IdCardIcon, RotateCcwIcon, icons } from "../components/icons";
 import { GateRow, type Gate } from "../components/GateRow";
 import { FounderNote } from "../components/FounderNote";
 import { ConsentRow } from "../components/ConsentRow";
@@ -56,7 +56,9 @@ import { TrueNumbers } from "../components/TrueNumbers";
 import { HANG_HEIGHT_IN, SHEET, ToScaleSheet, boxStyle, posterCentreIn } from "../components/ToScaleSheet";
 import { PhotoChecklist } from "../components/PhotoChecklist";
 import { FICTIONAL_LABEL_SHORT, FictionalLabel } from "../components/FictionalLabel";
-import { ProofPath } from "../components/ProofPath";
+import { PROOF_BAND_LABEL_ID, ProofPath, ProofPathBand, STEP_PHOTO_KEYS, STEP_PRODUCT_KEYS, STEP_PROOF_KEY } from "../components/ProofPath";
+import { INTAKE_COPY } from "../lib/intake/copy";
+import { SITE_ASSETS } from "../lib/assets";
 import { META_PIXEL_SRC, MetaPixel, loadMetaPixel, metaPixelId, type PixelDocument, type PixelHost } from "../components/MetaPixel";
 import { ButtonLink } from "../components/ButtonLink";
 
@@ -556,16 +558,18 @@ describe("CardFlip / CopyIdButton / ShareRow (client islands, server render)", (
   });
 });
 
-describe("ProofPath (D29) — the four steps under every hero CTA", () => {
-  const html = render(createElement(ProofPath, { className: "mt-8" }));
-  it("prints the four steps of the one constant, in order, under its label", () => {
+describe("ProofPath (D29) — one component, the cards and the list", () => {
+  const list = render(createElement(ProofPath, { variant: "list", className: "mt-8" }));
+  const cards = render(createElement(ProofPath, {}));
+
+  it("list: prints the four steps of the one constant, in order, under its label", () => {
     expect(PROOF_PATH.map((s) => s.step)).toEqual([1, 2, 3, 4]);
-    expect(html).toContain(PROOF_PATH_LABEL);
+    expect(list).toContain(PROOF_PATH_LABEL);
     let at = 0;
     for (const step of PROOF_PATH) {
-      const i = html.indexOf(step.title, at);
+      const i = list.indexOf(step.title, at);
       expect(i, step.title).toBeGreaterThan(at - 1);
-      expect(html).toContain(step.detail);
+      expect(list).toContain(step.detail);
       at = i;
     }
     // The owner's path, word for word where it matters.
@@ -574,19 +578,83 @@ describe("ProofPath (D29) — the four steps under every hero CTA", () => {
     expect(PROOF_PATH[2].detail).toContain("secure payment link or on Etsy");
     expect(PROOF_PATH[3].detail).toContain("watermark off");
   });
-  it("is an ordered list named by its label, with decorative numerals and nothing to press", () => {
-    expect(html).toContain(`<ol aria-label="${PROOF_PATH_LABEL}"`);
-    expect(html.match(/<li/g)?.length).toBe(4);
-    expect(html.match(/<span aria-hidden="true" class="inline-flex size-7/g)?.length).toBe(4);
-    expect(html).not.toMatch(/<a |<button/);
-    expect(html).not.toMatch(/accent/);
-    expect(html).toContain("mt-8");
+  it("list: an ordered list named by its label, with decorative numerals and nothing to press", () => {
+    expect(list).toContain(`<ol aria-label="${PROOF_PATH_LABEL}"`);
+    expect(list.match(/<li/g)?.length).toBe(4);
+    expect(list.match(/<span aria-hidden="true" class="inline-flex size-7/g)?.length).toBe(4);
+    expect(list).not.toMatch(/<a |<button|<img/);
+    expect(list).not.toMatch(/accent/);
+    expect(list).toContain("mt-8");
   });
   it("reads as one sentence where a list cannot go", () => {
     const line = proofPathLine();
     expect(line.startsWith("1. Send photos: ")).toBe(true);
     for (const step of PROOF_PATH) expect(line).toContain(`${step.step}. ${step.title}: ${step.detail}.`);
     expect(line).not.toMatch(/stripe/i);
+  });
+
+  // Owner review 2026-10-06: "a visual is missing where I circled" — each card carries its step's picture.
+  it("cards (the default): the four stepCards in order — numeral, picture, two-word title, one line", () => {
+    expect(cards).toContain(`<ol aria-label="${PROOF_PATH_LABEL}"`);
+    expect(cards.match(/<li data-step-card=""/g)?.length).toBe(4);
+    let at = 0;
+    for (const card of INTAKE_COPY.stepCards) {
+      const n = cards.indexOf(`>${card.n}</span>`, at);
+      expect(n, card.n).toBeGreaterThan(at);
+      expect(cards.indexOf(card.title, n), card.title).toBeGreaterThan(n);
+      expect(cards).toContain(card.line);
+      at = n;
+    }
+    // One picture box per card, beside the numeral; equal heights across the row; 2 × 2 under lg.
+    expect(cards.match(/data-step-visual=""/g)?.length).toBe(4);
+    expect(cards).toMatch(/class="grid auto-rows-fr grid-cols-1 gap-3 min-\[375px\]:grid-cols-2[^"]*lg:grid-cols-4/);
+    // ≥ 56 px tall on a phone, ≥ 72 px at 1440 (h-16 = 64, xl:h-24 = 96).
+    expect(cards).toMatch(/data-step-visual="" class="relative h-16 w-\[5\.25rem\][^"]*xl:h-24/);
+  });
+  it("cards: the pictures are the product tiles, the parent's phone photos, the proof and the approval tick", () => {
+    const out = (key: string) => encodeURIComponent(SITE_ASSETS[key].out);
+    const stepOf = (i: number) => cards.split('<li data-step-card=""')[i + 1];
+    for (const key of STEP_PRODUCT_KEYS) expect(stepOf(0)).toContain(out(key));
+    for (const key of STEP_PHOTO_KEYS) expect(stepOf(1)).toContain(out(key));
+    expect(stepOf(2)).toContain(out(STEP_PROOF_KEY));
+    const tick = render(createElement(CheckCircleIcon, { size: 24 })).replace(/^<svg[^>]*>|<\/svg>$/g, "");
+    expect(stepOf(3)).toContain(tick);
+    expect(stepOf(3)).toContain(INTAKE_COPY.stepCards[3].line);
+    // The proof and the photos are ONE athlete (the proof of the athlete whose photos they are).
+    expect(SITE_ASSETS[STEP_PROOF_KEY].note).toContain("GDE-SN-BKB-2026-12");
+    for (const key of STEP_PHOTO_KEYS) expect(SITE_ASSETS[key].source).toContain("athletes/basketball/before/");
+    // The watermark is the point: the proof is never cropped.
+    expect(stepOf(2)).toMatch(/object-contain/);
+  });
+  it("cards: decorative, lazy, accent-free, nothing to press, never a typed price", () => {
+    expect(cards.match(/<img /g)?.length).toBe(5);
+    for (const img of cards.match(/<img [^>]*>/g) ?? []) {
+      expect(img).toContain('alt=""');
+      expect(img).toContain('loading="lazy"');
+      expect(img).toContain("sizes=");
+      expect(img).not.toMatch(/fetchpriority/i);
+    }
+    expect(cards).not.toMatch(/<a |<button/);
+    expect(cards).not.toMatch(/accent/);
+    expect(cards).not.toMatch(/\$\d/);
+    expect(cards).not.toContain(CANON.fictionalLabel);
+  });
+  it("the band: its own section, the rule with the label, the cards, C13 once, generous air", () => {
+    const band = render(createElement(ProofPathBand, {}));
+    expect(band).toMatch(new RegExp(`^<section data-proof-band="" aria-labelledby="${PROOF_BAND_LABEL_ID}" class="py-16 md:py-20 lg:py-24"><div class="container-gallery">`));
+    const rule = band.indexOf('data-proof-band-rule="" class="border-t border-hairline');
+    const label = band.indexOf(`<p id="${PROOF_BAND_LABEL_ID}" class="font-label text-label`);
+    expect(rule).toBeGreaterThan(-1);
+    expect(label).toBeGreaterThan(rule);
+    expect(band.indexOf(PROOF_PATH_LABEL)).toBeGreaterThan(label);
+    expect(band.indexOf("<ol")).toBeGreaterThan(label);
+    expect(band.split(CANON.fictionalLabel).length - 1).toBe(1);
+    expect(band.indexOf(CANON.fictionalLabel)).toBeGreaterThan(band.lastIndexOf("</ol>"));
+    // The page's own container, or none inside a section that has one; flush bottom where a rule follows.
+    expect(render(createElement(ProofPathBand, { container: "site" }))).toContain('<div class="container-site">');
+    const bare = render(createElement(ProofPathBand, { container: "none" }));
+    expect(bare).not.toMatch(/container-(site|gallery)/);
+    expect(render(createElement(ProofPathBand, { flushBottom: true }))).toMatch(/class="pt-16 md:pt-20 lg:pt-24"/);
   });
 });
 

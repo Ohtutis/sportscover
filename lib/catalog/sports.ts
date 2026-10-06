@@ -1,6 +1,7 @@
 // The 17 sports. `numbered` = the kit carries a jersey number (copy may promise "their number");
 // `hasBackNumber` = the shirt back carries it (from art-pipeline/kits.ts). Codes are the ones the
-// printed card IDs and the Etsy SKUs use. Listing IDs are the live Etsy listings (2026-09-05).
+// printed card IDs and the Etsy SKUs use. Listing IDs are the live Etsy listings (2026-09-05; banner and
+// Senior Night banner ids 2026-10-02/04; the basketball Senior Night set 4580022282 from 2026-09-22).
 
 export interface Sport {
   slug: string;
@@ -8,28 +9,32 @@ export interface Sport {
   name: string;
   numbered: boolean;
   hasBackNumber: boolean;
-  /** True when at least one Etsy listing for this sport is live. */
+  /** True when the sport has a live card, poster or Senior Night listing (a banner-only sport such as lacrosse stays false). */
   live: boolean;
   /** Poster art exists for this sport (GAPS #16) — the /posters sport picker lists only these. */
   hasPosterArt?: boolean;
   cardListingId?: string;
   posterListingId?: string;
   seniorNightListingId?: string;
+  /** The sport's own banner listing (etsy/BANNER-ROLLOUT-2026-10.md, live 2026-10-02) — 11 sports have one. */
+  bannerListingId?: string;
+  /** The Senior Night banner listing (SR style, live 2026-10-02/04) — 8 sports have one. */
+  seniorNightBannerListingId?: string;
 }
 
 export const sports: Sport[] = [
-  { slug: "basketball", code: "BKB", name: "Basketball", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4562666649", posterListingId: "4562700100" },
-  { slug: "football", code: "FTB", name: "Football", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4563878038", posterListingId: "4564301710", seniorNightListingId: "4568844304" },
-  { slug: "baseball", code: "BSB", name: "Baseball", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4567592965", posterListingId: "4568369175", seniorNightListingId: "4568844985" },
-  { slug: "softball", code: "SFB", name: "Softball", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4570918285", posterListingId: "4570922925", seniorNightListingId: "4569506845" },
-  { slug: "soccer", code: "SOC", name: "Soccer", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4567599879", posterListingId: "4568359117", seniorNightListingId: "4568841851" },
-  { slug: "ice-hockey", code: "ICH", name: "Ice Hockey", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4574711059", posterListingId: "4574712739" },
-  { slug: "volleyball", code: "VBL", name: "Volleyball", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4567597109", posterListingId: "4568365063", seniorNightListingId: "4568846696" },
-  { slug: "lacrosse", code: "LAX", name: "Lacrosse", numbered: true, hasBackNumber: true, live: false },
-  { slug: "wrestling", code: "WRS", name: "Wrestling", numbered: true, hasBackNumber: false, live: true, hasPosterArt: true, cardListingId: "4570935692", posterListingId: "4570924637", seniorNightListingId: "4569522144" },
-  { slug: "cheerleading", code: "CHR", name: "Cheerleading", numbered: false, hasBackNumber: false, live: true, hasPosterArt: true, cardListingId: "4564284709", posterListingId: "4564287163", seniorNightListingId: "4568849272" },
+  { slug: "basketball", code: "BKB", name: "Basketball", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4562666649", posterListingId: "4562700100", seniorNightListingId: "4580022282", bannerListingId: "4587149341", seniorNightBannerListingId: "4588343385" },
+  { slug: "football", code: "FTB", name: "Football", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4563878038", posterListingId: "4564301710", seniorNightListingId: "4568844304", bannerListingId: "4579998618", seniorNightBannerListingId: "4587228297" },
+  { slug: "baseball", code: "BSB", name: "Baseball", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4567592965", posterListingId: "4568369175", seniorNightListingId: "4568844985", bannerListingId: "4587163355", seniorNightBannerListingId: "4588346087" },
+  { slug: "softball", code: "SFB", name: "Softball", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4570918285", posterListingId: "4570922925", seniorNightListingId: "4569506845", bannerListingId: "4587165630", seniorNightBannerListingId: "4588353382" },
+  { slug: "soccer", code: "SOC", name: "Soccer", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4567599879", posterListingId: "4568359117", seniorNightListingId: "4568841851", bannerListingId: "4587139658", seniorNightBannerListingId: "4587237982" },
+  { slug: "ice-hockey", code: "ICH", name: "Ice Hockey", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4574711059", posterListingId: "4574712739", bannerListingId: "4587152501" },
+  { slug: "volleyball", code: "VBL", name: "Volleyball", numbered: true, hasBackNumber: true, live: true, hasPosterArt: true, cardListingId: "4567597109", posterListingId: "4568365063", seniorNightListingId: "4568846696", bannerListingId: "4587127673", seniorNightBannerListingId: "4587235630" },
+  { slug: "lacrosse", code: "LAX", name: "Lacrosse", numbered: true, hasBackNumber: true, live: false, bannerListingId: "4587174104" },
+  { slug: "wrestling", code: "WRS", name: "Wrestling", numbered: true, hasBackNumber: false, live: true, hasPosterArt: true, cardListingId: "4570935692", posterListingId: "4570924637", seniorNightListingId: "4569522144", bannerListingId: "4587162250", seniorNightBannerListingId: "4588344745" },
+  { slug: "cheerleading", code: "CHR", name: "Cheerleading", numbered: false, hasBackNumber: false, live: true, hasPosterArt: true, cardListingId: "4564284709", posterListingId: "4564287163", seniorNightListingId: "4568849272", bannerListingId: "4587147815", seniorNightBannerListingId: "4587240396" },
   { slug: "gymnastics", code: "GYM", name: "Gymnastics", numbered: false, hasBackNumber: false, live: false },
-  { slug: "track-field", code: "TRK", name: "Track & Field", numbered: true, hasBackNumber: false, live: false },
+  { slug: "track-field", code: "TRK", name: "Track & Field", numbered: true, hasBackNumber: false, live: false, bannerListingId: "4587172821" },
   { slug: "swimming", code: "SWM", name: "Swimming", numbered: false, hasBackNumber: false, live: false },
   { slug: "tennis", code: "TEN", name: "Tennis", numbered: false, hasBackNumber: false, live: false },
   { slug: "golf", code: "GLF", name: "Golf", numbered: false, hasBackNumber: false, live: false },

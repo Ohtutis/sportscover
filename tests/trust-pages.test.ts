@@ -319,11 +319,24 @@ describe("trust pages — proof first (D29)", () => {
     return src.slice(first, second === -1 ? undefined : second);
   };
 
-  it("/guarantee opens with the proof-first line, the CTA pair and the four-step path, in that order", () => {
+  /** The opener's own markup (first `<section` to its `</section>`) and the band that follows it. */
+  const openerAndBand = (route: Route): { opener: string; band: number; next: number; closed: number } => {
+    const src = read(PAGE_PATHS[route]);
+    const first = src.indexOf("<section");
+    const closed = src.indexOf("</section>", first);
+    return { opener: src.slice(first, closed), band: src.indexOf('{proofFirst ? <ProofPathBand container="site" /> : null}'), next: src.indexOf("<section", first + 1), closed };
+  };
+
+  it("/guarantee opens with the proof-first line and the CTA pair; the four-step path is its own band right under it", () => {
     const hero = heroOf("/guarantee");
-    const order = ["CANON.proofFirstLine", "<CtaPair", "<TrustLine", "<ProofPath"].map((s) => hero.indexOf(s));
+    const order = ["CANON.proofFirstLine", "<CtaPair", "<TrustLine", "<ProofPathBand"].map((s) => hero.indexOf(s));
     expect(order.every((i) => i > -1), order.join(",")).toBe(true);
     expect(order).toEqual([...order].sort((a, b) => a - b));
+    // Owner review 2026-10-06: out of the opener's text column, into a band between the opener and the next section.
+    const { opener, band, next, closed } = openerAndBand("/guarantee");
+    expect(opener).not.toContain("<ProofPath");
+    expect(band).toBeGreaterThan(closed);
+    expect(band).toBeLessThan(next);
     // Gated on the mode: with Etsy as the primary the opener goes back to heading + promise.
     expect(hero).toContain("{proofFirst ? (");
     const src = read(PAGE_PATHS["/guarantee"]);
@@ -334,11 +347,15 @@ describe("trust pages — proof first (D29)", () => {
     expect(src).not.toContain(CANON.proofFirstLine.slice(0, 40));
   });
 
-  it("/how-it-works ends its opener with the CTA pair and the path, and says the line at the FINISH check", () => {
+  it("/how-it-works ends its opener with the CTA pair, puts the path in its own band under it, and says the line at the FINISH check", () => {
     const hero = heroOf("/how-it-works");
-    const order = ['block("how-its-made")', "<CtaPair", "<TrustLine", "<ProofPath"].map((s) => hero.indexOf(s));
+    const order = ['block("how-its-made")', "<CtaPair", "<TrustLine", "<ProofPathBand"].map((s) => hero.indexOf(s));
     expect(order.every((i) => i > -1), order.join(",")).toBe(true);
     expect(order).toEqual([...order].sort((a, b) => a - b));
+    const { opener, band, next, closed } = openerAndBand("/how-it-works");
+    expect(opener).not.toContain("<ProofPath");
+    expect(band).toBeGreaterThan(closed);
+    expect(band).toBeLessThan(next);
     const src = read(PAGE_PATHS["/how-it-works"]);
     const finish = src.slice(src.indexOf('id: "gate-finish"'), src.indexOf("artefact:", src.indexOf('id: "gate-finish"')));
     expect(finish).toContain("{CANON.proofFirstLine}");

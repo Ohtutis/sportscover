@@ -56,6 +56,12 @@ function routesOnDisk(dir = path.join(ROOT, "app"), route = ""): string[] {
 }
 const DISK_ROUTES = new Set(routesOnDisk());
 
+/** A concrete path is built when its own page.tsx exists or a `[segment]` route on disk matches it. */
+function routeBuilt(path: string): boolean {
+  if (DISK_ROUTES.has(path)) return true;
+  return [...DISK_ROUTES].some((route) => route.includes("[") && new RegExp(`^${route.replace(/\[[^\]]+\]/g, "[a-z0-9-]+")}$`).test(path));
+}
+
 /**
  * F1 pages the other Wave-1 builders are still writing in this shared tree. Every entry must be gone
  * by the Wave-2 build; a page missing from disk that is NOT on this list is a real hole in the sitemap.
@@ -108,7 +114,7 @@ describe("intents — one keyword, one page", () => {
 
   it("every F1 intent path is built (or still in flight)", () => {
     for (const i of INTENTS.filter((x) => x.phase === "F1")) {
-      if (DISK_ROUTES.has(i.path)) continue;
+      if (routeBuilt(i.path)) continue;
       expect(WAVE1_IN_FLIGHT.has(i.path), `${i.path} owns keywords but has no page.tsx`).toBe(true);
     }
   });
@@ -117,9 +123,11 @@ describe("intents — one keyword, one page", () => {
     for (const i of INTENTS) {
       if (PAGES[i.path]) expect(i.phase, i.path).toBe(PAGES[i.path].phase);
     }
-    expect(ownerOf("custom basketball cards")?.phase).toBe("F3");
-    expect(ownerOf("football senior night")?.phase).toBe("F2");
+    // 2026-10-06: the sport pages and the senior-night spokes are built; /styles stays F3.
+    expect(ownerOf("custom basketball cards")?.phase).toBe("F1");
+    expect(ownerOf("football senior night")?.phase).toBe("F1");
     expect(ownerOf("custom trading cards")?.phase).toBe("F1");
+    expect(PAGES["/styles/[finish]"].phase).toBe("F3");
   });
 
   it("every page that must own a keyword owns one", () => {
@@ -389,7 +397,7 @@ describe("next.config redirects()", () => {
     for (const r of redirectRules) {
       expect(matchesPagePath(r.destination), `${r.source} points at ${r.destination}, which is not in PAGES`).toBe(true);
       const meta = PAGES[r.destination];
-      if (meta?.phase === "F1" && !DISK_ROUTES.has(r.destination)) {
+      if (meta?.phase === "F1" && !routeBuilt(r.destination)) {
         expect(WAVE1_IN_FLIGHT.has(r.destination), `${r.destination} does not exist`).toBe(true);
       }
     }

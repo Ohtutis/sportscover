@@ -1,10 +1,10 @@
-import type { FormEvent } from "react";
+import { Fragment, type FormEvent } from "react";
 import { FOOTER_COLUMNS } from "../../lib/nav";
 import { INTAKE_COPY } from "../../lib/intake/copy";
 import { CONSENTS, CONSENT_ORDER, type ConsentKey } from "../../lib/intake/types";
 import { ConsentRow } from "../ConsentRow";
 import { ExternalIcon } from "../icons";
-import { FieldError, Tag } from "./fields";
+import { FieldError } from "./fields";
 import { errorId, fieldId } from "./model";
 import { UI } from "./strings";
 
@@ -21,14 +21,25 @@ export interface ConsentFieldsProps {
 const POLICY_HREFS = ["/privacy", "/privacy/biometric", "/terms"];
 const POLICIES = (FOOTER_COLUMNS.find((c) => c.title === "Legal")?.links ?? []).filter((l) => POLICY_HREFS.includes(l.href));
 
+/** The confirmations a request needs (the crest's only once a crest is attached), then the optional ones — both in CONSENT_ORDER. */
+const CONFIRMATIONS = CONSENT_ORDER.filter((k) => CONSENTS[k].required || k === "crest");
+const OPTIONAL = CONSENT_ORDER.filter((k) => !CONFIRMATIONS.includes(k));
+const NOTES: Partial<Record<ConsentKey, string>> = INTAKE_COPY.consentNotes;
+/** "A. B." → ["A.", "B."]: each sentence of the plain line starts its own line (no lookbehind — older Safari cannot parse one). */
+const sentences = (line: string): string[] => (line.match(/[^.!?]+(?:[.!?]+|$)/g) ?? [line]).map((s) => s.trim()).filter(Boolean);
+
 /**
- * The permissions, after step 5 and unnumbered (owner review 2026-10-04, point 13): a quiet grey panel,
- * small type, no orange — still one sentence, one checkbox (`ConsentRow`), each sentence verbatim from
- * CONSENTS in CONSENT_ORDER, the three required ones never merged. The crest row is in the DOM behind
- * `hidden` until a crest is attached; marketing is optional. ConsentRow stays uncontrolled: the form
- * listens to the change events bubbling out of this fieldset. After a send attempt each unticked
- * required box is `aria-invalid` and names the error sentence under its row. The policies open in a new
- * tab — leaving this page would lose the photos already chosen.
+ * The permissions, after step 5 and unnumbered — v3 (owner review 2026-10-06): the grey "PERMISSIONS."
+ * panel with REQUIRED tags read like a contract, "as if we were doing something not legit". Now three
+ * quick confirmations on a white card: a heading one size under the step titles (it is not a step), one
+ * plain line, "All three are needed" once instead of a tag per row, and per row a plain-language title
+ * (`consentTitles`) over the consent sentence. The sentences are unchanged: verbatim from CONSENTS, in
+ * CONSENT_ORDER, one checkbox each (`ConsentRow`), the sentence the box's label. The crest row is in the
+ * DOM behind `hidden` until a crest is attached, and then the counts say four; the optional marketing
+ * row sits under a hairline, quieter. ConsentRow stays uncontrolled: the form listens to the change
+ * events bubbling out of this fieldset. After a send attempt each unticked required box is
+ * `aria-invalid` and names the error sentence under its row. The policies open in a new tab — leaving
+ * this page would lose the photos already chosen.
  */
 export function ConsentFields({ crest, onChange, errors, titleId }: ConsentFieldsProps) {
   const onBoxChange = (e: FormEvent<HTMLFieldSetElement>) => {
@@ -37,41 +48,54 @@ export function ConsentFields({ crest, onChange, errors, titleId }: ConsentField
     const key = CONSENT_ORDER.find((k) => target.id === fieldId(`consents.${k}`));
     if (key) onChange(key, target.checked);
   };
+  const panel = crest ? INTAKE_COPY.consentPanel.withCrest : INTAKE_COPY.consentPanel;
+
+  const row = (key: ConsentKey) => {
+    const consent = CONSENTS[key];
+    const shown = key !== "crest" || crest;
+    const required = consent.required || (key === "crest" && crest);
+    const message = errors[`consents.${key}`];
+    return (
+      <div key={key} hidden={!shown} className="max-w-[62ch]">
+        <ConsentRow
+          id={fieldId(`consents.${key}`)}
+          name={`consent-${key}`}
+          label={consent.text}
+          required={required}
+          invalid={Boolean(message)}
+          describedBy={message ? errorId(`consents.${key}`) : undefined}
+          title={INTAKE_COPY.consentTitles[key]}
+          note={NOTES[key]}
+          tone={required ? "default" : "quiet"}
+        />
+        <FieldError id={errorId(`consents.${key}`)} message={message} className="ml-8" />
+      </div>
+    );
+  };
 
   return (
-    <section aria-labelledby={titleId} className="rounded-[20px] bg-ink/5 p-5 sm:p-7 lg:p-8">
-      <h2 id={titleId} className="font-display text-h3 uppercase text-ink">
-        {INTAKE_COPY.sections.consent.title}
+    <section aria-labelledby={titleId} className="rounded-ui border border-hairline bg-white p-5 sm:p-7 lg:p-8">
+      <h2 id={titleId} className="font-display text-h3 uppercase text-balance text-ink">
+        {panel.title}
       </h2>
-      <p className="mt-2 max-w-[60ch] font-body text-small text-muted-text">{INTAKE_COPY.sections.consent.subhead}</p>
-      {/* Rows sit 24 px apart: ConsentRow's label grows 12 px each way to reach 44 px, and the grown targets must not overlap. */}
-      <fieldset onChange={onBoxChange} className="mt-6 flex min-w-0 flex-col gap-6 [&_input]:accent-ink">
-        <legend className="sr-only">{INTAKE_COPY.sections.consent.title}</legend>
-        {CONSENT_ORDER.map((key) => {
-          const consent = CONSENTS[key];
-          const shown = key !== "crest" || crest;
-          const required = consent.required || (key === "crest" && crest);
-          const message = errors[`consents.${key}`];
-          return (
-            <div key={key} hidden={!shown} className="max-w-[62ch]">
-              <div className="flex flex-col gap-y-1 sm:flex-row sm:items-start sm:justify-between sm:gap-x-6">
-                <ConsentRow
-                  id={fieldId(`consents.${key}`)}
-                  name={`consent-${key}`}
-                  label={consent.text}
-                  required={required}
-                  invalid={Boolean(message)}
-                  describedBy={message ? errorId(`consents.${key}`) : undefined}
-                  className="min-w-0 flex-1"
-                />
-                <Tag kind={required ? "required" : "optional"} className="ml-8 self-start sm:ml-0 sm:mt-0.5" />
-              </div>
-              <FieldError id={errorId(`consents.${key}`)} message={message} className="ml-8" />
-            </div>
-          );
-        })}
+      {/* One line per sentence: wrapped at the house measure, the line left "…posted / or shared." dangling at 1440. */}
+      <p className="mt-3 max-w-[60ch] font-body text-body text-pretty text-ink">
+        {sentences(panel.line).map((sentence, i) => (
+          <Fragment key={sentence}>
+            {i > 0 ? " " : null}
+            <span className="block">{sentence}</span>
+          </Fragment>
+        ))}
+      </p>
+      <fieldset onChange={onBoxChange} className="mt-6 min-w-0 [&_input]:accent-ink">
+        <legend className="sr-only">{panel.title}</legend>
+        <p className="font-label text-label font-semibold uppercase tracking-[0.12em] text-muted-text">{panel.needed}</p>
+        {/* 24 px between rows: each row is its own tap target (ConsentRow stretches the label over it). */}
+        <div className="mt-5 flex flex-col gap-6">{CONFIRMATIONS.map(row)}</div>
+        <div className="mt-6 flex flex-col gap-6 border-t border-hairline pt-6">{OPTIONAL.map(row)}</div>
       </fieldset>
-      <ul className="mt-6 flex flex-wrap gap-x-6 border-t border-ink/10 pt-3">
+      {/* No separator glyphs: at 390 px the row wraps, and a leading "·" dangled before "Terms". */}
+      <ul className="mt-6 flex flex-wrap gap-x-6 border-t border-hairline pt-2">
         {POLICIES.map((policy) => (
           <li key={policy.href}>
             <a

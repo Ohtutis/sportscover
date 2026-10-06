@@ -12,7 +12,7 @@ import { Shield } from "../../../components/brand/Shield";
 import { OrderByCalculator } from "../../../components/OrderByCalculator";
 import { Pill } from "../../../components/Pill";
 import { Plate } from "../../../components/Plate";
-import { ProofPath } from "../../../components/ProofPath";
+import { ProofPathBand } from "../../../components/ProofPath";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { TrustLine } from "../../../components/TrustLine";
 import { asset, assetOrNull, hasAsset, type ImageSpec } from "../../../lib/assets";
@@ -24,6 +24,7 @@ import { CALC_COPY } from "../../../lib/copy/calc";
 import { CANON } from "../../../lib/copy/canon";
 import { ctaFor, freeProofMode } from "../../../lib/cta";
 import { pageMeta } from "../../../lib/seo/meta";
+import { seniorNightFactsFor, seniorNightPath } from "../../../lib/seo/senior-night-facts";
 import { SUPPORT_EMAIL } from "../../../lib/site";
 import { GiftNote } from "./_gift-note";
 
@@ -169,9 +170,10 @@ function SeniorNightHeroMedia() {
 }
 
 /**
- * A Senior Night sport tile: the card IS the tile, then the sport name. Its link is that sport's
- * primary CTA — since D29 the free-proof form with the sport and the Senior Night style prefilled
- * (`ctaFor` falls back to the sport's Etsy Senior Night listing when the site is Etsy-primary).
+ * A Senior Night sport tile: the card IS the tile, then the sport name. Its link is the sport's own
+ * senior-night page (/senior-night/[sport], built 2026-10-06 from lib/seo/senior-night-facts.ts — the hub
+ * links its spokes, SEO plan §4) and, for a sport without a spoke, that sport's primary CTA — since D29
+ * the free-proof form with the sport and the Senior Night style prefilled.
  *
  * It used to be a ruled plate
  * around a 4 : 5 arena mat with the card at 76 % of it — 285 × 356 of tile for a 182 × 254 card, 51 px
@@ -185,7 +187,7 @@ function SportTile({ slug, caption }: { slug: string; caption?: string }) {
   const face = assetOrNull(`sn.sport.${slug}.front`);
   const name = sport?.name ?? slug;
   return (
-    <a href={ctaFor("senior-night", { sport: slug }).primary.href} className="group block outline-offset-4">
+    <a href={seniorNightFactsFor(slug) ? seniorNightPath(slug) : ctaFor("senior-night", { sport: slug }).primary.href} className="group block outline-offset-4">
       {face ? (
         <CardFace {...face} labelled sizes="(min-width: 640px) 224px, 62vw" />
       ) : (
@@ -212,12 +214,14 @@ export default function SeniorNightPage() {
   const cta = ctaFor("senior-night");
   const faq = faqSubset("senior-night");
   const teamOrder = firstAsset(TEAM_ORDER_KEYS);
+  const proofFirst = freeProofMode();
 
   return (
     <>
       <div className="print:hidden">
-        {/* 01 · Hero */}
-        <section aria-labelledby="sn-hero" className="pt-8 pb-16 md:pb-24 lg:pb-32">
+        {/* 01 · Hero. While the site runs proof-first, its bottom air is the band's: the free-proof path
+            follows directly as its own band (owner review 2026-10-06), so the hero ends on the TrustLine. */}
+        <section aria-labelledby="sn-hero" className={proofFirst ? "pt-8" : "pt-8 pb-16 md:pb-24 lg:pb-32"}>
           <div className="container-gallery">
             <Breadcrumbs
               trail={[
@@ -248,7 +252,6 @@ export default function SeniorNightPage() {
                 <DeliveryChips kind="seniorNight" className="mt-6" />
                 <CtaPair {...cta} size="lg" className="mt-6" />
                 <TrustLine />
-                {freeProofMode() ? <ProofPath className="mt-8" /> : null}
               </div>
               <div className="mt-10 lg:col-span-6 lg:mt-0">
                 <SeniorNightHeroMedia />
@@ -256,6 +259,8 @@ export default function SeniorNightPage() {
             </div>
           </div>
         </section>
+
+        {proofFirst ? <ProofPathBand /> : null}
 
         {/* 02 · Order-by calculator */}
         <section aria-labelledby="sn-calc" className={SECTION}>

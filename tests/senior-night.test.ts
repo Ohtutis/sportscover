@@ -7,6 +7,7 @@ import { addCalendarDays, seniorNightPlan, type IsoDate, type PlanRow } from "..
 import { CHIPS } from "../lib/catalog/delivery";
 import { faqSubset } from "../lib/catalog/faq";
 import { ctaFor, seniorNightSku } from "../lib/cta";
+import { sportBySlug } from "../lib/catalog/sports";
 import { pageFor } from "../lib/seo/titles";
 import { pageMeta } from "../lib/seo/meta";
 import { CALC_COPY } from "../lib/copy/calc";
@@ -128,7 +129,8 @@ describe("the page", () => {
   });
 
   it("links every tile through that sport's primary CTA — the free proof, Senior Night and the sport prefilled (D29)", () => {
-    expect(page).toContain('<a href={ctaFor("senior-night", { sport: slug }).primary.href}');
+    // 2026-10-06: a tile links its spoke (/senior-night/[sport]) and falls back to the sport's primary CTA.
+    expect(page).toContain('<a href={seniorNightFactsFor(slug) ? seniorNightPath(slug) : ctaFor("senior-night", { sport: slug }).primary.href}');
     expect(page).not.toContain("etsyHref(");
     expect(ctaFor("senior-night", { sport: "football" }).primary.href).toBe("/free-proof?product=cards,poster&sport=football&style=SR");
     expect(ctaFor("senior-night", { sport: "ice-hockey" }).primary.href).toBe("/free-proof?product=cards,poster&sport=ice-hockey&style=SR");
@@ -136,7 +138,9 @@ describe("the page", () => {
     // Etsy stays the outline beside it: the sport's own Senior Night listing, or the any-sport one.
     expect(seniorNightSku("football")).toBe("GDE-FTB-SNSET");
     expect(seniorNightSku("ice-hockey")).toBe("GDE-ANY-SNSET");
-    expect(seniorNightSku("basketball")).toBe("GDE-ANY-SNSET");
+    // Basketball's own Senior Night set went live 2026-09-22 (lib/catalog/sports.ts, added 2026-10-06): the rule
+    // is "the sport's own listing when the catalog has one", so the expectation follows the catalog.
+    expect(seniorNightSku("basketball")).toBe(sportBySlug("basketball")?.seniorNightListingId ? "GDE-BKB-SNSET" : "GDE-ANY-SNSET");
     expect(ctaFor("senior-night", { sport: "football" }).secondary?.href).toBe("/go/etsy/GDE-FTB-SNSET");
     expect(ctaFor("senior-night").secondary?.href).toBe("/go/etsy/GDE-ANY-SNSET");
     // Never a marketplace URL, and no price on this page.
@@ -196,8 +200,14 @@ describe("the page", () => {
     expect(text.includes("<DeliveryChips")).toBe(true);
     expect(text.indexOf("<CtaPair")).toBeGreaterThan(text.indexOf("<DeliveryChips"));
     expect(text.indexOf("<TrustLine")).toBeGreaterThan(text.indexOf("<CtaPair"));
-    // D29: the four-step path sits under the CTA block, still inside the text column.
-    expect(text.indexOf("<ProofPath")).toBeGreaterThan(text.indexOf("<TrustLine"));
+    // D29, owner review 2026-10-06: the four-step path is no longer inside the text column — it is its
+    // own band directly under the hero section, before the order-by calculator.
+    expect(text.includes("<ProofPath")).toBe(false);
+    const heroClosed = page.indexOf("</section>", page.indexOf('aria-labelledby="sn-hero"'));
+    const band = page.indexOf("{proofFirst ? <ProofPathBand /> : null}");
+    expect(band).toBeGreaterThan(heroClosed);
+    expect(band).toBeLessThan(page.indexOf('aria-labelledby="sn-calc"'));
+    expect(page).toContain('className={proofFirst ? "pt-8" : "pt-8 pb-16 md:pb-24 lg:pb-32"}');
   });
 
   it("leads the hero with the senior-night moment where the map carries one", () => {

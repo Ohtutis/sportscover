@@ -434,18 +434,33 @@ describe("family pages — the sport picker", () => {
   });
 });
 
-describe("family pages — the hero CTA block (D29)", () => {
-  it("prints the CTA pair, the TrustLine, then the four-step ProofPath under them", () => {
+describe("family pages — the hero CTA block and the free-proof band (D29, owner review 2026-10-06)", () => {
+  it("the hero block ends on the CTA pair and the TrustLine — the path is no longer wedged under them", () => {
     const html = render(createElement(HeroCtaBlock, { cta: ctaFor("cards", { sport: "basketball" }), notes: [] }));
     expect(html).toContain('href="/free-proof?product=cards&amp;sport=basketball"');
     expect(html).toContain("/go/etsy/GDE-BKB-CARD");
     const pair = html.indexOf("Get a free proof →");
     const trust = html.indexOf("Never posted without your OK");
-    const path = html.indexOf(esc(PROOF_PATH_LABEL));
     expect(pair).toBeGreaterThan(-1);
     expect(trust).toBeGreaterThan(pair);
-    expect(path).toBeGreaterThan(trust);
+    expect(html).not.toContain(esc(PROOF_PATH_LABEL));
+    expect(read(`${SHARED_DIR}/hero.tsx`)).not.toContain("<ProofPath");
     expect(count(html, /<DeliveryChips|aria-label="Delivery times"/g)).toBe(1);
+  });
+
+  it("each page mounts the path as its own band between the hero row and the tier ladder, only proof-first", () => {
+    for (const page of PAGES) {
+      const src = read(page.file);
+      const plate = src.indexOf("</HeroPlate>");
+      const band = src.indexOf('{proofFirst ? <ProofPathBand container="none" /> : null}');
+      const tiers = src.indexOf("<TierRow");
+      expect(plate, page.path).toBeGreaterThan(-1);
+      expect(band, page.path).toBeGreaterThan(plate);
+      expect(tiers, page.path).toBeGreaterThan(band);
+      expect(src, page.path).toContain("const proofFirst = freeProofMode();");
+      // The ladder keeps its old 64 px under the hero row when the band is off, and takes the band's air when on.
+      expect(src, page.path).toContain('<div className={proofFirst ? undefined : "mt-12 lg:mt-16"}>');
+    }
   });
 });
 
@@ -675,7 +690,8 @@ describe("family pages — real life beside the flat renders", () => {
     const src = read(PAGES[0].file);
     for (const key of LIFE.cards) expect(src).toContain(key);
     // The photograph is captioned by the frame that resolved, never by another frame's words.
-    expect(src).toContain("A printed card on a desk, close up, beside a pen and two coins for scale.");
+    // 2026-10-06: product.cards is the fan of cards on the oak table (product tiles v2), captioned as such.
+    expect(src).toContain("A fan of printed cards on a wooden table, front and back, square-cut.");
     expect(src).toContain("Printed cards in the sleeves of a collector's binder.");
     // 2026-10-04: the rounded-corner card in a hand is off the site (pre-2026-09-01 art).
     expect(src).not.toContain("life.card.hand");

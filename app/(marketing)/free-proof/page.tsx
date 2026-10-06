@@ -7,19 +7,25 @@
 // card — beside a sticky "Your order" panel. The page container is the gallery width (DESIGN §2.1: hero,
 // product hero) so the steps keep their room beside the panel; every paragraph still stops at 60–62ch.
 //
+// v3 (owner review 2026-10-06): the hero is two columns — the copy, and the real watermarked proof with
+// the phone photos it came from — and the four cards are the site's shared `ProofPathBand` (each with its
+// picture), the same band every money page carries under its hero. The set is no longer a fifth product
+// card: it is what ticking cards and a poster together does, said in one computed line under the cards.
+//
 // This server page hands the form island everything it must not compute in the browser: every price
 // label AND the number behind it (lib/intake/products.ts helpers + prices.ts sitePrice, so a sale boundary
 // can never make the client disagree with the server), the Complete Set tiers as option pairs, the set
-// card's saving (from the ladder only), the finish card faces and the two example photos (lib/assets.ts),
-// C5 from content/blocks and today's ET date. The ?product=… prefill is read by the island inside its own
+// line's "save from" figure (from the ladder only), the finish card faces and the two example photos
+// (lib/assets.ts), C5 from content/blocks and today's ET date. The ?product=… prefill is read by the island inside its own
 // Suspense boundary, so this route stays static (revalidated hourly like every other priced page).
 
 import type { Metadata } from "next";
 import { IntakeForm } from "../../../components/intake/IntakeForm";
-import { HowItWorks, IntakeHero } from "../../../components/intake/IntakeHero";
-import { setSaving, type SetCombo } from "../../../components/intake/model";
+import { IntakeHero } from "../../../components/intake/IntakeHero";
+import { minSetSaving, type SetCombo } from "../../../components/intake/model";
 import type { ProductTileData, SetTileData } from "../../../components/intake/ProductPicker";
 import type { StyleTileData } from "../../../components/intake/StylePicker";
+import { ProofPathBand } from "../../../components/ProofPath";
 import { asset, assetOrNull, hasAsset, type ImageSpec } from "../../../lib/assets";
 import { block } from "../../../lib/blocks";
 import { toEtDate } from "../../../lib/capacity";
@@ -27,7 +33,7 @@ import { formatUsd, getTier, sitePrice } from "../../../lib/catalog/prices";
 import { styles } from "../../../lib/catalog/styles";
 import { SET_TIER_OPTIONS } from "../../../lib/cta";
 import { INTAKE_COPY, INTAKE_PATH } from "../../../lib/intake/copy";
-import { PRICE_ON_PROOF, PRODUCTS, optionPriceLabel, productFromLabel, setFromLabel } from "../../../lib/intake/products";
+import { PRICE_ON_PROOF, PRODUCTS, optionPriceLabel, productFromLabel } from "../../../lib/intake/products";
 import { pageMeta } from "../../../lib/seo/meta";
 
 export const revalidate = 3600;
@@ -69,17 +75,10 @@ function setCombos(): SetCombo[] {
   });
 }
 
+/** The set line under the four product cards: the smallest saving a set tier gives, and the tiers themselves. */
 function intakeSetTile(products: ProductTileData[], combos: SetCombo[]): SetTileData {
-  const saved = setSaving(products, combos);
-  const t = INTAKE_COPY.setTile;
-  return {
-    name: t.name,
-    blurb: t.blurb,
-    fromLabel: setFromLabel(),
-    badge: t.badge,
-    savingsLine: saved === null ? null : t.savingsLine(formatUsd(saved)),
-    images: { cards: productImage("cards"), poster: productImage("poster") },
-  };
+  const saved = minSetSaving(products, combos);
+  return { pickLine: saved === null ? null : INTAKE_COPY.setNote.pick(formatUsd(saved)), combos };
 }
 
 function intakeStyles(): StyleTileData[] {
@@ -90,20 +89,24 @@ export default function FreeProofPage() {
   const products = intakeProducts();
   const combos = setCombos();
   return (
-    <div className="container-gallery pb-16 md:pb-24">
-      <IntakeHero />
-      <HowItWorks className="mt-12 md:mt-16" />
-      <IntakeForm
-        className="mt-10 md:mt-14"
-        products={products}
-        setTile={intakeSetTile(products, combos)}
-        setCombos={combos}
-        styles={intakeStyles()}
-        photosSubhead={block("photos-that-work-best")}
-        examples={{ good: assetOrNull("intake.example.good"), bad: assetOrNull("intake.example.bad") }}
-        todayIso={toEtDate(new Date())}
-        turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || undefined}
-      />
-    </div>
+    <>
+      <div className="container-gallery">
+        <IntakeHero />
+      </div>
+      {/* The band's own top padding is the hero's bottom air; step 1 opens on its own rule right under it. */}
+      <ProofPathBand flushBottom />
+      <div className="container-gallery pb-16 md:pb-24">
+        <IntakeForm
+          products={products}
+          setTile={intakeSetTile(products, combos)}
+          setCombos={combos}
+          styles={intakeStyles()}
+          photosSubhead={block("photos-that-work-best")}
+          examples={{ good: assetOrNull("intake.example.good"), bad: assetOrNull("intake.example.bad") }}
+          todayIso={toEtDate(new Date())}
+          turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || undefined}
+        />
+      </div>
+    </>
   );
 }

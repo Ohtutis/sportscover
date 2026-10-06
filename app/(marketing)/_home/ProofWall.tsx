@@ -48,7 +48,8 @@ export function ProofWall() {
             ))}
           </ul>
           <p className="mt-5 max-w-[62ch] font-body text-[0.75rem] font-medium leading-[1.4] tracking-[0.01em] text-muted-text">{CANON.galleryCaption}</p>
-          <ArrowLink href="/trading-cards#sports" className="mt-5">
+          {/* 2026-10-06: the by-sport hub (/sports) lists all seventeen with the number / crest truth per sport. */}
+          <ArrowLink href="/sports" className="mt-5">
             All seventeen sports
           </ArrowLink>
         </div>
