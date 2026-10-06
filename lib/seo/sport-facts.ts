@@ -90,7 +90,7 @@ export const SPORT_FACTS: SportFacts[] = [
       {
         id: "q-basketball-season",
         q: "When should a basketball parent order?",
-        a: "Any time in the season. Senior night for basketball usually falls in late January or February; add the date on the form and the proof is scheduled against it. The digital files arrive first, the printed card after you approve the proof.",
+        a: "Any time in the season. Senior night for basketball usually falls in late January or February; tell us the date after you send the photos and the proof is scheduled against it. The digital files arrive first, the printed card after you approve the proof.",
       },
     ],
     posts: [],
@@ -166,7 +166,7 @@ export const SPORT_FACTS: SportFacts[] = [
       {
         id: "q-baseball-when",
         q: "When do baseball parents usually order?",
-        a: "Two windows: the spring season, when the card marks the year, and the weeks before the holidays, when it is a gift. Senior night for baseball usually falls in April or May; add the date on the form and the proof is scheduled against it.",
+        a: "Two windows: the spring season, when the card marks the year, and the weeks before the holidays, when it is a gift. Senior night for baseball usually falls in April or May; let us know the date once the request is in and the proof is timed to it.",
       },
     ],
     posts: ["custom-baseball-cards-from-your-photos-the-complete-guide"],

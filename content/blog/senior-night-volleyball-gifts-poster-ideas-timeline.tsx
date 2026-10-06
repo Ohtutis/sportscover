@@ -94,7 +94,7 @@ export const post: BlogPost = {
         items={[
           <>
             <strong className="font-medium">As soon as you know the date.</strong> Send 4–10 photos and ask for a free proof; it
-            arrives within {PROOF_CLOCK}. Add the date on the form and we schedule the proof against it.
+            arrives within {PROOF_CLOCK}. Tell us the date in your reply to the confirmation email and we schedule the proof against it.
           </>,
           <>
             <strong className="font-medium">At least two weeks before the night.</strong> Approve the proof and order the printed
