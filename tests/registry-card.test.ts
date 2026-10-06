@@ -44,10 +44,13 @@ const readManifest = (id: string): Manifest => JSON.parse(fs.readFileSync(path.j
 const GAPS_8 = ["GDE-CA-SFB-2026-03", "GDE-SN-SFB-2026-03", "GDE-FS-WRS-2026-01", "GDE-HE-WRS-2026-01", "GDE-SN-BKB-2026-23", "GDE-HE-FTB-2026-54", "GDE-SS-CHR-2026-01"];
 // F1-ART-08 (2026-09-23): the eighteen listing demo cards deployed after their QRs were already printed.
 const LISTING_DEMOS_PENDING = ["GDE-CA-ICH-2026-17", "GDE-SN-ICH-2026-17", "GDE-SS-GYM-2026-01", "GDE-HE-GYM-2026-01", "GDE-PR-PKB-2026-02", "GDE-CA-PKB-2026-02", "GDE-CA-TEN-2026-01", "GDE-SS-TEN-2026-01", "GDE-HE-GLF-2026-01", "GDE-SN-GLF-2026-01", "GDE-FS-LAX-2026-22", "GDE-PR-LAX-2026-22", "GDE-PR-TRK-2026-08", "GDE-FS-TRK-2026-08", "GDE-SN-SWM-2026-01", "GDE-SS-SWM-2026-01", "GDE-SS-OTH-2026-12", "GDE-CA-OTH-2026-12"];
+// F1-ART-09 (2026-10-04): the other-finish cards whose ids are printed on the live listing images
+// (docs/registry/QR-AUDIT-2026-10-04.md) — registered so the printed id resolves, faces still to export.
+const LISTING_BACKS_PENDING = ["GDE-CA-BKB-2026-12", "GDE-FS-BKB-2026-12", "GDE-HE-BKB-2026-12", "GDE-SS-BKB-2026-12", "GDE-PR-BKB-2026-12", "GDE-SN-FTB-2026-54", "GDE-CA-FTB-2026-54", "GDE-SS-FTB-2026-54", "GDE-PR-FTB-2026-54", "GDE-SN-BSB-2026-07", "GDE-CA-BSB-2026-07", "GDE-FS-BSB-2026-07", "GDE-SS-BSB-2026-07", "GDE-PR-BSB-2026-07", "GDE-FS-SFB-2026-03", "GDE-HE-SFB-2026-03", "GDE-SS-SFB-2026-03", "GDE-PR-SFB-2026-03", "GDE-SN-SOC-2026-10", "GDE-FS-SOC-2026-10", "GDE-HE-SOC-2026-10", "GDE-SS-SOC-2026-10", "GDE-PR-SOC-2026-10", "GDE-FS-ICH-2026-17", "GDE-HE-ICH-2026-17", "GDE-SS-ICH-2026-17", "GDE-PR-ICH-2026-17", "GDE-SN-VBL-2026-05", "GDE-CA-VBL-2026-05", "GDE-FS-VBL-2026-05", "GDE-HE-VBL-2026-05", "GDE-PR-VBL-2026-05", "GDE-SN-LAX-2026-22", "GDE-CA-LAX-2026-22", "GDE-HE-LAX-2026-22", "GDE-SS-LAX-2026-22", "GDE-SN-WRS-2026-01", "GDE-CA-WRS-2026-01", "GDE-SS-WRS-2026-01", "GDE-PR-WRS-2026-01", "GDE-SN-CHR-2026-01", "GDE-CA-CHR-2026-01", "GDE-FS-CHR-2026-01", "GDE-HE-CHR-2026-01", "GDE-SN-GYM-2026-01", "GDE-CA-GYM-2026-01", "GDE-FS-GYM-2026-01", "GDE-PR-GYM-2026-01", "GDE-SN-TRK-2026-08", "GDE-CA-TRK-2026-08", "GDE-HE-TRK-2026-08", "GDE-SS-TRK-2026-08", "GDE-CA-SWM-2026-01", "GDE-FS-SWM-2026-01", "GDE-HE-SWM-2026-01", "GDE-PR-SWM-2026-01", "GDE-SN-TEN-2026-01", "GDE-FS-TEN-2026-01", "GDE-HE-TEN-2026-01", "GDE-PR-TEN-2026-01", "GDE-CA-GLF-2026-01", "GDE-FS-GLF-2026-01", "GDE-SS-GLF-2026-01", "GDE-PR-GLF-2026-01", "GDE-SN-PKB-2026-02", "GDE-FS-PKB-2026-02", "GDE-HE-PKB-2026-02", "GDE-SS-PKB-2026-02", "GDE-SN-OTH-2026-12", "GDE-FS-OTH-2026-12", "GDE-HE-OTH-2026-12", "GDE-PR-OTH-2026-12"];
 
 describe("ART_PENDING (GAPS #8)", () => {
   it("is exactly the pending ids", () => {
-    expect([...ART_PENDING.map((p) => p.cardId)].sort()).toEqual([...GAPS_8, ...LISTING_DEMOS_PENDING].sort());
+    expect([...ART_PENDING.map((p) => p.cardId)].sort()).toEqual([...GAPS_8, ...LISTING_DEMOS_PENDING, ...LISTING_BACKS_PENDING].sort());
     expect(new Set(ART_PENDING.map((p) => p.cardId)).size).toBe(ART_PENDING.length);
   });
   it("every entry is a public fictional record with a ticket and a reason", () => {
@@ -56,7 +59,7 @@ describe("ART_PENDING (GAPS #8)", () => {
       expect(c, p.cardId).toBeDefined();
       expect(c?.isFictional, `${p.cardId} fictional`).toBe(true);
       expect(visibilityOf(c!), `${p.cardId} visibility`).not.toBe("deleted");
-      expect(["F1-ART-01", "F1-ART-02", "F1-ART-05", "F1-ART-08"]).toContain(p.ticket);
+      expect(["F1-ART-01", "F1-ART-02", "F1-ART-05", "F1-ART-08", "F1-ART-09"]).toContain(p.ticket);
       expect(p.reason.trim().length).toBeGreaterThan(20);
     }
   });
