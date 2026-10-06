@@ -59,7 +59,8 @@ import { FICTIONAL_LABEL_SHORT, FictionalLabel } from "../components/FictionalLa
 import { PROOF_BAND_LABEL_ID, ProofPath, ProofPathBand, STEP_PHOTO_KEYS, STEP_PRODUCT_KEYS, STEP_PROOF_KEY } from "../components/ProofPath";
 import { INTAKE_COPY } from "../lib/intake/copy";
 import { SITE_ASSETS } from "../lib/assets";
-import { META_PIXEL_SRC, MetaPixel, loadMetaPixel, metaPixelId, type PixelDocument, type PixelHost } from "../components/MetaPixel";
+import { AD_OPT_OUT_KEY, META_PIXEL_SRC, MetaPixel, NO_PIXEL_COUNTRIES, loadMetaPixel, metaPixelId, optedOut, pixelAllowedIn, type PixelDocument, type PixelHost } from "../components/MetaPixel";
+import { META_PIXEL_ID } from "../lib/site";
 import { ButtonLink } from "../components/ButtonLink";
 
 const ROOT = process.cwd();
@@ -674,8 +675,9 @@ describe("MetaPixel (D29, D19 kept honest)", () => {
   it("renders nothing — no script tag, no noscript beacon — and is off without a valid id", () => {
     expect(render(createElement(MetaPixel))).toBe("");
     expect(process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "").toBe("");
-    expect(metaPixelId()).toBeNull();
-    expect(metaPixelId("")).toBeNull();
+    // The default id is lib/site.ts META_PIXEL_ID (public by nature); empty → no pixel.
+    expect(metaPixelId()).toBe(META_PIXEL_ID || null);
+    expect(metaPixelId("")).toBe(META_PIXEL_ID || null);
     expect(metaPixelId("12ab")).toBeNull();
     expect(metaPixelId("123456789012345');alert(1)//")).toBeNull();
     expect(metaPixelId(" 123456789012345 ")).toBe("123456789012345");
@@ -719,10 +721,30 @@ describe("MetaPixel (D29, D19 kept honest)", () => {
     walk("app");
     walk("components");
     walk("lib");
-    expect(importers).toEqual([path.join("app", "(marketing)", "free-proof", "layout.tsx")]);
+    // AdOptOut (the /privacy switch) imports the opt-out helpers, never the component (2026-10-06).
+    expect(importers.sort()).toEqual([path.join("app", "(marketing)", "free-proof", "layout.tsx"), path.join("components", "AdOptOut.tsx")].sort());
+    expect(read("components/AdOptOut.tsx")).not.toMatch(/<MetaPixel|loadMetaPixel/);
     const layout = read("app/(marketing)/free-proof/layout.tsx");
     expect(layout).toContain("<MetaPixel />");
     expect(layout).toContain("{children}");
+  });
+  it("loads only outside the EU, EEA, UK and Switzerland, and never for an unknown country (2026-10-06)", () => {
+    for (const c of ["US", "CA", "AU", "MX"]) expect(pixelAllowedIn(c), c).toBe(true);
+    for (const c of ["LT", "DE", "FR", "IE", "GB", "CH", "NO", "IS", "LI"]) expect(pixelAllowedIn(c), c).toBe(false);
+    for (const c of ["", "us", "USA", "1"]) expect(pixelAllowedIn(c), c).toBe(false);
+    expect(NO_PIXEL_COUNTRIES).toHaveLength(32);
+  });
+  it("respects the /privacy opt-out, and a storage that throws counts as opted out", () => {
+    expect(optedOut({ getItem: (k: string) => (k === AD_OPT_OUT_KEY ? "1" : null) })).toBe(true);
+    expect(optedOut({ getItem: () => null })).toBe(false);
+    expect(
+      optedOut({
+        getItem: () => {
+          throw new Error("blocked");
+        },
+      }),
+    ).toBe(true);
+    expect(metaPixelId(META_PIXEL_ID || undefined) ?? "").toBe(META_PIXEL_ID);
   });
 });
 

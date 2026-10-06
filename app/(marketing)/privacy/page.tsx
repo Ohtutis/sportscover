@@ -1,6 +1,7 @@
 // COPY §2.16.1, on the F1 legal shell (GAPS #14: SectionHeading as="h1" + a version line in
 // font-label, no eyebrow). Layout: DESIGN §5.9 — read column max-w-[42rem], H2 per section,
 // the subprocessor and retention tables as Ledgers, anchors with scroll-margin.
+import { AdOptOut } from "../../../components/AdOptOut";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
@@ -35,6 +36,7 @@ function Lead({ children }: { children: ReactNode }) {
 
 const SUBPROCESSORS: { provider: string; role: string; where: string }[] = [
   { provider: "Vercel", role: "Hosting, cookieless analytics", where: "US / EU edge" },
+  { provider: "Meta Platforms", role: "Ad measurement (the Meta pixel) on the free-proof page only, outside the EU, EEA, UK and Switzerland", where: "US" },
   {
     provider: "Supabase",
     role: "Order and team records (database) — from the day direct ordering opens on this site",
@@ -120,7 +122,14 @@ export default function PrivacyPage() {
               </li>
               <li>
                 <Lead>To keep the site working:</Lead> cookieless, aggregated analytics (page, country, device class) that never contain
-                names, emails, photos or card IDs. No advertising pixels. No cookies for tracking.
+                names, emails, photos or card IDs.
+              </li>
+              <li id="ad-measurement">
+                <Lead>To measure our ads:</Lead> the free-proof page, and only that page, loads the Meta pixel for visitors in the United
+                States and other countries outside the EU, the EEA, the UK and Switzerland. It tells Meta that the page was opened, which
+                products and style were picked, and whether a request was sent — never a name, an email, a photo or anything about your
+                athlete. Meta sets its own cookie for this. Card pages, the registry and every other page never load it, a browser that
+                sends Global Privacy Control never loads it, and you can switch it off below.
               </li>
               <li>
                 <Lead>To know which pages help:</Lead> when you send a free-proof request, it carries the page you first arrived on, the
@@ -163,8 +172,11 @@ export default function PrivacyPage() {
               }))}
             />
             <p>
-              Each provider receives only what its role needs. We do not sell personal data and we do not share it with advertisers.
+              Each provider receives only what its role needs. We do not sell personal data. The one thing an advertiser receives is the
+              ad-measurement signal described above, from the free-proof page; it never carries your name, your email, a photo or your
+              athlete&apos;s details.
             </p>
+            <AdOptOut />
           </Section>
 
           <Section title="How long we keep things (retention).">
