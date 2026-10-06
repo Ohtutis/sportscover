@@ -56,6 +56,13 @@ export const bannerTiers: Tier[] = [
   { sku: "GDE-ANY-BAN-3X6", family: "banner", tierKey: "3X6", name: "3x6 ft Vinyl Banner", etsyBase: 109.99, etsySale: 76.99, physical: true, enabled: true },
 ];
 
+/**
+ * The one dollar literal the site may show that is not a ladder price: the free-proof page's "Today $0".
+ * It lives here because the forbidden-strings lint allows typed dollar amounts in this module only —
+ * nothing is due before a proof is approved, so the figure is a fact, not a price.
+ */
+export const DUE_TODAY_LABEL = "$0";
+
 export function ceilTo99(n: number): number {
   const whole = Math.ceil(n - 0.99 - 1e-9);
   return Math.round((whole + 0.99) * 100) / 100;

@@ -1008,6 +1008,27 @@ const entries: Record<string, Entry> = {
     note: "MOCKUP until a photo of a real blanket exists: a generated white blank on a bed with the Heritage poster art printed on by fabric_onto.py. The crop leaves out a pair of sneakers that carry a maker's mark. Judge: 12 of 12 checks passed on this crop (take 3 of 3).",
   },
 
+  /* ---------- /free-proof photo examples (2026-10-04) ----------
+   * The ✓ / ✕ pair beside the step-4 drop zone (owner review 2026-10-04, point 11). Nothing was generated for
+   * them. The ✓ is the audited hero phone photo — the same source file as home.hero.before (Marcus, basketball) —
+   * cut square on the face so "clear face, good light" reads at tile size. The ✕ is the football card listing's
+   * generated "bad photo" (slide 12, the blurred one), whose judge json beside it passes 3 of 3 checks.
+   * Takes and checks: docs/f1/ASSETS-RENDERS.md "Free-proof photo examples (2026-10-04)".
+   */
+  "intake.example.good": {
+    out: "/images/intake/photo-example-clear-face.webp",
+    source: "art-pipeline/out/athletes/basketball/before/photo2.png", width: 600, height: 600, kind: "photo",
+    crop: "box:0.247,0.042,0.55,0.4108", fictional: true, status: "verified",
+    alt: "Example of a photo that works: a phone photo of a fictional basketball player in a gym, face sharp and in good light — photo generated",
+    note: "Same source as home.hero.before, cropped square from head to the ball; the shoes (maker mark) are below the box.",
+  },
+  "intake.example.bad": {
+    out: "/images/intake/photo-example-blurred.webp",
+    source: `${SHOTS}/football/bad-blurred.png`, width: 600, height: 600, kind: "photo", fictional: true, status: "verified",
+    alt: "Example of a photo that does not work: a badly blurred phone snapshot of a football player whose face cannot be made out — generated example image, fictional athlete",
+    note: "The football card listing's slide-12 bad example. Judge (bad-blurred.judge.json): 3 of 3 — face unreadable, reads as a ruined phone photo, no brand wordmark.",
+  },
+
   /* owner decision */
   "scale.sizes": {
     out: "", width: 0, height: 0, kind: "sheet", status: "locate",

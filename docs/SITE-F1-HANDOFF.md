@@ -158,6 +158,20 @@ storage layout and the request runbook are in `docs/SITE-F2A-FREE-PROOF-2026-10.
     with the payment choice, and after payment run the usual `card:new` → `qr:gen` → `cards:assets`
     sequence from `docs/ORDER-TO-WEB-CARD-FLIP.md`. Delete a declined request's folder 30 days after the no.
 
+### Production state after the merge (2026-10-04, PR #13 live)
+
+`GET https://www.gamedayedition.com/api/intake/health` → `storage: true, email: false, turnstile: false,
+bucket: "athlete-submissions"`: the Supabase variables from the old site are still set on Vercel; the
+Resend key is not. A real end-to-end submission from the build machine (fictional roster photos,
+`start` → signed uploads → `complete`) answered **503 `storage_unavailable`** at `start`, so the
+form currently shows its honest fallback (email your photos to hello@). Most likely cause: the
+Supabase project has been **paused** (free tier, idle since August) or the bucket is missing. To
+switch the form on: (1) open the Supabase dashboard → restore/unpause the project; confirm the
+private bucket `athlete-submissions` exists (no MIME restriction, ≥ 25 MB file limit); (2) set
+`RESEND_API_KEY` on Vercel (and verify gamedayedition.com in Resend); (3) redeploy; (4) re-run the
+five-line first real test in `docs/SITE-F2A-FREE-PROOF-2026-10.md` — `health` must show
+`storage: true, email: true` and a phone submission must land on `/free-proof/thanks`.
+
 ## Not in F1 on purpose
 
 Direct checkout and order pages, team links, `/sports/<sport>`, `/styles/<finish>`,

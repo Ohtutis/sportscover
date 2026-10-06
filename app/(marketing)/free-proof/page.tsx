@@ -2,22 +2,30 @@
 // 4–10 photos, get a free watermarked proof; pay only after approving it, by secure payment link or on
 // Etsy. One page, one long form, one submit — no wizard, no account, no payment on the site.
 //
-// This server page renders the stock hero and hands the form island everything it must not compute in
-// the browser: every price label (lib/intake/products.ts helpers, so a sale boundary can never make the
-// client disagree with the server), the finish card faces (lib/assets.ts), C5 from content/blocks and
-// today's ET date. The ?product=… prefill is read by the island inside its own Suspense boundary, so this
-// route stays static (revalidated hourly like every other priced page).
+// v2 (owner design review 2026-10-04): a landing hero with one CTA that glides to step 1, four
+// how-it-works cards, then the configurator — five numbered steps, the permissions panel, the conversion
+// card — beside a sticky "Your order" panel. The page container is the gallery width (DESIGN §2.1: hero,
+// product hero) so the steps keep their room beside the panel; every paragraph still stops at 60–62ch.
+//
+// This server page hands the form island everything it must not compute in the browser: every price
+// label AND the number behind it (lib/intake/products.ts helpers + prices.ts sitePrice, so a sale boundary
+// can never make the client disagree with the server), the Complete Set tiers as option pairs, the set
+// card's saving (from the ladder only), the finish card faces and the two example photos (lib/assets.ts),
+// C5 from content/blocks and today's ET date. The ?product=… prefill is read by the island inside its own
+// Suspense boundary, so this route stays static (revalidated hourly like every other priced page).
 
 import type { Metadata } from "next";
 import { IntakeForm } from "../../../components/intake/IntakeForm";
-import { IntakeHero } from "../../../components/intake/IntakeHero";
-import { setLineWithPrice, splitSetSentence } from "../../../components/intake/model";
-import type { ProductTileData } from "../../../components/intake/ProductPicker";
+import { HowItWorks, IntakeHero } from "../../../components/intake/IntakeHero";
+import { setSaving, type SetCombo } from "../../../components/intake/model";
+import type { ProductTileData, SetTileData } from "../../../components/intake/ProductPicker";
 import type { StyleTileData } from "../../../components/intake/StylePicker";
-import { asset, hasAsset, type ImageSpec } from "../../../lib/assets";
+import { asset, assetOrNull, hasAsset, type ImageSpec } from "../../../lib/assets";
 import { block } from "../../../lib/blocks";
 import { toEtDate } from "../../../lib/capacity";
+import { formatUsd, getTier, sitePrice } from "../../../lib/catalog/prices";
 import { styles } from "../../../lib/catalog/styles";
+import { SET_TIER_OPTIONS } from "../../../lib/cta";
 import { INTAKE_COPY, INTAKE_PATH } from "../../../lib/intake/copy";
 import { PRICE_ON_PROOF, PRODUCTS, optionPriceLabel, productFromLabel, setFromLabel } from "../../../lib/intake/products";
 import { pageMeta } from "../../../lib/seo/meta";
@@ -33,6 +41,12 @@ const productImage = (key: string): ImageSpec | null => (hasAsset(`product.${key
 /** The seven style tiles: the six finishes on one fictional athlete, and the Senior Night edition. */
 const styleImage = (code: string): ImageSpec => asset(code === "SR" ? "finish.SR.tile" : `finish.${code}.front`);
 
+/** An option's site price, from its tier — null when the option has no tier yet (the blanket). */
+const optionPrice = (sku: string | undefined): number | null => {
+  const tier = sku ? getTier(sku) : undefined;
+  return tier ? sitePrice(tier) : null;
+};
+
 function intakeProducts(): ProductTileData[] {
   return PRODUCTS.map((p) => ({
     key: p.key,
@@ -40,8 +54,32 @@ function intakeProducts(): ProductTileData[] {
     blurb: p.blurb,
     fromLabel: productFromLabel(p) ?? PRICE_ON_PROOF,
     image: productImage(p.key),
-    options: p.options.map((o) => ({ key: o.key, label: o.label, detail: o.detail, priceLabel: optionPriceLabel(o), printed: o.printed })),
+    options: p.options.map((o) => ({ key: o.key, label: o.label, detail: o.detail, priceLabel: optionPriceLabel(o), printed: o.printed, price: optionPrice(o.sku) })),
   }));
+}
+
+/** The enabled Complete Set tiers as the (cards option, poster option) pairs lib/cta.ts maps them to, with their site prices. */
+function setCombos(): SetCombo[] {
+  return Object.entries(SET_TIER_OPTIONS).flatMap(([sku, option]) => {
+    const tier = getTier(sku);
+    if (!tier || !tier.enabled) return [];
+    const cards = typeof option === "string" ? option : option.cards;
+    const poster = typeof option === "string" ? option : option.poster;
+    return cards && poster ? [{ cards, poster, price: sitePrice(tier) }] : [];
+  });
+}
+
+function intakeSetTile(products: ProductTileData[], combos: SetCombo[]): SetTileData {
+  const saved = setSaving(products, combos);
+  const t = INTAKE_COPY.setTile;
+  return {
+    name: t.name,
+    blurb: t.blurb,
+    fromLabel: setFromLabel(),
+    badge: t.badge,
+    savingsLine: saved === null ? null : t.savingsLine(formatUsd(saved)),
+    images: { cards: productImage("cards"), poster: productImage("poster") },
+  };
 }
 
 function intakeStyles(): StyleTileData[] {
@@ -49,16 +87,20 @@ function intakeStyles(): StyleTileData[] {
 }
 
 export default function FreeProofPage() {
-  const { lead, set } = splitSetSentence(INTAKE_COPY.sections.products.subhead);
+  const products = intakeProducts();
+  const combos = setCombos();
   return (
-    <div className="container-site pb-16 md:pb-24">
+    <div className="container-gallery pb-16 md:pb-24">
       <IntakeHero />
+      <HowItWorks className="mt-12 md:mt-16" />
       <IntakeForm
-        products={intakeProducts()}
+        className="mt-10 md:mt-14"
+        products={products}
+        setTile={intakeSetTile(products, combos)}
+        setCombos={combos}
         styles={intakeStyles()}
-        productsLead={lead}
-        setLine={setLineWithPrice(set, setFromLabel())}
         photosSubhead={block("photos-that-work-best")}
+        examples={{ good: assetOrNull("intake.example.good"), bad: assetOrNull("intake.example.bad") }}
         todayIso={toEtDate(new Date())}
         turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || undefined}
       />

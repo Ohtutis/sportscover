@@ -22,6 +22,72 @@ export const INTAKE_COPY = {
   h1: "FREE PROOF FIRST. PAY IF YOU LOVE IT.",
   subhead: `Choose what you'd like made and send ${PHOTO_RULES.min}–${PHOTO_RULES.max} photos. We build a watermarked proof of your athlete's edition — free, within ${PROOF_CLOCK}. Approve it and pay by secure payment link or on our Etsy shop; the watermark comes off and the files and prints follow.`,
 
+  /** v2 hero (owner review 2026-10-04): the H1, ONE short sentence, the orange CTA that scrolls to step 1, a quiet note. */
+  heroLine: `Send ${PHOTO_RULES.min}–${PHOTO_RULES.max} photos, see a free watermarked proof, pay only if you love it.`,
+  heroCta: "Start my free proof →",
+  heroCtaNote: "No payment required",
+
+  /** v2: the four how-it-works cards — big numeral, two-word title, one line. "Nothing due today" is the zero-due fact in words; the figure itself comes from prices.ts DUE_TODAY_LABEL. */
+  stepCards: [
+    { n: "01", title: "Choose it", line: "Product and style" },
+    { n: "02", title: "Upload it", line: `${PHOTO_RULES.min}–${PHOTO_RULES.max} phone photos` },
+    { n: "03", title: "We design it", line: "Your free watermarked proof" },
+    { n: "04", title: "Love it? Pay", line: "Nothing due today" },
+  ],
+
+  /** v2: five numbered steps on the page; permissions and the conversion card come after step 5. */
+  stepLabel: (n: number): string => `STEP ${n} OF 5`,
+  steps5: {
+    product: { title: "WHAT TO MAKE.", support: "Pick one or more. Every printed option includes the digital files." },
+    style: { title: "PICK YOUR LOOK.", support: "Six finishes and the Senior Night edition. Not sure? Let us choose." },
+    athlete: { title: "ABOUT THE ATHLETE.", support: "Only what goes on the card. Long names are fine — the type scales, it never shortens." },
+    photos: { title: "UPLOAD YOUR PHOTOS." },
+    contact: { title: "ALMOST DONE.", support: "Where should we send your free proof?" },
+  },
+  requiredTag: "Required",
+  optionalTag: "Optional",
+  optionalToggle: "+ Add optional details",
+
+  /** v2 product cards. */
+  selectedBadge: "SELECTED",
+  setTile: {
+    name: "Cards + poster set",
+    blurb: "The card and the poster together, priced as a set.",
+    /** Owner's call (2026-10-04): the badge wording is his; the savings line beside it stays computed from the ladder. */
+    badge: "MOST POPULAR",
+    savingsLine: (saved: string): string => `Save ${saved} against ordering them separately`,
+  },
+
+  /** v2 style tiles: the "let us choose" tile is a premium dark tile, not an empty question. */
+  chooseForMeTitle: "YOU CHOOSE FOR ME",
+  chooseForMeLine: "We pick the finish that suits the photos and the sport. You see it on the proof.",
+
+  /** v2 upload zone — two to three times the height of a field. */
+  dropTitle: `DROP ${PHOTO_RULES.min}–${PHOTO_RULES.max} PHOTOS HERE`,
+  dropOr: "or browse files",
+  dropHint: "JPG, PNG, HEIC · phone photos are fine",
+  exampleGood: "Clear face, good light",
+  exampleBad: "Blurry, tiny, heavily filtered",
+
+  /** v2 conversion card at the end of the form. */
+  ctaCard: {
+    title: "YOUR FIRST PROOF IS FREE.",
+    todayLabel: "Today",
+    line: "You only pay after approving your proof.",
+    button: "Get my free proof →",
+    note: "No card required",
+  },
+
+  /** v2 sticky summary. */
+  summary: {
+    title: "YOUR ORDER",
+    today: "Today",
+    afterApproval: "After approval",
+    onProof: "Confirmed with your proof",
+    checks: ["Free watermarked proof", "No payment now", "Made for your athlete"],
+    empty: "Pick a product to start.",
+  },
+
   /** Typographic claims (Pill variant="label"), never buttons. */
   claims: ["NOTHING TO PAY NOW", `PROOF IN ${PROOF_CLOCK.toUpperCase()}`, "PAY ONLY AFTER YOU APPROVE"],
 
