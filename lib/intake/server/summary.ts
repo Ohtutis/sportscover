@@ -2,12 +2,14 @@
 //
 // The customer sees what they asked for and what they agreed to. The owner additionally sees a link per
 // file (7-day signed URLs in the email, local paths in intake-pull), the request.json link, and where the
-// visit came from. Prices come only from products.ts (`optionPriceLabel`) — never typed here.
+// visit came from. Prices come only from products.ts (`optionPriceLabel`, `orderBundle` → prices.ts
+// bundleTotal, the same function the form's "Your order" uses) — never typed here.
 
 import { sportBySlug } from "../../catalog/sports";
 import { styleByCode } from "../../catalog/styles";
 import { INTAKE_COPY } from "../copy";
-import { PRICE_ON_PROOF, choiceLabel, optionOf, optionPriceLabel, productByKey } from "../products";
+import { formatPercent, formatUsd } from "../../catalog/prices";
+import { choiceLabel, optionOf, optionPriceLabel, orderBundle, productByKey } from "../products";
 import { CONSENTS, CONSENT_ORDER, SPORT_OTHER, STYLE_RECOMMEND, type FileMeta } from "../types";
 import type { StoredRequest } from "./record";
 
@@ -19,8 +21,6 @@ export interface SummaryOptions {
   links?: Map<string, string | null>;
   /** request.json's own link. Owner only. */
   requestJsonLink?: string | null;
-  /** The moment prices are quoted for (default: now). */
-  now?: Date;
 }
 
 export const athleteName = (r: Pick<StoredRequest, "athlete">): string => `${r.athlete.firstName} ${r.athlete.lastName}`.trim();
@@ -40,16 +40,31 @@ export function formatBytes(bytes: number): string {
   return `${Math.max(1, Math.round(bytes / 1024))} KB`;
 }
 
-/** "- Trading cards · 12 printed cards × 2 — <price> each", one line per chosen product. */
-export function productLines(record: Pick<StoredRequest, "products">, now?: Date): string[] {
-  return record.products.map((choice) => {
+/**
+ * "- Trading cards · 12 printed cards — <price>", one line per chosen product ("× 2 — <price> each" on a
+ * stored request that carries a quantity), then — with two or more different products — the bundle in three
+ * lines: the same items bought separately, the bundle saving and the total (pricing v1, 2026-10-07). One
+ * product prints its total only.
+ */
+export function productLines(record: Pick<StoredRequest, "products">): string[] {
+  const items = record.products.map((choice) => {
     const product = productByKey(choice.product);
     const option = product ? optionOf(product, choice.option) : undefined;
-    const price = option ? optionPriceLabel(option, now) : PRICE_ON_PROOF;
-    const priced = price !== PRICE_ON_PROOF;
     const quantity = choice.quantity > 1 ? ` × ${choice.quantity}` : "";
-    return `- ${choiceLabel(choice.product, choice.option)}${quantity} — ${price}${priced && choice.quantity > 1 ? " each" : ""}`;
+    if (!option) return `- ${choiceLabel(choice.product, choice.option)}${quantity}`;
+    return `- ${choiceLabel(choice.product, choice.option)}${quantity} — ${optionPriceLabel(option)}${choice.quantity > 1 ? " each" : ""}`;
   });
+  const bundle = orderBundle(record.products);
+  if (!bundle) return items;
+  const totals =
+    bundle.discountRate > 0
+      ? [
+          `Bought separately: ${formatUsd(bundle.alaCarte)}`,
+          `Bundle saving (${bundle.productCount} products, ${formatPercent(bundle.discountRate)}): \u2212${formatUsd(bundle.discount)}`,
+          `Total after approval: ${formatUsd(bundle.total)}`,
+        ]
+      : [`Total after approval: ${formatUsd(bundle.total)}`];
+  return [...items, ...totals];
 }
 
 const line = (label: string, value: string | undefined): string | null => (value && value.trim() ? `${label}: ${value.trim()}` : null);
@@ -79,14 +94,12 @@ export function renderSummary(record: StoredRequest, opts: SummaryOptions): stri
   const owner = opts.audience === "owner";
   const a = record.athlete;
   const c = record.contact;
-  const productNames = new Set(record.products.map((p) => p.product));
   const state = photoState(record);
 
   const sections: string[] = [
     block("REFERENCE", [record.requestId]),
     block("WHAT TO MAKE", [
-      ...productLines(record, opts.now),
-      productNames.has("cards") && productNames.has("poster") ? "Cards and a poster together are priced as a set." : null,
+      ...productLines(record),
       "Prices are today's site prices; your proof email confirms the total.",
     ]),
     block("STYLE", [styleLabel(record.style)]),

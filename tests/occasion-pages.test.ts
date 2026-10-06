@@ -27,7 +27,7 @@ import { christmasDates, formatEt, toEtDate, addCalendarDays } from "../lib/capa
 import { LEAD_TIMES } from "../lib/catalog/delivery";
 import { faqById } from "../lib/catalog/faq";
 import { listingIdForSku } from "../lib/catalog/listings";
-import { SALE_EXPIRES_AT, bannerTiers, formatUsd, isSaleActive, priceDisplay, sitePrice } from "../lib/catalog/prices";
+import { bannerTiers, blanketTiers, formatUsd, priceDisplay, sitePrice } from "../lib/catalog/prices";
 import { TEAM_ORDER_MAILTO, isChristmasWindow } from "../lib/catalog/seasons";
 import { sportBySlug, sports } from "../lib/catalog/sports";
 import { styles } from "../lib/catalog/styles";
@@ -120,18 +120,12 @@ const FORBIDDEN: Array<[RegExp, string]> = [
   [/colour|favourite|centre\b|organis|\bgrey\b|practis|catalogue|licence|cheque/i, "US spelling"],
 ];
 
-/**
- * TierCard's own sale vocabulary ("Sale price until …", the sr-only "Sale price " / "Regular price "),
- * printed only while SALE_EXPIRES_AT is in the future. It is the ladder's display rule (prices.ts), not
- * this page's prose, so it is lifted out before the "no sale talk" rule runs.
- */
-const withoutTierSaleCopy = (text: string): string => text.replace(/Sale price until [A-Z][a-z]{2} \d{1,2}, \d{4}/g, " ").replace(/(Sale|Regular) price /g, " ");
-
 /** The /sports hub line of every sport the catalog marks `numbered` — the one place these pages may say "their number". */
 const NUMBERED_HUB_LINES = [...new Set(sports.filter((s) => s.numbered).map((s) => hubLine(s)))];
 
 function expectTruthful(html: string): void {
-  const prose = withoutTierSaleCopy(`${textOf(html)} ${attrs(html, "alt").join(" ")} ${attrs(html, "aria-label").join(" ")}`);
+  // Pricing v1 (2026-10-07): TierCard prints no sale vocabulary any more, so nothing is lifted out first.
+  const prose = `${textOf(html)} ${attrs(html, "alt").join(" ")} ${attrs(html, "aria-label").join(" ")}`;
   for (const [re, why] of FORBIDDEN) expect(prose, why).not.toMatch(re);
   // A jersey number is promised only for a sport whose kit carries one (`sport.numbered`, through hubLine()).
   const ownWords = NUMBERED_HUB_LINES.reduce((text, line) => text.split(line).join(" "), prose);
@@ -143,18 +137,13 @@ const dollarsIn = (html: string): string[] => withoutScripts(html).match(/\$\d[\
 const dollarOf = (label: string): string => label.match(/\$\d[\d,]*(?:\.\d{2})?/)?.[0] ?? "";
 
 /** The product-tile prices both gift pages print: "from" each priced product, and the set. */
-function productPrices(now: Date): string[] {
-  return [...PRODUCTS.map((p) => productFromLabel(p, now)).filter((l): l is string => Boolean(l)).map(dollarOf), dollarOf(setFromLabel(now))];
+function productPrices(): string[] {
+  return [...PRODUCTS.map((p) => dollarOf(productFromLabel(p))), dollarOf(setFromLabel())];
 }
 
-/** The ladder prices /banners prints: each enabled tier's current price, and the struck regular price while a sale runs. */
-function ladderPrices(now: Date): string[] {
-  return bannerTiers
-    .filter((t) => t.enabled)
-    .flatMap((t) => {
-      const p = priceDisplay(t, now);
-      return [formatUsd(p.current), ...(p.compareAt !== undefined ? [formatUsd(p.compareAt)] : [])];
-    });
+/** The ladder prices /banners prints: each enabled tier's one price — a single item never carries a second (pricing v1). */
+function ladderPrices(): string[] {
+  return bannerTiers.filter((t) => t.enabled).map((t) => formatUsd(priceDisplay(t).current));
 }
 
 function expectOnlyCatalogPrices(html: string, expected: string[]): void {
@@ -239,9 +228,9 @@ type Route = keyof typeof FILES;
 
 const NOW = new Date();
 const PAGE_HTML: Record<Route, () => string> = {
-  "/banners": () => render(createElement(BannersBody, { now: NOW })),
+  "/banners": () => render(createElement(BannersBody)),
   "/christmas-gift": () => render(createElement(ChristmasGiftBody, { now: NOW })),
-  "/teams": () => render(createElement(TeamsBody, { now: NOW })),
+  "/teams": () => render(createElement(TeamsBody)),
 };
 const H1: Record<Route, string> = { "/banners": BANNERS_H1, "/christmas-gift": CHRISTMAS_H1, "/teams": TEAMS_H1 };
 const METADATA = { "/banners": bannersMetadata, "/christmas-gift": christmasMetadata, "/teams": teamsMetadata } as const;
@@ -348,7 +337,7 @@ describe("occasion pages — the shape every page shares", () => {
 /* ---------- /banners ---------- */
 
 describe("/banners", () => {
-  const html = render(createElement(BannersBody, { now: NOW }));
+  const html = render(createElement(BannersBody));
   const text = textOf(html);
 
   it("the H1 is the head phrase and the first sentence keeps 'sports banner'", () => {
@@ -369,7 +358,7 @@ describe("/banners", () => {
     for (const tier of enabled) {
       const offer = product.offers.offers.find((o) => o.name === tier.name);
       expect(offer, tier.sku).toBeTruthy();
-      expect(offer!.price, tier.sku).toBe(sitePrice(tier, NOW));
+      expect(offer!.price, tier.sku).toBe(sitePrice(tier));
       // the offer's anchor is the TierCard on this page
       expect(offer!.url.endsWith(`/banners#tier-${tier.sku}`)).toBe(true);
       expect(html).toContain(`id="tier-${tier.sku}"`);
@@ -382,20 +371,21 @@ describe("/banners", () => {
     expect(count(html, /<article/g)).toBe(BANNER_LADDER.length);
     const order = [...html.matchAll(/data-sku="([^"]+)"/g)].map((m) => m[1]);
     expect(order).toEqual(BANNER_LADDER.map((t) => t.sku));
-    expectOnlyCatalogPrices(html, ladderPrices(NOW));
+    expectOnlyCatalogPrices(html, ladderPrices());
   });
 
-  it("while a sale runs, the struck regular price is a catalog price too, and the JSON-LD carries the sale price", () => {
-    const duringSale = new Date(new Date(SALE_EXPIRES_AT).getTime() - 86_400_000);
-    expect(isSaleActive(duringSale)).toBe(true);
-    const sale = render(createElement(BannersBody, { now: duringSale }));
-    expectOnlyCatalogPrices(sale, ladderPrices(duringSale));
-    expectTruthful(sale);
-    const product = jsonLd(sale).find((o) => o["@type"] === "Product") as { offers: { offers: { name: string; price: number }[] } };
+  it("no comparison price on a banner, no sale words, and the JSON-LD carries the same one price (pricing v1)", () => {
+    expect(html).not.toMatch(/<s[\s>]/);
+    expect(textOf(html)).not.toMatch(/\bsale\b|regular price|\bwas \$|limited time/i);
+    const product = jsonLd(html).find((o) => o["@type"] === "Product") as { offers: { offers: { name: string; price: number; priceValidUntil?: string }[] } };
     for (const tier of bannerTiers.filter((t) => t.enabled)) {
-      expect(product.offers.offers.find((o) => o.name === tier.name)?.price, tier.sku).toBe(sitePrice(tier, duringSale));
+      const offer = product.offers.offers.find((o) => o.name === tier.name);
+      expect(offer?.price, tier.sku).toBe(priceDisplay(tier).current);
+      expect(offer?.priceValidUntil, tier.sku).toBeUndefined();
     }
-    for (const page of [ChristmasGiftBody, TeamsBody]) expectOnlyCatalogPrices(render(createElement(page, { now: duringSale })), productPrices(duringSale));
+    for (const page of [createElement(ChristmasGiftBody, { now: NOW }), createElement(TeamsBody)]) expectOnlyCatalogPrices(render(page), productPrices());
+    // The blanket ladder prices the fourth product on both gift pages.
+    expect(blanketTiers.every((t) => t.enabled && t.physical)).toBe(true);
   });
 
   it("each tier card says what the catalog says, and a printed one carries the banner's own shipping line", () => {
@@ -544,9 +534,12 @@ describe("/christmas-gift", () => {
       expect(html).toContain(esc(product.blurb));
       expect(hrefs(html)).toContain(`${INTAKE_PATH}?product=${product.key}`);
     }
-    expectOnlyCatalogPrices(html, productPrices(NOW));
-    expect(textOf(html)).toContain(`priced as a Complete Set, ${setFromLabel(NOW)}.`);
-    if (PRODUCTS.some((p) => productFromLabel(p, NOW) === null)) expect(textOf(html)).toContain("Price confirmed with your free proof");
+    expectOnlyCatalogPrices(html, productPrices());
+    expect(textOf(html)).toContain(`priced as a Complete Set, ${setFromLabel()}.`);
+    // Every product is priced since the blanket ladder (2026-10-07): the blanket shows its "from", never the proof line.
+    const blanketFrom = productFromLabel(productByKey("blanket")!);
+    expect(textOf(html)).toContain(`${blanketFrom.charAt(0).toUpperCase()}${blanketFrom.slice(1)}`);
+    expect(textOf(html)).not.toContain("Price confirmed with your free proof");
   });
 
   it("by sport: the sport pages with their hub line, and the hub for every other sport", () => {
@@ -589,7 +582,7 @@ describe("/christmas-gift", () => {
 /* ---------- /teams ---------- */
 
 describe("/teams", () => {
-  const html = render(createElement(TeamsBody, { now: NOW }));
+  const html = render(createElement(TeamsBody));
   const text = textOf(html);
 
   it("links the team mailto and the free-proof form, and the primary is the mailto", () => {
@@ -620,7 +613,7 @@ describe("/teams", () => {
   });
 
   it("each family's price is the catalog's single-athlete price", () => {
-    expectOnlyCatalogPrices(html, productPrices(NOW));
+    expectOnlyCatalogPrices(html, productPrices());
     expect(text).toContain("Setup is free.");
     expect(text).toContain("A club invoice for the whole roster: ask us by email.");
   });

@@ -7,7 +7,7 @@ import { block } from "../../lib/blocks";
 import { SHIPPING_SENTENCE } from "../../lib/catalog/delivery";
 import { CANON } from "../../lib/copy/canon";
 import { INTAKE_COPY, PROOF_CLOCK } from "../../lib/intake/copy";
-import { optionOf, PRICE_ON_PROOF, productByKey, type ProductKey } from "../../lib/intake/products";
+import { optionOf, productByKey, type ProductKey } from "../../lib/intake/products";
 import type { BlogPost } from "../../lib/blog";
 
 /** An option's one-line detail, as the form shows it, starting lower-case to sit after a colon. */
@@ -93,8 +93,7 @@ export const post: BlogPost = {
             ft: {detail("banner", "2x4")}
           </>,
           <>
-            <strong className="font-medium">Blanket.</strong> {blanket?.blurb} New, and coming in three sizes —{" "}
-            {PRICE_ON_PROOF.toLowerCase()}.
+            <strong className="font-medium">Blanket.</strong> {blanket?.blurb} New, in three sizes, each priced on the form.
           </>,
         ]}
       />

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { getTier } from "../lib/catalog/prices";
+import { blanketTiers, bundleTotal, formatUsd, getTier, sitePrice } from "../lib/catalog/prices";
 import { INTAKE_COPY } from "../lib/intake/copy";
-import { PRICE_ON_PROOF, PRODUCTS, choiceLabel, optionPriceLabel, productFromLabel, setFromLabel } from "../lib/intake/products";
+import { PRODUCTS, choiceLabel, optionPrice, optionPriceLabel, orderBundle, productFromLabel, setFromLabel } from "../lib/intake/products";
 import { CONSENTS, CONSENT_ORDER, PHOTO_RULES, REQUEST_ID, SPORT_OTHER, SPORT_OTHER_MAX, makeRequestId, parseProofRequest } from "../lib/intake/types";
 import { renderSummary, sportLabel } from "../lib/intake/server/summary";
 import { ownerSubject } from "../lib/intake/server/email";
@@ -23,27 +23,47 @@ const valid = () => ({
 });
 
 describe("intake products (lib/intake/products.ts)", () => {
-  it("every priced option points at an ENABLED tier, and the cheapest priced option is the 'from' price", () => {
+  it("every option points at an ENABLED tier, and the cheapest option is the 'from' price", () => {
     for (const p of PRODUCTS) {
       for (const o of p.options) {
-        if (!o.sku) continue;
+        expect(o.sku, `${p.key}.${o.key} has a tier`).toBeTruthy();
         const tier = getTier(o.sku);
         expect(tier, `${p.key}.${o.key} → ${o.sku}`).toBeDefined();
         expect(tier?.enabled, `${o.sku} enabled`).toBe(true);
         expect(optionPriceLabel(o)).toMatch(/^\$\d+\.99$/);
+        expect(optionPrice(o)).toBe(sitePrice(tier!));
       }
+      expect(productFromLabel(p)).toBe(`from ${formatUsd(Math.min(...p.options.map(optionPrice)))}`);
     }
     expect(productFromLabel(PRODUCTS[0])).toMatch(/^from \$\d+\.99$/);
     expect(setFromLabel()).toMatch(/^from \$\d+\.99$/);
   });
-  it("the blanket is priced on the proof — never a typed number", () => {
-    for (const key of ["blanket"]) {
-      const p = PRODUCTS.find((x) => x.key === key)!;
-      expect(productFromLabel(p)).toBeNull();
-      for (const o of p.options) expect(optionPriceLabel(o)).toBe(PRICE_ON_PROOF);
-    }
-    const src = [PRICE_ON_PROOF, ...PRODUCTS.flatMap((p) => [p.blurb, ...p.options.flatMap((o) => [o.label, o.detail])])].join("\n");
+  it("the blanket is priced from its ladder (pricing v1, 2026-10-07) — never a typed number", () => {
+    const blanket = PRODUCTS.find((x) => x.key === "blanket")!;
+    expect(blanket.options.map((o) => o.sku)).toEqual(blanketTiers.map((t) => t.sku));
+    for (const o of blanket.options) expect(optionPriceLabel(o)).toBe(formatUsd(sitePrice(getTier(o.sku)!)));
+    expect(productFromLabel(blanket)).toBe(`from ${formatUsd(Math.min(...blanketTiers.map((t) => sitePrice(t))))}`);
+    const src = PRODUCTS.flatMap((p) => [p.blurb, ...p.options.flatMap((o) => [o.label, o.detail])]).join("\n");
     expect(src).not.toMatch(/\$\d/);
+  });
+  it("orderBundle: the chosen options through bundleTotal — distinct products, a stored quantity counts each copy", () => {
+    const price = (product: string, option: string) => optionPrice(PRODUCTS.find((p) => p.key === product)!.options.find((o) => o.key === option)!);
+    expect(orderBundle([])).toBeNull();
+    expect(orderBundle([{ product: "cards", option: "p12" }])).toEqual(bundleTotal([{ product: "cards", price: price("cards", "p12") }]));
+    const four = orderBundle([
+      { product: "cards", option: "p12" },
+      { product: "poster", option: "p1824" },
+      { product: "banner", option: "2x4" },
+      { product: "blanket", option: "50x60" },
+    ])!;
+    expect(four.productCount).toBe(4);
+    expect(four.discountRate).toBe(0.25);
+    expect(four.alaCarte).toBe(Math.round((price("cards", "p12") + price("poster", "p1824") + price("banner", "2x4") + price("blanket", "50x60")) * 100) / 100);
+    const twoOfOne = orderBundle([{ product: "blanket", option: "50x60", quantity: 2 }, { product: "cards", option: "digital", quantity: 1 }])!;
+    expect(twoOfOne.productCount).toBe(2);
+    expect(twoOfOne.alaCarte).toBe(Math.round((2 * price("blanket", "50x60") + price("cards", "digital")) * 100) / 100);
+    // An unknown choice is left out, never priced.
+    expect(orderBundle([{ product: "mug", option: "x" }])).toBeNull();
   });
   it("blanket sizes are the three the listing sells; banner options are the live listings' four variants", () => {
     expect(PRODUCTS.find((p) => p.key === "blanket")!.options.map((o) => o.key)).toEqual(["30x40", "50x60", "60x80"]);
@@ -179,6 +199,19 @@ describe("intake copy", () => {
     expect(all).toContain("5–7");
     expect(all).not.toMatch(/\b(stripe|paypal|wise|revolut)\b/i);
     expect(all).not.toMatch(/\$\d/);
+    // The bundle copy compares with buying separately — never a sale, a former price or a clock (FTC / Omnibus).
+    const bundle = [
+      INTAKE_COPY.bundle.title,
+      INTAKE_COPY.bundle.lead,
+      ...[2, 3, 4].map((n) => INTAKE_COPY.bundle.step(n, n === 4, "15%")),
+      INTAKE_COPY.bundle.nudgeFirst("a poster", "$1.00"),
+      INTAKE_COPY.bundle.nudgeMore("a banner", "$1.00"),
+      INTAKE_COPY.bundle.top("25%"),
+      INTAKE_COPY.summary.separately,
+      INTAKE_COPY.summary.bundleSaving,
+      INTAKE_COPY.summary.savingValue("$1.00", "15%"),
+    ].join(" ");
+    expect(bundle).not.toMatch(/\bsale\b|\bwas\b|regular price|limited time|\bends?\b|% off|\bdiscount/i);
     expect(INTAKE_COPY.h1.endsWith(".")).toBe(true);
     expect(INTAKE_COPY.h1.length).toBeLessThanOrEqual(40);
   });

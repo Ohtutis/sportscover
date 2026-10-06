@@ -1,10 +1,11 @@
 // The free-proof form's state and the pure functions around it: the initial state, the URL prefill,
 // the payload the API receives (raw input for parseProofRequest — the same validator runs on the client
-// first), the error-key → control-id map, the photo screening, the source capture, (v2, 2026-10-04) the
-// set card and the summary's "after approval" sum, and (v4, 2026-10-06) the sport chosen in step 1 and
+// first), the error-key → control-id map, the photo screening, the source capture, (pricing v1, 2026-10-07)
+// the bundle — the summary's "after approval" sum and the ladder's nudge — and (v4, 2026-10-06) the sport chosen in step 1 and
 // which picture of it each slot shows. No React here, so every rule is unit-tested
 // (tests/intake-page.test.ts) without a browser.
 
+import { BUNDLE_STEPS, bundleTotal, type BundleLine, type BundleTotal } from "../../lib/catalog/prices";
 import { isNumberless, sportBySlug, sports } from "../../lib/catalog/sports";
 import { styles } from "../../lib/catalog/styles";
 import { PRODUCTS, PRODUCT_KEYS, optionOf, productByKey, type ProductKey } from "../../lib/intake/products";
@@ -346,121 +347,59 @@ export function buildPayload(
   return { payload, statRows: stats.map((s) => s.row) };
 }
 
-// --- the set card and the summary sum ---------------------------------------------------------------
+// --- the bundle (pricing v1, 2026-10-07) -------------------------------------------------------------
 
-/** One option as the summary prices it: the site price from prices.ts (computed on the server), or null — "confirmed with your proof". */
+/** One option as the form prices it: the site price from prices.ts, handed over by the server page. */
 export interface PricedOption {
   key: string;
   printed: boolean;
-  price: number | null;
-}
-
-/** A Complete Set tier as a pair of options (lib/cta.ts SET_TIER_OPTIONS) and its site price. */
-export interface SetCombo {
-  cards: string;
-  poster: string;
   price: number;
 }
 
-export type OrderTotal = { kind: "empty" } | { kind: "onProof" } | { kind: "priced"; total: number; set: boolean };
+type PricedProducts = readonly { key: ProductKey; options: readonly PricedOption[] }[];
 
-const cents = (n: number): number => Math.round(n * 100) / 100;
-
-/** The set card is a shortcut, not a product: it is "chosen" exactly when cards AND a poster are. */
-export const isSetChosen = (products: Record<ProductKey, ProductState>): boolean => products.cards.selected && products.poster.selected;
-
-/** Choosing the set chooses both (keeping each one's option — digital until the parent switches); clearing it clears both. */
-export function chooseSet(products: Record<ProductKey, ProductState>, chosen: boolean): Record<ProductKey, ProductState> {
-  return { ...products, cards: { ...products.cards, selected: chosen }, poster: { ...products.poster, selected: chosen } };
-}
-
-/**
- * What the set saves against the two digital options bought apart — the number behind the set card's
- * savings line, from the ladder only. Null when any of the three prices is missing or the set saves nothing.
- */
-export function setSaving(products: readonly { key: ProductKey; options: readonly PricedOption[] }[], combos: readonly SetCombo[]): number | null {
-  const digital = (key: ProductKey) => products.find((p) => p.key === key)?.options.find((o) => o.key === "digital")?.price ?? null;
-  const cards = digital("cards");
-  const poster = digital("poster");
-  const set = combos.find((c) => c.cards === "digital" && c.poster === "digital")?.price ?? null;
-  if (cards === null || poster === null || set === null) return null;
-  const saved = cents(cards + poster - set);
-  return saved > 0 ? saved : null;
-}
-
-/**
- * The summary's "after approval" figure: each chosen option's site price (one of each — v4 has no
- * quantity), with cards + poster counted at the set price when the two options are a set tier — the set
- * line promises that saving, so the sum must keep it. Any chosen option without a price (the blanket)
- * makes the whole figure "confirmed with your proof": never a partial sum.
- */
-export function orderTotal(
-  products: readonly { key: ProductKey; options: readonly PricedOption[] }[],
-  state: Record<ProductKey, ProductState>,
-  combos: readonly SetCombo[],
-): OrderTotal {
-  const chosen = products
+/** The chosen options as bundle lines, one of each (v4 has no quantity). */
+export function chosenLines(products: PricedProducts, state: Record<ProductKey, ProductState>): BundleLine[] {
+  return products
     .filter((p) => state[p.key]?.selected)
     .map((p) => {
       const o = p.options.find((x) => x.key === state[p.key].option) ?? p.options[0];
-      return { key: p.key, option: o.key, price: o.price };
+      return { product: p.key, price: o.price };
     });
-  if (!chosen.length) return { kind: "empty" };
-  if (chosen.some((c) => c.price === null)) return { kind: "onProof" };
-  const cards = chosen.find((c) => c.key === "cards");
-  const poster = chosen.find((c) => c.key === "poster");
-  const combo = cards && poster ? combos.find((c) => c.cards === cards.option && c.poster === poster.option) : undefined;
-  let total = 0;
-  for (const c of chosen) {
-    if (combo && (c.key === "cards" || c.key === "poster")) continue;
-    total += c.price as number;
-  }
-  if (combo) total += combo.price;
-  return { kind: "priced", total: cents(total), set: Boolean(combo) };
-}
-
-/** What a Complete Set tier saves against its two options bought apart, from the ladder; null when a price is missing. */
-function comboSaving(products: readonly { key: ProductKey; options: readonly PricedOption[] }[], combo: SetCombo): number | null {
-  const price = (key: ProductKey, option: string) => products.find((p) => p.key === key)?.options.find((o) => o.key === option)?.price ?? null;
-  const cards = price("cards", combo.cards);
-  const poster = price("poster", combo.poster);
-  if (cards === null || poster === null) return null;
-  return cents(cards + poster - combo.price);
 }
 
 /**
- * v3 (owner, 2026-10-06): the set is a RESULT, not a card. The smallest saving any set tier gives — the
- * figure behind "save from …" under the product cards before both are chosen. Null when none saves.
+ * The summary's "after approval" figure: the chosen options through prices.ts `bundleTotal` — the same
+ * function that prices the set tiers and the request email, so the three can never disagree. Null when
+ * nothing is chosen.
  */
-export function minSetSaving(products: readonly { key: ProductKey; options: readonly PricedOption[] }[], combos: readonly SetCombo[]): number | null {
-  const savings = combos.map((c) => comboSaving(products, c)).filter((s): s is number => s !== null && s > 0);
-  return savings.length ? Math.min(...savings) : null;
+export function orderTotal(products: PricedProducts, state: Record<ProductKey, ProductState>): BundleTotal | null {
+  const lines = chosenLines(products, state);
+  return lines.length ? bundleTotal(lines) : null;
 }
+
+/** The rung of BUNDLE_STEPS a product count has reached: -1 below the first (0 or 1 product). */
+export const bundleStepIndex = (productCount: number): number => BUNDLE_STEPS.filter((step) => productCount >= step.count).length - 1;
 
 /**
- * Where the chosen cards + poster stand against the set tiers: `none` until both are chosen; `matched`
- * with the saving when the two options are a set tier — exactly when `orderTotal` counts them at the set
- * price; `unmatched` otherwise.
+ * The nudge under the ladder: the first product (in PRODUCTS order) not yet chosen, at the option its card
+ * holds, and what adding it would save on top of what the order already saves — "Add a poster: save
+ * another $X". `first` is true while the order saves nothing yet. Null before a choice and once all four
+ * are chosen.
  */
-export type SetPair = { kind: "none" } | { kind: "matched"; saved: number | null } | { kind: "unmatched" };
-
-export function setPair(
-  products: readonly { key: ProductKey; options: readonly PricedOption[] }[],
-  state: Record<ProductKey, ProductState>,
-  combos: readonly SetCombo[],
-): SetPair {
-  if (!isSetChosen(state)) return { kind: "none" };
-  const combo = combos.find((c) => c.cards === state.cards.option && c.poster === state.poster.option);
-  if (!combo) return { kind: "unmatched" };
-  const saved = comboSaving(products, combo);
-  return { kind: "matched", saved: saved !== null && saved > 0 ? cents(saved) : null };
+export interface BundleNudge {
+  add: ProductKey;
+  saving: number;
+  first: boolean;
 }
 
-/** The matching pairs in words, from the option labels: "Digital files + Digital files, 12 printed cards + 18 × 24 in printed, or …". */
-export function setPairsLabel(products: readonly { key: ProductKey; options: readonly { key: string; label: string }[] }[], combos: readonly SetCombo[]): string {
-  const label = (key: ProductKey, option: string) => products.find((p) => p.key === key)?.options.find((o) => o.key === option)?.label ?? option;
-  const pairs = combos.map((c) => `${label("cards", c.cards)} + ${label("poster", c.poster)}`);
-  return pairs.length > 1 ? `${pairs.slice(0, -1).join(", ")} or ${pairs[pairs.length - 1]}` : (pairs[0] ?? "");
+export function bundleNudge(products: PricedProducts, state: Record<ProductKey, ProductState>): BundleNudge | null {
+  const current = orderTotal(products, state);
+  const next = products.find((p) => !state[p.key]?.selected);
+  if (!current || !next) return null;
+  const after = orderTotal(products, { ...state, [next.key]: { ...state[next.key], selected: true } });
+  if (!after) return null;
+  return { add: next.key, saving: Math.round((after.discount - current.discount) * 100) / 100, first: current.discountRate === 0 };
 }
 
 // --- the live text preview (owner, 2026-10-06) -------------------------------------------------------

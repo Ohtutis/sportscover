@@ -5,7 +5,7 @@
 import { Callout, Figure, H2, InlineLink, Lead, List, P, PostCta } from "../../components/blog";
 import { CHIPS } from "../../lib/catalog/delivery";
 import { MAX_STATS } from "../../lib/intake/types";
-import { PRICE_ON_PROOF, productByKey } from "../../lib/intake/products";
+import { productByKey } from "../../lib/intake/products";
 import { PROOF_CLOCK } from "../../lib/intake/copy";
 import type { BlogPost } from "../../lib/blog";
 import { SUPPORT_EMAIL } from "../../lib/site";
@@ -85,7 +85,7 @@ export const post: BlogPost = {
       <P>
         {productByKey("banner")?.blurb} It comes as printed vinyl at 1 × 2, 2 × 4 or 3 × 6 ft, or as the print-ready file at full
         size if you would rather print it near home. Printed banners ship separately, in 1–2 weeks. And blankets are on the way:{" "}
-        {productByKey("blanket")?.blurb.toLowerCase()} Three sizes; {PRICE_ON_PROOF.toLowerCase()}.
+        {productByKey("blanket")?.blurb.toLowerCase()} Three sizes, each priced on the free-proof form.
       </P>
 
       <H2>A TIMELINE, WORKED BACK.</H2>

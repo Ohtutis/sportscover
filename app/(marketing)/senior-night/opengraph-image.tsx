@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { CHIPS } from "../../../lib/catalog/delivery";
 import { loadGoogleFont, OG_COLORS, OG_CONTENT_TYPE, OG_SIZE, OgFrame } from "../../../lib/og";
 
-// The share card prints a price, so it must age out with the pages (SALE_EXPIRES_AT).
+// Revalidated hourly like the pages it shares, so a ladder change reaches the share card without a deploy.
 export const revalidate = 3600;
 
 export const size = OG_SIZE;

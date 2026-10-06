@@ -79,24 +79,23 @@ export const INTAKE_COPY = {
   selectedBadge: "SELECTED",
   /** v4 (owner, 2026-10-06: "why does one product get a quantity and the others not?"): no quantity in the form. */
   moreThanOne: "Need more than one? Say so when you see the proof.",
-  setTile: {
-    name: "Cards + poster set",
-    blurb: "The card and the poster together, priced as a set.",
-    /** Owner's call (2026-10-04): the badge wording is his; the savings line beside it stays computed from the ladder. */
-    badge: "MOST POPULAR",
-    savingsLine: (saved: string): string => `Save ${saved} against ordering them separately`,
-  },
   /**
-   * v3 (owner, 2026-10-06: "a bundle must never duplicate the single products"): no set card — the set is
-   * the RESULT of ticking trading cards and a poster. One line under the product cards says so, with the
-   * figures computed from the ladder: the smallest saving before both are chosen, the chosen pair's own
-   * saving once they match a set tier, and which pairs match when they don't. Nothing prices banner or
-   * blanket bundles, so this line never mentions them.
+   * Pricing v1 (owner, 2026-10-07: "if they add more than one … the price goes down — show someone a big
+   * discount"): the bundle ladder under the product cards. Every figure is prices.ts BUNDLE_STEPS /
+   * bundleTotal, computed from the current choice; the comparison is always the same items bought
+   * separately — never a former price, a sale, a date or "limited time".
    */
-  setNote: {
-    pick: (saved: string): string => `Pick trading cards and a poster together and they're priced as a set — save from ${saved}.`,
-    matchedLead: "Priced as a set.",
-    unmatched: (pairs: string): string => `A set price applies to matching pairs: ${pairs}.`,
+  bundle: {
+    title: "BUNDLE AND SAVE",
+    /** One rung: "2 products −15%" … "all 4 −25%" (the last rung names every product). */
+    step: (count: number, last: boolean, percent: string): string => `${last ? `all ${count}` : `${count} products`} \u2212${percent}`,
+    /** Before a choice: what the ladder is. */
+    lead: "Two or more products in one order: the whole order saves.",
+    /** The next rung, from the current choice: the first product not yet chosen, at the option its card holds. */
+    nudgeFirst: (add: string, saving: string): string => `Add ${add}: save ${saving} on the order.`,
+    nudgeMore: (add: string, saving: string): string => `Add ${add}: save another ${saving}.`,
+    top: (percent: string): string => `All four chosen: the whole order saves ${percent}.`,
+    addName: { cards: "trading cards", poster: "a poster", banner: "a banner", blanket: "a blanket" },
   },
   /** v3 (owner, 2026-10-06): the caption under the live text preview in "Your order". */
   previewCaption: "Text preview — your proof is composed from your photos; the layout follows the finish.",
@@ -126,7 +125,10 @@ export const INTAKE_COPY = {
     title: "YOUR ORDER",
     today: "Today",
     afterApproval: "After approval",
-    onProof: "Confirmed with your proof",
+    /** Pricing v1: with two or more products, the same items bought separately (struck) and the bundle saving. */
+    separately: "Bought separately",
+    bundleSaving: "Bundle saving",
+    savingValue: (saving: string, percent: string): string => `\u2212${saving} (${percent})`,
     checks: ["Free watermarked proof", "No payment now", "Made for your athlete"],
     empty: "Pick a product to start.",
   },

@@ -14,7 +14,7 @@ import { faqById, type FaqItem } from "../../../lib/catalog/faq";
 import { TEAM_ORDER_MAILTO } from "../../../lib/catalog/seasons";
 import { CANON } from "../../../lib/copy/canon";
 import { ctaFor, freeProofHref, freeProofMode } from "../../../lib/cta";
-import { PRICE_ON_PROOF, PRODUCTS, productFromLabel, setFromLabel } from "../../../lib/intake/products";
+import { PRODUCTS, productFromLabel, setFromLabel } from "../../../lib/intake/products";
 import { pageMeta } from "../../../lib/seo/meta";
 import { SUPPORT_EMAIL } from "../../../lib/site";
 import { ClaimLabels } from "../(families)/_shared/hero";
@@ -125,7 +125,7 @@ function TeamCta({ proofFirst }: { proofFirst: boolean }) {
   );
 }
 
-export function TeamsBody({ now }: { now: Date }) {
+export function TeamsBody() {
   const proofFirst = freeProofMode();
   const exhibit = teamExhibit();
   const privacy = faqById("faq-31");
@@ -216,12 +216,12 @@ export function TeamsBody({ now }: { now: Date }) {
             {PRODUCTS.map((product) => (
               <div key={product.key} className="flex items-baseline justify-between gap-6 py-3">
                 <dt className="font-body text-body text-ink">{product.name}</dt>
-                <dd className="text-right font-body text-body font-bold text-ink">{capitalize(productFromLabel(product, now) ?? PRICE_ON_PROOF)}</dd>
+                <dd className="text-right font-body text-body font-bold text-ink">{capitalize(productFromLabel(product))}</dd>
               </div>
             ))}
             <div className="flex items-baseline justify-between gap-6 py-3">
               <dt className="font-body text-body text-ink">Cards and a poster together</dt>
-              <dd className="text-right font-body text-body font-bold text-ink">{capitalize(setFromLabel(now))}</dd>
+              <dd className="text-right font-body text-body font-bold text-ink">{capitalize(setFromLabel())}</dd>
             </div>
           </dl>
           <p className="mt-6 max-w-[62ch] font-body text-body text-pretty">
@@ -294,5 +294,5 @@ export function TeamsBody({ now }: { now: Date }) {
 }
 
 export default function TeamsPage() {
-  return <TeamsBody now={new Date()} />;
+  return <TeamsBody />;
 }

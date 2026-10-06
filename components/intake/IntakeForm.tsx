@@ -38,11 +38,10 @@ import {
   type ContactState,
   type FormState,
   type Prefill,
-  type SetCombo,
 } from "./model";
 import { PhotoUploader, type PhotoExamples, type PhotoItem } from "./PhotoUploader";
 import { PrefillFromUrl } from "./PrefillFromUrl";
-import { ProductPicker, type ProductTileData, type SetTileData } from "./ProductPicker";
+import { ProductPicker, type ProductTileData } from "./ProductPicker";
 import { SportPicker, type SportChoiceData } from "./SportPicker";
 import { StylePicker, type StyleTileData } from "./StylePicker";
 import { SummaryRail } from "./SummaryRail";
@@ -58,11 +57,8 @@ export interface IntakeFormProps {
    * the grey set.
    */
   art: FreeProofArtMap;
+  /** The four products with every option's price label and site price (the bundle ladder and "Your order" price from these). */
   products: ProductTileData[];
-  /** The fifth card: cards + poster as a set. */
-  setTile: SetTileData;
-  /** The Complete Set tiers as option pairs with their site prices — the summary counts a matching pair at the set price. */
-  setCombos: SetCombo[];
   styles: StyleTileData[];
   /** C5 — content/blocks/photos-that-work-best.md, read on the server. */
   photosSubhead: string;
@@ -183,8 +179,6 @@ export function IntakeForm({
   sports,
   art,
   products,
-  setTile,
-  setCombos,
   styles,
   photosSubhead,
   examples,
@@ -500,7 +494,7 @@ export function IntakeForm({
   const sportLabel = sportName(sportSlug, sportOther);
   const note = { state: artState(art, sportSlug), sport: sportLabel };
   const withArt = useMemo(() => new Set(Object.keys(art).filter((slug) => sportArt(art, slug))), [art]);
-  const summary = { products, state: form.products, styles, style: form.style, setCombos, art: entry, sport: sportLabel };
+  const summary = { products, state: form.products, styles, style: form.style, art: entry, sport: sportLabel };
   const steps = INTAKE_COPY.steps6;
 
   return (
@@ -526,7 +520,6 @@ export function IntakeForm({
           <Step n={2} title={steps.product.title} support={steps.product.support}>
             <ProductPicker
               products={products}
-              setTile={setTile}
               state={form.products}
               onToggle={onToggle}
               onOption={onOption}

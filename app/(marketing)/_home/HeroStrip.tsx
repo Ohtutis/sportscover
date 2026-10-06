@@ -24,15 +24,12 @@ export interface StripCell {
   label: string;
 }
 
-/**
- * The cells, left to right. `now` is the page's own clock (the page is ISR): the sale price has to be
- * able to expire without a deploy, so the figure is computed per render, never at build time.
- */
-export function stripCells(now: Date): StripCell[] {
+/** The cells, left to right. The price is the ladder's cheapest card option (prices.ts), never typed. */
+export function stripCells(): StripCell[] {
   const [digitalMin, digitalMax] = LEAD_TIMES.digitalBusinessDays;
   const [shipMin, shipMax] = LEAD_TIMES.printShipBusinessDays;
   return [
-    { figure: `from ${formatUsd(fromPrice("cards", now))}`, label: "digital edition" },
+    { figure: `from ${formatUsd(fromPrice("cards"))}`, label: "digital edition" },
     { figure: `${digitalMin}–${digitalMax} days`, label: `digital files · prints ship in ${shipMin}–${shipMax}` },
     { figure: `${sports.length} sports · ${finishes.length} finishes`, label: "plus the Senior Night edition" },
     { figure: "Proof first", label: freeProofMode() ? "free — pay only after you approve" : "nothing prints until you approve" },
@@ -51,8 +48,8 @@ const CELL = [
   "border-l pl-5 lg:pl-8",
 ] as const;
 
-export function HeroStrip({ now }: { now: Date }) {
-  const cells = stripCells(now);
+export function HeroStrip() {
+  const cells = stripCells();
   return (
     <div className="pb-10 lg:pb-16">
       <div className="container-gallery">

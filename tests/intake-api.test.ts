@@ -67,7 +67,8 @@ import { POST as complete } from "../app/api/intake/complete/route";
 import { GET as health } from "../app/api/intake/health/route";
 import { POST as start } from "../app/api/intake/start/route";
 import { INTAKE_COPY } from "../lib/intake/copy";
-import { PRICE_ON_PROOF, PRODUCTS, optionPriceLabel } from "../lib/intake/products";
+import { formatPercent, formatUsd } from "../lib/catalog/prices";
+import { PRODUCTS, optionPriceLabel, orderBundle } from "../lib/intake/products";
 import { ownerSubject, textToHtml } from "../lib/intake/server/email";
 import { resetRateLimit } from "../lib/intake/server/ratelimit";
 import type { StoredRequest } from "../lib/intake/server/record";
@@ -358,7 +359,17 @@ describe("POST /api/intake/complete", () => {
     const cards = PRODUCTS[0].options.find((o) => o.key === "p12")!;
     const ownerText = String(owner.body.text);
     expect(ownerText).toContain(`- Trading cards · 12 printed cards — ${optionPriceLabel(cards)}`);
-    expect(ownerText).toContain(`- Blanket · 50 × 60 in × 2 — ${PRICE_ON_PROOF}`);
+    const blanket = PRODUCTS.find((p) => p.key === "blanket")!.options.find((o) => o.key === "50x60")!;
+    expect(ownerText).toContain(`- Blanket · 50 × 60 in × 2 — ${optionPriceLabel(blanket)} each`);
+    // Pricing v1: two different products → the bundle, in three lines, from the same bundleTotal the form uses.
+    const bundle = orderBundle(valid().products)!;
+    expect(bundle.productCount).toBe(2);
+    for (const text of [ownerText, String(customer.body.text)]) {
+      expect(text).toContain(`Bought separately: ${formatUsd(bundle.alaCarte)}`);
+      expect(text).toContain(`Bundle saving (2 products, ${formatPercent(bundle.discountRate)}): \u2212${formatUsd(bundle.discount)}`);
+      expect(text).toContain(`Total after approval: ${formatUsd(bundle.total)}`);
+      expect(text).not.toMatch(/\bsale\b|regular price|limited time/i);
+    }
     expect(ownerText).toContain(`PERMISSIONS (wording of ${CONSENT_TEXT_VERSION})`);
     expect(ownerText).toContain(`01 IMG_0.jpg · 1.9 MB — https://proj.supabase.co/storage/v1/object/sign/athlete-submissions/${requestFolder(s.requestId)}/photos/01-img_0.jpg`);
     expect(ownerText).toContain("CREST\nCedar Ridge Crest.SVG");
@@ -606,11 +617,23 @@ describe("storage paths and the summary", () => {
     }
   });
 
-  it("product lines use choiceLabel + optionPriceLabel; cards with a poster add the set sentence", () => {
-    const lines = productLines({ products: [{ product: "cards", option: "p12", quantity: 2 }, { product: "poster", option: "digital", quantity: 1 }, { product: "banner", option: "3x6", quantity: 1 }] });
+  it("product lines use choiceLabel + optionPriceLabel, then the bundle lines from bundleTotal (pricing v1)", () => {
+    const choices: StoredRequest["products"] = [{ product: "cards", option: "p12", quantity: 2 }, { product: "poster", option: "digital", quantity: 1 }, { product: "banner", option: "3x6", quantity: 1 }];
+    const lines = productLines({ products: choices });
     expect(lines[0]).toMatch(/^- Trading cards · 12 printed cards × 2 — \$\d+\.99 each$/);
     expect(lines[1]).toMatch(/^- Poster · Digital files — \$\d+\.99$/);
     expect(lines[2]).toMatch(/^- Banner · 3 × 6 ft printed — \$\d+\.99$/);
+    const three = orderBundle(choices)!;
+    expect(three.discountRate).toBe(0.2);
+    expect(lines.slice(3)).toEqual([
+      `Bought separately: ${formatUsd(three.alaCarte)}`,
+      `Bundle saving (3 products, 20%): \u2212${formatUsd(three.discount)}`,
+      `Total after approval: ${formatUsd(three.total)}`,
+    ]);
+    // One product: its total, no bundle lines.
+    expect(productLines({ products: [{ product: "poster", option: "p1824", quantity: 1 }] }).slice(1)).toEqual([
+      `Total after approval: ${optionPriceLabel(PRODUCTS[1].options.find((o) => o.key === "p1824")!)}`,
+    ]);
     const parsed = parseProofRequest({ ...valid(), products: [{ product: "cards", option: "digital" }, { product: "poster", option: "digital" }], style: "recommend" });
     expect(parsed.ok).toBe(true);
     if (!parsed.ok) return;
@@ -624,7 +647,8 @@ describe("storage paths and the summary", () => {
       issued: { photos: parsed.value.photos.map((_, i) => `p/${i}`), crest: null },
     };
     const text = renderSummary(r, { audience: "customer" });
-    expect(text).toContain("Cards and a poster together are priced as a set.");
+    expect(text).not.toContain("priced as a set");
+    expect(text).toContain(`Total after approval: ${formatUsd(orderBundle([{ product: "cards", option: "digital" }, { product: "poster", option: "digital" }])!.total)}`);
     expect(text).toContain(`STYLE\n${INTAKE_COPY.styleRecommendLabel}`);
     expect(text).not.toContain("SOURCE");
     expect(renderSummary(r, { audience: "owner" })).toContain("SOURCE\nLanding page: /free-proof");

@@ -1,6 +1,6 @@
 // Christmas gifts for athletes (SEO brief 2026-10-06, builder W). Which gift suits which athlete is read
 // from PRODUCTS (lib/intake/products.ts): every blurb, size, count and option line is the form's own, and
-// the blanket has no price until the owner sets its tiers, so it says PRICE_ON_PROOF. The photo rules are
+// the blanket is priced (lib/catalog/prices.ts blanketTiers, 2026-10-07); a post names no price, so it points at the form. The photo rules are
 // C5 and INTAKE_COPY; the four steps and their clocks are INTAKE_COPY.steps (LEAD_TIMES, PROOF_CLOCK);
 // shipping and staged delivery are C11 and C12. The order-by dates are christmasDates() on /christmas-gift
 // and move with the calendar, so this post prints none. No sport, so never "their number".
@@ -10,7 +10,7 @@ import { SHIPPING_SENTENCE, STAGED_DELIVERY_SENTENCE } from "../../lib/catalog/d
 import { finishes } from "../../lib/catalog/styles";
 import { CANON } from "../../lib/copy/canon";
 import { INTAKE_COPY } from "../../lib/intake/copy";
-import { optionOf, PRICE_ON_PROOF, productByKey, type ProductKey } from "../../lib/intake/products";
+import { optionOf, productByKey, type ProductKey } from "../../lib/intake/products";
 import type { BlogPost } from "../../lib/blog";
 
 const CHRISTMAS_PAGE = "/christmas-gift";
@@ -97,8 +97,8 @@ export const post: BlogPost = {
             {detail("banner", "2x4")}
           </>,
           <>
-            <strong className="font-medium">A blanket, on its way.</strong> {blurb("blanket")} New, in {word(blanketSizeCount)}{" "}
-            sizes; {PRICE_ON_PROOF.toLowerCase()}.
+            <strong className="font-medium">A blanket.</strong> {blurb("blanket")} New, in {word(blanketSizeCount)}{" "}
+            sizes, each priced on the free-proof form.
           </>,
         ]}
       />

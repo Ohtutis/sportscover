@@ -85,7 +85,6 @@ export default async function TradingCardsPage({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const now = new Date();
   const proofFirst = freeProofMode();
   const params = await searchParams;
   const sport = pickSport(params.sport, sports, "basketball");
@@ -99,7 +98,7 @@ export default async function TradingCardsPage({
   const life = moments.length ? null : firstShowcase(LIFE_CARD_KEYS, LIFE_CARD_CAPTION);
   const p12 = getTier("GDE-ANY-CARD-P12");
   const anchorLine = p12
-    ? `Twelve printed cards for ${formatUsd(sitePrice(p12, now))} — less than ${formatUsd(perCardAnchor(now))} per card.`
+    ? `Twelve printed cards for ${formatUsd(sitePrice(p12))} — less than ${formatUsd(perCardAnchor())} per card.`
     : null;
   const meta = pageFor(PATH);
 
@@ -159,7 +158,7 @@ export default async function TradingCardsPage({
           <div className={proofFirst ? undefined : "mt-12 lg:mt-16"}>
             <SportPicker action={PATH} options={sports} family="cards" selected={sport} />
             <SportPageLink sport={sport} />
-            <TierRow family="cards" context="cards" sport={sport} now={now} className="mt-10" />
+            <TierRow family="cards" context="cards" sport={sport} className="mt-10" />
           </div>
         </div>
       </section>
@@ -234,7 +233,6 @@ export default async function TradingCardsPage({
           description: meta.description,
           images: [asset("cards.demo.front").src, asset("cards.demo.back").src],
           tiers: tiersFor("cards", true),
-          now,
         })}
       />
     </>

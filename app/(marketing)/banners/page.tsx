@@ -166,7 +166,7 @@ const TEXT_LINK =
   "inline-flex min-h-11 items-center font-body text-[0.9375rem] font-medium text-ink underline decoration-1 underline-offset-4 transition-[text-decoration-thickness] duration-hover ease-out hover:decoration-2";
 const PROSE_LINK = "text-ink underline decoration-1 underline-offset-4 transition-[text-decoration-thickness] duration-hover ease-out hover:decoration-2";
 
-export function BannersBody({ now }: { now: Date }) {
+export function BannersBody() {
   const proofFirst = freeProofMode();
   const cta = ctaFor("banners");
   const exhibit = asset("product.banner");
@@ -251,7 +251,7 @@ export function BannersBody({ now }: { now: Date }) {
               const tierCta = pair.secondary?.kind === "etsy" ? pair : { primary: pair.primary, tone: pair.tone };
               return (
                 <li key={tier.sku} className="flex w-[82vw] max-w-[360px] shrink-0 snap-start md:w-auto md:max-w-none">
-                  <TierCard tier={tier} now={now} box={parts.box} shipsFrom={parts.shipsFrom} chip={parts.chip} cta={tierCta} className="w-full" />
+                  <TierCard tier={tier} box={parts.box} shipsFrom={parts.shipsFrom} chip={parts.chip} cta={tierCta} className="w-full" />
                 </li>
               );
             })}
@@ -369,7 +369,6 @@ export function BannersBody({ now }: { now: Date }) {
           description: pageFor(PATH).description,
           images: [asset("product.banner").src],
           tiers: bannerTiers,
-          now,
         })}
       />
     </>
@@ -377,5 +376,5 @@ export function BannersBody({ now }: { now: Date }) {
 }
 
 export default function BannersPage() {
-  return <BannersBody now={new Date()} />;
+  return <BannersBody />;
 }

@@ -17,7 +17,7 @@ import { sports } from "../../../lib/catalog/sports";
 import { tierNotes } from "../../../lib/catalog/tiers";
 import { CANON } from "../../../lib/copy/canon";
 import { ctaFor, freeProofHref, freeProofMode } from "../../../lib/cta";
-import { PRICE_ON_PROOF, PRODUCTS, productFromLabel, setFromLabel, type Product } from "../../../lib/intake/products";
+import { PRODUCTS, productFromLabel, setFromLabel, type Product } from "../../../lib/intake/products";
 import { pageMeta } from "../../../lib/seo/meta";
 import { hubLine, sportPagePath, sportPageSports } from "../../../lib/seo/sport-facts";
 import { ClaimLabels } from "../(families)/_shared/hero";
@@ -300,7 +300,7 @@ export function ChristmasGiftBody({ now }: { now: Date }) {
                     {product.blurb}
                   </p>
                   <p data-shared="" className="mt-3 font-body text-body font-bold text-ink">
-                    {capitalize(productFromLabel(product, now) ?? PRICE_ON_PROOF)}
+                    {capitalize(productFromLabel(product))}
                   </p>
                   <Link href={freeProofHref({ products: [product.key] })} className={`mt-auto pt-2 ${TEXT_LINK}`}>
                     {proofFirst ? "Start a free proof" : "Start here"}
@@ -316,7 +316,7 @@ export function ChristmasGiftBody({ now }: { now: Date }) {
             <Link href="/complete-set" className={PROSE_LINK}>
               {FAMILY_LABELS.set}
             </Link>
-            , {setFromLabel(now)}.
+            , {setFromLabel()}.
           </p>
         </div>
       </section>

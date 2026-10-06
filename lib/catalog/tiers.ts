@@ -30,6 +30,8 @@ export const deliverables: Record<Family, string[]> = {
     "Print-ready digital file at full banner size",
     "Phone and desktop wallpapers",
   ],
+  // The blanket is ordered through /free-proof only (no family page); the row completes the Record.
+  blanket: ["Custom blanket art, built from your athlete's photos", "Soft plush blanket, printed on one side"],
   snset: [
     "Custom poster — 18 x 24 and 24 x 36 in, 300 DPI",
     "Custom trading card — FRONT and BACK",

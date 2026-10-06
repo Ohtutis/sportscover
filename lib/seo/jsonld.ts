@@ -1,8 +1,9 @@
 // Structured data builders (CONTRACTS §4.1). Every builder returns a plain object with @context and
-// @type; pages hand it to <JsonLd>. Prices are numbers from sitePrice() — never a "$" string.
+// @type; pages hand it to <JsonLd>. Prices are numbers from sitePrice() — never a "$" string; a set's
+// offer is its bundle total (lib/catalog/prices.ts setBundle), the same figure its tier card shows.
 // Never aggregateRating, never review (spec §8: none until real, consented ones exist).
 
-import { isSaleActive, SALE_EXPIRES_AT, sitePrice, type Family, type Tier } from "../catalog/prices";
+import { sitePrice, type Family, type Tier } from "../catalog/prices";
 import {
   BRAND,
   ETSY_SHOP_URL,
@@ -127,6 +128,7 @@ export const PRODUCT_CATEGORY: Record<Family, string> = {
   set: "Custom sports poster and trading card set",
   snset: "Custom sports poster and trading card set",
   banner: "Custom sports banners",
+  blanket: "Custom sports blankets",
 };
 
 export const RETURN_POLICY = {
@@ -150,22 +152,19 @@ export const SHIPPING_DETAILS = {
 
 /**
  * Product + AggregateOffer for a family page — the site's own offers only, one per enabled tier,
- * `url` = the page's tier anchor. `priceValidUntil` only while the sale runs (a past date is
- * invalid markup); free US shipping on physical tiers; the no-returns policy on every offer.
+ * `url` = the page's tier anchor. No `priceValidUntil`: the site's prices carry no end date (pricing v1,
+ * 2026-10-07 — no sale on the site). Free US shipping on physical tiers; the no-returns policy on every offer.
  */
-export function productFamily(p: { family: Family; path: string; name: string; description: string; images: string[]; tiers: Tier[]; now?: Date }): JsonLdObject {
-  const now = p.now ?? new Date();
+export function productFamily(p: { family: Family; path: string; name: string; description: string; images: string[]; tiers: Tier[] }): JsonLdObject {
   const tiers = p.tiers.filter((t) => t.enabled);
-  const sale = isSaleActive(now);
   const offers = tiers.map((t) => ({
     "@type": "Offer",
     url: `${SITE_URL}${p.path}#tier-${t.sku}`,
     name: t.name,
-    price: sitePrice(t, now),
+    price: sitePrice(t),
     priceCurrency: "USD",
     availability: "https://schema.org/InStock",
     itemCondition: "https://schema.org/NewCondition",
-    ...(sale ? { priceValidUntil: isoDatePlusDays(SALE_EXPIRES_AT, 1) } : {}),
     // The card/poster labs' free US shipping and 5–7 day handling (SHIPPING_DETAILS) are not the banner's
     // terms ("Ships separately, 1–2 weeks", lib/catalog/tiers.ts): a printed banner offer carries no
     // shippingDetails until a banner lab is declared (2026-10-06, /banners builder).
