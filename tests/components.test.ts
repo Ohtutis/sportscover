@@ -56,7 +56,7 @@ import { TrueNumbers } from "../components/TrueNumbers";
 import { HANG_HEIGHT_IN, SHEET, ToScaleSheet, boxStyle, posterCentreIn } from "../components/ToScaleSheet";
 import { PhotoChecklist } from "../components/PhotoChecklist";
 import { FICTIONAL_LABEL_SHORT, FictionalLabel } from "../components/FictionalLabel";
-import { PROOF_BAND_LABEL_ID, ProofPath, ProofPathBand, STEP_PRODUCT_KEYS, STEP_PROOF_KEY } from "../components/ProofPath";
+import { PROOF_BAND_LABEL_ID, ProofPath, ProofPathBand, STEP_PHOTO_KEYS, STEP_PRODUCT_KEYS, STEP_PROOF_KEY } from "../components/ProofPath";
 import { INTAKE_COPY } from "../lib/intake/copy";
 import { SITE_ASSETS } from "../lib/assets";
 import { AD_OPT_OUT_KEY, META_PIXEL_SRC, MetaPixel, NO_PIXEL_COUNTRIES, loadMetaPixel, metaPixelId, optedOut, pixelAllowedIn, type PixelDocument, type PixelHost } from "../components/MetaPixel";
@@ -621,14 +621,19 @@ describe("ProofPath (D29) — one component, the cards and the list", () => {
     expect(cards.match(/data-step-visual="" class="relative h-\[8\.75rem\] w-full shrink-0 sm:h-40 lg:h-44 xl:h-\[12\.5rem\]"/g)?.length).toBe(4);
     for (const card of cards.split('<li data-step-card=""').slice(1)) expect(card.indexOf("data-step-visual")).toBeLessThan(card.indexOf("font-display"));
   });
-  it("cards: the pictures are the product tiles, two grey 'your photo' prints (never another child), the proof and the approval tick", () => {
+  it("cards: the pictures are the product tiles, two phone photos of the athlete whose proof follows, the proof and the approval tick", () => {
     const out = (key: string) => encodeURIComponent(SITE_ASSETS[key].out);
     const stepOf = (i: number) => cards.split('<li data-step-card=""')[i + 1];
     for (const key of STEP_PRODUCT_KEYS) expect(stepOf(0)).toContain(out(key));
-    // v4 (owner, 2026-10-06): wherever the page means the parent's photos, a grey print drawn in code, labelled.
-    expect(stepOf(1).match(/data-photo-placeholder=""/g)).toHaveLength(2);
-    expect(stepOf(1).split(`>${INTAKE_COPY.art.photoLabel}</span>`)).toHaveLength(3);
-    expect(stepOf(1)).not.toMatch(/<img /);
+    // v5 (owner, 2026-10-07: "too many faceless grey cards"): Marcus's own phone photos — the proof at 03 is his —
+    // the smile behind, the photo in uniform on top; the grey prints only if a key were not verified.
+    expect(stepOf(1).match(/data-photo-print=""/g)).toHaveLength(2);
+    expect(stepOf(1)).not.toContain("data-photo-placeholder");
+    expect(stepOf(1).indexOf(out(STEP_PHOTO_KEYS[0]))).toBeLessThan(stepOf(1).indexOf(out(STEP_PHOTO_KEYS[1])));
+    for (const key of STEP_PHOTO_KEYS) {
+      expect(SITE_ASSETS[key].status, key).toBe("verified");
+      expect(SITE_ASSETS[key].source, key).toMatch(/^art-pipeline\/out\/athletes\/basketball\/before\//);
+    }
     expect(stepOf(2)).toContain(out(STEP_PROOF_KEY));
     const tick = render(createElement(CheckCircleIcon, { size: 24 })).replace(/^<svg[^>]*>|<\/svg>$/g, "");
     expect(stepOf(3)).toContain(tick);
@@ -643,7 +648,7 @@ describe("ProofPath (D29) — one component, the cards and the list", () => {
     const stepOf = (i: number) => own.split('<li data-step-card=""')[i + 1];
     expect(stepOf(0)).toContain('id="mine-01"');
     expect(stepOf(0)).not.toContain(encodeURIComponent(SITE_ASSETS[STEP_PRODUCT_KEYS[0]].out));
-    expect(stepOf(1)).toContain("data-photo-placeholder");
+    expect(stepOf(1)).toContain("data-photo-print");
     expect(stepOf(2)).toContain('id="mine-03"');
     expect(stepOf(3)).toContain(INTAKE_COPY.stepCards[3].line);
     // With its own pictures the band renders the page's own line under the cards instead of the default C13.
@@ -652,7 +657,7 @@ describe("ProofPath (D29) — one component, the cards and the list", () => {
     expect(band).not.toContain(CANON.fictionalLabel);
   });
   it("cards: decorative, lazy, accent-free, nothing to press, never a typed price", () => {
-    expect(cards.match(/<img /g)?.length).toBe(3);
+    expect(cards.match(/<img /g)?.length).toBe(5);
     for (const img of cards.match(/<img [^>]*>/g) ?? []) {
       expect(img).toContain('alt=""');
       expect(img).toContain('loading="lazy"');

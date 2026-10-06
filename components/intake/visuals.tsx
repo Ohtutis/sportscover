@@ -10,16 +10,18 @@ import type { ArtState } from "./model";
 // No hooks, no browser API, no asset map: the server band (components/ProofPath.tsx) and the form island
 // share them, so a grey placeholder or a watermark looks the same wherever it appears.
 //
-// - `PhotoPlaceholder` — "your photo": a soft grey print with a drawn silhouette and the label. Wherever the
-//   page means the PARENT'S photos it shows this, never another child.
+// - `PhotoPrint` — one phone photo as a print (square corners, white ring, card shadow): the example athlete's
+//   own "before" photos (v5, owner review 2026-10-07), the same fictional athlete as the art beside them.
+// - `PhotoPlaceholder` — "your photo": a soft grey print with a drawn silhouette and the label, only where no
+//   example photo exists.
 // - `NeutralArt` — the grey set: a card, poster, banner or blanket with the same silhouette, and for a
 //   card the finish shown as its frame (a swatch of the finish's material), so a look still reads before
 //   a sport is chosen.
 // - `Watermark` — "PROOF" tiled on the diagonal in CSS, over any example proof.
 // - `ArtImage` — one art-map picture, contained (a card is never cropped).
-// - `ArtNote` — the one line under a group of pictures: C13 over real art, "pick a sport" over the grey set,
-//   "built to order" for a sport with no example yet. All three are laid in the same grid cell and only one
-//   is visible, so the line's height never changes when the sport arrives after hydration (CLS 0).
+// - `ArtNote` — the line under a group of pictures: C13 over their sport's art; C13 and "Example shown: <sport>"
+//   before a choice; C13 and "built to order" for a sport with no example yet. All three are laid in the same
+//   grid cell and only one is visible, so the line's height never changes when the sport arrives (CLS 0).
 
 /** Each finish as a material swatch — the frame of its grey card. Gradients only; no orange token anywhere. */
 export const FINISH_SWATCH: Record<string, string> = {
@@ -126,6 +128,41 @@ export function PhotoPlaceholder({ className = "", ring = "ring-[3px]" }: { clas
   );
 }
 
+/** Anything with a picture and its words: an art-map image (lib/intake/sport-art.ts) or an ImageSpec (lib/assets.ts). */
+export interface PrintImage {
+  src: string;
+  alt: string;
+}
+
+/**
+ * One phone photo as a print — the look of `PhotoPlaceholder` with the real photograph in it, cropped to the
+ * print's 3 : 4. `decorative` drops the alt where the words beside it carry the meaning (the step cards).
+ */
+export function PhotoPrint({
+  image,
+  sizes,
+  className = "",
+  ring = "ring-[3px]",
+  decorative = true,
+  eager = false,
+}: {
+  image: PrintImage;
+  sizes: string;
+  className?: string;
+  ring?: string;
+  decorative?: boolean;
+  eager?: boolean;
+}) {
+  return (
+    <span
+      data-photo-print=""
+      className={`block aspect-[3/4] overflow-hidden rounded-none bg-hairline shadow-[var(--shadow-card-stock)] ring-white ${ring} ${/\babsolute\b/.test(className) ? "" : "relative"} ${className}`.replace(/\s+/g, " ").trim()}
+    >
+      <Image src={image.src} alt={decorative ? "" : image.alt} fill sizes={sizes} loading={eager ? "eager" : "lazy"} className="object-cover" />
+    </span>
+  );
+}
+
 /**
  * The proof watermark, drawn in CSS: "PROOF" in Anton tiled on a −24° diagonal across the whole picture
  * (every other row offset half a step, like a real proof stamp), white at 50 % with a faint hairline of ink
@@ -173,22 +210,59 @@ export function ArtImage({
   );
 }
 
-/** The sentence for a chosen sport that has no example yet — named, or the "other" wording. */
-export const noExampleLine = (sport: string | null): string => (sport ? INTAKE_COPY.art.noExample(sport) : INTAKE_COPY.art.noExampleOther);
+/** The sentence for a chosen sport that has no example yet — named, or the "other" wording — and the example it shows instead. */
+export const noExampleLine = (sport: string | null, example: string): string =>
+  sport ? INTAKE_COPY.art.noExample(sport, example) : INTAKE_COPY.art.noExampleOther(example);
 
 /**
  * The line under a group of pictures. `art` → C13 (every art-map picture is a fictional roster athlete);
- * `pick` → "Pick a sport to see it in their sport."; `none` → built to order, with the sport's name. The
- * three are stacked in one grid cell and only the current one is visible, so the slot is always as tall as
- * its tallest line and nothing below it moves when the sport arrives.
+ * `pick` → C13 and "Example shown: <example>. Pick their sport…"; `none` → C13 and built to order, with the
+ * sport's name. `art` and `pick` are stacked in one grid cell and only the current one is visible, so nothing
+ * below moves when a sport arrives from the link; `none` (only ever after a tap) takes the cell alone.
  */
-export function ArtNote({ state, sport, label = true, className = "" }: { state: ArtState; sport: string | null; label?: boolean; className?: string }) {
-  const lines: [ArtState, ReactNode][] = [
-    // `label={false}`: the pictures carry C13 in their own frame, so the line stays empty over real art.
-    ["art", label ? <FictionalLabel key="art" /> : null],
-    ["pick", <span key="pick" className="block border-t border-hairline pt-2 font-body text-small font-medium text-ink">{INTAKE_COPY.art.pick}</span>],
-    ["none", <span key="none" className="block max-w-[60ch] border-t border-hairline pt-2 font-body text-small font-medium text-pretty text-ink">{noExampleLine(sport)}</span>],
-  ];
+export function ArtNote({
+  state,
+  sport,
+  example,
+  label = true,
+  className = "",
+}: {
+  state: ArtState;
+  sport: string | null;
+  /** The example sport's name ("Football") — what the pictures show before a choice, or for a sport with none. */
+  example: string;
+  label?: boolean;
+  className?: string;
+}) {
+  // `label={false}`: the pictures carry C13 in their own frame, so the art line stays empty and the others are one sentence.
+  const c13 = label ? <FictionalLabel /> : null;
+  const sentence = (text: string) => (
+    <span className={`block max-w-[60ch] font-body text-small font-medium text-pretty text-ink ${c13 ? "mt-2" : "border-t border-hairline pt-2"}`}>{text}</span>
+  );
+  // `art` and `pick` share one cell: the server renders `pick` and a sport from the link turns it into `art` with no
+  // tap, so the slot keeps the taller one's height (CLS 0). `none` only ever follows a tap (Other, or a sport with no
+  // example), so it replaces the stack instead of reserving its three lines for everyone.
+  const lines: [ArtState, ReactNode][] =
+    state === "none"
+      ? [
+          [
+            "none",
+            <span key="none" className="block">
+              {c13}
+              {sentence(noExampleLine(sport, example))}
+            </span>,
+          ],
+        ]
+      : [
+          ["art", c13],
+          [
+            "pick",
+            <span key="pick" className="block">
+              {c13}
+              {sentence(INTAKE_COPY.art.pick(example))}
+            </span>,
+          ],
+        ];
   return (
     <div data-art-note={state} aria-live="polite" className={`grid ${className}`.trim()}>
       {lines.map(([s, node]) => (
@@ -221,12 +295,26 @@ export function StepPair({ poster, card, finish }: { poster: FreeProofImage | nu
   );
 }
 
-/** Step 02 everywhere: two of "your photos" — the grey prints, never another child. */
-export function StepPhotos() {
+/**
+ * Step 02: two phone photos — the example athlete's own (the smile behind, the photo in uniform in front), or
+ * the grey "your photo" prints where none is given.
+ */
+export function StepPhotos({ photos }: { photos?: readonly PrintImage[] | null }) {
+  const back = "absolute left-[10%] top-[3%] h-[84%] w-auto -rotate-6";
+  const front = "absolute right-[10%] top-[9%] h-[84%] w-auto rotate-[5deg]";
+  if (photos && photos.length >= 2) {
+    const [behind, onTop] = photos.slice(-2);
+    return (
+      <>
+        <PhotoPrint image={behind} sizes={STEP_ART_SIZES} className={back} />
+        <PhotoPrint image={onTop} sizes={STEP_ART_SIZES} className={front} />
+      </>
+    );
+  }
   return (
     <>
-      <PhotoPlaceholder className="absolute left-[10%] top-[3%] h-[84%] w-auto -rotate-6" />
-      <PhotoPlaceholder className="absolute right-[10%] top-[9%] h-[84%] w-auto rotate-[5deg]" />
+      <PhotoPlaceholder className={back} />
+      <PhotoPlaceholder className={front} />
     </>
   );
 }

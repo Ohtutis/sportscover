@@ -26,6 +26,8 @@ export interface SportPickerProps {
   onOther: (text: string) => void;
   /** Slugs that have example art — a chosen sport outside it gets the built-to-order note. */
   withArt: ReadonlySet<string>;
+  /** The example sport's name the pictures show for a sport without its own ("Football"). */
+  example?: string;
   labelledBy: string;
   errors: Record<string, string | undefined>;
 }
@@ -51,7 +53,7 @@ const chip = (chosen: boolean, invalid: boolean): string =>
  * art gets one plain line under the chips, "Other" carries the same promise beside its field. Never a
  * word that the sport is unavailable.
  */
-export function SportPicker({ sports, value, other, onChange, onOther, withArt, labelledBy, errors }: SportPickerProps) {
+export function SportPicker({ sports, value, other, onChange, onOther, withArt, example = "Football", labelledBy, errors }: SportPickerProps) {
   const featured = sports.filter((s) => s.featured);
   const more = sports.filter((s) => !s.featured);
   const chosenInMore = more.some((s) => s.slug === value);
@@ -71,7 +73,7 @@ export function SportPicker({ sports, value, other, onChange, onOther, withArt, 
   const isOther = value === SPORT_OTHER;
   const otherId = fieldId("athlete.sportOther");
   const chosen = sports.find((s) => s.slug === value);
-  const note = chosen && !withArt.has(chosen.slug) ? noExampleLine(chosen.name) : "";
+  const note = chosen && !withArt.has(chosen.slug) ? noExampleLine(chosen.name, example) : "";
 
   const radio = (slug: string, name: string, first: boolean) => {
     const id = sportId(slug);

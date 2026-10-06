@@ -1148,6 +1148,8 @@ interface FpSport {
   poster: FpCode;
   /** Blanket listing lead finish; present = the sport also has a banner listing (lead Heritage). */
   blanket?: FpCode;
+  /** The roster athlete's folder under art-pipeline/out/athletes when it is not the slug (pickleball: Nadia Rahimi, the athlete on its card). */
+  athlete?: string;
 }
 const SIX: readonly FpCode[] = ["SN", "CA", "FS", "HE", "SS", "PR"];
 const FP_SPORTS: readonly FpSport[] = [
@@ -1166,13 +1168,29 @@ const FP_SPORTS: readonly FpSport[] = [
   { slug: "swimming", word: "swimming", file: "swimming", px: "SW", cards: SIX, poster: "SS" },
   { slug: "tennis", word: "tennis", file: "tennis", px: "TN", cards: SIX, poster: "SS" },
   { slug: "golf", word: "golf", file: "golf", px: "GF", cards: SIX, poster: "SN" },
-  { slug: "pickleball", word: "pickleball", file: "pickleball", px: "PK", cards: SIX, poster: "CA" },
+  { slug: "pickleball", word: "pickleball", file: "pickleball", px: "PK", cards: SIX, poster: "CA", athlete: "pickleball-youth" },
   { slug: "other-sport", word: "skateboarding", file: "skateboarding", px: "SK", cards: SIX, poster: "CA" },
 ];
 /** Card fronts whose `-front.png` does not exist: the listing's `-card-FRONT.png` (2026-09-13, square-cut). */
 const FP_CARD_SOURCE: Record<string, string> = { "IH-CA": "IH-CA-card-FRONT.png" };
 /** Soccer's Fire & Smoke poster is the stitch-free v2 (etsy/video/render_types.py poster_art, 2026-09-04 re-audit). */
 const FP_POSTER_SOURCE: Record<string, string> = { "SC-FS": "SC-FS-poster-v2.png" };
+
+/**
+ * The phone photos a parent sends, per sport (owner review 2026-10-07: "too many faceless grey cards — the page has to
+ * sell the idea that THEIR child ends up on the poster"). Three of the roster athlete's four generated "before"
+ * photos — the same fictional athlete as the sport's card and poster (checked side by side, 2026-10-07) — in the
+ * order the hero fans them: the everyday snapshot at the back, the smile, the photo in uniform on top. Source
+ * `art-pipeline/out/athletes/<athlete>/before/photo<n>.png` (1792 x 2400), out 336 x 450 at the same ratio, q72.
+ */
+export const FP_PHOTO_NUMBERS = [1, 4, 2] as const;
+const FP_PHOTO_SCENE: Record<(typeof FP_PHOTO_NUMBERS)[number], string> = {
+  1: "an everyday snapshot",
+  4: "smiling, off the field",
+  2: "in uniform",
+};
+const altPhoto = (sport: string, n: (typeof FP_PHOTO_NUMBERS)[number]) =>
+  `Phone photo of a fictional ${sport} athlete, the kind a parent sends — ${FP_PHOTO_SCENE[n]}; photo generated`;
 
 const altBanner = (sport: string, finish: string) =>
   `Custom ${sport} vinyl banner — ${finish} finish — example artwork, fictional athlete`;
@@ -1193,6 +1211,13 @@ function freeProofEntries(): Record<string, Entry> {
       out[`free-proof.${s.slug}.card.${code}`] = {
         out: `${dir}/${s.file}-trading-card-front-${file}.webp`, source, width: 600, height: 840, quality: 72,
         kind: "card", fictional: true, status: "verified", alt: altFront(s.word, name),
+      };
+    }
+    for (const n of FP_PHOTO_NUMBERS) {
+      out[`free-proof.${s.slug}.photo.${n}`] = {
+        out: `${dir}/${s.file}-phone-photo-${n}.webp`,
+        source: `art-pipeline/out/athletes/${s.athlete ?? s.slug}/before/photo${n}.png`,
+        width: 336, height: 450, quality: 72, kind: "photo", fictional: true, status: "verified", alt: altPhoto(s.word, n),
       };
     }
     const [pName, pFile] = FP_FINISH[s.poster];

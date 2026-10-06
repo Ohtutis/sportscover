@@ -36,6 +36,12 @@ import { StepPhotos, StepTick } from "./intake/visuals";
 export const STEP_PROOF_KEY = "show.proof.basketball";
 /** Step 01 by default: the product tiles of /free-proof's product step (lib/assets.ts `product.*`). */
 export const STEP_PRODUCT_KEYS = ["product.cards", "product.poster"] as const;
+/**
+ * Step 02 by default: two of Marcus Ellison's phone photos — the athlete whose proof step 03 shows — the smile
+ * behind, the photo in uniform on top (owner review 2026-10-07: "too many faceless grey cards"). The grey
+ * "your photo" prints are the fallback when either key is not verified.
+ */
+export const STEP_PHOTO_KEYS = ["hero.story.1.before.4", "hero.story.1.before.1"] as const;
 
 export type ProofPathVariant = "cards" | "list";
 
@@ -84,7 +90,11 @@ function stepVisual(i: number): { node: ReactNode; fictional: boolean } | null {
       ),
     };
   }
-  if (i === 1) return { fictional: false, node: <StepPhotos /> };
+  if (i === 1) {
+    const photos = STEP_PHOTO_KEYS.map(maybe);
+    const both = photos.every((p): p is ImageSpec => p !== null) ? photos : null;
+    return { fictional: Boolean(both), node: <StepPhotos photos={both} /> };
+  }
   if (i === 2) {
     const proof = maybe(STEP_PROOF_KEY);
     if (!proof) return null;

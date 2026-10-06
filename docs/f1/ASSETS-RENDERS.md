@@ -851,3 +851,23 @@ banner listing. A missing key is simply absent from the map and the form shows i
     while read k; do npx tsx scripts/site-assets.ts --key "$k"; done < <(npx tsx -e 'import("./lib/assets.ts").then(m=>console.log(Object.keys(m.SITE_ASSETS).filter(k=>k.startsWith("free-proof.")).join("\n")))')
     npx tsx scripts/site-assets.ts --check
 Total on disk: 148 files, 6 669 700 bytes (faces 4 768 074, posters 780 360, banners 629 556, blankets 491 710).
+
+### Phone photos and the example sport (v5, 2026-10-07)
+
+Owner review 2026-10-07: "too many faceless grey cards until you pick a sport — the page has to hook with the
+visuals at once and sell the idea that their child ends up on the poster". Two changes, still no model call:
+
+- **51 keys `free-proof.<slug>.photo.<n>`**, n = 1, 4, 2: three of the roster athlete's four generated "before"
+  photos (`art-pipeline/out/athletes/<athlete>/before/photo<n>.png`, 1792 × 2400) as 336 × 450 WebP q72, ~18 KB
+  each (932 KB for all). The athlete is the one on the sport's card and poster — checked side by side for all 17
+  (contact sheets in the session scratchpad); pickleball reads `pickleball-youth` (Nadia Rahimi, the card's athlete).
+  Order = the hero's fan, back to front: everyday snapshot, smile, in uniform on top. The map carries them as
+  `photos`; the JSON grew to ~43 KB (budget raised to 48 KB). Never a customer folder (`Order 0x`, `order-*`).
+- **The example sport.** Before a choice every picture on `/free-proof` (hero, how-it-works 01–03, product and style
+  tiles, "Your order") shows ONE sport's real art — `SHOWCASE_SPORT` = football in `components/intake/model.ts` — and
+  the line under it says "Example shown: Football." A sport chosen with no example ("Other") keeps showing the
+  example with the built-to-order line. `next.config.ts` rewrites `/free-proof?sport=<slug>` to the prerendered twin
+  `/free-proof/for/<slug>` (canonical `/free-proof`, not in the sitemap), so a link from a sport page or an ad paints
+  that sport in the first byte. The shared how-it-works band on other pages shows Marcus's phone photos at step 02
+  (`hero.story.1.before.4` / `.1`, the athlete whose proof step 03 shows). The grey "your photo" print remains only
+  as the fallback where no photo exists.

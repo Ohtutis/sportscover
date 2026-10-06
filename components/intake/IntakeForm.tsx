@@ -18,6 +18,7 @@ import { ConsentFields } from "./ConsentFields";
 import { ContactFields } from "./ContactFields";
 import { LEAD_STORE_PREFIX } from "./LeadPing";
 import {
+  SHOWCASE_SPORT,
   applyPrefill,
   artState,
   buildPayload,
@@ -25,15 +26,18 @@ import {
   captureSource,
   choiceStore,
   chooseSport,
+  exampleName,
   fileKey,
   fileMeta,
   hasOptionalDetailError,
   initialState,
   isCrestFile,
   screenPhotos,
+  shownArt,
   sportArt,
   sportName,
   statErrorsByRow,
+  type ArtNoteData,
   type AthleteState,
   type ContactState,
   type FormState,
@@ -53,10 +57,12 @@ export interface IntakeFormProps {
   sports: SportChoiceData[];
   /**
    * The per-sport example art (lib/intake/sport-art.ts `freeProofArtMap()`, resolved on the server — this
-   * island never imports the asset map). The form picks the chosen sport's entry; a sport without one shows
-   * the grey set.
+   * island never imports the asset map). The form picks the chosen sport's entry; before a choice, or for a
+   * sport without one, the page's example sport's (`example`).
    */
   art: FreeProofArtMap;
+  /** The page's example sport: the link's sport on a per-sport page, else SHOWCASE_SPORT (components/intake/model.ts). */
+  example?: string;
   /** The four products with every option's price label and site price (the bundle ladder and "Your order" price from these). */
   products: ProductTileData[];
   styles: StyleTileData[];
@@ -178,6 +184,7 @@ function isStartResponse(v: unknown, photoCount: number, wantsCrest: boolean): v
 export function IntakeForm({
   sports,
   art,
+  example = SHOWCASE_SPORT,
   products,
   styles,
   photosSubhead,
@@ -489,10 +496,10 @@ export function IntakeForm({
       INTAKE_COPY.errors.uploadFailed
     ) : null;
 
-  // One sport on the whole page: its art (or the grey set), and the line every group of pictures carries.
-  const entry = sportArt(art, sportSlug);
+  // One sport on the whole page: theirs, or the example sport until they choose — and the line every group of pictures carries.
+  const entry = shownArt(art, sportSlug, example);
   const sportLabel = sportName(sportSlug, sportOther);
-  const note = { state: artState(art, sportSlug), sport: sportLabel };
+  const note: ArtNoteData = { state: artState(art, sportSlug), sport: sportLabel, example: exampleName(art, example) };
   const withArt = useMemo(() => new Set(Object.keys(art).filter((slug) => sportArt(art, slug))), [art]);
   const summary = { products, state: form.products, styles, style: form.style, art: entry, sport: sportLabel };
   const steps = INTAKE_COPY.steps6;
@@ -512,6 +519,7 @@ export function IntakeForm({
               onChange={onSport}
               onOther={onSportOther}
               withArt={withArt}
+              example={note.example}
               labelledBy={STEP_TITLE_ID[1]}
               errors={errors}
             />

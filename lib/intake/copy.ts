@@ -31,17 +31,21 @@ export const INTAKE_COPY = {
 
   /**
    * v4 (owner review 2026-10-06, evening: "mixing sports is not cool"): every athlete picture on the page
-   * shows the sport chosen in step 1. The parent's own photos are never another child — a grey frame with
-   * a drawn silhouette and this label — and the watermark on every example proof is drawn in CSS.
+   * shows the sport chosen in step 1, and the watermark on every example proof is drawn in CSS.
+   * v5 (owner review 2026-10-07: "too many faceless grey cards"): before a choice the page shows ONE example
+   * sport's real art and that athlete's phone photos, and this line says so; the grey print survives only
+   * where no photo exists.
    */
   art: {
     photoLabel: "Your photo",
     watermark: "PROOF",
-    /** Before a sport is chosen: the grey set, and one line saying how to see their sport. */
-    pick: "Pick a sport to see it in their sport.",
-    /** A sport with no example art yet (or "Other"): built to order, never "unavailable". */
-    noExample: (sport: string): string => `No ${sport} example yet. We build it from your photos, and you see the proof before you pay.`,
-    noExampleOther: "No example for this one yet. We build it from your photos, and you see the proof before you pay.",
+    /** Before a sport is chosen: the example sport's art, and one line saying how to see their sport. */
+    pick: (example: string): string => `Example shown: ${example}. Pick their sport and every picture switches to it.`,
+    /** A sport with no example art yet (or "Other"): the example shows, built to order, never "unavailable". */
+    noExample: (sport: string, example: string): string =>
+      `No ${sport} example yet, so the pictures show ${example}. We build yours from your photos, and you see the proof before you pay.`,
+    noExampleOther: (example: string): string =>
+      `No example for this one yet, so the pictures show ${example}. We build yours from your photos, and you see the proof before you pay.`,
   },
 
   /** v2: the four how-it-works cards — big numeral, two-word title, one line. "Nothing due today" is the zero-due fact in words; the figure itself comes from prices.ts DUE_TODAY_LABEL. */

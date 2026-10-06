@@ -12,8 +12,9 @@
 //   free-proof.<slug>.poster        the sport's poster art, flat, 3 : 4
 //   free-proof.<slug>.banner        the sport's banner art, flat
 //   free-proof.<slug>.blanket       the sport's blanket laid flat, a mockup (never a draped shot: those stretch the art)
+//   free-proof.<slug>.photo.<n>     the same athlete's generated phone photos (n = 1, 4, 2: everyday, smile, in uniform)
 
-import { SITE_ASSETS } from "../assets";
+import { FP_PHOTO_NUMBERS, SITE_ASSETS } from "../assets";
 import { sports } from "../catalog/sports";
 
 /** The six finishes in lineup order, then Senior Night (only the eight sports with a Senior Night set; ice hockey has none). */
@@ -36,12 +37,17 @@ export interface FreeProofSportArt {
   poster?: FreeProofImage;
   banner?: FreeProofImage;
   blanket?: FreeProofImage;
+  /**
+   * The athlete's phone photos, in the order the hero fans them (back to front: everyday, smile, in uniform) —
+   * the "before" the proof is built from. Present only when all three are audited.
+   */
+  photos?: FreeProofImage[];
 }
 
 /** Sport slug → its art. A sport with no audited image at all is absent from the map. */
 export type FreeProofArtMap = Record<string, FreeProofSportArt>;
 
-export const freeProofKey = (slug: string, item: "poster" | "banner" | "blanket" | `card.${FreeProofFinishCode}`) =>
+export const freeProofKey = (slug: string, item: "poster" | "banner" | "blanket" | `card.${FreeProofFinishCode}` | `photo.${number}`) =>
   `free-proof.${slug}.${item}`;
 
 const FINISH_IN_ALT: ReadonlyArray<[FreeProofFinishCode, RegExp]> = [
@@ -82,7 +88,19 @@ export function freeProofArtMap(): FreeProofArtMap {
     if (poster) entry.poster = poster;
     if (banner) entry.banner = banner;
     if (blanket) entry.blanket = blanket;
+    const photos = FP_PHOTO_NUMBERS.map((n) => image(freeProofKey(s.slug, `photo.${n}`)));
+    if (photos.every(Boolean)) entry.photos = photos as FreeProofImage[];
     if (Object.keys(cards).length || poster || banner || blanket) map[s.slug] = entry;
   }
   return map;
+}
+
+/**
+ * The sports with a per-sport twin of /free-proof (app/(marketing)/free-proof/for/[sport]) — every catalog sport
+ * whose example art includes a card front or a poster. next.config.ts rewrites `/free-proof?sport=<one of these>`
+ * to its twin, so the list is the rewrite's allow-list too.
+ */
+export function freeProofSportSlugs(): string[] {
+  const map = freeProofArtMap();
+  return sports.map((s) => s.slug).filter((slug) => map[slug] && (Object.keys(map[slug].cards).length > 0 || map[slug].poster));
 }

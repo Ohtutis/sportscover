@@ -18,14 +18,14 @@ export const HERO_CTA_CLASS = `inline-flex min-h-14 items-center justify-center 
  * ONE sentence, then the orange "Start my free proof →" that glides to step 1 (a plain `#step-1` anchor
  * without JavaScript), the small no-payment note, and the three claims as quiet type — muted Barlow
  * labels with no tick and no fill, so the page's orange stays on its two buttons. Beside them, an example
- * proof in the sport chosen in step 1 (`HeroVisual`, components/intake/SportVisuals.tsx — v4, owner review
- * 2026-10-06: the grey set until a sport is chosen, "your photos" always grey prints). Below `lg` the
- * visual follows the copy, full width up to 560 px.
+ * proof in the sport chosen in step 1 (`HeroVisual`, components/intake/SportVisuals.tsx — v5, owner review
+ * 2026-10-07: the example sport's real proof and its athlete's phone photos until a sport is chosen). Below
+ * `lg` the visual follows the copy, full width up to 560 px.
  *
  * The H1 runs at 20ch rather than the recipe's 16ch: "FREE PROOF FIRST. PAY IF YOU LOVE IT." broke into
  * three lines at 16ch on a 1440 screen; at 20ch it sets as two, one sentence per line.
  */
-export function IntakeHero({ art }: { art: FreeProofArtMap }) {
+export function IntakeHero({ art, example }: { art: FreeProofArtMap; example?: string }) {
   return (
     <section aria-labelledby={HERO_TITLE_ID} className="pt-6 md:pt-10">
       <Breadcrumbs trail={[{ name: "Home", href: "/" }, { name: UI.breadcrumb, href: INTAKE_PATH }]} className="mb-6" />
@@ -56,7 +56,7 @@ export function IntakeHero({ art }: { art: FreeProofArtMap }) {
           </ul>
         </div>
         <div className="mt-12 lg:col-span-6 lg:mt-0">
-          <HeroVisual art={art} />
+          <HeroVisual art={art} example={example} />
         </div>
       </div>
     </section>
