@@ -155,6 +155,7 @@ describe("/privacy — the numbers a regulator checks", () => {
   it("lists every subprocessor", () => {
     for (const provider of [
       "Vercel",
+      "Meta Platforms",
       "Supabase",
       "Cloudflare R2",
       "Google Cloud Vertex AI",

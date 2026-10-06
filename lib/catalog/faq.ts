@@ -176,7 +176,7 @@ export const faq: FaqItem[] = [
     id: "faq-17",
     group: "timing",
     q: "Ordering for senior night — when do I have to order?",
-    a: `${CHIPS.seniorNight}. Add the date at the order and we schedule the proof against it. If nothing printed can make it, order the digital files and gift the note above.`,
+    a: `${CHIPS.seniorNight}. Tell us the date when you order and we schedule the proof against it. If nothing printed can make it, order the digital files and gift the note above.`,
   },
   // How it's made
   {

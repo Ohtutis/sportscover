@@ -275,8 +275,9 @@ export function ctaFor(ctx: CtaContext, o?: CtaOptions | CardRecord, env: CtaEnv
       kind: "primary",
       ...(ctx === "header" ? { shortLabel: CTA_LABELS.freeProofShort } : {}),
     };
-    // The header keeps the registry lookup beside its button; every other surface offers Etsy.
-    return { primary, secondary: ctx === "header" ? secondaryLookup : secondaryEtsy, tone };
+    // The header carries ONE button (owner, 2026-10-06: the card lookup "should not carry that much
+    // weight" — it lives on /registry, in the footer and in the mobile menu); every other surface offers Etsy.
+    return ctx === "header" ? { primary, tone } : { primary, secondary: secondaryEtsy, tone };
   }
 
   return { primary: { label: CTA_LABELS.orderOnEtsy, href: etsyHref(sku), kind: "primary" }, secondary: secondaryLookup, tone };

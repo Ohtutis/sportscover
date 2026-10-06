@@ -77,7 +77,7 @@ export const SENIOR_NIGHT_FACTS: SeniorNightFacts[] = [
       {
         id: "q-sn-football-when",
         q: "When is football senior night?",
-        a: "At the last home game of the regular season, usually in late October. Add your date on the form and the proof is scheduled against it; the senior night page has the order-by calculator for the printed set.",
+        a: "At the last home game of the regular season, usually in late October. Tell us your date and the proof is scheduled against it; the senior night page has the order-by calculator for the printed set.",
       },
       {
         id: "q-sn-football-banner",
@@ -114,7 +114,7 @@ export const SENIOR_NIGHT_FACTS: SeniorNightFacts[] = [
       {
         id: "q-sn-volleyball-when",
         q: "When is volleyball senior night?",
-        a: "At the last home match of the regular season, usually in October. Add your date on the form; the senior night page has the order-by calculator that says which pieces still make it.",
+        a: "At the last home match of the regular season, usually in October. Mention your date when you reply to our confirmation email; the senior night page has the order-by calculator that says which pieces still make it.",
       },
       {
         id: "q-sn-volleyball-ideas",
@@ -151,7 +151,7 @@ export const SENIOR_NIGHT_FACTS: SeniorNightFacts[] = [
       {
         id: "q-sn-soccer-when",
         q: "When is soccer senior night?",
-        a: "At the last home game of the regular season, usually in October for high school teams, and in spring for clubs that play a spring season. Type the date on the form and we work the proof back from it.",
+        a: "At the last home game of the regular season, usually in October for high school teams, and in spring for clubs that play a spring season. Tell us the date in your reply to the confirmation email and we work the proof back from it.",
       },
       {
         id: "q-sn-soccer-crest",
@@ -193,7 +193,7 @@ export const SENIOR_NIGHT_FACTS: SeniorNightFacts[] = [
       {
         id: "q-sn-cheer-when",
         q: "When is cheer senior night?",
-        a: "Usually on the football team's senior night, in October or November, and sometimes at the last home basketball game instead. Add the date on the form and the proof is scheduled against it.",
+        a: "Usually on the football team's senior night, in October or November, and sometimes at the last home basketball game instead. Send us the date with your reply to the confirmation email and the proof is scheduled against it.",
       },
       {
         id: "q-sn-cheer-uniform",
@@ -299,7 +299,7 @@ export const SENIOR_NIGHT_FACTS: SeniorNightFacts[] = [
       {
         id: "q-sn-softball-when",
         q: "When is softball senior night?",
-        a: "At the last home game of the regular season, usually in April or early May. Put the date on the form; the proof is timed to land ahead of it.",
+        a: "At the last home game of the regular season, usually in April or early May. Tell us the date once your request is in; the proof is timed to land ahead of it.",
       },
       {
         id: "q-sn-softball-stats",
@@ -336,7 +336,7 @@ export const SENIOR_NIGHT_FACTS: SeniorNightFacts[] = [
       {
         id: "q-sn-baseball-when",
         q: "When is baseball senior night?",
-        a: "At the last home game of the regular season, usually in April or May. Give us the date on the form and the proof is planned around it.",
+        a: "At the last home game of the regular season, usually in April or May. Let us know the date after you send the request and the proof is planned around it.",
       },
       {
         id: "q-sn-baseball-pitcher",

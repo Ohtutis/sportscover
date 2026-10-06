@@ -240,7 +240,7 @@ export const PAGES: Record<string, PageMeta> = Object.fromEntries([
     // COPY §3: "Poster & " is trimmed when the sport name pushes the title past 60.
     title: "{Sport} Senior Night Gift: Card Set",
     description:
-      "{Sport} senior night gift from your athlete's photos — a gold senior edition card and poster. Add the date; we schedule the proof against it.",
+      "{Sport} senior night gift from your athlete's photos — a gold senior edition card and poster. Tell us the date; we schedule the proof against it.",
     phase: "F1",
     priority: 0.8,
     changeFrequency: "weekly",

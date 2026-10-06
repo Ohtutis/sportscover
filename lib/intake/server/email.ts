@@ -32,7 +32,7 @@ export interface EmailLinks {
 const oneLine = (s: string): string => s.replace(/[\r\n\t]+/g, " ").replace(/\s{2,}/g, " ").trim();
 
 export const ownerSubject = (r: StoredRequest): string =>
-  oneLine(`Free proof request ${r.requestId} — ${athleteName(r)} (${sportLabel(r.athlete.sportSlug)}, ${styleShort(r.style)})`);
+  oneLine(`Free proof request ${r.requestId} — ${athleteName(r)} (${sportLabel(r.athlete.sportSlug, r.athlete.sportOther)}, ${styleShort(r.style)})`);
 
 export const customerSubject = (r: StoredRequest): string => `We have your photos — your free proof is in the queue (${r.requestId})`;
 

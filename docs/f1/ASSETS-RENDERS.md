@@ -773,3 +773,81 @@ The near-fold blanket takes were rejected by eye (name hidden) and never used, s
 - `app/(marketing)/trading-cards/page.tsx` captions `product.cards` as "a printed card on a desk … two coins" — now
   stale (it is only the last fallback after `life.card.desk/case/binder`, all verified, so it does not render today).
 - The blanket is still a **mockup**; replace the tile with a photograph of the production sample when one exists.
+
+## Free-proof per-sport art (2026-10-06)
+
+Owner review 2026-10-06 (free-proof v4): the page showed football product tiles above a basketball style step, and
+"mixing sports is not cool". The parent now picks the sport first, and every athlete picture on `/free-proof` shows
+THAT sport. This section is the art behind it: 148 keys `free-proof.<slug>.card.<CODE> | .poster | .banner |
+.blanket` in `lib/assets.ts` (built by `freeProofEntries()` from one table, `FP_SPORTS`), written by
+`scripts/site-assets.ts --key <k>` into `public/images/free-proof/<slug>/`, and resolved on the server by
+`lib/intake/sport-art.ts` `freeProofArtMap()` into one compact map (`{ [slug]: { cards: {CODE: {src,w,h,alt}},
+poster?, banner?, blanket? } }`, 32.5 KB of JSON for all 17 sports) that the page passes to the form as a prop. The
+client never imports `lib/assets.ts`. **Nothing was generated and nothing was judged: no model call, no spend.**
+Every file is a resize of a finished listing export; every one shows a fictional roster athlete (`fictional: true`).
+
+### What each key is
+
+| Item | Size | Source | Notes |
+|---|---|---|---|
+| `card.<CODE>`, CODE in SN CA FS HE SS PR | 600 × 840, WebP **q72** | `etsy/listing-images/01-<slug>-card/src/<XX>-<CODE>-front.png` | Every `-front.png` is dated 2026-09-01 or later (the square-cut rule). `-card-FRONT.png` is used only where no `-front.png` exists: ice-hockey CA (`IH-CA-card-FRONT.png`, 1500 × 2100, 2026-09-13). |
+| `card.SR` | 600 × 840, q72 | the file behind `sn.sport.<slug>.front` in `03-senior-night/src` | The eight sports with a Senior Night set. |
+| `poster` | 600 × 800 | `02-<slug>-poster/src/<XX>-<lead>-poster.png` | The poster listing's LEAD finish (`etsy/video/render_types.py` SPORTS, football from LISTING-STATE). Soccer FS is the stitch-free `SC-FS-poster-v2.png`. |
+| `banner` | 500 × 1000 | `03-<slug>-banner/src/master-HE.png` | The flat print master; Heritage leads every banner listing (BANNER-ROLLOUT). Football's master is the 1001 × 2002 build. |
+| `blanket` | 600 × 720 | `05-<slug>-blanket/src/flat56-<lead>.png` | The 50 × 60 art laid flat with the plush texture and eased hem corners (`blanket_listing_assets.py flat()`), so the art is never stretched. Lead finish = `LEAD` in `blanket_listing_assets.py`. The alt says it is a mockup. |
+
+Why q72 for the faces: the brief caps a face at 60 KB at 600 px wide. At the script's card default (q88) the 112
+candidate faces averaged 74 KB (max 105); at q72 they average 42 KB (max 59). Looked at full size (basketball CA,
+600 px): type and keylines sharp, no blocking. `SiteAsset.quality` (new, optional) carries the override and the
+manifest records it; the script re-encodes when it changes.
+
+### Keys per sport
+
+| Sport | Card finishes | SR | Poster | Banner | Blanket |
+|---|---|---|---|---|---|
+| basketball | SN CA FS HE SS PR | yes | SN | HE | PR |
+| football | SN CA FS HE SS PR | yes | HE | HE | SN |
+| baseball | SN CA FS HE SS PR | yes | CA | HE | FS |
+| softball | SN CA FS HE SS PR | yes | SN | HE | PR |
+| soccer | SN CA FS HE SS PR | yes | FS (v2) | HE | SS |
+| ice-hockey | SN CA FS HE SS PR | none exists | SN | HE | SS |
+| volleyball | SN CA FS HE SS PR | yes | PR | HE | CA |
+| wrestling | SN CA FS HE PR | yes | HE | HE | CA |
+| cheerleading | SN CA FS HE SS PR | yes | SS | HE | FS |
+| lacrosse | SN CA FS HE SS PR | none | PR | HE | SN |
+| track-field | SN CA FS HE SS PR | none | FS | HE | CA |
+| gymnastics | SN CA FS HE SS PR | none | HE | none | none |
+| swimming | SN CA FS HE SS PR | none | SS | none | none |
+| tennis | SN CA FS HE SS PR | none | SS | none | none |
+| golf | SN CA FS HE SS PR | none | SN | none | none |
+| pickleball | SN CA FS HE SS PR | none | CA | none | none |
+| other-sport (skateboarding) | SN CA FS HE SS PR | none | CA | none | none |
+
+Gaps, by design: **wrestling has no Signature Spotlight front** (no `WR-SS-*` export exists in the card listing);
+ice hockey has no Senior Night front (DESIGN finding 11); banners and blankets exist only for the eleven sports with a
+banner listing. A missing key is simply absent from the map and the form shows its neutral placeholder.
+
+### Checks
+- **Corner audit** (DESIGN §6.2, `scripts/site-assets.ts`) ran on all 109 faces (kind `card`, no crop) and passed;
+  `tests/assets-free-proof.test.ts` re-runs it on the written WebP. All 112 candidate sources were also looked at
+  as a 2× corner sheet: square keyline corners, full-bleed art to the edge, no transparency.
+- **Denylist**: no source or output hash-matches `scripts/denylist.json`.
+- **By eye**, full contact sheets of the 148 outputs: the right athlete per sport (Marcus, Tui, Casey, Brooke, Mateo,
+  Nolan, Jaslene, Dawson, Amara, Reese, Sofia, Imani, Nora, Arun, Hana, Nadia, Sam), the right finish per file, no
+  stretched art, no number on the six numberless sports' faces (their line is the event or level). Pickleball's art is
+  Nadia Rahimi, the athlete the coverage row shows.
+- **Not used**: the draped, sofa, lap, armchair and room composites of the blanket decks (the armchair shot
+  stretches the 3 : 4 art ~40 % taller; the others are unaudited for shear), the banner scene composites (mirrored
+  edges, product tiles v2), anything under `card-flip/assets/`, `print-sources/output/`, `exports/` or `marketing/cards/`.
+
+### Denylist additions (appended 2026-10-06)
+- The ten **pre-2026-09-01 card fronts** that still sit beside the square ones: `01-cheerleading-card/src/CH-{SN,CA,FS,HE,SS}-card-FRONT.png`
+  and `01-football-card/src/FB-{SN,CA,FS,HE,SS}-card-FRONT.png` (2026-08-27). Each has a transparent rounded mask on
+  all four corners; the same-finish `-front.png` is the square export.
+- Every **armchair blanket composite**, `05-<sport>[-sn]-blanket/src/room-30x40.png` and `c-room-30x40.png` (38 files;
+  football's `c-room-30x40.png` had been rebuilt since its 2026-10-06 entry, so its new hash was added too).
+
+### Rebuild
+    while read k; do npx tsx scripts/site-assets.ts --key "$k"; done < <(npx tsx -e 'import("./lib/assets.ts").then(m=>console.log(Object.keys(m.SITE_ASSETS).filter(k=>k.startsWith("free-proof.")).join("\n")))')
+    npx tsx scripts/site-assets.ts --check
+Total on disk: 148 files, 6 669 700 bytes (faces 4 768 074, posters 780 360, banners 629 556, blankets 491 710).

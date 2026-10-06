@@ -35,7 +35,7 @@ export const CANON = {
   weAreNewShort:
     "Opened August 2026. One designer, three professional labs, every athlete built one at a time. That's why the guarantee reads the way it does.",
   /** C17 — the senior date line. */
-  seniorDateLine: "Ordering for a senior night date? Add the date — we schedule proofs against real deadlines.",
+  seniorDateLine: "Ordering for a senior night date? Tell us the date — we schedule proofs against real deadlines.",
   /** C18 — the example gallery caption. */
   galleryCaption:
     "Every example on this site is a fictional athlete from our own roster — we never show a customer's child without written permission.",

@@ -56,10 +56,11 @@ import { TrueNumbers } from "../components/TrueNumbers";
 import { HANG_HEIGHT_IN, SHEET, ToScaleSheet, boxStyle, posterCentreIn } from "../components/ToScaleSheet";
 import { PhotoChecklist } from "../components/PhotoChecklist";
 import { FICTIONAL_LABEL_SHORT, FictionalLabel } from "../components/FictionalLabel";
-import { PROOF_BAND_LABEL_ID, ProofPath, ProofPathBand, STEP_PHOTO_KEYS, STEP_PRODUCT_KEYS, STEP_PROOF_KEY } from "../components/ProofPath";
+import { PROOF_BAND_LABEL_ID, ProofPath, ProofPathBand, STEP_PRODUCT_KEYS, STEP_PROOF_KEY } from "../components/ProofPath";
 import { INTAKE_COPY } from "../lib/intake/copy";
 import { SITE_ASSETS } from "../lib/assets";
-import { META_PIXEL_SRC, MetaPixel, loadMetaPixel, metaPixelId, type PixelDocument, type PixelHost } from "../components/MetaPixel";
+import { AD_OPT_OUT_KEY, META_PIXEL_SRC, MetaPixel, NO_PIXEL_COUNTRIES, loadMetaPixel, metaPixelId, optedOut, pixelAllowedIn, type PixelDocument, type PixelHost } from "../components/MetaPixel";
+import { META_PIXEL_ID } from "../lib/site";
 import { ButtonLink } from "../components/ButtonLink";
 
 const ROOT = process.cwd();
@@ -593,8 +594,9 @@ describe("ProofPath (D29) — one component, the cards and the list", () => {
     expect(line).not.toMatch(/stripe/i);
   });
 
-  // Owner review 2026-10-06: "a visual is missing where I circled" — each card carries its step's picture.
-  it("cards (the default): the four stepCards in order — numeral, picture, two-word title, one line", () => {
+  // Owner review 2026-10-06: "a visual is missing where I circled" — each card carries its step's picture;
+  // v4 (the same evening): "the pictures are far too small" — each now fills the top of its card.
+  it("cards (the default): the four stepCards in order — picture, numeral, two-word title, one line", () => {
     expect(cards).toContain(`<ol aria-label="${PROOF_PATH_LABEL}"`);
     expect(cards.match(/<li data-step-card=""/g)?.length).toBe(4);
     let at = 0;
@@ -605,29 +607,45 @@ describe("ProofPath (D29) — one component, the cards and the list", () => {
       expect(cards).toContain(card.line);
       at = n;
     }
-    // One picture box per card, beside the numeral; equal heights across the row; 2 × 2 under lg.
+    // One picture box per card, ABOVE the numeral, the card's full width; equal heights across the row; 2 × 2 under lg.
     expect(cards.match(/data-step-visual=""/g)?.length).toBe(4);
     expect(cards).toMatch(/class="grid auto-rows-fr grid-cols-1 gap-3 min-\[375px\]:grid-cols-2[^"]*lg:grid-cols-4/);
-    // ≥ 56 px tall on a phone, ≥ 72 px at 1440 (h-16 = 64, xl:h-24 = 96).
-    expect(cards).toMatch(/data-step-visual="" class="relative h-16 w-\[5\.25rem\][^"]*xl:h-24/);
+    // 140 px tall on a phone, 200 px at 1440 (it was 64 / 96 px beside the numeral — over twice the area now).
+    expect(cards.match(/data-step-visual="" class="relative h-\[8\.75rem\] w-full shrink-0 sm:h-40 lg:h-44 xl:h-\[12\.5rem\]"/g)?.length).toBe(4);
+    for (const card of cards.split('<li data-step-card=""').slice(1)) expect(card.indexOf("data-step-visual")).toBeLessThan(card.indexOf("font-display"));
   });
-  it("cards: the pictures are the product tiles, the parent's phone photos, the proof and the approval tick", () => {
+  it("cards: the pictures are the product tiles, two grey 'your photo' prints (never another child), the proof and the approval tick", () => {
     const out = (key: string) => encodeURIComponent(SITE_ASSETS[key].out);
     const stepOf = (i: number) => cards.split('<li data-step-card=""')[i + 1];
     for (const key of STEP_PRODUCT_KEYS) expect(stepOf(0)).toContain(out(key));
-    for (const key of STEP_PHOTO_KEYS) expect(stepOf(1)).toContain(out(key));
+    // v4 (owner, 2026-10-06): wherever the page means the parent's photos, a grey print drawn in code, labelled.
+    expect(stepOf(1).match(/data-photo-placeholder=""/g)).toHaveLength(2);
+    expect(stepOf(1).split(`>${INTAKE_COPY.art.photoLabel}</span>`)).toHaveLength(3);
+    expect(stepOf(1)).not.toMatch(/<img /);
     expect(stepOf(2)).toContain(out(STEP_PROOF_KEY));
     const tick = render(createElement(CheckCircleIcon, { size: 24 })).replace(/^<svg[^>]*>|<\/svg>$/g, "");
     expect(stepOf(3)).toContain(tick);
     expect(stepOf(3)).toContain(INTAKE_COPY.stepCards[3].line);
-    // The proof and the photos are ONE athlete (the proof of the athlete whose photos they are).
+    // The watermark is the point: the proof is never cropped, and it keeps its own ratio in the box.
     expect(SITE_ASSETS[STEP_PROOF_KEY].note).toContain("GDE-SN-BKB-2026-12");
-    for (const key of STEP_PHOTO_KEYS) expect(SITE_ASSETS[key].source).toContain("athletes/basketball/before/");
-    // The watermark is the point: the proof is never cropped.
     expect(stepOf(2)).toMatch(/object-contain/);
+    expect(stepOf(2)).toContain("aspect-[1400/1077]");
+  });
+  it("cards: a page may hand in its own pictures (/free-proof: the chosen sport); a null slot keeps the default", () => {
+    const own = render(createElement(ProofPath, { visuals: [createElement("i", { id: "mine-01" }), null, createElement("i", { id: "mine-03" }), null] }));
+    const stepOf = (i: number) => own.split('<li data-step-card=""')[i + 1];
+    expect(stepOf(0)).toContain('id="mine-01"');
+    expect(stepOf(0)).not.toContain(encodeURIComponent(SITE_ASSETS[STEP_PRODUCT_KEYS[0]].out));
+    expect(stepOf(1)).toContain("data-photo-placeholder");
+    expect(stepOf(2)).toContain('id="mine-03"');
+    expect(stepOf(3)).toContain(INTAKE_COPY.stepCards[3].line);
+    // With its own pictures the band renders the page's own line under the cards instead of the default C13.
+    const band = render(createElement(ProofPathBand, { visuals: [null, null, null, null], after: createElement("p", { id: "after" }) }));
+    expect(band).toContain('<p id="after"></p>');
+    expect(band).not.toContain(CANON.fictionalLabel);
   });
   it("cards: decorative, lazy, accent-free, nothing to press, never a typed price", () => {
-    expect(cards.match(/<img /g)?.length).toBe(5);
+    expect(cards.match(/<img /g)?.length).toBe(3);
     for (const img of cards.match(/<img [^>]*>/g) ?? []) {
       expect(img).toContain('alt=""');
       expect(img).toContain('loading="lazy"');
@@ -674,8 +692,10 @@ describe("MetaPixel (D29, D19 kept honest)", () => {
   it("renders nothing — no script tag, no noscript beacon — and is off without a valid id", () => {
     expect(render(createElement(MetaPixel))).toBe("");
     expect(process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "").toBe("");
-    expect(metaPixelId()).toBeNull();
+    // The default id is lib/site.ts META_PIXEL_ID (public by nature); empty → no pixel.
+    expect(metaPixelId()).toBe(META_PIXEL_ID || null);
     expect(metaPixelId("")).toBeNull();
+    expect(META_PIXEL_ID).toMatch(/^\d{15,16}$/);
     expect(metaPixelId("12ab")).toBeNull();
     expect(metaPixelId("123456789012345');alert(1)//")).toBeNull();
     expect(metaPixelId(" 123456789012345 ")).toBe("123456789012345");
@@ -719,10 +739,30 @@ describe("MetaPixel (D29, D19 kept honest)", () => {
     walk("app");
     walk("components");
     walk("lib");
-    expect(importers).toEqual([path.join("app", "(marketing)", "free-proof", "layout.tsx")]);
+    // AdOptOut (the /privacy switch) imports the opt-out helpers, never the component (2026-10-06).
+    expect(importers.sort()).toEqual([path.join("app", "(marketing)", "free-proof", "layout.tsx"), path.join("components", "AdOptOut.tsx")].sort());
+    expect(read("components/AdOptOut.tsx")).not.toMatch(/<MetaPixel|loadMetaPixel/);
     const layout = read("app/(marketing)/free-proof/layout.tsx");
     expect(layout).toContain("<MetaPixel />");
     expect(layout).toContain("{children}");
+  });
+  it("loads only outside the EU, EEA, UK and Switzerland, and never for an unknown country (2026-10-06)", () => {
+    for (const c of ["US", "CA", "AU", "MX"]) expect(pixelAllowedIn(c), c).toBe(true);
+    for (const c of ["LT", "DE", "FR", "IE", "GB", "CH", "NO", "IS", "LI"]) expect(pixelAllowedIn(c), c).toBe(false);
+    for (const c of ["", "us", "USA", "1"]) expect(pixelAllowedIn(c), c).toBe(false);
+    expect(NO_PIXEL_COUNTRIES).toHaveLength(32);
+  });
+  it("respects the /privacy opt-out, and a storage that throws counts as opted out", () => {
+    expect(optedOut({ getItem: (k: string) => (k === AD_OPT_OUT_KEY ? "1" : null) })).toBe(true);
+    expect(optedOut({ getItem: () => null })).toBe(false);
+    expect(
+      optedOut({
+        getItem: () => {
+          throw new Error("blocked");
+        },
+      }),
+    ).toBe(true);
+    expect(metaPixelId(META_PIXEL_ID || undefined) ?? "").toBe(META_PIXEL_ID);
   });
 });
 

@@ -8,7 +8,7 @@ import { sportBySlug } from "../../catalog/sports";
 import { styleByCode } from "../../catalog/styles";
 import { INTAKE_COPY } from "../copy";
 import { PRICE_ON_PROOF, choiceLabel, optionOf, optionPriceLabel, productByKey } from "../products";
-import { CONSENTS, CONSENT_ORDER, STYLE_RECOMMEND, type FileMeta } from "../types";
+import { CONSENTS, CONSENT_ORDER, SPORT_OTHER, STYLE_RECOMMEND, type FileMeta } from "../types";
 import type { StoredRequest } from "./record";
 
 export type Audience = "owner" | "customer";
@@ -24,7 +24,12 @@ export interface SummaryOptions {
 }
 
 export const athleteName = (r: Pick<StoredRequest, "athlete">): string => `${r.athlete.firstName} ${r.athlete.lastName}`.trim();
-export const sportLabel = (slug: string): string => sportBySlug(slug)?.name ?? slug;
+/**
+ * The sport as a person reads it: the catalog name, or — for "Other sport or activity" — what the parent
+ * typed, "Other: rowing". `other-sport` is the catalog's Skateboarding and stays "Skateboarding".
+ */
+export const sportLabel = (slug: string, other?: string): string =>
+  slug === SPORT_OTHER ? `Other: ${(other ?? "").trim() || "not named"}` : (sportBySlug(slug)?.name ?? slug);
 export const styleLabel = (style: StoredRequest["style"]): string =>
   style === STYLE_RECOMMEND ? INTAKE_COPY.styleRecommendLabel : `${styleByCode(style)?.name ?? style} (${style})`;
 /** The short style name for a subject line: "Stadium Night", or "style to recommend". */
@@ -87,7 +92,7 @@ export function renderSummary(record: StoredRequest, opts: SummaryOptions): stri
     block("STYLE", [styleLabel(record.style)]),
     block("ATHLETE", [
       line("Name", athleteName(record)),
-      line("Sport", sportLabel(a.sportSlug)),
+      line("Sport", sportLabel(a.sportSlug, a.sportOther)),
       line("Number", a.jerseyNumber),
       line("Position", a.position),
       line("Team", a.team),
@@ -102,7 +107,11 @@ export function renderSummary(record: StoredRequest, opts: SummaryOptions): stri
     block("CONTACT", [line("Name", c.name), line("Email", c.email), line("Phone", c.phone), line("Country", c.country), line("Needed by", c.neededBy)]),
     block(
       `PERMISSIONS (wording of ${record.consentTextVersion})`,
-      CONSENT_ORDER.map((key) => `[${record.consents[key] ? "x" : " "}] ${CONSENTS[key].text}`),
+      // The form no longer asks for marketing (owner, 2026-10-06) and asks for the crest only with a crest:
+      // print the three required boxes, the crest box when a crest came, and marketing only if an old request gave it.
+      CONSENT_ORDER.filter((key) => (key === "crest" ? Boolean(record.crest) : key === "marketing" ? record.consents.marketing : true)).map(
+        (key) => `[${record.consents[key] ? "x" : " "}] ${CONSENTS[key].text}`,
+      ),
     ),
     block(
       state.arrived === state.sent ? `PHOTOS (${state.sent})` : `PHOTOS (${state.arrived} of ${state.sent} arrived)`,

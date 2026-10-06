@@ -347,10 +347,10 @@ describe("lib/cta (CONTRACTS §4.9, GAPS #18 / #25, D29)", () => {
     expect(ctaFor("posters", { sport: "FTB" }, ETSY_PRIMARY).primary.href).toBe("/go/etsy/GDE-FTB-POST");
     expect(ctaFor("cards", { sku: "GDE-ANY-CARD-P12" }, ETSY_PRIMARY).primary.href).toBe("/go/etsy/GDE-ANY-CARD-P12");
   });
-  it("proof-first: the header opens the empty form and keeps the lookup; every other page offers Etsy as the outline", () => {
+  it("proof-first: the header opens the empty form with ONE button (the lookup left the header, 2026-10-06); every other page offers Etsy as the outline", () => {
     const header = ctaFor("header");
     expect(header.primary).toEqual({ label: "Get a free proof →", href: "/free-proof", kind: "primary", shortLabel: "Free proof →" });
-    expect(header.secondary).toEqual({ label: "Look up a card", href: "/registry", kind: "outline" });
+    expect(header.secondary).toBeUndefined();
     const home = ctaFor("home");
     expect(home.primary).toEqual({ label: "Get a free proof →", href: "/free-proof", kind: "primary" });
     expect(home.secondary).toEqual({ label: "Also on Etsy →", href: "/go/etsy/GDE-ANY-SET", kind: "etsy" });
@@ -495,7 +495,9 @@ describe("chrome components", () => {
     expect(html).toContain("Get a free proof →");
     expect(html).not.toContain("Order on Etsy");
     expect(html).not.toContain('href="/go/etsy/');
-    expect(html).toContain("Look up a card");
+    // 2026-10-06: no lookup button in the header bar; the mobile sheet still lists /registry.
+    expect(html).not.toContain(">Look up a card<");
+    expect(html).toContain('href="/registry"');
     expect(html).toContain('aria-expanded="false"');
     expect(html).toMatch(/aria-controls="mobile-menu-[A-Za-z0-9]+"/);
     expect(html).toContain("Never posted without your OK");
@@ -516,12 +518,11 @@ describe("chrome components", () => {
     const html = render(createElement(SiteHeader));
     // DESIGN §11 item 19: the header buttons are `sm` (h-10, 40 px) with a 44 px floor — two of them,
     // plus the five extra links in the mobile sheet, which measured 38 px until 2026-09-08 (S12).
-    expect(html.match(/min-h-11/g)?.length).toBe(2 + MOBILE_EXTRA_LINKS.length);
+    expect(html.match(/min-h-11/g)?.length).toBe(1 + MOBILE_EXTRA_LINKS.length);
     // 56 / 64 / 64 (DESIGN §2.6): the 64 px step is at `md`, and it was missing.
     expect(html).toContain("h-14 items-center justify-between gap-4 md:h-16");
-    // 1024–1279 px cannot hold seven links plus both buttons; the outline one returns at xl.
-    expect(html).toMatch(/class="hidden xl:block"><a [^>]*>Look up a card/);
-    expect(html).not.toMatch(/class="hidden lg:block"><a [^>]*>Look up a card/);
+    // The header bar has no outline button any more (owner, 2026-10-06).
+    expect(html).not.toMatch(/class="hidden xl:block"><a [^>]*>Look up a card/);
   });
   it("HeaderNav never wraps: nowrap labels and the two measured gaps", () => {
     const src = read("components/MobileMenu.tsx");

@@ -2,6 +2,9 @@
 // included, since it must render without `window` — plus the pure form model in components/intake/model.ts.
 // v2 (builder A2, 2026-10-04): the owner's design review — a landing hero, four how-it-works cards, five
 // numbered steps, the permissions panel and the conversion card, a sticky "Your order" panel.
+// v4 (builder F, 2026-10-06 evening): the sport first and ONE sport on the whole page — six steps, the grey
+// set before a sport, "your photo" placeholders, products 2 × 2 with compact option rows, no quantity, no
+// marketing consent, bigger how-it-works pictures with a CSS watermark, the leave-out tiles as labels.
 // next/navigation is mocked (no app router under Vitest); next/image renders.
 import { beforeAll, describe, expect, it, vi } from "vitest";
 import fs from "node:fs";
@@ -23,15 +26,21 @@ const { PRODUCTS, PRICE_ON_PROOF, optionPriceLabel, productFromLabel, setFromLab
 const { DUE_TODAY_LABEL, formatUsd, getTier, sitePrice } = await import("../lib/catalog/prices");
 const { styles } = await import("../lib/catalog/styles");
 const { CANON, PROOF_PATH_LABEL } = await import("../lib/copy/canon");
-const { STEP_PROOF_KEY } = await import("../components/ProofPath");
-const { HERO_PHOTO_KEYS } = await import("../components/intake/IntakeHero");
 const { CardTextPreview, SummaryRail } = await import("../components/intake/SummaryRail");
 const { ProductPicker } = await import("../components/intake/ProductPicker");
+const { StylePicker } = await import("../components/intake/StylePicker");
+const { SportPicker } = await import("../components/intake/SportPicker");
+const { HeroVisualView, StepVisualView } = await import("../components/intake/SportVisuals");
+const { sports, isNumberless } = await import("../lib/catalog/sports");
+const { sportPageSports } = await import("../lib/seo/sport-facts");
+const { SPORT_OTHER } = await import("../lib/intake/types");
 const { INPUT, SELECT, TEXTAREA, border: fieldBorder } = await import("../components/intake/fields");
 const { contrastRatio } = await import("../lib/color");
 const { asset, hasAsset } = await import("../lib/assets");
 const { SUPPORT_EMAIL } = await import("../lib/site");
 const model = await import("../components/intake/model");
+const { UI } = await import("../components/intake/strings");
+const UI_SPORT = UI.summary.sport;
 
 const ROOT = process.cwd();
 const decode = (s: string) =>
@@ -87,6 +96,38 @@ function controls(fragment: string): { id: string; type: string; hidden: boolean
 const price = (sku: string) => sitePrice(getTier(sku)!);
 const SAVING = Math.round((price("GDE-ANY-CARD-DIG") + price("GDE-ANY-POST-DIG") - price("GDE-ANY-SET-DIG")) * 100) / 100;
 
+/** A small art map for the rendering tests: two sports with art, so "no other sport's art" can be checked by src. */
+const pic = (slug: string, what: string, w = 600, h = 840) => ({ src: `/images/free-proof/${slug}/${slug}-${what}.webp`, w, h, alt: `Custom ${slug} ${what} — example artwork, fictional athlete` });
+const ART = {
+  football: {
+    cards: { SN: pic("football", "card-sn"), CA: pic("football", "card-ca"), HE: pic("football", "card-he") },
+    poster: pic("football", "poster", 600, 800),
+    banner: pic("football", "banner", 900, 300),
+  },
+  volleyball: {
+    cards: { SN: pic("volleyball", "card-sn"), SR: pic("volleyball", "card-sr") },
+    poster: pic("volleyball", "poster", 600, 800),
+    blanket: pic("volleyball", "blanket", 600, 720),
+  },
+};
+const choice = (sport: string, style = "", sportOther = "") => ({ sport, sportOther, style: style as never });
+/** The product tiles exactly as the page builds them (prices from the helpers). */
+const tiles = () =>
+  PRODUCTS.map((p) => ({
+    key: p.key,
+    name: p.name,
+    blurb: p.blurb,
+    fromLabel: productFromLabel(p) ?? PRICE_ON_PROOF,
+    options: p.options.map((o) => ({ key: o.key, label: o.label, detail: o.detail, priceLabel: optionPriceLabel(o), printed: o.printed, price: o.sku ? sitePrice(getTier(o.sku)!) : null })),
+  }));
+const styleTiles = () => styles.map((st) => ({ code: st.code, name: st.name, material: st.material }));
+/** The image paths a fragment draws (next/image serves them through /_next/image?url=…). */
+const srcs = (markup: string) =>
+  [...markup.matchAll(/<img [^>]*src="([^"]*)"/g)].map((m) => {
+    const u = decodeURIComponent(m[1]);
+    return /[?&]url=([^&]*)/.exec(u)?.[1] ?? u;
+  });
+
 describe("/free-proof — the page a Meta ad lands on", () => {
   it("is the titles-table row, indexable", () => {
     expect(pageMetadata.alternates?.canonical).toBe(INTAKE_PATH);
@@ -117,9 +158,7 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     }
   });
 
-  it("four how-it-works cards in order — numeral, picture, two-word title, one line — in the site's shared band, before step 1", () => {
-    // v3 (owner review 2026-10-06): the cards are components/ProofPath.tsx's band, the same one every
-    // money page carries under its hero — a picture beside each numeral, C13 once for the row.
+  it("four how-it-works cards in order — the picture filling the top, then numeral, title and line — in the site's shared band, before step 1", () => {
     const band = between('data-proof-band=""', 'id="step-1"');
     expect(band).toContain(`>${PROOF_PATH_LABEL}</p>`);
     let at = 0;
@@ -131,78 +170,183 @@ describe("/free-proof — the page a Meta ad lands on", () => {
       at = n;
     }
     expect(count(new RegExp(`<ol aria-label="${esc(PROOF_PATH_LABEL)}"`, "g"))).toBe(1);
-    expect(count(/data-step-visual=""/g)).toBe(4);
-    expect(band.split(CANON.fictionalLabel).length - 1).toBe(1);
+    // v4 (owner: "the pictures are far too small"): each picture is the card's full width, 140 → 200 px tall, ABOVE the numeral.
+    expect(count(/data-step-visual="" class="relative h-\[8\.75rem\] w-full[^"]*xl:h-\[12\.5rem\]"/g)).toBe(4);
+    for (const card of band.split('<li data-step-card=""').slice(1)) expect(card.indexOf("data-step-visual")).toBeLessThan(card.indexOf("font-display"));
     expect(INTAKE_COPY.stepCards[1].line).toContain(`${PHOTO_RULES.min}–${PHOTO_RULES.max}`);
+    // The static HTML is the grey set (no sport yet): 02 is two "your photo" prints, 01 and 03 the grey card and
+    // poster, 03 under the CSS watermark — and no athlete image at all, so C13 waits invisible in its slot.
+    const cards = band.split('<li data-step-card=""').slice(1);
+    expect(cards[0]).toContain('data-neutral="poster"');
+    expect(cards[0]).toContain('data-neutral="card"');
+    expect(cards[1].match(/data-photo-placeholder=""/g)).toHaveLength(2);
+    expect(cards[1].split(INTAKE_COPY.art.photoLabel)).toHaveLength(3);
+    expect(cards[2]).toContain('data-neutral="card"');
+    expect(cards[2]).toContain('data-watermark=""');
+    expect(band).not.toMatch(/<img /);
+    expect(band).toMatch(/data-band-note="none" class="mt-6"><div aria-hidden="true" class="invisible">/);
     // The intake duplicate is gone: one component, imported.
     expect(fs.existsSync(path.join(ROOT, "components/intake/ProofPath.tsx")) ? fs.readFileSync(path.join(ROOT, "components/intake/ProofPath.tsx"), "utf8") : "").not.toMatch(/export function ProofPath\b/);
     expect(fs.readFileSync(path.join(ROOT, "components/intake/IntakeHero.tsx"), "utf8")).not.toContain("stepCards");
   });
 
-  it("the hero is two columns: the copy, and the real watermarked proof with the phone photos over its corner", () => {
-    // Owner review 2026-10-06: "the whole right half is empty".
+  it("the band's pictures follow the chosen sport: its poster and card (01), the card under the watermark (03); never another sport", () => {
+    const one = decode(renderToStaticMarkup(createElement(StepVisualView, { step: 0, art: ART, choice: choice("football") })));
+    const three = decode(renderToStaticMarkup(createElement(StepVisualView, { step: 2, art: ART, choice: choice("football", "CA") })));
+    expect(srcs(one).sort()).toEqual([ART.football.cards.SN.src, ART.football.poster.src].sort());
+    // 03 follows the look too: Chrome All-Star chosen → the CA front, under the watermark.
+    expect(srcs(three)).toEqual([ART.football.cards.CA.src]);
+    expect(three).toContain('data-watermark=""');
+    expect(three.match(new RegExp(`>${INTAKE_COPY.art.watermark}<`, "g"))!.length).toBeGreaterThan(10);
+    for (const out of [one, three]) {
+      expect(out).not.toContain("volleyball");
+      expect(out).toMatch(/alt=""/);
+    }
+    // A sport with no art, and "Other": the grey set, never a stand-in.
+    for (const c of [choice("gymnastics"), choice(SPORT_OTHER, "", "rowing"), choice("")]) {
+      const out = renderToStaticMarkup(createElement(StepVisualView, { step: 0, art: ART, choice: c }));
+      expect(out, c.sport).not.toMatch(/<img /);
+      expect(out, c.sport).toContain('data-neutral="card"');
+    }
+  });
+
+  it("the hero: the copy, and an example proof with three grey 'your photo' prints over its corner — the grey set until a sport is chosen", () => {
     const hero = between(`aria-labelledby="free-proof-title"`, 'data-proof-band=""');
     expect(hero).toContain("lg:grid lg:grid-cols-12");
     expect(hero.match(/lg:col-span-6/g)?.length).toBe(2);
     const visual = hero.slice(hero.indexOf('data-hero-visual=""'));
     expect(hero.indexOf('data-hero-visual=""')).toBeGreaterThan(hero.indexOf(INTAKE_COPY.heroCtaNote));
-    // The exhibit: the bracket frame and its file-tab label, the proof at its own ratio, never on a plate.
+    // The exhibit: the bracket frame and its file-tab label, the sheet at the proof's ratio, the CSS watermark.
     expect(visual).toContain(`>${INTAKE_COPY.heroVisual.frameLabel}</span>`);
     expect(visual).toContain("aspect-[1400/1077]");
-    expect(visual).not.toMatch(/bg-hairline|<Mat/);
-    const proof = asset(STEP_PROOF_KEY);
-    const img = new RegExp(`<img [^>]*alt="${esc(proof.alt)}"[^>]*>`).exec(visual)?.[0] ?? "";
-    expect(img, "the proof").not.toBe("");
-    // The page's one eager image: eager + high fetch priority. React hoists exactly one image preload for
-    // it (into <head> in the app) — the proof, at the sizes it is drawn at; nothing else on the page is eager.
-    expect(img).toContain('loading="eager"');
-    expect(img).toMatch(/fetchpriority="high"/i);
-    expect(img).toContain('sizes="(min-width: 1360px) 504px');
-    expect(count(/<img [^>]*fetchpriority="high"/gi)).toBe(1);
-    expect(count(/loading="eager"/g)).toBe(1);
-    const preloads = html.match(/<link rel="preload" as="image"[^>]*>/g) ?? [];
-    expect(preloads).toHaveLength(1);
-    expect(preloads[0]).toContain(encodeURIComponent(proof.src));
-    // Two or three of the same athlete's phone photos, in the home hero's house style; C13 once for the group.
-    const photos = HERO_PHOTO_KEYS.filter((k) => hasAsset(k));
-    expect(photos.length).toBeGreaterThanOrEqual(2);
-    for (const key of photos) expect(visual).toContain(encodeURIComponent(asset(key).src));
-    expect(visual.match(/ring-\[5px\] ring-white/g)?.length).toBe(photos.length);
-    expect(visual.split(CANON.fictionalLabel).length - 1).toBe(1);
+    expect(visual).toContain('data-watermark=""');
+    // Never another child: three grey prints labelled "Your photo", no photograph, no athlete image at all.
+    expect(visual.match(/data-photo-placeholder=""/g)).toHaveLength(3);
+    expect(visual.match(/ring-white ring-\[5px\]/g)).toHaveLength(3);
+    expect(visual).not.toMatch(/<img /);
+    expect(visual).toContain('data-neutral="poster"');
+    expect(visual).toContain('data-neutral="card"');
+    // The line under it says how to see their sport; nothing on the page is eager or preloaded before a sport arrives.
+    expect(hero).toMatch(new RegExp(`data-art-note="pick"[\\s\\S]*?<div class="col-start-1 row-start-1"><span[^>]*>${esc(INTAKE_COPY.art.pick)}</span>`));
+    expect(count(/loading="eager"/g)).toBe(0);
+    expect(html.match(/<link rel="preload" as="image"[^>]*>/g) ?? []).toHaveLength(0);
   });
 
-  it("five numbered steps — STEP n OF 5 above each H2, one supporting sentence — then the permissions and the conversion card, unnumbered", () => {
+  it("the hero in a chosen sport: its poster and card under the watermark, eager, C13 in the frame — and only that sport", () => {
+    const out = decode(renderToStaticMarkup(createElement(HeroVisualView, { art: ART, choice: choice("volleyball", "SR") })));
+    expect(srcs(out).sort()).toEqual([ART.volleyball.cards.SR.src, ART.volleyball.poster.src].sort());
+    expect(out).not.toContain("football");
+    expect(out.match(/<img [^>]*loading="eager"/g)).toHaveLength(2);
+    expect(out).toContain(CANON.fictionalLabel);
+    expect(out).toContain('data-art-note="art"');
+    expect(out.match(/data-photo-placeholder=""/g)).toHaveLength(3);
+    // A finish the sport has no front for falls back to its first finish — still the same sport.
+    expect(srcs(decode(renderToStaticMarkup(createElement(HeroVisualView, { art: ART, choice: choice("volleyball", "PR") }))))).toContain(ART.volleyball.cards.SN.src);
+    // A sport with no example, and "Other": the grey set, and the line says it is built to order.
+    const none = decode(renderToStaticMarkup(createElement(HeroVisualView, { art: ART, choice: choice("gymnastics") })));
+    expect(none).not.toMatch(/<img /);
+    expect(none).toMatch(/data-art-note="none"/);
+    expect(none).toContain(`<span class="block max-w-[60ch] border-t border-hairline pt-2 font-body text-small font-medium text-pretty text-ink">${INTAKE_COPY.art.noExample("Gymnastics")}</span>`);
+    const other = decode(renderToStaticMarkup(createElement(HeroVisualView, { art: ART, choice: choice(SPORT_OTHER, "", "rowing") })));
+    expect(other).not.toMatch(/<img /);
+    expect(other).toContain(INTAKE_COPY.art.noExample("rowing"));
+  });
+
+  it("six numbered steps — STEP n OF 6 above each H2, one supporting sentence — the sport first; then the permissions and the conversion card, unnumbered", () => {
+    expect(INTAKE_COPY.stepLabel(1)).toBe("STEP 1 OF 6");
     const steps = [
-      ["step-1", INTAKE_COPY.steps5.product],
-      ["step-2", INTAKE_COPY.steps5.style],
-      ["step-3", INTAKE_COPY.steps5.athlete],
-      ["step-4", INTAKE_COPY.steps5.photos],
-      ["step-5", INTAKE_COPY.steps5.contact],
+      ["step-1", INTAKE_COPY.steps6.sport],
+      ["step-2", INTAKE_COPY.steps6.product],
+      ["step-3", INTAKE_COPY.steps6.style],
+      ["step-4", INTAKE_COPY.steps6.athlete],
+      ["step-5", INTAKE_COPY.steps6.photos],
+      ["step-6", INTAKE_COPY.steps6.contact],
     ] as const;
+    expect(INTAKE_COPY.steps6.sport.title).toBe("THEIR SPORT.");
     let at = 0;
     steps.forEach(([id, step], i) => {
       const start = html.indexOf(`id="${id}"`, at);
       expect(start, id).toBeGreaterThan(at);
-      const label = html.indexOf(INTAKE_COPY.stepLabel(i + 1), start);
+      const label = html.indexOf(`>${INTAKE_COPY.stepLabel(i + 1)}</p>`, start);
       const title = html.indexOf(`>${step.title}</h2>`, start);
       expect(label, id).toBeGreaterThan(start);
       expect(title, id).toBeGreaterThan(label);
       if ("support" in step) expect(html.indexOf(step.support, title), id).toBeGreaterThan(title);
       at = title;
     });
-    expect(html).not.toContain("STEP 6");
+    expect(html).not.toContain("OF 5");
+    expect(html).not.toContain("STEP 7");
     expect(html).not.toMatch(/0\d \/ 0\d/);
-    // Step 4's sentence is C5, read from content/blocks.
-    expect(between('id="step-4"', 'id="step-5"')).toContain(fs.readFileSync(path.join(ROOT, "content/blocks/photos-that-work-best.md"), "utf8").trim());
+    // The hero's CTA lands on the sport step; the photo step's sentence is C5, read from content/blocks.
+    expect(html.indexOf('id="step-1"')).toBeLessThan(html.indexOf('id="fp-sport-basketball"'));
+    expect(between('id="step-5"', 'id="step-6"')).toContain(fs.readFileSync(path.join(ROOT, "content/blocks/photos-that-work-best.md"), "utf8").trim());
     // The H2s use the home page's recipe.
     for (const [, step] of steps) expect(html).toMatch(new RegExp(`<h2[^>]*class="[^"]*font-display text-h2 uppercase[^"]*"[^>]*>${esc(step.title)}</h2>`));
     const consent = html.indexOf(`>${INTAKE_COPY.consentPanel.title}</h2>`);
     const card = html.indexOf(`>${INTAKE_COPY.ctaCard.title}</h2>`);
-    expect(consent).toBeGreaterThan(html.indexOf('id="step-5"'));
+    expect(consent).toBeGreaterThan(html.indexOf('id="step-6"'));
     expect(card).toBeGreaterThan(consent);
   });
 
-  it("four product cards — no set card — real checkboxes, options as radio rows inside the card, prices only from the helpers", () => {
+  it("step 1: seventeen sports as large chips — the nine with their own pages first, in roster order, the rest behind 'More sports' — then 'Other sport or activity'", () => {
+    const step1 = between('id="step-1"', 'id="step-2"');
+    const radios = [...step1.matchAll(/<input id="fp-sport-([a-z-]+)" type="radio"[^>]*name="fp-sport"[^>]*value="([a-z-]+)"/g)].map((m) => m[2]);
+    const featured = sports.filter((s) => sportPageSports().some((f) => f.slug === s.slug)).map((s) => s.slug);
+    expect(featured).toHaveLength(9);
+    expect(radios).toEqual([...featured, ...sports.map((s) => s.slug).filter((s) => !featured.includes(s)), SPORT_OTHER]);
+    expect(radios).toHaveLength(18);
+    // Nothing is chosen on arrival (no ?sport=); the eight others wait behind the disclosure; "Other"'s field is hidden.
+    expect(step1).not.toMatch(/name="fp-sport"[^>]*checked=""/);
+    expect(step1).toMatch(/<ul id="fp-sport-more" hidden=""/);
+    expect(step1).toMatch(/<button type="button" aria-expanded="false" aria-controls="fp-sport-more"[^>]*>More sports/);
+    expect(step1).toMatch(/<div hidden="" data-sport-other=""/);
+    expect(step1).toContain(`>${INTAKE_COPY.sportStep.other}</span>`);
+    // Large tappable chips: 56 px, the whole chip is the label; the radio is visually hidden but real.
+    for (const label of step1.match(/<label for="fp-sport-[a-z-]+" class="[^"]*"/g) ?? []) expect(label).toMatch(/min-h-14/);
+    expect(step1.match(/<input id="fp-sport-[a-z-]+" type="radio"[^>]*class="sr-only"/g)).toHaveLength(18);
+    // The sport is asked ONCE: no sport select anywhere else on the page.
+    expect(html).not.toContain('id="fp-athlete-sportSlug"');
+    expect(html).not.toMatch(/<select[^>]*sport/i);
+  });
+
+  it("every one of the 17 sports and 'Other' is selectable, and a sport without example art says it is built to order", () => {
+    const withArt = new Set(Object.keys(ART));
+    const choices = sports.map((s) => ({ slug: s.slug, name: s.name, featured: ["basketball", "football"].includes(s.slug) }));
+    const picker = (value: string, other = "") =>
+      decode(
+        renderToStaticMarkup(
+          createElement(SportPicker, { sports: choices, value, other, onChange: () => {}, onOther: () => {}, withArt, labelledBy: "fp-s-sport", errors: {} }),
+        ),
+      );
+    for (const s of [...sports.map((x) => x.slug), SPORT_OTHER]) {
+      const out = picker(s, s === SPORT_OTHER ? "rowing" : "");
+      expect(out, s).toMatch(new RegExp(`<input id="fp-sport-${s}" type="radio"[^>]*name="fp-sport" checked="" value="${s}"`));
+      expect(out.match(/checked=""/g), s).toHaveLength(1);
+      // The validator takes every one of them (with "Other", only with its words).
+      const parsed = parseProofRequest({ athlete: { sportSlug: s, sportOther: "rowing" } });
+      expect(parsed.ok ? {} : parsed.errors, s).not.toHaveProperty("athlete.sportSlug");
+      expect(parsed.ok ? {} : parsed.errors, s).not.toHaveProperty("athlete.sportOther");
+    }
+    // A chosen sport behind "More sports" opens the group, so the choice is never hidden.
+    expect(picker("golf")).toMatch(/<ul id="fp-sport-more" class=/);
+    expect(picker("golf")).toMatch(/aria-expanded="true"/);
+    // No example art → one plain line under the chips, never "unavailable"; a sport with art gets none.
+    expect(picker("golf")).toContain(`<p data-sport-note="" class="mt-5 max-w-[60ch] font-body text-small font-medium text-pretty text-ink">${INTAKE_COPY.art.noExample("Golf")}</p>`);
+    expect(picker("football")).not.toContain("data-sport-note");
+    expect(INTAKE_COPY.art.noExample("Golf")).toBe("No Golf example yet. We build it from your photos, and you see the proof before you pay.");
+    expect(INTAKE_COPY.art.noExample("Golf")).not.toMatch(/unavailable|not available|can't|cannot/i);
+    // "Other": a required field of at most 40 characters, the same promise beside it as its help line.
+    const other = picker(SPORT_OTHER, "rowing");
+    expect(other).toMatch(/<div data-sport-other="" class=/);
+    expect(other).toMatch(/<input id="fp-athlete-sportOther" type="text"[^>]*maxLength="40"[^>]*required=""/i);
+    expect(other).toContain(`>${INTAKE_COPY.sportStep.otherField}</label>`);
+    expect(other).toContain(`>${INTAKE_COPY.sportStep.otherPromise}</p>`);
+    expect(other).toContain(`placeholder="${INTAKE_COPY.sportStep.otherPlaceholder}"`);
+    // The step-1 wording carries no em dash (house rule for new prose).
+    for (const line of [...Object.values(INTAKE_COPY.sportStep), INTAKE_COPY.art.pick, INTAKE_COPY.art.noExampleOther, INTAKE_COPY.moreThanOne]) expect(line).not.toContain("—");
+  });
+
+  it("four product cards in a 2 × 2 grid — real checkboxes, options as compact rows inside the card, prices only from the helpers, no quantity", () => {
     for (const p of PRODUCTS) {
       expect(html).toMatch(new RegExp(`<input[^>]*id="fp-product-${p.key}"[^>]*type="checkbox"`));
       expect(html).toContain(p.name);
@@ -221,19 +365,25 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     expect(html).not.toContain(`>${INTAKE_COPY.setTile.badge}</span>`);
     const order = PRODUCTS.map((p) => html.indexOf(`id="fp-product-${p.key}"`));
     expect([...order].sort((a, b) => a - b)).toEqual(order);
-    // 2 × 2 from md, 4 across from xl; the chosen card grows on its own (items-start), never a fifth slot.
-    expect(html).toMatch(/<ul class="grid items-start[^"]*md:grid-cols-2[^"]*xl:grid-cols-4">/);
-    // The options open INSIDE the card: one container per product, its options after a hairline divider.
+    // 2 × 2 from md, one column on a phone — never four narrow columns ("sausages").
+    expect(html).toMatch(/<ul class="grid items-start gap-y-4 md:grid-cols-2 md:gap-x-4">/);
+    expect(html).not.toMatch(/xl:grid-cols-4">[^]*?data-product-card/);
+    // Each card is a container (its layout answers its own width), the options inside it, behind `hidden` until chosen.
+    expect(count(/<li data-product-card="" class="@container [^"]*rounded-\[20px\] border[^"]*">/g)).toBe(4);
+    expect(count(/<div hidden="" data-product-options="" class="[^"]*border-t border-hairline[^"]*"><fieldset/g)).toBe(4);
     for (const p of PRODUCTS) {
       const at = html.indexOf(`id="fp-product-${p.key}"`);
       const open = html.lastIndexOf('<li data-product-card=""', at);
-      const last = html.indexOf(`id="fp-product-${p.key}-option-${p.options[p.options.length - 1].key}"`);
+      const last = html.indexOf(`id="fp-product-${p.key}-option-${p.options[p.options.length - 1].key}-detail"`);
       const next = html.indexOf('<li data-product-card=""', open + 1);
-      expect(open, p.key).toBeGreaterThan(-1);
       expect(next === -1 || next > last, `${p.key}: its options sit inside its own card`).toBe(true);
     }
-    expect(count(/<li data-product-card="" class="[^"]*rounded-\[20px\] border[^"]*">/g)).toBe(4);
-    expect(count(/<div hidden="" data-product-options="" class="[^"]*border-t border-hairline[^"]*"><fieldset/g)).toBe(4);
+    // No quantity anywhere: no stepper, no output, no word — one muted line under the cards instead.
+    expect(html).not.toMatch(/quantity/i);
+    expect(html).not.toMatch(/<output/);
+    expect(html).not.toContain("One more");
+    expect(html).toMatch(new RegExp(`<p data-more-than-one="" class="[^"]*text-muted-text">${esc(INTAKE_COPY.moreThanOne)}</p>`));
+    expect(INTAKE_COPY.moreThanOne).toBe("Need more than one? Say so when you see the proof.");
     // The set is a RESULT: one computed line under the cards — "save from" the smallest saving a set tier gives.
     const minSaving = model.minSetSaving(
       PRODUCTS.map((p) => ({ key: p.key, options: p.options.map((o) => ({ key: o.key, printed: o.printed, price: o.sku ? sitePrice(getTier(o.sku)!) : null })) })),
@@ -242,7 +392,7 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     expect(minSaving).toBe(SAVING);
     expect(html).toMatch(new RegExp(`<p data-set-note="" aria-live="polite"[^>]*>${esc(INTAKE_COPY.setNote.pick(formatUsd(SAVING)))}</p>`));
     expect(html.indexOf("data-set-note")).toBeGreaterThan(html.indexOf('id="fp-product-blanket"'));
-    expect(html.indexOf("data-set-note")).toBeLessThan(html.indexOf('id="step-2"'));
+    expect(html.indexOf("data-set-note")).toBeLessThan(html.indexOf('id="step-3"'));
     // Every dollar figure on the page is a helper's output (or the zero-due figure from prices.ts).
     const allowed = new Set([
       ...PRODUCTS.flatMap((p) => [...p.options.map((o) => optionPriceLabel(o)), productFromLabel(p)]).filter(Boolean).map((l) => (l as string).replace(/^from /, "")),
@@ -252,61 +402,89 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     const prices = html.match(/\$\d+(\.\d{2})?/g) ?? [];
     expect(prices.length).toBeGreaterThan(5);
     for (const p of prices) expect(allowed, p).toContain(p);
-    // Nothing is chosen on arrival: no SELECTED badge, every option panel behind `hidden`.
+    // Nothing is chosen on arrival: no SELECTED badge.
     expect(html).not.toContain(`>${INTAKE_COPY.selectedBadge}</span>`);
     expect(setFromLabel()).toMatch(/^from \$/);
   });
 
-  it("a chosen card shows SELECTED on its picture and opens its options inside its own border; the set line follows the choice", () => {
-    const products = PRODUCTS.map((p) => ({
-      key: p.key,
-      name: p.name,
-      blurb: p.blurb,
-      fromLabel: productFromLabel(p) ?? PRICE_ON_PROOF,
-      image: hasAsset(`product.${p.key}`) ? asset(`product.${p.key}`) : null,
-      options: p.options.map((o) => ({ key: o.key, label: o.label, detail: o.detail, priceLabel: optionPriceLabel(o), printed: o.printed, price: o.sku ? sitePrice(getTier(o.sku)!) : null })),
-    }));
+  it("a chosen card shows SELECTED on its picture and opens one row per option (radio · name · price), the chosen option's description only; the set line follows the choice", () => {
+    const products = tiles();
     const combos = [
       { cards: "digital", poster: "digital", price: price("GDE-ANY-SET-DIG") },
       { cards: "p12", poster: "p1824", price: price("GDE-ANY-SET-PRINT") },
     ];
     const state = model.initialState().products;
     const render = (s: typeof state) =>
-      decode(
-        renderToStaticMarkup(
-          createElement(ProductPicker, { products, setTile: { pickLine: "PICK", combos }, state: s, onToggle: () => {}, onOption: () => {}, onQuantity: () => {} }),
-        ),
-      );
-    const one = render({ ...state, cards: { ...state.cards, selected: true } });
+      decode(renderToStaticMarkup(createElement(ProductPicker, { products, setTile: { pickLine: "PICK", combos }, state: s, onToggle: () => {}, onOption: () => {} })));
+    const one = render({ ...state, cards: { selected: true, option: "p12" } });
     const cards = one.slice(one.indexOf('<li data-product-card=""'), one.indexOf('<li data-product-card=""', one.indexOf('<li data-product-card=""') + 1));
-    // The chip sits on the picture's corner; the options are inside the same <li>, no longer hidden.
-    expect(cards).toMatch(/aspect-square[^>]*>(?:(?!<\/span>)[\s\S])*<span class="[^"]*absolute right-2\.5 top-2\.5[^"]*">SELECTED<\/span>/);
+    expect(cards).toMatch(/data-product-media="neutral"[^>]*>(?:(?!<\/label>)[\s\S])*<span class="[^"]*absolute -right-1 -top-1[^"]*">SELECTED<\/span>/);
     expect(cards).toMatch(/<div data-product-options="" class="[^"]*border-t border-hairline/);
     expect(cards).toMatch(/border-ink ring-1 ring-ink shadow-\[var\(--shadow-card-stock\)\]/);
+    // One line per option: the radio, the name and the price in one three-column row, 44 px.
+    const rows = cards.match(/<label for="fp-product-cards-option-[a-z0-9]+" class="([^"]*)">/g) ?? [];
+    expect(rows).toHaveLength(3);
+    for (const row of rows) expect(row).toMatch(/grid min-h-11 [^"]*grid-cols-\[1\.25rem_minmax\(0,1fr\)_auto\] items-center/);
+    // The chosen option's description shows; the others are in the page (each radio names its own) but hidden.
+    expect(cards).toMatch(/<p id="fp-product-cards-option-p12-detail" class="[^"]*text-muted-text">/);
+    expect(cards).toMatch(/<p id="fp-product-cards-option-digital-detail" hidden=""/);
+    expect(cards).toMatch(/<p id="fp-product-cards-option-p24-detail" hidden=""/);
+    // On a wide card the opened options take the line's place beside the picture.
+    expect(cards).toMatch(/id="fp-product-cards-blurb" class="[^"]*@md:hidden"/);
     expect(one).toContain("PICK");
     // Both chosen as a set pair: the pair's own saving, from the ladder.
-    const pair = render({ ...state, cards: { ...state.cards, selected: true }, poster: { ...state.poster, selected: true } });
+    const pair = render({ ...state, cards: { selected: true, option: "digital" }, poster: { selected: true, option: "digital" } });
     expect(pair).toContain(`${INTAKE_COPY.setNote.matchedLead} ${INTAKE_COPY.setTile.savingsLine(formatUsd(SAVING))}.`);
     // Both chosen but not a set pair: which pairs are, in the option labels' own words.
-    const mixed = render({ ...state, cards: { ...state.cards, selected: true, option: "p12" }, poster: { ...state.poster, selected: true } });
+    const mixed = render({ ...state, cards: { selected: true, option: "p12" }, poster: { selected: true, option: "digital" } });
     expect(mixed).toContain(INTAKE_COPY.setNote.unmatched(model.setPairsLabel(products, combos)));
     expect(model.setPairsLabel(products, combos)).toBe("Digital files + Digital files or 12 printed cards + 18 × 24 in printed");
-    // Banner and blanket bundles are never claimed.
-    const others = render({ ...state, banner: { ...state.banner, selected: true }, blanket: { ...state.blanket, selected: true } });
+    // Banner and blanket bundles are never claimed; the blanket keeps its "price on the proof" line when open.
+    const others = render({ ...state, banner: { selected: true, option: "digital" }, blanket: { selected: true, option: "30x40" } });
     expect(others).toContain("PICK");
     expect(others).not.toContain(INTAKE_COPY.setNote.matchedLead);
+    expect(others).toMatch(new RegExp(`id="fp-product-blanket-from" class="[^"@]*">${esc(PRICE_ON_PROOF)}</span>`));
   });
 
-  it("each product card shows its lib/assets.ts picture when the key is verified, the typographic tile otherwise", () => {
-    for (const p of PRODUCTS) {
-      const key = `product.${p.key}`;
-      // next/image serves it through /_next/image?url=<encoded path>
-      if (hasAsset(key)) expect(html.includes(encodeURIComponent(asset(key).src)) || html.includes(`src="${asset(key).src}"`), key).toBe(true);
-      else expect(html, key).toMatch(new RegExp(`aria-hidden="true"[^>]*>${p.name}</span>`));
-    }
+  it("the product pictures are the chosen sport's — card, poster, banner, blanket — the grey product where it has none, and never another sport", () => {
+    const products = tiles();
+    const state = model.initialState().products;
+    const render = (art: (typeof ART)[keyof typeof ART] | null, style = "") =>
+      decode(
+        renderToStaticMarkup(
+          createElement(ProductPicker, {
+            products,
+            setTile: { pickLine: null, combos: [] },
+            state,
+            onToggle: () => {},
+            onOption: () => {},
+            art: art as never,
+            style: style as never,
+            note: { state: art ? "art" : "pick", sport: null },
+          }),
+        ),
+      );
+    const football = render(ART.football, "HE");
+    expect(srcs(football).sort()).toEqual([ART.football.cards.HE.src, ART.football.poster.src, ART.football.banner.src].sort());
+    expect(football.match(/data-product-media="neutral"/g)).toHaveLength(1);
+    expect(football).not.toContain("volleyball");
+    expect(football).toContain('data-art-note="art"');
+    const volleyball = render(ART.volleyball);
+    expect(srcs(volleyball).sort()).toEqual([ART.volleyball.cards.SN.src, ART.volleyball.poster.src, ART.volleyball.blanket.src].sort());
+    expect(volleyball).not.toContain("football");
+    // Before a sport: the four grey products and the line that says how to see their sport.
+    const grey = render(null);
+    expect(grey).not.toMatch(/<img /);
+    expect(grey.match(/data-product-media="neutral"/g)).toHaveLength(4);
+    for (const shape of ["card", "poster", "banner", "blanket"]) expect(grey).toContain(`data-neutral="${shape}"`);
+    expect(grey).toContain('data-art-note="pick"');
+    // The page itself (no sport chosen) is the grey set too.
+    const step2 = between('id="step-2"', 'id="step-3"');
+    expect(step2.match(/data-product-media="neutral"/g)).toHaveLength(4);
+    expect(step2).not.toMatch(/<img /);
   });
 
-  it("eight style tiles, one radio group: the seven editions with only their name and material line, and the dark 'you choose for me' tile", () => {
+  it("eight style tiles, one radio group: the chosen sport's card in each finish (the grey card framed in the finish before a sport), and the dark 'you choose for me' tile", () => {
     expect(count(/name="fp-style"/g)).toBe(8);
     expect(styles).toHaveLength(7);
     for (const s of styles) {
@@ -318,22 +496,42 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     expect(dark?.[1]).toMatch(/\bbg-arena\b/);
     expect(html).toMatch(new RegExp(`id="fp-style-recommend-name"[^>]*font-display[^>]*>${esc(INTAKE_COPY.chooseForMeTitle)}</span>`));
     expect(html).toContain(INTAKE_COPY.chooseForMeLine);
-    expect(between('id="step-2"', 'id="step-3"')).toContain(CANON.fictionalLabel);
+    // Before a sport: seven grey cards, each wearing its finish's swatch as the frame; the pick line under them.
+    const step3 = between('id="step-3"', 'id="step-4"');
+    expect(step3.match(/data-style-face="neutral"/g)).toHaveLength(7);
+    expect(step3.match(/data-neutral="card" aria-hidden="true" style="aspect-ratio:5\/7;background-image:linear-gradient/g)).toHaveLength(7);
+    expect(step3).not.toMatch(/<img /);
+    expect(step3).toContain('data-art-note="pick"');
+    // In a sport: its fronts where it has them, the grey card in the finish's frame where not — never another sport.
+    const picker = (art: (typeof ART)[keyof typeof ART] | null) =>
+      decode(renderToStaticMarkup(createElement(StylePicker, { styles: styleTiles(), value: "", onChange: () => {}, labelledBy: "x", art: art as never, note: { state: "art", sport: null } })));
+    const fb = picker(ART.football);
+    expect(srcs(fb).sort()).toEqual(Object.values(ART.football.cards).map((c) => c.src).sort());
+    expect(fb.match(/data-style-face="neutral"/g)).toHaveLength(4);
+    expect(fb).not.toContain("volleyball");
+    expect(fb).toContain(CANON.fictionalLabel);
+    const vb = picker(ART.volleyball);
+    expect(srcs(vb)).toEqual([ART.volleyball.cards.SN.src, ART.volleyball.cards.SR.src]);
   });
 
-  it("step 3 is a short grid — at most six fields before '+ Add optional details' — and asks for no school", () => {
-    const step3 = between('id="step-3"', 'id="step-4"');
-    const all = controls(step3);
+  it("the athlete step is a short grid — name, number, team before '+ Add optional details' — no sport, no colours, no need-it-by date, the headline first behind the toggle", () => {
+    const step4 = between('id="step-4"', 'id="step-5"');
+    const all = controls(step4);
     const visible = all.filter((c) => !c.hidden).map((c) => c.id);
-    expect(visible).toEqual(["fp-athlete-firstName", "fp-athlete-lastName", "fp-athlete-jerseyNumber", "fp-athlete-sportSlug", "fp-athlete-team"]);
-    expect(visible.length).toBeLessThanOrEqual(6);
-    // The Senior Night pair joins the grid only with SR; everything optional waits behind the disclosure.
+    expect(visible).toEqual(["fp-athlete-firstName", "fp-athlete-lastName", "fp-athlete-jerseyNumber", "fp-athlete-team"]);
+    // The Senior Night pair joins the grid only with SR; everything optional waits behind the disclosure, the headline first.
     const hidden = all.filter((c) => c.hidden).map((c) => c.id);
-    for (const id of ["fp-athlete-classOf", "fp-athlete-eventDate", "fp-athlete-position", "fp-athlete-season", "fp-athlete-headline", "fp-athlete-notes", "fp-contact-neededBy"]) {
-      expect(hidden, id).toContain(id);
-    }
-    expect(step3).toMatch(new RegExp(`<button type="button" aria-expanded="false" aria-controls="fp-athlete-optional"[^>]*>${esc(INTAKE_COPY.optionalToggle)}</button>`));
-    expect(step3).toMatch(/<div id="fp-athlete-optional" hidden=""/);
+    for (const id of ["fp-athlete-classOf", "fp-athlete-eventDate", "fp-athlete-headline", "fp-athlete-position", "fp-athlete-season", "fp-athlete-notes"]) expect(hidden, id).toContain(id);
+    const optional = step4.slice(step4.indexOf('id="fp-athlete-optional"'));
+    const optionalIds = controls(optional).map((c) => c.id);
+    expect(optionalIds.slice(0, 3)).toEqual(["fp-athlete-headline", "fp-athlete-position", "fp-athlete-season"]);
+    // Gone (owner, 2026-10-06): the sport select (asked once, in step 1), the team colours, the need-it-by date.
+    expect(html).not.toContain('id="fp-athlete-sportSlug"');
+    expect(html).not.toMatch(/type="color"/);
+    expect(html).not.toContain('id="fp-contact-neededBy"');
+    expect(html).not.toMatch(/Team colors|Need it by|Main color/);
+    expect(step4).toMatch(new RegExp(`<button type="button" aria-expanded="false" aria-controls="fp-athlete-optional"[^>]*>${esc(INTAKE_COPY.optionalToggle)}</button>`));
+    expect(step4).toMatch(/<div id="fp-athlete-optional" hidden=""/);
     // "school" appears only inside the crest copy (the crest's owner), never as a field.
     expect(html).not.toMatch(/(?:id|name|for)="[^"]*school/i);
     expect(html).not.toMatch(/<label[^>]*font-label[^>]*>[^<]*school/i);
@@ -348,7 +546,7 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     expect(html).not.toMatch(/\(optional\)<\/label>/i);
   });
 
-  it("step 4: the big drop zone IS the button, the 4–10 rule, the example gallery (four to send, three to leave out, no self-check boxes) and the crest", () => {
+  it("the photo step: the big drop zone IS the button, the 4–10 rule, the example gallery (four to send, three to leave out, no self-check boxes) and the crest", () => {
     expect(html).toContain(`accept="${[...PHOTO_RULES.types, ...PHOTO_RULES.extensions].join(",")}"`);
     expect(html).toMatch(/<input[^>]*type="file"[^>]*multiple/);
     const zone = /<button id="fp-photos-choose" type="button" data-fp-dropzone=""[^>]*class="([^"]*)"[^>]*>([\s\S]*?)<\/button>/.exec(html);
@@ -356,41 +554,44 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     expect(zone?.[2]).toContain(INTAKE_COPY.dropTitle);
     expect(zone?.[2]).toContain(INTAKE_COPY.dropOr);
     expect(zone?.[2]).toContain(INTAKE_COPY.dropHint);
-    // 2026-10-06 (owner): the example gallery replaced the ✓ / ✕ pair and the must-have / leave-out checkboxes;
-    // tests/intake-photos.test.ts covers it tile by tile.
-    const step4 = between('id="step-4"', 'id="step-5"');
+    // tests/intake-photos.test.ts covers the gallery tile by tile.
+    const step5 = between('id="step-5"', 'id="step-6"');
     for (const [slug, caption] of Object.entries(INTAKE_COPY.photoExamples.captions)) {
-      expect(step4).toContain(`>${caption}</figcaption>`);
+      expect(step5).toContain(`<span>${caption}</span></figcaption>`);
       const key = `intake.example.${slug}`;
-      if (hasAsset(key)) expect(step4.includes(encodeURIComponent(asset(key).src)), key).toBe(true);
+      if (hasAsset(key)) expect(step5.includes(encodeURIComponent(asset(key).src)), key).toBe(true);
     }
-    expect(controls(step4).filter((c) => c.type === "checkbox")).toEqual([]);
+    expect(controls(step5).filter((c) => c.type === "checkbox")).toEqual([]);
     expect(asset("intake.example.bad").alt).toMatch(/generated example/);
-    expect(step4).toContain(INTAKE_COPY.crestHelp);
+    expect(step5).toContain(INTAKE_COPY.crestHelp);
     expect(count(/Parent\/guardian consent required/g)).toBeGreaterThanOrEqual(1);
   });
 
-  it("step 5 is a reward, not a form: your name and the email — no phone, no country", () => {
-    const step5 = between('id="step-5"', "fp-s-consent");
-    expect(controls(step5).map((c) => c.id)).toEqual(["fp-contact-name", "fp-contact-email"]);
+  it("step 6 is a reward, not a form: your name and the email — no phone, no country", () => {
+    const step6 = between('id="step-6"', "fp-s-consent");
+    expect(controls(step6).map((c) => c.id)).toEqual(["fp-contact-name", "fp-contact-email"]);
     expect(html).not.toContain('id="fp-contact-phone"');
     expect(html).not.toContain('id="fp-contact-country"');
   });
 
-  it("permissions: a white card (v3, 2026-10-06), every sentence verbatim with its own checkbox, in CONSENT_ORDER, the crest row hidden until a crest is attached", () => {
+  it("permissions: a white card, the three required sentences verbatim with their own checkbox, the crest row hidden until a crest is attached — and no marketing permission", () => {
     const panel = between('aria-labelledby="fp-s-consent"', 'aria-labelledby="fp-cta-title"');
     expect(panel).toMatch(/^aria-labelledby="fp-s-consent" class="[^"]*\bbg-white\b/);
     expect(panel).toMatch(/\[&amp;_input\]:accent-ink|\[&_input\]:accent-ink/);
     expect(panel).not.toMatch(/\bbg-accent\b|\btext-accent\b|\bborder-accent\b/);
+    const shown = CONSENT_ORDER.filter((k) => k !== "marketing");
     let at = 0;
-    for (const key of CONSENT_ORDER) {
+    for (const key of shown) {
       const next = panel.indexOf(CONSENTS[key].text, at);
       expect(next, key).toBeGreaterThan(at);
       expect(panel).toMatch(new RegExp(`<input id="fp-consents-${key}" type="checkbox"[^>]*name="consent-${key}"`));
       at = next;
     }
-    expect(count(/<input id="fp-consents-[a-z]+" type="checkbox"/g)).toBe(CONSENT_ORDER.length);
-    // The three required sentences stay three boxes, each `required`; the crest row waits behind `hidden`.
+    expect(count(/<input id="fp-consents-[a-z]+" type="checkbox"/g)).toBe(shown.length);
+    // The owner (2026-10-06): the optional "let us show the finished card" row is not needed — gone from the form.
+    expect(html).not.toContain(CONSENTS.marketing.text);
+    expect(html).not.toContain('id="fp-consents-marketing"');
+    expect(html).not.toContain("let us show the finished card");
     for (const key of ["guardian", "biometric", "license"]) expect(panel).toMatch(new RegExp(`id="fp-consents-${key}"[^>]*required=""`));
     expect(panel).toMatch(/<div hidden=""[^>]*>(?:(?!<\/div>)[\s\S])*id="fp-consents-crest"/);
     for (const href of ["/privacy", "/privacy/biometric", "/terms"]) expect(panel).toContain(`href="${href}"`);
@@ -414,7 +615,7 @@ describe("/free-proof — the page a Meta ad lands on", () => {
       at = next;
     }
     expect(card).toMatch(/<button id="fp-submit" type="submit"[^>]*class="[^"]*\bbg-accent\b/);
-    expect(html.indexOf(INTAKE_COPY.ctaCard.button)).toBeGreaterThan(html.indexOf(CONSENTS.marketing.text));
+    expect(html.indexOf(INTAKE_COPY.ctaCard.button)).toBeGreaterThan(html.indexOf(CONSENTS.license.text));
     // v3 (2026-10-06): one muted line and the house outline EtsyButton (tests/intake-consent.test.ts).
     const etsy = /<a href="\/go\/etsy\/GDE-ANY-SET" class="([^"]*)">(?:(?!<\/a>)[\s\S])*<\/a>/.exec(html);
     expect(etsy?.[0]).toContain("Also on Etsy →");
@@ -428,7 +629,7 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     expect(html).not.toMatch(/name="website"[^>]*hidden/);
   });
 
-  it("the summary: a white 20 px panel with the title, Today and the zero-due figure, the three checks — and the empty state on arrival", () => {
+  it("the summary: a white 20 px panel with the title, the grey preview card, Today and the zero-due figure, the three checks — and the empty state on arrival", () => {
     expect(count(new RegExp(`>${INTAKE_COPY.summary.title}</h2>`, "g"))).toBe(2);
     const rail = /<aside aria-labelledby="fp-summary-title" class="([^"]*)">([\s\S]*?)<\/aside>/.exec(html);
     expect(rail?.[1]).toMatch(/rounded-\[20px\]/);
@@ -438,24 +639,28 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     expect(rail?.[2]).toContain(`>${INTAKE_COPY.summary.today}</dt>`);
     expect(rail?.[2]).toContain(`>${DUE_TODAY_LABEL}</dd>`);
     for (const check of INTAKE_COPY.summary.checks) expect(rail?.[2]).toContain(`<span>${check}</span>`);
+    // Before a sport, the preview is the grey card — never another sport's athlete, and so no C13 on it.
+    expect(rail?.[2]).toContain('data-card-preview=""');
+    expect(rail?.[2]).toContain('data-neutral="card"');
+    expect(rail?.[2]).not.toMatch(/<img /);
     // Nothing chosen yet: no "after approval" figure.
     expect(rail?.[2]).not.toContain(INTAKE_COPY.summary.afterApproval);
   });
 
   it("orange only where the owner allows it: the hero CTA, the submit and the three summary ticks", () => {
     const fills = html.match(/class="[^"]*\bbg-accent\b[^"]*"/g) ?? [];
-    // hero CTA + submit + 3 ticks; SELECTED badges appear only once something is chosen. The MOST POPULAR
-    // badge went with the set card (owner, 2026-10-06) — its copy key stays, unused.
+    // hero CTA + submit + 3 ticks; SELECTED badges appear only once something is chosen.
     expect(fills).toHaveLength(5);
     expect(html).not.toContain(INTAKE_COPY.setTile.badge);
     expect(html).not.toMatch(/\btext-accent\b/);
-    // The one other orange: the four bracket corners of the proof exhibit in the hero (DESIGN §4.6 — the
-    // audit mark around a process artefact), and nowhere else.
+    // The one other orange: the four bracket corners of the proof exhibit in the hero (DESIGN §4.6), and nowhere else.
     const corners = html.match(/class="[^"]*\bborder-accent\b[^"]*"/g) ?? [];
     expect(corners).toHaveLength(4);
     for (const c of corners) expect(c).toMatch(/pointer-events-none absolute size-7 border-accent/);
     const visual = between('data-hero-visual=""', 'data-proof-band=""');
     expect(visual.match(/\bborder-accent\b/g)).toHaveLength(4);
+    // The finish swatches are gradients of the finishes, never the accent token.
+    expect(html).not.toMatch(/style="[^"]*var\(--color-accent\)/);
     // Native controls are ink; the one accent-accent left is ConsentRow's own class, overridden by the quiet panel.
     const accentControls = html.match(/<input[^>]*class="[^"]*\baccent-accent\b[^"]*"/g) ?? [];
     expect(accentControls.every((tag) => /id="fp-consents-/.test(tag))).toBe(true);
@@ -470,6 +675,8 @@ describe("/free-proof — the page a Meta ad lands on", () => {
   it("mounts the Turnstile box only when a site key is passed", () => {
     expect(html).not.toContain("data-turnstile");
     const props = {
+      sports: [],
+      art: {},
       products: [],
       setTile: { pickLine: null, combos: [] },
       setCombos: [],
@@ -482,7 +689,7 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     expect(renderToStaticMarkup(createElement(IntakeForm, props))).not.toContain("data-turnstile");
   });
 
-  it("the page's own source never types a price, a provider name or a banned word", () => {
+  it("the page's own source never types a price, a provider name or a banned word — and the form island never imports the asset map", () => {
     const files = [
       ...fs.readdirSync(path.join(ROOT, "components/intake")).map((f) => path.join("components/intake", f)),
       "app/(marketing)/free-proof/page.tsx",
@@ -492,7 +699,15 @@ describe("/free-proof — the page a Meta ad lands on", () => {
       const src = fs.readFileSync(path.join(ROOT, f), "utf8");
       expect(src, f).not.toMatch(/\$\d/);
       expect(src, f).not.toMatch(/stripe|paypal|\binstant|\byouth\b|\bpdf\b|cheaper/i);
+      // lib/assets.ts (and the server-only art map behind it) stays out of every client module — types only.
+      if (f.startsWith("components/intake/")) {
+        expect(src, f).not.toMatch(/^import (?!type )[^;]*from "\.\.\/\.\.\/lib\/assets"/m);
+        expect(src, f).not.toMatch(/^import (?!type )[^;]*from "\.\.\/\.\.\/lib\/intake\/sport-art"/m);
+      }
     }
+    // The server page resolves the art map once and hands it over.
+    const page = fs.readFileSync(path.join(ROOT, "app/(marketing)/free-proof/page.tsx"), "utf8");
+    expect(page).toContain("freeProofArtMap()");
   });
 });
 
@@ -540,8 +755,8 @@ describe("the form model (components/intake/model.ts)", () => {
   const photoMeta = (n: number) => Array.from({ length: n }, (_, i) => ({ name: `IMG_${i}.jpg`, size: 1_500_000, type: "image/jpeg" }));
   const filled = () => {
     const s = model.initialState();
-    s.products.cards = { selected: true, option: "p12", quantity: 2 };
-    s.products.poster = { selected: true, option: "digital", quantity: 4 };
+    s.products.cards = { selected: true, option: "p12" };
+    s.products.poster = { selected: true, option: "digital" };
     s.style = "SN";
     s.athlete = { ...s.athlete, firstName: "Marcus", lastName: "Ellison", sportSlug: "basketball", jerseyNumber: "12", position: "Guard", team: "Cedar Ridge Bears" };
     s.athlete.stats = [{ value: "", label: "" }, { value: "18.4", label: "PPG" }, { value: "", label: "" }];
@@ -568,9 +783,9 @@ describe("the form model (components/intake/model.ts)", () => {
     const r = parseProofRequest(payload);
     expect(r.ok).toBe(true);
     if (!r.ok) return;
-    // digital options always go with quantity 1; printed keep theirs
+    // v4: no quantity in the form — every chosen option, printed or digital, goes as one.
     expect(r.value.products).toEqual([
-      { product: "cards", option: "p12", quantity: 2 },
+      { product: "cards", option: "p12", quantity: 1 },
       { product: "poster", option: "digital", quantity: 1 },
     ]);
     expect(r.value.athlete.stats).toEqual([{ value: "18.4", label: "PPG" }]);
@@ -578,6 +793,89 @@ describe("the form model (components/intake/model.ts)", () => {
     expect(r.value.source.utm).toEqual({ utm_source: "meta", utm_campaign: "fall", fbclid: "abc" });
     expect(r.value.consents.crest).toBe(false);
     expect(r.value.contact.country).toBe("United States");
+  });
+
+  it("v4: no quantity control and quantity 1 in the payload; no marketing consent, no team colours, no need-it-by date — absent, not sent empty", () => {
+    const s = filled();
+    s.products.banner = { selected: true, option: "3x6" };
+    s.products.blanket = { selected: true, option: "60x80" };
+    const { payload } = model.buildPayload(s, { photos: photoMeta(4), crest: null }, source);
+    expect((payload.products as { quantity: number }[]).map((p) => p.quantity)).toEqual([1, 1, 1, 1]);
+    expect(Object.keys(model.initialState().products.cards)).toEqual(["selected", "option"]);
+    expect(Object.keys(payload.consents as object)).toEqual(["guardian", "biometric", "license", "crest"]);
+    expect(payload.athlete).not.toHaveProperty("colors");
+    expect(payload.contact).not.toHaveProperty("neededBy");
+    expect(model.initialState().contact).not.toHaveProperty("neededBy");
+    expect(model.initialState().athlete).not.toHaveProperty("colors");
+    // The parser stays tolerant: an older tab that still sends them is accepted, the marketing box read as given.
+    const older = parseProofRequest({ ...payload, athlete: { ...(payload.athlete as object), colors: { primary: "#112233", secondary: "" } }, contact: { ...(payload.contact as object), neededBy: "2026-11-01" }, consents: { ...(payload.consents as object), marketing: true } });
+    expect(older.ok).toBe(true);
+    const r = parseProofRequest(payload);
+    expect(r.ok && r.value.consents.marketing).toBe(false);
+    expect(r.ok && r.value.athlete.colors).toEqual({ primary: "", secondary: "" });
+    expect(r.ok && r.value.contact.neededBy).toBe("");
+  });
+
+  it("the sport is asked once (step 1): changing it keeps everything typed, and drops only the number when the new sport never wears one", () => {
+    const s = filled();
+    s.athlete = { ...s.athlete, jerseyNumber: "12", team: "Cedar Ridge Bears", headline: "This is my court" };
+    const football = model.chooseSport(s, "football");
+    expect(football.athlete).toMatchObject({ sportSlug: "football", jerseyNumber: "12", firstName: "Marcus", team: "Cedar Ridge Bears", headline: "This is my court" });
+    const cheer = model.chooseSport(football, "cheerleading");
+    expect(cheer.athlete).toMatchObject({ sportSlug: "cheerleading", jerseyNumber: "", firstName: "Marcus", lastName: "Ellison", team: "Cedar Ridge Bears", headline: "This is my court" });
+    for (const sp of sports) expect(model.chooseSport(s, sp.slug).athlete.jerseyNumber, sp.slug).toBe(isNumberless(sp) ? "" : "12");
+    // "Other" keeps the number field (optional); an unknown value changes nothing.
+    expect(model.chooseSport(s, SPORT_OTHER).athlete).toMatchObject({ sportSlug: SPORT_OTHER, jerseyNumber: "12" });
+    expect(model.chooseSport(s, "quidditch")).toBe(s);
+    expect(model.isSportChoice("other-sport")).toBe(true);
+    expect(model.isSportChoice(SPORT_OTHER)).toBe(true);
+  });
+
+  it("'Other sport or activity' travels as SPORT_OTHER plus the typed words — never as other-sport (Skateboarding)", () => {
+    const s = model.chooseSport(filled(), SPORT_OTHER);
+    s.athlete.sportOther = "  Rowing  ";
+    const r = parseProofRequest(model.buildPayload(s, { photos: photoMeta(4), crest: null }, source).payload);
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.value.athlete).toMatchObject({ sportSlug: "other", sportOther: "Rowing", jerseyNumber: "12" });
+    expect(SPORT_OTHER).not.toBe("other-sport");
+    // The typed words go only with "Other": a catalog sport never carries them.
+    const fb = model.chooseSport(s, "football");
+    expect((model.buildPayload(fb, { photos: photoMeta(4), crest: null }, source).payload.athlete as Record<string, string>).sportOther).toBe("");
+    // "Other" without words is refused with its own sentence, on its own field.
+    s.athlete.sportOther = " ";
+    const empty = parseProofRequest(model.buildPayload(s, { photos: photoMeta(4), crest: null }, source).payload);
+    expect(empty.ok ? {} : empty.errors).toHaveProperty("athlete.sportOther");
+    expect(model.errorTarget("athlete.sportOther")).toBe("fp-athlete-sportOther");
+    expect(model.errorTarget("athlete.sportSlug")).toBe("fp-sport-basketball");
+    expect(model.sportName(SPORT_OTHER, "rowing")).toBe("rowing");
+    expect(model.sportName("other-sport")).toBe("Skateboarding");
+    expect(model.sportName("")).toBeNull();
+  });
+
+  it("one sport on the whole page: art for a sport with art, the grey set before a sport and for a sport (or 'Other') without", () => {
+    expect(model.artState(ART, "")).toBe("pick");
+    expect(model.artState(ART, "football")).toBe("art");
+    expect(model.artState(ART, "golf")).toBe("none");
+    expect(model.artState(ART, SPORT_OTHER)).toBe("none");
+    expect(model.sportArt(ART, "football")).toBe(ART.football);
+    expect(model.sportArt(ART, SPORT_OTHER)).toBeNull();
+    expect(model.sportArt({ golf: { cards: {} } }, "golf")).toBeNull();
+    // A slot that asks for a finish the sport lacks: exact → null; "any card of this sport" → its first finish.
+    expect(model.cardImage(ART.volleyball as never, "CA")).toBeNull();
+    expect(model.cardImage(ART.volleyball as never, "CA", true)).toBe(ART.volleyball.cards.SN);
+    expect(model.productImage(ART.football as never, "blanket", "")).toBeNull();
+    expect(model.productImage(ART.football as never, "cards", "HE")).toBe(ART.football.cards.HE);
+    // The pictures above the form hear the choice through the shared store; the server snapshot is always empty.
+    const heard: number[] = [];
+    const stop = model.choiceStore.subscribe(() => heard.push(1));
+    model.choiceStore.set({ sport: "football", sportOther: "", style: "SN" });
+    model.choiceStore.set({ sport: "football", sportOther: "", style: "SN" });
+    expect(model.choiceStore.get()).toEqual({ sport: "football", sportOther: "", style: "SN" });
+    expect(model.choiceStore.getServer()).toEqual({ sport: "", sportOther: "", style: "" });
+    model.choiceStore.set({ sport: "", sportOther: "", style: "" });
+    stop();
+    expect(heard).toHaveLength(2);
   });
 
   it("drops what does not apply: a numberless sport's number, the SR fields without SR, the crest consent without a crest", () => {
@@ -602,6 +900,7 @@ describe("the form model (components/intake/model.ts)", () => {
     expect(model.errorTarget("style")).toBe("fp-style-SN");
     expect(model.errorTarget("photos")).toBe("fp-photos-choose");
     expect(model.errorTarget("athlete.stats.0", [2])).toBe("fp-athlete-stats-2-value");
+    expect(model.errorTarget("athlete.sportSlug")).toBe(`fp-sport-${sports[0].slug}`);
     expect(model.statErrorsByRow({ "athlete.stats.0": "x", "contact.email": "y" }, [2])).toEqual({ 2: "x" });
     const s = filled();
     s.athlete.stats = [{ value: "", label: "" }, { value: "", label: "" }, { value: "9", label: "" }];
@@ -612,10 +911,11 @@ describe("the form model (components/intake/model.ts)", () => {
   });
 
   it("an error behind '+ Add optional details' opens the group; the visible fields' errors do not", () => {
+    expect(model.OPTIONAL_DETAIL_KEYS[0]).toBe("athlete.headline");
     expect(model.hasOptionalDetailError({ "athlete.stats.1": "x" })).toBe(true);
-    expect(model.hasOptionalDetailError({ "contact.neededBy": "x" })).toBe(true);
-    expect(model.hasOptionalDetailError({ "athlete.colors.primary": "x" })).toBe(true);
-    expect(model.hasOptionalDetailError({ "athlete.firstName": "x", "contact.email": "y", "athlete.classOf": "z" })).toBe(false);
+    expect(model.hasOptionalDetailError({ "athlete.season": "x" })).toBe(true);
+    expect(model.hasOptionalDetailError({ "athlete.headline": "x" })).toBe(true);
+    expect(model.hasOptionalDetailError({ "athlete.firstName": "x", "contact.email": "y", "athlete.classOf": "z", "athlete.sportOther": "w" })).toBe(false);
   });
 
   it("the set card is a shortcut: choosing it chooses cards and poster (keeping their options), clearing it clears both", () => {
@@ -624,15 +924,15 @@ describe("the form model (components/intake/model.ts)", () => {
     s.products.cards.option = "p24";
     const on = model.chooseSet(s.products, true);
     expect(model.isSetChosen(on)).toBe(true);
-    expect(on.cards).toEqual({ selected: true, option: "p24", quantity: 1 });
-    expect(on.poster).toEqual({ selected: true, option: "digital", quantity: 1 });
+    expect(on.cards).toEqual({ selected: true, option: "p24" });
+    expect(on.poster).toEqual({ selected: true, option: "digital" });
     expect(on.banner.selected).toBe(false);
     const off = model.chooseSet({ ...on, banner: { ...on.banner, selected: true } }, false);
     expect(off.cards.selected || off.poster.selected).toBe(false);
     expect(off.banner.selected).toBe(true);
   });
 
-  it("the summary sum: site price × quantity, the set price for a set pair, 'on the proof' when anything is unpriced", () => {
+  it("the summary sum: one of each at its site price, the set price for a set pair, 'on the proof' when anything is unpriced", () => {
     const products = PRODUCTS.map((p) => ({ key: p.key, options: p.options.map((o) => ({ key: o.key, printed: o.printed, price: o.sku ? sitePrice(getTier(o.sku)!) : null })) }));
     const combos = [
       { cards: "digital", poster: "digital", price: price("GDE-ANY-SET-DIG") },
@@ -640,14 +940,14 @@ describe("the form model (components/intake/model.ts)", () => {
     ];
     const s = model.initialState();
     expect(model.orderTotal(products, s.products, combos)).toEqual({ kind: "empty" });
-    s.products.cards = { selected: true, option: "p12", quantity: 2 };
-    expect(model.orderTotal(products, s.products, combos)).toEqual({ kind: "priced", total: Math.round(price("GDE-ANY-CARD-P12") * 2 * 100) / 100, set: false });
-    s.products.poster = { selected: true, option: "p1824", quantity: 2 };
-    expect(model.orderTotal(products, s.products, combos)).toEqual({ kind: "priced", total: Math.round(price("GDE-ANY-SET-PRINT") * 2 * 100) / 100, set: true });
-    s.products.poster.quantity = 1;
-    const apart = Math.round((price("GDE-ANY-CARD-P12") * 2 + price("GDE-ANY-POST-P1824")) * 100) / 100;
+    s.products.cards = { selected: true, option: "p12" };
+    expect(model.orderTotal(products, s.products, combos)).toEqual({ kind: "priced", total: price("GDE-ANY-CARD-P12"), set: false });
+    s.products.poster = { selected: true, option: "p1824" };
+    expect(model.orderTotal(products, s.products, combos)).toEqual({ kind: "priced", total: price("GDE-ANY-SET-PRINT"), set: true });
+    s.products.poster.option = "p2436";
+    const apart = Math.round((price("GDE-ANY-CARD-P12") + price("GDE-ANY-POST-P2436")) * 100) / 100;
     expect(model.orderTotal(products, s.products, combos)).toEqual({ kind: "priced", total: apart, set: false });
-    s.products.blanket = { selected: true, option: "50x60", quantity: 1 };
+    s.products.blanket = { selected: true, option: "50x60" };
     expect(model.orderTotal(products, s.products, combos)).toEqual({ kind: "onProof" });
     expect(model.setSaving(products, combos)).toBe(SAVING);
     expect(model.setSaving(products, [])).toBeNull();
@@ -668,27 +968,27 @@ describe("the form model (components/intake/model.ts)", () => {
     expect(model.setPair(products, s, combos)).toEqual({ kind: "none" });
     s.poster.selected = true;
     expect(model.setPair(products, s, combos)).toEqual({ kind: "matched", saved: SAVING });
-    s.cards = { selected: true, option: "p12", quantity: 2 };
+    s.cards = { selected: true, option: "p12" };
     expect(model.setPair(products, s, combos)).toEqual({ kind: "unmatched" });
-    s.poster = { selected: true, option: "p1824", quantity: 2 };
-    // Exactly when the summary counts the set price: same pair, same quantity — the saving times the quantity.
-    expect(model.setPair(products, s, combos)).toEqual({ kind: "matched", saved: Math.round(printSaving * 2 * 100) / 100 });
+    s.poster = { selected: true, option: "p1824" };
+    // Exactly when the summary counts the set price: the same pair.
+    expect(model.setPair(products, s, combos)).toEqual({ kind: "matched", saved: printSaving });
     expect(model.orderTotal(products, s, combos)).toMatchObject({ kind: "priced", set: true });
-    s.poster.quantity = 1;
+    s.poster.option = "digital";
     expect(model.setPair(products, s, combos)).toEqual({ kind: "unmatched" });
     expect(model.orderTotal(products, s, combos)).toMatchObject({ kind: "priced", set: false });
   });
 
   describe("the live text preview in 'Your order' (owner, 2026-10-06)", () => {
-    const front = (code: string) => asset(code === "SR" ? "finish.SR.tile" : `finish.${code}.front`);
-    const stylesData = styles.map((st) => ({ code: st.code, name: st.name, material: st.material, image: front(st.code) }));
+    const front = (code: string) => model.cardImage(ART.football as never, code, true);
+    const stylesData = styleTiles();
     const typed = { ...model.initialState().athlete, firstName: "Jordan", lastName: "Okafor", jerseyNumber: "23", sportSlug: "basketball", team: "Riverside Hawks" };
     const preview = (athlete: typeof typed | null, style: string) =>
       decode(renderToStaticMarkup(createElement(CardTextPreview, { image: front(model.previewFinish(style as never)), athlete, style: style as never, sizes: "192px" })));
-    const summary = (athlete: typeof typed | null, variant: "rail" | "bar", style = "") =>
+    const summary = (athlete: typeof typed | null, variant: "rail" | "bar", style = "", art: unknown = ART.football, sport: string | null = "Football") =>
       decode(
         renderToStaticMarkup(
-          createElement(SummaryRail, { products: [], state: model.initialState().products, styles: stylesData, style: style as never, setCombos: [], athlete, variant }),
+          createElement(SummaryRail, { products: [], state: model.initialState().products, styles: stylesData, style: style as never, setCombos: [], athlete, variant, art: art as never, sport }),
         ),
       );
 
@@ -732,6 +1032,23 @@ describe("the form model (components/intake/model.ts)", () => {
       }
       // The bar's mockup is 120 px wide — the minimum the owner set for the phone.
       expect(summary(typed, "bar")).toContain('<div class="w-[7.5rem] shrink-0">');
+    });
+
+    it("is the chosen sport's card in the chosen finish — the grey card in that finish's frame where it has none — and names the sport", () => {
+      for (const variant of ["rail", "bar"] as const) {
+        const fb = summary(typed, variant, "HE");
+        expect(srcs(fb), variant).toEqual([ART.football.cards.HE.src]);
+        expect(fb).toContain(`>${UI_SPORT}</span><span class="block text-muted-text">Football</span>`);
+        // A finish the sport has no front of → the grey card wearing that finish, never another finish's or sport's athlete.
+        const vb = summary(typed, variant, "CA", ART.volleyball, "Volleyball");
+        expect(srcs(vb), variant).toEqual([]);
+        expect(vb).toMatch(/data-neutral="card" aria-hidden="true" style="aspect-ratio:5\/7;background-image:linear-gradient/);
+        expect(vb).not.toContain(CANON.fictionalLabel);
+        // Before a sport: the grey card, no sport line, the empty state.
+        const none = summary(null, variant, "", null, null);
+        expect(srcs(none)).toEqual([]);
+        expect(none).toContain(INTAKE_COPY.summary.empty);
+      }
     });
 
     it("draws nothing that was not typed — never a placeholder name, number or season", () => {
@@ -778,8 +1095,8 @@ describe("the form model (components/intake/model.ts)", () => {
     expect(contrastRatio(mix(0.6, [255, 255, 255]), "#F4F3EF")).toBeGreaterThanOrEqual(4);
     expect(contrastRatio(mix(0.4, [0xf4, 0xf3, 0xef]), "#F4F3EF")).toBeLessThan(3);
     // The rendered step 3 uses it: every visible athlete input and select is white with the ink-60 edge.
-    const step3 = between('id="step-3"', 'id="step-4"');
-    for (const tag of step3.match(/<(input|select)[^>]*id="fp-athlete-(firstName|lastName|jerseyNumber|sportSlug|team)"[^>]*>/g) ?? []) {
+    const step4 = between('id="step-4"', 'id="step-5"');
+    for (const tag of step4.match(/<(input|select)[^>]*id="fp-athlete-(firstName|lastName|jerseyNumber|team)"[^>]*>/g) ?? []) {
       expect(tag).toMatch(/bg-white/);
       expect(tag).toMatch(/border-ink\/60/);
     }
@@ -800,8 +1117,29 @@ describe("the form model (components/intake/model.ts)", () => {
     expect(model.parsePrefill(get("product=mug&sport=quidditch&style=ZZ&classOf=1999"))).toEqual({ products: [], options: {}, sport: undefined, style: undefined, classOf: undefined });
     expect(model.parsePrefill(get("style=recommend")).style).toBe("recommend");
     const applied = model.applyPrefill(model.initialState(), model.parsePrefill(get("option=p1824&style=sr")));
-    expect(applied.products.poster).toEqual({ selected: true, option: "p1824", quantity: 1 });
+    expect(applied.products.poster).toEqual({ selected: true, option: "p1824" });
     expect(applied.style).toBe("SR");
+  });
+
+  it("prefills the sport from ?sport= (ads and every site CTA pass it) — and it stays changeable", () => {
+    const get = (q: string) => (k: string) => new URLSearchParams(q).get(k);
+    for (const sp of sports) {
+      const state = model.applyPrefill(model.initialState(), model.parsePrefill(get(`sport=${sp.slug}&product=cards`)));
+      expect(state.athlete.sportSlug, sp.slug).toBe(sp.slug);
+      expect(state.products.cards.selected).toBe(true);
+    }
+    // A code is accepted as input; an unknown sport is ignored, never an error.
+    expect(model.parsePrefill(get("sport=FOOTBALL")).sport).toBe("football");
+    expect(model.applyPrefill(model.initialState(), model.parsePrefill(get("sport=quidditch"))).athlete.sportSlug).toBe("");
+    // Prefilled, then changed in step 1: the last choice wins and the typed name stays.
+    const pre = model.applyPrefill(model.initialState(), model.parsePrefill(get("sport=volleyball")));
+    pre.athlete.firstName = "Ava";
+    const changed = model.chooseSport(pre, "cheerleading");
+    expect(changed.athlete).toMatchObject({ sportSlug: "cheerleading", firstName: "Ava" });
+    // The island reads the URL in its own Suspense boundary (the page stays static) and hands the prefill to the form.
+    const island = fs.readFileSync(path.join(ROOT, "components/intake/PrefillFromUrl.tsx"), "utf8");
+    expect(island).toContain("useSearchParams");
+    expect(fs.readFileSync(path.join(ROOT, "components/intake/IntakeForm.tsx"), "utf8")).toMatch(/<Suspense fallback=\{null\}>\s*<PrefillFromUrl onPrefill=\{onPrefill\} \/>/);
   });
 
   it("screens photos: type, size, duplicates and the ten-photo limit", () => {

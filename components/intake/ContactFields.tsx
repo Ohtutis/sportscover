@@ -9,9 +9,9 @@ export interface ContactFieldsProps {
 }
 
 /**
- * Step 5 — where the proof goes (owner review 2026-10-04, point 12): your name and the email, nothing
- * else. The phone and country fields are gone (the payload still carries them, empty); "need it by" moved
- * into step 3's optional details. Email is a prose field (`normal-case`).
+ * The last step — where the proof goes (owner review 2026-10-04, point 12): your name and the email,
+ * nothing else. The phone and country fields are gone (the payload still carries them, empty); the
+ * need-it-by date is gone from the form altogether (owner, 2026-10-06). Email is a prose field (`normal-case`).
  */
 export function ContactFields({ contact, onChange, errors }: ContactFieldsProps) {
   const id = (key: string) => fieldId(`contact.${key}`);

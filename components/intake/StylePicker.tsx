@@ -1,18 +1,17 @@
-import type { ImageSpec } from "../../lib/assets";
 import type { StyleCode } from "../../lib/catalog/styles";
 import { INTAKE_COPY } from "../../lib/intake/copy";
+import type { FreeProofSportArt } from "../../lib/intake/sport-art";
 import { STYLE_RECOMMEND, type StyleChoice } from "../../lib/intake/types";
-import { CardFace } from "../CardFace";
-import { FictionalLabel } from "../FictionalLabel";
 import { Badge } from "./Badge";
 import { FieldError, RADIO } from "./fields";
-import { FIELD_PREFIX, errorId } from "./model";
+import { FIELD_PREFIX, cardImage, errorId, type ArtState } from "./model";
+import { ArtImage, ArtNote, NeutralArt } from "./visuals";
 
+/** One look as the server page hands it over. Its picture is the chosen sport's card in that finish. */
 export interface StyleTileData {
   code: StyleCode;
   name: string;
   material: string;
-  image: ImageSpec;
 }
 
 export interface StylePickerProps {
@@ -20,7 +19,23 @@ export interface StylePickerProps {
   value: StyleChoice | "";
   onChange: (value: StyleChoice) => void;
   labelledBy: string;
+  /** The chosen sport's art — each tile shows its card front in that finish, or the grey card framed in the finish. */
+  art?: FreeProofSportArt | null;
+  /** The line under the tiles: C13 over art, "pick a sport", or built to order. */
+  note?: { state: ArtState; sport: string | null };
   error?: string;
+}
+
+const TILE_SIZES = "(min-width: 1280px) 220px, (min-width: 1024px) 160px, (min-width: 768px) 31vw, 46vw";
+
+/** The tile's 5 : 7 face: the sport's card in this finish, square-cut and contained — or the grey card wearing the finish as its frame. */
+function Face({ art, code }: { art: FreeProofSportArt | null; code: string }) {
+  const image = cardImage(art, code);
+  return (
+    <span data-style-face={image ? "art" : "neutral"} className="relative block aspect-[5/7] w-full overflow-hidden rounded-none shadow-[var(--shadow-card-stock)]">
+      {image ? <ArtImage image={image} sizes={TILE_SIZES} /> : <NeutralArt shape="card" finish={code} className="h-full w-full" />}
+    </span>
+  );
 }
 
 const styleId = (code: string) => `${FIELD_PREFIX}style-${code}`;
@@ -29,15 +44,16 @@ const styleId = (code: string) => `${FIELD_PREFIX}style-${code}`;
 const CHOSEN = "ring-2 ring-ink ring-offset-2 ring-offset-stock shadow-[var(--shadow-card-stock)]";
 
 /**
- * Step 2 (owner review 2026-10-04, points 6–7): eight tiles, four per row from lg (three on a tablet), two on a phone — the
- * same fictional athlete in the six finishes and the Senior Night edition (CardFace: 5 : 7, square,
- * uncropped; one C13 label for the group), each with only its name and its material line under it,
+ * The look step (owner review 2026-10-04, points 6–7): eight tiles, four per row from lg (three on a tablet), two on a phone — the
+ * chosen sport's card in the six finishes and the Senior Night edition (5 : 7, square, uncropped; one C13
+ * line for the group) — v4: before a sport is chosen, or for a finish the sport has no example of, the
+ * grey card framed in the finish's material — each with only its name and its material line under it,
  * and an eighth "You choose for me" tile in the arena dark, the same size. Real radios: arrow keys move
  * through the group, and the radio's name is the finish name alone (the card's long alt stays on the
  * image). A chosen tile gets the ink ring and the SELECTED badge; the Senior Night fields now live in
  * step 3, beside the athlete they describe.
  */
-export function StylePicker({ styles, value, onChange, labelledBy, error }: StylePickerProps) {
+export function StylePicker({ styles, value, onChange, labelledBy, art = null, note, error }: StylePickerProps) {
   const recommendId = styleId(STYLE_RECOMMEND);
   const recommendChecked = value === STYLE_RECOMMEND;
   const idle = error ? "ring-1 ring-fail" : "hover:ring-1 hover:ring-ink/25";
@@ -56,7 +72,7 @@ export function StylePicker({ styles, value, onChange, labelledBy, error }: Styl
                   className={`relative flex h-full cursor-pointer flex-col rounded-ui p-2 transition-[box-shadow] duration-hover ease-out ${checked ? CHOSEN : idle}`}
                 >
                   {checked ? <Badge className="absolute -top-3 right-3 z-10">{INTAKE_COPY.selectedBadge}</Badge> : null}
-                  <CardFace {...tile.image} labelled sizes="(min-width: 1280px) 220px, (min-width: 1024px) 160px, (min-width: 768px) 31vw, 46vw" />
+                  <Face art={art} code={tile.code} />
                   <span className="mt-3 flex items-start gap-2">
                     <input
                       id={id}
@@ -113,7 +129,7 @@ export function StylePicker({ styles, value, onChange, labelledBy, error }: Styl
           </li>
         </ul>
       </div>
-      <FictionalLabel className="mt-6" />
+      {note ? <ArtNote state={note.state} sport={note.sport} className="mt-6" /> : null}
     </div>
   );
 }

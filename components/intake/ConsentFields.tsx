@@ -21,9 +21,13 @@ export interface ConsentFieldsProps {
 const POLICY_HREFS = ["/privacy", "/privacy/biometric", "/terms"];
 const POLICIES = (FOOTER_COLUMNS.find((c) => c.title === "Legal")?.links ?? []).filter((l) => POLICY_HREFS.includes(l.href));
 
-/** The confirmations a request needs (the crest's only once a crest is attached), then the optional ones — both in CONSENT_ORDER. */
-const CONFIRMATIONS = CONSENT_ORDER.filter((k) => CONSENTS[k].required || k === "crest");
-const OPTIONAL = CONSENT_ORDER.filter((k) => !CONFIRMATIONS.includes(k));
+/**
+ * The confirmations a request needs (the crest's only once a crest is attached), in CONSENT_ORDER. v4
+ * (owner, 2026-10-06): the optional marketing row is gone from the form — the payload never carries it,
+ * and the parser still reads it as false, so the stored shape is unchanged.
+ */
+type ConfirmationKey = Exclude<ConsentKey, "marketing">;
+const CONFIRMATIONS = CONSENT_ORDER.filter((k): k is ConfirmationKey => CONSENTS[k].required || k === "crest");
 const NOTES: Partial<Record<ConsentKey, string>> = INTAKE_COPY.consentNotes;
 /** "A. B." → ["A.", "B."]: each sentence of the plain line starts its own line (no lookbehind — older Safari cannot parse one). */
 const sentences = (line: string): string[] => (line.match(/[^.!?]+(?:[.!?]+|$)/g) ?? [line]).map((s) => s.trim()).filter(Boolean);
@@ -35,8 +39,8 @@ const sentences = (line: string): string[] => (line.match(/[^.!?]+(?:[.!?]+|$)/g
  * plain line, "All three are needed" once instead of a tag per row, and per row a plain-language title
  * (`consentTitles`) over the consent sentence. The sentences are unchanged: verbatim from CONSENTS, in
  * CONSENT_ORDER, one checkbox each (`ConsentRow`), the sentence the box's label. The crest row is in the
- * DOM behind `hidden` until a crest is attached, and then the counts say four; the optional marketing
- * row sits under a hairline, quieter. ConsentRow stays uncontrolled: the form listens to the change
+ * DOM behind `hidden` until a crest is attached, and then the counts say four. No optional row (v4: the
+ * marketing permission is not asked on this form). ConsentRow stays uncontrolled: the form listens to the change
  * events bubbling out of this fieldset. After a send attempt each unticked required box is
  * `aria-invalid` and names the error sentence under its row. The policies open in a new tab — leaving
  * this page would lose the photos already chosen.
@@ -50,7 +54,7 @@ export function ConsentFields({ crest, onChange, errors, titleId }: ConsentField
   };
   const panel = crest ? INTAKE_COPY.consentPanel.withCrest : INTAKE_COPY.consentPanel;
 
-  const row = (key: ConsentKey) => {
+  const row = (key: ConfirmationKey) => {
     const consent = CONSENTS[key];
     const shown = key !== "crest" || crest;
     const required = consent.required || (key === "crest" && crest);
@@ -92,7 +96,6 @@ export function ConsentFields({ crest, onChange, errors, titleId }: ConsentField
         <p className="font-label text-label font-semibold uppercase tracking-[0.12em] text-muted-text">{panel.needed}</p>
         {/* 24 px between rows: each row is its own tap target (ConsentRow stretches the label over it). */}
         <div className="mt-5 flex flex-col gap-6">{CONFIRMATIONS.map(row)}</div>
-        <div className="mt-6 flex flex-col gap-6 border-t border-hairline pt-6">{OPTIONAL.map(row)}</div>
       </fieldset>
       {/* No separator glyphs: at 390 px the row wraps, and a leading "·" dangled before "Terms". */}
       <ul className="mt-6 flex flex-wrap gap-x-6 border-t border-hairline pt-2">

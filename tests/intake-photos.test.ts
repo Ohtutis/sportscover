@@ -288,15 +288,15 @@ describe("example gallery — SEND THESE ×4, LEAVE THESE OUT ×3", () => {
     expect((html.match(/data-fp-example="send"/g) ?? []).length).toBe(4);
     expect((html.match(/data-fp-example="leave"/g) ?? []).length).toBe(3);
     expect(html.indexOf(copy.sendLabel)).toBeLessThan(html.indexOf(copy.leaveLabel));
-    for (const tile of PHOTO_EXAMPLE_TILES) expect(html).toContain(`>${copy.captions[tile.slug]}</figcaption>`);
+    for (const tile of PHOTO_EXAMPLE_TILES) expect(html).toContain(`<span>${copy.captions[tile.slug]}</span></figcaption>`);
     expect(PHOTO_EXAMPLE_TILES.map((t) => copy.captions[t.slug])).toEqual([
       "Face sharp, both eyes",
       "Head turned left or right",
       "Full body",
       "In the team kit",
-      "Blurry or filtered",
+      "Blurry",
       "Face covered",
-      "Too far or a group",
+      "Group photo",
     ]);
     for (const caption of Object.values(copy.captions)) expect(caption.split(/\s+/).length, caption).toBeLessThanOrEqual(5);
   });
@@ -307,13 +307,27 @@ describe("example gallery — SEND THESE ×4, LEAVE THESE OUT ×3", () => {
     expect(html).toMatch(/<a (?=[^>]*target="_blank")(?=[^>]*rel="noreferrer")[^>]*href="\/photo-guide"/);
   });
 
-  it("square tiles on a hairline edge; marks in ink and muted grey, never orange", () => {
+  // v4 (owner review 2026-10-06, evening): the round ✕ badges in the top-left corner "look like close buttons —
+  // you want to dismiss them". Now each tile is a photo with a full-width caption bar at its bottom, the glyph
+  // inside the words, on a tint of the verdict colour, and a thin outline of the same colour. Nothing round,
+  // nothing in a corner, nothing that reacts to the pointer.
+  it("each tile is a labelled photo, not a control: a full-width verdict bar with the glyph inside the words, a thin verdict outline", () => {
+    const figures = [...html.matchAll(/<figure data-fp-example="(send|leave)" class="([^"]*)">([\s\S]*?)<\/figure>/g)];
+    expect(figures).toHaveLength(7);
+    for (const [, kind, cls, inner] of figures) {
+      expect(cls.split(" "), kind).toEqual(expect.arrayContaining(["flex", "h-full", "flex-col", "border", kind === "send" ? "border-pass" : "border-fail"]));
+      const bar = /<figcaption class="([^"]*)">(<svg[\s\S]*?<\/svg>)<span>([^<]*)<\/span><\/figcaption>/.exec(inner);
+      expect(bar, kind).not.toBeNull();
+      expect(bar![1].split(" "), kind).toEqual(expect.arrayContaining(["flex", "flex-1", "border-t", kind === "send" ? "bg-pass/15" : "bg-fail/10"]));
+      // The glyph sits INSIDE the bar, before the words: ✓ for send, ✕ for leave.
+      expect(bar![2]).toContain(kind === "send" ? 'd="M5 12.5l4.5 4.5L19 7"' : 'd="M7 7l10 10M17 7L7 17"');
+      expect(bar![2]).toContain('aria-hidden="true"');
+      // Nothing round, nothing absolutely placed in a corner, nothing hoverable or focusable.
+      expect(inner).not.toMatch(/rounded-full|absolute left-|absolute top-|hover:|cursor-pointer|tabindex|<button|<a /);
+    }
     expect((html.match(/aspect-square/g) ?? []).length).toBe(7);
-    expect(html).toContain("border-hairline");
-    expect((html.match(/bg-ink text-white|text-white bg-ink|bg-ink/g) ?? []).length).toBeGreaterThanOrEqual(4);
-    expect((html.match(/bg-muted/g) ?? []).length).toBeGreaterThanOrEqual(3);
     expect(html).not.toMatch(/accent/);
-    expect(read("components/intake/PhotoExamples.tsx")).not.toMatch(/accent/);
+    expect(read("components/intake/PhotoExamples.tsx")).not.toMatch(/accent|rounded-full/);
   });
 
   it("every example key is a verified, fictional, 1 : 1 file of at most 60 KB, and the gallery's copies equal lib/assets.ts", async () => {

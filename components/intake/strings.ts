@@ -14,9 +14,6 @@ export const UI = {
 
   products: {
     optionsLegend: (name: string): string => `${name}: choose one`,
-    quantity: "Quantity",
-    fewer: "One fewer",
-    more: "One more",
   },
 
   style: {
@@ -30,8 +27,6 @@ export const UI = {
     firstName: "First name",
     lastName: "Last name",
     nameHint: "First name fits best up to 12 letters, last name up to 9 — longer is fine, the type scales.",
-    sport: "Sport",
-    sportPlaceholder: "Choose the sport",
     number: "Jersey number",
     numberHint: "1–3 digits. Leave it empty if they don't wear one.",
     position: "Position or event",
@@ -39,12 +34,6 @@ export const UI = {
     team: "Team or club",
     teamPlaceholder: "e.g. Cedar Ridge Bears",
     season: "Season",
-    colors: "Team colors",
-    colorsHint: "We read them from the kit photo otherwise.",
-    primary: "Main color",
-    secondary: "Second color",
-    colorUnset: "Not set",
-    colorsClear: "Clear colors",
     headline: "Headline or quote",
     headlineHint: "A line for the card. Fits best up to 25 characters.",
     headlinePlaceholder: "e.g. This is my court",
@@ -86,11 +75,10 @@ export const UI = {
     name: "Your name",
     email: "Email",
     emailHint: "The proof and our questions come to this address.",
-    neededBy: "Need it by",
-    neededByHint: "A game, a birthday, a senior night — if there's a date, we plan around it.",
   },
 
   summary: {
+    sport: "Sport",
     style: "Style",
     recommend: "We'll recommend one",
     setPriced: "Cards and poster priced as a set",

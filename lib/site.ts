@@ -32,7 +32,8 @@ export const VERIFICATION = {
   google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "",
   bing: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION || "",
   pinterest: process.env.NEXT_PUBLIC_PINTEREST_DOMAIN_VERIFY || "",
-  facebook: process.env.NEXT_PUBLIC_FACEBOOK_DOMAIN_VERIFICATION || "",
+  // Meta domain verification for the GDE business portfolio (2026-10-06; the same code is a DNS TXT record at Hostinger).
+  facebook: process.env.NEXT_PUBLIC_FACEBOOK_DOMAIN_VERIFICATION || "liky44n8kywqg7lt26ze7pia7v8yhv",
 };
 
 // --- F1 additions (CONTRACTS §4.9, GAPS #25 / #31) --------------------------------------------
@@ -42,6 +43,13 @@ export const SITE_SELLS_DIRECT = false;
 
 /** D29 — the owner's 2026-10-04 decision: every primary CTA opens the free-proof form, Etsy is the outline secondary; false restores the Etsy-primary site. */
 export const FREE_PROOF_FIRST = true;
+
+/**
+ * The Meta pixel (dataset) id of the Game Day Edition business portfolio — public by nature (it is in
+ * every page that loads the pixel). Empty → no pixel anywhere. components/MetaPixel.tsx decides where it
+ * may load (only /free-proof, never for EU/EEA/UK/CH visitors, never after the /privacy opt-out).
+ */
+export const META_PIXEL_ID = "2253420222121213"; // "Game Day Edition" dataset, business portfolio 1262818272592517 (created 2026-10-06)
 
 /** Real delivered orders. 0 → the "So far: {n} editions delivered." sentence is omitted (rendered only when ≥ 5). */
 export const DELIVERED_COUNT = 0;

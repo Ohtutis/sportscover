@@ -1,17 +1,17 @@
 "use client";
 
-import Image from "next/image";
 import type { CSSProperties } from "react";
 import { useSyncExternalStore } from "react";
-import type { ImageSpec } from "../../lib/assets";
 import { DUE_TODAY_LABEL, formatUsd } from "../../lib/catalog/prices";
 import { INTAKE_COPY } from "../../lib/intake/copy";
 import type { ProductKey } from "../../lib/intake/products";
+import type { FreeProofImage, FreeProofSportArt } from "../../lib/intake/sport-art";
 import { STYLE_RECOMMEND, type StyleChoice } from "../../lib/intake/types";
 import { FictionalLabel } from "../FictionalLabel";
 import { CheckIcon } from "../icons";
 import {
   athleteStore,
+  cardImage,
   orderTotal,
   previewAlign,
   previewFinish,
@@ -24,6 +24,7 @@ import {
 import type { ProductTileData } from "./ProductPicker";
 import type { StyleTileData } from "./StylePicker";
 import { UI } from "./strings";
+import { ArtImage, NeutralArt } from "./visuals";
 
 export interface SummaryProps {
   products: ProductTileData[];
@@ -31,6 +32,10 @@ export interface SummaryProps {
   styles: StyleTileData[];
   style: StyleChoice | "";
   setCombos: readonly SetCombo[];
+  /** The chosen sport's art: the preview is its card in the chosen finish, or the grey card in that finish's frame. */
+  art?: FreeProofSportArt | null;
+  /** The chosen sport as a person reads it ("Volleyball", "Other: rowing"), or null before a choice. */
+  sport?: string | null;
   /**
    * What the parent typed in step 3. Optional: without it the panel reads the form's athlete from the
    * shared store in model.ts, which step 3 writes on every change (so the form need not re-plumb it).
@@ -42,7 +47,6 @@ interface Line {
   key: string;
   product: string;
   option: string;
-  quantity: number;
 }
 
 function lines({ products, state }: Pick<SummaryProps, "products" | "state">): Line[] {
@@ -50,7 +54,7 @@ function lines({ products, state }: Pick<SummaryProps, "products" | "state">): L
     .filter((p) => state[p.key]?.selected)
     .map((p) => {
       const o = p.options.find((x) => x.key === state[p.key].option) ?? p.options[0];
-      return { key: p.key, product: p.name, option: o.label, quantity: o.printed ? state[p.key].quantity : 1 };
+      return { key: p.key, product: p.name, option: o.label };
     });
 }
 
@@ -69,8 +73,8 @@ const PANEL = "rounded-[20px] border border-hairline bg-white shadow-[var(--shad
 const fit = (text: string, cap: number): CSSProperties => ({ fontSize: `${Math.min(cap, 172 / Math.max(text.length, 1)).toFixed(2)}cqw` });
 
 export interface CardTextPreviewProps {
-  /** The finish's example front (lib/assets.ts `finish.<code>.front`, `finish.SR.tile` for Senior Night). */
-  image: ImageSpec;
+  /** The chosen sport's card front in the chosen finish (the art map), or null — the grey card in that finish's frame. */
+  image: FreeProofImage | null;
   athlete: AthleteState | null;
   style: StyleChoice | "";
   sizes: string;
@@ -91,11 +95,12 @@ export interface CardTextPreviewProps {
  */
 export function CardTextPreview({ image, athlete, style, sizes, className = "" }: CardTextPreviewProps) {
   const text = athlete ? previewText(athlete, style) : null;
-  const align = previewAlign(previewFinish(style));
+  const finish = previewFinish(style);
+  const align = previewAlign(finish);
   const meta = text ? [text.number, text.meta].filter(Boolean).join(" · ") : "";
   return (
     <div data-card-preview="" className={`@container relative aspect-[5/7] w-full overflow-hidden rounded-none shadow-[var(--shadow-card-stock)] ${className}`.trim()}>
-      <Image src={image.src} alt={image.alt} fill sizes={sizes} className="object-contain" />
+      {image ? <ArtImage image={image} sizes={sizes} /> : <NeutralArt shape="card" finish={style ? finish : undefined} className="absolute! inset-0 h-full w-full" />}
       {text ? (
         <div
           data-preview-text=""
@@ -122,22 +127,25 @@ export function CardTextPreview({ image, athlete, style, sizes, className = "" }
           ) : null}
         </div>
       ) : null}
-      {/* C13 stays on the card image — top-right, clear of the name block. */}
-      {image.fictional ? <FictionalLabel inFrame compact className="top-2! right-2! bottom-auto! left-auto!" /> : null}
+      {/* C13 stays on the card image — top-right, clear of the name block. Every art-map picture is a fictional athlete. */}
+      {image ? <FictionalLabel inFrame compact className="top-2! right-2! bottom-auto! left-auto!" /> : null}
     </div>
   );
 }
 
-function ChoiceList({ items, style }: { items: Line[]; style: { name: string } | null }) {
+function ChoiceList({ items, style, sport }: { items: Line[]; style: { name: string } | null; sport: string | null }) {
   return (
     <ul className="flex min-w-0 flex-col gap-2.5 font-body text-small">
+      {sport ? (
+        <li className="min-w-0">
+          <span className="block font-bold text-ink">{UI.summary.sport}</span>
+          <span className="block text-muted-text">{sport}</span>
+        </li>
+      ) : null}
       {items.map((l) => (
         <li key={l.key} className="min-w-0">
           <span className="block font-bold text-ink">{l.product}</span>
-          <span className="block text-muted-text">
-            {l.option}
-            {l.quantity > 1 ? <span className="tabular-nums"> × {l.quantity}</span> : null}
-          </span>
+          <span className="block text-muted-text">{l.option}</span>
         </li>
       ))}
       {style ? (
@@ -162,23 +170,24 @@ function SetLine({ saved }: { saved: number | null }) {
 
 /**
  * "Your order" (owner review 2026-10-04, points 15–16; 2026-10-06) — what the parent has chosen, read back
- * in plain words: the live text preview on the chosen finish (Stadium Night until one is chosen), its
- * caption, product · option lines and the style, a rule, "Today" with the zero-due figure (prices.ts
+ * in plain words: the live text preview on the chosen sport's card in the chosen finish (Stadium Night
+ * until one is chosen; the grey card before a sport — v4, never another sport's athlete), its caption, the
+ * sport, product · option lines and the style, a rule, "Today" with the zero-due figure (prices.ts
  * DUE_TODAY_LABEL, the one dollar literal the site may show), "After approval" with the sum of the chosen
- * priced options (sitePrice × quantity, the set price when cards + poster are a set tier, with what that
+ * priced options (one of each, the set price when cards + poster are a set tier, with what that
  * saves) — or "confirmed with your proof" when any choice has no price yet — and the three promises with
  * their ticks. `rail` is the sticky right column at lg; `bar` is the compact block above the conversion
  * card below lg — in the flow, never an overlay — with the same mockup at 120 px beside the choices.
  */
 export function SummaryRail(props: SummaryProps & { variant: "rail" | "bar"; className?: string }) {
-  const { variant, className = "", products, state, setCombos, styles, style: styleChoice } = props;
+  const { variant, className = "", products, state, setCombos, style: styleChoice, art = null, sport = null } = props;
   const shared = useSyncExternalStore(athleteStore.subscribe, athleteStore.get, athleteStore.getServer);
   const athlete = props.athlete === undefined ? shared : props.athlete;
   const items = lines(props);
   const style = chosenStyle(props);
   const total = orderTotal(products, state, setCombos);
   const pair = setPair(products, state, setCombos);
-  const front = styles.find((s) => s.code === previewFinish(styleChoice))?.image ?? styles[0]?.image ?? null;
+  const front = cardImage(art, previewFinish(styleChoice));
   const s = INTAKE_COPY.summary;
   const titleId = variant === "rail" ? "fp-summary-title" : "fp-summary-bar-title";
 
@@ -202,16 +211,14 @@ export function SummaryRail(props: SummaryProps & { variant: "rail" | "bar"; cla
         </h2>
         {/* The same mockup as the rail at 120 px — at 320 px wide the choices still get 104 px beside it. */}
         <div className="mt-4 flex items-start gap-4">
-          {front ? (
-            <div className="w-[7.5rem] shrink-0">
-              <CardTextPreview image={front} athlete={athlete} style={styleChoice} sizes="120px" />
-            </div>
-          ) : null}
+          <div className="w-[7.5rem] shrink-0">
+            <CardTextPreview image={front} athlete={athlete} style={styleChoice} sizes="120px" />
+          </div>
           <div className="min-w-0 flex-1">
-            {items.length || style ? <ChoiceList items={items} style={style} /> : <p className="font-body text-small text-muted-text">{s.empty}</p>}
+            {items.length || style || sport ? <ChoiceList items={items} style={style} sport={sport} /> : <p className="font-body text-small text-muted-text">{s.empty}</p>}
           </div>
         </div>
-        {front ? caption : null}
+        {caption}
         {after ? <dl className="mt-4 border-t border-hairline pt-3">{after}</dl> : null}
         {setLine}
       </section>
@@ -224,16 +231,14 @@ export function SummaryRail(props: SummaryProps & { variant: "rail" | "bar"; cla
         <h2 id={titleId} className="font-display text-h3 uppercase text-ink">
           {s.title}
         </h2>
-        {front ? (
-          <div className="mt-5">
-            {/* 192 px: the name reads at 25 px; any wider and the sticky rail outgrows a 900 px screen sooner. */}
-            <div className="mx-auto w-full max-w-[12rem]">
-              <CardTextPreview image={front} athlete={athlete} style={styleChoice} sizes="192px" />
-            </div>
-            {caption}
+        <div className="mt-5">
+          {/* 192 px: the name reads at 25 px; any wider and the sticky rail outgrows a 900 px screen sooner. */}
+          <div className="mx-auto w-full max-w-[12rem]">
+            <CardTextPreview image={front} athlete={athlete} style={styleChoice} sizes="192px" />
           </div>
-        ) : null}
-        <div className="mt-5">{items.length || style ? <ChoiceList items={items} style={style} /> : <p className="font-body text-small text-muted-text">{s.empty}</p>}</div>
+          {caption}
+        </div>
+        <div className="mt-5">{items.length || style || sport ? <ChoiceList items={items} style={style} sport={sport} /> : <p className="font-body text-small text-muted-text">{s.empty}</p>}</div>
         <dl className="mt-5 flex flex-col gap-2 border-t border-hairline pt-4">
           <div className="flex items-baseline justify-between gap-4">
             <dt className={KEY}>{s.today}</dt>

@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { CANON } from "../../lib/copy/canon";
 import { isNumberless, sportBySlug } from "../../lib/catalog/sports";
 import { INTAKE_COPY } from "../../lib/intake/copy";
-import { CLASS_YEARS, INTAKE_SPORTS, MAX_STATS, SEASON_YEARS } from "../../lib/intake/types";
+import { CLASS_YEARS, MAX_STATS, SEASON_YEARS } from "../../lib/intake/types";
 import { FieldError, Field, HELP, INPUT, INPUT_PROSE, LABEL, SELECT, TEXTAREA, Tag, border, describe } from "./fields";
 import { athleteStore, errorId, fieldId, type AthleteState } from "./model";
 import { STAT_EXAMPLES, STAT_EXAMPLES_DEFAULT, UI } from "./strings";
@@ -13,11 +13,8 @@ export interface AthleteFieldsProps {
   athlete: AthleteState;
   onChange: (patch: Partial<AthleteState>) => void;
   onStat: (row: number, patch: Partial<{ value: string; label: string }>) => void;
-  /** Senior Night was chosen in step 2: the class year (required) and the night's date join the grid. */
+  /** Senior Night was chosen in the look step: the class year (required) and the night's date join the grid. */
   seniorNight: boolean;
-  /** "Need it by" (contact.neededBy) — asked here, in the optional details, since v2. */
-  neededBy: string;
-  onNeededBy: (value: string) => void;
   todayIso: string;
   /** Whether "+ Add optional details" is open (the form opens it when one of its fields has an error). */
   detailsOpen: boolean;
@@ -26,28 +23,26 @@ export interface AthleteFieldsProps {
   statErrors: Record<number, string>;
 }
 
-/** The swatch a native colour input shows while the parent has not picked one. */
-const UNSET_SWATCH = "#f4f3ef";
 export const OPTIONAL_DETAILS_ID = "fp-athlete-optional";
 
 /**
- * Step 3 (owner review 2026-10-04, point 8): a two-column grid of what goes on the card — the name (first
- * and last, side by side) | the jersey number · the sport | the team · and, with Senior Night, the class
- * year | the night's date. Everything else waits behind "+ Add optional details", a real disclosure button
- * (`aria-expanded`, the group behind `hidden`, so nothing is reserved): position, season, colours, the
- * headline, stats, notes and the need-it-by date. No school field — the site never asks for one.
+ * The athlete step (owner review 2026-10-04, point 8; v4 2026-10-06): a two-column grid of what goes on
+ * the card — the name (first and last, side by side) | the jersey number · the team · and, with Senior
+ * Night, the class year | the night's date. The sport is NOT asked here: it was chosen once, in step 1, and
+ * this step reads it (the number field goes for a sport that never wears one). Everything else waits
+ * behind "+ Add optional details", a real disclosure button (`aria-expanded`, the group behind `hidden`,
+ * so nothing is reserved): the headline or quote first, then position, season, stats and notes. No team
+ * colours (read off the kit photo) and no need-it-by date (owner, 2026-10-06); no school field — the site
+ * never asks for one.
  *
  * Names carry the design limits as one hint (12 / 9 letters, docs/ORDER-FIELDS-SPEC.md) and are never
- * cut: the server accepts 40. The number disappears for the sports that never wear one (`isNumberless`);
- * team colours count only once the parent has picked one (a native colour input has no empty state).
+ * cut: the server accepts 40. The number disappears for the sports that never wear one (`isNumberless`).
  */
 export function AthleteFields({
   athlete,
   onChange,
   onStat,
   seniorNight,
-  neededBy,
-  onNeededBy,
   todayIso,
   detailsOpen,
   onDetailsOpen,
@@ -61,8 +56,6 @@ export function AthleteFields({
   const err = (key: string) => errors[`athlete.${key}`];
   const invalid = (key: string) => (err(key) ? { "data-fp-invalid": "" } : {});
   const nameHelp = `${id("name")}-help`;
-  const neededId = fieldId("contact.neededBy");
-  const neededErr = errors["contact.neededBy"];
 
   // "Your order" draws the live text preview from what is typed here (owner, 2026-10-06): every change
   // is published to the shared store in model.ts, and cleared when the step leaves the page.
@@ -127,25 +120,6 @@ export function AthleteFields({
           />
         </Field>
 
-        <Field id={id("sportSlug")} label={UI.athlete.sport} tag="required" error={err("sportSlug")}>
-          <select
-            id={id("sportSlug")}
-            required
-            value={athlete.sportSlug}
-            onChange={(e) => onChange({ sportSlug: e.target.value })}
-            {...describe(id("sportSlug"), { error: err("sportSlug") })}
-            {...invalid("sportSlug")}
-            className={`${SELECT} ${border(Boolean(err("sportSlug")))}`}
-          >
-            <option value="">{UI.athlete.sportPlaceholder}</option>
-            {INTAKE_SPORTS.map((s) => (
-              <option key={s.slug} value={s.slug}>
-                {s.name}
-              </option>
-            ))}
-          </select>
-        </Field>
-
         <Field id={id("team")} label={UI.athlete.team} tag="optional">
           <input
             id={id("team")}
@@ -202,6 +176,21 @@ export function AthleteFields({
       </button>
 
       <div id={OPTIONAL_DETAILS_ID} hidden={!detailsOpen} className="mt-8 grid gap-x-6 gap-y-7 border-t border-hairline pt-8 md:grid-cols-2">
+        {/* The headline or quote leads the optional details (owner, 2026-10-06): it is the line a parent most often has. */}
+        <Field id={id("headline")} label={UI.athlete.headline} tag="optional" help={UI.athlete.headlineHint} className="md:col-span-2">
+          <input
+            id={id("headline")}
+            type="text"
+            autoComplete="off"
+            maxLength={60}
+            placeholder={UI.athlete.headlinePlaceholder}
+            value={athlete.headline}
+            onChange={(e) => onChange({ headline: e.target.value })}
+            {...describe(id("headline"), { help: true })}
+            className={`${INPUT} ${INPUT_PROSE} ${border(false)}`}
+          />
+        </Field>
+
         <Field id={id("position")} label={UI.athlete.position} tag="optional">
           <input
             id={id("position")}
@@ -229,77 +218,6 @@ export function AthleteFields({
               </option>
             ))}
           </select>
-        </Field>
-
-        <fieldset className="min-w-0" aria-describedby={`${id("colors")}-help`}>
-          <legend className="flex flex-wrap items-center gap-x-2 gap-y-1">
-            <span className={LABEL}>{UI.athlete.colors}</span>
-            <Tag kind="optional" />
-          </legend>
-          <div className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-3">
-            {(["primary", "secondary"] as const).map((which) => {
-              const cid = id(`colors.${which}`);
-              const value = athlete.colors[which];
-              return (
-                <div key={which} className="flex items-center gap-3">
-                  <input
-                    id={cid}
-                    type="color"
-                    value={value || UNSET_SWATCH}
-                    onChange={(e) => onChange({ colors: { ...athlete.colors, [which]: e.target.value } })}
-                    {...describe(cid, { error: err(`colors.${which}`) })}
-                    {...invalid(`colors.${which}`)}
-                    className={`h-12 w-14 shrink-0 cursor-pointer rounded-ui border-[1.5px] bg-white p-1 ${border(Boolean(err(`colors.${which}`)))}`}
-                  />
-                  <label htmlFor={cid} className="font-body text-small text-ink">
-                    <span className="block font-medium">{which === "primary" ? UI.athlete.primary : UI.athlete.secondary}</span>
-                    <span className="block font-label text-[0.8125rem] font-semibold uppercase tracking-[0.06em] tabular-nums text-muted-text">
-                      {value || UI.athlete.colorUnset}
-                    </span>
-                  </label>
-                </div>
-              );
-            })}
-            <button
-              type="button"
-              hidden={!athlete.colors.primary && !athlete.colors.secondary}
-              onClick={() => onChange({ colors: { primary: "", secondary: "" } })}
-              className="min-h-11 font-body text-small text-ink underline decoration-1 underline-offset-4"
-            >
-              {UI.athlete.colorsClear}
-            </button>
-          </div>
-          <p id={`${id("colors")}-help`} className={HELP}>
-            {UI.athlete.colorsHint}
-          </p>
-          <FieldError id={errorId("athlete.colors.primary")} message={err("colors.primary")} />
-          <FieldError id={errorId("athlete.colors.secondary")} message={err("colors.secondary")} />
-        </fieldset>
-        <Field id={neededId} label={UI.contact.neededBy} tag="optional" help={UI.contact.neededByHint} error={neededErr}>
-          <input
-            id={neededId}
-            type="date"
-            min={todayIso}
-            value={neededBy}
-            onChange={(e) => onNeededBy(e.target.value)}
-            {...describe(neededId, { help: true, error: neededErr })}
-            data-fp-invalid={neededErr ? "" : undefined}
-            className={`${INPUT} ${border(Boolean(neededErr))} md:max-w-[16rem]`}
-          />
-        </Field>
-
-        <Field id={id("headline")} label={UI.athlete.headline} tag="optional" help={UI.athlete.headlineHint} className="md:col-span-2">
-          <input
-            id={id("headline")}
-            type="text"
-            autoComplete="off"
-            maxLength={60}
-            placeholder={UI.athlete.headlinePlaceholder}
-            value={athlete.headline}
-            onChange={(e) => onChange({ headline: e.target.value })}
-            {...describe(id("headline"), { help: true })}
-            className={`${INPUT} ${INPUT_PROSE} ${border(false)}`}
-          />
         </Field>
 
         <fieldset className="min-w-0 md:col-span-2" aria-describedby={`${id("stats")}-help`}>

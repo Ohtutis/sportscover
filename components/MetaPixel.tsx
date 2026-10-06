@@ -1,13 +1,17 @@
 "use client";
 
 import { useEffect } from "react";
+import { META_PIXEL_ID } from "../lib/site";
 
 /**
  * The Meta pixel (D29: the owner runs Meta ads to /free-proof from 2026-10-04; the request is the
  * conversion). D19 kept honest, in code:
  *
- *  - Off until the owner sets `NEXT_PUBLIC_META_PIXEL_ID` on Vercel (it is inlined at build time, so
- *    a redeploy turns it on). Unset, malformed or not digits → nothing loads, nothing is sent.
+ *  - The id is `META_PIXEL_ID` in lib/site.ts (a pixel id is public — it is in every page that loads
+ *    it), overridable by `NEXT_PUBLIC_META_PIXEL_ID`. Empty, malformed or not digits → nothing loads.
+ *  - US-first (2026-10-06): before loading, the page asks `/api/geo`; a visitor in the EU, the EEA,
+ *    the UK or Switzerland — or one whose country is unknown — gets no pixel. A visitor who pressed
+ *    "Turn off ad measurement" on /privacy (localStorage `AD_OPT_OUT_KEY`) gets none either.
  *  - Mounted by ONE file, `app/(marketing)/free-proof/layout.tsx`. The root and marketing layouts never
  *    mount it, so `/c`, `/order`, `/registry` and every other page never load it (a test scans for any
  *    other import).
@@ -22,8 +26,32 @@ import { useEffect } from "react";
 
 export const META_PIXEL_SRC = "https://connect.facebook.net/en_US/fbevents.js";
 
+/** localStorage key set by the /privacy opt-out button; while it is "1" the pixel never loads in this browser. */
+export const AD_OPT_OUT_KEY = "gde_no_ad_measurement";
+
+/**
+ * Where an advertising cookie needs consent before it is set (ePrivacy / UK PECR / Swiss FADP): the 27 EU
+ * states, Iceland, Liechtenstein, Norway, the UK and Switzerland. The pixel is simply not loaded there.
+ */
+export const NO_PIXEL_COUNTRIES: readonly string[] = [
+  "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT",
+  "RO", "SK", "SI", "ES", "SE", "IS", "LI", "NO", "GB", "CH",
+];
+
+/** Whether the pixel may load for a visitor in `country` (an empty or unknown country never loads it). */
+export const pixelAllowedIn = (country: string): boolean => /^[A-Z]{2}$/.test(country) && !NO_PIXEL_COUNTRIES.includes(country);
+
+/** Whether this browser opted out on /privacy. Storage blocked counts as not opted out only if reading works. */
+export function optedOut(storage: Pick<Storage, "getItem"> | null = typeof window !== "undefined" ? window.localStorage : null): boolean {
+  try {
+    return storage?.getItem(AD_OPT_OUT_KEY) === "1";
+  } catch {
+    return true;
+  }
+}
+
 /** A pixel id is digits only; anything else is a typo (or an injection) and loads nothing. */
-export function metaPixelId(raw: string | undefined = process.env.NEXT_PUBLIC_META_PIXEL_ID): string | null {
+export function metaPixelId(raw: string | undefined = process.env.NEXT_PUBLIC_META_PIXEL_ID || META_PIXEL_ID): string | null {
   const id = (raw ?? "").trim();
   return /^\d{5,20}$/.test(id) ? id : null;
 }
@@ -83,11 +111,23 @@ export function loadMetaPixel(id: string, w: PixelHost = window as unknown as Pi
   return true;
 }
 
-/** Renders nothing, ever; loads the pixel after hydration only when the build carries a valid id. */
+/** Renders nothing, ever; after hydration, loads the pixel only for a valid id, an allowed country and no opt-out. */
 export function MetaPixel() {
   const id = metaPixelId();
   useEffect(() => {
-    if (id) loadMetaPixel(id);
+    if (!id || optedOut()) return;
+    let cancelled = false;
+    fetch("/api/geo", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : { country: "" }))
+      .then((g: { country?: string }) => {
+        if (!cancelled && pixelAllowedIn(String(g.country ?? ""))) loadMetaPixel(id);
+      })
+      .catch(() => {
+        // No country, no pixel.
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [id]);
   return null;
 }
