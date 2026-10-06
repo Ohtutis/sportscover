@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { DUE_TODAY_LABEL } from "../../lib/catalog/prices";
 import { INTAKE_COPY, INTAKE_PATH, INTAKE_THANKS_PATH } from "../../lib/intake/copy";
 import type { ProductKey } from "../../lib/intake/products";
+import type { FreeProofArtMap } from "../../lib/intake/sport-art";
 import { REQUEST_ID, parseProofRequest, type ConsentKey, type SourceInfo, type StyleChoice } from "../../lib/intake/types";
 import { uploadToSignedUrl, type StorageEndpoint, type UploadTarget } from "../../lib/intake/upload";
 import { SUPPORT_EMAIL } from "../../lib/site";
@@ -18,17 +19,20 @@ import { ContactFields } from "./ContactFields";
 import { LEAD_STORE_PREFIX } from "./LeadPing";
 import {
   applyPrefill,
+  artState,
   buildPayload,
   canPreview,
   captureSource,
-  chooseSet,
-  clampQuantity,
+  choiceStore,
+  chooseSport,
   fileKey,
   fileMeta,
   hasOptionalDetailError,
   initialState,
   isCrestFile,
   screenPhotos,
+  sportArt,
+  sportName,
   statErrorsByRow,
   type AthleteState,
   type ContactState,
@@ -39,12 +43,21 @@ import {
 import { PhotoUploader, type PhotoExamples, type PhotoItem } from "./PhotoUploader";
 import { PrefillFromUrl } from "./PrefillFromUrl";
 import { ProductPicker, type ProductTileData, type SetTileData } from "./ProductPicker";
+import { SportPicker, type SportChoiceData } from "./SportPicker";
 import { StylePicker, type StyleTileData } from "./StylePicker";
 import { SummaryRail } from "./SummaryRail";
 import { TurnstileWidget } from "./TurnstileWidget";
 import { UI } from "./strings";
 
 export interface IntakeFormProps {
+  /** Step 1's choices: every catalog sport in roster order, the ones with their own pages marked `featured`. */
+  sports: SportChoiceData[];
+  /**
+   * The per-sport example art (lib/intake/sport-art.ts `freeProofArtMap()`, resolved on the server — this
+   * island never imports the asset map). The form picks the chosen sport's entry; a sport without one shows
+   * the grey set.
+   */
+  art: FreeProofArtMap;
   products: ProductTileData[];
   /** The fifth card: cards + poster as a set. */
   setTile: SetTileData;
@@ -82,18 +95,18 @@ type Failure = "invalid" | "bot" | "challenge" | "network" | "server" | "rate" |
 
 const EMPTY_SOURCE: SourceInfo = { landingPath: INTAKE_PATH, referrer: "", utm: {} };
 const MAILTO = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(UI.submit.mailtoSubject)}`;
-const STEP_TITLE_ID = { 1: "fp-s-products", 2: "fp-s-style", 3: "fp-s-athlete", 4: "fp-s-photos", 5: "fp-s-contact" } as const;
+const STEP_TITLE_ID = { 1: "fp-s-sport", 2: "fp-s-products", 3: "fp-s-style", 4: "fp-s-athlete", 5: "fp-s-photos", 6: "fp-s-contact" } as const;
 
 const SUBMIT_CLASS = `inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-ui px-10 py-3 text-center font-display text-[1.125rem] uppercase leading-tight tracking-[0.04em] transition-[color,background-color,border-color,filter] duration-hover ease-out disabled:cursor-progress sm:w-auto ${PRIMARY_BUTTON_CLASS}`;
 const KEY = "font-label text-label font-semibold uppercase tracking-[0.12em] text-muted-text";
 
 /**
- * One numbered stage (owner review 2026-10-04, points 3, 19, 20): the hairline rule with "STEP n OF 5" in
+ * One numbered stage (owner review 2026-10-04, points 3, 19, 20): the hairline rule with "STEP n OF 6" in
  * Barlow on it, the H2 in the home page's recipe (Anton, `text-h2`, uppercase, full stop) and ONE
  * supporting sentence; 40 px above and below on a phone, 56 px from md, so consecutive steps sit 80 / 112
  * px apart (they were 56 / 80). The heading takes focus when the hero CTA lands here.
  */
-function Step({ n, title, support, children }: { n: 1 | 2 | 3 | 4 | 5; title: string; support?: string; children: ReactNode }) {
+function Step({ n, title, support, children }: { n: keyof typeof STEP_TITLE_ID; title: string; support?: string; children: ReactNode }) {
   const titleId = STEP_TITLE_ID[n];
   return (
     <section id={`step-${n}`} aria-labelledby={titleId} className="scroll-mt-20 py-10 md:py-14 lg:scroll-mt-24">
@@ -158,14 +171,27 @@ function isStartResponse(v: unknown, photoCount: number, wantsCrest: boolean): v
 /**
  * The free-proof request (DESIGN §4.21, owner decision 2026-10-04; v2 configurator after the owner's
  * design review the same day): one page, one long form, one submit — no wizard, no account, no payment.
- * Five numbered steps (product → look → athlete → photos → send), then the permissions panel and the
+ * Six numbered steps (v4, 2026-10-06: sport → product → look → athlete → photos → send — the sport first,
+ * and every picture on the page follows it), then the permissions panel and the
  * conversion card that holds the submit, both unnumbered; a sticky "Your order" panel at lg and a compact
  * read-back above the conversion card below it. The same validator as the server (parseProofRequest) runs
  * first; then POST /api/intake/start → each photo straight to storage through its signed URL, one at a
  * time → POST /api/intake/complete → the thanks page with the reference. Every failure keeps what was
  * entered, and a failed upload resumes where it stopped.
  */
-export function IntakeForm({ products, setTile, setCombos, styles, photosSubhead, examples, todayIso, turnstileSiteKey, className = "" }: IntakeFormProps) {
+export function IntakeForm({
+  sports,
+  art,
+  products,
+  setTile,
+  setCombos,
+  styles,
+  photosSubhead,
+  examples,
+  todayIso,
+  turnstileSiteKey,
+  className = "",
+}: IntakeFormProps) {
   const router = useRouter();
   const [form, setForm] = useState<FormState>(initialState);
   const [photos, setPhotos] = useState<PhotoItem[]>([]);
@@ -194,6 +220,15 @@ export function IntakeForm({ products, setTile, setCombos, styles, photosSubhead
   useEffect(() => {
     source.current = captureSource(window.location.pathname, window.location.search, document.referrer, readEntry());
   }, []);
+
+  // The pictures above the form (the hero proof, the how-it-works band) follow the sport and the look
+  // chosen here; they read them from the shared store, which is cleared when the form leaves the page.
+  const { sportSlug, sportOther } = form.athlete;
+  const chosenStyle = form.style;
+  useEffect(() => {
+    choiceStore.set({ sport: sportSlug, sportOther, style: chosenStyle });
+  }, [sportSlug, sportOther, chosenStyle]);
+  useEffect(() => () => choiceStore.set({ sport: "", sportOther: "", style: "" }), []);
 
   // Previews are object URLs; give the memory back when the page goes.
   useEffect(() => {
@@ -245,22 +280,22 @@ export function IntakeForm({ products, setTile, setCombos, styles, photosSubhead
 
   // --- section handlers -----------------------------------------------------------------------------
 
+  const onSport = (slug: string) => {
+    setForm((f) => chooseSport(f, slug));
+    touched();
+  };
+  const onSportOther = (sportOther: string) => {
+    setForm((f) => ({ ...f, athlete: { ...f.athlete, sportOther } }));
+    touched();
+  };
   const onToggle = (key: ProductKey, selected: boolean) => {
     setForm((f) => ({ ...f, products: { ...f.products, [key]: { ...f.products[key], selected } } }));
     touched();
     if (selected) trackCustomize({ content_category: "product", content_ids: [key] });
   };
-  const onSet = (selected: boolean) => {
-    setForm((f) => ({ ...f, products: chooseSet(f.products, selected) }));
-    touched();
-    if (selected) trackCustomize({ content_category: "product", content_ids: ["cards", "poster"] });
-  };
   const onOption = (key: ProductKey, option: string) => {
     setForm((f) => ({ ...f, products: { ...f.products, [key]: { ...f.products[key], option, selected: true } } }));
     touched();
-  };
-  const onQuantity = (key: ProductKey, quantity: number) => {
-    setForm((f) => ({ ...f, products: { ...f.products, [key]: { ...f.products[key], quantity: clampQuantity(quantity) } } }));
   };
   const onStyle = (style: StyleChoice) => {
     setForm((f) => ({ ...f, style }));
@@ -273,10 +308,6 @@ export function IntakeForm({ products, setTile, setCombos, styles, photosSubhead
   };
   const onStat = (row: number, patch: Partial<{ value: string; label: string }>) => {
     setForm((f) => ({ ...f, athlete: { ...f.athlete, stats: f.athlete.stats.map((s, i) => (i === row ? { ...s, ...patch } : s)) } }));
-    touched();
-  };
-  const onNeededBy = (neededBy: string) => {
-    setForm((f) => ({ ...f, contact: { ...f.contact, neededBy } }));
     touched();
   };
   const onContact = (patch: Partial<ContactState>) => {
@@ -464,8 +495,13 @@ export function IntakeForm({ products, setTile, setCombos, styles, photosSubhead
       INTAKE_COPY.errors.uploadFailed
     ) : null;
 
-  const summary = { products, state: form.products, styles, style: form.style, setCombos };
-  const steps = INTAKE_COPY.steps5;
+  // One sport on the whole page: its art (or the grey set), and the line every group of pictures carries.
+  const entry = sportArt(art, sportSlug);
+  const sportLabel = sportName(sportSlug, sportOther);
+  const note = { state: artState(art, sportSlug), sport: sportLabel };
+  const withArt = useMemo(() => new Set(Object.keys(art).filter((slug) => sportArt(art, slug))), [art]);
+  const summary = { products, state: form.products, styles, style: form.style, setCombos, art: entry, sport: sportLabel };
+  const steps = INTAKE_COPY.steps6;
 
   return (
     <div className={`lg:grid lg:grid-cols-[minmax(0,1fr)_17.5rem] lg:items-start lg:gap-x-10 ${className}`.trim()}>
@@ -474,31 +510,43 @@ export function IntakeForm({ products, setTile, setCombos, styles, photosSubhead
       </Suspense>
       <form ref={formRef} noValidate onSubmit={onSubmit} className="min-w-0">
         <fieldset disabled={busy} className="min-w-0">
-          <Step n={1} title={steps.product.title} support={steps.product.support}>
+          <Step n={1} title={steps.sport.title} support={steps.sport.support}>
+            <SportPicker
+              sports={sports}
+              value={sportSlug}
+              other={sportOther}
+              onChange={onSport}
+              onOther={onSportOther}
+              withArt={withArt}
+              labelledBy={STEP_TITLE_ID[1]}
+              errors={errors}
+            />
+          </Step>
+
+          <Step n={2} title={steps.product.title} support={steps.product.support}>
             <ProductPicker
               products={products}
               setTile={setTile}
               state={form.products}
               onToggle={onToggle}
-              onSet={onSet}
               onOption={onOption}
-              onQuantity={onQuantity}
+              art={entry}
+              style={form.style}
+              note={note}
               error={errors.products}
             />
           </Step>
 
-          <Step n={2} title={steps.style.title} support={steps.style.support}>
-            <StylePicker styles={styles} value={form.style} onChange={onStyle} labelledBy={STEP_TITLE_ID[2]} error={errors.style} />
+          <Step n={3} title={steps.style.title} support={steps.style.support}>
+            <StylePicker styles={styles} value={form.style} onChange={onStyle} labelledBy={STEP_TITLE_ID[3]} art={entry} note={note} error={errors.style} />
           </Step>
 
-          <Step n={3} title={steps.athlete.title} support={steps.athlete.support}>
+          <Step n={4} title={steps.athlete.title} support={steps.athlete.support}>
             <AthleteFields
               athlete={form.athlete}
               onChange={onAthlete}
               onStat={onStat}
               seniorNight={form.style === "SR"}
-              neededBy={form.contact.neededBy}
-              onNeededBy={onNeededBy}
               todayIso={todayIso}
               detailsOpen={detailsOpen}
               onDetailsOpen={setDetailsOpen}
@@ -507,7 +555,7 @@ export function IntakeForm({ products, setTile, setCombos, styles, photosSubhead
             />
           </Step>
 
-          <Step n={4} title={steps.photos.title} support={photosSubhead}>
+          <Step n={5} title={steps.photos.title} support={photosSubhead}>
             <PhotoUploader
               photos={photos}
               crest={crest}
@@ -524,7 +572,7 @@ export function IntakeForm({ products, setTile, setCombos, styles, photosSubhead
             />
           </Step>
 
-          <Step n={5} title={steps.contact.title} support={steps.contact.support}>
+          <Step n={6} title={steps.contact.title} support={steps.contact.support}>
             <ContactFields contact={form.contact} onChange={onContact} errors={errors} />
           </Step>
 

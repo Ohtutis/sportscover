@@ -2,7 +2,10 @@ import { describe, expect, it } from "vitest";
 import { getTier } from "../lib/catalog/prices";
 import { INTAKE_COPY } from "../lib/intake/copy";
 import { PRICE_ON_PROOF, PRODUCTS, choiceLabel, optionPriceLabel, productFromLabel, setFromLabel } from "../lib/intake/products";
-import { CONSENTS, CONSENT_ORDER, PHOTO_RULES, REQUEST_ID, makeRequestId, parseProofRequest } from "../lib/intake/types";
+import { CONSENTS, CONSENT_ORDER, PHOTO_RULES, REQUEST_ID, SPORT_OTHER, SPORT_OTHER_MAX, makeRequestId, parseProofRequest } from "../lib/intake/types";
+import { renderSummary, sportLabel } from "../lib/intake/server/summary";
+import { ownerSubject } from "../lib/intake/server/email";
+import type { StoredRequest } from "../lib/intake/server/record";
 
 const photos = (n: number) => Array.from({ length: n }, (_, i) => ({ name: `IMG_${i}.jpg`, size: 2_000_000, type: "image/jpeg" }));
 
@@ -102,6 +105,70 @@ describe("parseProofRequest (lib/intake/types.ts)", () => {
     const id = makeRequestId(new Date("2026-10-04T12:00:00Z"), () => 0.5);
     expect(id).toMatch(REQUEST_ID);
     expect(id.startsWith("GDE-R-20261004-")).toBe(true);
+  });
+});
+
+describe("'Other sport or activity' (owner, 2026-10-06) — the typed words, never Skateboarding", () => {
+  const other = (sportOther: unknown, extra: Record<string, unknown> = {}) =>
+    parseProofRequest({ ...valid(), athlete: { ...valid().athlete, sportSlug: SPORT_OTHER, sportOther, ...extra } });
+
+  it("accepts 'other' with the typed sport or activity — trimmed, at most 40 characters — and keeps the optional number", () => {
+    const r = other("  Rowing  ");
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.value.athlete).toMatchObject({ sportSlug: "other", sportOther: "Rowing", jerseyNumber: "12" });
+    const long = other("x".repeat(80));
+    expect(long.ok && long.value.athlete.sportOther).toBe("x".repeat(SPORT_OTHER_MAX));
+    expect(SPORT_OTHER_MAX).toBe(40);
+  });
+
+  it("rejects 'other' without words, on its own field — and never asks for the catalog sport instead", () => {
+    for (const empty of ["", "   ", undefined, 42]) {
+      const r = other(empty);
+      expect(r.ok, String(empty)).toBe(false);
+      if (r.ok) continue;
+      expect(r.errors["athlete.sportOther"]).toBe("Tell us the sport or activity.");
+      expect(r.errors).not.toHaveProperty("athlete.sportSlug");
+    }
+  });
+
+  it("never confuses it with other-sport (the catalog's Skateboarding, code OTH): each keeps its own slug and label", () => {
+    expect(SPORT_OTHER).toBe("other");
+    const skate = parseProofRequest({ ...valid(), athlete: { ...valid().athlete, sportSlug: "other-sport", sportOther: "rowing" } });
+    expect(skate.ok).toBe(true);
+    if (!skate.ok) return;
+    // The catalog sport never carries typed words, and prints as Skateboarding.
+    expect(skate.value.athlete).toMatchObject({ sportSlug: "other-sport", sportOther: "" });
+    expect(sportLabel("other-sport")).toBe("Skateboarding");
+    expect(sportLabel(SPORT_OTHER, "rowing")).toBe("Other: rowing");
+    expect(sportLabel("basketball", "rowing")).toBe("Basketball");
+    // An unknown slug is still refused as a sport — "other" is the only free-text door.
+    const bad = parseProofRequest({ ...valid(), athlete: { ...valid().athlete, sportSlug: "rowing" } });
+    expect(bad.ok ? {} : bad.errors).toHaveProperty("athlete.sportSlug");
+  });
+
+  it("the owner's and the customer's summaries, and the owner's subject line, print the typed activity", () => {
+    const parsed = other("rowing");
+    expect(parsed.ok).toBe(true);
+    if (!parsed.ok) return;
+    const r: StoredRequest = {
+      ...parsed.value,
+      requestId: "GDE-R-20261006-7KQ2MX",
+      status: "received",
+      createdAt: "2026-10-06T12:00:00.000Z",
+      ipHash: "0".repeat(64),
+      userAgent: "ua",
+      issued: { photos: parsed.value.photos.map((_, i) => `p/${i}`), crest: null },
+    };
+    for (const audience of ["owner", "customer"] as const) {
+      const text = renderSummary(r, { audience });
+      expect(text, audience).toContain("Sport: Other: rowing");
+      expect(text, audience).not.toContain("Skateboarding");
+    }
+    expect(ownerSubject(r)).toBe("Free proof request GDE-R-20261006-7KQ2MX — Marcus Ellison (Other: rowing, Stadium Night)");
+    // A record stored before the field existed still prints.
+    const legacy = { ...r, athlete: { ...r.athlete, sportSlug: "basketball", sportOther: undefined as unknown as string } };
+    expect(renderSummary(legacy, { audience: "owner" })).toContain("Sport: Basketball");
   });
 });
 

@@ -29,6 +29,21 @@ export const INTAKE_COPY = {
   /** v3 (owner review 2026-10-06: the hero's right half was empty): the file-tab label on the real proof beside the copy. */
   heroVisual: { frameLabel: "YOUR FREE PROOF · WATERMARKED" },
 
+  /**
+   * v4 (owner review 2026-10-06, evening: "mixing sports is not cool"): every athlete picture on the page
+   * shows the sport chosen in step 1. The parent's own photos are never another child — a grey frame with
+   * a drawn silhouette and this label — and the watermark on every example proof is drawn in CSS.
+   */
+  art: {
+    photoLabel: "Your photo",
+    watermark: "PROOF",
+    /** Before a sport is chosen: the grey set, and one line saying how to see their sport. */
+    pick: "Pick a sport to see it in their sport.",
+    /** A sport with no example art yet (or "Other"): built to order, never "unavailable". */
+    noExample: (sport: string): string => `No ${sport} example yet. We build it from your photos, and you see the proof before you pay.`,
+    noExampleOther: "No example for this one yet. We build it from your photos, and you see the proof before you pay.",
+  },
+
   /** v2: the four how-it-works cards — big numeral, two-word title, one line. "Nothing due today" is the zero-due fact in words; the figure itself comes from prices.ts DUE_TODAY_LABEL. */
   stepCards: [
     { n: "01", title: "Choose it", line: "Product and style" },
@@ -37,9 +52,10 @@ export const INTAKE_COPY = {
     { n: "04", title: "Love it? Pay", line: "Nothing due today" },
   ],
 
-  /** v2: five numbered steps on the page; permissions and the conversion card come after step 5. */
-  stepLabel: (n: number): string => `STEP ${n} OF 5`,
-  steps5: {
+  /** v4 (2026-10-06): six numbered steps, the sport first; permissions and the conversion card come after step 6. */
+  stepLabel: (n: number): string => `STEP ${n} OF 6`,
+  steps6: {
+    sport: { title: "THEIR SPORT.", support: "Pick it once. Every example on this page follows it." },
     product: { title: "WHAT TO MAKE.", support: "Pick one or more. Every printed option includes the digital files." },
     style: { title: "PICK YOUR LOOK.", support: "Six finishes and the Senior Night edition. Not sure? Let us choose." },
     athlete: { title: "ABOUT THE ATHLETE.", support: "Only what goes on the card. Long names are fine — the type scales, it never shortens." },
@@ -50,8 +66,19 @@ export const INTAKE_COPY = {
   optionalTag: "Optional",
   optionalToggle: "+ Add optional details",
 
+  /** Step 1 (v4): the nine sports with their own pages, the rest behind "More sports", and a free-text "Other". */
+  sportStep: {
+    more: "More sports",
+    other: "Other sport or activity",
+    otherField: "Which sport or activity?",
+    otherPlaceholder: "e.g. dance, rowing, martial arts",
+    otherPromise: "Tell us the sport or activity. We design it from your photos.",
+  },
+
   /** v2 product cards. */
   selectedBadge: "SELECTED",
+  /** v4 (owner, 2026-10-06: "why does one product get a quantity and the others not?"): no quantity in the form. */
+  moreThanOne: "Need more than one? Say so when you see the proof.",
   setTile: {
     name: "Cards + poster set",
     blurb: "The card and the poster together, priced as a set.",
@@ -69,7 +96,7 @@ export const INTAKE_COPY = {
   setNote: {
     pick: (saved: string): string => `Pick trading cards and a poster together and they're priced as a set — save from ${saved}.`,
     matchedLead: "Priced as a set.",
-    unmatched: (pairs: string): string => `A set price applies to matching pairs in the same quantity: ${pairs}.`,
+    unmatched: (pairs: string): string => `A set price applies to matching pairs: ${pairs}.`,
   },
   /** v3 (owner, 2026-10-06): the caption under the live text preview in "Your order". */
   previewCaption: "Text preview — your proof is composed from your photos; the layout follows the finish.",
@@ -168,7 +195,6 @@ export const INTAKE_COPY = {
     biometric: "We may measure the face to check the likeness",
     license: "We may make the artwork from these photos",
     crest: "You can use this crest",
-    marketing: "Optional — let us show the finished card",
   },
   /** One plain line between a row's title and its sentence — only the biometric row has one. */
   consentNotes: {
@@ -206,9 +232,9 @@ export const INTAKE_COPY = {
       turned: "Head turned left or right",
       fullbody: "Full body",
       kit: "In the team kit",
-      blurred: "Blurry or filtered",
+      blurred: "Blurry",
       covered: "Face covered",
-      group: "Too far or a group",
+      group: "Group photo",
     },
   },
 

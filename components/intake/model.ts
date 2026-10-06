@@ -1,21 +1,24 @@
 // The free-proof form's state and the pure functions around it: the initial state, the URL prefill,
 // the payload the API receives (raw input for parseProofRequest — the same validator runs on the client
-// first), the error-key → control-id map, the photo screening, the source capture, and (v2, 2026-10-04)
-// the set card and the summary's "after approval" sum. No React here, so every rule is unit-tested
+// first), the error-key → control-id map, the photo screening, the source capture, (v2, 2026-10-04) the
+// set card and the summary's "after approval" sum, and (v4, 2026-10-06) the sport chosen in step 1 and
+// which picture of it each slot shows. No React here, so every rule is unit-tested
 // (tests/intake-page.test.ts) without a browser.
 
-import { isNumberless, sportBySlug } from "../../lib/catalog/sports";
+import { isNumberless, sportBySlug, sports } from "../../lib/catalog/sports";
 import { styles } from "../../lib/catalog/styles";
 import { PRODUCTS, PRODUCT_KEYS, optionOf, productByKey, type ProductKey } from "../../lib/intake/products";
+// Types only (erased at build): the art map itself is resolved on the server and arrives as a prop.
+import type { FreeProofArtMap, FreeProofImage, FreeProofSportArt } from "../../lib/intake/sport-art";
 import {
   CLASS_YEARS,
   CONSENT_ORDER,
   CREST_RULES,
   CURRENT_SEASON,
-  MAX_QUANTITY,
   MAX_STATS,
   PHOTO_RULES,
   REQUEST_ID,
+  SPORT_OTHER,
   STYLE_RECOMMEND,
   isPhotoFile,
   type ConsentKey,
@@ -25,10 +28,13 @@ import {
   type StyleChoice,
 } from "../../lib/intake/types";
 
+/**
+ * One product's choice. No quantity since v4 (owner, 2026-10-06: "why does one product get a quantity and
+ * the others not?") — every chosen option is sent as one; "need more than one?" is answered on the proof.
+ */
 export interface ProductState {
   selected: boolean;
   option: string;
-  quantity: number;
 }
 
 export interface StatRow {
@@ -39,25 +45,31 @@ export interface StatRow {
 export interface AthleteState {
   firstName: string;
   lastName: string;
+  /** Chosen in step 1: a catalog slug, SPORT_OTHER, or "" before a choice. */
   sportSlug: string;
+  /** What the parent typed for "Other sport or activity" (sent only with SPORT_OTHER). */
+  sportOther: string;
   jerseyNumber: string;
   position: string;
   team: string;
   season: string;
   classOf: string;
   eventDate: string;
-  colors: { primary: string; secondary: string };
   headline: string;
   stats: StatRow[];
   notes: string;
 }
 
+/**
+ * v4 (owner, 2026-10-06): no "need it by" date and no team colours in the form — the date is told in the
+ * notes, the colours are read off the kit photo. The payload simply leaves them out; the parser still
+ * accepts them, so an older tab's request is never refused.
+ */
 export interface ContactState {
   name: string;
   email: string;
   phone: string;
   country: string;
-  neededBy: string;
 }
 
 export interface FormState {
@@ -72,7 +84,7 @@ export interface FormState {
 
 export function initialState(): FormState {
   return {
-    products: Object.fromEntries(PRODUCTS.map((p) => [p.key, { selected: false, option: p.options[0].key, quantity: 1 }])) as Record<
+    products: Object.fromEntries(PRODUCTS.map((p) => [p.key, { selected: false, option: p.options[0].key }])) as Record<
       ProductKey,
       ProductState
     >,
@@ -81,32 +93,24 @@ export function initialState(): FormState {
       firstName: "",
       lastName: "",
       sportSlug: "",
+      sportOther: "",
       jerseyNumber: "",
       position: "",
       team: "",
       season: CURRENT_SEASON,
       classOf: "",
       eventDate: "",
-      colors: { primary: "", secondary: "" },
       headline: "",
       stats: Array.from({ length: MAX_STATS }, () => ({ value: "", label: "" })),
       notes: "",
     },
     // v2 (owner review 2026-10-04): the form no longer asks for a phone or a country. The payload keeps
     // its shape and sends them empty; the server records its own default country (orders ship in the US).
-    contact: { name: "", email: "", phone: "", country: "", neededBy: "" },
+    contact: { name: "", email: "", phone: "", country: "" },
     consents: Object.fromEntries(CONSENT_ORDER.map((k) => [k, false])) as Record<ConsentKey, boolean>,
     website: "",
   };
 }
-
-/** Whether the product's chosen option is a printed one (only printed options take a quantity). */
-export function isPrintedChoice(key: ProductKey, option: string): boolean {
-  const product = productByKey(key);
-  return Boolean(product && optionOf(product, option)?.printed);
-}
-
-export const clampQuantity = (n: number): number => Math.min(MAX_QUANTITY, Math.max(1, Math.floor(Number.isFinite(n) ? n : 1)));
 
 /** Digits only, at most three — the field never holds anything the server would strip. */
 export const cleanNumber = (raw: string): string => raw.replace(/\D/g, "").slice(0, 3);
@@ -169,17 +173,111 @@ export function applyPrefill(state: FormState, prefill: Prefill): FormState {
   for (const [key, option] of Object.entries(prefill.options) as [ProductKey, string][]) {
     products[key] = { ...products[key], option, selected: true };
   }
+  const withSport = prefill.sport ? chooseSport(state, prefill.sport) : state;
   return {
-    ...state,
+    ...withSport,
     products,
     style: prefill.style ?? state.style,
-    athlete: {
-      ...state.athlete,
-      sportSlug: prefill.sport ?? state.athlete.sportSlug,
-      classOf: prefill.classOf ?? state.athlete.classOf,
-    },
+    athlete: { ...withSport.athlete, classOf: prefill.classOf ?? state.athlete.classOf },
   };
 }
+
+// --- the sport (step 1, v4) -------------------------------------------------------------------------
+
+/** Whether a value is a choice step 1 offers: a catalog slug or SPORT_OTHER. */
+export const isSportChoice = (slug: string): boolean => slug === SPORT_OTHER || Boolean(sportBySlug(slug));
+
+/**
+ * Choosing (or changing) the sport in step 1 — asked ONCE (owner, 2026-10-06). Everything already typed in
+ * the athlete step stays; only the jersey number goes, and only when the new sport never wears one. An
+ * unknown value changes nothing.
+ */
+export function chooseSport(state: FormState, slug: string): FormState {
+  if (!isSportChoice(slug)) return state;
+  const sport = sportBySlug(slug);
+  const numberless = sport ? isNumberless(sport) : false;
+  return {
+    ...state,
+    athlete: { ...state.athlete, sportSlug: slug, jerseyNumber: numberless ? "" : state.athlete.jerseyNumber },
+  };
+}
+
+/** The name a sentence uses for the chosen sport: the catalog name, the typed activity, or null. */
+export function sportName(slug: string, other = ""): string | null {
+  if (slug === SPORT_OTHER) return other.trim() || null;
+  return sportBySlug(slug)?.name ?? null;
+}
+
+/**
+ * What the pictures on the page can show for the chosen sport (owner, 2026-10-06: "one sport on the whole
+ * page"): `art` — the sport has example art; `none` — a sport (or "Other") with no example yet, built to
+ * order from the photos; `pick` — nothing chosen yet. Never another sport's picture.
+ */
+export type ArtState = "art" | "none" | "pick";
+
+export function sportArt(art: FreeProofArtMap, slug: string): FreeProofSportArt | null {
+  if (!slug || slug === SPORT_OTHER) return null;
+  const entry = art[slug];
+  return entry && (Object.keys(entry.cards).length || entry.poster || entry.banner || entry.blanket) ? entry : null;
+}
+
+export function artState(art: FreeProofArtMap, slug: string): ArtState {
+  if (!slug) return "pick";
+  return sportArt(art, slug) ? "art" : "none";
+}
+
+/** The finish codes a card front may be shown in, in lineup order (then Senior Night). */
+const CARD_ORDER = ["SN", "CA", "FS", "HE", "SS", "PR", "SR"] as const;
+
+/**
+ * The card front for a slot: the asked finish when the sport has it; `fallback` lets a slot that only
+ * needs "a card of this sport" (the product tile, the step pictures) take the first finish it has.
+ */
+export function cardImage(entry: FreeProofSportArt | null, code: string, fallback = false): FreeProofImage | null {
+  if (!entry) return null;
+  const exact = entry.cards[code as keyof FreeProofSportArt["cards"]];
+  if (exact || !fallback) return exact ?? null;
+  for (const c of CARD_ORDER) if (entry.cards[c]) return entry.cards[c] ?? null;
+  return null;
+}
+
+/** The product tile's picture in the chosen sport: a card front, the poster, the banner, the blanket — or null (the grey set). */
+export function productImage(entry: FreeProofSportArt | null, key: ProductKey, style: StyleChoice | ""): FreeProofImage | null {
+  if (!entry) return null;
+  if (key === "cards") return cardImage(entry, previewFinish(style), true);
+  if (key === "poster") return entry.poster ?? null;
+  if (key === "banner") return entry.banner ?? null;
+  return entry.blanket ?? null;
+}
+
+/**
+ * The sport (and look) chosen in the form, for the pictures OUTSIDE it — the hero proof and the
+ * how-it-works band sit above the form island. The form writes it from an effect; the server snapshot is
+ * always empty, so the static HTML is the grey set and nothing mismatches on hydration.
+ */
+export interface PageChoice {
+  sport: string;
+  sportOther: string;
+  style: StyleChoice | "";
+}
+
+const NO_CHOICE: PageChoice = { sport: "", sportOther: "", style: "" };
+let sharedChoice: PageChoice = NO_CHOICE;
+const choiceListeners = new Set<() => void>();
+
+export const choiceStore = {
+  get: (): PageChoice => sharedChoice,
+  getServer: (): PageChoice => NO_CHOICE,
+  set(next: PageChoice): void {
+    if (next.sport === sharedChoice.sport && next.sportOther === sharedChoice.sportOther && next.style === sharedChoice.style) return;
+    sharedChoice = next.sport || next.style || next.sportOther ? next : NO_CHOICE;
+    for (const l of choiceListeners) l();
+  },
+  subscribe(l: () => void): () => void {
+    choiceListeners.add(l);
+    return () => choiceListeners.delete(l);
+  },
+};
 
 // --- payload ----------------------------------------------------------------------------------------
 
@@ -192,9 +290,11 @@ export interface BuiltPayload {
 }
 
 /**
- * The raw request the API receives. Only what the parent chose is sent: a digital option always goes
- * with quantity 1, a numberless sport never carries a number, the Senior Night fields only with SR, the
- * crest consent only with a crest, empty stat rows not at all.
+ * The raw request the API receives. Only what the parent chose is sent: every option with quantity 1
+ * (v4 — no quantity in the form), a numberless sport never carries a number, the typed activity only
+ * with "Other", the Senior Night fields only with SR, the crest consent only with a crest, empty stat
+ * rows not at all — and nothing for the fields the form no longer asks (team colours, the need-it-by
+ * date, the marketing consent): absent, never sent empty or false.
  */
 export function buildPayload(
   state: FormState,
@@ -212,20 +312,20 @@ export function buildPayload(
     products: PRODUCTS.filter((p) => state.products[p.key].selected).map((p) => {
       const chosen = state.products[p.key];
       const option = optionOf(p, chosen.option) ?? p.options[0];
-      return { product: p.key, option: option.key, quantity: option.printed ? clampQuantity(chosen.quantity) : 1 };
+      return { product: p.key, option: option.key, quantity: 1 };
     }),
     style: state.style,
     athlete: {
       firstName: state.athlete.firstName,
       lastName: state.athlete.lastName,
       sportSlug: state.athlete.sportSlug,
+      sportOther: state.athlete.sportSlug === SPORT_OTHER ? state.athlete.sportOther : "",
       jerseyNumber: numberless ? "" : cleanNumber(state.athlete.jerseyNumber),
       position: state.athlete.position,
       team: state.athlete.team,
       season: state.athlete.season,
       classOf: sr ? state.athlete.classOf : "",
       eventDate: sr ? state.athlete.eventDate : "",
-      colors: { primary: state.athlete.colors.primary, secondary: state.athlete.colors.secondary },
       headline: state.athlete.headline,
       stats: stats.map(({ value, label }) => ({ value, label })),
       notes: state.athlete.notes,
@@ -236,7 +336,6 @@ export function buildPayload(
       biometric: state.consents.biometric,
       license: state.consents.license,
       crest: files.crest ? state.consents.crest : false,
-      marketing: state.consents.marketing,
     },
     photos: files.photos,
     crest: files.crest,
@@ -290,10 +389,10 @@ export function setSaving(products: readonly { key: ProductKey; options: readonl
 }
 
 /**
- * The summary's "after approval" figure: each chosen option's site price × its quantity (a digital option
- * is always one), with cards + poster counted at the set price when the two options are a set tier and
- * the quantities match — the set card promises that saving, so the sum must keep it. Any chosen option
- * without a price (the blanket) makes the whole figure "confirmed with your proof": never a partial sum.
+ * The summary's "after approval" figure: each chosen option's site price (one of each — v4 has no
+ * quantity), with cards + poster counted at the set price when the two options are a set tier — the set
+ * line promises that saving, so the sum must keep it. Any chosen option without a price (the blanket)
+ * makes the whole figure "confirmed with your proof": never a partial sum.
  */
 export function orderTotal(
   products: readonly { key: ProductKey; options: readonly PricedOption[] }[],
@@ -304,19 +403,19 @@ export function orderTotal(
     .filter((p) => state[p.key]?.selected)
     .map((p) => {
       const o = p.options.find((x) => x.key === state[p.key].option) ?? p.options[0];
-      return { key: p.key, option: o.key, price: o.price, quantity: o.printed ? clampQuantity(state[p.key].quantity) : 1 };
+      return { key: p.key, option: o.key, price: o.price };
     });
   if (!chosen.length) return { kind: "empty" };
   if (chosen.some((c) => c.price === null)) return { kind: "onProof" };
   const cards = chosen.find((c) => c.key === "cards");
   const poster = chosen.find((c) => c.key === "poster");
-  const combo = cards && poster && cards.quantity === poster.quantity ? combos.find((c) => c.cards === cards.option && c.poster === poster.option) : undefined;
+  const combo = cards && poster ? combos.find((c) => c.cards === cards.option && c.poster === poster.option) : undefined;
   let total = 0;
   for (const c of chosen) {
     if (combo && (c.key === "cards" || c.key === "poster")) continue;
-    total += (c.price as number) * c.quantity;
+    total += c.price as number;
   }
-  if (combo && cards) total += combo.price * cards.quantity;
+  if (combo) total += combo.price;
   return { kind: "priced", total: cents(total), set: Boolean(combo) };
 }
 
@@ -340,8 +439,8 @@ export function minSetSaving(products: readonly { key: ProductKey; options: read
 
 /**
  * Where the chosen cards + poster stand against the set tiers: `none` until both are chosen; `matched`
- * with the saving (× the shared quantity) when the two options are a set tier in the same quantity —
- * exactly when `orderTotal` counts them at the set price; `unmatched` otherwise.
+ * with the saving when the two options are a set tier — exactly when `orderTotal` counts them at the set
+ * price; `unmatched` otherwise.
  */
 export type SetPair = { kind: "none" } | { kind: "matched"; saved: number | null } | { kind: "unmatched" };
 
@@ -351,11 +450,10 @@ export function setPair(
   combos: readonly SetCombo[],
 ): SetPair {
   if (!isSetChosen(state)) return { kind: "none" };
-  const quantity = (key: "cards" | "poster") => (isPrintedChoice(key, state[key].option) ? clampQuantity(state[key].quantity) : 1);
   const combo = combos.find((c) => c.cards === state.cards.option && c.poster === state.poster.option);
-  if (!combo || quantity("cards") !== quantity("poster")) return { kind: "unmatched" };
+  if (!combo) return { kind: "unmatched" };
   const saved = comboSaving(products, combo);
-  return { kind: "matched", saved: saved !== null && saved > 0 ? cents(saved * quantity("cards")) : null };
+  return { kind: "matched", saved: saved !== null && saved > 0 ? cents(saved) : null };
 }
 
 /** The matching pairs in words, from the option labels: "Digital files + Digital files, 12 printed cards + 18 × 24 in printed, or …". */
@@ -443,6 +541,7 @@ export const errorId = (key: string): string => `${fieldId(key)}-error`;
 
 /** The control that takes focus for an error key (groups focus their first control). */
 export function errorTarget(key: string, statRows: number[] = []): string {
+  if (key === "athlete.sportSlug") return `${FIELD_PREFIX}sport-${sports[0].slug}`;
   if (key === "products") return `${FIELD_PREFIX}product-${PRODUCTS[0].key}`;
   if (key === "style") return `${FIELD_PREFIX}style-${styles[0].code}`;
   if (key === "photos") return `${FIELD_PREFIX}photos-choose`;
@@ -453,16 +552,8 @@ export function errorTarget(key: string, statRows: number[] = []): string {
   return fieldId(key);
 }
 
-/** The fields behind "+ Add optional details" in step 3 — an error on any of them opens the group, so focus can land on it. */
-export const OPTIONAL_DETAIL_KEYS: readonly string[] = [
-  "athlete.position",
-  "athlete.season",
-  "athlete.colors.primary",
-  "athlete.colors.secondary",
-  "athlete.headline",
-  "athlete.notes",
-  "contact.neededBy",
-];
+/** The fields behind "+ Add optional details" in the athlete step, in their order — an error on any of them opens the group, so focus can land on it. */
+export const OPTIONAL_DETAIL_KEYS: readonly string[] = ["athlete.headline", "athlete.position", "athlete.season", "athlete.notes"];
 
 export const hasOptionalDetailError = (errors: Record<string, unknown>): boolean =>
   Object.keys(errors).some((k) => OPTIONAL_DETAIL_KEYS.includes(k) || /^athlete\.stats\.\d+$/.test(k));

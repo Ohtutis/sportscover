@@ -138,7 +138,7 @@ async function list(bucket: Bucket, month: string): Promise<number> {
     }
     const status = r.status === "received" ? `received, ${r.uploaded?.photos.length ?? 0}/${r.photos.length} photos` : "upload not completed";
     const emails = r.emails && !(r.emails.owner && r.emails.customer) ? " · EMAIL NOT SENT" : "";
-    console.log(`${id}  ${status}${emails}  ${athleteName(r)} (${sportLabel(r.athlete.sportSlug)}, ${styleShort(r.style)})  ${r.contact.name} <${r.contact.email}>`);
+    console.log(`${id}  ${status}${emails}  ${athleteName(r)} (${sportLabel(r.athlete.sportSlug, r.athlete.sportOther)}, ${styleShort(r.style)})  ${r.contact.name} <${r.contact.email}>`);
   }
   return 0;
 }

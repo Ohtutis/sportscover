@@ -3,6 +3,8 @@
 // doing something not legit", and the outline "Prefer Etsy? …" box at the bottom was "visually weak". Now:
 // three quick confirmations on a white card — a plain title per row over the verbatim consent sentence,
 // which stays the checkbox's label — and one muted line beside the house EtsyButton.
+// v4 (owner, 2026-10-06 evening): the optional marketing row ("let us show the finished card") is not needed —
+// gone from the form; the parser still reads the key (as false), so the stored shape is unchanged.
 // Static markup only (this suite has no DOM): ConsentFields on its own, and the IntakeForm for the Etsy block.
 import { describe, expect, it, vi } from "vitest";
 import { createElement } from "react";
@@ -90,10 +92,11 @@ describe("permissions: three quick confirmations, not a contract", () => {
     for (const key of REQUIRED) expect(inputOf(NO_CREST, key)).toMatch(/\srequired=""/);
   });
 
-  it("three required rows and the optional marketing row: one checkbox per sentence, each sentence verbatim as its label, in CONSENT_ORDER", () => {
-    expect(NO_CREST.match(/<input [^>]*type="checkbox"/g)).toHaveLength(CONSENT_ORDER.length);
+  it("three required rows (and the crest's, hidden): one checkbox per sentence, each sentence verbatim as its label, in CONSENT_ORDER — no marketing row", () => {
+    const shown = CONSENT_ORDER.filter((k) => k !== "marketing");
+    expect(NO_CREST.match(/<input [^>]*type="checkbox"/g)).toHaveLength(shown.length);
     let at = 0;
-    for (const key of CONSENT_ORDER) {
+    for (const key of shown) {
       // One label per box, and its whole text is the sentence — byte-identical to CONSENTS (the title is not part of it).
       expect(labelsFor(NO_CREST, key), key).toEqual([CONSENTS[key].text]);
       expect(inputOf(NO_CREST, key), key).toMatch(new RegExp(`name="consent-${key}"`));
@@ -101,9 +104,14 @@ describe("permissions: three quick confirmations, not a contract", () => {
       expect(next, key).toBeGreaterThan(at);
       at = next;
     }
-    const visible = (html: string) => CONSENT_ORDER.filter((k) => !rowOf(html, k).startsWith('<div hidden=""'));
-    expect(visible(NO_CREST)).toEqual(["guardian", "biometric", "license", "marketing"]);
-    expect(inputOf(NO_CREST, "marketing")).not.toMatch(/required/);
+    const visible = (html: string) => shown.filter((k) => !rowOf(html, k).startsWith('<div hidden=""'));
+    expect(visible(NO_CREST)).toEqual(["guardian", "biometric", "license"]);
+    expect(visible(WITH_CREST)).toEqual(["guardian", "biometric", "license", "crest"]);
+    for (const html of [NO_CREST, WITH_CREST]) {
+      expect(html).not.toContain(CONSENTS.marketing.text);
+      expect(html).not.toContain(`id="${id("marketing")}"`);
+    }
+    expect(INTAKE_COPY.consentTitles).not.toHaveProperty("marketing");
   });
 
   it("each row: a plain bold title (≥ 17 px), then the sentence in small muted type (≤ 15 px); the biometric row adds one plain line between", () => {
@@ -111,12 +119,11 @@ describe("permissions: three quick confirmations, not a contract", () => {
       guardian: "You can share these photos",
       biometric: "We may measure the face to check the likeness",
       license: "We may make the artwork from these photos",
-      marketing: "Optional — let us show the finished card",
     });
-    for (const key of [...REQUIRED, "marketing"] as const) {
+    for (const key of REQUIRED) {
       const row = rowOf(NO_CREST, key);
       const title = new RegExp(`<p class="([^"]*)">${esc(INTAKE_COPY.consentTitles[key])}</p>`).exec(row);
-      expect(title?.[1].split(" "), key).toEqual(expect.arrayContaining(["font-body", "text-body", key === "marketing" ? "font-medium" : "font-bold"]));
+      expect(title?.[1].split(" "), key).toEqual(expect.arrayContaining(["font-body", "text-body", "font-bold"]));
       const label = new RegExp(`<label for="${id(key)}" class="([^"]*)"`).exec(row)?.[1].split(" ") ?? [];
       expect(label, key).toEqual(expect.arrayContaining(["font-body", "text-small", "text-muted-text"]));
       expect(row.indexOf(INTAKE_COPY.consentTitles[key]), key).toBeLessThan(row.indexOf(CONSENTS[key].text));
@@ -128,7 +135,7 @@ describe("permissions: three quick confirmations, not a contract", () => {
     );
     expect(note).toBeGreaterThan(bio.indexOf(INTAKE_COPY.consentTitles.biometric));
     expect(note).toBeLessThan(bio.indexOf(CONSENTS.biometric.text));
-    for (const key of ["guardian", "license", "marketing"] as const) expect(rowOf(NO_CREST, key)).not.toContain(INTAKE_COPY.consentNotes.biometric);
+    for (const key of ["guardian", "license"] as const) expect(rowOf(NO_CREST, key)).not.toContain(INTAKE_COPY.consentNotes.biometric);
   });
 
   it("the whole row is the tap target: the sentence's label is stretched over the row, the box stays above it", () => {
@@ -143,10 +150,11 @@ describe("permissions: three quick confirmations, not a contract", () => {
     );
   });
 
-  it("the optional marketing row sits alone under a hairline, after every required row", () => {
-    const rule = NO_CREST.lastIndexOf("border-t border-hairline", NO_CREST.indexOf(`<input id="${id("marketing")}"`));
-    for (const key of [...REQUIRED, "crest"]) expect(rule, key).toBeGreaterThan(NO_CREST.indexOf(`<input id="${id(key)}"`));
-    expect(rule).toBeGreaterThan(-1);
+  it("no optional group: the confirmations are the whole list, and the policy links follow them", () => {
+    const fieldset = NO_CREST.slice(NO_CREST.indexOf("<fieldset"), NO_CREST.indexOf("</fieldset>"));
+    expect(fieldset).not.toContain("border-t border-hairline");
+    expect(fieldset).not.toMatch(/tone|quiet/);
+    expect(words(fieldset)).not.toMatch(/optional/i);
   });
 
   it("the crest row only when a crest is attached — styled like the three, required — and the counts follow it", () => {
@@ -163,7 +171,7 @@ describe("permissions: three quick confirmations, not a contract", () => {
     expect(WITH_CREST).toContain(`>${four.needed}</p>`);
     expect(words(/<p class="mt-3 [^"]*">([\s\S]*?)<\/p>/.exec(WITH_CREST)?.[1] ?? "").trim()).toBe(four.line);
     expect(words(WITH_CREST)).not.toMatch(/\bthree quick\b|\ball three\b/i);
-    expect(WITH_CREST.indexOf(CONSENTS.crest.text)).toBeLessThan(WITH_CREST.indexOf(CONSENTS.marketing.text));
+    expect(WITH_CREST.indexOf(CONSENTS.crest.text)).toBeGreaterThan(WITH_CREST.indexOf(CONSENTS.license.text));
   });
 
   it("after a send attempt the unticked box is aria-invalid and names the parser's sentence under its row (unchanged)", () => {
@@ -177,15 +185,14 @@ describe("permissions: three quick confirmations, not a contract", () => {
       expect(rowOf(html, key), key).toContain(`<p id="${id(key)}-error"`);
       expect(rowOf(html, key), key).toContain(errors[`consents.${key}`]);
     }
-    expect(inputOf(html, "marketing")).not.toMatch(/aria-invalid/);
+    expect(inputOf(html, "marketing")).toBe("");
   });
 
   it("checkboxes are ink, nothing in the card is orange, no price, and the three policies close it in small type, in a new tab", () => {
     expect(NO_CREST).toMatch(/<fieldset class="[^"]*\[&_input\]:accent-ink/);
     expect(NO_CREST).not.toMatch(/\bbg-accent\b|\btext-accent\b|\bborder-accent\b/);
     expect(NO_CREST).not.toContain("$");
-    const marketing = NO_CREST.indexOf(CONSENTS.marketing.text);
-    let at = marketing;
+    let at = NO_CREST.indexOf(CONSENTS.crest.text);
     for (const [href, label] of [
       ["/privacy", "Privacy"],
       ["/privacy/biometric", "Biometric policy"],
@@ -203,6 +210,8 @@ describe("the Etsy alternative: one muted line and the house EtsyButton", () => 
   // An empty form is enough: the Etsy block does not depend on the tiles. The set tile's shape belongs to
   // ProductPicker and moves with it, so the fixture carries both shapes and is cast to the form's own props.
   const props = {
+    sports: [],
+    art: {},
     products: [],
     setTile: { pickLine: null, combos: [], name: "", blurb: "", fromLabel: "", badge: "", savingsLine: null, images: { cards: null, poster: null } },
     setCombos: [],

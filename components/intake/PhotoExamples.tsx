@@ -6,7 +6,7 @@ import { CheckIcon, CrossIcon, ExternalIcon } from "../icons";
 import { LABEL } from "./fields";
 import { UI } from "./strings";
 
-// The example gallery beside the step-4 drop zone (owner, 2026-10-06: "more and better examples here", and the
+// The example gallery beside the photo step's drop zone (owner, 2026-10-06: "more and better examples here", and the
 // self-check block under it "can definitely be clearer"). It replaces both the ✓ / ✕ pair and the must-have /
 // leave-out text with its checkboxes: a SEND THESE row of the four photos that matter (lib/catalog/
 // photo-checklist.ts rows 1–4) and a LEAVE THESE OUT row of three, each tile a real photograph with a two-to-
@@ -89,21 +89,30 @@ export const PHOTO_EXAMPLE_TILES: readonly PhotoExampleTile[] = [
  */
 const TILE_SIZES = "(min-width: 1280px) 100px, (min-width: 640px) 136px, 25vw";
 
+/**
+ * v4 (owner review 2026-10-06, evening: the round ✕ badges in the corner "look like close buttons — you want
+ * to dismiss them"): nothing on a tile sits in a corner and nothing is round. The tile is the photo with a
+ * full-width caption bar fixed to its bottom edge — the glyph INSIDE the words ("✕ Blurry", "✓ Full body") —
+ * on a tint of the verdict colour, and a thin outline of the same colour around photo and bar. A label, never
+ * a control: no hover, no pointer, no focus.
+ */
 function Tile({ tile }: { tile: PhotoExampleTile }) {
   const Mark = tile.send ? CheckIcon : CrossIcon;
   return (
-    <figure className="min-w-0" data-fp-example={tile.send ? "send" : "leave"}>
-      <div className="relative aspect-square overflow-hidden rounded-[4px] border border-hairline bg-hairline">
+    <figure
+      data-fp-example={tile.send ? "send" : "leave"}
+      className={`flex h-full min-w-0 flex-col overflow-hidden rounded-[4px] border ${tile.send ? "border-pass" : "border-fail"}`}
+    >
+      <div className="relative aspect-square bg-hairline">
         <Image src={tile.src} alt={tile.alt} fill sizes={TILE_SIZES} className="object-cover" />
-        <span
-          aria-hidden="true"
-          className={`absolute left-1.5 top-1.5 grid size-5 place-items-center rounded-full border-[1.5px] border-white text-white ${tile.send ? "bg-ink" : "bg-muted"}`}
-        >
-          <Mark size={12} strokeWidth={2.75} />
-        </span>
       </div>
-      <figcaption className="mt-1.5 font-body text-[0.75rem] font-medium leading-[1.25] text-ink text-pretty sm:text-[0.8125rem]">
-        {INTAKE_COPY.photoExamples.captions[tile.slug]}
+      <figcaption
+        className={`flex flex-1 items-start gap-1 border-t px-1.5 py-1.5 font-body text-[0.75rem] font-semibold leading-[1.2] text-ink text-pretty sm:text-[0.8125rem] ${
+          tile.send ? "border-pass bg-pass/15" : "border-fail bg-fail/10"
+        }`}
+      >
+        <Mark aria-hidden="true" size={12} strokeWidth={2.75} className={`mt-[0.2em] shrink-0 ${tile.send ? "text-[#2f7d64]" : "text-[#b23a31]"}`} />
+        <span>{INTAKE_COPY.photoExamples.captions[tile.slug]}</span>
       </figcaption>
     </figure>
   );

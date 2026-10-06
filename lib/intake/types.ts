@@ -72,6 +72,14 @@ export const CONSENTS: Record<ConsentKey, ConsentText> = {
 export const CONSENT_ORDER: readonly ConsentKey[] = ["guardian", "biometric", "license", "crest", "marketing"];
 
 export const STYLE_RECOMMEND = "recommend" as const;
+
+/**
+ * "Other sport or activity" in step 1 (owner, 2026-10-06). Deliberately NOT `other-sport`: that catalog
+ * slug is Skateboarding (registry code OTH), and a request for rowing must never print as skateboarding.
+ */
+export const SPORT_OTHER = "other" as const;
+/** The typed activity's limit — the form's field and the server agree on it. */
+export const SPORT_OTHER_MAX = 40;
 export type StyleChoice = StyleCode | typeof STYLE_RECOMMEND;
 
 export interface ProductChoice {
@@ -88,7 +96,14 @@ export interface StatInput {
 export interface AthleteInput {
   firstName: string;
   lastName: string;
+  /** A catalog slug (lib/catalog/sports.ts), or SPORT_OTHER with the activity typed in `sportOther`. */
   sportSlug: string;
+  /**
+   * The sport or activity the parent typed when it is not in the catalog (owner, 2026-10-06): "rowing",
+   * "dance". Only with `sportSlug === SPORT_OTHER`; empty otherwise. Never the catalog's `other-sport`,
+   * which is SKATEBOARDING (registry code OTH).
+   */
+  sportOther: string;
   /** Digits only; empty for a numberless sport or when the athlete has none. */
   jerseyNumber: string;
   position: string;
@@ -226,12 +241,17 @@ export function parseProofRequest(raw: unknown): ParseResult {
 
   // Athlete
   const a = obj(input.athlete);
-  const sport = sportBySlug(str(a.sportSlug, 40));
+  const sportRaw = str(a.sportSlug, 40);
+  const other = sportRaw === SPORT_OTHER;
+  const sport = other ? undefined : sportBySlug(sportRaw);
+  // A sport outside the catalog arrives as its own words; the slug says only that it is "other".
+  const sportOther = other ? str(a.sportOther, SPORT_OTHER_MAX) : "";
   const firstName = str(a.firstName, 40);
   const lastName = str(a.lastName, 40);
   if (!firstName) errors["athlete.firstName"] = "The athlete's first name goes on the card.";
   if (!lastName) errors["athlete.lastName"] = "The athlete's last name goes on the card.";
-  if (!sport) errors["athlete.sportSlug"] = "Choose the sport.";
+  if (other && !sportOther) errors["athlete.sportOther"] = "Tell us the sport or activity.";
+  else if (!other && !sport) errors["athlete.sportSlug"] = "Choose the sport.";
   let jerseyNumber = str(a.jerseyNumber, 4).replace(/\D/g, "").slice(0, 3);
   if (sport && isNumberless(sport)) jerseyNumber = "";
   const season = str(a.season, 4) || CURRENT_SEASON;
@@ -300,7 +320,8 @@ export function parseProofRequest(raw: unknown): ParseResult {
       athlete: {
         firstName,
         lastName,
-        sportSlug: (sport as NonNullable<typeof sport>).slug,
+        sportSlug: other ? SPORT_OTHER : (sport as NonNullable<typeof sport>).slug,
+        sportOther,
         jerseyNumber,
         position: str(a.position, 40),
         team: str(a.team, 60),

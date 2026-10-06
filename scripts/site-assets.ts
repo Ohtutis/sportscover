@@ -7,7 +7,7 @@
 //                                        back decodes to its card ID, and no file under public/images/** hashes to
 //                                        scripts/denylist.json. Exit code 1 on any failure.
 //
-// Rules: never upscale; WebP q82 (q88 + smartSubsample for card faces); AVIF q55 beside `lcp` keys; sha256 denylist
+// Rules: never upscale; WebP q82 (q88 + smartSubsample for card faces; a key's `quality` overrides both); AVIF q55 beside `lcp` keys; sha256 denylist
 // gate on every source; the DESIGN §6.2 corner audit on every `card` output (skipped for `crop` assets, GAPS #3); the
 // DESIGN §6.4 QR patch — jsqr locates the printed QR, public/cards/qr/<cardId>.png is pasted over it — and a decode
 // assert on the WRITTEN file. Only the paths named in lib/assets.ts are ever read; orders/** is never touched.
@@ -58,6 +58,8 @@ interface ManifestEntry {
   kind: SiteAsset["kind"];
   keys: string[];
   crop?: SiteAsset["crop"];
+  /** Present only when the key overrides the default WebP quality (lib/assets.ts `quality`). */
+  quality?: number;
   qr?: QrRecord;
   avif?: string;
   generatedAt: string;
@@ -266,7 +268,7 @@ function groups(): Group[] {
       byOut.set(a.out, { out: a.out, keys: [a.key], spec: a });
       continue;
     }
-    const same = ["source", "width", "height", "kind", "crop", "cardId"] as const;
+    const same = ["source", "width", "height", "kind", "crop", "cardId", "quality"] as const;
     for (const f of same) {
       if (a[f] !== g.spec[f]) throw new Error(`keys ${g.keys[0]} and ${a.key} share ${a.out} but differ in ${f}`);
     }
@@ -298,6 +300,7 @@ async function convert(g: Group, deny: Map<string, DenyEntry>, manifest: Manifes
     prev.sourceSha256 === sourceSha256 &&
     prev.width === a.width &&
     prev.height === a.height &&
+    prev.quality === a.quality &&
     fs.existsSync(outAbs) &&
     (!avifAbs || fs.existsSync(avifAbs)) &&
     prev.sha256 === sha256File(outAbs)
@@ -354,7 +357,7 @@ async function convert(g: Group, deny: Map<string, DenyEntry>, manifest: Manifes
   if (!hasTransparency(outRaw)) base = base.removeAlpha();
   fs.mkdirSync(path.dirname(outAbs), { recursive: true });
   const isCard = a.kind === "card";
-  await base.clone().webp({ quality: isCard ? 88 : 82, effort: 5, smartSubsample: isCard }).toFile(outAbs);
+  await base.clone().webp({ quality: a.quality ?? (isCard ? 88 : 82), effort: 5, smartSubsample: isCard }).toFile(outAbs);
   if (avifAbs) await base.clone().avif({ quality: 55, effort: 4 }).toFile(avifAbs);
 
   const written = await sharp(outAbs).metadata();
@@ -375,6 +378,7 @@ async function convert(g: Group, deny: Map<string, DenyEntry>, manifest: Manifes
     kind: a.kind,
     keys: g.keys,
     crop: a.crop,
+    quality: a.quality,
     qr,
     avif: avifRel,
     generatedAt: now(),

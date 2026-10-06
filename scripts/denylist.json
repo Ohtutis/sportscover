@@ -586,6 +586,246 @@
       "sha256": "a2e4e88dc2509863dd4d64912e4170bcc2475545de23feb51aa2b01073a28739",
       "path": "etsy/listing-images/03-volleyball-banner/src/use-fence.png",
       "reason": "BORDER_REFLECT widening mirrors the ball and the forearms at the left edge, and the shoe carries a Mizuno mark (product hero v2, checked 2026-10-06; sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "48ed1a5e16909c83f83a694dde7dc613db49603a3e1e506c583ad06f1d6469d7",
+      "path": "etsy/listing-images/01-cheerleading-card/src/CH-HE-card-FRONT.png",
+      "reason": "pre-2026-09-01 card front export with a transparent rounded mask on all four corners (the card is square-cut since 2026-09-01); the square `-front.png` of the same finish sits beside it (free-proof v4 audit 2026-10-06; sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "03288e9c6ac021c4d93d35b92879f2f9026977df21f6a549002f25b636525169",
+      "path": "etsy/listing-images/01-cheerleading-card/src/CH-SN-card-FRONT.png",
+      "reason": "pre-2026-09-01 card front export with a transparent rounded mask on all four corners (the card is square-cut since 2026-09-01); the square `-front.png` of the same finish sits beside it (free-proof v4 audit 2026-10-06; sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "40d8e6db142597dae09ec3323c162843418cd1d16704f9b580eb6717ff578de2",
+      "path": "etsy/listing-images/01-cheerleading-card/src/CH-CA-card-FRONT.png",
+      "reason": "pre-2026-09-01 card front export with a transparent rounded mask on all four corners (the card is square-cut since 2026-09-01); the square `-front.png` of the same finish sits beside it (free-proof v4 audit 2026-10-06; sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "f8cac0cd4896776b2a5310f5cc18fe6d189fe28eed7074b10780971c6f224cbc",
+      "path": "etsy/listing-images/01-cheerleading-card/src/CH-FS-card-FRONT.png",
+      "reason": "pre-2026-09-01 card front export with a transparent rounded mask on all four corners (the card is square-cut since 2026-09-01); the square `-front.png` of the same finish sits beside it (free-proof v4 audit 2026-10-06; sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "1751282e4c2059358e7d4c336c6dde2454a1911bac47c17ad77d383cc4f11fa0",
+      "path": "etsy/listing-images/01-cheerleading-card/src/CH-SS-card-FRONT.png",
+      "reason": "pre-2026-09-01 card front export with a transparent rounded mask on all four corners (the card is square-cut since 2026-09-01); the square `-front.png` of the same finish sits beside it (free-proof v4 audit 2026-10-06; sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "90916b33dd2de624e1a77a3b8915c23afc6189d079d96acae46f5aa18e2c9bc2",
+      "path": "etsy/listing-images/01-football-card/src/FB-PR-card-FRONT.png",
+      "reason": "pre-2026-09-01 card front export with a transparent rounded mask on all four corners (the card is square-cut since 2026-09-01); the square `-front.png` of the same finish sits beside it (free-proof v4 audit 2026-10-06; sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "7de2c22018115013d9f9590a555562c6500fbbb082caaf3f3e8e1b676effcf7a",
+      "path": "etsy/listing-images/01-football-card/src/FB-HE-card-FRONT.png",
+      "reason": "pre-2026-09-01 card front export with a transparent rounded mask on all four corners (the card is square-cut since 2026-09-01); the square `-front.png` of the same finish sits beside it (free-proof v4 audit 2026-10-06; sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "bbdbd00725b1178d7d6e98b8165f1c864931d5e80282c71810ac2bb858578d5d",
+      "path": "etsy/listing-images/01-football-card/src/FB-SN-card-FRONT.png",
+      "reason": "pre-2026-09-01 card front export with a transparent rounded mask on all four corners (the card is square-cut since 2026-09-01); the square `-front.png` of the same finish sits beside it (free-proof v4 audit 2026-10-06; sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "bce98a22f73ca4ea0f109d534eacfaefce5f7e8f8c56ab18d1d35e5f544e96f0",
+      "path": "etsy/listing-images/01-football-card/src/FB-CA-card-FRONT.png",
+      "reason": "pre-2026-09-01 card front export with a transparent rounded mask on all four corners (the card is square-cut since 2026-09-01); the square `-front.png` of the same finish sits beside it (free-proof v4 audit 2026-10-06; sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "0a191e68fe4516b4dce9c3a9166eefd384f8f5311e928f73992d47e8c53a8202",
+      "path": "etsy/listing-images/01-football-card/src/FB-SS-card-FRONT.png",
+      "reason": "pre-2026-09-01 card front export with a transparent rounded mask on all four corners (the card is square-cut since 2026-09-01); the square `-front.png` of the same finish sits beside it (free-proof v4 audit 2026-10-06; sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "d3ac24d62dd9edc8ba8bc3bf86a7d2d4814f1117c6b3aa98f7c4451979a20876",
+      "path": "etsy/listing-images/05-baseball-blanket/src/c-room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "8d9e18c1376384b140a98913263b328ef086453f9853a5f51a4e26472b0ad196",
+      "path": "etsy/listing-images/05-baseball-blanket/src/room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "9f5d5d4fdc4a1ae983be3c81bc3083b2c4eb2ef41b1c4be66941a2df5fcdbb08",
+      "path": "etsy/listing-images/05-baseball-sn-blanket/src/c-room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "312b95325f3f067b5f8d1b9f1c2cf04baaf1dc22d870b8967978cbe875537152",
+      "path": "etsy/listing-images/05-baseball-sn-blanket/src/room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "aa03260da4b7d7c53df833bbb70784c0d277d9b8a4f7411bfa6d2f541cd2eff0",
+      "path": "etsy/listing-images/05-basketball-blanket/src/c-room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "bfeab8e627d9c70f79e56a53f9315c0aac01092ff455179fbe5aefa136b51ca0",
+      "path": "etsy/listing-images/05-basketball-blanket/src/room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "d4fb18666bd5fa6dd27393fed7312659a79554a4250db1323ff8e664a4e824fa",
+      "path": "etsy/listing-images/05-basketball-sn-blanket/src/c-room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "da1ea65fc1598b105af519e13d5530c398d323d3e0dfb79d7e16b70c44422cb7",
+      "path": "etsy/listing-images/05-basketball-sn-blanket/src/room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "eb5ec70e013fcd664fa3fc281c65c3b780acbd34d941b3c1918c51498d6c7b43",
+      "path": "etsy/listing-images/05-cheerleading-blanket/src/c-room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "85528ae535feecffc13fe85699a4f2e0d56411cd2d6d86e92e9b1fa505a2074d",
+      "path": "etsy/listing-images/05-cheerleading-blanket/src/room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "c32214a4590fb5590c0c4e99f88ef8909bd43332bf4297c8d8f73c5a792cccbd",
+      "path": "etsy/listing-images/05-cheerleading-sn-blanket/src/c-room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "9909309d5d7de6890209a104000ffd1abf6a7aec4816f798b59ee279f4032ca4",
+      "path": "etsy/listing-images/05-cheerleading-sn-blanket/src/room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "87f6d7f084b5c733cf0b6b0bf9019d9dd329871ba8c35580d8603216b2b0d7da",
+      "path": "etsy/listing-images/05-football-blanket/src/c-room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "c628cd6cfcd7d8b036fbb9a3e79df8b490fc4ce955d52ade65710bda11b21b98",
+      "path": "etsy/listing-images/05-football-blanket/src/room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "360646b086717acb6be732d2b0bfd484d1a90d0199335e9e8b49ccdf01e5c528",
+      "path": "etsy/listing-images/05-football-sn-blanket/src/c-room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "ef92d93a401d8074dbc72c66a14589c3f19d41b065d78afa4d02c9987df67417",
+      "path": "etsy/listing-images/05-football-sn-blanket/src/room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "be07e95dff3d5afe97e2e21c6ef6e26596a7fa846e29d6397ef110a935fcbcf7",
+      "path": "etsy/listing-images/05-ice-hockey-blanket/src/c-room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "407230510cdf41528fccebc39cbaf954735d5f0a85b6a50fc4b86071775b92f4",
+      "path": "etsy/listing-images/05-ice-hockey-blanket/src/room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "bbd2cca0016fd8e6c8ab5caa8f37e8a599b52d8684d10f20211fca87c24b6399",
+      "path": "etsy/listing-images/05-lacrosse-blanket/src/c-room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "44316226777a125bbbc68fa76b1f212c9f8a3f699c8992832f5521d349cefd25",
+      "path": "etsy/listing-images/05-lacrosse-blanket/src/room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "592e9d48f39087c660e22f0378b6002f6aa839de09108c891abb28a75569f266",
+      "path": "etsy/listing-images/05-soccer-blanket/src/c-room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "affdff794bee2be73428233527a68b117f25bb1c7bc49d6a8b5917164ae504d5",
+      "path": "etsy/listing-images/05-soccer-blanket/src/room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "e53c98b1ef1a2bc96f4e6b370cea9c3d94ce59f24a01065dc6bb0c1e57063023",
+      "path": "etsy/listing-images/05-soccer-sn-blanket/src/c-room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "433876a4bd7b93eaea8a831899247f6ff78073faf026a2327e2d4d9a2215bfdb",
+      "path": "etsy/listing-images/05-soccer-sn-blanket/src/room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "e5f03318f2df82d42655ba956beb40828e88b37a8f7251df62eeef91ab724b34",
+      "path": "etsy/listing-images/05-softball-blanket/src/c-room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "be734412548363820f67907d5aafb8b6e25db12ba54e52ee106474def4f15211",
+      "path": "etsy/listing-images/05-softball-blanket/src/room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "8c9b7295ac3f81b2dccec4bb592ea8d190add2944e518811b3f50c9546afba1c",
+      "path": "etsy/listing-images/05-softball-sn-blanket/src/c-room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "d935d02af60721966f58940352df848e7d701a98a1772ec96dc486d4593fc3bf",
+      "path": "etsy/listing-images/05-softball-sn-blanket/src/room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "3a7a085d0b948c1008abc91b1c156da68cd17007598c06966ea9c397659f0047",
+      "path": "etsy/listing-images/05-track-field-blanket/src/c-room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "823c8e077a1d273f03bd71996a8d22691e0daf721803d227e3b25606496ebb48",
+      "path": "etsy/listing-images/05-track-field-blanket/src/room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "4011302b9a11464d5413666484d6a9eab2551de10163ffc3787f401bd7351e5a",
+      "path": "etsy/listing-images/05-volleyball-blanket/src/c-room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "2d5237edda8785c603cb6bcd4a5cf1ceb9fa43775cf7c59d5c7283b0e18e665c",
+      "path": "etsy/listing-images/05-volleyball-blanket/src/room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "17211885f94fccacb3c0ba6f6d2a9ef8c586d8255a1f396807de80c5507276a1",
+      "path": "etsy/listing-images/05-volleyball-sn-blanket/src/c-room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "4b65e6bddb23c8a3f3b19d5dfa683127cb1a2de2e9b87e256e46791d58cfad53",
+      "path": "etsy/listing-images/05-volleyball-sn-blanket/src/room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "a705f091969275e4920d7f9ec97f8643e28912f10eb8096bdfa3bbdab3e148ff",
+      "path": "etsy/listing-images/05-wrestling-blanket/src/c-room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "5c321f92504e88e558b2b2c8df333f7d9809b57eb0c596cbca0817119a27bdff",
+      "path": "etsy/listing-images/05-wrestling-blanket/src/room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "8d72cb3b91e6fed020291adcc039cce32009695f9b4e8f73b10f84d6f45a7183",
+      "path": "etsy/listing-images/05-wrestling-sn-blanket/src/c-room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "2c87ac7a08fa7e87eb116d3c588d587ef601fb83ad52a0a29285677343f587df",
+      "path": "etsy/listing-images/05-wrestling-sn-blanket/src/room-30x40.png",
+      "reason": "armchair blanket composite: the shared pkg-blanket-30x40 plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller (docs/f1/ASSETS-RENDERS.md product tiles v2; free-proof v4 2026-10-06, sha256 computed 2026-10-06)"
     }
   ]
 }

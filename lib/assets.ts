@@ -45,6 +45,11 @@ export interface SiteAsset {
   cardId?: string;
   /** Largest-contentful-paint candidates also get an AVIF sibling (`out` with .avif). */
   lcp?: boolean;
+  /**
+   * WebP quality override. The default is q82, and q88 (+ smartSubsample) for card faces; set it only where a
+   * byte budget binds (the /free-proof card faces: 600 px wide at q72 stay under 60 KB, q88 would not).
+   */
+  quality?: number;
   /** Why the key is still `locate`, or a provenance remark. */
   note?: string;
 }
@@ -1097,8 +1102,123 @@ const entries: Record<string, Entry> = {
   },
 };
 
+/* ---------- /free-proof v4: one sport on the whole page (2026-10-06) ----------
+ * Owner review 2026-10-06: the page mixed sports (football product tiles, a basketball style step). Now the parent
+ * picks the sport first and every athlete picture on /free-proof shows THAT sport. These keys are the art for it,
+ * resolved server-side by lib/intake/sport-art.ts `freeProofArtMap()` into one compact per-sport map (the client
+ * never imports this file). Nothing was generated (budget zero): every file is a resize of a finished export.
+ *
+ *   free-proof.<slug>.card.<CODE>  card FRONT, 600 x 840 (5 : 7), q72 so each face stays under 60 KB. Source: the
+ *                                  card listing's `<XX>-<CODE>-front.png` (all dated 2026-09-01 or later, after the
+ *                                  square-cut rule); `-card-FRONT.png` only where no `-front.png` exists (ice hockey
+ *                                  CA). SR = the Senior Night set fronts already behind `sn.sport.<slug>.front`.
+ *                                  The script's corner audit runs on every one (kind "card", no crop).
+ *   free-proof.<slug>.poster       the poster listing's LEAD finish, flat, 600 x 800 (3 : 4).
+ *   free-proof.<slug>.banner       the banner listing's flat master, lead finish Heritage, 500 x 1000 (1 : 2).
+ *   free-proof.<slug>.blanket      the blanket listing's FLAT render (`flat56-<lead>.png`: the 5 : 6 art with plush
+ *                                  texture, eased hem corners), 600 x 720. Never a draped or armchair shot: those
+ *                                  stretch the art (docs/f1/ASSETS-RENDERS.md, product tiles v2).
+ * Gaps by design: wrestling has no Signature Spotlight front; ice hockey has no Senior Night front; banners and
+ * blankets exist only for the eleven sports with a banner listing. Sources, finishes and checks:
+ * docs/f1/ASSETS-RENDERS.md "Free-proof per-sport art (2026-10-06)".
+ */
+type FpCode = "SN" | "CA" | "FS" | "HE" | "SS" | "PR" | "SR";
+const FP_FINISH: Record<FpCode, readonly [name: string, file: string]> = {
+  SN: ["Stadium Night", "stadium-night"],
+  CA: ["Chrome All-Star", "chrome-all-star"],
+  FS: ["Fire & Smoke", "fire-and-smoke"],
+  HE: ["Heritage", "heritage"],
+  SS: ["Signature Spotlight", "signature-spotlight"],
+  PR: ["Prism Rush", "prism-rush"],
+  SR: ["Senior Night", "senior-night"],
+};
+interface FpSport {
+  slug: string;
+  /** The sport as the alt text says it. */
+  word: string;
+  /** File-name stem under /images/free-proof/<slug>/. */
+  file: string;
+  /** Listing file prefix (BK, FB, ...). */
+  px: string;
+  /** Finishes with an audited card front (lineup order). */
+  cards: readonly FpCode[];
+  /** Senior Night front in etsy/listing-images/03-senior-night/src. */
+  sr?: string;
+  /** Poster listing lead finish. */
+  poster: FpCode;
+  /** Blanket listing lead finish; present = the sport also has a banner listing (lead Heritage). */
+  blanket?: FpCode;
+}
+const SIX: readonly FpCode[] = ["SN", "CA", "FS", "HE", "SS", "PR"];
+const FP_SPORTS: readonly FpSport[] = [
+  { slug: "basketball", word: "basketball", file: "basketball", px: "BK", cards: SIX, sr: "sr-card-front.png", poster: "SN", blanket: "PR" },
+  { slug: "football", word: "football", file: "football", px: "FB", cards: SIX, sr: "ftb-sr-front.png", poster: "HE", blanket: "SN" },
+  { slug: "baseball", word: "baseball", file: "baseball", px: "BB", cards: SIX, sr: "bsb-sr-front.png", poster: "CA", blanket: "FS" },
+  { slug: "softball", word: "softball", file: "softball", px: "SF", cards: SIX, sr: "sfb-sr-front.png", poster: "SN", blanket: "PR" },
+  { slug: "soccer", word: "soccer", file: "soccer", px: "SC", cards: SIX, sr: "soc-sr-front.png", poster: "FS", blanket: "SS" },
+  { slug: "ice-hockey", word: "ice hockey", file: "ice-hockey", px: "IH", cards: SIX, poster: "SN", blanket: "SS" },
+  { slug: "volleyball", word: "volleyball", file: "volleyball", px: "VB", cards: SIX, sr: "vbl-sr-front.png", poster: "PR", blanket: "CA" },
+  { slug: "lacrosse", word: "lacrosse", file: "lacrosse", px: "LX", cards: SIX, poster: "PR", blanket: "SN" },
+  { slug: "wrestling", word: "wrestling", file: "wrestling", px: "WR", cards: ["SN", "CA", "FS", "HE", "PR"], sr: "wrs-sr-front.png", poster: "HE", blanket: "CA" },
+  { slug: "cheerleading", word: "cheerleading", file: "cheerleading", px: "CH", cards: SIX, sr: "chr-sr-front.png", poster: "SS", blanket: "FS" },
+  { slug: "gymnastics", word: "gymnastics", file: "gymnastics", px: "GY", cards: SIX, poster: "HE" },
+  { slug: "track-field", word: "track & field", file: "track-and-field", px: "TF", cards: SIX, poster: "FS", blanket: "CA" },
+  { slug: "swimming", word: "swimming", file: "swimming", px: "SW", cards: SIX, poster: "SS" },
+  { slug: "tennis", word: "tennis", file: "tennis", px: "TN", cards: SIX, poster: "SS" },
+  { slug: "golf", word: "golf", file: "golf", px: "GF", cards: SIX, poster: "SN" },
+  { slug: "pickleball", word: "pickleball", file: "pickleball", px: "PK", cards: SIX, poster: "CA" },
+  { slug: "other-sport", word: "skateboarding", file: "skateboarding", px: "SK", cards: SIX, poster: "CA" },
+];
+/** Card fronts whose `-front.png` does not exist: the listing's `-card-FRONT.png` (2026-09-13, square-cut). */
+const FP_CARD_SOURCE: Record<string, string> = { "IH-CA": "IH-CA-card-FRONT.png" };
+/** Soccer's Fire & Smoke poster is the stitch-free v2 (etsy/video/render_types.py poster_art, 2026-09-04 re-audit). */
+const FP_POSTER_SOURCE: Record<string, string> = { "SC-FS": "SC-FS-poster-v2.png" };
+
+const altBanner = (sport: string, finish: string) =>
+  `Custom ${sport} vinyl banner — ${finish} finish — example artwork, fictional athlete`;
+const altBlanket = (sport: string, finish: string) =>
+  `Custom ${sport} plush blanket laid flat, 50 × 60 in — ${finish} finish — example artwork, fictional athlete; a mockup, not a photo of a finished blanket`;
+
+function freeProofEntries(): Record<string, Entry> {
+  const out: Record<string, Entry> = {};
+  for (const s of FP_SPORTS) {
+    const dir = `/images/free-proof/${s.slug}`;
+    const codes: FpCode[] = [...s.cards, ...(s.sr ? (["SR"] as const) : [])];
+    for (const code of codes) {
+      const [name, file] = FP_FINISH[code];
+      const source =
+        code === "SR"
+          ? `${SNS}/${s.sr}`
+          : `etsy/listing-images/01-${s.slug}-card/src/${FP_CARD_SOURCE[`${s.px}-${code}`] ?? `${s.px}-${code}-front.png`}`;
+      out[`free-proof.${s.slug}.card.${code}`] = {
+        out: `${dir}/${s.file}-trading-card-front-${file}.webp`, source, width: 600, height: 840, quality: 72,
+        kind: "card", fictional: true, status: "verified", alt: altFront(s.word, name),
+      };
+    }
+    const [pName, pFile] = FP_FINISH[s.poster];
+    out[`free-proof.${s.slug}.poster`] = {
+      out: `${dir}/${s.file}-poster-${pFile}.webp`,
+      source: `etsy/listing-images/02-${s.slug}-poster/src/${FP_POSTER_SOURCE[`${s.px}-${s.poster}`] ?? `${s.px}-${s.poster}-poster.png`}`,
+      width: 600, height: 800, kind: "poster", fictional: true, status: "verified", alt: altPoster(s.word, pName),
+    };
+    if (s.blanket) {
+      const [hName, hFile] = FP_FINISH.HE;
+      out[`free-proof.${s.slug}.banner`] = {
+        out: `${dir}/${s.file}-banner-${hFile}.webp`, source: `etsy/listing-images/03-${s.slug}-banner/src/master-HE.png`,
+        width: 500, height: 1000, kind: "artefact", fictional: true, status: "verified", alt: altBanner(s.word, hName),
+      };
+      const [bName, bFile] = FP_FINISH[s.blanket];
+      out[`free-proof.${s.slug}.blanket`] = {
+        out: `${dir}/${s.file}-blanket-${bFile}.webp`, source: `etsy/listing-images/05-${s.slug}-blanket/src/flat56-${s.blanket}.png`,
+        width: 600, height: 720, kind: "artefact", fictional: true, status: "verified", alt: altBlanket(s.word, bName),
+      };
+    }
+  }
+  return out;
+}
+
 export const SITE_ASSETS: Record<string, SiteAsset> = Object.fromEntries(
-  Object.entries(entries).map(([key, e]) => [key, { key, ...e }]),
+  Object.entries({ ...entries, ...freeProofEntries() }).map(([key, e]) => [key, { key, ...e }]),
 );
 
 export const SITE_ASSET_KEYS: readonly string[] = Object.keys(SITE_ASSETS);

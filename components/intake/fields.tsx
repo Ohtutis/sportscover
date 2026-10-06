@@ -20,7 +20,8 @@ import { INTAKE_COPY } from "../../lib/intake/copy";
  */
 export const INPUT =
   "h-14 w-full rounded-ui border-[1.5px] bg-white px-4 font-label text-[1rem] font-semibold uppercase tracking-[0.08em] text-ink transition-[border-color] duration-hover ease-out placeholder:font-body placeholder:font-normal placeholder:normal-case placeholder:tracking-normal placeholder:text-muted-text focus:border-ink";
-export const INPUT_PROSE = "normal-case tracking-[0.02em]";
+/** `!`: in one class list the recipe's `uppercase` and tracking won the cascade, and an email address showed in capitals. */
+export const INPUT_PROSE = "normal-case! tracking-[0.02em]!";
 export const TEXTAREA =
   "min-h-32 w-full rounded-ui border-[1.5px] bg-white px-4 py-3 font-body text-[1rem] text-ink transition-[border-color] duration-hover ease-out placeholder:text-muted-text focus:border-ink";
 /** The native select of the sport picker (DESIGN §5.2 row B), at the input's 56 px so a row lines up. */

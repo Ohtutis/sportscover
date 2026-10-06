@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-06T19:39:53.570Z",
+  "generatedAt": "2026-10-06T20:54:40.791Z",
   "script": "scripts/site-assets.ts",
   "entries": {
     "/images/cards/basketball-trading-card-back-registered-stadium-night.webp": {
@@ -148,6 +148,2039 @@
         "finish.SS.front"
       ],
       "generatedAt": "2026-09-06T22:05:21.318Z"
+    },
+    "/images/free-proof/baseball/baseball-banner-heritage.webp": {
+      "out": "/images/free-proof/baseball/baseball-banner-heritage.webp",
+      "source": "etsy/listing-images/03-baseball-banner/src/master-HE.png",
+      "sourceSha256": "996ab8967f818b540f5fa41183f8b2412f78a831f3c989a9e8d25e80aa1059ff",
+      "sha256": "cafa4a11ef02fa651bd91d3a7b0845ec7f2cb46b97a4f286362a553bca13262e",
+      "width": 500,
+      "height": 1000,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.baseball.banner"
+      ],
+      "generatedAt": "2026-10-06T20:53:39.167Z"
+    },
+    "/images/free-proof/baseball/baseball-blanket-fire-and-smoke.webp": {
+      "out": "/images/free-proof/baseball/baseball-blanket-fire-and-smoke.webp",
+      "source": "etsy/listing-images/05-baseball-blanket/src/flat56-FS.png",
+      "sourceSha256": "b01e775a69b06f98f0336f2bc5fea80a8d1854ca34a68ce2e98e54765f4bd78f",
+      "sha256": "e1ce0d53866142aca5c447465d072859353619a944c25598aec808f2b06a6dad",
+      "width": 600,
+      "height": 720,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.baseball.blanket"
+      ],
+      "generatedAt": "2026-10-06T20:53:39.681Z"
+    },
+    "/images/free-proof/baseball/baseball-poster-chrome-all-star.webp": {
+      "out": "/images/free-proof/baseball/baseball-poster-chrome-all-star.webp",
+      "source": "etsy/listing-images/02-baseball-poster/src/BB-CA-poster.png",
+      "sourceSha256": "4218318e4e550b786324baf416de3b1b550f31e60cd365b37c82574ee53392bb",
+      "sha256": "15ba57423434d73290aa953448578c7ce70452c4ab86bcd1687ad6dfc4ba04d9",
+      "width": 600,
+      "height": 800,
+      "kind": "poster",
+      "keys": [
+        "free-proof.baseball.poster"
+      ],
+      "generatedAt": "2026-10-06T20:53:38.615Z"
+    },
+    "/images/free-proof/baseball/baseball-trading-card-front-chrome-all-star.webp": {
+      "out": "/images/free-proof/baseball/baseball-trading-card-front-chrome-all-star.webp",
+      "source": "etsy/listing-images/01-baseball-card/src/BB-CA-front.png",
+      "sourceSha256": "3486a586f1e2498bcad640dc5a9c6c359fc79eb2c75ef1c8c3d04b0feb65d078",
+      "sha256": "8d0ad70869fb3a1a3bb96bdf39645e3e35ac8266efe1606ad5abd2f347fda1f4",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.baseball.card.CA"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:35.536Z"
+    },
+    "/images/free-proof/baseball/baseball-trading-card-front-fire-and-smoke.webp": {
+      "out": "/images/free-proof/baseball/baseball-trading-card-front-fire-and-smoke.webp",
+      "source": "etsy/listing-images/01-baseball-card/src/BB-FS-front.png",
+      "sourceSha256": "85ce0fd5b4b4ef490548aa53465f671a76eef0df9efb3f0da9ee36240681bdac",
+      "sha256": "a2cc6bd90476133f3e84261f464aa8e028cb1baada5bf16598356c792e905d12",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.baseball.card.FS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:36.034Z"
+    },
+    "/images/free-proof/baseball/baseball-trading-card-front-heritage.webp": {
+      "out": "/images/free-proof/baseball/baseball-trading-card-front-heritage.webp",
+      "source": "etsy/listing-images/01-baseball-card/src/BB-HE-front.png",
+      "sourceSha256": "97673771582f42e7edc490cacad2eb954144816f07a60bbbec438f8156688039",
+      "sha256": "c0f34492990e9d922a75aeda6f945b5c3b92f5ba73f2819a2ce02292e205a7ff",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.baseball.card.HE"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:36.537Z"
+    },
+    "/images/free-proof/baseball/baseball-trading-card-front-prism-rush.webp": {
+      "out": "/images/free-proof/baseball/baseball-trading-card-front-prism-rush.webp",
+      "source": "etsy/listing-images/01-baseball-card/src/BB-PR-front.png",
+      "sourceSha256": "e62011da7aa0140b7cf30bb6209fa6421e1dcd3b9b4441767607b2b9b2392db8",
+      "sha256": "6d4cb4089632d24cce3fd5091fd006b6957065632fcd5583aeca9e5e7188bbb5",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.baseball.card.PR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:37.570Z"
+    },
+    "/images/free-proof/baseball/baseball-trading-card-front-senior-night.webp": {
+      "out": "/images/free-proof/baseball/baseball-trading-card-front-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/bsb-sr-front.png",
+      "sourceSha256": "307a5d99dd329e192a7688f8e127be0d3fa2017053366c541abecab283671e6c",
+      "sha256": "c798991128f8ae797a6384882abfc18a2bed4d05dd7105e49ef7c08ceb4343c5",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.baseball.card.SR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:38.085Z"
+    },
+    "/images/free-proof/baseball/baseball-trading-card-front-signature-spotlight.webp": {
+      "out": "/images/free-proof/baseball/baseball-trading-card-front-signature-spotlight.webp",
+      "source": "etsy/listing-images/01-baseball-card/src/BB-SS-front.png",
+      "sourceSha256": "097a08e1679d72c00bef44dd04183540528381bc0f4a41244e08b0c1cc188d32",
+      "sha256": "6836804c9911ccd0e8dc742ac6641172250a20f492669bd2d25e810217373718",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.baseball.card.SS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:37.057Z"
+    },
+    "/images/free-proof/baseball/baseball-trading-card-front-stadium-night.webp": {
+      "out": "/images/free-proof/baseball/baseball-trading-card-front-stadium-night.webp",
+      "source": "etsy/listing-images/01-baseball-card/src/BB-SN-front.png",
+      "sourceSha256": "3c801bbc56d711219c32523f86f04209a2fc2dd44c0ce66e136a8a663dc43297",
+      "sha256": "11e1fb1eb7ba5f30ae567318396a8f4dd2411ef5c4839219b7ba892a76091e78",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.baseball.card.SN"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:35.034Z"
+    },
+    "/images/free-proof/basketball/basketball-banner-heritage.webp": {
+      "out": "/images/free-proof/basketball/basketball-banner-heritage.webp",
+      "source": "etsy/listing-images/03-basketball-banner/src/master-HE.png",
+      "sourceSha256": "ca44e033cfcd71c91e49f4ad773e570c0447170391d2f4e0bea0fac95f9a7d18",
+      "sha256": "ba4a5de336dbebee2152011a1c2a6918bb28f76f12d4e6ce6f871102120f2964",
+      "width": 500,
+      "height": 1000,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.basketball.banner"
+      ],
+      "generatedAt": "2026-10-06T20:53:28.791Z"
+    },
+    "/images/free-proof/basketball/basketball-blanket-prism-rush.webp": {
+      "out": "/images/free-proof/basketball/basketball-blanket-prism-rush.webp",
+      "source": "etsy/listing-images/05-basketball-blanket/src/flat56-PR.png",
+      "sourceSha256": "7fcb713ba48eac2f5f7d928dc0b6ab650133b8da981c3418f2581001b7a642d2",
+      "sha256": "41e41cbf60c2c312f477b987bc7c447a4dffe8b7c8e3662e38fa3b87de00b8ac",
+      "width": 600,
+      "height": 720,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.basketball.blanket"
+      ],
+      "generatedAt": "2026-10-06T20:53:29.298Z"
+    },
+    "/images/free-proof/basketball/basketball-poster-stadium-night.webp": {
+      "out": "/images/free-proof/basketball/basketball-poster-stadium-night.webp",
+      "source": "etsy/listing-images/02-basketball-poster/src/BK-SN-poster.png",
+      "sourceSha256": "5fd9945e66945b3b8c7c66a7217dea93d8d79562513ab0fae50bf144a4fbe6ea",
+      "sha256": "a0224bc699e5b6ce59faa69f786146f6a938daea1b17389c913ba9fac6eec20f",
+      "width": 600,
+      "height": 800,
+      "kind": "poster",
+      "keys": [
+        "free-proof.basketball.poster"
+      ],
+      "generatedAt": "2026-10-06T20:53:28.179Z"
+    },
+    "/images/free-proof/basketball/basketball-trading-card-front-chrome-all-star.webp": {
+      "out": "/images/free-proof/basketball/basketball-trading-card-front-chrome-all-star.webp",
+      "source": "etsy/listing-images/01-basketball-card/src/BK-CA-front.png",
+      "sourceSha256": "0275e46d31a3ff884e726e57ed064f0478a900a8cedd38a0ff4e0559d425d0c0",
+      "sha256": "a2bb6132bd4d54a55c6d2dbc1ab5af9f56febafd2835b30e98e09c49679ff82b",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.basketball.card.CA"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:25.033Z"
+    },
+    "/images/free-proof/basketball/basketball-trading-card-front-fire-and-smoke.webp": {
+      "out": "/images/free-proof/basketball/basketball-trading-card-front-fire-and-smoke.webp",
+      "source": "etsy/listing-images/01-basketball-card/src/BK-FS-front.png",
+      "sourceSha256": "2cf9662458a8efcf24eeea569cadc2e387166684476f57aea829e58386aab4ff",
+      "sha256": "c71dee38593463cc8bb5cce47b09673574a2ee348aef0c763809ddb63bb3a93c",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.basketball.card.FS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:25.550Z"
+    },
+    "/images/free-proof/basketball/basketball-trading-card-front-heritage.webp": {
+      "out": "/images/free-proof/basketball/basketball-trading-card-front-heritage.webp",
+      "source": "etsy/listing-images/01-basketball-card/src/BK-HE-front.png",
+      "sourceSha256": "f77a2db9d2f8625ad974aee29adbc21830b298759ddc61a87784917340281569",
+      "sha256": "3ba35da03d05914824e124217bafa25185a1fa70a8f5fb303f38f15ebe21100a",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.basketball.card.HE"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:26.080Z"
+    },
+    "/images/free-proof/basketball/basketball-trading-card-front-prism-rush.webp": {
+      "out": "/images/free-proof/basketball/basketball-trading-card-front-prism-rush.webp",
+      "source": "etsy/listing-images/01-basketball-card/src/BK-PR-front.png",
+      "sourceSha256": "25a0e8d7d7c6e840d816a3bbcd9e209df0da53e2cabb0f99acede0a7227bf2e5",
+      "sha256": "b48e72a541885620cbf40df9845e24273092192f3646f9e433f65bad3c82f49c",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.basketball.card.PR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:27.135Z"
+    },
+    "/images/free-proof/basketball/basketball-trading-card-front-senior-night.webp": {
+      "out": "/images/free-proof/basketball/basketball-trading-card-front-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/sr-card-front.png",
+      "sourceSha256": "5d5e69b3409cf3099c9ef47ac6f40b35d50c2fffc42b37e44f3ddbe2b3aa9f55",
+      "sha256": "3c4f9700182fcfcae5759c84419c7bc477093955ff561e8e7332757ed1de6fcd",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.basketball.card.SR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:27.663Z"
+    },
+    "/images/free-proof/basketball/basketball-trading-card-front-signature-spotlight.webp": {
+      "out": "/images/free-proof/basketball/basketball-trading-card-front-signature-spotlight.webp",
+      "source": "etsy/listing-images/01-basketball-card/src/BK-SS-front.png",
+      "sourceSha256": "5fcd92f2885b01d43591d7985a6eabce22fea6677ef07659aaec39d97e52f8b6",
+      "sha256": "bc7ea703de1bd9e1f2576db32b0396411df0aa72f33c5e8fb9b6d226b353f9a5",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.basketball.card.SS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:26.602Z"
+    },
+    "/images/free-proof/basketball/basketball-trading-card-front-stadium-night.webp": {
+      "out": "/images/free-proof/basketball/basketball-trading-card-front-stadium-night.webp",
+      "source": "etsy/listing-images/01-basketball-card/src/BK-SN-front.png",
+      "sourceSha256": "de63e3c90c7319aa7e5dc9ffd9abbb6721717696aec96ecda87687312308a2a2",
+      "sha256": "70339ae66b29b5089b7d3a2ad9c002725e5e2459381fdcfa38ef87df0b2e91d5",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.basketball.card.SN"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:24.531Z"
+    },
+    "/images/free-proof/cheerleading/cheerleading-banner-heritage.webp": {
+      "out": "/images/free-proof/cheerleading/cheerleading-banner-heritage.webp",
+      "source": "etsy/listing-images/03-cheerleading-banner/src/master-HE.png",
+      "sourceSha256": "6caf0e89864a64937fb977dacf08cae9dfe7d7c9178d28d0c563362c6f75e8ce",
+      "sha256": "a8354b3bb3632107c6f1fc4e1eec088d1afc4a618a141d7094d8770f83798908",
+      "width": 500,
+      "height": 1000,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.cheerleading.banner"
+      ],
+      "generatedAt": "2026-10-06T20:54:14.539Z"
+    },
+    "/images/free-proof/cheerleading/cheerleading-blanket-fire-and-smoke.webp": {
+      "out": "/images/free-proof/cheerleading/cheerleading-blanket-fire-and-smoke.webp",
+      "source": "etsy/listing-images/05-cheerleading-blanket/src/flat56-FS.png",
+      "sourceSha256": "a1ee2bd7cd35ce79020749f145433c0c4ef27201dfd9682544e4651465e472e9",
+      "sha256": "7a80b1fc3d9ae58f79a5e6cb17e03614ed0ace7439f4e5ef121034adb5d29cf5",
+      "width": 600,
+      "height": 720,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.cheerleading.blanket"
+      ],
+      "generatedAt": "2026-10-06T20:54:15.032Z"
+    },
+    "/images/free-proof/cheerleading/cheerleading-poster-signature-spotlight.webp": {
+      "out": "/images/free-proof/cheerleading/cheerleading-poster-signature-spotlight.webp",
+      "source": "etsy/listing-images/02-cheerleading-poster/src/CH-SS-poster.png",
+      "sourceSha256": "3276dbd3bdcdb872adf46956a1c605c1084c81f916b9f136ab1a8643fb371ffd",
+      "sha256": "b3e8749df6ffb4b11038c5c929bc93ac897a63c3d001026c055b2cdc79b3502b",
+      "width": 600,
+      "height": 800,
+      "kind": "poster",
+      "keys": [
+        "free-proof.cheerleading.poster"
+      ],
+      "generatedAt": "2026-10-06T20:54:14.008Z"
+    },
+    "/images/free-proof/cheerleading/cheerleading-trading-card-front-chrome-all-star.webp": {
+      "out": "/images/free-proof/cheerleading/cheerleading-trading-card-front-chrome-all-star.webp",
+      "source": "etsy/listing-images/01-cheerleading-card/src/CH-CA-front.png",
+      "sourceSha256": "aa043c199b8802cb4fdb46b021b120c900089aa65c1d3218b32b4166da1f6d6b",
+      "sha256": "0c8fa28cde1bfa0b826521c22d69ccd6262fc6d86196b9b0f8d27c65d834b922",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.cheerleading.card.CA"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:10.927Z"
+    },
+    "/images/free-proof/cheerleading/cheerleading-trading-card-front-fire-and-smoke.webp": {
+      "out": "/images/free-proof/cheerleading/cheerleading-trading-card-front-fire-and-smoke.webp",
+      "source": "etsy/listing-images/01-cheerleading-card/src/CH-FS-front.png",
+      "sourceSha256": "c6110647ec5bfaa70570054786836a69e842fe1e576059117c3219093027d43f",
+      "sha256": "42499c5417eb3c5fa3c69e608fd93746abff47f6027923739c246fe35073d112",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.cheerleading.card.FS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:11.444Z"
+    },
+    "/images/free-proof/cheerleading/cheerleading-trading-card-front-heritage.webp": {
+      "out": "/images/free-proof/cheerleading/cheerleading-trading-card-front-heritage.webp",
+      "source": "etsy/listing-images/01-cheerleading-card/src/CH-HE-front.png",
+      "sourceSha256": "c741182344793e159e993db5c20eb8feceeeefaf74de0a46820cbe4ece8d36c3",
+      "sha256": "98ee00550f61f7658da87eb6b3491961c27ba2d30c0c158229f843d26680a8e4",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.cheerleading.card.HE"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:11.968Z"
+    },
+    "/images/free-proof/cheerleading/cheerleading-trading-card-front-prism-rush.webp": {
+      "out": "/images/free-proof/cheerleading/cheerleading-trading-card-front-prism-rush.webp",
+      "source": "etsy/listing-images/01-cheerleading-card/src/CH-PR-front.png",
+      "sourceSha256": "51257d7c6b287c82730aa734dd8f71ea54a31728f38693fb6130ea55c74611a2",
+      "sha256": "ba653b25fb07280d4edb3555f01fa58f13b43b7865e59ed7dc4d9222318e02f9",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.cheerleading.card.PR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:12.994Z"
+    },
+    "/images/free-proof/cheerleading/cheerleading-trading-card-front-senior-night.webp": {
+      "out": "/images/free-proof/cheerleading/cheerleading-trading-card-front-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/chr-sr-front.png",
+      "sourceSha256": "8c2c9eda4933fa19d52b52214372e396584aee73cc5d45177f166d9347995f65",
+      "sha256": "5f6841edb2b515ae2854003aeb569f53ac6781c2693fe05bb1a55b139d9786d0",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.cheerleading.card.SR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:13.502Z"
+    },
+    "/images/free-proof/cheerleading/cheerleading-trading-card-front-signature-spotlight.webp": {
+      "out": "/images/free-proof/cheerleading/cheerleading-trading-card-front-signature-spotlight.webp",
+      "source": "etsy/listing-images/01-cheerleading-card/src/CH-SS-front.png",
+      "sourceSha256": "ab91590628ee02583b254aa0885da46886baa5f0f7e7a429e822525fa09da323",
+      "sha256": "e9cc3bb7f9a27d8e6fdfe7e50fea228ea2f6c9c6ba3b9344e56c23ff55f0de11",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.cheerleading.card.SS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:12.481Z"
+    },
+    "/images/free-proof/cheerleading/cheerleading-trading-card-front-stadium-night.webp": {
+      "out": "/images/free-proof/cheerleading/cheerleading-trading-card-front-stadium-night.webp",
+      "source": "etsy/listing-images/01-cheerleading-card/src/CH-SN-front.png",
+      "sourceSha256": "4c11ae95cd5b888edf6f04acd0aa1b49d3a91ddca68dd2c06659efac077ee881",
+      "sha256": "05fcf35dc4f570ba7bd60f0480f98b18d476f59e389cc81c2e2bce2e770b6157",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.cheerleading.card.SN"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:10.428Z"
+    },
+    "/images/free-proof/football/football-banner-heritage.webp": {
+      "out": "/images/free-proof/football/football-banner-heritage.webp",
+      "source": "etsy/listing-images/03-football-banner/src/master-HE.png",
+      "sourceSha256": "1d017bcc8be23379f583e120d9ac0ef83ef7f7e68a57733a4e84cb1aad20b4e7",
+      "sha256": "1aefd262074c904964cd9de721983411d70154cf2e4069007d2759607f80be14",
+      "width": 500,
+      "height": 1000,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.football.banner"
+      ],
+      "generatedAt": "2026-10-06T20:53:34.008Z"
+    },
+    "/images/free-proof/football/football-blanket-stadium-night.webp": {
+      "out": "/images/free-proof/football/football-blanket-stadium-night.webp",
+      "source": "etsy/listing-images/05-football-blanket/src/flat56-SN.png",
+      "sourceSha256": "917880c75aa90a836ed74875b222e2765a454dbf723713b97b0c2c156cb5f4ef",
+      "sha256": "4dff183547cce3adc39abb89e0a9d2a605fb01c1ad94fb502c1dafbb748f4b82",
+      "width": 600,
+      "height": 720,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.football.blanket"
+      ],
+      "generatedAt": "2026-10-06T20:53:34.510Z"
+    },
+    "/images/free-proof/football/football-poster-heritage.webp": {
+      "out": "/images/free-proof/football/football-poster-heritage.webp",
+      "source": "etsy/listing-images/02-football-poster/src/FB-HE-poster.png",
+      "sourceSha256": "a9ed3ad6f6560d1a764c708f9c211b29b23dcd2687b0ab6201522fdc390101de",
+      "sha256": "93e33714ff252e023c2bb96775254b78eb275ff8a307f31f038572264344fc2e",
+      "width": 600,
+      "height": 800,
+      "kind": "poster",
+      "keys": [
+        "free-proof.football.poster"
+      ],
+      "generatedAt": "2026-10-06T20:53:33.500Z"
+    },
+    "/images/free-proof/football/football-trading-card-front-chrome-all-star.webp": {
+      "out": "/images/free-proof/football/football-trading-card-front-chrome-all-star.webp",
+      "source": "etsy/listing-images/01-football-card/src/FB-CA-front.png",
+      "sourceSha256": "06b7a43f4abb95c7412382240d72116df7c27ad2c02b6f91f09d5b0ad7d3ca09",
+      "sha256": "a8a34d5d69d2116e897d0f03174e3d7398309edf7fff6d0f731469a72fb87041",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.football.card.CA"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:30.318Z"
+    },
+    "/images/free-proof/football/football-trading-card-front-fire-and-smoke.webp": {
+      "out": "/images/free-proof/football/football-trading-card-front-fire-and-smoke.webp",
+      "source": "etsy/listing-images/01-football-card/src/FB-FS-front.png",
+      "sourceSha256": "bef457cac04a491267a77bb8f9bdc6f762e9954fae1ab2e021435d336f75d528",
+      "sha256": "54f5fa7d30abecaf1bd48d3d8a0ea0d21c234fc43ed2c0f727154cb7e1f892ba",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.football.card.FS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:30.827Z"
+    },
+    "/images/free-proof/football/football-trading-card-front-heritage.webp": {
+      "out": "/images/free-proof/football/football-trading-card-front-heritage.webp",
+      "source": "etsy/listing-images/01-football-card/src/FB-HE-front.png",
+      "sourceSha256": "f7fffaf6685ce45fe637f44cb2f088ae4ceaaa436f26d2dbc4dfe907b83fa8cb",
+      "sha256": "1ce8ddb6c067bdbbe1f63aa9fe3cfbfff214f882c608cda3e135e729a97c7da3",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.football.card.HE"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:31.348Z"
+    },
+    "/images/free-proof/football/football-trading-card-front-prism-rush.webp": {
+      "out": "/images/free-proof/football/football-trading-card-front-prism-rush.webp",
+      "source": "etsy/listing-images/01-football-card/src/FB-PR-front.png",
+      "sourceSha256": "3f83da5c7463987550d74248ea514f299554ef7d77cf8cdf99fed293bde0d938",
+      "sha256": "818aa4fc066670a5bd9887d9a02aef5c83e5cdc3a55cbd49acb3e77146020fa1",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.football.card.PR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:32.405Z"
+    },
+    "/images/free-proof/football/football-trading-card-front-senior-night.webp": {
+      "out": "/images/free-proof/football/football-trading-card-front-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/ftb-sr-front.png",
+      "sourceSha256": "15a58c58dbaaeaecffe25a48d3a762d169486269f4a541ab7bc64af06be9f23c",
+      "sha256": "8b034b1fd8e058f0a2cfb25ac78aacedbe39176cf738ebc9e38b2d3830ba1aa5",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.football.card.SR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:32.915Z"
+    },
+    "/images/free-proof/football/football-trading-card-front-signature-spotlight.webp": {
+      "out": "/images/free-proof/football/football-trading-card-front-signature-spotlight.webp",
+      "source": "etsy/listing-images/01-football-card/src/FB-SS-front.png",
+      "sourceSha256": "33db730eb3388c886ebfe39052ac2f42873cae9ef6a78e6786b7ddca3e249d4d",
+      "sha256": "de23ad1340c21c6d4353853b25f2c86282af16e85ecc048e9fc765d549e9dc1f",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.football.card.SS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:31.870Z"
+    },
+    "/images/free-proof/football/football-trading-card-front-stadium-night.webp": {
+      "out": "/images/free-proof/football/football-trading-card-front-stadium-night.webp",
+      "source": "etsy/listing-images/01-football-card/src/FB-SN-front.png",
+      "sourceSha256": "dcccd5ede680f7ea505c2164b8846e5fe364f6ee87ef8dd528ab16b136b0aa22",
+      "sha256": "e32dfb3b3f905c2709182b3d44ec1c360c3834acd8cca788d00c29217cd2453b",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.football.card.SN"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:29.808Z"
+    },
+    "/images/free-proof/golf/golf-poster-stadium-night.webp": {
+      "out": "/images/free-proof/golf/golf-poster-stadium-night.webp",
+      "source": "etsy/listing-images/02-golf-poster/src/GF-SN-poster.png",
+      "sourceSha256": "8aac82297c2b5852278bd2690c4b53cf518d48669d88fc5ca3f170acbe75379a",
+      "sha256": "c4eb0ce2149dcda682856798507f8fe764227d98586d1d46c3cc2f2b96c1c42a",
+      "width": 600,
+      "height": 800,
+      "kind": "poster",
+      "keys": [
+        "free-proof.golf.poster"
+      ],
+      "generatedAt": "2026-10-06T20:54:33.614Z"
+    },
+    "/images/free-proof/golf/golf-trading-card-front-chrome-all-star.webp": {
+      "out": "/images/free-proof/golf/golf-trading-card-front-chrome-all-star.webp",
+      "source": "etsy/listing-images/01-golf-card/src/GF-CA-front.png",
+      "sourceSha256": "f39bd8c6a003efbe8a0d6b3ba2b488856c988117d815a7e720ccca434a8e9e6a",
+      "sha256": "645444533541dba3c857ad01975d3965eb7388cda505715555f2adefdfd58084",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.golf.card.CA"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:31.076Z"
+    },
+    "/images/free-proof/golf/golf-trading-card-front-fire-and-smoke.webp": {
+      "out": "/images/free-proof/golf/golf-trading-card-front-fire-and-smoke.webp",
+      "source": "etsy/listing-images/01-golf-card/src/GF-FS-front.png",
+      "sourceSha256": "0cc3d597db9cc5acb9f3e8efc37b96f4ee4079357edc77f4e7ce0204dda1fc03",
+      "sha256": "913eb7c79968f2747c205b5ffdc8549883492e628955586f6eb6c0bf08b2af17",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.golf.card.FS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:31.592Z"
+    },
+    "/images/free-proof/golf/golf-trading-card-front-heritage.webp": {
+      "out": "/images/free-proof/golf/golf-trading-card-front-heritage.webp",
+      "source": "etsy/listing-images/01-golf-card/src/GF-HE-front.png",
+      "sourceSha256": "9e4e4bef4ca3989f4f8dbf9b7ee2ad50a9f21365dd2bf9ff5689a279642864b4",
+      "sha256": "7e8de617553038345ecafb95b91e8800d5423ff3c4249b37f9473e6be24aa414",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.golf.card.HE"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:32.087Z"
+    },
+    "/images/free-proof/golf/golf-trading-card-front-prism-rush.webp": {
+      "out": "/images/free-proof/golf/golf-trading-card-front-prism-rush.webp",
+      "source": "etsy/listing-images/01-golf-card/src/GF-PR-front.png",
+      "sourceSha256": "ef5b6b143cda546f36e4a315ad88aaedac3d55fb111f0a22db02ce0588a91b34",
+      "sha256": "dc165417739d117e2c2575e0b4b8894c670bbfa15e378e78f087456dde1a7112",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.golf.card.PR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:33.093Z"
+    },
+    "/images/free-proof/golf/golf-trading-card-front-signature-spotlight.webp": {
+      "out": "/images/free-proof/golf/golf-trading-card-front-signature-spotlight.webp",
+      "source": "etsy/listing-images/01-golf-card/src/GF-SS-front.png",
+      "sourceSha256": "68956ac129621737a870b43fb348509257c15e9f8d45aea295a88d91061da652",
+      "sha256": "c343ae5d6f0fd69671b83ed3c637925f748af7ee9951f82b9f763d1533235672",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.golf.card.SS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:32.587Z"
+    },
+    "/images/free-proof/golf/golf-trading-card-front-stadium-night.webp": {
+      "out": "/images/free-proof/golf/golf-trading-card-front-stadium-night.webp",
+      "source": "etsy/listing-images/01-golf-card/src/GF-SN-front.png",
+      "sourceSha256": "b80bace3e14cb535789039141ca02c6de9fdecfaa34810b8c17b3d37110fc8df",
+      "sha256": "96e0b6fda532d2b19751d9ac90f0ea5189fc56c1d554c1ff71cbcb61882ed516",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.golf.card.SN"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:30.579Z"
+    },
+    "/images/free-proof/gymnastics/gymnastics-poster-heritage.webp": {
+      "out": "/images/free-proof/gymnastics/gymnastics-poster-heritage.webp",
+      "source": "etsy/listing-images/02-gymnastics-poster/src/GY-HE-poster.png",
+      "sourceSha256": "2d4d12c44f6527b6f6b5eb29cc94b822ef8d4c786948dd4f2f4e9fa184724dc9",
+      "sha256": "7f421b1d5c8623d5593094d01b6385fe48590abbab0448841407f658a0e859f3",
+      "width": 600,
+      "height": 800,
+      "kind": "poster",
+      "keys": [
+        "free-proof.gymnastics.poster"
+      ],
+      "generatedAt": "2026-10-06T20:54:18.518Z"
+    },
+    "/images/free-proof/gymnastics/gymnastics-trading-card-front-chrome-all-star.webp": {
+      "out": "/images/free-proof/gymnastics/gymnastics-trading-card-front-chrome-all-star.webp",
+      "source": "etsy/listing-images/01-gymnastics-card/src/GY-CA-front.png",
+      "sourceSha256": "59b1910dcfe1d7a933a533506cb395705c8ec1857192f03252ab0a1c240a4d46",
+      "sha256": "6bd0f75b4ef8a5b0edd5eb3392662ea113a7607f41b6a32179e40d093023cea4",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.gymnastics.card.CA"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:16.035Z"
+    },
+    "/images/free-proof/gymnastics/gymnastics-trading-card-front-fire-and-smoke.webp": {
+      "out": "/images/free-proof/gymnastics/gymnastics-trading-card-front-fire-and-smoke.webp",
+      "source": "etsy/listing-images/01-gymnastics-card/src/GY-FS-front.png",
+      "sourceSha256": "41d90f278435d70108a47f7c9a3253cacb5efaf551d00f28f6e56d5a8309332c",
+      "sha256": "0a34cea1871687595627554880225edb80e784a9c325aa953fd3a40447c1ac31",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.gymnastics.card.FS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:16.528Z"
+    },
+    "/images/free-proof/gymnastics/gymnastics-trading-card-front-heritage.webp": {
+      "out": "/images/free-proof/gymnastics/gymnastics-trading-card-front-heritage.webp",
+      "source": "etsy/listing-images/01-gymnastics-card/src/GY-HE-front.png",
+      "sourceSha256": "f97911bbdb4cc6c0980147f82729ad44bd01e3523476a3c7d657cbc2c0c53b79",
+      "sha256": "5412466acc512dcf2c44f3311c579ddce360d38cabf48f4824e61eeee87b7978",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.gymnastics.card.HE"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:17.017Z"
+    },
+    "/images/free-proof/gymnastics/gymnastics-trading-card-front-prism-rush.webp": {
+      "out": "/images/free-proof/gymnastics/gymnastics-trading-card-front-prism-rush.webp",
+      "source": "etsy/listing-images/01-gymnastics-card/src/GY-PR-front.png",
+      "sourceSha256": "00fe873bd88fceebb7bcf092b8a02b38c2d78523d4eeba14976067cb9d68cf00",
+      "sha256": "9d2db54529e3435f833e55b5c24cc54ac1f07b387049c72ecdea1dad4560fb81",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.gymnastics.card.PR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:18.024Z"
+    },
+    "/images/free-proof/gymnastics/gymnastics-trading-card-front-signature-spotlight.webp": {
+      "out": "/images/free-proof/gymnastics/gymnastics-trading-card-front-signature-spotlight.webp",
+      "source": "etsy/listing-images/01-gymnastics-card/src/GY-SS-front.png",
+      "sourceSha256": "6edad5231a41342615f1dae4763557157aa75a9e9099018c8caa6cc3446b54cd",
+      "sha256": "708eb8e5577e254b8685adecbe4e4913a970aa87fb3f08ea57e99c955c2819fc",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.gymnastics.card.SS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:17.518Z"
+    },
+    "/images/free-proof/gymnastics/gymnastics-trading-card-front-stadium-night.webp": {
+      "out": "/images/free-proof/gymnastics/gymnastics-trading-card-front-stadium-night.webp",
+      "source": "etsy/listing-images/01-gymnastics-card/src/GY-SN-front.png",
+      "sourceSha256": "5a4f522549db5c0bc3bca3b398025f61e846bfd316389ed9763390c350228a2d",
+      "sha256": "08ca8746492e84d838cbff212d3659604b4d2f00fdfc3e95ef92bbc2432938e9",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.gymnastics.card.SN"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:15.534Z"
+    },
+    "/images/free-proof/ice-hockey/ice-hockey-banner-heritage.webp": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-banner-heritage.webp",
+      "source": "etsy/listing-images/03-ice-hockey-banner/src/master-HE.png",
+      "sourceSha256": "de98fb119614bf6f35b829681726e5c56d2e87addafef6b8fb49706025bcd61e",
+      "sha256": "50c966b0f186afaadd33de9253d57aad60faa0e6602ff155b6f963e856bdbcc7",
+      "width": 500,
+      "height": 1000,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.ice-hockey.banner"
+      ],
+      "generatedAt": "2026-10-06T20:53:54.512Z"
+    },
+    "/images/free-proof/ice-hockey/ice-hockey-blanket-signature-spotlight.webp": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-blanket-signature-spotlight.webp",
+      "source": "etsy/listing-images/05-ice-hockey-blanket/src/flat56-SS.png",
+      "sourceSha256": "1efc2c554230c434449f87a708f64b1d5daa03d6e3934e667c843b587a3f8dda",
+      "sha256": "77d3d1e384a58ec1f47fe0bd6d8cd74b6ddfc7e09d7629c42abb808fd356ba74",
+      "width": 600,
+      "height": 720,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.ice-hockey.blanket"
+      ],
+      "generatedAt": "2026-10-06T20:53:55.013Z"
+    },
+    "/images/free-proof/ice-hockey/ice-hockey-poster-stadium-night.webp": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-poster-stadium-night.webp",
+      "source": "etsy/listing-images/02-ice-hockey-poster/src/IH-SN-poster.png",
+      "sourceSha256": "805c93a56039c9ad489cdaf6c3d0f8fba971ab08582393557f728b8d7ca18e80",
+      "sha256": "e349a8df96b869e8bcf2d9826f4501a0c2104adac542ebe5f0589123957ba5bd",
+      "width": 600,
+      "height": 800,
+      "kind": "poster",
+      "keys": [
+        "free-proof.ice-hockey.poster"
+      ],
+      "generatedAt": "2026-10-06T20:53:53.980Z"
+    },
+    "/images/free-proof/ice-hockey/ice-hockey-trading-card-front-chrome-all-star.webp": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-trading-card-front-chrome-all-star.webp",
+      "source": "etsy/listing-images/01-ice-hockey-card/src/IH-CA-card-FRONT.png",
+      "sourceSha256": "f6196b3caf77a7aa0970104793b8f4f8be8ec600c9d59a45cf5e9e3a443d3176",
+      "sha256": "4f6566f7dcc0ee3ce447635fd4c1d1ac2e83921ce1cd14758d75192bda35de74",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.ice-hockey.card.CA"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:51.363Z"
+    },
+    "/images/free-proof/ice-hockey/ice-hockey-trading-card-front-fire-and-smoke.webp": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-trading-card-front-fire-and-smoke.webp",
+      "source": "etsy/listing-images/01-ice-hockey-card/src/IH-FS-front.png",
+      "sourceSha256": "34b5ebbd2bbb72980abb712c32c1aff10275a0adbc6751fead8f1dc36dd05718",
+      "sha256": "f33c2fbb363ec55a763d386bcc07f4be5e650d60514e4835581062c09c7287c4",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.ice-hockey.card.FS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:51.866Z"
+    },
+    "/images/free-proof/ice-hockey/ice-hockey-trading-card-front-heritage.webp": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-trading-card-front-heritage.webp",
+      "source": "etsy/listing-images/01-ice-hockey-card/src/IH-HE-front.png",
+      "sourceSha256": "cedca0b6ef4189f0c5823ec22a4d902d49c35c9bae99c2d41abff81287b56a8d",
+      "sha256": "185ee392e68d6df72f52222504391733a4a60b77211ee334160d4e6454bdfff0",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.ice-hockey.card.HE"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:52.371Z"
+    },
+    "/images/free-proof/ice-hockey/ice-hockey-trading-card-front-prism-rush.webp": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-trading-card-front-prism-rush.webp",
+      "source": "etsy/listing-images/01-ice-hockey-card/src/IH-PR-front.png",
+      "sourceSha256": "0d954eba63b69f3f6ef4e895052c977ac9034872d27bc88a2f3d122124e97bef",
+      "sha256": "71389369c9205f3be4f64e5bd198931c036a148c17facba2edbd99f5721d295f",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.ice-hockey.card.PR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:53.371Z"
+    },
+    "/images/free-proof/ice-hockey/ice-hockey-trading-card-front-signature-spotlight.webp": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-trading-card-front-signature-spotlight.webp",
+      "source": "etsy/listing-images/01-ice-hockey-card/src/IH-SS-front.png",
+      "sourceSha256": "2eb68a1bc4bf4d0a1064f171b4d2e5c32b3cca5566aa88c50635fdd077f130c0",
+      "sha256": "655cfcd7400f67d2a651f6bffa7d72b2e468cb78871a335c4153840dd46d6777",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.ice-hockey.card.SS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:52.863Z"
+    },
+    "/images/free-proof/ice-hockey/ice-hockey-trading-card-front-stadium-night.webp": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-trading-card-front-stadium-night.webp",
+      "source": "etsy/listing-images/01-ice-hockey-card/src/IH-SN-front.png",
+      "sourceSha256": "5a87727623cd7f1ce7008a95561bc869b08a2caddbc6f83cf8daa8208b4e7fed",
+      "sha256": "84fcf9ea7791669f4d632b95627342005dd463030cc8b2a7b5eade0a54ccb7a6",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.ice-hockey.card.SN"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:50.815Z"
+    },
+    "/images/free-proof/lacrosse/lacrosse-banner-heritage.webp": {
+      "out": "/images/free-proof/lacrosse/lacrosse-banner-heritage.webp",
+      "source": "etsy/listing-images/03-lacrosse-banner/src/master-HE.png",
+      "sourceSha256": "624b9a46d60ccdc5aac314af9a846dec5ee6b56634ee2d3fb094191c0fa63cec",
+      "sha256": "f432b3188be873098e92360e9b72adc6e2059eadfa98b654b85eccec961344b2",
+      "width": 500,
+      "height": 1000,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.lacrosse.banner"
+      ],
+      "generatedAt": "2026-10-06T20:54:04.516Z"
+    },
+    "/images/free-proof/lacrosse/lacrosse-blanket-stadium-night.webp": {
+      "out": "/images/free-proof/lacrosse/lacrosse-blanket-stadium-night.webp",
+      "source": "etsy/listing-images/05-lacrosse-blanket/src/flat56-SN.png",
+      "sourceSha256": "dc768d23e22c5b09778d52331cab98b3f02bb610ff379368992edef84fb75043",
+      "sha256": "15f18e4107fa3b58266adc39eb81d137f734e7747a1380425df9c3ec2f213c60",
+      "width": 600,
+      "height": 720,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.lacrosse.blanket"
+      ],
+      "generatedAt": "2026-10-06T20:54:05.014Z"
+    },
+    "/images/free-proof/lacrosse/lacrosse-poster-prism-rush.webp": {
+      "out": "/images/free-proof/lacrosse/lacrosse-poster-prism-rush.webp",
+      "source": "etsy/listing-images/02-lacrosse-poster/src/LX-PR-poster.png",
+      "sourceSha256": "d09dcfb7c5469e28578610ac700fe45b3a48a962c8a9c039570c5e75628bb6ed",
+      "sha256": "15fc9fe61e86c032c0d431e789e057feb8d8c2a54acc10c72fab0029ca0766f8",
+      "width": 600,
+      "height": 800,
+      "kind": "poster",
+      "keys": [
+        "free-proof.lacrosse.poster"
+      ],
+      "generatedAt": "2026-10-06T20:54:03.964Z"
+    },
+    "/images/free-proof/lacrosse/lacrosse-trading-card-front-chrome-all-star.webp": {
+      "out": "/images/free-proof/lacrosse/lacrosse-trading-card-front-chrome-all-star.webp",
+      "source": "etsy/listing-images/01-lacrosse-card/src/LX-CA-front.png",
+      "sourceSha256": "8044395e2fc27afe95d3be59015574f9c0a4d7a32c66d235e4abdc1ee16795ac",
+      "sha256": "7ecbb89a83056fb288ed12980d089a8fd6db3c523bccfc9bd0ff0b556b953e03",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.lacrosse.card.CA"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:01.410Z"
+    },
+    "/images/free-proof/lacrosse/lacrosse-trading-card-front-fire-and-smoke.webp": {
+      "out": "/images/free-proof/lacrosse/lacrosse-trading-card-front-fire-and-smoke.webp",
+      "source": "etsy/listing-images/01-lacrosse-card/src/LX-FS-front.png",
+      "sourceSha256": "cfb03d60672da17c1c3f7c415b15a6d1ab38cb8925fe46e429faff278cfa769d",
+      "sha256": "571d9ecaa0997997bdb15c954b8a238b3b95bb375e9802741cfa309284fe9503",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.lacrosse.card.FS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:01.909Z"
+    },
+    "/images/free-proof/lacrosse/lacrosse-trading-card-front-heritage.webp": {
+      "out": "/images/free-proof/lacrosse/lacrosse-trading-card-front-heritage.webp",
+      "source": "etsy/listing-images/01-lacrosse-card/src/LX-HE-front.png",
+      "sourceSha256": "b88ade95bd518d2b2d44aa0d9bde1b35ff45bfc38c171eb1f0443553a84c9ed6",
+      "sha256": "97f4191cbaf4f25195d9ee55ce56d78b58b6eaa276897f1a6c38df3fb39b4c36",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.lacrosse.card.HE"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:02.434Z"
+    },
+    "/images/free-proof/lacrosse/lacrosse-trading-card-front-prism-rush.webp": {
+      "out": "/images/free-proof/lacrosse/lacrosse-trading-card-front-prism-rush.webp",
+      "source": "etsy/listing-images/01-lacrosse-card/src/LX-PR-front.png",
+      "sourceSha256": "b31965aa0a00063298ee61bb1c2151cc0d517b786e861726b8994edba84fb426",
+      "sha256": "7d8e8cf4a2983f04e4f12addd867ee8aeb29a03d741baaf535f88311ba997a99",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.lacrosse.card.PR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:03.466Z"
+    },
+    "/images/free-proof/lacrosse/lacrosse-trading-card-front-signature-spotlight.webp": {
+      "out": "/images/free-proof/lacrosse/lacrosse-trading-card-front-signature-spotlight.webp",
+      "source": "etsy/listing-images/01-lacrosse-card/src/LX-SS-front.png",
+      "sourceSha256": "5fcadaea7ef186a88c06cf40f63590d50d9ab054bae1c4da557e289817b0db38",
+      "sha256": "9390097d7437a378357f2d439867f3aef35f0a1673214f0290526f8ce5deed4b",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.lacrosse.card.SS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:02.965Z"
+    },
+    "/images/free-proof/lacrosse/lacrosse-trading-card-front-stadium-night.webp": {
+      "out": "/images/free-proof/lacrosse/lacrosse-trading-card-front-stadium-night.webp",
+      "source": "etsy/listing-images/01-lacrosse-card/src/LX-SN-front.png",
+      "sourceSha256": "66672bd076b090e7c3860f856541db81e75abd37478823564a57ab2c88e38c36",
+      "sha256": "7da7ddad7f77480dcd90732acb9a7206ac7fb753b0963bf9332f9939153a302e",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.lacrosse.card.SN"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:00.770Z"
+    },
+    "/images/free-proof/other-sport/skateboarding-poster-chrome-all-star.webp": {
+      "out": "/images/free-proof/other-sport/skateboarding-poster-chrome-all-star.webp",
+      "source": "etsy/listing-images/02-other-sport-poster/src/SK-CA-poster.png",
+      "sourceSha256": "26ed748b3cb68768c37f4ae90a2074fad598984f70168adff9a3e9978424d768",
+      "sha256": "b8713f5e1102ecf49b3bbef54ba200bea3dd3cba2da311ff63e54d69aa4719b8",
+      "width": 600,
+      "height": 800,
+      "kind": "poster",
+      "keys": [
+        "free-proof.other-sport.poster"
+      ],
+      "generatedAt": "2026-10-06T20:54:40.789Z"
+    },
+    "/images/free-proof/other-sport/skateboarding-trading-card-front-chrome-all-star.webp": {
+      "out": "/images/free-proof/other-sport/skateboarding-trading-card-front-chrome-all-star.webp",
+      "source": "etsy/listing-images/01-other-sport-card/src/SK-CA-front.png",
+      "sourceSha256": "fad26df93454266b7742b3879aa078e09c5f3d85e904f8819a1f071f8ecbc47b",
+      "sha256": "10247c7242a12ba6c2eb9a71f670f9b22a959c54dad72fcf7b584d97a455ce00",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.other-sport.card.CA"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:38.291Z"
+    },
+    "/images/free-proof/other-sport/skateboarding-trading-card-front-fire-and-smoke.webp": {
+      "out": "/images/free-proof/other-sport/skateboarding-trading-card-front-fire-and-smoke.webp",
+      "source": "etsy/listing-images/01-other-sport-card/src/SK-FS-front.png",
+      "sourceSha256": "e4fea1492adafe40825e51213fa964bcaf308a3845309ab0a01dd41ee4286a76",
+      "sha256": "e5541082c61b84b794d4db728966f3047e2710641fe6182c61f26783c1175d6a",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.other-sport.card.FS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:38.790Z"
+    },
+    "/images/free-proof/other-sport/skateboarding-trading-card-front-heritage.webp": {
+      "out": "/images/free-proof/other-sport/skateboarding-trading-card-front-heritage.webp",
+      "source": "etsy/listing-images/01-other-sport-card/src/SK-HE-front.png",
+      "sourceSha256": "d21c43327d63e06c941094e36fa5071f859a784ae16c7299afd1ed3405309cde",
+      "sha256": "118666e127102215574703a4991873af24f89000483e838b790243e6a66e55ff",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.other-sport.card.HE"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:39.292Z"
+    },
+    "/images/free-proof/other-sport/skateboarding-trading-card-front-prism-rush.webp": {
+      "out": "/images/free-proof/other-sport/skateboarding-trading-card-front-prism-rush.webp",
+      "source": "etsy/listing-images/01-other-sport-card/src/SK-PR-front.png",
+      "sourceSha256": "e5ce6aeccd1839ff7a5fc9afc6a0efdbf001c2176fe4c1924d684c779ac212b9",
+      "sha256": "1a15ff494b26bef6cd827362028ab2987ee971cf8270cff7a66293fbb88c016f",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.other-sport.card.PR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:40.303Z"
+    },
+    "/images/free-proof/other-sport/skateboarding-trading-card-front-signature-spotlight.webp": {
+      "out": "/images/free-proof/other-sport/skateboarding-trading-card-front-signature-spotlight.webp",
+      "source": "etsy/listing-images/01-other-sport-card/src/SK-SS-front.png",
+      "sourceSha256": "7223f6df148c3836c52e6d5f9e7fd15635d79285dbffad6fd72db7a1ea60e519",
+      "sha256": "40719940931d4bc4300b0c3ff6366b8aa77092829cadf5842707806dba8e3fcc",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.other-sport.card.SS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:39.789Z"
+    },
+    "/images/free-proof/other-sport/skateboarding-trading-card-front-stadium-night.webp": {
+      "out": "/images/free-proof/other-sport/skateboarding-trading-card-front-stadium-night.webp",
+      "source": "etsy/listing-images/01-other-sport-card/src/SK-SN-front.png",
+      "sourceSha256": "fcbcab960f018820da602f9ab65b2202c69ac5f465bb14724abb95e2499487a6",
+      "sha256": "0e2b56dbd0b685b579ec1b1efdad164da152c2e3df4177d725d7ffd397a85f4a",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.other-sport.card.SN"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:37.788Z"
+    },
+    "/images/free-proof/pickleball/pickleball-poster-chrome-all-star.webp": {
+      "out": "/images/free-proof/pickleball/pickleball-poster-chrome-all-star.webp",
+      "source": "etsy/listing-images/02-pickleball-poster/src/PK-CA-poster.png",
+      "sourceSha256": "7ee535976315bc48c2aaa2cf5cea71dad6fa9bed8f1ba2cb92433a38abef507f",
+      "sha256": "a5bdb90f3379c8459676493ea05aacbbe542f2c67ad88ddb33c9e8a9dc806260",
+      "width": 600,
+      "height": 800,
+      "kind": "poster",
+      "keys": [
+        "free-proof.pickleball.poster"
+      ],
+      "generatedAt": "2026-10-06T20:54:37.291Z"
+    },
+    "/images/free-proof/pickleball/pickleball-trading-card-front-chrome-all-star.webp": {
+      "out": "/images/free-proof/pickleball/pickleball-trading-card-front-chrome-all-star.webp",
+      "source": "etsy/listing-images/01-pickleball-card/src/PK-CA-front.png",
+      "sourceSha256": "7bfcd06244e1dc1c04271e2c01a589dc2d033e947b5c340f3818dc0735bcef2a",
+      "sha256": "5d85d5937334ef33fcd719e61a1c9416a2eda9450090a8e6c698ecabdf856f40",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.pickleball.card.CA"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:34.662Z"
+    },
+    "/images/free-proof/pickleball/pickleball-trading-card-front-fire-and-smoke.webp": {
+      "out": "/images/free-proof/pickleball/pickleball-trading-card-front-fire-and-smoke.webp",
+      "source": "etsy/listing-images/01-pickleball-card/src/PK-FS-front.png",
+      "sourceSha256": "f474b66ce0f27c033051aa77a1c84203b561ef9c44860d2d2c7c6e1d487195fc",
+      "sha256": "c82e9fb2a919e4081168bfa18de802a98b0c6ef6407d9e3b3ec17634adcdb7e7",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.pickleball.card.FS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:35.167Z"
+    },
+    "/images/free-proof/pickleball/pickleball-trading-card-front-heritage.webp": {
+      "out": "/images/free-proof/pickleball/pickleball-trading-card-front-heritage.webp",
+      "source": "etsy/listing-images/01-pickleball-card/src/PK-HE-front.png",
+      "sourceSha256": "b0f4644b988e7506fd4fbc1e5067346477095a9f90917bc64fe4dab2c8637076",
+      "sha256": "1f3921ecffd1fb88c34eae99dd9ef7e54da951429a7b8aa7368906e4287c1a7c",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.pickleball.card.HE"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:35.728Z"
+    },
+    "/images/free-proof/pickleball/pickleball-trading-card-front-prism-rush.webp": {
+      "out": "/images/free-proof/pickleball/pickleball-trading-card-front-prism-rush.webp",
+      "source": "etsy/listing-images/01-pickleball-card/src/PK-PR-front.png",
+      "sourceSha256": "6cfa2afaf51e519ef9406fe3bcbad0f9a9df0a3a9a77224e0b3f60a7d89040fc",
+      "sha256": "5576624da0e96b528a23297a7b5c99b24a75539fa61805bbf7290330a621fee6",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.pickleball.card.PR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:36.795Z"
+    },
+    "/images/free-proof/pickleball/pickleball-trading-card-front-signature-spotlight.webp": {
+      "out": "/images/free-proof/pickleball/pickleball-trading-card-front-signature-spotlight.webp",
+      "source": "etsy/listing-images/01-pickleball-card/src/PK-SS-front.png",
+      "sourceSha256": "6fab6f60827629be0842a4d41a88b065c1aadeb25697f4c2b711329369b7211a",
+      "sha256": "0aa8828ab5b99d57e24ace7cb7f52ba831438e37f298e5d16dece447f9570e6b",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.pickleball.card.SS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:36.281Z"
+    },
+    "/images/free-proof/pickleball/pickleball-trading-card-front-stadium-night.webp": {
+      "out": "/images/free-proof/pickleball/pickleball-trading-card-front-stadium-night.webp",
+      "source": "etsy/listing-images/01-pickleball-card/src/PK-SN-front.png",
+      "sourceSha256": "051c4479f10f7469d9e868c5e50c60ad0dba7cbd10f68204a98e6401229f84d2",
+      "sha256": "f7d7b2973613e81c382a5860fbc67d85b10b8bd58555a9ab3fdd8e6a1025783a",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.pickleball.card.SN"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:34.128Z"
+    },
+    "/images/free-proof/soccer/soccer-banner-heritage.webp": {
+      "out": "/images/free-proof/soccer/soccer-banner-heritage.webp",
+      "source": "etsy/listing-images/03-soccer-banner/src/master-HE.png",
+      "sourceSha256": "9d40cf7ccee883d65e579d084d2c044ad6c005437097bc6b8ce9ec909ec8cc3d",
+      "sha256": "57bb3a4695df59dd8e3fa41b02b058dc7d63d2b5e1d6a72aaa43880b6473fcb3",
+      "width": 500,
+      "height": 1000,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.soccer.banner"
+      ],
+      "generatedAt": "2026-10-06T20:53:49.746Z"
+    },
+    "/images/free-proof/soccer/soccer-blanket-signature-spotlight.webp": {
+      "out": "/images/free-proof/soccer/soccer-blanket-signature-spotlight.webp",
+      "source": "etsy/listing-images/05-soccer-blanket/src/flat56-SS.png",
+      "sourceSha256": "67ae374571b612e28e8080df88d1e3b638f4088193267cef8da8821be2d41078",
+      "sha256": "a3b312e99af291a8238e33c51efa4915cb33f9305fe9c8ad6fbf8ccfd32f83b5",
+      "width": 600,
+      "height": 720,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.soccer.blanket"
+      ],
+      "generatedAt": "2026-10-06T20:53:50.252Z"
+    },
+    "/images/free-proof/soccer/soccer-poster-fire-and-smoke.webp": {
+      "out": "/images/free-proof/soccer/soccer-poster-fire-and-smoke.webp",
+      "source": "etsy/listing-images/02-soccer-poster/src/SC-FS-poster-v2.png",
+      "sourceSha256": "ac231c95c8178cc2a717fefe08d70f65cbd468390cb7a995cc0f5dcfd366d6c2",
+      "sha256": "baf600be4640800f7ee1814b585daf32135606999b95ae2a34ad054dc4ec346e",
+      "width": 600,
+      "height": 800,
+      "kind": "poster",
+      "keys": [
+        "free-proof.soccer.poster"
+      ],
+      "generatedAt": "2026-10-06T20:53:49.190Z"
+    },
+    "/images/free-proof/soccer/soccer-trading-card-front-chrome-all-star.webp": {
+      "out": "/images/free-proof/soccer/soccer-trading-card-front-chrome-all-star.webp",
+      "source": "etsy/listing-images/01-soccer-card/src/SC-CA-front.png",
+      "sourceSha256": "4097b4749d1cb820097ab70cba03153a02fe88b937e4e2cf45d5d4b870dc2eca",
+      "sha256": "a1f87a64140b1e78ad00bf40b5bd54e2e15cc12f00709040e6e5086354725c72",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.soccer.card.CA"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:46.148Z"
+    },
+    "/images/free-proof/soccer/soccer-trading-card-front-fire-and-smoke.webp": {
+      "out": "/images/free-proof/soccer/soccer-trading-card-front-fire-and-smoke.webp",
+      "source": "etsy/listing-images/01-soccer-card/src/SC-FS-front.png",
+      "sourceSha256": "893f44c4796d76be1c382b8ecd09695b59a30d01e580f154509d67a07b796105",
+      "sha256": "2256902542fcb510456184d3f7fed10fdb2897795cb6880ef279f7be01a6d652",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.soccer.card.FS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:46.661Z"
+    },
+    "/images/free-proof/soccer/soccer-trading-card-front-heritage.webp": {
+      "out": "/images/free-proof/soccer/soccer-trading-card-front-heritage.webp",
+      "source": "etsy/listing-images/01-soccer-card/src/SC-HE-front.png",
+      "sourceSha256": "895ca5043af30421cbe464daf53a003a396c4c060365f2dc2ff63f9fdf64d2cc",
+      "sha256": "f76c37a2f4f9b9c743392d063f0dbc2e3d698da0e59d06fbf733308ed5aeecea",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.soccer.card.HE"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:47.164Z"
+    },
+    "/images/free-proof/soccer/soccer-trading-card-front-prism-rush.webp": {
+      "out": "/images/free-proof/soccer/soccer-trading-card-front-prism-rush.webp",
+      "source": "etsy/listing-images/01-soccer-card/src/SC-PR-front.png",
+      "sourceSha256": "8c55b4dd68ffd1784fce249ee06fd8fcb6e0c62632e3af347e924ff13caa0256",
+      "sha256": "4d54632bc7b2284584bc2532b9d8003773afd4307e527cd068f778d6c5d5a6e7",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.soccer.card.PR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:48.172Z"
+    },
+    "/images/free-proof/soccer/soccer-trading-card-front-senior-night.webp": {
+      "out": "/images/free-proof/soccer/soccer-trading-card-front-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/soc-sr-front.png",
+      "sourceSha256": "349e5a7ce8c97f02a2b08a8dc5d63ad02205edc6c6e43a0b7ee35ad7424eadce",
+      "sha256": "6c0ee78a5a70ab602bd76338958e6e5130011e99ab6e18bdc4cad798d894c39f",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.soccer.card.SR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:48.687Z"
+    },
+    "/images/free-proof/soccer/soccer-trading-card-front-signature-spotlight.webp": {
+      "out": "/images/free-proof/soccer/soccer-trading-card-front-signature-spotlight.webp",
+      "source": "etsy/listing-images/01-soccer-card/src/SC-SS-front.png",
+      "sourceSha256": "9b818c6c166c8b2df41f053e664d47c9b35eaf079c2dc96e923d5ffa4ed664ef",
+      "sha256": "3d931770512e3fd9d6b6c019e9ae1b1dc1b3b5674ec200607a9486fc7899eeed",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.soccer.card.SS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:47.667Z"
+    },
+    "/images/free-proof/soccer/soccer-trading-card-front-stadium-night.webp": {
+      "out": "/images/free-proof/soccer/soccer-trading-card-front-stadium-night.webp",
+      "source": "etsy/listing-images/01-soccer-card/src/SC-SN-front.png",
+      "sourceSha256": "2c0095173ebdba4d34fd877046a65c9d0c7c34df8615cde35b9d9b87afbf8971",
+      "sha256": "77e143c5ec2dc7c6beadec5a510daf9f013b2c47cc95e8010002fb5d052fed19",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.soccer.card.SN"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:45.630Z"
+    },
+    "/images/free-proof/softball/softball-banner-heritage.webp": {
+      "out": "/images/free-proof/softball/softball-banner-heritage.webp",
+      "source": "etsy/listing-images/03-softball-banner/src/master-HE.png",
+      "sourceSha256": "6fcc20f4925069e188463532775225ebd6e66eb50658afc9d63eab3e601d453f",
+      "sha256": "59d7887879b6a0c15a72caaec99b4f37f1ec063300d67b57f76500579b6ac21c",
+      "width": 500,
+      "height": 1000,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.softball.banner"
+      ],
+      "generatedAt": "2026-10-06T20:53:44.605Z"
+    },
+    "/images/free-proof/softball/softball-blanket-prism-rush.webp": {
+      "out": "/images/free-proof/softball/softball-blanket-prism-rush.webp",
+      "source": "etsy/listing-images/05-softball-blanket/src/flat56-PR.png",
+      "sourceSha256": "7a81095195d803f4af58b721d6bf702658103ab91ee12d29dde8febd7fc800e7",
+      "sha256": "d927bb85d9aca4dfef1af598dd1c0ab1f52a708464bd4833671c4b94201ddb5e",
+      "width": 600,
+      "height": 720,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.softball.blanket"
+      ],
+      "generatedAt": "2026-10-06T20:53:45.120Z"
+    },
+    "/images/free-proof/softball/softball-poster-stadium-night.webp": {
+      "out": "/images/free-proof/softball/softball-poster-stadium-night.webp",
+      "source": "etsy/listing-images/02-softball-poster/src/SF-SN-poster.png",
+      "sourceSha256": "6700f92428b31e95c980523c148485585a7661b8674e3cb104f3bd36fa2f41e7",
+      "sha256": "f7b75c6bf091bdf64169b43bf51f7c02163296fa38a468d337dd37c35f2e19b8",
+      "width": 600,
+      "height": 800,
+      "kind": "poster",
+      "keys": [
+        "free-proof.softball.poster"
+      ],
+      "generatedAt": "2026-10-06T20:53:44.068Z"
+    },
+    "/images/free-proof/softball/softball-trading-card-front-chrome-all-star.webp": {
+      "out": "/images/free-proof/softball/softball-trading-card-front-chrome-all-star.webp",
+      "source": "etsy/listing-images/01-softball-card/src/SF-CA-front.png",
+      "sourceSha256": "ed60490b9f1b394c2d17a8307a65c464ca0a5f3f80891332254aef68d83c8db8",
+      "sha256": "1487c9beae3769444ab2f80e8e3ab0ddbc0b0436627dd0cb042b3816db264ed3",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.softball.card.CA"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:40.787Z"
+    },
+    "/images/free-proof/softball/softball-trading-card-front-fire-and-smoke.webp": {
+      "out": "/images/free-proof/softball/softball-trading-card-front-fire-and-smoke.webp",
+      "source": "etsy/listing-images/01-softball-card/src/SF-FS-front.png",
+      "sourceSha256": "b92459d236614cd023831bd58da327c7f0bbdc98766023401b9733ae6bbea899",
+      "sha256": "47f3cb521940dfed01f49cc63daa5cfb9a52e5715e24b01234105f51855ca3be",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.softball.card.FS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:41.353Z"
+    },
+    "/images/free-proof/softball/softball-trading-card-front-heritage.webp": {
+      "out": "/images/free-proof/softball/softball-trading-card-front-heritage.webp",
+      "source": "etsy/listing-images/01-softball-card/src/SF-HE-front.png",
+      "sourceSha256": "dd2171d0cd641ba890b49eee32e8091fb034cd553b2712c91a690ff7afd03d80",
+      "sha256": "52f986cdcabcfbb44c6c5f002d3fb77510d2c21a797ca12b712c03033d9b1219",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.softball.card.HE"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:41.919Z"
+    },
+    "/images/free-proof/softball/softball-trading-card-front-prism-rush.webp": {
+      "out": "/images/free-proof/softball/softball-trading-card-front-prism-rush.webp",
+      "source": "etsy/listing-images/01-softball-card/src/SF-PR-front.png",
+      "sourceSha256": "9288e50d67d9fb7a7b9262aa12036527411453bf52e968686ee0bc5ac426773f",
+      "sha256": "c9d4a196ed6db3908108b43a6b005ca359c4366e8c41d34bd1d5f1fe5d6f85be",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.softball.card.PR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:43.055Z"
+    },
+    "/images/free-proof/softball/softball-trading-card-front-senior-night.webp": {
+      "out": "/images/free-proof/softball/softball-trading-card-front-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/sfb-sr-front.png",
+      "sourceSha256": "81bb85a24bd0136d59267abad42d0748aca8186fe53ef96d8b4de6399a08c4a7",
+      "sha256": "7f15c47e928248a97f7e11701bc4f71ec40de90fc12f28f808ff736c5fede76a",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.softball.card.SR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:43.565Z"
+    },
+    "/images/free-proof/softball/softball-trading-card-front-signature-spotlight.webp": {
+      "out": "/images/free-proof/softball/softball-trading-card-front-signature-spotlight.webp",
+      "source": "etsy/listing-images/01-softball-card/src/SF-SS-front.png",
+      "sourceSha256": "304325de9182bb6a9b700bf1e070f5cfd690e3cfd991acb2cca040447da00584",
+      "sha256": "5f795dc24a31ee3273d5be1b15f2cc3fe0c8ab5b44bc43d60101c4ffd27d3e30",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.softball.card.SS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:42.486Z"
+    },
+    "/images/free-proof/softball/softball-trading-card-front-stadium-night.webp": {
+      "out": "/images/free-proof/softball/softball-trading-card-front-stadium-night.webp",
+      "source": "etsy/listing-images/01-softball-card/src/SF-SN-front.png",
+      "sourceSha256": "254c974cc24ce8e4fd20e7aadda1541ff4fdab760af5086414535635ef416835",
+      "sha256": "a4a9370f18656fbbd61b20f76705f953d6699171e0708fa1cdad2dafcd19519a",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.softball.card.SN"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:40.240Z"
+    },
+    "/images/free-proof/swimming/swimming-poster-signature-spotlight.webp": {
+      "out": "/images/free-proof/swimming/swimming-poster-signature-spotlight.webp",
+      "source": "etsy/listing-images/02-swimming-poster/src/SW-SS-poster.png",
+      "sourceSha256": "a828810cf2759929d504c1683e0e196b0daaea7e7240cc0fa9a89f448da90ac8",
+      "sha256": "c92efdeff322276e5866a1a5d8fe8af95e702b3f971651aa8a04e75efe212c9a",
+      "width": 600,
+      "height": 800,
+      "kind": "poster",
+      "keys": [
+        "free-proof.swimming.poster"
+      ],
+      "generatedAt": "2026-10-06T20:54:26.565Z"
+    },
+    "/images/free-proof/swimming/swimming-trading-card-front-chrome-all-star.webp": {
+      "out": "/images/free-proof/swimming/swimming-trading-card-front-chrome-all-star.webp",
+      "source": "etsy/listing-images/01-swimming-card/src/SW-CA-front.png",
+      "sourceSha256": "71a8b49a8dd71c24ac9fcd99e4cfb135adcc1a263e3dc8c4f849724faa782d90",
+      "sha256": "7eba182dac77814a92c56fa894d7851975e6c41f74a0451e366196ae469b6fca",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.swimming.card.CA"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:24.056Z"
+    },
+    "/images/free-proof/swimming/swimming-trading-card-front-fire-and-smoke.webp": {
+      "out": "/images/free-proof/swimming/swimming-trading-card-front-fire-and-smoke.webp",
+      "source": "etsy/listing-images/01-swimming-card/src/SW-FS-front.png",
+      "sourceSha256": "8eedce6b8e6ab2bdac72a4aface0ad19e5445741230b8bd6b9573e3938663eac",
+      "sha256": "719639d32488cfad38e016a5386fb3710133faf49c25d44f57b7a21e71479a1a",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.swimming.card.FS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:24.541Z"
+    },
+    "/images/free-proof/swimming/swimming-trading-card-front-heritage.webp": {
+      "out": "/images/free-proof/swimming/swimming-trading-card-front-heritage.webp",
+      "source": "etsy/listing-images/01-swimming-card/src/SW-HE-front.png",
+      "sourceSha256": "e7912d2dd2c82ea5984eb97e0729e1a9eca589a82ba646b1dfc50e266ed76fe7",
+      "sha256": "61b27aa81630b7c277c511ca1a974be56a736d4eb1ff4c63a149f90369fd56b0",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.swimming.card.HE"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:25.045Z"
+    },
+    "/images/free-proof/swimming/swimming-trading-card-front-prism-rush.webp": {
+      "out": "/images/free-proof/swimming/swimming-trading-card-front-prism-rush.webp",
+      "source": "etsy/listing-images/01-swimming-card/src/SW-PR-front.png",
+      "sourceSha256": "2b5b05018438331df52c926e42a9236b5793520c5b4b5cee350875ee8f294a3f",
+      "sha256": "f12c97e45e580b973e97ce29d357c65208e331b6c87184869193cf719980333c",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.swimming.card.PR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:26.056Z"
+    },
+    "/images/free-proof/swimming/swimming-trading-card-front-signature-spotlight.webp": {
+      "out": "/images/free-proof/swimming/swimming-trading-card-front-signature-spotlight.webp",
+      "source": "etsy/listing-images/01-swimming-card/src/SW-SS-front.png",
+      "sourceSha256": "84a140f72a8219e7a27ed12453e796c8c3f79e9e8269d49a802b0e2506c85167",
+      "sha256": "b1d678d028afb3c56e2e63be5d634b5567c1abeb8738515996c3fd81279f2107",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.swimming.card.SS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:25.553Z"
+    },
+    "/images/free-proof/swimming/swimming-trading-card-front-stadium-night.webp": {
+      "out": "/images/free-proof/swimming/swimming-trading-card-front-stadium-night.webp",
+      "source": "etsy/listing-images/01-swimming-card/src/SW-SN-front.png",
+      "sourceSha256": "c9144a9c1d19712afac719ab398b6d3fc92e45be6c0b827df24897686c11a8cc",
+      "sha256": "b6b855b3755adbe5d59a50f6766a339c01eb9d86ce614641c59d60cae8818811",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.swimming.card.SN"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:23.563Z"
+    },
+    "/images/free-proof/tennis/tennis-poster-signature-spotlight.webp": {
+      "out": "/images/free-proof/tennis/tennis-poster-signature-spotlight.webp",
+      "source": "etsy/listing-images/02-tennis-poster/src/TN-SS-poster.png",
+      "sourceSha256": "b7584c7b4bf8b112dce3cff696624cc1ffa90ff717f78bded4ce6f2ba48dd604",
+      "sha256": "77dedffc9e9d2f467e2d2431354bbb808ebb1cc36f8d2874273e2f22d37603b9",
+      "width": 600,
+      "height": 800,
+      "kind": "poster",
+      "keys": [
+        "free-proof.tennis.poster"
+      ],
+      "generatedAt": "2026-10-06T20:54:30.076Z"
+    },
+    "/images/free-proof/tennis/tennis-trading-card-front-chrome-all-star.webp": {
+      "out": "/images/free-proof/tennis/tennis-trading-card-front-chrome-all-star.webp",
+      "source": "etsy/listing-images/01-tennis-card/src/TN-CA-front.png",
+      "sourceSha256": "8d6983923b8f499eabf83fb665cf0f223c9d78eedf3546cff539e9572a57943a",
+      "sha256": "a6bcfc30473ee9fcc86311c5e317f7145c0c2cc42f50aa03c6fa511af29ca7fa",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.tennis.card.CA"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:27.577Z"
+    },
+    "/images/free-proof/tennis/tennis-trading-card-front-fire-and-smoke.webp": {
+      "out": "/images/free-proof/tennis/tennis-trading-card-front-fire-and-smoke.webp",
+      "source": "etsy/listing-images/01-tennis-card/src/TN-FS-front.png",
+      "sourceSha256": "4e985c43eb48024f5f321c8035a51129209b39c8f43dbd7f074257bf87d4459a",
+      "sha256": "4d9db999f5ea49633ea2e9d6715f9dec05264c9af1851a524078b608ae455e87",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.tennis.card.FS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:28.070Z"
+    },
+    "/images/free-proof/tennis/tennis-trading-card-front-heritage.webp": {
+      "out": "/images/free-proof/tennis/tennis-trading-card-front-heritage.webp",
+      "source": "etsy/listing-images/01-tennis-card/src/TN-HE-front.png",
+      "sourceSha256": "855aa32f9b887279620927c31f75874ad7f1c72109a646897f7933f730d0e9ba",
+      "sha256": "c3c761a98ef5c50f20af6d9a9a20adb61022a80e1880c79025441dede061f8c9",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.tennis.card.HE"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:28.571Z"
+    },
+    "/images/free-proof/tennis/tennis-trading-card-front-prism-rush.webp": {
+      "out": "/images/free-proof/tennis/tennis-trading-card-front-prism-rush.webp",
+      "source": "etsy/listing-images/01-tennis-card/src/TN-PR-front.png",
+      "sourceSha256": "2c9aef01988aa77a25b04e1f45d5d45aceffd365038ff5fa685662e11e98e514",
+      "sha256": "f383dee43e4c290b4ad2be1cb5ec803e546b331674d690bbef84aa9bce969603",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.tennis.card.PR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:29.574Z"
+    },
+    "/images/free-proof/tennis/tennis-trading-card-front-signature-spotlight.webp": {
+      "out": "/images/free-proof/tennis/tennis-trading-card-front-signature-spotlight.webp",
+      "source": "etsy/listing-images/01-tennis-card/src/TN-SS-front.png",
+      "sourceSha256": "d40a72db6d79f22bdd98750a99d2522329e326b0f4a0413ff512499fa23e8ef9",
+      "sha256": "8042c04fe705571eea587c02d1ebf4d6fa318e184a58b4cb9b89686e5ada79ad",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.tennis.card.SS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:29.059Z"
+    },
+    "/images/free-proof/tennis/tennis-trading-card-front-stadium-night.webp": {
+      "out": "/images/free-proof/tennis/tennis-trading-card-front-stadium-night.webp",
+      "source": "etsy/listing-images/01-tennis-card/src/TN-SN-front.png",
+      "sourceSha256": "295b34d41510c2b235745ef17224c0d38b6c79ff8cb5c9db522205b3f0a4f00b",
+      "sha256": "7ed381e5d72fa0488c52d00250e1fdb3596fcec397d40b89a000c30c8d61a6d9",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.tennis.card.SN"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:27.072Z"
+    },
+    "/images/free-proof/track-field/track-and-field-banner-heritage.webp": {
+      "out": "/images/free-proof/track-field/track-and-field-banner-heritage.webp",
+      "source": "etsy/listing-images/03-track-field-banner/src/master-HE.png",
+      "sourceSha256": "229b8619347c27040b036876b1d18b072053c0b689b9ed4a0156f3ead45715d6",
+      "sha256": "3ee9618444a11d13776d51a580da5a804bb7d978e2b2022459bbb9da6bafd8a8",
+      "width": 500,
+      "height": 1000,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.track-field.banner"
+      ],
+      "generatedAt": "2026-10-06T20:54:22.562Z"
+    },
+    "/images/free-proof/track-field/track-and-field-blanket-chrome-all-star.webp": {
+      "out": "/images/free-proof/track-field/track-and-field-blanket-chrome-all-star.webp",
+      "source": "etsy/listing-images/05-track-field-blanket/src/flat56-CA.png",
+      "sourceSha256": "23454d2f4927032f9e636bc2e24bf173a55b74887d142786717fd57052907c15",
+      "sha256": "45351e2d7d03fadfdd5679003178b9e11fbd97f38c08d588dd43673f48877569",
+      "width": 600,
+      "height": 720,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.track-field.blanket"
+      ],
+      "generatedAt": "2026-10-06T20:54:23.066Z"
+    },
+    "/images/free-proof/track-field/track-and-field-poster-fire-and-smoke.webp": {
+      "out": "/images/free-proof/track-field/track-and-field-poster-fire-and-smoke.webp",
+      "source": "etsy/listing-images/02-track-field-poster/src/TF-FS-poster.png",
+      "sourceSha256": "4e88d0eb0d79e7d6a1be640c4930152b7a5e9e1ad3f7f78b3a09e9c66e4b0056",
+      "sha256": "c19b76cce45516b3cd617399a39fde5f26961ba2f4e28b20068c545a74049481",
+      "width": 600,
+      "height": 800,
+      "kind": "poster",
+      "keys": [
+        "free-proof.track-field.poster"
+      ],
+      "generatedAt": "2026-10-06T20:54:22.012Z"
+    },
+    "/images/free-proof/track-field/track-and-field-trading-card-front-chrome-all-star.webp": {
+      "out": "/images/free-proof/track-field/track-and-field-trading-card-front-chrome-all-star.webp",
+      "source": "etsy/listing-images/01-track-field-card/src/TF-CA-front.png",
+      "sourceSha256": "ec3cdba623068a8d5d3bf2fd37bd3f2bd8c3509979a48018cb8349d704181f1a",
+      "sha256": "883a85dfd268b64cedfc7289a48af5037b9974aed7fe566716d3004441ddcdd4",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.track-field.card.CA"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:19.505Z"
+    },
+    "/images/free-proof/track-field/track-and-field-trading-card-front-fire-and-smoke.webp": {
+      "out": "/images/free-proof/track-field/track-and-field-trading-card-front-fire-and-smoke.webp",
+      "source": "etsy/listing-images/01-track-field-card/src/TF-FS-front.png",
+      "sourceSha256": "f6539827de76fbe202897096b2967996f5566ab4fe0d2e852fca86c02c6b6847",
+      "sha256": "97491064116fbce884cc797444ba44a30d97980d219a34328d3284040e81f021",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.track-field.card.FS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:19.991Z"
+    },
+    "/images/free-proof/track-field/track-and-field-trading-card-front-heritage.webp": {
+      "out": "/images/free-proof/track-field/track-and-field-trading-card-front-heritage.webp",
+      "source": "etsy/listing-images/01-track-field-card/src/TF-HE-front.png",
+      "sourceSha256": "fb4c0c719cf8d281a5e7c0e2d1fa16da886c8d5c84a780930335b27f83295550",
+      "sha256": "4a2ae52687ca7bb9f46b2c95f53779492eac6e144ca734af53f4d04fda2c4013",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.track-field.card.HE"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:20.502Z"
+    },
+    "/images/free-proof/track-field/track-and-field-trading-card-front-prism-rush.webp": {
+      "out": "/images/free-proof/track-field/track-and-field-trading-card-front-prism-rush.webp",
+      "source": "etsy/listing-images/01-track-field-card/src/TF-PR-front.png",
+      "sourceSha256": "7a89bd530f7bf9290173afeee2828e252f7aa99a91625365c516a6753a6ba1f7",
+      "sha256": "c9b7769636b506db4bbeb0e2db1fcdba93aab54986e2b7f75afd8a3befec5985",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.track-field.card.PR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:21.527Z"
+    },
+    "/images/free-proof/track-field/track-and-field-trading-card-front-signature-spotlight.webp": {
+      "out": "/images/free-proof/track-field/track-and-field-trading-card-front-signature-spotlight.webp",
+      "source": "etsy/listing-images/01-track-field-card/src/TF-SS-front.png",
+      "sourceSha256": "d6212f25d329a059ef63f08529ee75d93d39532167c5dbc830e31948347ec53a",
+      "sha256": "a6102c2586edecbdf3ddf3ee3a45083026217f5d11a57842c064f2f52f8da53d",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.track-field.card.SS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:21.002Z"
+    },
+    "/images/free-proof/track-field/track-and-field-trading-card-front-stadium-night.webp": {
+      "out": "/images/free-proof/track-field/track-and-field-trading-card-front-stadium-night.webp",
+      "source": "etsy/listing-images/01-track-field-card/src/TF-SN-front.png",
+      "sourceSha256": "1df497aa0c267ba056245be91ebf65cd94b05e489e5f822782b0aa6136b4191f",
+      "sha256": "dfd2b895499bf4cfb24751ad46f9f32083024573c4bbc136d8065a331744b0df",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.track-field.card.SN"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:19.006Z"
+    },
+    "/images/free-proof/volleyball/volleyball-banner-heritage.webp": {
+      "out": "/images/free-proof/volleyball/volleyball-banner-heritage.webp",
+      "source": "etsy/listing-images/03-volleyball-banner/src/master-HE.png",
+      "sourceSha256": "0d8964cf8977ec7f0ca5223d1df2d286191f746447447be46836262661b998d7",
+      "sha256": "5b8cfc74ef0718137fc768ffe00c1611474007083ae5220fda9bc1b6f6f88893",
+      "width": 500,
+      "height": 1000,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.volleyball.banner"
+      ],
+      "generatedAt": "2026-10-06T20:53:59.721Z"
+    },
+    "/images/free-proof/volleyball/volleyball-blanket-chrome-all-star.webp": {
+      "out": "/images/free-proof/volleyball/volleyball-blanket-chrome-all-star.webp",
+      "source": "etsy/listing-images/05-volleyball-blanket/src/flat56-CA.png",
+      "sourceSha256": "f22254ca16447c6572098e043be33f836c4cbe41008ce58332b321cddb706437",
+      "sha256": "184a558ae87ee1ee773378b32a336fa08d8ce5ae809d7672039303907340c723",
+      "width": 600,
+      "height": 720,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.volleyball.blanket"
+      ],
+      "generatedAt": "2026-10-06T20:54:00.265Z"
+    },
+    "/images/free-proof/volleyball/volleyball-poster-prism-rush.webp": {
+      "out": "/images/free-proof/volleyball/volleyball-poster-prism-rush.webp",
+      "source": "etsy/listing-images/02-volleyball-poster/src/VB-PR-poster.png",
+      "sourceSha256": "0880c1f69a8db75b1919d50d2472239f4b3dbaa0f82c7a23f350b0dd0a50b57b",
+      "sha256": "5d266bfef3cd6fdbdf02c137e3226bf8356778c84250d36bd2c3a4a2a7b7a653",
+      "width": 600,
+      "height": 800,
+      "kind": "poster",
+      "keys": [
+        "free-proof.volleyball.poster"
+      ],
+      "generatedAt": "2026-10-06T20:53:59.160Z"
+    },
+    "/images/free-proof/volleyball/volleyball-trading-card-front-chrome-all-star.webp": {
+      "out": "/images/free-proof/volleyball/volleyball-trading-card-front-chrome-all-star.webp",
+      "source": "etsy/listing-images/01-volleyball-card/src/VB-CA-front.png",
+      "sourceSha256": "bd7a59fcbdcec22f8a560dbe0578e1b2d65c62572a0f66d758e32d45afc9a931",
+      "sha256": "a9c82202ec41033365f04be02074c08085ea8866c156e42ac9bc4098432ce132",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.volleyball.card.CA"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:56.025Z"
+    },
+    "/images/free-proof/volleyball/volleyball-trading-card-front-fire-and-smoke.webp": {
+      "out": "/images/free-proof/volleyball/volleyball-trading-card-front-fire-and-smoke.webp",
+      "source": "etsy/listing-images/01-volleyball-card/src/VB-FS-front.png",
+      "sourceSha256": "cb7cbe6f58adfc23e046cf35afdf0bdbc06082fef1d0dac62077c06c55e281f6",
+      "sha256": "261619aaec0b9ccb426c395a655f70478a374520ee977bce8641263753875122",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.volleyball.card.FS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:56.530Z"
+    },
+    "/images/free-proof/volleyball/volleyball-trading-card-front-heritage.webp": {
+      "out": "/images/free-proof/volleyball/volleyball-trading-card-front-heritage.webp",
+      "source": "etsy/listing-images/01-volleyball-card/src/VB-HE-front.png",
+      "sourceSha256": "5d89bed7bbd55a7ff8d8656d76b766fd7dea8fbb16ee96ab1eb53f0d2cc62b67",
+      "sha256": "14efee8faf5d4af69c11b6e788ac7c71d609c882bd4e40ef2098450246e134f5",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.volleyball.card.HE"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:57.034Z"
+    },
+    "/images/free-proof/volleyball/volleyball-trading-card-front-prism-rush.webp": {
+      "out": "/images/free-proof/volleyball/volleyball-trading-card-front-prism-rush.webp",
+      "source": "etsy/listing-images/01-volleyball-card/src/VB-PR-front.png",
+      "sourceSha256": "435684b0573bc6e98525638950ab5d5f3e44c99d2e1865b2f6878c61db897ce8",
+      "sha256": "c21b92ea1da906dc0dd106b372b50f8ef0db5f90f8d8e3e02933e4564ec4544f",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.volleyball.card.PR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:58.041Z"
+    },
+    "/images/free-proof/volleyball/volleyball-trading-card-front-senior-night.webp": {
+      "out": "/images/free-proof/volleyball/volleyball-trading-card-front-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/vbl-sr-front.png",
+      "sourceSha256": "debb2a059955026317ea3e1c2cc40ec71d6c0de767bb67b7f088bb04b6be495c",
+      "sha256": "d3b2ae79508ee50b5e101900ce30cf3efb6b804a126ad97303faebb2f143e2b4",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.volleyball.card.SR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:58.547Z"
+    },
+    "/images/free-proof/volleyball/volleyball-trading-card-front-signature-spotlight.webp": {
+      "out": "/images/free-proof/volleyball/volleyball-trading-card-front-signature-spotlight.webp",
+      "source": "etsy/listing-images/01-volleyball-card/src/VB-SS-front.png",
+      "sourceSha256": "2d79c198e404e80aa8e6177d8cff4cef9513ca17451eec1525edd15aaa7c2356",
+      "sha256": "3bd00006229656a596b54bd767522ba0c8072dcdc0cf57678df0bd21adf6558a",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.volleyball.card.SS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:57.543Z"
+    },
+    "/images/free-proof/volleyball/volleyball-trading-card-front-stadium-night.webp": {
+      "out": "/images/free-proof/volleyball/volleyball-trading-card-front-stadium-night.webp",
+      "source": "etsy/listing-images/01-volleyball-card/src/VB-SN-front.png",
+      "sourceSha256": "6a9d1b0669980fb2a60f945657d65af09dad7b9c04886ed235f562a852b0eabc",
+      "sha256": "1afe790c66816f48690e457575bcc86a3a57772f921ecc734f14de8246f89307",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.volleyball.card.SN"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:53:55.522Z"
+    },
+    "/images/free-proof/wrestling/wrestling-banner-heritage.webp": {
+      "out": "/images/free-proof/wrestling/wrestling-banner-heritage.webp",
+      "source": "etsy/listing-images/03-wrestling-banner/src/master-HE.png",
+      "sourceSha256": "60d7c4efa962e910edd8982abe00c9e4844b801d70b24283dd3b4e7226d6bffd",
+      "sha256": "203d21cd428cb0e1b542f26c004ebb8661c58b72fb462766b29b9ff69143884e",
+      "width": 500,
+      "height": 1000,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.wrestling.banner"
+      ],
+      "generatedAt": "2026-10-06T20:54:09.412Z"
+    },
+    "/images/free-proof/wrestling/wrestling-blanket-chrome-all-star.webp": {
+      "out": "/images/free-proof/wrestling/wrestling-blanket-chrome-all-star.webp",
+      "source": "etsy/listing-images/05-wrestling-blanket/src/flat56-CA.png",
+      "sourceSha256": "1277463e4234d36c84e22421b44a4bf2bbc7d005561316ec5fd49f0dbd843ae3",
+      "sha256": "755f8784ae7c1e43df797e6e6c25fa0d51139ea524e19eb546d90674e1adff39",
+      "width": 600,
+      "height": 720,
+      "kind": "artefact",
+      "keys": [
+        "free-proof.wrestling.blanket"
+      ],
+      "generatedAt": "2026-10-06T20:54:09.929Z"
+    },
+    "/images/free-proof/wrestling/wrestling-poster-heritage.webp": {
+      "out": "/images/free-proof/wrestling/wrestling-poster-heritage.webp",
+      "source": "etsy/listing-images/02-wrestling-poster/src/WR-HE-poster.png",
+      "sourceSha256": "bf944b77ebcfaefda876081e598cb120c04e3914bb522beb1f9ccf64aa75d7c6",
+      "sha256": "8d9175a1e54cdb31f231b4dfc934c71044a3e0a77fb51d669c7c2903784411f0",
+      "width": 600,
+      "height": 800,
+      "kind": "poster",
+      "keys": [
+        "free-proof.wrestling.poster"
+      ],
+      "generatedAt": "2026-10-06T20:54:08.854Z"
+    },
+    "/images/free-proof/wrestling/wrestling-trading-card-front-chrome-all-star.webp": {
+      "out": "/images/free-proof/wrestling/wrestling-trading-card-front-chrome-all-star.webp",
+      "source": "etsy/listing-images/01-wrestling-card/src/WR-CA-front.png",
+      "sourceSha256": "ee6251377fd9a9c6e709fbfcc33178d32ce38f01223d4b119fc61e7cc6bdc290",
+      "sha256": "67acd08ad9d188ceb4e5611f4071a408f903411ebb6a07fd0585a246ae40af25",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.wrestling.card.CA"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:06.170Z"
+    },
+    "/images/free-proof/wrestling/wrestling-trading-card-front-fire-and-smoke.webp": {
+      "out": "/images/free-proof/wrestling/wrestling-trading-card-front-fire-and-smoke.webp",
+      "source": "etsy/listing-images/01-wrestling-card/src/WR-FS-front.png",
+      "sourceSha256": "13fc5bac94918a3528393ad0842b4fe8ceb13419cf4a4179556c37aa75b133ee",
+      "sha256": "154c9a207c0fc394038fd6250df1b3e5e78ffbc3df386a19789312a0f24f0be6",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.wrestling.card.FS"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:06.747Z"
+    },
+    "/images/free-proof/wrestling/wrestling-trading-card-front-heritage.webp": {
+      "out": "/images/free-proof/wrestling/wrestling-trading-card-front-heritage.webp",
+      "source": "etsy/listing-images/01-wrestling-card/src/WR-HE-front.png",
+      "sourceSha256": "e5dc13503ef3bcdd2a46963a526c4c7ff9e8368135532381b97788c76fe3ca16",
+      "sha256": "7762b99c63fcf6fd2375c5998c5d925d077a9cc3a5544601df24b1c6e227c651",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.wrestling.card.HE"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:07.292Z"
+    },
+    "/images/free-proof/wrestling/wrestling-trading-card-front-prism-rush.webp": {
+      "out": "/images/free-proof/wrestling/wrestling-trading-card-front-prism-rush.webp",
+      "source": "etsy/listing-images/01-wrestling-card/src/WR-PR-front.png",
+      "sourceSha256": "66b06fe7beefe6b65f60c2484233276a774b1276a7d55527ac5f8742a332067a",
+      "sha256": "09232f60a7ffd0d5a2083f476caa0fbe564acccc7058a45c6ceddf6f5a469c05",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.wrestling.card.PR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:07.843Z"
+    },
+    "/images/free-proof/wrestling/wrestling-trading-card-front-senior-night.webp": {
+      "out": "/images/free-proof/wrestling/wrestling-trading-card-front-senior-night.webp",
+      "source": "etsy/listing-images/03-senior-night/src/wrs-sr-front.png",
+      "sourceSha256": "2bc3e6a525bb62a254fec197a6ba67b00aba8624ef7a2b4c5b80c7619c5788e8",
+      "sha256": "b97de60d2184eeea81d98abc82fc47d9587152d22bb7ef682e20d7ce0f768fac",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.wrestling.card.SR"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:08.351Z"
+    },
+    "/images/free-proof/wrestling/wrestling-trading-card-front-stadium-night.webp": {
+      "out": "/images/free-proof/wrestling/wrestling-trading-card-front-stadium-night.webp",
+      "source": "etsy/listing-images/01-wrestling-card/src/WR-SN-front.png",
+      "sourceSha256": "26b6de847fde2960c10554f5676a1c3e0bbfb0b725c4943c52d2979528564c9c",
+      "sha256": "6801e9b53923dbbc1d14308facd6974c395a916ecb421c28dddb736383c039c7",
+      "width": 600,
+      "height": 840,
+      "kind": "card",
+      "keys": [
+        "free-proof.wrestling.card.SN"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T20:54:05.576Z"
     },
     "/images/home/phone-photo-basketball-player-at-home.webp": {
       "out": "/images/home/phone-photo-basketball-player-at-home.webp",
@@ -1641,6 +3674,598 @@
     },
     "finish.SS.front": {
       "out": "/images/finishes/basketball-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.baseball.banner": {
+      "out": "/images/free-proof/baseball/baseball-banner-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.baseball.blanket": {
+      "out": "/images/free-proof/baseball/baseball-blanket-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "free-proof.baseball.card.CA": {
+      "out": "/images/free-proof/baseball/baseball-trading-card-front-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.baseball.card.FS": {
+      "out": "/images/free-proof/baseball/baseball-trading-card-front-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "free-proof.baseball.card.HE": {
+      "out": "/images/free-proof/baseball/baseball-trading-card-front-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.baseball.card.PR": {
+      "out": "/images/free-proof/baseball/baseball-trading-card-front-prism-rush.webp",
+      "status": "verified"
+    },
+    "free-proof.baseball.card.SN": {
+      "out": "/images/free-proof/baseball/baseball-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.baseball.card.SR": {
+      "out": "/images/free-proof/baseball/baseball-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "free-proof.baseball.card.SS": {
+      "out": "/images/free-proof/baseball/baseball-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.baseball.poster": {
+      "out": "/images/free-proof/baseball/baseball-poster-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.basketball.banner": {
+      "out": "/images/free-proof/basketball/basketball-banner-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.basketball.blanket": {
+      "out": "/images/free-proof/basketball/basketball-blanket-prism-rush.webp",
+      "status": "verified"
+    },
+    "free-proof.basketball.card.CA": {
+      "out": "/images/free-proof/basketball/basketball-trading-card-front-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.basketball.card.FS": {
+      "out": "/images/free-proof/basketball/basketball-trading-card-front-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "free-proof.basketball.card.HE": {
+      "out": "/images/free-proof/basketball/basketball-trading-card-front-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.basketball.card.PR": {
+      "out": "/images/free-proof/basketball/basketball-trading-card-front-prism-rush.webp",
+      "status": "verified"
+    },
+    "free-proof.basketball.card.SN": {
+      "out": "/images/free-proof/basketball/basketball-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.basketball.card.SR": {
+      "out": "/images/free-proof/basketball/basketball-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "free-proof.basketball.card.SS": {
+      "out": "/images/free-proof/basketball/basketball-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.basketball.poster": {
+      "out": "/images/free-proof/basketball/basketball-poster-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.cheerleading.banner": {
+      "out": "/images/free-proof/cheerleading/cheerleading-banner-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.cheerleading.blanket": {
+      "out": "/images/free-proof/cheerleading/cheerleading-blanket-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "free-proof.cheerleading.card.CA": {
+      "out": "/images/free-proof/cheerleading/cheerleading-trading-card-front-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.cheerleading.card.FS": {
+      "out": "/images/free-proof/cheerleading/cheerleading-trading-card-front-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "free-proof.cheerleading.card.HE": {
+      "out": "/images/free-proof/cheerleading/cheerleading-trading-card-front-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.cheerleading.card.PR": {
+      "out": "/images/free-proof/cheerleading/cheerleading-trading-card-front-prism-rush.webp",
+      "status": "verified"
+    },
+    "free-proof.cheerleading.card.SN": {
+      "out": "/images/free-proof/cheerleading/cheerleading-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.cheerleading.card.SR": {
+      "out": "/images/free-proof/cheerleading/cheerleading-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "free-proof.cheerleading.card.SS": {
+      "out": "/images/free-proof/cheerleading/cheerleading-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.cheerleading.poster": {
+      "out": "/images/free-proof/cheerleading/cheerleading-poster-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.football.banner": {
+      "out": "/images/free-proof/football/football-banner-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.football.blanket": {
+      "out": "/images/free-proof/football/football-blanket-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.football.card.CA": {
+      "out": "/images/free-proof/football/football-trading-card-front-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.football.card.FS": {
+      "out": "/images/free-proof/football/football-trading-card-front-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "free-proof.football.card.HE": {
+      "out": "/images/free-proof/football/football-trading-card-front-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.football.card.PR": {
+      "out": "/images/free-proof/football/football-trading-card-front-prism-rush.webp",
+      "status": "verified"
+    },
+    "free-proof.football.card.SN": {
+      "out": "/images/free-proof/football/football-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.football.card.SR": {
+      "out": "/images/free-proof/football/football-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "free-proof.football.card.SS": {
+      "out": "/images/free-proof/football/football-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.football.poster": {
+      "out": "/images/free-proof/football/football-poster-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.golf.card.CA": {
+      "out": "/images/free-proof/golf/golf-trading-card-front-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.golf.card.FS": {
+      "out": "/images/free-proof/golf/golf-trading-card-front-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "free-proof.golf.card.HE": {
+      "out": "/images/free-proof/golf/golf-trading-card-front-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.golf.card.PR": {
+      "out": "/images/free-proof/golf/golf-trading-card-front-prism-rush.webp",
+      "status": "verified"
+    },
+    "free-proof.golf.card.SN": {
+      "out": "/images/free-proof/golf/golf-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.golf.card.SS": {
+      "out": "/images/free-proof/golf/golf-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.golf.poster": {
+      "out": "/images/free-proof/golf/golf-poster-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.gymnastics.card.CA": {
+      "out": "/images/free-proof/gymnastics/gymnastics-trading-card-front-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.gymnastics.card.FS": {
+      "out": "/images/free-proof/gymnastics/gymnastics-trading-card-front-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "free-proof.gymnastics.card.HE": {
+      "out": "/images/free-proof/gymnastics/gymnastics-trading-card-front-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.gymnastics.card.PR": {
+      "out": "/images/free-proof/gymnastics/gymnastics-trading-card-front-prism-rush.webp",
+      "status": "verified"
+    },
+    "free-proof.gymnastics.card.SN": {
+      "out": "/images/free-proof/gymnastics/gymnastics-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.gymnastics.card.SS": {
+      "out": "/images/free-proof/gymnastics/gymnastics-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.gymnastics.poster": {
+      "out": "/images/free-proof/gymnastics/gymnastics-poster-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.ice-hockey.banner": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-banner-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.ice-hockey.blanket": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-blanket-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.ice-hockey.card.CA": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-trading-card-front-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.ice-hockey.card.FS": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-trading-card-front-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "free-proof.ice-hockey.card.HE": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-trading-card-front-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.ice-hockey.card.PR": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-trading-card-front-prism-rush.webp",
+      "status": "verified"
+    },
+    "free-proof.ice-hockey.card.SN": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.ice-hockey.card.SS": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.ice-hockey.poster": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-poster-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.lacrosse.banner": {
+      "out": "/images/free-proof/lacrosse/lacrosse-banner-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.lacrosse.blanket": {
+      "out": "/images/free-proof/lacrosse/lacrosse-blanket-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.lacrosse.card.CA": {
+      "out": "/images/free-proof/lacrosse/lacrosse-trading-card-front-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.lacrosse.card.FS": {
+      "out": "/images/free-proof/lacrosse/lacrosse-trading-card-front-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "free-proof.lacrosse.card.HE": {
+      "out": "/images/free-proof/lacrosse/lacrosse-trading-card-front-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.lacrosse.card.PR": {
+      "out": "/images/free-proof/lacrosse/lacrosse-trading-card-front-prism-rush.webp",
+      "status": "verified"
+    },
+    "free-proof.lacrosse.card.SN": {
+      "out": "/images/free-proof/lacrosse/lacrosse-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.lacrosse.card.SS": {
+      "out": "/images/free-proof/lacrosse/lacrosse-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.lacrosse.poster": {
+      "out": "/images/free-proof/lacrosse/lacrosse-poster-prism-rush.webp",
+      "status": "verified"
+    },
+    "free-proof.other-sport.card.CA": {
+      "out": "/images/free-proof/other-sport/skateboarding-trading-card-front-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.other-sport.card.FS": {
+      "out": "/images/free-proof/other-sport/skateboarding-trading-card-front-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "free-proof.other-sport.card.HE": {
+      "out": "/images/free-proof/other-sport/skateboarding-trading-card-front-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.other-sport.card.PR": {
+      "out": "/images/free-proof/other-sport/skateboarding-trading-card-front-prism-rush.webp",
+      "status": "verified"
+    },
+    "free-proof.other-sport.card.SN": {
+      "out": "/images/free-proof/other-sport/skateboarding-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.other-sport.card.SS": {
+      "out": "/images/free-proof/other-sport/skateboarding-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.other-sport.poster": {
+      "out": "/images/free-proof/other-sport/skateboarding-poster-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.pickleball.card.CA": {
+      "out": "/images/free-proof/pickleball/pickleball-trading-card-front-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.pickleball.card.FS": {
+      "out": "/images/free-proof/pickleball/pickleball-trading-card-front-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "free-proof.pickleball.card.HE": {
+      "out": "/images/free-proof/pickleball/pickleball-trading-card-front-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.pickleball.card.PR": {
+      "out": "/images/free-proof/pickleball/pickleball-trading-card-front-prism-rush.webp",
+      "status": "verified"
+    },
+    "free-proof.pickleball.card.SN": {
+      "out": "/images/free-proof/pickleball/pickleball-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.pickleball.card.SS": {
+      "out": "/images/free-proof/pickleball/pickleball-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.pickleball.poster": {
+      "out": "/images/free-proof/pickleball/pickleball-poster-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.soccer.banner": {
+      "out": "/images/free-proof/soccer/soccer-banner-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.soccer.blanket": {
+      "out": "/images/free-proof/soccer/soccer-blanket-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.soccer.card.CA": {
+      "out": "/images/free-proof/soccer/soccer-trading-card-front-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.soccer.card.FS": {
+      "out": "/images/free-proof/soccer/soccer-trading-card-front-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "free-proof.soccer.card.HE": {
+      "out": "/images/free-proof/soccer/soccer-trading-card-front-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.soccer.card.PR": {
+      "out": "/images/free-proof/soccer/soccer-trading-card-front-prism-rush.webp",
+      "status": "verified"
+    },
+    "free-proof.soccer.card.SN": {
+      "out": "/images/free-proof/soccer/soccer-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.soccer.card.SR": {
+      "out": "/images/free-proof/soccer/soccer-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "free-proof.soccer.card.SS": {
+      "out": "/images/free-proof/soccer/soccer-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.soccer.poster": {
+      "out": "/images/free-proof/soccer/soccer-poster-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "free-proof.softball.banner": {
+      "out": "/images/free-proof/softball/softball-banner-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.softball.blanket": {
+      "out": "/images/free-proof/softball/softball-blanket-prism-rush.webp",
+      "status": "verified"
+    },
+    "free-proof.softball.card.CA": {
+      "out": "/images/free-proof/softball/softball-trading-card-front-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.softball.card.FS": {
+      "out": "/images/free-proof/softball/softball-trading-card-front-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "free-proof.softball.card.HE": {
+      "out": "/images/free-proof/softball/softball-trading-card-front-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.softball.card.PR": {
+      "out": "/images/free-proof/softball/softball-trading-card-front-prism-rush.webp",
+      "status": "verified"
+    },
+    "free-proof.softball.card.SN": {
+      "out": "/images/free-proof/softball/softball-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.softball.card.SR": {
+      "out": "/images/free-proof/softball/softball-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "free-proof.softball.card.SS": {
+      "out": "/images/free-proof/softball/softball-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.softball.poster": {
+      "out": "/images/free-proof/softball/softball-poster-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.swimming.card.CA": {
+      "out": "/images/free-proof/swimming/swimming-trading-card-front-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.swimming.card.FS": {
+      "out": "/images/free-proof/swimming/swimming-trading-card-front-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "free-proof.swimming.card.HE": {
+      "out": "/images/free-proof/swimming/swimming-trading-card-front-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.swimming.card.PR": {
+      "out": "/images/free-proof/swimming/swimming-trading-card-front-prism-rush.webp",
+      "status": "verified"
+    },
+    "free-proof.swimming.card.SN": {
+      "out": "/images/free-proof/swimming/swimming-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.swimming.card.SS": {
+      "out": "/images/free-proof/swimming/swimming-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.swimming.poster": {
+      "out": "/images/free-proof/swimming/swimming-poster-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.tennis.card.CA": {
+      "out": "/images/free-proof/tennis/tennis-trading-card-front-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.tennis.card.FS": {
+      "out": "/images/free-proof/tennis/tennis-trading-card-front-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "free-proof.tennis.card.HE": {
+      "out": "/images/free-proof/tennis/tennis-trading-card-front-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.tennis.card.PR": {
+      "out": "/images/free-proof/tennis/tennis-trading-card-front-prism-rush.webp",
+      "status": "verified"
+    },
+    "free-proof.tennis.card.SN": {
+      "out": "/images/free-proof/tennis/tennis-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.tennis.card.SS": {
+      "out": "/images/free-proof/tennis/tennis-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.tennis.poster": {
+      "out": "/images/free-proof/tennis/tennis-poster-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.track-field.banner": {
+      "out": "/images/free-proof/track-field/track-and-field-banner-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.track-field.blanket": {
+      "out": "/images/free-proof/track-field/track-and-field-blanket-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.track-field.card.CA": {
+      "out": "/images/free-proof/track-field/track-and-field-trading-card-front-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.track-field.card.FS": {
+      "out": "/images/free-proof/track-field/track-and-field-trading-card-front-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "free-proof.track-field.card.HE": {
+      "out": "/images/free-proof/track-field/track-and-field-trading-card-front-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.track-field.card.PR": {
+      "out": "/images/free-proof/track-field/track-and-field-trading-card-front-prism-rush.webp",
+      "status": "verified"
+    },
+    "free-proof.track-field.card.SN": {
+      "out": "/images/free-proof/track-field/track-and-field-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.track-field.card.SS": {
+      "out": "/images/free-proof/track-field/track-and-field-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.track-field.poster": {
+      "out": "/images/free-proof/track-field/track-and-field-poster-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "free-proof.volleyball.banner": {
+      "out": "/images/free-proof/volleyball/volleyball-banner-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.volleyball.blanket": {
+      "out": "/images/free-proof/volleyball/volleyball-blanket-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.volleyball.card.CA": {
+      "out": "/images/free-proof/volleyball/volleyball-trading-card-front-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.volleyball.card.FS": {
+      "out": "/images/free-proof/volleyball/volleyball-trading-card-front-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "free-proof.volleyball.card.HE": {
+      "out": "/images/free-proof/volleyball/volleyball-trading-card-front-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.volleyball.card.PR": {
+      "out": "/images/free-proof/volleyball/volleyball-trading-card-front-prism-rush.webp",
+      "status": "verified"
+    },
+    "free-proof.volleyball.card.SN": {
+      "out": "/images/free-proof/volleyball/volleyball-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.volleyball.card.SR": {
+      "out": "/images/free-proof/volleyball/volleyball-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "free-proof.volleyball.card.SS": {
+      "out": "/images/free-proof/volleyball/volleyball-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.volleyball.poster": {
+      "out": "/images/free-proof/volleyball/volleyball-poster-prism-rush.webp",
+      "status": "verified"
+    },
+    "free-proof.wrestling.banner": {
+      "out": "/images/free-proof/wrestling/wrestling-banner-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.wrestling.blanket": {
+      "out": "/images/free-proof/wrestling/wrestling-blanket-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.wrestling.card.CA": {
+      "out": "/images/free-proof/wrestling/wrestling-trading-card-front-chrome-all-star.webp",
+      "status": "verified"
+    },
+    "free-proof.wrestling.card.FS": {
+      "out": "/images/free-proof/wrestling/wrestling-trading-card-front-fire-and-smoke.webp",
+      "status": "verified"
+    },
+    "free-proof.wrestling.card.HE": {
+      "out": "/images/free-proof/wrestling/wrestling-trading-card-front-heritage.webp",
+      "status": "verified"
+    },
+    "free-proof.wrestling.card.PR": {
+      "out": "/images/free-proof/wrestling/wrestling-trading-card-front-prism-rush.webp",
+      "status": "verified"
+    },
+    "free-proof.wrestling.card.SN": {
+      "out": "/images/free-proof/wrestling/wrestling-trading-card-front-stadium-night.webp",
+      "status": "verified"
+    },
+    "free-proof.wrestling.card.SR": {
+      "out": "/images/free-proof/wrestling/wrestling-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "free-proof.wrestling.poster": {
+      "out": "/images/free-proof/wrestling/wrestling-poster-heritage.webp",
       "status": "verified"
     },
     "hero.story.1.athlete": {
