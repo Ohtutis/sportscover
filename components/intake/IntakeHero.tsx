@@ -3,11 +3,11 @@ import { INTAKE_COPY, INTAKE_PATH } from "../../lib/intake/copy";
 import { Breadcrumbs } from "../Breadcrumbs";
 import { PRIMARY_BUTTON_CLASS } from "../CtaPair";
 import { ScrollLink } from "./ScrollLink";
-import { HeroVisual } from "./SportVisuals";
+import type { SportChoiceData } from "./SportPicker";
+import { HeroVisual, STEP_ONE_HREF } from "./SportVisuals";
 import { UI } from "./strings";
 
 export const HERO_TITLE_ID = "free-proof-title";
-export const STEP_ONE_HREF = "#step-1";
 
 /** The page's one big orange button (with the conversion card's submit): Anton on the accent, 56 px. */
 export const HERO_CTA_CLASS = `inline-flex min-h-14 items-center justify-center rounded-ui px-8 py-3 text-center font-display text-[1.0625rem] uppercase leading-tight tracking-[0.04em] transition-[filter] duration-hover ease-out ${PRIMARY_BUTTON_CLASS}`;
@@ -20,12 +20,13 @@ export const HERO_CTA_CLASS = `inline-flex min-h-14 items-center justify-center 
  * labels with no tick and no fill, so the page's orange stays on its two buttons. Beside them, an example
  * proof in the sport chosen in step 1 (`HeroVisual`, components/intake/SportVisuals.tsx — v5, owner review
  * 2026-10-07: the example sport's real proof and its athlete's phone photos until a sport is chosen). Below
- * `lg` the visual follows the copy, full width up to 560 px.
+ * `lg` the visual follows the copy, full width up to 560 px. v6 (2026-10-07): the sentence under the H1 names
+ * what they get, and the strip of sports under the exhibit switches every picture on the page.
  *
  * The H1 runs at 20ch rather than the recipe's 16ch: "FREE PROOF FIRST. PAY IF YOU LOVE IT." broke into
  * three lines at 16ch on a 1440 screen; at 20ch it sets as two, one sentence per line.
  */
-export function IntakeHero({ art, example }: { art: FreeProofArtMap; example?: string }) {
+export function IntakeHero({ art, example, sports }: { art: FreeProofArtMap; example?: string; sports?: readonly SportChoiceData[] }) {
   return (
     <section aria-labelledby={HERO_TITLE_ID} className="pt-6 md:pt-10">
       <Breadcrumbs trail={[{ name: "Home", href: "/" }, { name: UI.breadcrumb, href: INTAKE_PATH }]} className="mb-6" />
@@ -56,7 +57,7 @@ export function IntakeHero({ art, example }: { art: FreeProofArtMap; example?: s
           </ul>
         </div>
         <div className="mt-12 lg:col-span-6 lg:mt-0">
-          <HeroVisual art={art} example={example} />
+          <HeroVisual art={art} example={example} sports={sports} />
         </div>
       </div>
     </section>

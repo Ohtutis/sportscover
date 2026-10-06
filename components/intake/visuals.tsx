@@ -1,7 +1,6 @@
 import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
 import { INTAKE_COPY } from "../../lib/intake/copy";
-import type { FreeProofImage } from "../../lib/intake/sport-art";
 import { FictionalLabel } from "../FictionalLabel";
 import { CheckCircleIcon } from "../icons";
 import type { ArtState } from "./model";
@@ -165,16 +164,17 @@ export function PhotoPrint({
 
 /**
  * The proof watermark, drawn in CSS: "PROOF" in Anton tiled on a −24° diagonal across the whole picture
- * (every other row offset half a step, like a real proof stamp), white at 50 % with a faint hairline of ink
- * so it reads on a light card and a dark one without hiding the art. Every size is a share of
- * the box (`cqw`), so a 120 px thumb and a 500 px hero carry the same pattern.
+ * (every other row offset half a step, like a real proof stamp), white at 40 % with a faint hairline of ink
+ * so it reads on a light card and a dark one without hiding the art. Sparse on purpose (v6, 2026-10-07: at
+ * 48 tiles it sat on every face and the art looked worse than it is — the stamp must read second). Every
+ * size is a share of the box (`cqw`), so a 120 px thumb and a 500 px hero carry the same pattern.
  */
 export function Watermark({ className = "" }: { className?: string }) {
   return (
     <span data-watermark="" aria-hidden="true" className={`@container pointer-events-none absolute inset-0 overflow-hidden ${className}`.trim()}>
-      <span className="absolute left-1/2 top-1/2 grid w-[200%] -translate-x-1/2 -translate-y-1/2 -rotate-[24deg] grid-cols-6 gap-x-[8cqw] gap-y-[10cqw] text-center">
-        {Array.from({ length: 48 }, (_, i) => (
-          <span key={i} className={`font-display text-[7cqw] uppercase leading-none tracking-[0.08em] text-white/50 [text-shadow:0_0_1px_rgb(20_25_31/0.3)] ${i % 12 >= 6 ? "translate-x-[50%]" : ""}`.trim()}>
+      <span className="absolute left-1/2 top-1/2 grid w-[200%] -translate-x-1/2 -translate-y-1/2 -rotate-[24deg] grid-cols-4 gap-x-[12cqw] gap-y-[15cqw] text-center">
+        {Array.from({ length: 24 }, (_, i) => (
+          <span key={i} className={`font-display text-[10cqw] uppercase leading-none tracking-[0.1em] text-white/40 [text-shadow:0_0_1px_rgb(20_25_31/0.35)] ${i % 8 >= 4 ? "translate-x-[50%]" : ""}`.trim()}>
             {INTAKE_COPY.art.watermark}
           </span>
         ))}
@@ -191,7 +191,7 @@ export function ArtImage({
   eager = false,
   className = "",
 }: {
-  image: FreeProofImage;
+  image: PrintImage;
   sizes: string;
   decorative?: boolean;
   eager?: boolean;
@@ -274,62 +274,123 @@ export function ArtNote({
   );
 }
 
-// --- the four how-it-works pictures (components/ProofPath.tsx draws the box; these fill it) ----------
+// --- the how-it-works pictures (components/ProofPath.tsx draws the box; these fill it) ------------
 
 /** Every step picture's print look: square corners, a white ring, the card shadow. */
 const PRINT = "absolute overflow-hidden rounded-none bg-hairline shadow-[var(--shadow-card-stock)] ring-[3px] ring-white";
 /** The step box is the card's inner width × 140–200 px: a picture in it is never drawn wider than ~150 px. */
 export const STEP_ART_SIZES = "(min-width: 1280px) 150px, (min-width: 768px) 130px, 100px";
 
-/** Step 01 in a sport: its poster and a card front, laid on the page; the grey pair before a sport. */
-export function StepPair({ poster, card, finish }: { poster: FreeProofImage | null; card: FreeProofImage | null; finish?: string }) {
+/**
+ * Card 01 — the sports in the fan, each in the finish its poster leads with (lib/assets.ts FP_SPORTS): four
+ * sports, four finishes (Heritage, Prism Rush, Stadium Night, Chrome All-Star). The one picture on /free-proof
+ * that shows more than one sport, on purpose (owner, 2026-10-07: "show several sports in different styles";
+ * later the same day: "not the cheer card here" — baseball took its place) — this card IS the sport-and-style
+ * choice.
+ */
+export const FAN_SPORTS = ["football", "volleyball", "basketball", "baseball"] as const;
+
+/** The three phone photos every sport carries, in the order the art map lists them (lib/assets.ts FP_PHOTO_NUMBERS = 1, 4, 2). */
+export const PHOTO_SHOTS = ["everyday", "smile", "kit"] as const;
+export type PhotoShot = (typeof PHOTO_SHOTS)[number];
+/** The `before/photo<n>.png` behind each shot — tested against FP_PHOTO_NUMBERS, never read on the client. */
+export const PHOTO_SHOT_NUMBER: Record<PhotoShot, number> = { everyday: 1, smile: 4, kit: 2 };
+
+/**
+ * Card 02 — the mini mix of phone photos that works on every page (owner, 2026-10-07: "more of them — a couple
+ * of athletes mixed, a couple of different kits and clothes, men and women"): five roster athletes, three in kit
+ * and two in everyday clothes, three boys and two girls, in the order they fan. Fixed like card 01: the upload
+ * is the same whatever sport is chosen.
+ */
+export const MIX_PHOTOS: readonly { slug: string; shot: PhotoShot }[] = [
+  { slug: "football", shot: "smile" },
+  { slug: "volleyball", shot: "kit" },
+  { slug: "softball", shot: "everyday" },
+  { slug: "basketball", shot: "kit" },
+  { slug: "baseball", shot: "kit" },
+];
+
+/** Where each poster of the fan lies: a hand of four, the outer two lower and turned out, the right on top. */
+const FAN = ["left-[2%] top-[12%] z-10 -rotate-[8deg]", "left-[22%] top-[4%] z-20 -rotate-[3deg]", "left-[42%] top-[4%] z-30 rotate-[3deg]", "left-[62%] top-[12%] z-40 rotate-[8deg]"] as const;
+
+/** Card 01: four posters fanned like a hand of cards; a grey poster in any slot without an image. */
+export function StepFan({ posters }: { posters: readonly (PrintImage | null)[] }) {
   return (
     <>
-      <span className={`${PRINT} left-[6%] top-[2%] aspect-[3/4] h-[86%] -rotate-3`}>
-        {poster ? <ArtImage image={poster} sizes={STEP_ART_SIZES} decorative /> : <NeutralArt shape="poster" className="h-full w-full" />}
+      {FAN.map((place, i) => (
+        <span key={i} className={`${PRINT} aspect-[3/4] w-[34%] ${place}`}>
+          {posters[i] ? <ArtImage image={posters[i]} sizes={STEP_ART_SIZES} decorative /> : <NeutralArt shape="poster" className="h-full w-full" />}
+        </span>
+      ))}
+    </>
+  );
+}
+
+/** Where each of the five photos lies: a loose fan, the outer ones lower and turned out, the right on top. */
+const PILE = [
+  "left-[1%] top-[16%] z-10 -rotate-[9deg]",
+  "left-[18%] top-[4%] z-20 -rotate-[4deg]",
+  "left-[35%] top-[10%] z-30 rotate-[1deg]",
+  "left-[52%] top-[3%] z-40 rotate-[5deg]",
+  "left-[69%] top-[15%] z-50 rotate-[10deg]",
+] as const;
+
+/** Card 02: the five phone photos of the mix fanned on the page; a grey "your photo" print in any slot without one. */
+export function StepPhotos({ photos }: { photos: readonly (PrintImage | null)[] }) {
+  return (
+    <>
+      {PILE.map((place, i) => {
+        const photo = photos[i] ?? null;
+        const className = `absolute w-[30%] ${place}`;
+        return photo ? <PhotoPrint key={i} image={photo} sizes={STEP_ART_SIZES} className={className} /> : <PhotoPlaceholder key={i} className={className} />;
+      })}
+    </>
+  );
+}
+
+/**
+ * Card 03 — what makes the work ours (owner, 2026-10-07: "explain how we are different"): the athlete's
+ * identity plate (three views) and kit plate, both built from the photos and checked before any design.
+ * Two prints, the kit lying over the plate's lower-right corner; a plain grey print where one is missing.
+ */
+export function StepLikeness({ identity, kit }: { identity: PrintImage | null; kit: PrintImage | null }) {
+  return (
+    <>
+      <span data-likeness="identity" className={`${PRINT} left-[2%] top-[5%] z-10 aspect-[600/448] w-[62%] -rotate-2`}>
+        {identity ? <ArtImage image={identity} sizes={STEP_ART_SIZES} decorative /> : null}
       </span>
-      <span className={`${PRINT} bottom-[2%] right-[6%] aspect-[5/7] h-[80%] rotate-3`}>
-        {card ? <ArtImage image={card} sizes={STEP_ART_SIZES} decorative /> : <NeutralArt shape="card" finish={finish} className="h-full w-full" />}
+      <span data-likeness="kit" className={`${PRINT} bottom-[5%] right-[2%] z-20 aspect-square w-[42%] rotate-3`}>
+        {kit ? <ArtImage image={kit} sizes={STEP_ART_SIZES} decorative /> : null}
       </span>
     </>
   );
 }
 
 /**
- * Step 02: two phone photos — the example athlete's own (the smile behind, the photo in uniform in front), or
- * the grey "your photo" prints where none is given.
+ * Card 04 — the proof as the parent receives it: the poster and the card front on a dark proof sheet under
+ * the PROOF watermark, the stamp line along its foot. Composed in code from the shown sport's art, so every
+ * sport has one and the sheet is never another sport's.
  */
-export function StepPhotos({ photos }: { photos?: readonly PrintImage[] | null }) {
-  const back = "absolute left-[10%] top-[3%] h-[84%] w-auto -rotate-6";
-  const front = "absolute right-[10%] top-[9%] h-[84%] w-auto rotate-[5deg]";
-  if (photos && photos.length >= 2) {
-    const [behind, onTop] = photos.slice(-2);
-    return (
-      <>
-        <PhotoPrint image={behind} sizes={STEP_ART_SIZES} className={back} />
-        <PhotoPrint image={onTop} sizes={STEP_ART_SIZES} className={front} />
-      </>
-    );
-  }
+export function StepProofSheet({ poster, card, finish }: { poster: PrintImage | null; card: PrintImage | null; finish?: string }) {
   return (
-    <>
-      <PhotoPlaceholder className={back} />
-      <PhotoPlaceholder className={front} />
-    </>
-  );
-}
-
-/** Step 03 in a sport: the card front with the PROOF watermark over it; the grey card before a sport. */
-export function StepProofCard({ card, finish }: { card: FreeProofImage | null; finish?: string }) {
-  return (
-    <span className={`${PRINT} left-1/2 top-0 aspect-[5/7] h-full -translate-x-1/2`}>
-      {card ? <ArtImage image={card} sizes={STEP_ART_SIZES} decorative /> : <NeutralArt shape="card" finish={finish} className="h-full w-full" />}
+    <span data-proof-sheet="" className={`${PRINT} inset-x-[3%] inset-y-[3%] bg-arena`}>
+      <span className="absolute inset-x-0 bottom-[14%] top-0 flex items-center justify-center gap-[4%] px-[4%]">
+        <span className="relative block aspect-[3/4] h-[84%] shrink-0 overflow-hidden">
+          {poster ? <ArtImage image={poster} sizes={STEP_ART_SIZES} decorative /> : <NeutralArt shape="poster" className="h-full w-full" />}
+        </span>
+        <span className="relative block aspect-[5/7] h-[72%] shrink-0 overflow-hidden">
+          {card ? <ArtImage image={card} sizes={STEP_ART_SIZES} decorative /> : <NeutralArt shape="card" finish={finish} className="h-full w-full" />}
+        </span>
+      </span>
+      <span className="absolute inset-x-0 bottom-0 flex h-[14%] items-center justify-center px-[4%] font-label text-[0.5rem] font-semibold uppercase leading-none tracking-[0.14em] text-white/70">
+        {INTAKE_COPY.art.proofStamp}
+      </span>
       <Watermark />
     </span>
   );
 }
 
-/** Step 04 everywhere: the approval tick. */
+/** Card 05 (and any slot without a picture of its own): the approval tick. */
 export function StepTick() {
   return (
     <span className="absolute inset-0 flex items-center justify-center text-ink">

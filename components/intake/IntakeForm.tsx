@@ -36,6 +36,7 @@ import {
   shownArt,
   sportArt,
   sportName,
+  sportRequestStore,
   statErrorsByRow,
   type ArtNoteData,
   type AthleteState,
@@ -230,6 +231,15 @@ export function IntakeForm({
     choiceStore.set({ sport: sportSlug, sportOther, style: chosenStyle });
   }, [sportSlug, sportOther, chosenStyle]);
   useEffect(() => () => choiceStore.set({ sport: "", sportOther: "", style: "" }), []);
+  // The hero's sport strip asks for a sport from outside the form: the same change as a tap on a step-1 chip.
+  useEffect(
+    () =>
+      sportRequestStore.subscribe(() => {
+        const { slug } = sportRequestStore.get();
+        if (slug) setForm((f) => chooseSport(f, slug));
+      }),
+    [],
+  );
 
   // Previews are object URLs; give the memory back when the page goes.
   useEffect(() => {

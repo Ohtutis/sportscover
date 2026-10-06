@@ -13,6 +13,8 @@
 //   free-proof.<slug>.banner        the sport's banner art, flat
 //   free-proof.<slug>.blanket       the sport's blanket laid flat, a mockup (never a draped shot: those stretch the art)
 //   free-proof.<slug>.photo.<n>     the same athlete's generated phone photos (n = 1, 4, 2: everyday, smile, in uniform)
+//   free-proof.<slug>.identity      the athlete's identity plate, three views (how-it-works card 03)
+//   free-proof.<slug>.kit           the athlete's kit plate, laid flat (card 03)
 
 import { FP_PHOTO_NUMBERS, SITE_ASSETS } from "../assets";
 import { sports } from "../catalog/sports";
@@ -42,12 +44,18 @@ export interface FreeProofSportArt {
    * the "before" the proof is built from. Present only when all three are audited.
    */
   photos?: FreeProofImage[];
+  /** The identity plate (three views) and the kit plate: what the athlete was rebuilt from (card 03). */
+  identity?: FreeProofImage;
+  kit?: FreeProofImage;
 }
 
 /** Sport slug → its art. A sport with no audited image at all is absent from the map. */
 export type FreeProofArtMap = Record<string, FreeProofSportArt>;
 
-export const freeProofKey = (slug: string, item: "poster" | "banner" | "blanket" | `card.${FreeProofFinishCode}` | `photo.${number}`) =>
+export const freeProofKey = (
+  slug: string,
+  item: "poster" | "banner" | "blanket" | "identity" | "kit" | `card.${FreeProofFinishCode}` | `photo.${number}`,
+) =>
   `free-proof.${slug}.${item}`;
 
 const FINISH_IN_ALT: ReadonlyArray<[FreeProofFinishCode, RegExp]> = [
@@ -90,6 +98,10 @@ export function freeProofArtMap(): FreeProofArtMap {
     if (blanket) entry.blanket = blanket;
     const photos = FP_PHOTO_NUMBERS.map((n) => image(freeProofKey(s.slug, `photo.${n}`)));
     if (photos.every(Boolean)) entry.photos = photos as FreeProofImage[];
+    const identity = image(freeProofKey(s.slug, "identity"));
+    const kit = image(freeProofKey(s.slug, "kit"));
+    if (identity) entry.identity = identity;
+    if (kit) entry.kit = kit;
     if (Object.keys(cards).length || poster || banner || blanket) map[s.slug] = entry;
   }
   return map;

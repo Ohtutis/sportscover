@@ -1,12 +1,18 @@
 "use client";
 
+import Image from "next/image";
 import { useSyncExternalStore } from "react";
 import type { FreeProofArtMap } from "../../lib/intake/sport-art";
 import { BracketFrame } from "../BracketFrame";
 import { FictionalLabel } from "../FictionalLabel";
 import { INTAKE_COPY } from "../../lib/intake/copy";
-import { SHOWCASE_SPORT, artState, cardImage, choiceStore, exampleName, previewFinish, shownArt, sportName, type PageChoice } from "./model";
-import { ArtImage, ArtNote, NeutralArt, PhotoPlaceholder, PhotoPrint, StepPair, StepPhotos, StepProofCard, StepTick, Watermark } from "./visuals";
+import { SHOWCASE_SPORT, artState, cardImage, choiceStore, exampleName, previewFinish, shownArt, sportArt, sportName, sportRequestStore, type PageChoice } from "./model";
+import { ScrollLink } from "./ScrollLink";
+import type { SportChoiceData } from "./SportPicker";
+import { ArtImage, ArtNote, FAN_SPORTS, MIX_PHOTOS, NeutralArt, PHOTO_SHOTS, PhotoPlaceholder, PhotoPrint, StepFan, StepLikeness, StepPhotos, StepProofSheet, StepTick, Watermark } from "./visuals";
+
+/** Step 1's anchor — the hero CTA and the strip's "all sports" link glide to it. */
+export const STEP_ONE_HREF = "#step-1";
 
 // The pictures ABOVE the form island that follow the sport chosen in step 1 (owner review 2026-10-06,
 // evening: "one sport on the whole page"): the hero's example proof and the how-it-works pictures. They
@@ -31,14 +37,26 @@ const HERO_POSTER_SIZES = "(min-width: 1360px) 240px, (min-width: 1024px) 18vw, 
 const HERO_CARD_SIZES = "(min-width: 1360px) 200px, (min-width: 1024px) 15vw, (min-width: 640px) 180px, 33vw";
 
 /**
- * "This is what you get first" — the hero's right half: phone photos become a proof. An example proof sheet in
+ * "This is what you get" — the hero's right half: your photos become their edition. An example proof sheet in
  * the bracket frame with its file-tab label (the sport's poster and card front side by side under the CSS
- * watermark), and three of that athlete's phone photos lying over its lower-left corner. Before a sport is
- * chosen (or for a sport with no example yet) it is the page's example sport, and the line under the frame
- * says so. C13 sits in the frame while real art shows.
+ * watermark), three of that athlete's phone photos lying over its lower-left corner with their own label, and
+ * under it the strip of sports that switches every picture on the page (v6, owner 2026-10-07: "the hero is
+ * too weak … we pick a sport and everything changes"). Before a sport is chosen (or for a sport with no example
+ * yet) it is the page's example sport, and the line under the frame says so. C13 sits in the frame while real
+ * art shows.
  */
-export function HeroVisual({ art, example = SHOWCASE_SPORT, className = "" }: { art: FreeProofArtMap; example?: string; className?: string }) {
-  return <HeroVisualView art={art} choice={useChoice()} example={example} className={className} />;
+export function HeroVisual({
+  art,
+  example = SHOWCASE_SPORT,
+  sports = [],
+  className = "",
+}: {
+  art: FreeProofArtMap;
+  example?: string;
+  sports?: readonly SportChoiceData[];
+  className?: string;
+}) {
+  return <HeroVisualView art={art} choice={useChoice()} example={example} sports={sports} className={className} />;
 }
 
 /** The hero visual for a given choice — pure, so the static render and the tests draw it without the store. */
@@ -46,11 +64,13 @@ export function HeroVisualView({
   art,
   choice,
   example = SHOWCASE_SPORT,
+  sports = [],
   className = "",
 }: {
   art: FreeProofArtMap;
   choice: PageChoice;
   example?: string;
+  sports?: readonly SportChoiceData[];
   className?: string;
 }) {
   const entry = shownArt(art, choice.sport, example);
@@ -59,6 +79,7 @@ export function HeroVisualView({
   const finish = previewFinish(choice.style);
   const poster = entry?.poster ?? null;
   const card = cardImage(entry, finish, true);
+  const front = HAND.length - 1;
   return (
     <div>
       <div data-hero-visual="" data-sport={choice.sport || undefined} data-example={state === "art" ? undefined : example} className={`relative mx-auto w-full max-w-[560px] lg:max-w-none ${className}`.trim()}>
@@ -82,22 +103,91 @@ export function HeroVisualView({
         </div>
         {HAND.map((hand, i) => (
           <div key={i} className={`absolute w-[22%] ${hand.place} ${hand.z}`}>
-            {photos?.[i] ? (
-              <PhotoPrint image={photos[i]} sizes={HERO_PHOTO_SIZES} ring="ring-[5px]" decorative={i < HAND.length - 1} eager />
-            ) : (
-              <PhotoPlaceholder ring="ring-[5px]" />
-            )}
+            {photos?.[i] ? <PhotoPrint image={photos[i]} sizes={HERO_PHOTO_SIZES} ring="ring-[5px]" decorative={i < front} eager /> : <PhotoPlaceholder ring="ring-[5px]" />}
+            {/* The label hangs off the front print: the fan is the parent's photos, the sheet what they become. */}
+            {i === front ? (
+              <span
+                aria-hidden="true"
+                data-photos-label=""
+                className="absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-[4px] bg-ink px-2 py-1 font-label text-label font-semibold uppercase tracking-[0.12em] text-white"
+              >
+                {INTAKE_COPY.heroVisual.photosLabel}
+              </span>
+            ) : null}
           </div>
         ))}
       </div>
-      <ArtNote state={state} sport={sportName(choice.sport, choice.sportOther)} example={exampleName(art, example)} label={false} className="mt-5" />
+      <ArtNote state={state} sport={sportName(choice.sport, choice.sportOther)} example={exampleName(art, example)} label={false} className="mt-6" />
+      <HeroSportStripView sports={sports} art={art} chosen={choice.sport} className="mt-5" />
+    </div>
+  );
+}
+
+const STRIP_LABEL_ID = "free-proof-sport-strip";
+/** A strip chip: the sport's card face and its name, 44 px tall; chosen = ink fill, like a step-1 chip. */
+const stripChip = (on: boolean): string =>
+  `inline-flex min-h-11 items-center gap-2 rounded-ui border-[1.5px] py-1 pl-1 pr-3 font-display text-[0.9375rem] uppercase leading-none tracking-[0.02em] transition-[background-color,border-color,color] duration-hover ease-out focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent ${
+    on ? "border-ink bg-ink text-white" : "border-ink/25 bg-white text-ink hover:border-ink"
+  }`;
+const STRIP_LINK =
+  "inline-flex min-h-11 items-center rounded-ui px-2 font-display text-[0.9375rem] uppercase leading-none tracking-[0.02em] text-ink underline decoration-ink/30 underline-offset-4 hover:decoration-ink focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent";
+
+/**
+ * The strip under the hero exhibit: the sports with their own pages as chips, each wearing its card face, and
+ * "All N sports" gliding to step 1. A tap asks the form for that sport (`sportRequestStore`) — the same change
+ * as a tap on a step-1 chip — so the hero, the band, the tiles and step 1 agree; the chosen sport's chip is
+ * filled. Pure: the static render and the tests draw it with the choice handed in. Nothing before the parent
+ * chooses: the example sport is named in the line above, not pre-pressed here.
+ */
+export function HeroSportStripView({
+  sports,
+  art,
+  chosen,
+  className = "",
+}: {
+  sports: readonly SportChoiceData[];
+  art: FreeProofArtMap;
+  chosen: string;
+  className?: string;
+}) {
+  const featured = sports.filter((s) => s.featured);
+  if (!featured.length) return null;
+  return (
+    <div data-sport-strip="" className={className}>
+      <p id={STRIP_LABEL_ID} className="font-label text-label font-semibold uppercase tracking-[0.12em] text-muted-text">
+        {INTAKE_COPY.heroVisual.switchLabel}
+      </p>
+      {/* One scrolling row on a phone (no wrap, no scrollbar), a wrapping row from lg. */}
+      <ul aria-labelledby={STRIP_LABEL_ID} className="mt-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] lg:flex-wrap lg:overflow-visible lg:pb-0">
+        {featured.map((s) => {
+          const face = cardImage(sportArt(art, s.slug), "SN", true);
+          const on = chosen === s.slug;
+          return (
+            <li key={s.slug} className="shrink-0">
+              <button type="button" aria-pressed={on} data-strip-sport={s.slug} onClick={() => sportRequestStore.request(s.slug)} className={stripChip(on)}>
+                <span className="relative block h-9 w-[1.625rem] shrink-0 overflow-hidden rounded-none bg-hairline">
+                  {face ? <Image src={face.src} alt="" fill sizes="32px" className="object-cover" /> : null}
+                </span>
+                <span>{s.name}</span>
+              </button>
+            </li>
+          );
+        })}
+        <li className="shrink-0">
+          <ScrollLink href={STEP_ONE_HREF} className={STRIP_LINK}>
+            {INTAKE_COPY.heroVisual.allSports(sports.length)}
+          </ScrollLink>
+        </li>
+      </ul>
     </div>
   );
 }
 
 /**
- * One how-it-works picture on /free-proof, in the shown sport: 01 its poster and a card front, 02 that
- * athlete's phone photos, 03 the card front under the watermark, 04 the tick.
+ * One how-it-works picture on /free-proof: 01 the fan of four sports in four finishes and 02 the mix of phone
+ * photos (both the same on every page — the choice and the upload are the same whatever the sport), then in
+ * the shown sport 03 the athlete's identity and kit plates and 04 their poster and card on the proof sheet;
+ * 05 the tick.
  */
 export function FreeProofStepVisual({ step, art, example = SHOWCASE_SPORT }: { step: number; art: FreeProofArtMap; example?: string }) {
   return <StepVisualView step={step} art={art} choice={useChoice()} example={example} />;
@@ -108,9 +198,10 @@ export function StepVisualView({ step, art, choice, example = SHOWCASE_SPORT }: 
   const entry = shownArt(art, choice.sport, example);
   const finish = previewFinish(choice.style);
   const swatch = choice.style ? finish : undefined;
-  if (step === 0) return <StepPair poster={entry?.poster ?? null} card={cardImage(entry, finish, true)} finish={swatch} />;
-  if (step === 1) return <StepPhotos photos={entry?.photos} />;
-  if (step === 2) return <StepProofCard card={cardImage(entry, finish, true)} finish={swatch} />;
+  if (step === 0) return <StepFan posters={FAN_SPORTS.map((slug) => sportArt(art, slug)?.poster ?? null)} />;
+  if (step === 1) return <StepPhotos photos={MIX_PHOTOS.map(({ slug, shot }) => sportArt(art, slug)?.photos?.[PHOTO_SHOTS.indexOf(shot)] ?? null)} />;
+  if (step === 2) return <StepLikeness identity={entry?.identity ?? null} kit={entry?.kit ?? null} />;
+  if (step === 3) return <StepProofSheet poster={entry?.poster ?? null} card={cardImage(entry, finish, true)} finish={swatch} />;
   return <StepTick />;
 }
 

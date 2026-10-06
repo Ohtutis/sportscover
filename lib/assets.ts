@@ -1192,6 +1192,17 @@ const FP_PHOTO_SCENE: Record<(typeof FP_PHOTO_NUMBERS)[number], string> = {
 const altPhoto = (sport: string, n: (typeof FP_PHOTO_NUMBERS)[number]) =>
   `Phone photo of a fictional ${sport} athlete, the kind a parent sends — ${FP_PHOTO_SCENE[n]}; photo generated`;
 
+/**
+ * The how-it-works card 03 (owner, 2026-10-07: "explain how we are different — we rebuild the person from the photos
+ * and use that in the design"): the roster athlete's identity plate (three views) and kit plate, the two references
+ * every shot of that athlete was checked against. `_identity.png` 2400 x 1792 → 600 x 448; `_kit.png` 2048 x 2048
+ * (softball 900 x 900) → 480 x 480. Honest wording only: built from the photos and checked, never "a perfect copy".
+ */
+const altIdentity = (sport: string) =>
+  `Three views of a fictional ${sport} athlete, built from their photos — the reference every shot is checked against; generated`;
+const altKit = (sport: string) =>
+  `The ${sport} kit laid flat, rebuilt from the photos without inventing a detail — example, fictional roster athlete; generated`;
+
 const altBanner = (sport: string, finish: string) =>
   `Custom ${sport} vinyl banner — ${finish} finish — example artwork, fictional athlete`;
 const altBlanket = (sport: string, finish: string) =>
@@ -1213,13 +1224,22 @@ function freeProofEntries(): Record<string, Entry> {
         kind: "card", fictional: true, status: "verified", alt: altFront(s.word, name),
       };
     }
+    const athlete = s.athlete ?? s.slug;
     for (const n of FP_PHOTO_NUMBERS) {
       out[`free-proof.${s.slug}.photo.${n}`] = {
         out: `${dir}/${s.file}-phone-photo-${n}.webp`,
-        source: `art-pipeline/out/athletes/${s.athlete ?? s.slug}/before/photo${n}.png`,
+        source: `art-pipeline/out/athletes/${athlete}/before/photo${n}.png`,
         width: 336, height: 450, quality: 72, kind: "photo", fictional: true, status: "verified", alt: altPhoto(s.word, n),
       };
     }
+    out[`free-proof.${s.slug}.identity`] = {
+      out: `${dir}/${s.file}-identity-three-views.webp`, source: `art-pipeline/out/athletes/${athlete}/_identity.png`,
+      width: 600, height: 448, quality: 72, kind: "plate", fictional: true, status: "verified", alt: altIdentity(s.word),
+    };
+    out[`free-proof.${s.slug}.kit`] = {
+      out: `${dir}/${s.file}-kit-plate.webp`, source: `art-pipeline/out/athletes/${athlete}/_kit.png`,
+      width: 480, height: 480, quality: 72, kind: "plate", fictional: true, status: "verified", alt: altKit(s.word),
+    };
     const [pName, pFile] = FP_FINISH[s.poster];
     out[`free-proof.${s.slug}.poster`] = {
       out: `${dir}/${s.file}-poster-${pFile}.webp`,

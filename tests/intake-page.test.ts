@@ -32,6 +32,8 @@ const { ProductPicker } = await import("../components/intake/ProductPicker");
 const { StylePicker } = await import("../components/intake/StylePicker");
 const { SportPicker } = await import("../components/intake/SportPicker");
 const { HeroVisualView, StepVisualView } = await import("../components/intake/SportVisuals");
+const { FAN_SPORTS, MIX_PHOTOS, PHOTO_SHOTS } = await import("../components/intake/visuals");
+const { DUE_TODAY_LABEL: DUE_TODAY } = await import("../lib/catalog/prices");
 const { sports, isNumberless } = await import("../lib/catalog/sports");
 const { sportPageSports } = await import("../lib/seo/sport-facts");
 const { SPORT_OTHER } = await import("../lib/intake/types");
@@ -110,6 +112,8 @@ const ART = {
     poster: pic("football", "poster", 600, 800),
     banner: pic("football", "banner", 900, 300),
     photos: [pic("football", "phone-photo-1", 336, 450), pic("football", "phone-photo-4", 336, 450), pic("football", "phone-photo-2", 336, 450)],
+    identity: pic("football", "identity-three-views", 600, 448),
+    kit: pic("football", "kit-plate", 480, 480),
   },
   volleyball: {
     cards: { SN: pic("volleyball", "card-sn"), SR: pic("volleyball", "card-sr") },
@@ -165,7 +169,7 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     }
   });
 
-  it("four how-it-works cards in order — the picture filling the top, then numeral, title and line — in the site's shared band, before step 1", () => {
+  it("five how-it-works cards in order — the picture filling the top, then numeral, title and line; the fifth the promise bar — in the site's shared band, before step 1", () => {
     const band = between('data-proof-band=""', 'id="step-1"');
     expect(band).toContain(`>${PROOF_PATH_LABEL}</p>`);
     let at = 0;
@@ -181,18 +185,28 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     expect(count(/data-step-visual="" class="relative h-\[8\.75rem\] w-full[^"]*xl:h-\[12\.5rem\]"/g)).toBe(4);
     for (const card of band.split('<li data-step-card=""').slice(1)) expect(card.indexOf("data-step-visual")).toBeLessThan(card.indexOf("font-display"));
     expect(INTAKE_COPY.stepCards[1].line).toContain(`${PHOTO_RULES.min}–${PHOTO_RULES.max}`);
-    // v5 (owner review 2026-10-07: "too many faceless grey cards"): the static HTML shows the page's example sport —
-    // 01 its poster and card, 02 its athlete's phone photos (the smile behind, the photo in uniform on top), 03 the
-    // card under the CSS watermark — nothing grey and nothing from another sport; C13 shows under the row.
+    // v6 (owner, 2026-10-07): 01 the fan of four sports in four finishes and 02 the mix of five phone photos are the
+    // same on every page (the choice and the upload mix sports on purpose); 03 and 04 are the example sport's —
+    // its identity and kit plates, its poster and card on the proof sheet under the CSS watermark; 05 the promise
+    // bar. Nothing grey, and nothing from another sport in 03–04; C13 shows under the row.
     const cards = band.split('<li data-step-card=""').slice(1);
-    expect(srcs(cards[0]).sort()).toEqual([SHOW.poster!.src, SHOW.cards.SN!.src].sort());
-    expect(cards[1].match(/data-photo-print=""/g)).toHaveLength(2);
-    expect(srcs(cards[1])).toEqual([SHOW.photos![1].src, SHOW.photos![2].src]);
-    expect(srcs(cards[2])).toEqual([SHOW.cards.SN!.src]);
-    expect(cards[2]).toContain('data-watermark=""');
+    expect(cards).toHaveLength(5);
+    expect(srcs(cards[0])).toEqual(FAN_SPORTS.map((s) => REAL[s].poster!.src));
+    expect(cards[1].match(/data-photo-print=""/g)).toHaveLength(5);
+    expect(srcs(cards[1])).toEqual(MIX_PHOTOS.map(({ slug, shot }) => REAL[slug].photos![PHOTO_SHOTS.indexOf(shot)].src));
+    expect(srcs(cards[2])).toEqual([SHOW.identity!.src, SHOW.kit!.src]);
+    expect(cards[2]).toContain('data-likeness="identity"');
+    expect(srcs(cards[3])).toEqual([SHOW.poster!.src, SHOW.cards.SN!.src]);
+    expect(cards[3]).toContain('data-proof-sheet=""');
+    expect(cards[3]).toContain('data-watermark=""');
+    expect(cards[3]).toContain(INTAKE_COPY.art.proofStamp);
+    expect(cards[4]).toMatch(/^ data-step-wide="" data-surface="arena"/);
+    expect(cards[4]).toContain(`>${INTAKE_COPY.stepCards[4].title}</p>`);
+    expect(cards[4]).toContain(`>${DUE_TODAY}</span>`);
+    for (const check of INTAKE_COPY.summary.checks) expect(cards[4]).toContain(`<span>${check}</span>`);
     expect(band).not.toContain("data-neutral=");
     expect(band).not.toContain("data-photo-placeholder");
-    for (const src of srcs(band)) expect(src).toMatch(new RegExp(`^/images/free-proof/${model.SHOWCASE_SPORT}/`));
+    for (const src of [...srcs(cards[2]), ...srcs(cards[3])]) expect(src).toMatch(new RegExp(`^/images/free-proof/${model.SHOWCASE_SPORT}/`));
     expect(band).toMatch(/data-band-note="art" class="mt-6"><div>/);
     expect(band).toContain(CANON.fictionalLabel);
     // The intake duplicate is gone: one component, imported.
@@ -200,39 +214,46 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     expect(fs.readFileSync(path.join(ROOT, "components/intake/IntakeHero.tsx"), "utf8")).not.toContain("stepCards");
   });
 
-  it("the band's pictures follow the chosen sport: its poster and card (01), the card under the watermark (03); never another sport", () => {
-    const one = decode(renderToStaticMarkup(createElement(StepVisualView, { step: 0, art: ART, choice: choice("football") })));
-    const three = decode(renderToStaticMarkup(createElement(StepVisualView, { step: 2, art: ART, choice: choice("football", "CA") })));
-    expect(srcs(one).sort()).toEqual([ART.football.cards.SN.src, ART.football.poster.src].sort());
-    // 03 follows the look too: Chrome All-Star chosen → the CA front, under the watermark.
-    expect(srcs(three)).toEqual([ART.football.cards.CA.src]);
-    expect(three).toContain('data-watermark=""');
-    expect(three.match(new RegExp(`>${INTAKE_COPY.art.watermark}<`, "g"))!.length).toBeGreaterThan(10);
-    for (const out of [one, three]) {
+  it("the band's pictures: 01 and 02 fixed (the fan, the mix — grey where the map has no file); 03 and 04 follow the chosen sport and look; never a third sport", () => {
+    const step = (n: number, c: ReturnType<typeof choice>, example?: string) => decode(renderToStaticMarkup(createElement(StepVisualView, { step: n, art: ART, choice: c, example })));
+    // 01: the fan is the same whatever is chosen — the two fan sports the fixture has, grey posters for the others.
+    for (const c of [choice("football"), choice("volleyball"), choice("")]) {
+      const one = step(0, c);
+      expect(srcs(one), c.sport).toEqual([ART.football.poster.src, ART.volleyball.poster.src]);
+      expect(one.match(/data-neutral="poster"/g), c.sport).toHaveLength(2);
+    }
+    // 02: the mix — the fixture carries football's photos only, so one print and four grey "your photo" slots.
+    const two = step(1, choice("volleyball"));
+    expect(srcs(two)).toEqual([ART.football.photos[1].src]);
+    expect(two.match(/data-photo-placeholder=""/g)).toHaveLength(4);
+    // 03: the chosen sport's identity and kit plates; a plain print where the map has none.
+    const three = step(2, choice("football"));
+    expect(srcs(three)).toEqual([ART.football.identity.src, ART.football.kit.src]);
+    expect(three).not.toContain("volleyball");
+    expect(step(2, choice("volleyball")).match(/<img /g)).toBeNull();
+    // 04 follows the look too: Chrome All-Star chosen → the CA front beside the poster, under the watermark, the stamp line along the foot.
+    const four = step(3, choice("football", "CA"));
+    expect(srcs(four)).toEqual([ART.football.poster.src, ART.football.cards.CA.src]);
+    expect(four).toContain('data-proof-sheet=""');
+    expect(four).toContain('data-watermark=""');
+    expect(four).toContain(INTAKE_COPY.art.proofStamp);
+    expect(four.match(new RegExp(`>${INTAKE_COPY.art.watermark}<`, "g"))!.length).toBeGreaterThan(10);
+    for (const out of [three, four]) {
       expect(out).not.toContain("volleyball");
       expect(out).toMatch(/alt=""/);
     }
     // No choice yet, a sport with no art, and "Other": the page's example sport (the showcase, football), never a
     // third sport — and a per-sport page's example (volleyball) wins over the showcase.
-    for (const c of [choice("gymnastics"), choice(SPORT_OTHER, "", "rowing"), choice("")]) {
-      const out = decode(renderToStaticMarkup(createElement(StepVisualView, { step: 0, art: ART, choice: c })));
-      expect(srcs(out).sort(), c.sport).toEqual([ART.football.cards.SN.src, ART.football.poster.src].sort());
-    }
-    const linked = decode(renderToStaticMarkup(createElement(StepVisualView, { step: 0, art: ART, choice: choice(""), example: "volleyball" })));
-    expect(srcs(linked).sort()).toEqual([ART.volleyball.cards.SN.src, ART.volleyball.poster.src].sort());
-    // 02: the shown athlete's two phone photos; the grey prints only for a sport whose map has none.
-    const two = decode(renderToStaticMarkup(createElement(StepVisualView, { step: 1, art: ART, choice: choice("football") })));
-    expect(srcs(two)).toEqual([ART.football.photos[1].src, ART.football.photos[2].src]);
-    expect(two).not.toContain("data-photo-placeholder");
-    const twoGrey = renderToStaticMarkup(createElement(StepVisualView, { step: 1, art: ART, choice: choice("volleyball") }));
-    expect(twoGrey.match(/data-photo-placeholder=""/g)).toHaveLength(2);
+    for (const c of [choice("gymnastics"), choice(SPORT_OTHER, "", "rowing"), choice("")]) expect(srcs(step(3, c)), c.sport).toEqual([ART.football.poster.src, ART.football.cards.SN.src]);
+    expect(srcs(step(3, choice(""), "volleyball"))).toEqual([ART.volleyball.poster.src, ART.volleyball.cards.SN.src]);
   });
 
   it("the hero: the copy, and the example sport's proof with three of its athlete's phone photos over the corner — real art before any choice", () => {
     const hero = between(`aria-labelledby="free-proof-title"`, 'data-proof-band=""');
     expect(hero).toContain("lg:grid lg:grid-cols-12");
     expect(hero.match(/lg:col-span-6/g)?.length).toBe(2);
-    const visual = hero.slice(hero.indexOf('data-hero-visual=""'));
+    const visual = hero.slice(hero.indexOf('data-hero-visual=""'), hero.indexOf('data-sport-strip=""'));
+    const strip = hero.slice(hero.indexOf('data-sport-strip=""'));
     expect(hero.indexOf('data-hero-visual=""')).toBeGreaterThan(hero.indexOf(INTAKE_COPY.heroCtaNote));
     // The exhibit: the bracket frame and its file-tab label, the sheet at the proof's ratio, the CSS watermark.
     expect(visual).toContain(`>${INTAKE_COPY.heroVisual.frameLabel}</span>`);
@@ -247,6 +268,22 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     expect(srcs(visual)).toEqual([SHOW.poster!.src, SHOW.cards.SN!.src, ...SHOW.photos!.map((p) => p.src)]);
     expect(visual).toContain(`data-example="${model.SHOWCASE_SPORT}"`);
     expect(visual).toContain(CANON.fictionalLabel);
+    // v6: the exhibit reads "your photos → their edition": the label on the front print, the file tab on the sheet.
+    expect(visual).toMatch(new RegExp(`data-photos-label=""[^>]*>${esc(INTAKE_COPY.heroVisual.photosLabel)}</span>`));
+    expect(INTAKE_COPY.heroVisual.frameLabel).toBe("THEIR EDITION · FREE PROOF");
+    // v6: the strip under the exhibit — the nine sports with their own pages as chips wearing their card face, none
+    // pressed before a choice, and "All 17 sports" gliding to step 1 (the sport is asked once; the strip asks the form).
+    const featured = sportPageSports().map((s) => s.slug);
+    expect(strip).toContain(INTAKE_COPY.heroVisual.switchLabel);
+    expect(strip.match(/<button type="button" aria-pressed="false" data-strip-sport="([a-z-]+)"/g)?.length).toBe(featured.length);
+    expect([...strip.matchAll(/data-strip-sport="([a-z-]+)"/g)].map((m) => m[1])).toEqual(featured);
+    expect(strip).not.toContain('aria-pressed="true"');
+    for (const slug of featured) expect(strip, slug).toContain(encodeURIComponent(REAL[slug].cards.SN!.src));
+    expect(strip).toContain(`<a href="#step-1" class="[^"]*">`.slice(0, 20));
+    expect(strip).toContain(`>${INTAKE_COPY.heroVisual.allSports(sports.length)}</a>`);
+    expect(INTAKE_COPY.heroVisual.allSports(sports.length)).toBe("All 17 sports ↓");
+    for (const img of strip.match(/<img [^>]*>/g) ?? []) expect(img).toMatch(/alt=""/);
+    expect(strip).not.toMatch(/loading="eager"/);
     // The line under it names the example and how to see their sport.
     expect(hero).toContain('data-art-note="pick"');
     expect(hero).toContain(INTAKE_COPY.art.pick(model.exampleName(REAL)));
@@ -812,11 +849,14 @@ describe("/free-proof/for/<sport> — the per-sport twin next.config.ts rewrites
   it("is /free-proof with the link's sport as the example: every picture in it from the first byte, nothing from football", async () => {
     const out = decode(renderToStaticMarkup((await twin.default({ params: Promise.resolve({ sport: "basketball" }) })) as ReactElement));
     const bk = REAL.basketball;
-    const hero = out.slice(out.indexOf('data-hero-visual=""'), out.indexOf('data-proof-band=""'));
+    const hero = out.slice(out.indexOf('data-hero-visual=""'), out.indexOf('data-sport-strip=""'));
     expect(srcs(hero)).toEqual([bk.poster!.src, bk.cards.SN!.src, ...bk.photos!.map((p) => p.src)]);
     expect(hero).toContain('data-example="basketball"');
     expect(hero).toContain(INTAKE_COPY.art.pick("Basketball"));
-    for (const src of srcs(out)) expect(src, src).not.toMatch(/^\/images\/free-proof\/(?!basketball\/)/);
+    // Everything that follows the sport is basketball's: the exhibit (not the strip), cards 03–04, the product tiles.
+    const cards = out.slice(out.indexOf('data-proof-band=""')).split('<li data-step-card=""').slice(1, 5);
+    const tiles = out.slice(out.indexOf('id="step-2"'), out.indexOf('id="step-3"'));
+    for (const src of [...srcs(hero), ...srcs(cards[2]), ...srcs(cards[3]), ...srcs(tiles)]) expect(src, src).toMatch(/^\/images\/free-proof\/basketball\//);
     // The same page otherwise: the form, the six steps, the same headline.
     expect(out).toContain(INTAKE_COPY.h1);
     expect(out).toContain('id="step-6"');

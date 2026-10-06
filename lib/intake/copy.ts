@@ -23,11 +23,22 @@ export const INTAKE_COPY = {
   subhead: `Choose what you'd like made and send ${PHOTO_RULES.min}–${PHOTO_RULES.max} photos. We build a watermarked proof of your athlete's edition — free, within ${PROOF_CLOCK}. Approve it and pay by secure payment link or on our Etsy shop; the watermark comes off and the files and prints follow.`,
 
   /** v2 hero (owner review 2026-10-04): the H1, ONE short sentence, the orange CTA that scrolls to step 1, a quiet note. */
-  heroLine: `Send ${PHOTO_RULES.min}–${PHOTO_RULES.max} photos, see a free watermarked proof, pay only if you love it.`,
+  /** v6 (owner, 2026-10-07: "the hero is too weak … it has to sell what they get"): the product is named, then the promise. */
+  heroLine: `A poster, trading cards, banner or blanket designed only for them from ${PHOTO_RULES.min}–${PHOTO_RULES.max} phone photos, with a free watermarked proof before you pay anything.`,
   heroCta: "Start my free proof →",
   heroCtaNote: "No payment required",
-  /** v3 (owner review 2026-10-06: the hero's right half was empty): the file-tab label on the real proof beside the copy. */
-  heroVisual: { frameLabel: "YOUR FREE PROOF · WATERMARKED" },
+  /**
+   * v3 (owner review 2026-10-06: the hero's right half was empty): the file-tab label on the proof beside the copy.
+   * v6 (2026-10-07): the exhibit reads "your photos → their edition", and a strip of sports under it switches every
+   * picture on the page (the owner: "we pick a sport and everything changes").
+   */
+  heroVisual: {
+    // Short enough for one line on a 375 px phone (the sheet itself carries the PROOF watermark).
+    frameLabel: "THEIR EDITION · FREE PROOF",
+    photosLabel: "Your photos →",
+    switchLabel: "See it in their sport",
+    allSports: (n: number): string => `All ${n} sports ↓`,
+  },
 
   /**
    * v4 (owner review 2026-10-06, evening: "mixing sports is not cool"): every athlete picture on the page
@@ -46,15 +57,29 @@ export const INTAKE_COPY = {
       `No ${sport} example yet, so the pictures show ${example}. We build yours from your photos, and you see the proof before you pay.`,
     noExampleOther: (example: string): string =>
       `No example for this one yet, so the pictures show ${example}. We build yours from your photos, and you see the proof before you pay.`,
+    /** The stamp line along the foot of the composed proof sheet (card 04). */
+    proofStamp: "PROOF · NOT FINAL · FOR APPROVAL ONLY",
   },
 
-  /** v2: the four how-it-works cards — big numeral, two-word title, one line. "Nothing due today" is the zero-due fact in words; the figure itself comes from prices.ts DUE_TODAY_LABEL. */
+  /**
+   * v2: the four how-it-works cards — big numeral, short title, one line. v6 (owner, 2026-10-07: "visually four is
+   * better, but we explain too little about how we are different"): 01 is the sport AND style choice (several sports
+   * in several finishes — the one picture on the page that mixes sports, on purpose), 02 the phone photos, 03 what makes
+   * the work ours — the athlete rebuilt from the photos and checked — and 04 the proof and the pay-only-if-you-love-it
+   * promise. "Nothing due today" is the zero-due fact in words; the figure itself comes from prices.ts DUE_TODAY_LABEL.
+   * Honest wording only: built and checked, never "a perfect copy" (the likeness is measured, not promised).
+   */
   stepCards: [
-    { n: "01", title: "Choose it", line: "Product and style" },
+    { n: "01", title: "Choose it", line: "Sport, product and style" },
     { n: "02", title: "Upload it", line: `${PHOTO_RULES.min}–${PHOTO_RULES.max} phone photos` },
-    { n: "03", title: "We design it", line: "Your free watermarked proof" },
-    { n: "04", title: "Love it? Pay", line: "Nothing due today" },
+    { n: "03", title: "We build them", line: "Not a template: their face, build and kit from your photos, checked before we design" },
+    { n: "04", title: "See the proof", line: `Free and watermarked, in ${PROOF_CLOCK}` },
+    // The fifth runs the full width of the row (owner, 2026-10-07: "the four main ones, and pay as an extra across
+    // the whole width, so it is clear they risk nothing — they order only if they like the result").
+    { n: "05", title: "Pay only if you love it", line: "Nothing to pay now. See the proof first and order only if you like the result.", wide: true },
   ],
+  /** The wide card's figure: the zero-due fact, labelled. The figure itself is prices.ts DUE_TODAY_LABEL. */
+  dueToday: "due today",
 
   /** v4 (2026-10-06): six numbered steps, the sport first; permissions and the conversion card come after step 6. */
   stepLabel: (n: number): string => `STEP ${n} OF 6`,

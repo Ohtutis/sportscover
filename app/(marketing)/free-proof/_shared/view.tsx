@@ -46,23 +46,26 @@ function intakeSports(): SportChoiceData[] {
 export function FreeProofView({ example = SHOWCASE_SPORT }: { example?: string }) {
   const products = intakeProducts();
   const art = freeProofArtMap();
-  // The band's pictures 01–03 follow the shown sport (client islands); 04 (the tick) is the band's own default.
+  const sportChoices = intakeSports();
+  // The band's pictures 03–04 follow the shown sport (client islands); 01 (the fan of sports and finishes), 02
+  // (the mix of phone photos) and 05 (the promise) are the band's own defaults on every page.
   const bandVisuals = [
-    <FreeProofStepVisual key="01" step={0} art={art} example={example} />,
-    <FreeProofStepVisual key="02" step={1} art={art} example={example} />,
+    null,
+    null,
     <FreeProofStepVisual key="03" step={2} art={art} example={example} />,
+    <FreeProofStepVisual key="04" step={3} art={art} example={example} />,
     null,
   ];
   return (
     <>
       <div className="container-gallery">
-        <IntakeHero art={art} example={example} />
+        <IntakeHero art={art} example={example} sports={sportChoices} />
       </div>
       {/* The band's own top padding is the hero's bottom air; step 1 opens on its own rule right under it. */}
       <ProofPathBand flushBottom visuals={bandVisuals} after={<FreeProofBandNote art={art} example={example} />} />
       <div className="container-gallery pb-16 md:pb-24">
         <IntakeForm
-          sports={intakeSports()}
+          sports={sportChoices}
           art={art}
           example={example}
           products={products}

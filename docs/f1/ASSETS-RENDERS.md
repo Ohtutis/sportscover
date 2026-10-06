@@ -871,3 +871,27 @@ visuals at once and sell the idea that their child ends up on the poster". Two c
   that sport in the first byte. The shared how-it-works band on other pages shows Marcus's phone photos at step 02
   (`hero.story.1.before.4` / `.1`, the athlete whose proof step 03 shows). The grey "your photo" print remains only
   as the fallback where no photo exists.
+
+### Hero v6 and the five how-it-works cards (2026-10-07, later the same day)
+
+Owner, watching the preview: "the hero is too weak … it has to sell what they get", then on the band: "visually four is
+better, but we explain too little about how we are different", "the four main ones and pay as an extra across the
+whole width", "not the cheer card", "upload: more photos, a couple of athletes mixed, kits and everyday clothes, men
+and women", "05 must be stronger". Still no model call.
+
+- **34 keys `free-proof.<slug>.identity` / `.kit`**: the roster athlete's `_identity.png` (three views, 2400 × 1792 →
+  600 × 448, q72) and `_kit.png` (2048 × 2048, softball 900 × 900 → 480 × 480, q72), kind `plate`, 568 KB for all.
+  Card 03 "We build them" shows them for the shown sport. Alts say built from the photos and checked — never "a
+  perfect copy" (the likeness is measured by the ArcFace gate, not promised).
+- **Card 01** is a fan of four posters in four finishes — football HE, volleyball PR, basketball SN, baseball CA
+  (`FAN_SPORTS`, components/intake/visuals.tsx) — the same on every page: the one picture that mixes sports, because
+  it IS the sport-and-style choice. **Card 02** is a fixed mix of five phone photos (`MIX_PHOTOS`: Tui laughing,
+  Jaslene in kit, Brooke in a hoodie, Marcus in his jersey, Casey in kit) — three in kit, two in everyday clothes,
+  three boys, two girls — so the upload card works whatever sport is chosen. 03 (plates) and 04 (poster + card on a
+  dark proof sheet under the CSS watermark, composed in code) follow the shown sport. **05** runs the full width on
+  the arena surface: "Pay only if you love it", the three checks "Your order" makes, and `$0 due today` (prices.ts
+  DUE_TODAY_LABEL). The money pages' band keeps Marcus for 03–04 (his real proof sheet at 04).
+- **Hero**: the sentence under the H1 names the product; the sheet is labelled "THEIR EDITION · WATERMARKED PROOF",
+  the front print "Your photos →"; the watermark is 24 tiles at 40 % instead of 48 at 50 % (it sat on every face);
+  and a strip of the nine sports with their own pages (each chip wearing its Stadium Night card face) asks the form
+  for that sport through `sportRequestStore`, so one tap switches the hero, the band, the tiles and step 1 together.

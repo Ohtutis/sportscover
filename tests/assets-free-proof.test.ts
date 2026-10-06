@@ -9,6 +9,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import sharp from "sharp";
 import { FP_PHOTO_NUMBERS, SITE_ASSETS, assetOrNull } from "../lib/assets";
+import { MIX_PHOTOS, PHOTO_SHOTS, PHOTO_SHOT_NUMBER } from "../components/intake/visuals";
 import { sports, isNumberless } from "../lib/catalog/sports";
 import { FREE_PROOF_FINISH_CODES, freeProofArtMap, freeProofKey, type FreeProofFinishCode } from "../lib/intake/sport-art";
 
@@ -28,9 +29,9 @@ const FINISH_NAME: Record<FreeProofFinishCode, string> = {
 /** The only gaps on purpose: no Signature Spotlight wrestling front was ever exported. */
 const MISSING_CARDS: Record<string, FreeProofFinishCode[]> = { wrestling: ["SS"] };
 const ALT_WORD: Record<string, string> = { "ice-hockey": "ice hockey", "track-field": "track & field", "other-sport": "skateboarding" };
-const BUDGET = { card: 60 * KiB, poster: 80 * KiB, banner: 80 * KiB, blanket: 80 * KiB, photo: 40 * KiB } as const;
-/** The phone photos keep the 1792 x 2400 source's own ratio (336 x 450), a hair off 3 : 4 — never stretched. */
-const RATIO = { card: 5 / 7, poster: 3 / 4, banner: 1 / 2, blanket: 5 / 6, photo: 1792 / 2400 } as const;
+const BUDGET = { card: 60 * KiB, poster: 80 * KiB, banner: 80 * KiB, blanket: 80 * KiB, photo: 40 * KiB, identity: 40 * KiB, kit: 40 * KiB } as const;
+/** The phone photos keep the 1792 x 2400 source's own ratio (336 x 450), a hair off 3 : 4 — never stretched; the plates keep theirs. */
+const RATIO = { card: 5 / 7, poster: 3 / 4, banner: 1 / 2, blanket: 5 / 6, photo: 1792 / 2400, identity: 2400 / 1792, kit: 1 } as const;
 /** The roster athlete each sport's phone photos come from — the one on its card (pickleball: the 16-year-old, CLAUDE.md). */
 const PHOTO_ATHLETE: Record<string, string> = { pickleball: "pickleball-youth" };
 const FORBIDDEN_SOURCE = [/^card-flip\/assets\//, /^print-sources\/output\//, /^exports\//, /^marketing\/cards\//, /^orders\//];
@@ -48,11 +49,11 @@ type Item = keyof typeof BUDGET;
 const itemOf = (key: string): Item => (key.split(".")[2] === "card" ? "card" : (key.split(".")[2] as Item));
 
 describe("assets — /free-proof per-sport art (v4)", () => {
-  it("every key follows the contract: free-proof.<catalog slug>.(card.<CODE>|poster|banner|blanket|photo.<1|4|2>)", () => {
+  it("every key follows the contract: free-proof.<catalog slug>.(card.<CODE>|poster|banner|blanket|photo.<1|4|2>|identity|kit)", () => {
     expect(fpKeys.length).toBeGreaterThan(100);
     const slugs = new Set(sports.map((s) => s.slug));
     for (const k of fpKeys) {
-      const m = /^free-proof\.([a-z-]+)\.(card\.(SN|CA|FS|HE|SS|PR|SR)|poster|banner|blanket|photo\.(1|4|2))$/.exec(k);
+      const m = /^free-proof\.([a-z-]+)\.(card\.(SN|CA|FS|HE|SS|PR|SR)|poster|banner|blanket|photo\.(1|4|2)|identity|kit)$/.exec(k);
       expect(m, k).not.toBeNull();
       expect(slugs.has(m![1]), `${k}: not a catalog sport`).toBe(true);
     }
@@ -156,6 +157,10 @@ describe("assets — /free-proof per-sport art (v4)", () => {
         // the roster athlete's own generated "before" photos — never a customer's (orders/ and the Order folders)
         expect(src, k).toBe(`art-pipeline/out/athletes/${PHOTO_ATHLETE[slug] ?? slug}/before/photo${code}.png`);
         expect(src, k).not.toMatch(/order/i);
+      } else if (item === "identity" || item === "kit") {
+        // the same roster athlete's identity plate (three views) and kit plate — the references the shots were checked against
+        expect(src, k).toBe(`art-pipeline/out/athletes/${PHOTO_ATHLETE[slug] ?? slug}/_${item}.png`);
+        expect(src, k).not.toMatch(/order/i);
       } else {
         // the flat render only: every draped / armchair / room composite stretches or folds the art
         expect(src, k).toMatch(new RegExp(`^etsy/listing-images/05-${slug}-blanket/src/flat56-(SN|CA|FS|HE|SS|PR)\\.png$`));
@@ -190,6 +195,15 @@ describe("assets — /free-proof per-sport art (v4)", () => {
       if (item === "photo") {
         expect(a.alt, k).toContain(`Phone photo of a fictional ${word} athlete`);
         expect(a.alt, k).toMatch(/; photo generated$/);
+        continue;
+      }
+      if (item === "identity" || item === "kit") {
+        expect(a.kind, k).toBe("plate");
+        expect(a.alt, k).toContain(item === "identity" ? `Three views of a fictional ${word} athlete` : `The ${word} kit laid flat`);
+        expect(a.alt, k).toMatch(/built from their photos|rebuilt from the photos/);
+        expect(a.alt, k).toMatch(/; generated$/);
+        // Honest: built and checked, never a copy promised.
+        expect(a.alt, k).not.toMatch(/perfect|exact copy|identical/i);
         continue;
       }
       expect(a.alt, k).toContain(`Custom ${word} `);
@@ -237,6 +251,7 @@ describe("lib/intake/sport-art.ts — freeProofArtMap()", () => {
         ...Object.entries(e.cards).map(([c, img]) => [freeProofKey(slug, `card.${c as FreeProofFinishCode}`), img!] as [string, typeof img & object]),
         ...(["poster", "banner", "blanket"] as const).filter((i) => e[i]).map((i) => [freeProofKey(slug, i), e[i]!] as [string, NonNullable<(typeof e)[typeof i]>]),
         ...(e.photos ?? []).map((img, i) => [freeProofKey(slug, `photo.${FP_PHOTO_NUMBERS[i]}`), img] as [string, typeof img]),
+        ...(["identity", "kit"] as const).filter((i) => e[i]).map((i) => [freeProofKey(slug, i), e[i]!] as [string, NonNullable<(typeof e)[typeof i]>]),
       ];
       for (const [key, img] of items) {
         const a = SITE_ASSETS[key];
@@ -272,8 +287,20 @@ describe("lib/intake/sport-art.ts — freeProofArtMap()", () => {
     }
   });
 
-  it("stays compact enough to ship as one prop (under 48 KB of JSON before compression; v5 added the 51 phone photos)", () => {
-    expect(JSON.stringify(map).length).toBeLessThan(48 * KiB);
+  it("the client's shot names map to the asset numbers in the map's own order (everyday 1, smile 4, kit 2)", () => {
+    expect(PHOTO_SHOTS.map((shot) => PHOTO_SHOT_NUMBER[shot])).toEqual([...FP_PHOTO_NUMBERS]);
+    for (const { slug, shot } of MIX_PHOTOS) expect(map[slug]?.photos?.[PHOTO_SHOTS.indexOf(shot)]?.src, `${slug} ${shot}`).toMatch(new RegExp(`-phone-photo-${PHOTO_SHOT_NUMBER[shot]}\\.webp$`));
+  });
+
+  it("every sport has its athlete's identity plate and kit plate (how-it-works card 03)", () => {
+    for (const s of sports) {
+      expect(map[s.slug]?.identity?.src, s.slug).toMatch(/-identity-three-views\.webp$/);
+      expect(map[s.slug]?.kit?.src, s.slug).toMatch(/-kit-plate\.webp$/);
+    }
+  });
+
+  it("stays compact enough to ship as one prop (under 56 KB of JSON before compression; v5 added the 51 phone photos, v6 the 34 plates)", () => {
+    expect(JSON.stringify(map).length).toBeLessThan(56 * KiB);
   });
 
   it("is server-only: no client component value-imports it (type imports are erased)", () => {
