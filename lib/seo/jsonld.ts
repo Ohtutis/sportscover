@@ -166,7 +166,10 @@ export function productFamily(p: { family: Family; path: string; name: string; d
     availability: "https://schema.org/InStock",
     itemCondition: "https://schema.org/NewCondition",
     ...(sale ? { priceValidUntil: isoDatePlusDays(SALE_EXPIRES_AT, 1) } : {}),
-    ...(t.physical ? { shippingDetails: SHIPPING_DETAILS } : {}),
+    // The card/poster labs' free US shipping and 5–7 day handling (SHIPPING_DETAILS) are not the banner's
+    // terms ("Ships separately, 1–2 weeks", lib/catalog/tiers.ts): a printed banner offer carries no
+    // shippingDetails until a banner lab is declared (2026-10-06, /banners builder).
+    ...(t.physical && p.family !== "banner" ? { shippingDetails: SHIPPING_DETAILS } : {}),
     hasMerchantReturnPolicy: RETURN_POLICY,
   }));
   const prices = offers.map((o) => o.price);

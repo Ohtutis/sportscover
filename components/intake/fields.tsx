@@ -10,26 +10,34 @@ import { INTAKE_COPY } from "../../lib/intake/copy";
  * state is what assistive tech announces.
  */
 
-/** §4.21 verbatim; `normal-case` swaps in for email, notes and headline (the parent types prose there). */
+/**
+ * §4.21's height and type, with a field that reads as a field (owner, 2026-10-06: "fields are barely
+ * visible"): a white fill and a 1.5 px edge at ink 60 % — 4.2 : 1 against the stock page (4.6 : 1 against
+ * its own fill), where the old 1 px ink 40 % on a stock fill measured 2.5 : 1 — going to full ink on focus
+ * (15.9 : 1), with the house focus ring (globals.css :focus-visible) on top. One recipe for the
+ * input, the select and the textarea.
+ * `normal-case` swaps in for email, notes and headline (the parent types prose there).
+ */
 export const INPUT =
-  "h-14 w-full rounded-ui border bg-stock px-4 font-label text-[1rem] font-semibold uppercase tracking-[0.08em] text-ink transition-[border-color] duration-hover ease-out placeholder:font-body placeholder:font-normal placeholder:normal-case placeholder:tracking-normal placeholder:text-muted-text focus:border-ink";
+  "h-14 w-full rounded-ui border-[1.5px] bg-white px-4 font-label text-[1rem] font-semibold uppercase tracking-[0.08em] text-ink transition-[border-color] duration-hover ease-out placeholder:font-body placeholder:font-normal placeholder:normal-case placeholder:tracking-normal placeholder:text-muted-text focus:border-ink";
 export const INPUT_PROSE = "normal-case tracking-[0.02em]";
 export const TEXTAREA =
-  "min-h-32 w-full rounded-ui border bg-stock px-4 py-3 font-body text-[1rem] text-ink transition-[border-color] duration-hover ease-out placeholder:text-muted-text focus:border-ink";
+  "min-h-32 w-full rounded-ui border-[1.5px] bg-white px-4 py-3 font-body text-[1rem] text-ink transition-[border-color] duration-hover ease-out placeholder:text-muted-text focus:border-ink";
 /** The native select of the sport picker (DESIGN §5.2 row B), at the input's 56 px so a row lines up. */
 export const SELECT =
-  "h-14 w-full rounded-ui border bg-stock px-4 font-body text-[1rem] font-medium text-ink transition-[border-color] duration-hover ease-out focus:border-ink";
+  "h-14 w-full rounded-ui border-[1.5px] bg-white px-4 font-body text-[1rem] font-medium text-ink transition-[border-color] duration-hover ease-out focus:border-ink";
 export const LABEL = "block font-label text-label font-semibold uppercase tracking-[0.12em] text-muted-text";
 export const HELP = "mt-2 max-w-[60ch] font-body text-small text-muted-text";
 /**
  * Native checkbox / radio, 20 px. Ink, not accent (owner review 2026-10-04, point 17): the orange on this
- * page is kept for the two CTAs, the SELECTED / MOST POPULAR badges and the summary ticks; a tile's chosen
- * state is drawn by the tile itself.
+ * page is kept for the two CTAs, the SELECTED badges and the summary ticks; a tile's chosen state is
+ * drawn by the tile itself.
  */
 export const CHECK = "size-5 shrink-0 rounded-[4px] border border-ink/40 accent-ink";
 export const RADIO = "size-5 shrink-0 accent-ink";
 
-export const border = (invalid: boolean): string => (invalid ? "border-fail" : "border-ink/40");
+/** The edge colour (the width is in the recipe): fail after a send attempt, ink 60 % otherwise. */
+export const border = (invalid: boolean): string => (invalid ? "border-fail" : "border-ink/60");
 
 /** `aria-describedby` / `aria-invalid` for a control with an optional help line and error. */
 export function describe(id: string, opts: { help?: boolean; error?: string }): { "aria-describedby"?: string; "aria-invalid"?: true } {

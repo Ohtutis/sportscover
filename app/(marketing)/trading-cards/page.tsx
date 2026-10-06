@@ -5,13 +5,14 @@ import { CardFlip } from "../../../components/CardFlip";
 import { EditionPanel } from "../../../components/EditionPanel";
 import { FictionalLabel } from "../../../components/FictionalLabel";
 import { JsonLd } from "../../../components/JsonLd";
+import { ProofPathBand } from "../../../components/ProofPath";
 import { QrRing } from "../../../components/QrRing";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { asset } from "../../../lib/assets";
 import { formatUsd, getTier, perCardAnchor, sitePrice, tiersFor } from "../../../lib/catalog/prices";
 import { sports } from "../../../lib/catalog/sports";
 import { CANON } from "../../../lib/copy/canon";
-import { ctaFor } from "../../../lib/cta";
+import { ctaFor, freeProofMode } from "../../../lib/cta";
 import { pageMeta } from "../../../lib/seo/meta";
 import { productFamily } from "../../../lib/seo/jsonld";
 import { pageFor } from "../../../lib/seo/titles";
@@ -24,6 +25,7 @@ import { Section } from "../(families)/_shared/section";
 import { ShowcaseFigure, firstShowcase, showcaseList } from "../(families)/_shared/showcase";
 import { SpecSheetSection } from "../(families)/_shared/spec-sheet";
 import { SportPicker, pickSport } from "../(families)/_shared/sport-picker";
+import { SportPageLink } from "../(families)/_shared/sport-page-link";
 import { TierRow } from "../(families)/_shared/tier-row";
 
 /**
@@ -74,7 +76,8 @@ const LIFE_CARD_CAPTION: Record<string, string> = {
   "life.card.desk": "A printed card on a desk, beside a pen and a coin for scale.",
   "life.card.case": "A printed card standing in a display stand on a shelf.",
   "life.card.binder": "Printed cards in the sleeves of a collector's binder.",
-  "product.cards": "A printed card on a desk, close up, beside a pen and two coins for scale.",
+  // 2026-10-06: the product tile is now a fan of printed cards on the oak table (lib/assets.ts product.cards).
+  "product.cards": "A fan of printed cards on a wooden table, front and back, square-cut.",
 };
 
 export default async function TradingCardsPage({
@@ -83,6 +86,7 @@ export default async function TradingCardsPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const now = new Date();
+  const proofFirst = freeProofMode();
   const params = await searchParams;
   const sport = pickSport(params.sport, sports, "basketball");
   const cta = ctaFor("cards", { sport: sport.slug });
@@ -149,8 +153,12 @@ export default async function TradingCardsPage({
             </div>
           </div>
 
-          <div className="mt-12 lg:mt-16">
+          {/* The free-proof path, its own band between the hero row and the ladder (owner review 2026-10-06):
+              it used to sit under the CTA inside the text column, with no air around it. */}
+          {proofFirst ? <ProofPathBand container="none" /> : null}
+          <div className={proofFirst ? undefined : "mt-12 lg:mt-16"}>
             <SportPicker action={PATH} options={sports} family="cards" selected={sport} />
+            <SportPageLink sport={sport} />
             <TierRow family="cards" context="cards" sport={sport} now={now} className="mt-10" />
           </div>
         </div>

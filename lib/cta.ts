@@ -43,7 +43,7 @@ export interface CtaPairProps {
   className?: string;
 }
 
-export type CtaContext = "header" | "home" | "cards" | "posters" | "set" | "senior-night" | "card-page";
+export type CtaContext = "header" | "home" | "cards" | "posters" | "set" | "senior-night" | "card-page" | "banners" | "sport";
 
 export interface CtaOptions {
   /** An explicit tier / listing SKU (e.g. GDE-ANY-CARD-P12). Wins over every derived SKU; in free-proof mode it also prefills the option. */
@@ -183,6 +183,12 @@ function freeProofPrefill(ctx: CtaContext, o: CtaOptions, card?: CardRecord): Fr
       return { products: ["cards", "poster"], option, sport: o.sport, style: o.style };
     case "senior-night":
       return { products: ["cards", "poster"], sport: o.sport, style: "SR" };
+    // /banners (2026-10-06): the banner alone, the sport when the page knows it.
+    case "banners":
+      return { products: ["banner"], option, sport: o.sport, style: o.style };
+    // /sports/[sport] (2026-10-06): the sport's card and poster, sport prefilled.
+    case "sport":
+      return { products: ["cards", "poster"], option, sport: o.sport, style: o.style };
     case "card-page":
       return card ? { products: ["cards"], sport: card.sportCode, style: styleCode(card.styleName) } : { products: ["cards"] };
     default:
@@ -223,6 +229,12 @@ function derivedSku(ctx: CtaContext, o: CtaOptions, card?: CardRecord): string {
       return sport?.cardListingId ? `GDE-${sport.code}-CARD` : "GDE-ANY-CARD";
     case "posters":
       return sport?.posterListingId ? `GDE-${sport.code}-POST` : "GDE-ANY-POST";
+    // A sport's banner listing, else GDE-ANY-BAN — which /go/etsy sends to the shop front (no any-sport banner listing exists).
+    case "banners":
+      return sport?.bannerListingId ? `GDE-${sport.code}-BAN` : "GDE-ANY-BAN";
+    // The sport page's Etsy secondary is the sport's own card listing; a sport without one goes to the Complete Set.
+    case "sport":
+      return sport?.cardListingId ? `GDE-${sport.code}-CARD` : DEFAULT_SKU;
     default:
       return DEFAULT_SKU;
   }

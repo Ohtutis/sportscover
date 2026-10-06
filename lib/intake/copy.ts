@@ -26,6 +26,8 @@ export const INTAKE_COPY = {
   heroLine: `Send ${PHOTO_RULES.min}–${PHOTO_RULES.max} photos, see a free watermarked proof, pay only if you love it.`,
   heroCta: "Start my free proof →",
   heroCtaNote: "No payment required",
+  /** v3 (owner review 2026-10-06: the hero's right half was empty): the file-tab label on the real proof beside the copy. */
+  heroVisual: { frameLabel: "YOUR FREE PROOF · WATERMARKED" },
 
   /** v2: the four how-it-works cards — big numeral, two-word title, one line. "Nothing due today" is the zero-due fact in words; the figure itself comes from prices.ts DUE_TODAY_LABEL. */
   stepCards: [
@@ -57,6 +59,20 @@ export const INTAKE_COPY = {
     badge: "MOST POPULAR",
     savingsLine: (saved: string): string => `Save ${saved} against ordering them separately`,
   },
+  /**
+   * v3 (owner, 2026-10-06: "a bundle must never duplicate the single products"): no set card — the set is
+   * the RESULT of ticking trading cards and a poster. One line under the product cards says so, with the
+   * figures computed from the ladder: the smallest saving before both are chosen, the chosen pair's own
+   * saving once they match a set tier, and which pairs match when they don't. Nothing prices banner or
+   * blanket bundles, so this line never mentions them.
+   */
+  setNote: {
+    pick: (saved: string): string => `Pick trading cards and a poster together and they're priced as a set — save from ${saved}.`,
+    matchedLead: "Priced as a set.",
+    unmatched: (pairs: string): string => `A set price applies to matching pairs in the same quantity: ${pairs}.`,
+  },
+  /** v3 (owner, 2026-10-06): the caption under the live text preview in "Your order". */
+  previewCaption: "Text preview — your proof is composed from your photos; the layout follows the finish.",
 
   /** v2 style tiles: the "let us choose" tile is a premium dark tile, not an empty question. */
   chooseForMeTitle: "YOU CHOOSE FOR ME",
@@ -129,6 +145,37 @@ export const INTAKE_COPY = {
     },
   },
 
+  /**
+   * v3 permissions (owner review 2026-10-06: the grey "PERMISSIONS." panel read "as if we were doing
+   * something not legit"): three quick confirmations on a white card. Each row is a plain-language title
+   * over the verbatim consent sentence (CONSENTS in types.ts) — the sentence stays the checkbox's label,
+   * the title only says what it means. An attached crest adds a fourth required box, and the counts
+   * follow it, so the panel never says "three" over four boxes.
+   */
+  consentPanel: {
+    title: "THREE QUICK CONFIRMATIONS.",
+    line: "The same three every family gives us before we start. Nothing is posted or shared.",
+    needed: "All three are needed to build the proof.",
+    withCrest: {
+      title: "FOUR QUICK CONFIRMATIONS.",
+      line: "The same three every family gives us, plus one for the crest. Nothing is posted or shared.",
+      needed: "All four are needed to build the proof.",
+    },
+  },
+  /** One per consent, in a parent's words; the sentence under it is the binding text. */
+  consentTitles: {
+    guardian: "You can share these photos",
+    biometric: "We may measure the face to check the likeness",
+    license: "We may make the artwork from these photos",
+    crest: "You can use this crest",
+    marketing: "Optional — let us show the finished card",
+  },
+  /** One plain line between a row's title and its sentence — only the biometric row has one. */
+  consentNotes: {
+    biometric:
+      "Privacy law asks us to spell this one out: it is only how we check the artwork looks like your athlete, and it is deleted when your request closes.",
+  },
+
   /** The four photographs that matter most — shown beside the upload, ticked by the parent. */
   photoMustHaves: [
     "One close-up: face sharp, both eyes visible",
@@ -144,6 +191,64 @@ export const INTAKE_COPY = {
   ],
   crestHelp: "A PNG or SVG of the school or club crest if you have one — otherwise a straight-on photo of it.",
 
+  /**
+   * The example gallery beside the step-4 drop zone (owner, 2026-10-06: "more and better examples", and the
+   * self-check block "can definitely be clearer"). It replaces the ✓ / ✕ pair AND the must-have / leave-out
+   * text with its checkboxes: four ✓ tiles carry photoMustHaves 1–4 in at most four words, three ✕ tiles carry
+   * the leave-out reasons, one label per row. Tile order and images: components/intake/PhotoExamples.tsx.
+   */
+  photoExamples: {
+    title: "Example photos",
+    sendLabel: "SEND THESE",
+    leaveLabel: "LEAVE THESE OUT",
+    captions: {
+      face: "Face sharp, both eyes",
+      turned: "Head turned left or right",
+      fullbody: "Full body",
+      kit: "In the team kit",
+      blurred: "Blurry or filtered",
+      covered: "Face covered",
+      group: "Too far or a group",
+    },
+  },
+
+  /**
+   * The free photo check under the thumbnails (owner, 2026-10-06: "but not if it starts using AI credits"):
+   * measured on the parent's own device by components/intake/photoCheck.ts — advice, never a gate, never a
+   * score. A chip shows the first reason; the second is read to assistive tech. Every reason fits two lines
+   * under a 101 px thumbnail (a 360 px phone), so the reserved row never grows.
+   */
+  photoCheck: {
+    reasons: {
+      sharp: "Looks sharp",
+      blurry: "Looks blurry — try another",
+      small: "Small — send the original",
+      tiny: "Tiny — send the original",
+      dark: "Dark — try a brighter one",
+      bright: "Too bright — try another",
+      screenshot: "Looks like a screenshot",
+      duplicate: "Same shot as another photo",
+      heic: "HEIC — we'll check it",
+      unreadable: "We'll check this one",
+    },
+    checking: "Checking…",
+    summaryChecking: "Checking the photos on this device…",
+    /**
+     * One line under the counter: "3 of 4 look good — one is worth replacing." Counts only, never a score; the
+     * photos this device could not read (HEIC) are left to their own chips.
+     */
+    summary: (good: number, checked: number, flagged: number, unchecked: number): string => {
+      const word = (n: number): string => ["no", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"][n] ?? String(n);
+      if (checked === 0) return unchecked === 1 ? "We check this one on our side." : "We check these on our side.";
+      if (flagged === 0) {
+        const all = checked === 1 ? "It looks good." : checked === 2 ? "Both look good." : `All ${checked} look good.`;
+        if (!unchecked) return all;
+        return checked === 1 ? "The one we could check looks good." : checked === 2 ? "Both we could check look good." : `All ${checked} we could check look good.`;
+      }
+      return `${good} of ${checked} look good — ${flagged === 1 ? "one is" : `${word(flagged)} are`} worth replacing.`;
+    },
+  },
+
   styleRecommendLabel: "Not sure — recommend one for me",
   styleRecommendDetail: "We pick the finish that suits the photos and the sport. You see it on the proof.",
 
@@ -153,6 +258,8 @@ export const INTAKE_COPY = {
   submitting: (n: number, total: number): string => `Uploading photo ${n} of ${total}…`,
   finishing: "Sending your request…",
   etsyAlt: "Prefer Etsy? Every listing works the same way: you approve a proof before anything is finalized.",
+  /** v3 (owner review 2026-10-06: the outline box read weak): one muted line beside the house EtsyButton. */
+  etsyAltShort: "Prefer Etsy? Same proof, same process.",
 
   thanks: {
     title: "Photos Received",

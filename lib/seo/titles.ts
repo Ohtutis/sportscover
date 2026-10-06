@@ -3,9 +3,11 @@
 // absolute string) and ≤ 155 for the description — so no page file ever invents a title.
 // F2/F3 rows exist so lib/seo/intents.ts can map every keyword to a table key; only `phase: "F1"`
 // rows reach the sitemap, and never a pattern row (`[segment]` paths — /blog/[slug] is F1, its posts
-// reach the sitemap through lib/blog.ts). Pattern rows ({Sport}, {Finish}) are measured with the
-// longest name substituted (Cheerleading, Signature Spotlight). The banned words of COPY §0.4 never
-// appear here.
+// reach the sitemap through lib/blog.ts; /sports/[sport] and /senior-night/[sport] are F1 since
+// 2026-10-06 and reach it through lib/seo/sport-facts.ts and lib/seo/senior-night-facts.ts, which also
+// carry each page's real title and description — the pattern rows here only let matchesPagePath() and
+// the intents resolve them). Pattern rows ({Sport}, {Finish}) are measured with the longest name
+// substituted (Cheerleading, Signature Spotlight). The banned words of COPY §0.4 never appear here.
 
 import { INTAKE_COPY, INTAKE_PATH, INTAKE_THANKS_PATH, PROOF_CLOCK } from "../intake/copy";
 import { PHOTO_RULES } from "../intake/types";
@@ -231,14 +233,15 @@ export const PAGES: Record<string, PageMeta> = Object.fromEntries([
     priority: 0.2,
     changeFrequency: "yearly",
   }),
-  // --- F2 / F3 routes: table keys for lib/seo/intents.ts; not built, not in the sitemap ---
+  // --- The SEO pages built 2026-10-06 (docs/SEO-PLAN-GDE-2026-10.md §4). The two pattern rows are
+  // resolved per sport by their fact tables; the concrete pages read their own title/description there.
   page({
     path: "/senior-night/[sport]",
     // COPY §3: "Poster & " is trimmed when the sport name pushes the title past 60.
     title: "{Sport} Senior Night Gift: Card Set",
     description:
       "{Sport} senior night gift from your athlete's photos — a gold senior edition card and poster. Add the date; we schedule the proof against it.",
-    phase: "F2",
+    phase: "F1",
     priority: 0.8,
     changeFrequency: "weekly",
   }),
@@ -247,7 +250,7 @@ export const PAGES: Record<string, PageMeta> = Object.fromEntries([
     title: "Christmas Gift: Custom Poster & Card Set",
     description:
       "A Christmas gift built from your athlete's photos: poster, card front and back and the card's own registered page. Order-by dates for under the tree.",
-    phase: "F2",
+    phase: "F1",
     priority: 0.7,
     changeFrequency: "weekly",
   }),
@@ -256,10 +259,37 @@ export const PAGES: Record<string, PageMeta> = Object.fromEntries([
     title: "End-of-Season Team Gifts: One Setup",
     description:
       "One team setup for the end of the season: you set the crest, the colors and the deadline once; every family orders and pays for their own athlete.",
-    phase: "F2",
+    phase: "F1",
     priority: 0.7,
     changeFrequency: "monthly",
   }),
+  page({
+    path: "/banners",
+    title: "Custom Sports Banners From Your Photos",
+    description:
+      "A custom sports banner built from your athlete's photos — printed vinyl at 1 × 2, 2 × 4 or 3 × 6 ft, or the full-size file. A free watermarked proof first.",
+    phase: "F1",
+    priority: 0.8,
+    changeFrequency: "weekly",
+  }),
+  page({
+    path: "/sports",
+    title: "Custom Cards & Posters by Sport",
+    description:
+      "All seventeen sports, one studio: which sports get a jersey number on the card, which get a name and crest, and each sport's own page where it has one.",
+    phase: "F1",
+    priority: 0.6,
+    changeFrequency: "monthly",
+  }),
+  page({
+    path: "/sports/[sport]",
+    title: "Custom {Sport} Cards & Posters",
+    description: "Custom {sport} trading cards and posters from your photos — front and back, registered card ID, proof before print.",
+    phase: "F1",
+    priority: 0.8,
+    changeFrequency: "weekly",
+  }),
+  // --- F2 / F3 routes: table keys for lib/seo/intents.ts; not built, not in the sitemap ---
   page({
     path: "/order/new",
     title: "Start an Order",
@@ -268,14 +298,6 @@ export const PAGES: Record<string, PageMeta> = Object.fromEntries([
     priority: 0.5,
     changeFrequency: "monthly",
     noindex: true,
-  }),
-  page({
-    path: "/sports/[sport]",
-    title: "Custom {Sport} Cards & Posters",
-    description: "Custom {sport} trading cards and posters from your photos — front and back, registered card ID, proof before print.",
-    phase: "F3",
-    priority: 0.8,
-    changeFrequency: "weekly",
   }),
   page({
     path: "/styles/[finish]",

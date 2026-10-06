@@ -37,6 +37,8 @@ import { publishedReviews } from "../lib/reviews";
 import { TRUE_COUNT_LINKS } from "../lib/catalog/tiers";
 import { TrueNumbers } from "../components/TrueNumbers";
 import { PAGES } from "../lib/seo/titles";
+import { ProofPathBand } from "../components/ProofPath";
+import { INTAKE_COPY } from "../lib/intake/copy";
 
 const NOW = new Date("2026-09-07T12:00:00-04:00");
 
@@ -64,10 +66,13 @@ const SECTION_ORDER = [
   "Occasions",
 ] as const;
 
-/** What page.tsx mounts, in source order: the twelve sections plus the hero's own strip. */
-const PAGE_COMPONENTS = ["Hero", "HeroStrip", ...SECTION_ORDER.slice(1)] as const;
+/**
+ * What page.tsx mounts, in source order: the twelve sections, the free-proof band directly under the
+ * hero (owner review 2026-10-06 — its own band, outside the spine) and the hero's own strip.
+ */
+const PAGE_COMPONENTS = ["Hero", "ProofPathBand", "HeroStrip", ...SECTION_ORDER.slice(1)] as const;
 
-const SECTIONS: { name: (typeof SECTION_ORDER)[number] | "HeroStrip"; html: string }[] = [
+const SECTIONS: { name: (typeof SECTION_ORDER)[number] | "HeroStrip" | "ProofPathBand"; html: string }[] = [
   { name: "Hero", html: renderToStaticMarkup(createElement(Hero, { now: NOW })) },
   { name: "Fears", html: renderToStaticMarkup(createElement(Fears)) },
   { name: "Families", html: renderToStaticMarkup(createElement(Families, { now: NOW })) },
@@ -83,6 +88,9 @@ const SECTIONS: { name: (typeof SECTION_ORDER)[number] | "HeroStrip"; html: stri
   // The strip is part of section 01 (it carries the numbers the hero used to), not a fourteenth
   // section. It is appended LAST so every SECTIONS[n] index above keeps its meaning.
   { name: "HeroStrip", html: renderToStaticMarkup(createElement(HeroStrip, { now: NOW })) },
+  // The free-proof band (page.tsx mounts it between the hero and the strip while FREE_PROOF_FIRST).
+  // Appended after the strip for the same reason: every index above keeps its meaning.
+  { name: "ProofPathBand", html: renderToStaticMarkup(createElement(ProofPathBand)) },
 ];
 
 /** renderToStaticMarkup escapes text; compare against the copy as it was written. */
@@ -509,19 +517,20 @@ describe("home §01 — one message, one button", () => {
   const heroHtml = SECTIONS[0].html;
   const t = text(heroHtml);
 
-  it("says the H1, the subhead, the button and the four-step path — no claims, no price, no chips, no trust line", () => {
+  it("says the H1, the subhead and the button — three blocks; no path, no claims, no price, no chips, no trust line", () => {
     expect(t).toContain(HERO_H1);
     expect(t).toContain(HERO_SUBHEAD);
     expect(t.indexOf(HERO_H1)).toBeLessThan(t.indexOf(HERO_SUBHEAD));
-    // D29 (owner, 2026-10-04): the path sits UNDER the button row, in the order a parent lives it.
-    expect(t).toContain(PROOF_PATH_LABEL);
-    expect(t.indexOf(ctaFor("home").primary.label)).toBeLessThan(t.indexOf(PROOF_PATH_LABEL));
-    let at = t.indexOf(PROOF_PATH_LABEL);
-    for (const step of PROOF_PATH) {
-      const i = t.indexOf(step.title, at);
-      expect(i, step.title).toBeGreaterThan(at);
-      at = i;
-    }
+    expect(t.indexOf(HERO_SUBHEAD)).toBeLessThan(t.indexOf(ctaFor("home").primary.label));
+    // Owner review 2026-10-06 ("crammed — it looks dropped in"): the four-step path left the text
+    // column for its own band under the hero. The column is the heading (H1 + subhead) and the CTA row.
+    expect(t).not.toContain(PROOF_PATH_LABEL);
+    for (const step of PROOF_PATH) expect(t, step.title).not.toContain(step.detail);
+    expect(heroHtml).not.toContain("data-proof-path");
+    const column = heroHtml.slice(heroHtml.indexOf('<div class="flex flex-col justify-center lg:col-span-6">'), heroHtml.indexOf('<div class="mt-10 lg:col-span-6'));
+    const blocks = column.match(/<div class="(\[&amp;&gt;h1\]|mt-8 flex)/g) ?? [];
+    expect(blocks).toHaveLength(2);
+    expect(column.match(/<h1|<p class="mt-4/g)?.length).toBe(2);
     for (const gone of ["FROM YOUR PHOTOS", "REGISTERED EDITION", CANON.trustLine.split(" · ")[0], "printed set", "digital ·"]) {
       expect(t, `${gone} is still in the hero`).not.toContain(gone);
     }
@@ -706,6 +715,42 @@ describe("home §01 — the story", () => {
     }
     expect(count(heroHtml, "h-11 w-11")).toBe(scenes.length + 1);
     expect(heroHtml).not.toContain('tabindex="-1"');
+  });
+});
+
+describe("home §01a — the free-proof path is its own band under the hero (owner review 2026-10-06)", () => {
+  const bandHtml = SECTIONS.find((sec) => sec.name === "ProofPathBand")!.html;
+  const bandText = text(bandHtml);
+
+  it("mounts directly between the hero and the strip, only while the site runs proof-first", () => {
+    const source = read(PAGE_FILE);
+    const hero = source.indexOf("<Hero />");
+    const band = source.indexOf("{freeProofMode() ? <ProofPathBand /> : null}");
+    expect(hero).toBeGreaterThan(-1);
+    expect(band).toBeGreaterThan(hero);
+    expect(source.indexOf("<HeroStrip")).toBeGreaterThan(band);
+  });
+
+  it("opens on a hairline rule with the label, then the four cards in order and C13 once", () => {
+    expect(bandHtml).toContain('data-proof-band-rule="" class="border-t border-hairline');
+    expect(bandText).toContain(PROOF_PATH_LABEL);
+    let at = bandText.indexOf(PROOF_PATH_LABEL);
+    for (const card of INTAKE_COPY.stepCards) {
+      const i = bandText.indexOf(card.title, at);
+      expect(i, card.title).toBeGreaterThan(at);
+      expect(bandText).toContain(card.line);
+      at = i;
+    }
+    expect(count(bandText, CANON.fictionalLabel)).toBe(1);
+    expect(count(bandHtml, 'data-step-visual=""')).toBe(4);
+  });
+
+  it("keeps out of the spine and gives the hero air: no index, its own py-16 md:py-20 lg:py-24", () => {
+    expect(bandHtml).not.toMatch(/\d\d \/ \d\d/);
+    expect(bandHtml).toMatch(/^<section data-proof-band="" aria-labelledby="[^"]+" class="py-16 md:py-20 lg:py-24">/);
+    expect(bandHtml).toContain("container-gallery");
+    // Hero bottom padding (lg:pb-16) + the band's lg:pt-24 = 160 px of clear ground at 1440 (≥ 64).
+    expect(read(path.join(HOME_DIR, "Hero.tsx"))).toContain("lg:pb-16");
   });
 });
 

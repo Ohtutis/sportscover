@@ -1,9 +1,10 @@
 // Navigation tables — COPY §1.1 (header, mobile menu) and §1.2 (footer columns). Labels and hrefs are
-// pasted from the copy pack; the only computed entry is "Teams & clubs" (mailto in F1, /teams in F2).
-// 2026-10-04 additions: "Free proof" opens the footer's Shop column (D29 — the site's conversion is the
-// free-proof request) and "Blog" joins the Trust column and the mobile sheet.
+// pasted from the copy pack. 2026-10-04 additions: "Free proof" opens the footer's Shop column (D29 — the
+// site's conversion is the free-proof request) and "Blog" joins the Trust column and the mobile sheet.
+// 2026-10-06 (SEO plan): /teams, /banners, /sports and /christmas-gift exist, so "Teams & clubs" is a
+// page again, "Banners" and "By sport" join the Shop column and the mobile sheet, and the seasonal
+// "Christmas gifts" link sits in the Shop column all year (the page's copy switches with the calendar).
 import { INTAKE_PATH } from "./intake/copy";
-import { SITE_SELLS_DIRECT, SUPPORT_EMAIL } from "./site";
 
 export interface NavLink {
   label: string;
@@ -23,6 +24,8 @@ export const HEADER_LINKS: NavLink[] = [
 
 /** The links the mobile sheet adds under the main nav (the sheet's own CTA pair carries the free proof). */
 export const MOBILE_EXTRA_LINKS: NavLink[] = [
+  { label: "Banners", href: "/banners" },
+  { label: "By sport", href: "/sports" },
   { label: "Photo guide", href: "/photo-guide" },
   { label: "Registry", href: "/registry" },
   { label: "FAQ", href: "/faq" },
@@ -31,8 +34,8 @@ export const MOBILE_EXTRA_LINKS: NavLink[] = [
   { label: "Etsy shop", href: "/etsy" },
 ];
 
-/** F1: teams are handled by email; F2 gets the /teams page (COPY §1.2). */
-export const TEAMS_HREF = SITE_SELLS_DIRECT ? "/teams" : `mailto:${SUPPORT_EMAIL}?subject=Team%20order`;
+/** /teams is built (2026-10-06): the page explains today's email-first team setup and carries the mailto itself. */
+export const TEAMS_HREF = "/teams";
 
 export type FooterColumnTitle = "Shop" | "Trust" | "Legal";
 
@@ -45,6 +48,9 @@ export const FOOTER_COLUMNS: { title: FooterColumnTitle; links: NavLink[] }[] = 
       { label: "Posters", href: "/posters" },
       { label: "Complete Set", href: "/complete-set" },
       { label: "Senior Night", href: "/senior-night" },
+      { label: "Banners", href: "/banners" },
+      { label: "By sport", href: "/sports" },
+      { label: "Christmas gifts", href: "/christmas-gift" },
       { label: "Teams & clubs", href: TEAMS_HREF },
       { label: "Etsy shop", href: "/etsy" },
     ],

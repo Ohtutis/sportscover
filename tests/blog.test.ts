@@ -21,11 +21,13 @@ import {
   posts,
   type BlogPost,
 } from "../lib/blog";
-import { sportBySlug } from "../lib/catalog/sports";
+import { sportBySlug, sports } from "../lib/catalog/sports";
 import { CANON } from "../lib/copy/canon";
 import { INTAKE_PATH } from "../lib/intake/copy";
 import { getCard } from "../lib/registry/cards";
 import { blogPosting } from "../lib/seo/jsonld";
+import { seniorNightPath, seniorNightSports } from "../lib/seo/senior-night-facts";
+import { sportPagePath, sportPageSports } from "../lib/seo/sport-facts";
 import { BRAND, CANONICAL_ORIGIN, OWNER_NAME } from "../lib/site";
 
 // node_modules -> node_modules.nosync (2026-10-04) takes the /node_modules/ segment out of the resolved
@@ -79,8 +81,39 @@ const proseWords = (post: BlogPost): number =>
 
 /* ---------- the rules ---------- */
 
-/** The money pages: at most one of them — the post's primary page — inside the first 150 words. */
-const MONEY_PAGES = ["/trading-cards", "/posters", "/complete-set", "/senior-night", INTAKE_PATH];
+/**
+ * The money pages: at most one of them — the post's primary page — inside the first 150 words. Since
+ * 2026-10-06 that includes the occasion, team and banner pages, every sport page and every senior-night spoke.
+ */
+const MONEY_PAGES = [
+  "/trading-cards",
+  "/posters",
+  "/complete-set",
+  "/senior-night",
+  INTAKE_PATH,
+  "/christmas-gift",
+  "/banners",
+  "/teams",
+  ...sports.map((s) => sportPagePath(s.slug)),
+  ...sports.map((s) => seniorNightPath(s.slug)),
+];
+
+/**
+ * The two [sport] routes render exactly the slugs of their fact tables (lib/seo/sport-facts.ts,
+ * lib/seo/senior-night-facts.ts), so a /sports/<slug> or /senior-night/<slug> link resolves when its slug is
+ * in that table — before the route's page.tsx lands (both were built beside the 2026-10-06 posts) and after
+ * it. A slug outside the table never resolves, and every other path still needs its own page.tsx.
+ */
+const SPORT_ROUTE_SLUGS: Record<string, () => string[]> = {
+  sports: () => sportPageSports().map((s) => s.slug),
+  "senior-night": () => seniorNightSports().map((s) => s.slug),
+};
+
+function linkResolves(p: string): boolean {
+  if (fs.existsSync(path.join(ROOT, "app/(marketing)", p, "page.tsx"))) return true;
+  const spoke = /^\/(sports|senior-night)\/([a-z0-9-]+)$/.exec(p);
+  return spoke ? SPORT_ROUTE_SLUGS[spoke[1]]().includes(spoke[2]) : false;
+}
 
 /** tests/forbidden-strings.test.ts, copied (that file scans sources; this one scans the rendered posts). */
 const FORBIDDEN: Array<[RegExp, string]> = [
@@ -125,8 +158,8 @@ function boardNames(): string[] {
 /* ---------- the registry ---------- */
 
 describe("lib/blog — the table", () => {
-  it("has the seven posts, unique kebab-case slugs, newest first", () => {
-    expect(posts).toHaveLength(7);
+  it("has the eleven posts, unique kebab-case slugs, newest first", () => {
+    expect(posts).toHaveLength(11);
     expect(new Set(posts.map((p) => p.slug)).size).toBe(posts.length);
     for (const p of posts) expect(p.slug, p.slug).toMatch(/^[a-z0-9]+(-[a-z0-9]+)*$/);
     for (let i = 1; i < posts.length; i++) expect(posts[i - 1].publishedAt >= posts[i].publishedAt).toBe(true);
@@ -165,7 +198,8 @@ describe("lib/blog — the table", () => {
       if (p.sport) expect(sportBySlug(p.sport), p.slug).toBeTruthy();
       if (p.image) expect(SITE_ASSETS[p.image]?.status, p.slug).toBe("verified");
     }
-    expect(posts.filter((p) => p.occasion === "senior-night").map((p) => p.sport).sort()).toEqual(["football", "volleyball"]);
+    // One senior-night post per sport, plus the winter post (2026-10-06), which covers three sports and so names none.
+    expect(posts.filter((p) => p.occasion === "senior-night").map((p) => p.sport).sort()).toEqual(["football", "volleyball", undefined]);
   });
 });
 
@@ -257,7 +291,9 @@ describe("blog posts — render, links, CTA, truth", () => {
         expect(hrefsTo(prose, INTAKE_PATH)).toHaveLength(post.primaryPage === INTAKE_PATH ? 1 : 0);
         if (post.occasion === "senior-night") {
           expect(ctaLinks[0]).toContain("style=SR");
-          expect(ctaLinks[0]).toContain(`sport=${post.sport}`);
+          // A one-sport post prefills its sport; the winter post covers three, so it prefills none.
+          if (post.sport) expect(ctaLinks[0]).toContain(`sport=${post.sport}`);
+          else expect(ctaLinks[0]).not.toContain("sport=");
         }
       });
 
@@ -270,9 +306,9 @@ describe("blog posts — render, links, CTA, truth", () => {
             continue;
           }
           if (p === INTAKE_PATH) continue;
-          expect(fs.existsSync(path.join(ROOT, "app/(marketing)", p, "page.tsx")), p).toBe(true);
+          expect(linkResolves(p), p).toBe(true);
         }
-        expect(body).not.toContain('href="/banners');
+        // 2026-10-06: /banners exists (SEO plan §4), so a post may link it like any other page.
       });
 
       it("says nothing the truth lint forbids — no price, no date promise, Etsy at most once", () => {
@@ -358,7 +394,9 @@ describe("blog routes", () => {
     for (const post of posts) expect(text, post.slug).toContain(`- [${post.title}](${CANONICAL_ORIGIN}${postPath(post)}): ${post.description}`);
     expect(text).toContain(CANON.registeredIdLine);
     expect(text).not.toMatch(/\$\s?\d/);
-    for (const [re, why] of FORBIDDEN) expect(text, why).not.toMatch(re);
+    // The FAQ is quoted verbatim in /llms.txt (SEO plan, 2026-10-06), and one canon answer says "Print at
+    // 100 %, no scaling." — a print instruction, not sale talk — so the percentage rule is the blog's alone.
+    for (const [re, why] of FORBIDDEN.filter(([, w]) => w !== "no percentages")) expect(text, why).not.toMatch(re);
     expect(text).not.toMatch(/localhost|vercel\.app/);
   });
 });

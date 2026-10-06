@@ -11,16 +11,12 @@ const MB = Math.round(PHOTO_RULES.maxBytes / (1024 * 1024));
 export const UI = {
   breadcrumb: "Free proof",
   newTab: "(opens in a new tab)",
-  /** The accessible name of the four how-it-works cards under the hero. */
-  howItWorks: "How the free proof works",
 
   products: {
     optionsLegend: (name: string): string => `${name}: choose one`,
     quantity: "Quantity",
     fewer: "One fewer",
     more: "One more",
-    /** Inside the set card once it is chosen: the set has no options of its own. */
-    setHint: "Choose digital or printed on the trading cards and the poster.",
   },
 
   style: {

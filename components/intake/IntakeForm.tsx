@@ -10,7 +10,8 @@ import { uploadToSignedUrl, type StorageEndpoint, type UploadTarget } from "../.
 import { SUPPORT_EMAIL } from "../../lib/site";
 import { trackCustomize } from "../../lib/track";
 import { PRIMARY_BUTTON_CLASS } from "../CtaPair";
-import { ArrowRightIcon } from "../icons";
+import { readEntry } from "../EntryAttribution";
+import { EtsyButton } from "../EtsyButton";
 import { AthleteFields } from "./AthleteFields";
 import { ConsentFields } from "./ConsentFields";
 import { ContactFields } from "./ContactFields";
@@ -191,7 +192,7 @@ export function IntakeForm({ products, setTile, setCombos, styles, photosSubhead
 
   // Where the parent came from (landing path, referrer, utm_* / fbclid) — read once, sent with the request.
   useEffect(() => {
-    source.current = captureSource(window.location.pathname, window.location.search, document.referrer);
+    source.current = captureSource(window.location.pathname, window.location.search, document.referrer, readEntry());
   }, []);
 
   // Previews are object URLs; give the memory back when the page goes.
@@ -588,13 +589,11 @@ export function IntakeForm({ products, setTile, setCombos, styles, photosSubhead
           </noscript>
         </section>
 
-        <a
-          href="/etsy"
-          className="mt-8 flex min-h-11 max-w-[40rem] items-start gap-3 rounded-ui border border-ink/25 px-4 py-3 font-body text-small text-ink transition-[border-color] duration-hover ease-out hover:border-ink"
-        >
-          <span className="flex-1">{INTAKE_COPY.etsyAlt}</span>
-          <ArrowRightIcon size={18} className="mt-0.5 shrink-0" />
-        </a>
+        {/* The Etsy alternative (owner review 2026-10-06): one muted line and the house outline button, never orange, never a price. */}
+        <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
+          <p className="font-body text-small text-muted-text">{INTAKE_COPY.etsyAltShort}</p>
+          <EtsyButton sku="GDE-ANY-SET" />
+        </div>
       </form>
 
       <div className="hidden lg:sticky lg:top-24 lg:mt-14 lg:block lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">

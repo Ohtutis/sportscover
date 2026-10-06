@@ -19,22 +19,24 @@
 //      `lib/registry/cards.ts`, never typed.
 //
 // 2026-10-04 (D29, the owner: "make everything much clearer — the parent must grasp the path at a
-// glance"). The one button is "Get a free proof →", and under the button row sits the four-step
-// `ProofPath` — photos, a free watermarked proof, choose and pay your way, we complete the order. It is
-// type on the stock, no accent and nothing to press, so the hero still offers ONE action.
+// glance"). The one button is "Get a free proof →".
+//
+// 2026-10-06 (owner: "everything is crammed — it looks dropped in"). The four-step path used to sit in
+// this column under the button row, with no air between it and the CTA. It now has its own band under
+// the hero (`ProofPathBand`, mounted by page.tsx), and the text column is three blocks again: the H1,
+// the subhead, the CTA pair.
 import Image from "next/image";
 import type { CSSProperties } from "react";
 import { CardFace } from "../../../components/CardFace";
 import { CtaPair } from "../../../components/CtaPair";
 import { FictionalLabel } from "../../../components/FictionalLabel";
-import { ProofPath } from "../../../components/ProofPath";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { SITE_ASSETS, SITE_ASSET_KEYS, assetOrNull, type ImageSpec } from "../../../lib/assets";
 import { formatEt } from "../../../lib/capacity";
 import { sports, type Sport } from "../../../lib/catalog/sports";
 import { styles, type Style } from "../../../lib/catalog/styles";
 import { CANON } from "../../../lib/copy/canon";
-import { ctaFor, freeProofMode } from "../../../lib/cta";
+import { ctaFor } from "../../../lib/cta";
 import { getCard, registeredAtOf } from "../../../lib/registry/cards";
 import { HeroStory } from "./HeroStory";
 import { sectionId } from "./Section";
@@ -321,7 +323,6 @@ export function Hero() {
               {HERO_SECONDARY.label}
             </a>
           </div>
-          {freeProofMode() ? <ProofPath className="mt-8" /> : null}
         </div>
         <div className="mt-10 lg:col-span-6 lg:mt-0">
           <HeroStory

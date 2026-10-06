@@ -566,6 +566,26 @@
       "sha256": "3137b8e068f824e39951306b02b0526033ea8f892c44a96c8202fe748f4df1d0",
       "path": "card-flip/out/GDE_CA_CardFlip_1080x1350.mp4",
       "reason": "Nia Brooks export (GDE-SN-BKB-2026-23, F1-ART-02) \u2014 frame checked 2026-09-07"
+    },
+    {
+      "sha256": "9de19b2d75ffd7f6be0b60ebe8512b7e1d9cff3971e7c06c20975e8cdfa7cff6",
+      "path": "etsy/listing-images/02-football-poster/src/mock-room-PR.png",
+      "reason": "product hero v2 2026-10-06: the framed print is a SUPERSEDED Prism Rush layout (athletes, crest and lettering sit elsewhere than in the current FB-PR-poster.png) \u2014 the judge read it as not the same artwork; rebuilt from the blank p-room-PR plate instead (sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "37c64d918d74e1240b87bfc8f9c79723da258f18c9f23895a5b309c77c006102",
+      "path": "etsy/listing-images/05-football-blanket/src/c-room-30x40.png",
+      "reason": "product hero v2 2026-10-06: the armchair plate draws a blanket ~30 x 66 in, so the 3:4 art is stretched ~40 % taller on it (crest visibly elongated, athletes slimmed \u2014 bodies may not be altered); a band of print on the wall above the top fold; ragged hem (sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "ac20623099380fe08bdc95b15965fa880348e8f17bce555794d885a75e5a2fa8",
+      "path": "etsy/listing-images/03-football-banner/src/use-fence.png",
+      "reason": "BORDER_REFLECT widening mirrors the edge athletes: two helmets/faces back to back on the right, two hands palm to palm on the left (docs/f1/ASSETS-RENDERS.md Product tiles; confirmed 2026-10-06, sha256 computed 2026-10-06)"
+    },
+    {
+      "sha256": "a2e4e88dc2509863dd4d64912e4170bcc2475545de23feb51aa2b01073a28739",
+      "path": "etsy/listing-images/03-volleyball-banner/src/use-fence.png",
+      "reason": "BORDER_REFLECT widening mirrors the ball and the forearms at the left edge, and the shoe carries a Mizuno mark (product hero v2, checked 2026-10-06; sha256 computed 2026-10-06)"
     }
   ]
 }

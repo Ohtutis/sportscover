@@ -14,9 +14,27 @@ export interface PageMetaExtra {
 
 const NOINDEX: Metadata["robots"] = { index: false, follow: false };
 
+/**
+ * Whether `app/(marketing)<path>/opengraph-image.tsx` exists. Next injects a route's generated share
+ * image only when the page's `openGraph` has NO `images` key at all (resolve-metadata: hasOwnProperty),
+ * so a table row that always set `images: ["/og.webp"]` silently hid every per-route image on the site
+ * (found by the sport-page builder, 2026-10-06). The check runs on the server at build time through
+ * `process.getBuiltinModule`, the same client-safe seam lib/site.ts uses for the founder photo; in a
+ * browser it returns false and the fallback image is set, which is what a client could show anyway.
+ */
+export function routeHasOgImage(path: string): boolean {
+  if (typeof window !== "undefined" || typeof process === "undefined" || typeof process.getBuiltinModule !== "function") return false;
+  const fs = process.getBuiltinModule("node:fs");
+  const dir = path === "/" ? "" : path;
+  return fs.existsSync(`${process.cwd()}/app/(marketing)${dir}/opengraph-image.tsx`);
+}
+
 /** Metadata for a route in PAGES. Throws when the path is missing from the table. */
 export function pageMeta(path: string, extra?: PageMetaExtra): Metadata {
   const meta = pageFor(path);
+  // An explicit image wins; a route with its own opengraph-image.tsx gets no key (so the file is used);
+  // everything else falls back to the site card.
+  const images = extra?.images ?? (routeHasOgImage(path) ? undefined : ["/og.webp"]);
   return {
     title: meta.absolute ? { absolute: meta.title } : meta.title,
     description: meta.description,
@@ -26,7 +44,7 @@ export function pageMeta(path: string, extra?: PageMetaExtra): Metadata {
       title: fullTitle(meta),
       description: meta.description,
       type: extra?.type ?? "website",
-      images: extra?.images ?? ["/og.webp"],
+      ...(images ? { images } : {}),
     },
     ...(meta.noindex ? { robots: NOINDEX } : {}),
   };

@@ -123,6 +123,11 @@ export default function PrivacyPage() {
                 names, emails, photos or card IDs. No advertising pixels. No cookies for tracking.
               </li>
               <li>
+                <Lead>To know which pages help:</Lead> when you send a free-proof request, it carries the page you first arrived on, the
+                site that sent you there and any campaign tag in that link — kept in your browser only for the visit, never a name, never
+                shared.
+              </li>
+              <li>
                 <Lead>Legal basis (GDPR):</Lead> performance of the contract with you (making and delivering the edition); your explicit
                 consent for the likeness check (Article 9) and for any public page or marketing use; our legitimate interest in keeping the
                 site secure and accounting records the law requires.

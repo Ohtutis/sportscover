@@ -1,14 +1,14 @@
 // Tracked outbound redirect: /go/etsy/<sku> → the live Etsy listing (shop-subdomain "Share & Save"
 // form) with UTM passthrough. The click is logged to the server log before the 302.
 import { NextRequest, NextResponse } from "next/server";
-import { listingIdForSku, listingUrl } from "../../../../lib/catalog/listings";
+import { listingIdForSku, listingUrlForSku } from "../../../../lib/catalog/listings";
 
 export const dynamic = "force-dynamic";
 
 export function GET(request: NextRequest, context: { params: Promise<{ sku: string }> }) {
   return context.params.then(({ sku }) => {
     const listingId = listingIdForSku(sku);
-    const target = new URL(listingUrl(listingId));
+    const target = new URL(listingUrlForSku(sku));
     const incoming = request.nextUrl.searchParams;
     const hasUtm = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].some((k) => incoming.has(k));
     if (hasUtm) {

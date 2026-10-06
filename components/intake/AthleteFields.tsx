@@ -1,9 +1,12 @@
+"use client";
+
+import { useEffect } from "react";
 import { CANON } from "../../lib/copy/canon";
 import { isNumberless, sportBySlug } from "../../lib/catalog/sports";
 import { INTAKE_COPY } from "../../lib/intake/copy";
 import { CLASS_YEARS, INTAKE_SPORTS, MAX_STATS, SEASON_YEARS } from "../../lib/intake/types";
 import { FieldError, Field, HELP, INPUT, INPUT_PROSE, LABEL, SELECT, TEXTAREA, Tag, border, describe } from "./fields";
-import { errorId, fieldId, type AthleteState } from "./model";
+import { athleteStore, errorId, fieldId, type AthleteState } from "./model";
 import { STAT_EXAMPLES, STAT_EXAMPLES_DEFAULT, UI } from "./strings";
 
 export interface AthleteFieldsProps {
@@ -60,6 +63,13 @@ export function AthleteFields({
   const nameHelp = `${id("name")}-help`;
   const neededId = fieldId("contact.neededBy");
   const neededErr = errors["contact.neededBy"];
+
+  // "Your order" draws the live text preview from what is typed here (owner, 2026-10-06): every change
+  // is published to the shared store in model.ts, and cleared when the step leaves the page.
+  useEffect(() => {
+    athleteStore.set(athlete);
+  }, [athlete]);
+  useEffect(() => () => athleteStore.set(null), []);
 
   const nameInput = (key: "firstName" | "lastName", label: string, autoComplete: string) => (
     <div className="min-w-0">
@@ -239,7 +249,7 @@ export function AthleteFields({
                     onChange={(e) => onChange({ colors: { ...athlete.colors, [which]: e.target.value } })}
                     {...describe(cid, { error: err(`colors.${which}`) })}
                     {...invalid(`colors.${which}`)}
-                    className={`h-12 w-14 shrink-0 cursor-pointer rounded-ui border bg-stock p-1 ${border(Boolean(err(`colors.${which}`)))}`}
+                    className={`h-12 w-14 shrink-0 cursor-pointer rounded-ui border-[1.5px] bg-white p-1 ${border(Boolean(err(`colors.${which}`)))}`}
                   />
                   <label htmlFor={cid} className="font-body text-small text-ink">
                     <span className="block font-medium">{which === "primary" ? UI.athlete.primary : UI.athlete.secondary}</span>

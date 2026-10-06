@@ -219,3 +219,15 @@ export const icons = {
 } as const;
 
 export type IconName = keyof typeof icons;
+
+/**
+ * "Love it? Pay" — the approval tick in a ring (the free-proof path's fourth step, components/ProofPath.tsx).
+ * Same 24-unit grid and 1.5 stroke as the set above; appended, not added to `icons`, so the data-driven
+ * rows keep their own vocabulary.
+ */
+export const CheckCircleIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <circle cx="12" cy="12" r="8.5" />
+    <path d="M8.25 12.25l2.5 2.5 5-5.25" />
+  </Icon>
+);
