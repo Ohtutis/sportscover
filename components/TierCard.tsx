@@ -1,4 +1,4 @@
-import { formatUsd, priceDisplay, saleEndsLabel, type Tier } from "../lib/catalog/prices";
+import { formatUsd, priceDisplay, type Tier } from "../lib/catalog/prices";
 import type { CtaPairProps } from "../lib/cta";
 import { CtaPair } from "./CtaPair";
 import { DeliveryChips } from "./DeliveryChips";
@@ -6,9 +6,11 @@ import { Pill } from "./Pill";
 
 /**
  * A rate card, not a picture (DESIGN §4.9): the Etsy variant name, the price as the loudest number
- * (Anton 2 rem) with the struck regular price beside it while the sale runs, what's in the box, where
- * it ships from, the one matching delivery chip, the CTA pair. No media. Price only via
- * priceDisplay(tier, now) — a "$" literal fails CI. The card is a column whose delivery chip and CTA
+ * (Anton 2 rem), what's in the box, where it ships from, the one matching delivery chip, the CTA pair. No
+ * media. Price only via priceDisplay(tier) — a "$" literal fails CI. A single item never shows a second
+ * price (pricing v1, 2026-10-07: no "regular" price, no sale); a SET tier is a bundle of its two parts, so
+ * it shows the parts' à-la-carte total struck through beside its price and one line, "Bundle: save $X" —
+ * the comparison is always the same items bought separately. The card is a column whose delivery chip and CTA
  * are pinned to the bottom as one block: while the chip sat directly under the box list, a printed
  * tier left 54 px of dead space between it and the CTA. The FEATURED pill is inset to the card's own
  * 24 px padding, not to the border.
@@ -18,7 +20,6 @@ import { Pill } from "./Pill";
  */
 export interface TierCardProps {
   tier: Tier;
-  now: Date;
   /** boxContents(sku) from lib/catalog/tiers.ts. */
   box: string[];
   /** shipsFromFor(sku) from lib/catalog/shipping.ts. */
@@ -33,10 +34,10 @@ export interface TierCardProps {
 
 const LABEL = "font-label text-label font-semibold uppercase tracking-[0.12em] text-muted-text";
 
-export function TierCard({ tier, now, box, shipsFrom, chip, cta, id, sportCode, className = "" }: TierCardProps) {
+export function TierCard({ tier, box, shipsFrom, chip, cta, id, sportCode, className = "" }: TierCardProps) {
   const domId = id ?? `tier-${tier.sku}`;
-  const price = priceDisplay(tier, now);
-  const onSale = price.compareAt !== undefined;
+  const price = priceDisplay(tier);
+  const bundle = price.bundle && price.bundle.discount > 0 ? price.bundle : null;
   return (
     <article
       id={domId}
@@ -55,17 +56,21 @@ export function TierCard({ tier, now, box, shipsFrom, chip, cta, id, sportCode, 
       </h3>
       <p className="mt-3 flex items-baseline gap-3">
         <span className="font-display text-price tabular-nums">
-          <span className="sr-only">{onSale ? "Sale price " : "Price "}</span>
+          <span className="sr-only">{bundle ? "Bundle price " : "Price "}</span>
           {formatUsd(price.current)}
         </span>
-        {onSale ? (
-          <s className="font-body text-base font-medium tabular-nums text-muted-text">
-            <span className="sr-only">Regular price </span>
-            {formatUsd(price.compareAt as number)}
+        {bundle ? (
+          <s data-tier-separately="" className="font-body text-base font-medium tabular-nums text-muted-text">
+            <span className="sr-only">Bought separately </span>
+            {formatUsd(bundle.alaCarte)}
           </s>
         ) : null}
       </p>
-      {onSale ? <p className="mt-1 font-body text-small text-muted-text">Sale price until {saleEndsLabel()}</p> : null}
+      {bundle ? (
+        <p data-tier-saving="" className="mt-1 font-body text-small font-bold text-ink">
+          Bundle: save {formatUsd(bundle.discount)} vs. buying separately
+        </p>
+      ) : null}
       {/*
         `grow` on the table, not on the space above the CTA (layout audit, 2026-09-08). The cards are
         stretched to one height, so the shortest ladder rung had to absorb the difference somewhere:

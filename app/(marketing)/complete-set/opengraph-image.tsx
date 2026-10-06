@@ -4,7 +4,7 @@ import { familyOgImage } from "../(families)/_shared/og";
 
 /** The /complete-set share card: the poster and both card faces, and the counted file total. */
 export const alt = "Game Day Edition — the complete edition: poster, trading card front and back";
-// The share card prints a price, so it must age out with the pages (SALE_EXPIRES_AT).
+// Revalidated hourly like the pages it shares, so a ladder change reaches the share card without a deploy.
 export const revalidate = 3600;
 
 export const size = { width: OG_SIZE.width, height: OG_SIZE.height };

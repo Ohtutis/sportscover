@@ -24,8 +24,8 @@ import { Sports } from "./_home/Sports";
 
 export const metadata: Metadata = pageMeta("/");
 
-// ISR: the sale comparison (`isSaleActive`), the Christmas window and the order-by dates must not be
-// frozen at build time — they have to move on their own, without a deploy (CONTRACTS §4.5).
+// ISR: the Christmas window and the order-by dates must not be frozen at build time — they have to move
+// on their own, without a deploy (CONTRACTS §4.5).
 export const revalidate = 3600;
 
 export default function Home() {
@@ -37,9 +37,9 @@ export default function Home() {
     <>
       <Hero />
       {freeProofMode() ? <ProofPathBand /> : null}
-      <HeroStrip now={now} />
+      <HeroStrip />
       <Fears />
-      <Families now={now} />
+      <Families />
       <ProofBand />
       <Registered />
       <Finishes />

@@ -6,7 +6,7 @@ import { loadGoogleFont, OG_COLORS, OG_CONTENT_TYPE, OG_SIZE, OgFrame } from "..
 /**
  * The /banners share card: text only on the stock frame (Satori cannot read the site's WebP art, and a
  * fictional athlete could not carry its C13 label here). The sizes come from the banner ladder's tier
- * keys, never typed; no price, so the card never ages out with a sale.
+ * keys, never typed; no price on the card.
  */
 const PRINTED = bannerTiers.filter((t) => t.enabled && t.physical);
 const SIZES = PRINTED.map((t) => t.tierKey.split("X").join(" × "));

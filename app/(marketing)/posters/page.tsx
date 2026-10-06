@@ -122,7 +122,6 @@ export default async function PostersPage({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const now = new Date();
   const proofFirst = freeProofMode();
   const params = await searchParams;
   const options = postersSports();
@@ -134,7 +133,7 @@ export default async function PostersPage({
   const scale = firstShowcase(SCALE_KEYS);
   const scaleArt = posterArt(sport.slug);
   const p1824 = getTier("GDE-ANY-POST-P1824");
-  const anchorLine = p1824 ? `An 18 × 24 printed poster for ${formatUsd(sitePrice(p1824, now))}.` : null;
+  const anchorLine = p1824 ? `An 18 × 24 printed poster for ${formatUsd(sitePrice(p1824))}.` : null;
   const meta = pageFor(PATH);
 
   return (
@@ -194,7 +193,7 @@ export default async function PostersPage({
           <div className={proofFirst ? undefined : "mt-12 lg:mt-16"}>
             <SportPicker action={PATH} options={options} family="posters" selected={sport} />
             <SportPageLink sport={sport} />
-            <TierRow family="posters" context="posters" sport={sport} now={now} className="mt-10" />
+            <TierRow family="posters" context="posters" sport={sport} className="mt-10" />
           </div>
         </div>
       </section>
@@ -249,7 +248,6 @@ export default async function PostersPage({
           description: meta.description,
           images: [room.src, asset("posters.finish.SN").src],
           tiers: tiersFor("posters", true),
-          now,
         })}
       />
     </>

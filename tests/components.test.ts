@@ -11,7 +11,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { createElement, type ReactElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { formatUsd, getTier, sitePrice, SALE_EXPIRES_AT, siteBase, tiers } from "../lib/catalog/prices";
+import { formatUsd, getTier, priceDisplay, sitePrice, tiers } from "../lib/catalog/prices";
 import { boxContents, TRUE_COUNT_LINKS } from "../lib/catalog/tiers";
 import { chipSegment, CHIPS } from "../lib/catalog/delivery";
 import { shipsFromFor } from "../lib/catalog/shipping";
@@ -68,8 +68,6 @@ const read = (f: string) => fs.readFileSync(path.join(ROOT, f), "utf8");
 /** React escapes apostrophes and quotes in text; the assertions compare COPY strings, so undo that. */
 const unescape = (html: string) => html.replace(/&#x27;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, "&");
 const render = (el: ReactElement) => unescape(renderToStaticMarkup(el));
-const NOW_SALE = new Date(new Date(SALE_EXPIRES_AT).getTime() - 86_400_000);
-const NOW_AFTER = new Date(new Date(SALE_EXPIRES_AT).getTime() + 86_400_000);
 const IMG = { src: "/images/cards/basketball-trading-card-front-stadium-night.webp", alt: "Custom basketball trading card front — Stadium Night finish — example artwork, fictional athlete", width: 750, height: 1050, fictional: true };
 const BACK = { ...IMG, src: "/images/cards/basketball-trading-card-back-registered-stadium-night.webp", alt: "Custom basketball trading card back with season stats, registered card ID and QR code — Stadium Night finish — example artwork, fictional athlete" };
 const MARCUS = getCard("GDE-SN-BKB-2026-12")!;
@@ -214,11 +212,12 @@ describe("Pill / DeliveryChips / TrustLine / StatusChip / Plate / Mat / Ledger",
 describe("TierCard / FamilyCard / TrueNumbers", () => {
   const p12 = getTier("GDE-ANY-CARD-P12")!;
   const cta = ctaFor("cards", { sku: "GDE-BKB-CARD-P12" });
-  it("TierCard shows the current price via priceDisplay and the sale line only while the sale runs", () => {
-    const html = render(createElement(TierCard, { tier: p12, now: NOW_SALE, box: boxContents(p12.sku), shipsFrom: shipsFromFor(p12.sku), chip: chipSegment("prints"), cta }));
-    expect(html).toContain(formatUsd(sitePrice(p12, NOW_SALE)));
-    expect(html).toContain(formatUsd(siteBase(p12)));
-    expect(html).toContain("Sale price until Sep 24, 2026");
+  it("TierCard shows the one price via priceDisplay — a single item never carries a struck price or sale words (pricing v1)", () => {
+    const html = render(createElement(TierCard, { tier: p12, box: boxContents(p12.sku), shipsFrom: shipsFromFor(p12.sku), chip: chipSegment("prints"), cta }));
+    expect(html).toContain(formatUsd(sitePrice(p12)));
+    expect(html.match(/\$\d+\.\d{2}/g)).toEqual([formatUsd(sitePrice(p12))]);
+    expect(html).not.toMatch(/<s[\s>]/);
+    expect(html).not.toMatch(/\bsale\b|regular price|\bwas\b|limited time|\bends\b/i);
     expect(html).toContain("FEATURED");
     expect(html).toContain('id="tier-GDE-ANY-CARD-P12"');
     expect(html).toContain("Every digital file above");
@@ -226,13 +225,21 @@ describe("TierCard / FamilyCard / TrueNumbers", () => {
     expect(html).toContain("Professional photo print lab, Santa Cruz CA");
     expect(html).toContain(chipSegment("prints"));
     expect(html).toContain("/go/etsy/GDE-BKB-CARD-P12");
-    const after = render(createElement(TierCard, { tier: p12, now: NOW_AFTER, box: [], shipsFrom: "", chip: chipSegment("prints"), cta }));
-    expect(after).not.toContain("Sale price until");
-    expect(after).not.toMatch(/<s[\s>]/);
-    expect(after).toContain(formatUsd(siteBase(p12)));
+  });
+  it("a set TierCard: the bundle price, the parts bought separately struck through, and \"Bundle: save $X\"", () => {
+    for (const t of tiers.filter((x) => x.family === "set" && x.enabled)) {
+      const shown = priceDisplay(t);
+      const bundle = shown.bundle!;
+      const html = render(createElement(TierCard, { tier: t, box: boxContents(t.sku), shipsFrom: shipsFromFor(t.sku), chip: chipSegment(t.physical ? "prints" : "digital"), cta }));
+      expect(html).toContain(`<span class="sr-only">Bundle price </span>${formatUsd(shown.current)}`);
+      expect(html).toMatch(new RegExp(`<s data-tier-separately=""[^>]*><span class="sr-only">Bought separately </span>\\${formatUsd(bundle.alaCarte)}</s>`));
+      expect(html).toContain(`Bundle: save ${formatUsd(bundle.discount)} vs. buying separately`);
+      expect(html.match(/\$\d+\.\d{2}/g)?.sort()).toEqual([formatUsd(shown.current), formatUsd(bundle.alaCarte), formatUsd(bundle.discount)].sort());
+      expect(html).not.toMatch(/\bsale\b|regular price|\bwas\b|limited time|\bends\b/i);
+    }
   });
   it("TierCard pins the delivery chip and the CTA to the bottom as one block, and insets the pill", () => {
-    const html = render(createElement(TierCard, { tier: p12, now: NOW_SALE, box: boxContents(p12.sku), shipsFrom: shipsFromFor(p12.sku), chip: chipSegment("prints"), cta }));
+    const html = render(createElement(TierCard, { tier: p12, box: boxContents(p12.sku), shipsFrom: shipsFromFor(p12.sku), chip: chipSegment("prints"), cta }));
     // The chip used to sit under the box list, leaving 54 px of dead space above the CTA. Two buttons
     // (D29: the free proof and the Etsy outline) stack full width — 176 px of card cannot hold a row.
     expect(html).toMatch(/<div class="mt-auto pt-6"><ul aria-label="Delivery times"[^]*?<div class="flex flex-col gap-3 mt-4">/);
@@ -242,7 +249,7 @@ describe("TierCard / FamilyCard / TrueNumbers", () => {
     expect(html).not.toContain("absolute -top-3 left-5");
   });
   it("TierCard's primary is the free proof with this tier prefilled; Etsy is the outline under it (D29)", () => {
-    const html = render(createElement(TierCard, { tier: p12, now: NOW_SALE, box: boxContents(p12.sku), shipsFrom: shipsFromFor(p12.sku), chip: chipSegment("prints"), cta }));
+    const html = render(createElement(TierCard, { tier: p12, box: boxContents(p12.sku), shipsFrom: shipsFromFor(p12.sku), chip: chipSegment("prints"), cta }));
     expect(html).toContain('href="/free-proof?product=cards&option=p12"');
     expect(html).toContain("Get a free proof →");
     expect(html.indexOf("Get a free proof →")).toBeLessThan(html.indexOf("Also on Etsy →"));
@@ -250,12 +257,12 @@ describe("TierCard / FamilyCard / TrueNumbers", () => {
     expect(html.match(/bg-accent text-ink hover:brightness/g)?.length).toBe(1);
     // With Etsy as the primary (both flags off) the card keeps a single, unstacked button.
     const f1 = ctaFor("cards", { sku: "GDE-BKB-CARD-P12" }, { sellsDirect: false, freeProofFirst: false });
-    const one = render(createElement(TierCard, { tier: p12, now: NOW_SALE, box: [], shipsFrom: "", chip: chipSegment("prints"), cta: { primary: f1.primary, tone: f1.tone } }));
+    const one = render(createElement(TierCard, { tier: p12, box: [], shipsFrom: "", chip: chipSegment("prints"), cta: { primary: f1.primary, tone: f1.tone } }));
     expect(one).toContain('<div class="flex flex-col gap-3 sm:flex-row mt-4">');
   });
   it("every enabled tier renders without a hand-typed price", () => {
     for (const t of tiers.filter((x) => x.enabled)) {
-      const html = render(createElement(TierCard, { tier: t, now: NOW_SALE, box: boxContents(t.sku), shipsFrom: shipsFromFor(t.sku), chip: chipSegment(t.physical ? "prints" : "digital"), cta }));
+      const html = render(createElement(TierCard, { tier: t, box: boxContents(t.sku), shipsFrom: shipsFromFor(t.sku), chip: chipSegment(t.physical ? "prints" : "digital"), cta }));
       expect(html).toContain(t.name);
     }
   });

@@ -160,8 +160,11 @@ const FORBIDDEN: Array<[RegExp, string]> = [
   [/colour|favourite|centre\b|organis|\bgrey\b|practis|catalogue|licence|cheque/i, "US spelling"],
 ];
 
-/** The ladder's own words are the catalog's: a sale line there is TierCard's, gated by SALE_EXPIRES_AT. */
-const LADDER_EXEMPT = new Set(["no sale talk on an evergreen page"]);
+/**
+ * The ladder's own words are the catalog's. It used to be exempt from "no sale talk" while TierCard printed
+ * a dated sale line; pricing v1 (2026-10-07) shows no sale anywhere, so the ladder answers to every rule.
+ */
+const LADDER_EXEMPT = new Set<string>();
 
 /**
  * F1 pages the other builders of 2026-10-06 are writing in this tree at the same time (the SEO brief).
@@ -196,13 +199,10 @@ function splitLadder(html: string): { ladder: string; rest: string } {
 }
 
 /** Every rendered price the cards ladder may print for this render: the catalog's, through formatUsd. */
-function catalogPrices(now: Date): Set<string> {
+function catalogPrices(): Set<string> {
   const out = new Set<string>();
-  for (const tier of tiersFor("cards")) {
-    const p = priceDisplay(tier, now);
-    out.add(formatUsd(p.current));
-    if (p.compareAt !== undefined) out.add(formatUsd(p.compareAt));
-  }
+  // A card tier is a single item: one price, never a second one beside it (pricing v1).
+  for (const tier of tiersFor("cards")) out.add(formatUsd(priceDisplay(tier).current));
   return out;
 }
 
@@ -231,13 +231,14 @@ function expectLabelledImages(html: string, where: string): void {
 }
 
 /** Truth lint, links and prices — the same rules for the hub and every sport page. */
-function expectHonest(html: string, where: string, now: Date): void {
+function expectHonest(html: string, where: string): void {
   const { ladder, rest } = splitLadder(html);
   const restText = textOf(rest);
   for (const [re, why] of FORBIDDEN) expect(restText, `${where}: ${why}`).not.toMatch(re);
   for (const [re, why] of FORBIDDEN.filter(([, w]) => !LADDER_EXEMPT.has(w))) expect(textOf(ladder), `${where} ladder: ${why}`).not.toMatch(re);
   expect(rest, `${where}: a typed price outside the ladder`).not.toMatch(/\$\s?\d/);
-  const allowed = catalogPrices(now);
+  const allowed = catalogPrices();
+  expect(ladder, `${where}: a struck price on a single-item ladder`).not.toMatch(/<s[\s>]/);
   for (const m of ladder.matchAll(/\$\d[\d,]*(\.\d{2})?/g)) expect(allowed.has(m[0]), `${where}: ${m[0]} is not a catalog price`).toBe(true);
   for (const href of hrefs(html)) {
     expect(/^https?:|^\/\//.test(href), `${where}: external link ${href}`).toBe(false);
@@ -245,7 +246,6 @@ function expectHonest(html: string, where: string, now: Date): void {
   }
 }
 
-const NOW = new Date();
 const pages = sportPageSports();
 
 /* ---------- the route ---------- */
@@ -324,7 +324,7 @@ describe("/sports/[sport] — every page", () => {
 
       it("every internal link resolves, nothing the truth lint forbids, no typed price", async () => {
         const html = await renderSport(sport.slug);
-        expectHonest(html, sport.slug, NOW);
+        expectHonest(html, sport.slug);
         // The ladder is there, priced by the catalog, with this sport's own SKUs.
         const { ladder } = splitLadder(html);
         expect(count(ladder, /<article/g)).toBe(tiersFor("cards").length);
@@ -378,7 +378,7 @@ describe("/sports/[sport] — every page", () => {
     vi.setSystemTime(new Date("2026-11-16T15:00:00Z"));
     const during = await renderSport(pages[0].slug);
     expect(during).toContain('href="/christmas-gift"');
-    expectHonest(during, `${pages[0].slug} in the Christmas window`, new Date());
+    expectHonest(during, `${pages[0].slug} in the Christmas window`);
     vi.setSystemTime(new Date("2026-10-06T15:00:00Z"));
     expect(await renderSport(pages[0].slug)).not.toContain('href="/christmas-gift"');
   });
@@ -447,7 +447,7 @@ describe("/sports — the hub", () => {
 
   it("every internal link resolves, nothing the truth lint forbids, and every fictional athlete is labelled", () => {
     const html = renderHub();
-    expectHonest(html, "/sports", NOW);
+    expectHonest(html, "/sports");
     expectLabelledImages(html, "/sports");
     expect(hrefs(html)).toContain(ctaFor("home").primary.href);
   });

@@ -8,7 +8,7 @@ import { block } from "../../lib/blocks";
 import { CHIPS } from "../../lib/catalog/delivery";
 import { CANON } from "../../lib/copy/canon";
 import { PROOF_CLOCK } from "../../lib/intake/copy";
-import { PRICE_ON_PROOF, productByKey } from "../../lib/intake/products";
+import { productByKey } from "../../lib/intake/products";
 import type { BlogPost } from "../../lib/blog";
 import { SUPPORT_EMAIL } from "../../lib/site";
 
@@ -87,8 +87,7 @@ export const post: BlogPost = {
             ft, or the print-ready file at full size. Printed banners ship separately, in 1–2 weeks.
           </>,
           <>
-            <strong className="font-medium">A blanket.</strong> {productByKey("blanket")?.blurb} New, and coming in three sizes —{" "}
-            {PRICE_ON_PROOF.toLowerCase()}.
+            <strong className="font-medium">A blanket.</strong> {productByKey("blanket")?.blurb} New, in three sizes, each priced on the free-proof form.
           </>,
         ]}
       />

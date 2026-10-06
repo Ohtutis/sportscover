@@ -10,7 +10,7 @@ import { ProofPathBand } from "../../../components/ProofPath";
 import { SectionHeading } from "../../../components/SectionHeading";
 import { asset } from "../../../lib/assets";
 import { LEAD_TIMES } from "../../../lib/catalog/delivery";
-import { formatUsd, getTier, sitePrice, tiersFor } from "../../../lib/catalog/prices";
+import { formatUsd, getTier, priceDisplay, tiersFor } from "../../../lib/catalog/prices";
 import { sports } from "../../../lib/catalog/sports";
 import { CANON } from "../../../lib/copy/canon";
 import { ctaFor, freeProofMode } from "../../../lib/cta";
@@ -94,7 +94,6 @@ export default async function CompleteSetPage({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const now = new Date();
   const proofFirst = freeProofMode();
   const params = await searchParams;
   const sport = pickSport(params.sport, sports, "basketball");
@@ -107,7 +106,14 @@ export default async function CompleteSetPage({
   const life = firstShowcase(LIFE_SET_KEYS, LIFE_SET_CAPTION);
   const timeline = stages();
   const printed = getTier("GDE-ANY-SET-PRINT");
-  const anchorLine = printed ? `The printed set — 12 cards, an 18 × 24 poster and the certificate — for ${formatUsd(sitePrice(printed, now))}.` : null;
+  // The set is the bundle of its two parts (prices.ts setBundle): its price, and what it saves against the
+  // same two bought separately — the only comparison the site makes.
+  const printedPrice = printed ? priceDisplay(printed) : null;
+  const anchorLine = printedPrice
+    ? `The printed set — 12 cards, an 18 × 24 poster and the certificate — for ${formatUsd(printedPrice.current)}${
+        printedPrice.bundle && printedPrice.bundle.discount > 0 ? `, ${formatUsd(printedPrice.bundle.discount)} less than the two bought separately` : ""
+      }.`
+    : null;
   const ultimate = Boolean(getTier("GDE-ANY-SET-ULT")?.enabled);
 
   return (
@@ -172,7 +178,7 @@ export default async function CompleteSetPage({
           {/* No sport picker here: the Complete Set is ONE Etsy listing for every sport, so choosing
               a sport would change nothing. The buyer picks the sport at checkout. */}
           <div className={proofFirst ? undefined : "mt-12 lg:mt-16"}>
-            <TierRow family="set" context="set" sport={sport} now={now} />
+            <TierRow family="set" context="set" sport={sport} />
           </div>
         </div>
       </section>
@@ -245,7 +251,6 @@ export default async function CompleteSetPage({
           description: meta.description,
           images: [poster.src, front.src, back.src],
           tiers: tiersFor("set", true),
-          now,
         })}
       />
     </>

@@ -103,7 +103,7 @@ function SetMedia() {
   );
 }
 
-export function Families({ now }: { now: Date }) {
+export function Families() {
   const cards = familyLink(["cards"], "/trading-cards", "See trading cards");
   const posters = familyLink(["poster"], "/posters", "See posters");
   const set = familyLink(["cards", "poster"], "/complete-set", "See the complete set");
@@ -122,7 +122,7 @@ export function Families({ now }: { now: Date }) {
         <FamilyCard
           sizes={FAMILY_MEDIA_SIZES}
           family="cards"
-          from={fromPrice("cards", now)}
+          from={fromPrice("cards")}
           {...(cardsPhoto ? { image: cardsPhoto } : { media: <CardsMedia /> })}
           fictional={false}
           truths={[
@@ -136,7 +136,7 @@ export function Families({ now }: { now: Date }) {
         <FamilyCard
           sizes={FAMILY_MEDIA_SIZES}
           family="posters"
-          from={fromPrice("posters", now)}
+          from={fromPrice("posters")}
           image={posterPhoto}
           fictional={false}
           truths={[
@@ -150,7 +150,7 @@ export function Families({ now }: { now: Date }) {
         <FamilyCard
           sizes={FAMILY_MEDIA_SIZES}
           family="set"
-          from={fromPrice("set", now)}
+          from={fromPrice("set")}
           {...(setPhoto ? { image: setPhoto } : { media: <SetMedia /> })}
           fictional={false}
           truths={[

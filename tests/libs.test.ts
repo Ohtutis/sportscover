@@ -25,7 +25,7 @@ import {
 import { CHIPS, chipSegment, LEAD_TIMES } from "../lib/catalog/delivery";
 import { faq, FAQ_SUBSETS, faqAll, faqGroups, faqSubset } from "../lib/catalog/faq";
 import { NEVER_ASKED_FOR, photoChecklist } from "../lib/catalog/photo-checklist";
-import { SALE_EXPIRES_AT, getTier, isSaleActive, sitePrice, tiers, tiersFor } from "../lib/catalog/prices";
+import { getTier, setBundle, sitePrice, tiers, tiersFor } from "../lib/catalog/prices";
 import { activeOccasions, inWindow, isChristmasWindow, occasionById, occasions } from "../lib/catalog/seasons";
 import { PARTNERS, shippingRows, shipsFromFor, visibleShippingRows, visiblePartners, DIGITAL_SHIPS_FROM } from "../lib/catalog/shipping";
 import { backLine, isNumberless, NUMBERLESS_CODES, postersSports, sportByCode, sports, sportsWithOwnListing } from "../lib/catalog/sports";
@@ -45,8 +45,6 @@ import { ETSY_SHOP_URL, SITE_URL } from "../lib/site";
 import fs from "node:fs";
 import path from "node:path";
 
-const NOW_SALE = new Date(new Date(SALE_EXPIRES_AT).getTime() - 86_400_000);
-const NOW_AFTER = new Date(new Date(SALE_EXPIRES_AT).getTime() + 86_400_000);
 const TODAY = "2026-09-14"; // a Monday
 
 describe("capacity (CONTRACTS §4.4)", () => {
@@ -129,7 +127,7 @@ describe("capacity (CONTRACTS §4.4)", () => {
 });
 
 describe("JSON-LD (CONTRACTS §4.1)", () => {
-  const all = [organization(), website(), person(), breadcrumbList([{ name: "Home", href: "/" }, { name: "Posters", href: "/posters" }]), faqPage(faqSubset("posters")), article({ title: "t", description: "d", path: "/how-it-works", datePublished: "2026-09-07", dateModified: "2026-09-07" }), imageObject({ url: "/cards/x/front.webp", width: 900, height: 1260, caption: "c", path: "/c/x" }), videoObject({ name: "n", description: "d", thumbnailUrl: "/cards/x/front.webp", contentUrl: "/cards/x/flip.mp4", uploadDate: "2026-09-07", path: "/c/x" }), productFamily({ family: "cards", path: "/trading-cards", name: "n", description: "d", images: ["/images/x.webp"], tiers: tiersFor("cards"), now: NOW_SALE })];
+  const all = [organization(), website(), person(), breadcrumbList([{ name: "Home", href: "/" }, { name: "Posters", href: "/posters" }]), faqPage(faqSubset("posters")), article({ title: "t", description: "d", path: "/how-it-works", datePublished: "2026-09-07", dateModified: "2026-09-07" }), imageObject({ url: "/cards/x/front.webp", width: 900, height: 1260, caption: "c", path: "/c/x" }), videoObject({ name: "n", description: "d", thumbnailUrl: "/cards/x/front.webp", contentUrl: "/cards/x/flip.mp4", uploadDate: "2026-09-07", path: "/c/x" }), productFamily({ family: "cards", path: "/trading-cards", name: "n", description: "d", images: ["/images/x.webp"], tiers: tiersFor("cards") })];
   it("every builder returns @context and @type, round-trips and escapes nothing dangerous", () => {
     for (const o of all) {
       expect(o["@context"]).toBe("https://schema.org");
@@ -156,25 +154,24 @@ describe("JSON-LD (CONTRACTS §4.1)", () => {
     expect(items.map((i) => i.position)).toEqual([1, 2]);
     expect(items[1].item).toBe(`${SITE_URL}/posters`);
   });
-  it("productFamily: one offer per enabled tier at sitePrice, priceValidUntil only during the sale, shipping on physical only", () => {
-    const build = (now: Date) => productFamily({ family: "cards", path: "/trading-cards", name: "n", description: "d", images: ["/images/x.webp"], tiers: tiersFor("cards", true), now });
-    const during = build(NOW_SALE);
-    const offers = (during.offers as { offers: Record<string, unknown>[]; lowPrice: number; highPrice: number; offerCount: number }).offers;
+  it("productFamily: one offer per enabled tier at sitePrice, no priceValidUntil (the site runs no sale), shipping on physical only", () => {
+    const built = productFamily({ family: "cards", path: "/trading-cards", name: "n", description: "d", images: ["/images/x.webp"], tiers: tiersFor("cards", true) });
+    const offers = (built.offers as { offers: Record<string, unknown>[]; lowPrice: number; highPrice: number; offerCount: number }).offers;
     const enabled = tiersFor("cards");
     expect(offers.length).toBe(enabled.length);
     for (const [i, t] of enabled.entries()) {
-      expect(offers[i].price).toBe(sitePrice(t, NOW_SALE));
-      expect(offers[i].priceValidUntil).toBe(isoDatePlusDays(SALE_EXPIRES_AT, 1));
+      expect(offers[i].price).toBe(sitePrice(t));
+      expect(offers[i].priceValidUntil).toBeUndefined();
       expect(offers[i].url).toBe(`${SITE_URL}/trading-cards#tier-${t.sku}`);
       expect(Boolean(offers[i].shippingDetails)).toBe(t.physical);
       expect((offers[i].hasMerchantReturnPolicy as { merchantReturnLink: string }).merchantReturnLink).toBe(`${SITE_URL}/guarantee`);
     }
-    expect((during.offers as { lowPrice: number }).lowPrice).toBe(Math.min(...enabled.map((t) => sitePrice(t, NOW_SALE))));
-    const after = build(NOW_AFTER);
-    for (const o of (after.offers as { offers: Record<string, unknown>[] }).offers) expect(o.priceValidUntil).toBeUndefined();
-    expect(isSaleActive(NOW_AFTER)).toBe(false);
-    expect(during.category).toBe("Custom sports trading cards");
-    expect(productFamily({ family: "set", path: "/complete-set", name: "n", description: "d", images: [], tiers: tiersFor("set"), now: NOW_SALE }).category).toBe("Custom sports poster and trading card set");
+    expect((built.offers as { lowPrice: number }).lowPrice).toBe(Math.min(...enabled.map((t) => sitePrice(t))));
+    expect(built.category).toBe("Custom sports trading cards");
+    // A set's offers are its bundle totals (prices.ts setBundle) — the figures its tier cards show.
+    const set = productFamily({ family: "set", path: "/complete-set", name: "n", description: "d", images: [], tiers: tiersFor("set") });
+    expect(set.category).toBe("Custom sports poster and trading card set");
+    expect((set.offers as { offers: { price: number }[] }).offers.map((o) => o.price)).toEqual(tiersFor("set").map((t) => setBundle(t).total));
   });
   it("isoDatePlusDays adds calendar days to the date part", () => {
     expect(isoDatePlusDays("2026-09-24T23:59:59-04:00", 1)).toBe("2026-09-25");

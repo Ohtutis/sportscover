@@ -85,7 +85,7 @@ export default function TermsPage() {
             <p>
               A personalized edition — artwork composed from the photos and details you supply, delivered as digital files and, for printed
               packages, as printed items made to order for you. Prices are shown in US dollars and include everything except sales tax, which
-              is calculated at checkout. A struck-through price is our own regular price, shown only while a dated sale runs.
+              is calculated at checkout. The only struck-through figure we show is the same items priced one by one, beside the bundle price for ordering them together.
             </p>
           </Section>
 

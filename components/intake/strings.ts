@@ -81,7 +81,6 @@ export const UI = {
     sport: "Sport",
     style: "Style",
     recommend: "We'll recommend one",
-    setPriced: "Cards and poster priced as a set",
   },
 
   submit: {

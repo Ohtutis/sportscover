@@ -75,7 +75,7 @@ const PAGE_COMPONENTS = ["Hero", "ProofPathBand", "HeroStrip", ...SECTION_ORDER.
 const SECTIONS: { name: (typeof SECTION_ORDER)[number] | "HeroStrip" | "ProofPathBand"; html: string }[] = [
   { name: "Hero", html: renderToStaticMarkup(createElement(Hero, { now: NOW })) },
   { name: "Fears", html: renderToStaticMarkup(createElement(Fears)) },
-  { name: "Families", html: renderToStaticMarkup(createElement(Families, { now: NOW })) },
+  { name: "Families", html: renderToStaticMarkup(createElement(Families)) },
   { name: "ProofBand", html: renderToStaticMarkup(createElement(ProofBand)) },
   { name: "Registered", html: renderToStaticMarkup(createElement(Registered, {})) },
   { name: "Finishes", html: renderToStaticMarkup(createElement(Finishes)) },
@@ -87,7 +87,7 @@ const SECTIONS: { name: (typeof SECTION_ORDER)[number] | "HeroStrip" | "ProofPat
   { name: "Occasions", html: renderToStaticMarkup(createElement(Occasions, { now: NOW })) },
   // The strip is part of section 01 (it carries the numbers the hero used to), not a fourteenth
   // section. It is appended LAST so every SECTIONS[n] index above keeps its meaning.
-  { name: "HeroStrip", html: renderToStaticMarkup(createElement(HeroStrip, { now: NOW })) },
+  { name: "HeroStrip", html: renderToStaticMarkup(createElement(HeroStrip)) },
   // The free-proof band (page.tsx mounts it between the hero and the strip while FREE_PROOF_FIRST).
   // Appended after the strip for the same reason: every index above keeps its meaning.
   { name: "ProofPathBand", html: renderToStaticMarkup(createElement(ProofPathBand)) },
@@ -759,9 +759,9 @@ describe("home §01b — the strip under the hero is the catalog, never typed", 
   const stripSrc = read(path.join(HOME_DIR, "HeroStrip.tsx"));
 
   it("prints the from-price, both delivery clocks and the catalog counts", () => {
-    const cells = stripCells(NOW);
+    const cells = stripCells();
     expect(cells).toHaveLength(4);
-    expect(cells[0].figure).toBe(`from ${formatUsd(fromPrice("cards", NOW))}`);
+    expect(cells[0].figure).toBe(`from ${formatUsd(fromPrice("cards"))}`);
     expect(cells[1].figure).toBe(`${LEAD_TIMES.digitalBusinessDays[0]}–${LEAD_TIMES.digitalBusinessDays[1]} days`);
     expect(cells[1].label).toContain(`${LEAD_TIMES.printShipBusinessDays[0]}–${LEAD_TIMES.printShipBusinessDays[1]}`);
     expect(cells[2].figure).toBe(`${sports.length} sports · ${finishes.length} finishes`);

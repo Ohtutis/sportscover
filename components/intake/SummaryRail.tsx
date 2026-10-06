@@ -2,25 +2,14 @@
 
 import type { CSSProperties } from "react";
 import { useSyncExternalStore } from "react";
-import { DUE_TODAY_LABEL, formatUsd } from "../../lib/catalog/prices";
+import { DUE_TODAY_LABEL, formatPercent, formatUsd, type BundleTotal } from "../../lib/catalog/prices";
 import { INTAKE_COPY } from "../../lib/intake/copy";
 import type { ProductKey } from "../../lib/intake/products";
 import type { FreeProofImage, FreeProofSportArt } from "../../lib/intake/sport-art";
 import { STYLE_RECOMMEND, type StyleChoice } from "../../lib/intake/types";
 import { FictionalLabel } from "../FictionalLabel";
 import { CheckIcon } from "../icons";
-import {
-  athleteStore,
-  cardImage,
-  orderTotal,
-  previewAlign,
-  previewFinish,
-  previewText,
-  setPair,
-  type AthleteState,
-  type ProductState,
-  type SetCombo,
-} from "./model";
+import { athleteStore, cardImage, orderTotal, previewAlign, previewFinish, previewText, type AthleteState, type ProductState } from "./model";
 import type { ProductTileData } from "./ProductPicker";
 import type { StyleTileData } from "./StylePicker";
 import { UI } from "./strings";
@@ -31,7 +20,6 @@ export interface SummaryProps {
   state: Record<ProductKey, ProductState>;
   styles: StyleTileData[];
   style: StyleChoice | "";
-  setCombos: readonly SetCombo[];
   /** The chosen sport's art: the preview is its card in the chosen finish, or the grey card in that finish's frame. */
   art?: FreeProofSportArt | null;
   /** The chosen sport as a person reads it ("Volleyball", "Other: rowing"), or null before a choice. */
@@ -158,13 +146,41 @@ function ChoiceList({ items, style, sport }: { items: Line[]; style: { name: str
   );
 }
 
-/** "Cards and poster priced as a set" and, under it, what the pair saves — computed from the ladder, never typed. */
-function SetLine({ saved }: { saved: number | null }) {
+/**
+ * The figures under "Today" (pricing v1, 2026-10-07), all from prices.ts `bundleTotal` through the model:
+ * one product → "After approval" and its price; two or more → "Bought separately" struck through, "Bundle
+ * saving −$X (15%)" with the figure on the accent (ink on orange — never orange text), then "After approval"
+ * and the bundle total. The comparison is the same items bought separately, never a former price.
+ */
+function Figures({ total }: { total: BundleTotal }) {
+  const s = INTAKE_COPY.summary;
+  const bundled = total.discountRate > 0;
   return (
-    <p data-summary-set="" className="mt-2 font-body text-small text-muted-text">
-      <span className="block">{UI.summary.setPriced}</span>
-      {saved !== null ? <span className="block font-medium text-ink">{INTAKE_COPY.setTile.savingsLine(formatUsd(saved))}</span> : null}
-    </p>
+    <>
+      {bundled ? (
+        <>
+          <div data-summary-separately="" className="flex items-baseline justify-between gap-4">
+            <dt className={KEY}>{s.separately}</dt>
+            <dd className="font-label text-[1rem] font-semibold tabular-nums text-muted-text">
+              <s>{formatUsd(total.alaCarte)}</s>
+            </dd>
+          </div>
+          {/* gap-3 and a 14 px chip: the label and the largest saving the ladder can give share one line in the 280 px rail. */}
+          <div data-summary-saving="" className="flex items-baseline justify-between gap-3">
+            <dt className={`${KEY} whitespace-nowrap`}>{s.bundleSaving}</dt>
+            <dd>
+              <span className="inline-flex h-6 items-center whitespace-nowrap rounded-pill bg-accent px-2 font-label text-[0.875rem] font-semibold tabular-nums text-ink">
+                {s.savingValue(formatUsd(total.discount), formatPercent(total.discountRate))}
+              </span>
+            </dd>
+          </div>
+        </>
+      ) : null}
+      <div data-summary-total="" className="flex items-baseline justify-between gap-4">
+        <dt className={KEY}>{s.afterApproval}</dt>
+        <dd className="font-label text-[1.125rem] font-semibold tabular-nums text-ink">{formatUsd(total.total)}</dd>
+      </div>
+    </>
   );
 }
 
@@ -173,34 +189,23 @@ function SetLine({ saved }: { saved: number | null }) {
  * in plain words: the live text preview on the chosen sport's card in the chosen finish (Stadium Night
  * until one is chosen; the grey card before a sport — v4, never another sport's athlete), its caption, the
  * sport, product · option lines and the style, a rule, "Today" with the zero-due figure (prices.ts
- * DUE_TODAY_LABEL, the one dollar literal the site may show), "After approval" with the sum of the chosen
- * priced options (one of each, the set price when cards + poster are a set tier, with what that
- * saves) — or "confirmed with your proof" when any choice has no price yet — and the three promises with
- * their ticks. `rail` is the sticky right column at lg; `bar` is the compact block above the conversion
+ * DUE_TODAY_LABEL, the one dollar literal the site may show), the bundle figures (Figures: bought
+ * separately struck, the bundle saving, "After approval" — one of each chosen option, priced by
+ * prices.ts bundleTotal) and the three promises with their ticks. `rail` is the sticky right column at lg; `bar` is the compact block above the conversion
  * card below lg — in the flow, never an overlay — with the same mockup at 120 px beside the choices.
  */
 export function SummaryRail(props: SummaryProps & { variant: "rail" | "bar"; className?: string }) {
-  const { variant, className = "", products, state, setCombos, style: styleChoice, art = null, sport = null } = props;
+  const { variant, className = "", products, state, style: styleChoice, art = null, sport = null } = props;
   const shared = useSyncExternalStore(athleteStore.subscribe, athleteStore.get, athleteStore.getServer);
   const athlete = props.athlete === undefined ? shared : props.athlete;
   const items = lines(props);
   const style = chosenStyle(props);
-  const total = orderTotal(products, state, setCombos);
-  const pair = setPair(products, state, setCombos);
+  const total = orderTotal(products, state);
   const front = cardImage(art, previewFinish(styleChoice));
   const s = INTAKE_COPY.summary;
   const titleId = variant === "rail" ? "fp-summary-title" : "fp-summary-bar-title";
 
-  const after =
-    total.kind === "empty" ? null : (
-      <div className="flex items-baseline justify-between gap-4">
-        <dt className={KEY}>{s.afterApproval}</dt>
-        <dd className={total.kind === "priced" ? "font-label text-[1.125rem] font-semibold tabular-nums text-ink" : "max-w-[14rem] text-right font-body text-small text-ink"}>
-          {total.kind === "priced" ? formatUsd(total.total) : s.onProof}
-        </dd>
-      </div>
-    );
-  const setLine = total.kind === "priced" && total.set ? <SetLine saved={pair.kind === "matched" ? pair.saved : null} /> : null;
+  const after = total ? <Figures total={total} /> : null;
   const caption = <p className="mt-3 max-w-[60ch] font-body text-small text-muted-text">{INTAKE_COPY.previewCaption}</p>;
 
   if (variant === "bar") {
@@ -219,8 +224,7 @@ export function SummaryRail(props: SummaryProps & { variant: "rail" | "bar"; cla
           </div>
         </div>
         {caption}
-        {after ? <dl className="mt-4 border-t border-hairline pt-3">{after}</dl> : null}
-        {setLine}
+        {after ? <dl className="mt-4 flex flex-col gap-2 border-t border-hairline pt-3">{after}</dl> : null}
       </section>
     );
   }
@@ -246,7 +250,6 @@ export function SummaryRail(props: SummaryProps & { variant: "rail" | "bar"; cla
           </div>
           {after}
         </dl>
-        {setLine}
         <ul className="mt-5 flex flex-col gap-2.5 border-t border-hairline pt-4 font-body text-small text-ink">
           {s.checks.map((check) => (
             <li key={check} className="flex items-center gap-2.5">

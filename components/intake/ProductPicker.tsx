@@ -1,24 +1,24 @@
-import { formatUsd } from "../../lib/catalog/prices";
+import { BUNDLE_STEPS, formatPercent, formatUsd } from "../../lib/catalog/prices";
 import { INTAKE_COPY } from "../../lib/intake/copy";
-import { PRICE_ON_PROOF, type ProductKey } from "../../lib/intake/products";
+import type { ProductKey } from "../../lib/intake/products";
 import type { FreeProofImage, FreeProofSportArt } from "../../lib/intake/sport-art";
 import type { StyleChoice } from "../../lib/intake/types";
 import { Badge } from "./Badge";
 import { CHECK, FieldError, RADIO } from "./fields";
-import { FIELD_PREFIX, errorId, productImage, setPair, setPairsLabel, type ArtState, type ProductState, type SetCombo } from "./model";
+import { FIELD_PREFIX, bundleNudge, bundleStepIndex, errorId, orderTotal, productImage, type ArtState, type ProductState } from "./model";
 import { UI } from "./strings";
 import { ArtImage, ArtNote, NeutralArt, type NeutralShape } from "./visuals";
 
-/** One option as the server page hands it over: copy, the price label, and the number behind it (null = on the proof). */
+/** One option as the server page hands it over: copy, the price label, and the number behind it. */
 export interface ProductOptionData {
   key: string;
   label: string;
   detail: string;
-  /** optionPriceLabel(): the site price, or PRICE_ON_PROOF. */
+  /** optionPriceLabel(): the site price. */
   priceLabel: string;
   printed: boolean;
-  /** sitePrice() of the option's tier; null when the option has no tier yet. */
-  price: number | null;
+  /** optionPrice(): the site price of the option's tier (prices.ts). */
+  price: number;
 }
 
 /** What the server page hands the form for one product: copy + price labels already computed. The picture comes from the chosen sport. */
@@ -26,25 +26,13 @@ export interface ProductTileData {
   key: ProductKey;
   name: string;
   blurb: string;
-  /** productFromLabel() or PRICE_ON_PROOF. */
+  /** productFromLabel(): "from <the cheapest option>". */
   fromLabel: string;
   options: ProductOptionData[];
 }
 
-/**
- * The set as a RESULT, not a card (owner, 2026-10-06: "a bundle must never duplicate the single
- * products"). Everything the note under the four cards needs, computed on the server from the ladder.
- */
-export interface SetTileData {
-  /** INTAKE_COPY.setNote.pick(<the smallest saving a set tier gives>) — null when no tier saves anything. */
-  pickLine: string | null;
-  /** The Complete Set tiers as option pairs with their site prices (the summary counts the same list). */
-  combos: SetCombo[];
-}
-
 export interface ProductPickerProps {
   products: ProductTileData[];
-  setTile: SetTileData;
   state: Record<ProductKey, ProductState>;
   onToggle: (key: ProductKey, selected: boolean) => void;
   onOption: (key: ProductKey, option: string) => void;
@@ -113,20 +101,18 @@ const DETAIL = "col-span-2 row-start-3 mt-3 min-w-0";
  * poster, the banner, the blanket — in a 2 × 2 grid from md (one column on a phone), never an empty slot.
  * Each card is a real checkbox (one, several or all); a chosen card gets the ink edge, the card shadow and
  * the SELECTED chip, and opens its options. No quantity anywhere (v4): one muted line under the grid says
- * where "more than one" is settled. The set is not a card: ONE line says what ticking cards and a poster
- * together does, from the ladder — "save from …" before, the pair's own saving once it matches a set
- * tier, the matching pairs when it doesn't. Nothing prices banner or blanket bundles, so the line never
- * claims anything for them.
+ * where "more than one" is settled. Under the cards (pricing v1, 2026-10-07) the bundle ladder — "2
+ * products −15% · 3 products −20% · all 4 −25%" — with the rung the choice has reached on the accent, and
+ * one live line: what the next product (the first not chosen, at the option its card holds) would save on
+ * top. Every figure is prices.ts BUNDLE_STEPS / bundleTotal through the model, from the prices the server
+ * page handed over; the comparison is always "bought separately", never a former price.
  */
-export function ProductPicker({ products, setTile, state, onToggle, onOption, art = null, style = "", note, error }: ProductPickerProps) {
+export function ProductPicker({ products, state, onToggle, onOption, art = null, style = "", note, error }: ProductPickerProps) {
   const describedError = error ? errorId("products") : "";
 
   const productCard = (product: ProductTileData) => {
     const chosen = state[product.key];
     const selected = chosen.selected;
-    // A product with no priced option (the blanket, until its tiers exist) says PRICE_ON_PROOF once, on
-    // the card — not again on every size row, and its "from" line stays when it opens.
-    const rowPrices = product.options.some((o) => o.priceLabel !== PRICE_ON_PROOF);
     const id = productId(product.key);
     const image = productImage(art, product.key, style);
     // Opened on a wide card, the options take the line's place: the blurb (and the "from" price, which
@@ -158,7 +144,7 @@ export function ProductPicker({ products, setTile, state, onToggle, onOption, ar
             <span id={`${id}-blurb`} className={`${BLURB} ${aside}`.trim()}>
               {product.blurb}
             </span>
-            <span id={`${id}-from`} className={`${FROM} ${rowPrices ? aside : ""}`.trim()}>
+            <span id={`${id}-from`} className={`${FROM} ${aside}`.trim()}>
               {product.fromLabel}
             </span>
           </label>
@@ -182,11 +168,7 @@ export function ProductPicker({ products, setTile, state, onToggle, onOption, ar
                           className={RADIO}
                         />
                         <span className="min-w-0 font-body text-[0.875rem] font-bold leading-tight text-ink">{o.label}</span>
-                        {rowPrices ? (
-                          <span className="whitespace-nowrap font-label text-[0.875rem] font-semibold uppercase tracking-[0.04em] tabular-nums text-ink">{o.priceLabel}</span>
-                        ) : (
-                          <span />
-                        )}
+                        <span className="whitespace-nowrap font-label text-[0.875rem] font-semibold uppercase tracking-[0.04em] tabular-nums text-ink">{o.priceLabel}</span>
                       </label>
                     </li>
                   );
@@ -207,31 +189,60 @@ export function ProductPicker({ products, setTile, state, onToggle, onOption, ar
     );
   };
 
-  // The set line: computed from the ladder, never typed (prices.ts → the page → here).
-  const pair = setPair(products, state, setTile.combos);
-  const setLine =
-    pair.kind === "matched"
-      ? pair.saved !== null
-        ? `${INTAKE_COPY.setNote.matchedLead} ${INTAKE_COPY.setTile.savingsLine(formatUsd(pair.saved))}.`
-        : INTAKE_COPY.setNote.matchedLead
-      : pair.kind === "unmatched"
-        ? INTAKE_COPY.setNote.unmatched(setPairsLabel(products, setTile.combos))
-        : setTile.pickLine;
-
   return (
     <div>
       <FieldError id={errorId("products")} message={error} className="mb-6" />
       <ul className="grid items-start gap-y-4 md:grid-cols-2 md:gap-x-4">{products.map(productCard)}</ul>
-      {setLine ? (
-        <p data-set-note="" aria-live="polite" className="mt-5 max-w-[60ch] font-body text-small font-medium text-pretty text-ink">
-          {setLine}
-        </p>
-      ) : null}
+      <BundleLadder products={products} state={state} />
       <p data-more-than-one="" className="mt-2 max-w-[60ch] font-body text-small text-muted-text">
         {INTAKE_COPY.moreThanOne}
       </p>
       {/* Last in the step: the slot is as tall as its longest line, so any spare height falls into the step's own air. */}
       {note ? <ArtNote state={note.state} sport={note.sport} className="mt-6" /> : null}
+    </div>
+  );
+}
+
+/**
+ * The bundle ladder (pricing v1, 2026-10-07): three rungs on one line, the reached rung on the accent (ink on
+ * orange, 6.3 : 1 — never orange text), and one live line under it: before a choice what the ladder is; with
+ * one to three products the next product and what it saves on top; with all four, the top rung. The figures
+ * come from the model's bundle helpers over the prices the page handed over — nothing typed.
+ */
+function BundleLadder({ products, state }: { products: ProductTileData[]; state: Record<ProductKey, ProductState> }) {
+  const b = INTAKE_COPY.bundle;
+  const total = orderTotal(products, state);
+  const reached = bundleStepIndex(total?.productCount ?? 0);
+  const nudge = bundleNudge(products, state);
+  const line = !total
+    ? b.lead
+    : nudge
+      ? (nudge.first ? b.nudgeFirst : b.nudgeMore)(b.addName[nudge.add], formatUsd(nudge.saving))
+      : b.top(formatPercent(total.discountRate));
+  return (
+    <div data-bundle-ladder="" className="mt-6 rounded-[20px] border border-hairline bg-white p-4 sm:p-5">
+      <p className="font-label text-label font-semibold uppercase tracking-[0.12em] text-muted-text">{b.title}</p>
+      <ol className="mt-3 flex flex-wrap gap-2">
+        {BUNDLE_STEPS.map((step, i) => {
+          const on = i === reached;
+          return (
+            <li
+              key={step.count}
+              data-bundle-step={step.count}
+              data-reached={on ? "" : undefined}
+              aria-current={on ? "step" : undefined}
+              className={`inline-flex h-9 items-center whitespace-nowrap rounded-pill border px-3.5 font-label text-[0.9375rem] font-semibold tabular-nums ${
+                on ? "border-accent bg-accent text-ink" : "border-ink/15 text-ink"
+              }`}
+            >
+              {b.step(step.count, i === BUNDLE_STEPS.length - 1, formatPercent(step.percent / 100))}
+            </li>
+          );
+        })}
+      </ol>
+      <p data-bundle-nudge="" aria-live="polite" className="mt-3 max-w-[60ch] font-body text-small font-medium text-pretty text-ink">
+        {line}
+      </p>
     </div>
   );
 }

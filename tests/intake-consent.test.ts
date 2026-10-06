@@ -207,14 +207,11 @@ describe("permissions: three quick confirmations, not a contract", () => {
 });
 
 describe("the Etsy alternative: one muted line and the house EtsyButton", () => {
-  // An empty form is enough: the Etsy block does not depend on the tiles. The set tile's shape belongs to
-  // ProductPicker and moves with it, so the fixture carries both shapes and is cast to the form's own props.
+  // An empty form is enough: the Etsy block does not depend on the tiles.
   const props = {
     sports: [],
     art: {},
     products: [],
-    setTile: { pickLine: null, combos: [], name: "", blurb: "", fromLabel: "", badge: "", savingsLine: null, images: { cards: null, poster: null } },
-    setCombos: [],
     styles: [],
     photosSubhead: "",
     examples: { good: null, bad: null },

@@ -22,7 +22,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { SITE_ASSETS, hasAsset } from "../lib/assets";
 import { chipSegment } from "../lib/catalog/delivery";
 import { faqSubset } from "../lib/catalog/faq";
-import { formatUsd, getTier, perCardAnchor, priceDisplay, sitePrice, skuFor, tiersFor, type Family } from "../lib/catalog/prices";
+import { SET_PARTS, formatUsd, getTier, perCardAnchor, priceDisplay, sitePrice, skuFor, tiersFor, type Family } from "../lib/catalog/prices";
 import { NUMBERLESS_CODES, backLine, hasOwnListing, isNumberless, postersSports, sportBySlug, sports, sportsWithOwnListing } from "../lib/catalog/sports";
 import { finishes } from "../lib/catalog/styles";
 import { boxContents, FILE_COUNTS } from "../lib/catalog/tiers";
@@ -39,7 +39,8 @@ import { captionFromAlt, showcase, showcaseList } from "../app/(marketing)/(fami
 import { SpecSheetSection, setFolderRows, specRows } from "../app/(marketing)/(families)/_shared/spec-sheet";
 import { ANY_LISTING_GROUP, OWN_LISTING_GROUP, SportPicker, destinationNote, SPORT_PICKER_LABEL, numberlessPickerNote, pickSport } from "../app/(marketing)/(families)/_shared/sport-picker";
 import { CERTIFICATE_LINE, TierRow, chipKindFor } from "../app/(marketing)/(families)/_shared/tier-row";
-import { ctaFor, freeProofHref, optionForSku } from "../lib/cta";
+import { SET_TIER_OPTIONS, ctaFor, freeProofHref, optionForSku } from "../lib/cta";
+import { PRODUCTS } from "../lib/intake/products";
 import { PROOF_PATH_LABEL } from "../lib/copy/canon";
 import { HeroCtaBlock } from "../app/(marketing)/(families)/_shared/hero";
 import TradingCardsPage from "../app/(marketing)/trading-cards/page";
@@ -282,22 +283,30 @@ describe("family pages — the ladder", () => {
       expect(all).toHaveLength(4);
       expect(shown).toHaveLength(3);
       expect(all.filter((t) => !t.enabled).map((t) => t.sku)).toEqual([
-        { cards: "GDE-ANY-CARD-PACK", posters: "GDE-ANY-POST-P3040", set: "GDE-ANY-SET-ULT", snset: "", banner: "" }[page.family],
+        { cards: "GDE-ANY-CARD-PACK", posters: "GDE-ANY-POST-P3040", set: "GDE-ANY-SET-ULT", snset: "", banner: "", blanket: "" }[page.family],
       ]);
     });
 
     it(`${page.path}: the row renders prices, chips, box contents, the free proof and the Etsy outline per tier`, () => {
-      const now = new Date();
       const sport = sportBySlug("basketball")!;
-      const html = render(
-        createElement(TierRow, { family: page.family, context: page.faq === "posters" ? "posters" : page.family === "cards" ? "cards" : "set", sport, now }),
-      );
+      const html = render(createElement(TierRow, { family: page.family, context: page.faq === "posters" ? "posters" : page.family === "cards" ? "cards" : "set", sport }));
       const shown = tiersFor(page.family, true).filter((t) => t.enabled);
       expect(count(html, /<article/g)).toBe(shown.length);
-      const products = { cards: ["cards"], posters: ["poster"], set: ["cards", "poster"], snset: ["cards", "poster"], banner: ["banner"] }[page.family] as ("cards" | "poster")[];
+      const products = { cards: ["cards"], posters: ["poster"], set: ["cards", "poster"], snset: ["cards", "poster"], banner: ["banner"], blanket: ["blanket"] }[page.family] as ("cards" | "poster")[];
+      const figures: string[] = [];
       for (const tier of shown) {
-        const price = priceDisplay(tier, now);
+        const price = priceDisplay(tier);
         expect(html).toContain(formatUsd(price.current));
+        figures.push(formatUsd(price.current));
+        // Pricing v1: only a set tier carries a second figure — its parts bought separately, struck, and the saving.
+        if (page.family === "set") {
+          expect(price.bundle, tier.sku).toBeDefined();
+          expect(html).toContain(`<span class="sr-only">Bought separately </span>${formatUsd(price.bundle!.alaCarte)}</s>`);
+          expect(html).toContain(`Bundle: save ${formatUsd(price.bundle!.discount)} vs. buying separately`);
+          figures.push(formatUsd(price.bundle!.alaCarte), formatUsd(price.bundle!.discount));
+        } else {
+          expect(price.bundle).toBeUndefined();
+        }
         expect(html).toContain(`id="tier-${tier.sku}"`);
         // D29: the tier's own option and the picker's sport ride into the form; Etsy keeps the tier's SKU.
         const sku = skuFor(tier.sku, sport.code);
@@ -307,6 +316,10 @@ describe("family pages — the ladder", () => {
         expect(html).toContain(chipSegment(chipKindFor(tier)));
         for (const line of boxContents(tier.sku)) expect(html).toContain(esc(line));
       }
+      // Every dollar figure on the row is one of those — and no sale vocabulary anywhere.
+      for (const figure of html.match(/\$\d+\.\d{2}/g) ?? []) expect(figures, figure).toContain(figure);
+      expect(html).not.toMatch(/\bsale\b|regular price|\bwas \$|limited time/i);
+      if (page.family !== "set") expect(html).not.toMatch(/<s[\s>]/);
       expect(count(html, /Get a free proof →/g)).toBe(shown.length);
       expect(count(html, /Also on Etsy →/g)).toBe(shown.length);
       expect(html).toContain(CERTIFICATE_LINE);
@@ -321,12 +334,23 @@ describe("family pages — the ladder", () => {
     expect(optionForSku("GDE-ANY-SET-DLX")).toEqual({ cards: "p24", poster: "p2436" });
   });
 
+  it("a set tier's bundle parts are exactly the options its free-proof link ticks — the same price on /complete-set and /free-proof", () => {
+    for (const [setSku, option] of Object.entries(SET_TIER_OPTIONS)) {
+      const ticked = (["cards", "poster"] as const).map((key) => {
+        const opt = typeof option === "string" ? option : option[key];
+        return PRODUCTS.find((p) => p.key === key)!.options.find((o) => o.key === opt)!.sku;
+      });
+      expect([...SET_PARTS[setSku]].sort(), setSku).toEqual(ticked.sort());
+    }
+  });
+
   it("the per-card anchor is computed, never typed", () => {
     const src = read(PAGES[0].file);
-    expect(src).toContain("perCardAnchor(now)");
-    expect(perCardAnchor(new Date())).toBeGreaterThan(0);
+    expect(src).toContain("perCardAnchor()");
+    expect(perCardAnchor()).toBeGreaterThan(0);
     const p12 = getTier("GDE-ANY-CARD-P12")!;
-    expect(perCardAnchor(new Date())).toBeLessThan(sitePrice(p12, new Date()));
+    expect(perCardAnchor()).toBe(Math.ceil((sitePrice(p12) / 12) * 2) / 2);
+    expect(perCardAnchor()).toBeLessThan(sitePrice(p12));
   });
 
   it("chip segments follow the tier kind", () => {
@@ -338,7 +362,6 @@ describe("family pages — the ladder", () => {
 });
 
 describe("family pages — Product and FAQ markup", () => {
-  const now = new Date();
   for (const page of PAGES) {
     it(`${page.path}: offers are the enabled tiers, priced from the ladder, with no rating or review`, () => {
       const data = productFamily({
@@ -348,12 +371,14 @@ describe("family pages — Product and FAQ markup", () => {
         description: "d",
         images: ["/images/x.webp"],
         tiers: tiersFor(page.family, true),
-        now,
       }) as { offers: { offerCount: number; offers: { url: string; price: number }[] } };
       const shown = tiersFor(page.family, true).filter((t) => t.enabled);
       expect(data.offers.offerCount).toBe(shown.length);
       for (const offer of data.offers.offers) expect(offer.url).toContain(`${page.path}#tier-GDE-ANY-`);
-      expect(data.offers.offers.map((o) => o.price)).toEqual(shown.map((t) => sitePrice(t, now)));
+      // A set's offer is its bundle total — the same figure its tier card shows.
+      expect(data.offers.offers.map((o) => o.price)).toEqual(shown.map((t) => sitePrice(t)));
+      expect(data.offers.offers.map((o) => o.price)).toEqual(shown.map((t) => priceDisplay(t).current));
+      expect(JSON.stringify(data)).not.toContain("priceValidUntil");
       expect(JSON.stringify(data)).not.toMatch(/aggregateRating|"review"/);
     });
 

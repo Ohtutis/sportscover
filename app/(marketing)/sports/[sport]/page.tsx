@@ -367,7 +367,7 @@ export default async function SportPage({ params }: Params) {
           <SectionHeading as="h2" id="sport-price" index={index(5)} title="THE CARDS, PRICED." />
           <div data-shared="" className="mt-10 lg:mt-12">
             <div data-price-ladder="">
-              <TierRow family="cards" context="cards" sport={sport} now={now} />
+              <TierRow family="cards" context="cards" sport={sport} />
             </div>
             <p className="mt-4 max-w-[62ch] font-body text-small text-pretty text-muted-text">
               The poster has its own price ladder on{" "}

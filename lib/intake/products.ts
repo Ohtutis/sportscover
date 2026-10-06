@@ -1,14 +1,13 @@
 // What a parent can ask for on /free-proof (owner decision 2026-10-04: a free watermarked proof first,
 // payment only after approval — D4's own fallback path, now the main path while Stripe waits).
 //
-// Prices come ONLY from lib/catalog/prices.ts: an option with a `sku` shows that tier's current site
-// price (cards, posters and banners — the banner ladder is the live Etsy banner listings' four
-// variants, verified 2026-10-04), and a product's "from" line is its cheapest priced option. The
-// blanket has no listing yet: its sizes are the plush blanket the Etsy listing is being built on
-// (30 × 40 / 50 × 60 / 60 × 80 in) and the price is confirmed on the proof. Never type a price here;
-// when the owner adds the blanket tiers, set `sku` on each option and the number appears by itself.
+// Prices come ONLY from lib/catalog/prices.ts: every option names a tier `sku` and shows that tier's site
+// price (pricing v1, 2026-10-07: digital DIGITAL_PRICE, printed Etsy × 1.10 up to .99 — cards, posters,
+// banners and, since the blanket ladder, the three blanket sizes). A product's "from" line is its cheapest
+// option, and two or more products together are priced by prices.ts `bundleTotal` (orderBundle below).
+// Never type a price here.
 
-import { formatUsd, fromPrice, getTier, sitePrice, type Tier } from "../catalog/prices";
+import { bundleTotal, formatUsd, fromPrice, getTier, sitePrice, type BundleTotal, type Tier } from "../catalog/prices";
 
 export type ProductKey = "cards" | "poster" | "banner" | "blanket";
 
@@ -17,8 +16,8 @@ export interface ProductOption {
   label: string;
   /** One line under the label: what the option includes. */
   detail: string;
-  /** A prices.ts tier SKU when the option is a priced tier (must be an enabled tier — tested). */
-  sku?: string;
+  /** The prices.ts tier SKU the option is priced from (must be an enabled tier — tested). */
+  sku: string;
   printed: boolean;
 }
 
@@ -30,7 +29,10 @@ export interface Product {
   options: ProductOption[];
 }
 
-/** The one wording for an unpriced option (banner, blanket) — never a guessed number. */
+/**
+ * The wording for an option with no price. Every option is priced since the blanket ladder (2026-10-07), so
+ * nothing on the form or the emails prints it; it stays exported for the blog posts that still name it.
+ */
 export const PRICE_ON_PROOF = "Price confirmed with your free proof";
 
 export const PRODUCTS: readonly Product[] = [
@@ -106,9 +108,9 @@ export const PRODUCTS: readonly Product[] = [
     name: "Blanket",
     blurb: "A plush blanket printed with their artwork — bedroom, dorm or the bleachers.",
     options: [
-      { key: "30x40", label: "30 × 40 in", detail: "Soft plush blanket, printed on one side.", printed: true },
-      { key: "50x60", label: "50 × 60 in", detail: "Soft plush blanket, printed on one side.", printed: true },
-      { key: "60x80", label: "60 × 80 in", detail: "Soft plush blanket, printed on one side.", printed: true },
+      { key: "30x40", label: "30 × 40 in", detail: "Soft plush blanket, printed on one side.", sku: "GDE-ANY-BLK-3040", printed: true },
+      { key: "50x60", label: "50 × 60 in", detail: "Soft plush blanket, printed on one side.", sku: "GDE-ANY-BLK-5060", printed: true },
+      { key: "60x80", label: "60 × 80 in", detail: "Soft plush blanket, printed on one side.", sku: "GDE-ANY-BLK-6080", printed: true },
     ],
   },
 ];
@@ -118,22 +120,47 @@ export const PRODUCT_KEYS: readonly ProductKey[] = PRODUCTS.map((p) => p.key);
 export const productByKey = (key: string): Product | undefined => PRODUCTS.find((p) => p.key === key);
 export const optionOf = (product: Product, key: string): ProductOption | undefined => product.options.find((o) => o.key === key);
 
-const tierOf = (opt: ProductOption): Tier | undefined => (opt.sku ? getTier(opt.sku) : undefined);
+const tierOf = (opt: ProductOption): Tier => {
+  const tier = getTier(opt.sku);
+  if (!tier) throw new Error(`products: option sku ${opt.sku} is not on a ladder`);
+  return tier;
+};
 
-/** "<price>" for a priced option, PRICE_ON_PROOF otherwise. */
-export function optionPriceLabel(opt: ProductOption, now?: Date): string {
-  const tier = tierOf(opt);
-  return tier ? formatUsd(sitePrice(tier, now)) : PRICE_ON_PROOF;
+/** An option's site price (prices.ts sitePrice of its tier). */
+export const optionPrice = (opt: ProductOption): number => sitePrice(tierOf(opt));
+
+/** "<price>" for an option. */
+export const optionPriceLabel = (opt: ProductOption): string => formatUsd(optionPrice(opt));
+
+/** "from <price>": the product's cheapest option. */
+export function productFromLabel(product: Product): string {
+  return `from ${formatUsd(Math.min(...product.options.map(optionPrice)))}`;
 }
 
-/** "from <price>" for a product with at least one priced option; null for banner and blanket. */
-export function productFromLabel(product: Product, now?: Date): string | null {
-  const prices = product.options.map(tierOf).filter((t): t is Tier => Boolean(t)).map((t) => sitePrice(t, now));
-  return prices.length ? `from ${formatUsd(Math.min(...prices))}` : null;
+/** The set line under the product tiles: cards + poster together, the cheapest set tier (a bundle of the two). */
+export const setFromLabel = (): string => `from ${formatUsd(fromPrice("set"))}`;
+
+/** One chosen product: its key and option (and, on stored requests from before v4, a quantity). */
+export interface ProductChoice {
+  product: string;
+  option: string;
+  quantity?: number;
 }
 
-/** The set line under the product tiles: cards + poster together are priced as a Complete Set. */
-export const setFromLabel = (now?: Date): string => `from ${formatUsd(fromPrice("set", now))}`;
+/**
+ * The bundle a list of choices makes — one line per item at its option's site price (a stored request's
+ * quantity counts each copy; bundles count DIFFERENT products). Choices that name no known option are left
+ * out. Null for an empty list.
+ */
+export function orderBundle(choices: readonly ProductChoice[]): BundleTotal | null {
+  const lines = choices.flatMap((c) => {
+    const product = productByKey(c.product);
+    const option = product ? optionOf(product, c.option) : undefined;
+    if (!product || !option) return [];
+    return Array.from({ length: Math.max(1, c.quantity ?? 1) }, () => ({ product: product.key, price: optionPrice(option) }));
+  });
+  return lines.length ? bundleTotal(lines) : null;
+}
 
 /** "12 printed cards" → the label a summary or an email prints for a choice. */
 export function choiceLabel(productKey: string, optionKey: string): string {
