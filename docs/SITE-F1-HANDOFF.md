@@ -172,6 +172,34 @@ private bucket `athlete-submissions` exists (no MIME restriction, ≥ 25 MB file
 five-line first real test in `docs/SITE-F2A-FREE-PROOF-2026-10.md` — `health` must show
 `storage: true, email: true` and a phone submission must land on `/free-proof/thanks`.
 
+## 2026-10-04 — registry completeness (F1-ART-09)
+
+31. **F1-ART-09 — seventy-two more listing demo cards have a live registry page but no face art**
+    (registered 2026-10-04 because their ids are printed on the live Etsy listing images: every card listing
+    shows the back of all six finishes, each printing its own id, and only the one or two lead ids per sport
+    were registered). Evidence, the per-sport table and the listing defects found on the way (slide 17 prints
+    another card's id on 22 poster / banner / blanket images; the ice hockey slide-05 QR opens the wrestling
+    card) are in `docs/registry/QR-AUDIT-2026-10-04.md`. Each `/c` page shows the pending block. Close-out
+    per card: rebind the back's `#qr` layer to the card's own QR first (F1-QR-01, item 1 — every back on disk
+    still encodes `GDE-SN-BKB-2026-23`), export front + back (square-cut) from the sport file, drop them under
+    the `lib/registry/art-sources.ts` path, delete the entry from `ART_PENDING`, run `npm run cards:assets`.
+    Before publishing any listing, run `npx tsx scripts/registry-qr-audit.ts etsy/listing-images`.
+    Ids: GDE-CA-BKB-2026-12, GDE-FS-BKB-2026-12, GDE-HE-BKB-2026-12, GDE-SS-BKB-2026-12,
+    GDE-PR-BKB-2026-12, GDE-SN-FTB-2026-54, GDE-CA-FTB-2026-54, GDE-SS-FTB-2026-54, GDE-PR-FTB-2026-54,
+    GDE-SN-BSB-2026-07, GDE-CA-BSB-2026-07, GDE-FS-BSB-2026-07, GDE-SS-BSB-2026-07, GDE-PR-BSB-2026-07,
+    GDE-FS-SFB-2026-03, GDE-HE-SFB-2026-03, GDE-SS-SFB-2026-03, GDE-PR-SFB-2026-03, GDE-SN-SOC-2026-10,
+    GDE-FS-SOC-2026-10, GDE-HE-SOC-2026-10, GDE-SS-SOC-2026-10, GDE-PR-SOC-2026-10, GDE-FS-ICH-2026-17,
+    GDE-HE-ICH-2026-17, GDE-SS-ICH-2026-17, GDE-PR-ICH-2026-17, GDE-SN-VBL-2026-05, GDE-CA-VBL-2026-05,
+    GDE-FS-VBL-2026-05, GDE-HE-VBL-2026-05, GDE-PR-VBL-2026-05, GDE-SN-LAX-2026-22, GDE-CA-LAX-2026-22,
+    GDE-HE-LAX-2026-22, GDE-SS-LAX-2026-22, GDE-SN-WRS-2026-01, GDE-CA-WRS-2026-01, GDE-SS-WRS-2026-01,
+    GDE-PR-WRS-2026-01, GDE-SN-CHR-2026-01, GDE-CA-CHR-2026-01, GDE-FS-CHR-2026-01, GDE-HE-CHR-2026-01,
+    GDE-SN-GYM-2026-01, GDE-CA-GYM-2026-01, GDE-FS-GYM-2026-01, GDE-PR-GYM-2026-01, GDE-SN-TRK-2026-08,
+    GDE-CA-TRK-2026-08, GDE-HE-TRK-2026-08, GDE-SS-TRK-2026-08, GDE-CA-SWM-2026-01, GDE-FS-SWM-2026-01,
+    GDE-HE-SWM-2026-01, GDE-PR-SWM-2026-01, GDE-SN-TEN-2026-01, GDE-FS-TEN-2026-01, GDE-HE-TEN-2026-01,
+    GDE-PR-TEN-2026-01, GDE-CA-GLF-2026-01, GDE-FS-GLF-2026-01, GDE-SS-GLF-2026-01, GDE-PR-GLF-2026-01,
+    GDE-SN-PKB-2026-02, GDE-FS-PKB-2026-02, GDE-HE-PKB-2026-02, GDE-SS-PKB-2026-02, GDE-SN-OTH-2026-12,
+    GDE-FS-OTH-2026-12, GDE-HE-OTH-2026-12, GDE-PR-OTH-2026-12.
+
 ## Not in F1 on purpose
 
 Direct checkout and order pages, team links, `/sports/<sport>`, `/styles/<finish>`,

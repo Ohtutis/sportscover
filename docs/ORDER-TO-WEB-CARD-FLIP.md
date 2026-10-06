@@ -106,6 +106,11 @@ Allow ~90 s after the merge for the deploy before the curls go green.
 5. A listing demo card that has a printed QR but no face export yet still goes live — add it to
    `ART_PENDING` in `lib/registry/art.ts` with a ticket, and a `pending:` sources entry; the page
    shows the pending block instead of a 404 (F1-ART-08 is the open batch of 18).
+6. **Every QR printed on a listing image must resolve** — run
+   `npx tsx scripts/registry-qr-audit.ts etsy/listing-images` before publishing a listing (exit 1 names
+   the unregistered id and the exact image). On a Mac add `--ocr` to also list the ids PRINTED beside each
+   code — a back can print one id and encode another — and read that list by eye: OCR misreads small type,
+   so it never fails the run (`docs/registry/QR-AUDIT-2026-10-04.md`).
 
 ## Worked example that is live
 

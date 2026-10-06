@@ -91,7 +91,7 @@ export function cardArtFor(cardId: string): CardArt | null {
   return art;
 }
 
-export type ArtTicket = "F1-ART-01" | "F1-ART-02" | "F1-ART-05" | "F1-ART-08";
+export type ArtTicket = "F1-ART-01" | "F1-ART-02" | "F1-ART-05" | "F1-ART-08" | "F1-ART-09";
 export interface ArtPending {
   cardId: string;
   reason: string;
@@ -100,7 +100,9 @@ export interface ArtPending {
 
 /**
  * GAPS #8 (five), the two back-less ids (F1-ART-05) and the eighteen listing demo cards whose QRs
- * were printed before any face was exported (F1-ART-08, 2026-09-23). Only a landed export may remove an entry: the test
+ * were printed before any face was exported (F1-ART-08, 2026-09-23), and the 72 other-finish cards whose ids are
+ * printed on the live listing images (F1-ART-09, 2026-10-04, docs/registry/QR-AUDIT-2026-10-04.md). Only a landed
+ * export may remove an entry: the test
  * "a pending id has no public/cards/<id>/front.webp" fails otherwise. These records stay public —
  * their QR codes are printed, and a QR that lands on a live registration without art beats one
  * that lands on a neutral page.
@@ -251,6 +253,438 @@ export const ART_PENDING: readonly ArtPending[] = [
     ticket: "F1-ART-08",
     reason:
       "Listing demo card whose QR is printed on the live skateboarding Etsy listing images; no square-cut Chrome All-Star face export on disk — export front + back from the skateboarding sport file (registry deploy 2026-09-23).",
+  },
+  {
+    cardId: "GDE-CA-BKB-2026-12",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live basketball card listings (Card basketball slide 07; Digital card slide 09), also on Digital complete all sports slide 10; no face export on disk — export front + back from the basketball sport file.",
+  },
+  {
+    cardId: "GDE-FS-BKB-2026-12",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live basketball card listings (Card basketball slide 08; Digital card slide 10); no face export on disk — export front + back from the basketball sport file.",
+  },
+  {
+    cardId: "GDE-HE-BKB-2026-12",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live basketball card listings (Card basketball slide 08; Digital card slide 10), also on Digital complete all sports slide 11; no face export on disk — export front + back from the basketball sport file.",
+  },
+  {
+    cardId: "GDE-SS-BKB-2026-12",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live basketball card listings (Card basketball slide 09; Digital card slide 11), also on Digital complete all sports slide 12; no face export on disk — export front + back from the basketball sport file.",
+  },
+  {
+    cardId: "GDE-PR-BKB-2026-12",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live basketball card listings (Card basketball slide 09; Digital card slide 11), also on Digital complete all sports slide 12; no face export on disk — export front + back from the basketball sport file.",
+  },
+  {
+    cardId: "GDE-SN-FTB-2026-54",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the football card listing (slide 09 of the repo export), also on Digital complete all sports slide 01; no face export on disk — export front + back from the football sport file.",
+  },
+  {
+    cardId: "GDE-CA-FTB-2026-54",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live football card listing (slide 07); no face export on disk — export front + back from the football sport file.",
+  },
+  {
+    cardId: "GDE-SS-FTB-2026-54",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the football card listing (slide 11 of the repo export); no face export on disk — export front + back from the football sport file.",
+  },
+  {
+    cardId: "GDE-PR-FTB-2026-54",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live football card listing (slide 09); no face export on disk — export front + back from the football sport file.",
+  },
+  {
+    cardId: "GDE-SN-BSB-2026-07",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live baseball card listing (slide 07); no face export on disk — export front + back from the baseball sport file.",
+  },
+  {
+    cardId: "GDE-CA-BSB-2026-07",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live baseball card listing (slide 07), also on Full complete all sports slide 07; no face export on disk — export front + back from the baseball sport file.",
+  },
+  {
+    cardId: "GDE-FS-BSB-2026-07",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live baseball card listing (slide 08); no face export on disk — export front + back from the baseball sport file.",
+  },
+  {
+    cardId: "GDE-SS-BSB-2026-07",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live baseball card listing (slide 09); no face export on disk — export front + back from the baseball sport file.",
+  },
+  {
+    cardId: "GDE-PR-BSB-2026-07",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live baseball card listing (slide 09); no face export on disk — export front + back from the baseball sport file.",
+  },
+  {
+    cardId: "GDE-FS-SFB-2026-03",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live softball card listing (slide 08); no face export on disk — export front + back from the softball sport file.",
+  },
+  {
+    cardId: "GDE-HE-SFB-2026-03",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live softball card listing (slide 08); no face export on disk — export front + back from the softball sport file.",
+  },
+  {
+    cardId: "GDE-SS-SFB-2026-03",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live softball card listing (slide 09); no face export on disk — export front + back from the softball sport file.",
+  },
+  {
+    cardId: "GDE-PR-SFB-2026-03",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live softball card listing (slide 09); no face export on disk — export front + back from the softball sport file.",
+  },
+  {
+    cardId: "GDE-SN-SOC-2026-10",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live soccer card listing (slide 07); no face export on disk — export front + back from the soccer sport file.",
+  },
+  {
+    cardId: "GDE-FS-SOC-2026-10",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live soccer card listing (slide 08), also on Full complete all sports slide 08; no face export on disk — export front + back from the soccer sport file.",
+  },
+  {
+    cardId: "GDE-HE-SOC-2026-10",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live soccer card listing (slide 08); no face export on disk — export front + back from the soccer sport file.",
+  },
+  {
+    cardId: "GDE-SS-SOC-2026-10",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live soccer card listing (slide 09); no face export on disk — export front + back from the soccer sport file.",
+  },
+  {
+    cardId: "GDE-PR-SOC-2026-10",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live soccer card listing (slide 09); no face export on disk — export front + back from the soccer sport file.",
+  },
+  {
+    cardId: "GDE-FS-ICH-2026-17",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID fills the Fire & Smoke slot of the live ice hockey card listing (slide 08; source art IH-FS-back.png, the id named in LISTING-STATE.md 2026-09-14); no face export on disk — export front + back from the ice hockey sport file.",
+  },
+  {
+    cardId: "GDE-HE-ICH-2026-17",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live ice hockey card listing (slide 08); no face export on disk — export front + back from the ice hockey sport file.",
+  },
+  {
+    cardId: "GDE-SS-ICH-2026-17",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live ice hockey card listing (slide 09); no face export on disk — export front + back from the ice hockey sport file.",
+  },
+  {
+    cardId: "GDE-PR-ICH-2026-17",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live ice hockey card listing (slide 09); no face export on disk — export front + back from the ice hockey sport file.",
+  },
+  {
+    cardId: "GDE-SN-VBL-2026-05",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live volleyball card listing (slide 07); no face export on disk — export front + back from the volleyball sport file.",
+  },
+  {
+    cardId: "GDE-CA-VBL-2026-05",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live volleyball card listing (slide 07); no face export on disk — export front + back from the volleyball sport file.",
+  },
+  {
+    cardId: "GDE-FS-VBL-2026-05",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live volleyball card listing (slide 08); no face export on disk — export front + back from the volleyball sport file.",
+  },
+  {
+    cardId: "GDE-HE-VBL-2026-05",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live volleyball card listing (slide 08); no face export on disk — export front + back from the volleyball sport file.",
+  },
+  {
+    cardId: "GDE-PR-VBL-2026-05",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live volleyball card listing (slide 09), also on Full complete all sports slide 09, valley poster slide 17; no face export on disk — export front + back from the volleyball sport file.",
+  },
+  {
+    cardId: "GDE-SN-LAX-2026-22",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live lacrosse card listing (slide 07); no face export on disk — export front + back from the lacrosse sport file.",
+  },
+  {
+    cardId: "GDE-CA-LAX-2026-22",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live lacrosse card listing (slide 07); no face export on disk — export front + back from the lacrosse sport file.",
+  },
+  {
+    cardId: "GDE-HE-LAX-2026-22",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live lacrosse card listing (slide 08); no face export on disk — export front + back from the lacrosse sport file.",
+  },
+  {
+    cardId: "GDE-SS-LAX-2026-22",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live lacrosse card listing (slide 09); no face export on disk — export front + back from the lacrosse sport file.",
+  },
+  {
+    cardId: "GDE-SN-WRS-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live wrestling card listing (slide 07); no face export on disk — export front + back from the wrestling sport file.",
+  },
+  {
+    cardId: "GDE-CA-WRS-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live wrestling card listing (slide 07); no face export on disk — export front + back from the wrestling sport file.",
+  },
+  {
+    cardId: "GDE-SS-WRS-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live wrestling card listing (slide 09); no face export on disk — export front + back from the wrestling sport file.",
+  },
+  {
+    cardId: "GDE-PR-WRS-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live wrestling card listing (slide 09); no face export on disk — export front + back from the wrestling sport file.",
+  },
+  {
+    cardId: "GDE-SN-CHR-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live cheerleading card listing (slide 07); no face export on disk — export front + back from the cheerleading sport file.",
+  },
+  {
+    cardId: "GDE-CA-CHR-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live cheerleading card listing (slide 07); no face export on disk — export front + back from the cheerleading sport file.",
+  },
+  {
+    cardId: "GDE-FS-CHR-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live cheerleading card listing (slide 08); no face export on disk — export front + back from the cheerleading sport file.",
+  },
+  {
+    cardId: "GDE-HE-CHR-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live cheerleading card listing (slide 08); no face export on disk — export front + back from the cheerleading sport file.",
+  },
+  {
+    cardId: "GDE-SN-GYM-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live gymnastics card listing (slide 07); no face export on disk — export front + back from the gymnastics sport file.",
+  },
+  {
+    cardId: "GDE-CA-GYM-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live gymnastics card listing (slide 07); no face export on disk — export front + back from the gymnastics sport file.",
+  },
+  {
+    cardId: "GDE-FS-GYM-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live gymnastics card listing (slide 08); no face export on disk — export front + back from the gymnastics sport file.",
+  },
+  {
+    cardId: "GDE-PR-GYM-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live gymnastics card listing (slide 09); no face export on disk — export front + back from the gymnastics sport file.",
+  },
+  {
+    cardId: "GDE-SN-TRK-2026-08",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live track & field card listing (slide 07); no face export on disk — export front + back from the track & field sport file.",
+  },
+  {
+    cardId: "GDE-CA-TRK-2026-08",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live track & field card listing (slide 07); no face export on disk — export front + back from the track & field sport file.",
+  },
+  {
+    cardId: "GDE-HE-TRK-2026-08",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live track & field card listing (slide 08); no face export on disk — export front + back from the track & field sport file.",
+  },
+  {
+    cardId: "GDE-SS-TRK-2026-08",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live track & field card listing (slide 09); no face export on disk — export front + back from the track & field sport file.",
+  },
+  {
+    cardId: "GDE-CA-SWM-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live swimming card listing (slide 07); no face export on disk — export front + back from the swimming sport file.",
+  },
+  {
+    cardId: "GDE-FS-SWM-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live swimming card listing (slide 08); no face export on disk — export front + back from the swimming sport file.",
+  },
+  {
+    cardId: "GDE-HE-SWM-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live swimming card listing (slide 08); no face export on disk — export front + back from the swimming sport file.",
+  },
+  {
+    cardId: "GDE-PR-SWM-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live swimming card listing (slide 09); no face export on disk — export front + back from the swimming sport file.",
+  },
+  {
+    cardId: "GDE-SN-TEN-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live tennis card listing (slide 07); no face export on disk — export front + back from the tennis sport file.",
+  },
+  {
+    cardId: "GDE-FS-TEN-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live tennis card listing (slide 08); no face export on disk — export front + back from the tennis sport file.",
+  },
+  {
+    cardId: "GDE-HE-TEN-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live tennis card listing (slide 08); no face export on disk — export front + back from the tennis sport file.",
+  },
+  {
+    cardId: "GDE-PR-TEN-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live tennis card listing (slide 09); no face export on disk — export front + back from the tennis sport file.",
+  },
+  {
+    cardId: "GDE-CA-GLF-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live golf card listing (slide 07); no face export on disk — export front + back from the golf sport file.",
+  },
+  {
+    cardId: "GDE-FS-GLF-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live golf card listing (slide 08); no face export on disk — export front + back from the golf sport file.",
+  },
+  {
+    cardId: "GDE-SS-GLF-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live golf card listing (slide 09); no face export on disk — export front + back from the golf sport file.",
+  },
+  {
+    cardId: "GDE-PR-GLF-2026-01",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live golf card listing (slide 09); no face export on disk — export front + back from the golf sport file.",
+  },
+  {
+    cardId: "GDE-SN-PKB-2026-02",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live pickleball card listing (slide 07); no face export on disk — export front + back from the pickleball sport file.",
+  },
+  {
+    cardId: "GDE-FS-PKB-2026-02",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live pickleball card listing (slide 08); no face export on disk — export front + back from the pickleball sport file.",
+  },
+  {
+    cardId: "GDE-HE-PKB-2026-02",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live pickleball card listing (slide 08); no face export on disk — export front + back from the pickleball sport file.",
+  },
+  {
+    cardId: "GDE-SS-PKB-2026-02",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live pickleball card listing (slide 09); no face export on disk — export front + back from the pickleball sport file.",
+  },
+  {
+    cardId: "GDE-SN-OTH-2026-12",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live skateboarding card listing (slide 07); no face export on disk — export front + back from the skateboarding sport file.",
+  },
+  {
+    cardId: "GDE-FS-OTH-2026-12",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live skateboarding card listing (slide 08); no face export on disk — export front + back from the skateboarding sport file.",
+  },
+  {
+    cardId: "GDE-HE-OTH-2026-12",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live skateboarding card listing (slide 08); no face export on disk — export front + back from the skateboarding sport file.",
+  },
+  {
+    cardId: "GDE-PR-OTH-2026-12",
+    ticket: "F1-ART-09",
+    reason:
+      "Card back with this ID is printed on the live skateboarding card listing (slide 09); no face export on disk — export front + back from the skateboarding sport file.",
   },
 ];
 

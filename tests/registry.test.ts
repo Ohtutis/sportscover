@@ -28,6 +28,15 @@ import { sportByCode } from "../lib/catalog/sports";
 /** IDs that appear in etsy/LISTING-STATE.md prose but were never printed (documented typos). */
 const KNOWN_UNPRINTED = new Set(["GDE-PR-CHR-2026-00"]);
 
+/**
+ * IDs the listing log records as DEFECTS on live listing images — text left over from cloning, not a
+ * card that exists (LISTING-STATE.md 2026-09-1x: the wrestling poster listing prints the football
+ * card id `GDE-HE-FTB-2026-12` in two places). They are the listing owner's to fix on Etsy; a
+ * registry record for a card that was never made would be a lie. Listed here, dated, so the tripwire
+ * stays sharp for everything else.
+ */
+const KNOWN_LISTING_DEFECTS = new Set(["GDE-HE-FTB-2026-12"]);
+
 describe("registry", () => {
   it("has unique card IDs", () => {
     const ids = cards.map((c) => c.cardId);
@@ -62,7 +71,7 @@ describe("registry", () => {
     const file = path.join(process.cwd(), "etsy", "LISTING-STATE.md");
     if (!fs.existsSync(file)) return;
     const ids = new Set(fs.readFileSync(file, "utf8").match(/GDE-[A-Z]{2}-[A-Z]{3}-20\d{2}-[0-9]{1,2}\b/g) ?? []);
-    const missing = [...ids].filter((id) => !KNOWN_UNPRINTED.has(id) && !getCard(id));
+    const missing = [...ids].filter((id) => !KNOWN_UNPRINTED.has(id) && !KNOWN_LISTING_DEFECTS.has(id) && !getCard(id));
     expect(missing).toEqual([]);
   });
 });
