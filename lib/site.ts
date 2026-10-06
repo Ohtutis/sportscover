@@ -48,7 +48,7 @@ export const FREE_PROOF_FIRST = true;
  * every page that loads the pixel). Empty → no pixel anywhere. components/MetaPixel.tsx decides where it
  * may load (only /free-proof, never for EU/EEA/UK/CH visitors, never after the /privacy opt-out).
  */
-export const META_PIXEL_ID = "";
+export const META_PIXEL_ID = "2253420222121213"; // "Game Day Edition" dataset, business portfolio 1262818272592517 (created 2026-10-06)
 
 /** Real delivered orders. 0 → the "So far: {n} editions delivered." sentence is omitted (rendered only when ≥ 5). */
 export const DELIVERED_COUNT = 0;

@@ -677,7 +677,8 @@ describe("MetaPixel (D29, D19 kept honest)", () => {
     expect(process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "").toBe("");
     // The default id is lib/site.ts META_PIXEL_ID (public by nature); empty → no pixel.
     expect(metaPixelId()).toBe(META_PIXEL_ID || null);
-    expect(metaPixelId("")).toBe(META_PIXEL_ID || null);
+    expect(metaPixelId("")).toBeNull();
+    expect(META_PIXEL_ID).toMatch(/^\d{15,16}$/);
     expect(metaPixelId("12ab")).toBeNull();
     expect(metaPixelId("123456789012345');alert(1)//")).toBeNull();
     expect(metaPixelId(" 123456789012345 ")).toBe("123456789012345");
