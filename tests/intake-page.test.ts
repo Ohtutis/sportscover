@@ -21,7 +21,7 @@ const { default: FreeProofPage, metadata: pageMetadata } = await import("../app/
 const { default: ThanksPage, metadata: thanksMetadata } = await import("../app/(marketing)/free-proof/thanks/page");
 const twin = await import("../app/(marketing)/free-proof/for/[sport]/page");
 const { IntakeForm } = await import("../components/intake/IntakeForm");
-const { INTAKE_COPY, INTAKE_PATH, INTAKE_THANKS_PATH } = await import("../lib/intake/copy");
+const { INTAKE_COPY, INTAKE_PATH, INTAKE_THANKS_PATH, PROOF_CLOCK } = await import("../lib/intake/copy");
 const { CONSENTS, CONSENT_ORDER, PHOTO_RULES, parseProofRequest } = await import("../lib/intake/types");
 const { PRODUCTS, optionPrice, optionPriceLabel, productFromLabel, setFromLabel } = await import("../lib/intake/products");
 const { BUNDLE_STEPS, DUE_TODAY_LABEL, bundleTotal, formatPercent, formatUsd } = await import("../lib/catalog/prices");
@@ -145,20 +145,26 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     expect(pageMetadata.robots).toBeUndefined();
   });
 
-  it("opens as a landing: H1 → one sentence → the orange CTA to step 1 → the small note; the claims as quiet type", () => {
+  it("opens as a landing (v8): eyebrow → H1 (the result) → one sentence → the orange CTA to the form → the claims as quiet type", () => {
     expect(count(/<h1[\s>]/g)).toBe(1);
     expect(html).toMatch(new RegExp(`<h1[^>]*>${esc(INTAKE_COPY.h1)}</h1>`));
+    const eyebrow = html.indexOf(`data-hero-eyebrow="" class="[^"]*">${INTAKE_COPY.eyebrow}`.replace(/\[\^"\]\*/, ""));
     const h1 = html.indexOf(INTAKE_COPY.h1);
     const line = html.indexOf(INTAKE_COPY.heroLine);
-    const cta = /<a href="#step-1"[^>]*class="([^"]*)"[^>]*>([^<]*)<\/a>/.exec(html);
+    const cta = /<a href="#create"[^>]*class="([^"]*)"[^>]*>([^<]*)<\/a>/.exec(html);
     expect(cta?.[2]).toBe(INTAKE_COPY.heroCta);
+    expect(INTAKE_COPY.heroCta).toBe("Create my free proof →");
     expect(cta?.[1]).toMatch(/\bbg-accent\b/);
     const ctaAt = html.indexOf(cta![0]);
-    const note = html.indexOf(INTAKE_COPY.heroCtaNote);
+    expect(html).toMatch(new RegExp(`data-hero-eyebrow="" class="[^"]*">${esc(INTAKE_COPY.eyebrow)}</p>`));
+    expect(eyebrow === -1 || eyebrow < h1).toBe(true);
     expect(h1).toBeLessThan(line);
     expect(line).toBeLessThan(ctaAt);
-    expect(ctaAt).toBeLessThan(note);
+    // The CTA lands on the form's own heading, which can take focus; step 1 keeps its anchor for deep links.
+    expect(html).toMatch(/<section id="create"[^>]*>.*?<h2 id="create-title" tabindex="-1" data-step-focus=""[^>]*>LET'S CREATE YOUR ATHLETE\.<\/h2>/);
+    expect(html).toContain(INTAKE_COPY.formIntro.line);
     expect(html).toContain('id="step-1"');
+    expect(INTAKE_COPY.claims).toEqual(["NOTHING TO PAY TODAY", "NO CARD REQUIRED", `PROOF IN ${PROOF_CLOCK.toUpperCase()}`]);
     // The old long subhead is gone from the hero; the claims stay as muted labels, never an accent.
     expect(html).not.toContain(INTAKE_COPY.subhead);
     for (const claim of INTAKE_COPY.claims) {
@@ -169,8 +175,13 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     }
   });
 
-  it("five how-it-works cards in order — the picture filling the top, then numeral, title and line; the fifth the promise bar — in the site's shared band, before step 1", () => {
-    const band = between('data-proof-band=""', 'id="step-1"');
+  it("five how-it-works cards in order — the picture filling the top, then numeral, title and line; the fifth the promise bar — in the site's shared band, AFTER the form (v8)", () => {
+    // v8 (ads brief §3–§4): the three-beat strip is what sits between the hero and the form; the band follows the form.
+    expect(html.indexOf('data-proof-strip=""')).toBeLessThan(html.indexOf('id="create"'));
+    expect(html.indexOf('id="step-1"')).toBeLessThan(html.indexOf('data-proof-band=""'));
+    expect(html.indexOf('data-proof-band=""')).toBeLessThan(html.indexOf('id="examples"'));
+    const band = between('data-proof-band=""', 'id="examples"');
+    expect(html).toContain('<section id="how-it-works" data-proof-band=""');
     expect(band).toContain(`>${PROOF_PATH_LABEL}</p>`);
     let at = 0;
     for (const card of INTAKE_COPY.stepCards) {
@@ -250,11 +261,11 @@ describe("/free-proof — the page a Meta ad lands on", () => {
   });
 
   it("the hero: the copy, and the example sport's proof with three of its athlete's phone photos over the corner — real art before any choice", () => {
-    const hero = between(`aria-labelledby="free-proof-title"`, 'data-proof-band=""');
+    const hero = between(`aria-labelledby="free-proof-title"`, 'data-proof-strip=""');
     expect(hero).toContain("lg:grid lg:grid-cols-12");
     expect(hero.match(/lg:col-span-6/g)?.length).toBe(2);
     const visual = hero.slice(hero.indexOf('data-hero-visual=""'));
-    expect(hero.indexOf('data-hero-visual=""')).toBeGreaterThan(hero.indexOf(INTAKE_COPY.heroCtaNote));
+    expect(hero.indexOf('data-hero-visual=""')).toBeGreaterThan(hero.indexOf(INTAKE_COPY.heroCta));
     // The exhibit: the bracket frame and its file-tab label, the sheet at the proof's ratio, the CSS watermark.
     expect(visual).toContain(`>${INTAKE_COPY.heroVisual.frameLabel}</span>`);
     expect(visual).toContain("aspect-[1400/1077]");
@@ -766,17 +777,17 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     expect(one).not.toMatch(/<s>/);
   });
 
-  it("orange only where the owner allows it: the hero CTA, the submit and the three summary ticks", () => {
+  it("orange only where the owner allows it: the three CTAs to the form, the submit and the three summary ticks", () => {
     const fills = html.match(/class="[^"]*\bbg-accent\b[^"]*"/g) ?? [];
-    // hero CTA + submit + 3 ticks; SELECTED badges appear only once something is chosen.
-    expect(fills).toHaveLength(5);
+    // hero CTA + closing CTA + the sticky bar's CTA + submit + 3 ticks; SELECTED badges appear only once something is chosen.
+    expect(fills).toHaveLength(7);
     expect(html).not.toContain("MOST POPULAR");
     expect(html).not.toMatch(/\btext-accent\b/);
     // The one other orange: the four bracket corners of the proof exhibit in the hero (DESIGN §4.6), and nowhere else.
     const corners = html.match(/class="[^"]*\bborder-accent\b[^"]*"/g) ?? [];
     expect(corners).toHaveLength(4);
     for (const c of corners) expect(c).toMatch(/pointer-events-none absolute size-7 border-accent/);
-    const visual = between('data-hero-visual=""', 'data-proof-band=""');
+    const visual = between('data-hero-visual=""', 'data-proof-strip=""');
     expect(visual.match(/\bborder-accent\b/g)).toHaveLength(4);
     // The finish swatches are gradients of the finishes, never the accent token.
     expect(html).not.toMatch(/style="[^"]*var\(--color-accent\)/);
@@ -842,7 +853,7 @@ describe("/free-proof/for/<sport> — the per-sport twin next.config.ts rewrites
   it("is /free-proof with the link's sport as the example: every picture in it from the first byte, nothing from football", async () => {
     const out = decode(renderToStaticMarkup((await twin.default({ params: Promise.resolve({ sport: "basketball" }) })) as ReactElement));
     const bk = REAL.basketball;
-    const hero = out.slice(out.indexOf('data-hero-visual=""'), out.indexOf('data-proof-band=""'));
+    const hero = out.slice(out.indexOf('data-hero-visual=""'), out.indexOf('data-proof-strip=""'));
     expect(srcs(hero)).toEqual([bk.poster!.src, bk.cards.SN!.src, ...bk.photos!.map((p) => p.src)]);
     expect(hero).toContain('data-example="basketball"');
     expect(hero).toContain(INTAKE_COPY.art.pick("Basketball"));

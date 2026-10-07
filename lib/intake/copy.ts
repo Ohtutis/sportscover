@@ -20,14 +20,17 @@ export const INTAKE_COPY = {
   title: "Free Proof First — Pay If You Love It",
   description: `Send ${PHOTO_RULES.min}–${PHOTO_RULES.max} photos and see a watermarked proof of your athlete's cards, poster, banner or blanket, free within ${PROOF_CLOCK}. Pay only if you love it.`,
 
-  h1: "FREE PROOF FIRST. PAY IF YOU LOVE IT.",
+  h1: "TURN THEIR PHOTOS INTO THEIR OWN SPORTS COLLECTIBLE.",
   subhead: `Choose what you'd like made and send ${PHOTO_RULES.min}–${PHOTO_RULES.max} photos. We build a watermarked proof of your athlete's edition — free, within ${PROOF_CLOCK}. Approve it and pay by secure payment link or on our Etsy shop; the watermark comes off and the files and prints follow.`,
 
-  /** v2 hero (owner review 2026-10-04): the H1, ONE short sentence, the orange CTA that scrolls to step 1, a quiet note. */
-  /** v6 (owner, 2026-10-07: "the hero is too weak … it has to sell what they get"): the product is named, then the promise. */
-  heroLine: `A poster, trading cards, banner or blanket designed only for them from ${PHOTO_RULES.min}–${PHOTO_RULES.max} phone photos, with a free watermarked proof before you pay anything.`,
-  heroCta: "Start my free proof →",
-  heroCtaNote: "No payment required",
+  /**
+   * v8 hero (ads landing brief, 2026-10-07): the eyebrow names the mechanism, the H1 sells the result, ONE
+   * sentence says what to send and what comes back, the orange CTA glides to the form, and three quiet trust
+   * lines sit under it. No price in the hero (owner, 2026-09-07: the price sits in the band under it).
+   */
+  eyebrow: "Free custom proof",
+  heroLine: `Send us ${PHOTO_RULES.min}–${PHOTO_RULES.max} phone photos. We'll create a custom trading card or poster of your athlete and send you the actual proof before you pay anything.`,
+  heroCta: "Create my free proof →",
   /**
    * v3 (owner review 2026-10-06: the hero's right half was empty): the file-tab label on the proof beside the copy.
    * v6 (2026-10-07): the exhibit reads "your photos → their edition". No choice lives in the hero (the owner, on a
@@ -38,7 +41,55 @@ export const INTAKE_COPY = {
     // Short enough for one line on a 375 px phone (the sheet itself carries the PROOF stamp).
     frameLabel: "THEIR EDITION · FREE PROOF",
     photosLabel: "Your photos →",
+    /** Under the exhibit: the transformation in nine words, for a reader who skips the copy. */
+    microLine: "Your photos. Their face. Their uniform. Their edition.",
   },
+
+  /** The three-beat strip under the hero (ads brief §3): what to do, what we do, what they get — one sentence each. */
+  strip: [
+    { title: "Upload photos", line: `Send us ${PHOTO_RULES.min}–${PHOTO_RULES.max} photos from your phone.` },
+    { title: "We create it", line: "Our team builds your athlete's own edition from them." },
+    { title: "See it first", line: (from: string): string => `Love it? Then you decide. Digital editions from ${from}.` },
+  ],
+
+  /** Over the form (ads brief §4): the form starts right after the strip, with a plain promise of effort and cost. */
+  formIntro: { title: "LET'S CREATE YOUR ATHLETE.", line: "Takes about 2 minutes. Nothing to pay today." },
+
+  /** After the form (ads brief §9): phone photos beside the finished edition, three sports, almost no words. */
+  examples: {
+    label: "Examples",
+    title: "FROM CAMERA ROLL TO COLLECTIBLE.",
+    line: "They already have the memories. We turn them into something worth keeping.",
+    before: "Their photos",
+    after: "Their edition",
+  },
+
+  /** After the examples (ads brief §10): the six objections a cold visitor has, one line each, no icon cards. */
+  trust: {
+    label: "Why parents trust the proof",
+    title: "SEE THE REAL DESIGN BEFORE YOU PAY.",
+    items: [
+      { title: "No payment up front", line: "You see the actual design first." },
+      { title: "Real human review", line: "Every edition is checked by a person before it reaches you." },
+      { title: "Your photos stay private", line: "Used only to build and check the artwork, never published without your permission." },
+      { title: "Made from your athlete", line: "Their face, their uniform, their details, built from your photos." },
+      { title: "Print or digital", line: "You choose after you approve the proof." },
+      { title: "Secure checkout", line: "Approved orders are completed by secure payment link or on our Etsy shop." },
+    ],
+  },
+
+  /** The FAQ block on the form page (ads brief §12): the questions that stop a parent from sending photos. */
+  faqTitle: "QUESTIONS PARENTS ASK.",
+
+  /** The closing (ads brief §13): one line in the display face, one sentence, the same CTA back to the form. */
+  finalCta: {
+    title: "YOU DON'T HAVE TO BUY IT. YOU JUST HAVE TO SEE IT.",
+    line: "Upload your photos and let us show you what your athlete could become.",
+    note: "Nothing to pay today · No card required",
+  },
+
+  /** The sticky bar on a phone while the form is out of view (ads brief §15). */
+  stickyCta: "Create free proof →",
 
   /**
    * v4 (owner review 2026-10-06, evening: "mixing sports is not cool"): every athlete picture on the page
@@ -181,8 +232,8 @@ export const INTAKE_COPY = {
     empty: "Pick a product to start.",
   },
 
-  /** Typographic claims (Pill variant="label"), never buttons. */
-  claims: ["NOTHING TO PAY NOW", `PROOF IN ${PROOF_CLOCK.toUpperCase()}`, "PAY ONLY AFTER YOU APPROVE"],
+  /** Typographic claims under the hero CTA (Pill variant="label"), never buttons; "today", never a zero figure (owner, 2026-10-07). */
+  claims: ["NOTHING TO PAY TODAY", "NO CARD REQUIRED", `PROOF IN ${PROOF_CLOCK.toUpperCase()}`],
 
   steps: [
     { n: 1, title: "Send photos", body: `${PHOTO_RULES.min}–${PHOTO_RULES.max} photos from your phone, and what you'd like made.` },

@@ -114,7 +114,11 @@ export function HeroVisualView({
           </div>
         ))}
       </div>
-      <ArtNote state={state} sport={sportName(choice.sport, choice.sportOther)} example={exampleName(art, example)} label={false} className="mt-5" />
+      {/* The transformation in nine words, for a reader who skips the copy (ads brief §2). */}
+      <p data-hero-micro="" className="mt-6 font-display text-[1.0625rem] uppercase leading-snug tracking-[0.02em] text-ink">
+        {INTAKE_COPY.heroVisual.microLine}
+      </p>
+      <ArtNote state={state} sport={sportName(choice.sport, choice.sportOther)} example={exampleName(art, example)} label={false} className="mt-3" />
     </div>
   );
 }

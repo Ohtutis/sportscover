@@ -176,7 +176,8 @@ describe("tree hygiene", () => {
       const src = read(f);
       const animations = (src.match(/\banimate-[\w-]+/g) ?? []).filter((a) => !/^animate-card-flip(-back|-quick)?$/.test(a));
       expect(animations, f).toEqual([]);
-      if (/IntersectionObserver/.test(src)) expect(f).toBe("components/CardFlip.tsx");
+      // The flip, and the sticky bar on /free-proof that leaves while the form is on screen (ads brief §15, 2026-10-07).
+      if (/IntersectionObserver/.test(src)) expect(["components/CardFlip.tsx", "components/intake/StickyCta.tsx"], f).toContain(f);
     }
   });
   it("the dead order-form API and the Cover-Moment-era images are gone", () => {

@@ -178,3 +178,18 @@ never blocks the request. No key is ever logged.
 - Lawyer: the consent sentences are the spec's (D16), versioned by `CONSENT_TEXT_VERSION`; the written
   biometric policy (`/privacy/biometric`) already exists — confirm it covers a request that never becomes
   an order (30-day destruction).
+
+## v8 — the ads landing order (2026-10-07, stage A of the ChatGPT brief the owner relayed)
+
+Stage A touched nothing in the form, the API or the uploads. The page now reads: hero (eyebrow "Free custom proof",
+H1 "Turn their photos into their own sports collectible.", one sentence, "Create my free proof →", three claims:
+nothing to pay today / no card required / proof in 1–2 business days) → the three-beat strip (upload → we create it →
+see it first, with the digital "from" price as the anchor) → "LET'S CREATE YOUR ATHLETE." and the form at once → the
+five-card how-it-works band (`#how-it-works`) → "From camera roll to collectible" (three sports, phone photos → poster +
+card, `components/intake/Examples.tsx`) → six trust lines (`TrustGrid`) → the nine-question FAQ (`faqSubset("free-proof")`,
+FAQPage JSON-LD) → the closing "You don't have to buy it. You just have to see it." (`FinalCta`) → a sticky phone bar
+(`StickyCta`, hidden while `#free-proof-form` is on screen). Every CTA glides to `#create`. Deliberate deviations from
+the brief: no "$0" wording (owner, 2026-10-07: a zero reads as "free overall"), the price anchor sits in the strip
+rather than under the hero CTA (owner, 2026-09-07), banners and blankets stay on the page. Stage B (the four-step
+form, defaults instead of early decisions, the privacy box, the thanks page, `product=card|poster|complete-set`
+links, funnel events) is its own PR.

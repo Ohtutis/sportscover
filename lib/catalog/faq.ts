@@ -11,6 +11,8 @@
 import { block } from "../blocks";
 import { CANON, proofPathLine } from "../copy/canon";
 import { freeProofMode } from "../cta";
+import { PROOF_CLOCK } from "../intake/copy";
+import { PHOTO_RULES } from "../intake/types";
 import { SITE_SELLS_DIRECT, SUPPORT_EMAIL } from "../site";
 import { CHIPS, LEAD_TIMES } from "./delivery";
 import { getTier } from "./prices";
@@ -90,6 +92,60 @@ export const faq: FaqItem[] = [
     proofFirstOnly: true,
     q: "What if I don't like the proof?",
     a: "One revision is included. If it still isn't right, there is nothing to pay.",
+  },
+  // /free-proof only (subsetOnly): the ads landing page's own nine, written for a parent who arrived from an ad
+  // (brief, 2026-10-07). Every answer repeats a fact the canon already states; none promises a clock or a
+  // product the business does not deliver.
+  {
+    id: "faq-46",
+    group: "proof",
+    subsetOnly: true,
+    q: "Is the proof really free?",
+    a: "Yes. Send your photos and details and we build the watermarked proof without taking any payment details.",
+  },
+  { id: "faq-47", group: "proof", subsetOnly: true, q: "Do I have to buy it?", a: "No. If you don't love the proof, you don't buy it, and there is nothing to pay." },
+  {
+    id: "faq-48",
+    group: "photos",
+    subsetOnly: true,
+    q: "What kind of photos work?",
+    a: "Phone photos are fine. Clear shots where we can see the athlete's face and uniform work best, and different angles beat many similar ones.",
+  },
+  {
+    id: "faq-49",
+    group: "photos",
+    subsetOnly: true,
+    q: "How many photos should I upload?",
+    a: `${PHOTO_RULES.min}–${PHOTO_RULES.max} is ideal. A mix of close-ups and action shots gives us the most to work with.`,
+  },
+  {
+    id: "faq-50",
+    group: "proof",
+    subsetOnly: true,
+    q: "What do I get to see?",
+    a: "The actual artwork, built from your athlete's photos and details, with a watermark across it until you approve.",
+  },
+  {
+    id: "faq-51",
+    group: "proof",
+    subsetOnly: true,
+    q: "What happens if I love it?",
+    a: "You pick digital or printed, pay by secure payment link or on our Etsy shop, and the watermark comes off.",
+  },
+  {
+    id: "faq-52",
+    group: "products",
+    subsetOnly: true,
+    q: "Can I order printed products?",
+    a: "Yes. Printed trading cards, posters, banners and blankets are offered once the proof is approved.",
+  },
+  { id: "faq-53", group: "privacy", subsetOnly: true, q: "Are my photos private?", a: `Yes. ${C3}` },
+  {
+    id: "faq-54",
+    group: "timing",
+    subsetOnly: true,
+    q: "How long does it take?",
+    a: `The watermarked proof arrives by email within ${PROOF_CLOCK}. ${CANON.deliveryClocks}`,
   },
   // Products
   {
@@ -323,7 +379,9 @@ export const faq: FaqItem[] = [
   },
 ];
 
-export const FAQ_SUBSETS: Record<"trading-cards" | "posters" | "complete-set" | "senior-night" | "how-it-works", string[]> = {
+export const FAQ_SUBSETS: Record<"trading-cards" | "posters" | "complete-set" | "senior-night" | "how-it-works" | "free-proof", string[]> = {
+  // /free-proof (ads landing brief, 2026-10-07): the nine questions that stop a parent from sending photos, in the order they arise.
+  "free-proof": ["faq-46", "faq-47", "faq-48", "faq-49", "faq-50", "faq-51", "faq-52", "faq-53", "faq-54"],
   "trading-cards": ["faq-08", "faq-12", "faq-03", "faq-36", "faq-27", "faq-24"],
   posters: ["faq-08", "faq-05", "faq-07", "faq-37", "faq-27", "faq-38"],
   "complete-set": ["faq-08", "faq-16", "faq-39", "faq-36", "faq-27", "faq-24"],
