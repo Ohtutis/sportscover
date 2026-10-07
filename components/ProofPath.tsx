@@ -1,12 +1,11 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { assetOrNull, type ImageSpec } from "../lib/assets";
-import { DUE_TODAY_LABEL } from "../lib/catalog/prices";
 import { PROOF_PATH, PROOF_PATH_LABEL } from "../lib/copy/canon";
 import { INTAKE_COPY } from "../lib/intake/copy";
 import { FictionalLabel } from "./FictionalLabel";
 import { CheckCircleIcon } from "./icons";
-import { FAN_SPORTS, MIX_PHOTOS, PHOTO_SHOT_NUMBER, StepFan, StepLikeness, StepPhotos, StepTick } from "./intake/visuals";
+import { FAN_SPORTS, LIKENESS_SPORTS, MIX_PHOTOS, PHOTO_SHOT_NUMBER, StepFan, StepLikeness, StepPhotos, StepTick } from "./intake/visuals";
 
 /**
  * The proof-first path, four steps (D29 — owner, 2026-10-04: "make everything much clearer … the parent
@@ -48,8 +47,8 @@ export const STEP_FAN_KEYS = FAN_SPORTS.map((slug) => `free-proof.${slug}.poster
  * kits and everyday clothes, boys and girls). A grey "your photo" print stands in for any key not verified.
  */
 export const STEP_PHOTO_KEYS = MIX_PHOTOS.map(({ slug, shot }) => `free-proof.${slug}.photo.${PHOTO_SHOT_NUMBER[shot]}`);
-/** Card 03 by default: Marcus's identity plate (three views) and kit plate. */
-export const STEP_LIKENESS_KEYS = ["free-proof.basketball.identity", "free-proof.basketball.kit"] as const;
+/** Card 03 on every page: the two likeness packs (components/intake/visuals.tsx LIKENESS_SPORTS: a boy and a girl), plate then kit. */
+export const STEP_LIKENESS_KEYS = LIKENESS_SPORTS.flatMap((slug) => [`free-proof.${slug}.identity`, `free-proof.${slug}.kit`]);
 
 export type ProofPathVariant = "cards" | "list";
 
@@ -94,8 +93,9 @@ function stepVisual(i: number): { node: ReactNode; fictional: boolean } | null {
     return { fictional: photos.some((p) => p?.fictional), node: <StepPhotos photos={photos} /> };
   }
   if (i === 2) {
-    const [identity, kit] = STEP_LIKENESS_KEYS.map(maybe);
-    return { fictional: Boolean(identity?.fictional || kit?.fictional), node: <StepLikeness identity={identity} kit={kit} /> };
+    const plates = STEP_LIKENESS_KEYS.map(maybe);
+    const pairs = LIKENESS_SPORTS.map((_, n) => ({ identity: plates[2 * n], kit: plates[2 * n + 1] }));
+    return { fictional: plates.some((p) => p?.fictional), node: <StepLikeness pairs={pairs} /> };
   }
   if (i === 3) {
     const proof = maybe(STEP_PROOF_KEY);
@@ -137,11 +137,11 @@ function Cards({ className, visuals }: { className: string; visuals?: readonly (
 
 /**
  * The fifth card, the full width of the row — the promise, on the dark surface so it is the loudest thing in the
- * band (owner, 2026-10-07: "pay as an extra across the whole width, so it is clear they risk nothing"; then "05
- * must be stronger, it is blank"). Three columns from `sm`: the numeral and the promise set in Anton, the three
- * checks "Your order" makes (INTAKE_COPY.summary.checks — one list, two places), and the zero-due figure
- * (DUE_TODAY_LABEL, the one dollar literal outside the ladder) with its label, so "nothing to risk" is read as
- * a number as well as a sentence. White ticks, no accent: the page's orange stays on its two buttons.
+ * band (owner, 2026-10-07: "pay as an extra across the whole width, so it is clear they risk nothing"; "05 must be
+ * stronger"; and no zero figure: "to get anything after the proof they still pay — it is about no payment before
+ * approval"). Two columns from `sm`: the numeral and the promise set in Anton with the line that spells both
+ * outcomes, and the three outcomes with white ticks (INTAKE_COPY.promise). No accent: the page's orange stays on
+ * its two buttons.
  */
 function WideCard({ card }: { card: { n: string; title: string; line: string } }) {
   return (
@@ -149,27 +149,23 @@ function WideCard({ card }: { card: { n: string; title: string; line: string } }
       data-step-card=""
       data-step-wide=""
       data-surface="arena"
-      className="col-span-full grid min-w-0 gap-6 rounded-[20px] bg-arena p-5 text-white sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_auto] sm:items-center sm:gap-8 sm:p-6 lg:p-8"
+      className="col-span-full grid min-w-0 gap-6 rounded-[20px] bg-arena p-5 text-white sm:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] sm:items-center sm:gap-8 sm:p-6 lg:p-8"
     >
       <div className="min-w-0">
         <span aria-hidden="true" className="font-display text-[2rem] leading-none tabular-nums text-arena-muted md:text-[2.5rem]">
           {card.n}
         </span>
         <p className="mt-2 font-display text-[1.75rem] uppercase leading-none text-balance md:text-[2.25rem]">{card.title}</p>
-        <p className="mt-3 max-w-[44ch] font-body text-small text-arena-muted text-pretty">{card.line}</p>
+        <p className="mt-3 max-w-[48ch] font-body text-[0.9375rem] text-arena-muted text-pretty">{card.line}</p>
       </div>
-      <ul className="grid gap-2.5 border-t border-arena-hairline pt-5 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0">
-        {INTAKE_COPY.summary.checks.map((check) => (
-          <li key={check} className="flex items-center gap-3 font-body text-[0.9375rem] font-medium leading-snug">
-            <CheckCircleIcon size={20} className="shrink-0 text-white" />
-            <span>{check}</span>
+      <ul className="grid gap-3 border-t border-arena-hairline pt-5 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0">
+        {INTAKE_COPY.promise.map((line) => (
+          <li key={line} className="flex items-center gap-3 font-body text-[1.0625rem] font-bold leading-snug">
+            <CheckCircleIcon size={22} className="shrink-0 text-white" />
+            <span>{line}</span>
           </li>
         ))}
       </ul>
-      <p data-due-today="" className="border-t border-arena-hairline pt-5 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0 sm:text-right">
-        <span className="block font-display text-[3rem] leading-none tabular-nums md:text-[3.5rem]">{DUE_TODAY_LABEL}</span>
-        <span className="mt-1 block font-label text-label font-semibold uppercase tracking-[0.12em] text-arena-muted">{INTAKE_COPY.dueToday}</span>
-      </p>
     </li>
   );
 }

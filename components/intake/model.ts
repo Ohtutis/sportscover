@@ -309,26 +309,6 @@ export const choiceStore = {
   },
 };
 
-/**
- * A sport asked for OUTSIDE the form — the hero's sport strip (v6, 2026-10-07). The form subscribes and treats a
- * request exactly like a tap on a step-1 chip, so the strip, step 1 and every picture agree. A counter, not a flag,
- * so asking for the same sport twice (after "Other" was chosen in between) still lands.
- */
-let sportRequest: { slug: string; n: number } = { slug: "", n: 0 };
-const requestListeners = new Set<() => void>();
-
-export const sportRequestStore = {
-  get: (): { slug: string; n: number } => sportRequest,
-  request(slug: string): void {
-    sportRequest = { slug, n: sportRequest.n + 1 };
-    for (const l of requestListeners) l();
-  },
-  subscribe(l: () => void): () => void {
-    requestListeners.add(l);
-    return () => requestListeners.delete(l);
-  },
-};
-
 // --- payload ----------------------------------------------------------------------------------------
 
 export const fileMeta = (file: { name: string; size: number; type: string }): FileMeta => ({ name: file.name, size: file.size, type: file.type });

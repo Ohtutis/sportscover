@@ -4,6 +4,7 @@
 // comes first. "Secure payment link" is the whole phrase — never a provider name in copy.
 
 import { LEAD_TIMES } from "../catalog/delivery";
+import { finishes } from "../catalog/styles";
 import { PHOTO_RULES } from "./types";
 
 const [digitalMin, digitalMax] = LEAD_TIMES.digitalBusinessDays;
@@ -29,15 +30,14 @@ export const INTAKE_COPY = {
   heroCtaNote: "No payment required",
   /**
    * v3 (owner review 2026-10-06: the hero's right half was empty): the file-tab label on the proof beside the copy.
-   * v6 (2026-10-07): the exhibit reads "your photos → their edition", and a strip of sports under it switches every
-   * picture on the page (the owner: "we pick a sport and everything changes").
+   * v6 (2026-10-07): the exhibit reads "your photos → their edition". No choice lives in the hero (the owner, on a
+   * sport strip tried the same day: "the first visual must say what happens here, why they came and what they get,
+   * not ask them to pick something already").
    */
   heroVisual: {
-    // Short enough for one line on a 375 px phone (the sheet itself carries the PROOF watermark).
+    // Short enough for one line on a 375 px phone (the sheet itself carries the PROOF stamp).
     frameLabel: "THEIR EDITION · FREE PROOF",
     photosLabel: "Your photos →",
-    switchLabel: "See it in their sport",
-    allSports: (n: number): string => `All ${n} sports ↓`,
   },
 
   /**
@@ -70,16 +70,35 @@ export const INTAKE_COPY = {
    * Honest wording only: built and checked, never "a perfect copy" (the likeness is measured, not promised).
    */
   stepCards: [
-    { n: "01", title: "Choose it", line: "Sport, product and style" },
-    { n: "02", title: "Upload it", line: `${PHOTO_RULES.min}–${PHOTO_RULES.max} phone photos` },
-    { n: "03", title: "We build them", line: "Not a template: their face, build and kit from your photos, checked before we design" },
-    { n: "04", title: "See the proof", line: `Free and watermarked, in ${PROOF_CLOCK}` },
+    // Owner, 2026-10-07: "the step descriptions are too weak: a glance at the five must say what the process is."
+    {
+      n: "01",
+      title: "Choose it",
+      line: `Their sport, what to make (cards, poster, banner or blanket) and the look: ${finishes.length} finishes or the Senior Night edition.`,
+    },
+    {
+      n: "02",
+      title: "Upload it",
+      line: `Send ${PHOTO_RULES.min}–${PHOTO_RULES.max} phone photos: a clear face, the team kit and a few from everyday life. No photographer needed.`,
+    },
+    {
+      n: "03",
+      title: "We build them",
+      line: "Not a template. We rebuild your athlete from the photos, the same face, build and kit, and check every shot against them before we design.",
+    },
+    { n: "04", title: "See the proof", line: `Within ${PROOF_CLOCK} you get a watermarked proof of the real design by email, free.` },
     // The fifth runs the full width of the row (owner, 2026-10-07: "the four main ones, and pay as an extra across
-    // the whole width, so it is clear they risk nothing — they order only if they like the result").
-    { n: "05", title: "Pay only if you love it", line: "Nothing to pay now. See the proof first and order only if you like the result.", wide: true },
+    // the whole width, so it is clear they risk nothing"). No zero figure here (owner: "a zero does not apply: to
+    // get anything after the proof they still pay; it is about no payment before approval").
+    {
+      n: "05",
+      title: "Pay only if you love it",
+      line: "No payment before you approve. Don't like the proof? You pay nothing. Love it? Pay then, and the watermark comes off.",
+      wide: true,
+    },
   ],
-  /** The wide card's figure: the zero-due fact, labelled. The figure itself is prices.ts DUE_TODAY_LABEL. */
-  dueToday: "due today",
+  /** The wide card's three outcomes, one tick each. */
+  promise: ["Free watermarked proof first", "Not happy? Nothing to pay", "Love it? Pay, and the files and prints follow"],
 
   /** v4 (2026-10-06): six numbered steps, the sport first; permissions and the conversion card come after step 6. */
   stepLabel: (n: number): string => `STEP ${n} OF 6`,

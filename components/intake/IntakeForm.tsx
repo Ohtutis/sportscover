@@ -36,7 +36,6 @@ import {
   shownArt,
   sportArt,
   sportName,
-  sportRequestStore,
   statErrorsByRow,
   type ArtNoteData,
   type AthleteState,
@@ -112,7 +111,7 @@ const KEY = "font-label text-label font-semibold uppercase tracking-[0.12em] tex
 function Step({ n, title, support, children }: { n: keyof typeof STEP_TITLE_ID; title: string; support?: string; children: ReactNode }) {
   const titleId = STEP_TITLE_ID[n];
   return (
-    <section id={`step-${n}`} aria-labelledby={titleId} className="scroll-mt-20 py-10 md:py-14 lg:scroll-mt-24">
+    <section id={`step-${n}`} aria-labelledby={titleId} className="scroll-mt-20 py-8 md:py-12 lg:scroll-mt-24">
       <div className="border-t border-hairline pt-3">
         <p className={KEY}>{INTAKE_COPY.stepLabel(n)}</p>
       </div>
@@ -231,15 +230,6 @@ export function IntakeForm({
     choiceStore.set({ sport: sportSlug, sportOther, style: chosenStyle });
   }, [sportSlug, sportOther, chosenStyle]);
   useEffect(() => () => choiceStore.set({ sport: "", sportOther: "", style: "" }), []);
-  // The hero's sport strip asks for a sport from outside the form: the same change as a tap on a step-1 chip.
-  useEffect(
-    () =>
-      sportRequestStore.subscribe(() => {
-        const { slug } = sportRequestStore.get();
-        if (slug) setForm((f) => chooseSport(f, slug));
-      }),
-    [],
-  );
 
   // Previews are object URLs; give the memory back when the page goes.
   useEffect(() => {

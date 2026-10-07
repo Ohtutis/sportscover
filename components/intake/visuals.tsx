@@ -169,7 +169,17 @@ export function PhotoPrint({
  * 48 tiles it sat on every face and the art looked worse than it is — the stamp must read second). Every
  * size is a share of the box (`cqw`), so a 120 px thumb and a 500 px hero carry the same pattern.
  */
-export function Watermark({ className = "" }: { className?: string }) {
+export function Watermark({ variant = "tiles", className = "" }: { variant?: "tiles" | "stamp"; className?: string }) {
+  if (variant === "stamp") {
+    // One word across the sheet (the hero): the edition reads as the product, the stamp says it is a proof.
+    return (
+      <span data-watermark="stamp" aria-hidden="true" className={`@container pointer-events-none absolute inset-0 overflow-hidden ${className}`.trim()}>
+        <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-[24deg] whitespace-nowrap font-display text-[26cqw] uppercase leading-none tracking-[0.12em] text-white/35 [text-shadow:0_0_2px_rgb(20_25_31/0.35)]">
+          {INTAKE_COPY.art.watermark}
+        </span>
+      </span>
+    );
+  }
   return (
     <span data-watermark="" aria-hidden="true" className={`@container pointer-events-none absolute inset-0 overflow-hidden ${className}`.trim()}>
       <span className="absolute left-1/2 top-1/2 grid w-[200%] -translate-x-1/2 -translate-y-1/2 -rotate-[24deg] grid-cols-4 gap-x-[12cqw] gap-y-[15cqw] text-center">
@@ -239,37 +249,22 @@ export function ArtNote({
   const sentence = (text: string) => (
     <span className={`block max-w-[60ch] font-body text-small font-medium text-pretty text-ink ${c13 ? "mt-2" : "border-t border-hairline pt-2"}`}>{text}</span>
   );
-  // `art` and `pick` share one cell: the server renders `pick` and a sport from the link turns it into `art` with no
-  // tap, so the slot keeps the taller one's height (CLS 0). `none` only ever follows a tap (Other, or a sport with no
-  // example), so it replaces the stack instead of reserving its three lines for everyone.
-  const lines: [ArtState, ReactNode][] =
-    state === "none"
-      ? [
-          [
-            "none",
-            <span key="none" className="block">
-              {c13}
-              {sentence(noExampleLine(sport, example))}
-            </span>,
-          ],
-        ]
-      : [
-          ["art", c13],
-          [
-            "pick",
-            <span key="pick" className="block">
-              {c13}
-              {sentence(INTAKE_COPY.art.pick(example))}
-            </span>,
-          ],
-        ];
+  // Only the current line is in the page (owner, 2026-10-07: a reserved slot read as "an empty gap, was something
+  // meant to be there?"). A link that names a sport is served by the per-sport twin, so the first paint is already
+  // `art`; the line changes height only after a tap.
+  const node: ReactNode =
+    state === "art" ? (
+      c13
+    ) : (
+      <span className="block">
+        {c13}
+        {sentence(state === "pick" ? INTAKE_COPY.art.pick(example) : noExampleLine(sport, example))}
+      </span>
+    );
+  if (!node) return null;
   return (
-    <div data-art-note={state} aria-live="polite" className={`grid ${className}`.trim()}>
-      {lines.map(([s, node]) => (
-        <div key={s} aria-hidden={s === state ? undefined : true} className={`col-start-1 row-start-1 ${s === state ? "" : "invisible"}`.trim()}>
-          {node}
-        </div>
-      ))}
+    <div data-art-note={state} aria-live="polite" className={className}>
+      {node}
     </div>
   );
 }
@@ -349,19 +344,40 @@ export function StepPhotos({ photos }: { photos: readonly (PrintImage | null)[] 
 }
 
 /**
- * Card 03 — what makes the work ours (owner, 2026-10-07: "explain how we are different"): the athlete's
- * identity plate (three views) and kit plate, both built from the photos and checked before any design.
- * Two prints, the kit lying over the plate's lower-right corner; a plain grey print where one is missing.
+ * Card 03 — what makes the work ours (owner, 2026-10-07: "explain how we are different … show a couple of identity
+ * and kit packs, one with a boy, one with a girl"): two athletes' identity plates (three views) and kit plates, all
+ * built from the photos and checked before any design. Fixed like 01 and 02 — the same two whatever sport is chosen.
  */
-export function StepLikeness({ identity, kit }: { identity: PrintImage | null; kit: PrintImage | null }) {
+export const LIKENESS_SPORTS = ["football", "volleyball"] as const;
+
+export interface LikenessPair {
+  identity: PrintImage | null;
+  kit: PrintImage | null;
+}
+
+/** Where each pair lies: the plate with its kit over its lower-right corner, the second pair a step right and lower. */
+const PAIRS = [
+  { identity: "left-0 top-[4%] z-10 -rotate-2", kit: "left-[24%] bottom-[6%] z-20 rotate-3" },
+  { identity: "left-[52%] top-[12%] z-30 -rotate-1", kit: "left-[72%] bottom-[2%] z-40 rotate-[4deg]" },
+] as const;
+
+/** Card 03: two identity plates and two kit plates as prints; a plain grey print where one is missing. */
+export function StepLikeness({ pairs }: { pairs: readonly LikenessPair[] }) {
   return (
     <>
-      <span data-likeness="identity" className={`${PRINT} left-[2%] top-[5%] z-10 aspect-[600/448] w-[62%] -rotate-2`}>
-        {identity ? <ArtImage image={identity} sizes={STEP_ART_SIZES} decorative /> : null}
-      </span>
-      <span data-likeness="kit" className={`${PRINT} bottom-[5%] right-[2%] z-20 aspect-square w-[42%] rotate-3`}>
-        {kit ? <ArtImage image={kit} sizes={STEP_ART_SIZES} decorative /> : null}
-      </span>
+      {PAIRS.map((place, i) => {
+        const pair = pairs[i] ?? { identity: null, kit: null };
+        return (
+          <span key={i} className="contents">
+            <span data-likeness="identity" className={`${PRINT} aspect-[600/448] w-[46%] ${place.identity}`}>
+              {pair.identity ? <ArtImage image={pair.identity} sizes={STEP_ART_SIZES} decorative /> : null}
+            </span>
+            <span data-likeness="kit" className={`${PRINT} aspect-square w-[28%] ${place.kit}`}>
+              {pair.kit ? <ArtImage image={pair.kit} sizes={STEP_ART_SIZES} decorative /> : null}
+            </span>
+          </span>
+        );
+      })}
     </>
   );
 }
