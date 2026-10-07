@@ -215,6 +215,8 @@ describe("intake copy", () => {
     ].join(" ");
     expect(bundle).not.toMatch(/\bsale\b|\bwas\b|regular price|limited time|\bends?\b|% off|\bdiscount/i);
     expect(INTAKE_COPY.h1.endsWith(".")).toBe(true);
-    expect(INTAKE_COPY.h1.length).toBeLessThanOrEqual(40);
+    // v8: three lines at 19ch ("TURN THEIR PHOTOS / INTO THEIR OWN / SPORTS COLLECTIBLE.").
+    expect(INTAKE_COPY.h1.length).toBeLessThanOrEqual(60);
+    expect(INTAKE_COPY.h1).toBe("TURN THEIR PHOTOS INTO THEIR OWN SPORTS COLLECTIBLE.");
   });
 });

@@ -214,6 +214,8 @@ export interface ProofPathBandProps {
   container?: "site" | "gallery" | "none";
   /** No bottom padding: what follows opens on its own rule and its own air (/free-proof's step 1). */
   flushBottom?: boolean;
+  /** An anchor for the band (/free-proof: the header's "How it works" and the sticky bar glide to it). */
+  id?: string;
   /** The page's own four pictures (see `ProofPathProps.visuals`). */
   visuals?: readonly (ReactNode | null)[];
   /**
@@ -230,7 +232,7 @@ export interface ProofPathBandProps {
  * lg:py-24` is its own air: with the hero's bottom padding above it, the clear ground between the
  * hero's last element and this rule is never under 64 px.
  */
-export function ProofPathBand({ container = "gallery", flushBottom = false, visuals, after, className = "" }: ProofPathBandProps) {
+export function ProofPathBand({ container = "gallery", flushBottom = false, visuals, after, id, className = "" }: ProofPathBandProps) {
   const padding = flushBottom ? "pt-16 md:pt-20 lg:pt-24" : "py-16 md:py-20 lg:py-24";
   const body = (
     <>
@@ -244,7 +246,7 @@ export function ProofPathBand({ container = "gallery", flushBottom = false, visu
     </>
   );
   return (
-    <section data-proof-band="" aria-labelledby={PROOF_BAND_LABEL_ID} className={`${padding} ${className}`.trim()}>
+    <section id={id} data-proof-band="" aria-labelledby={PROOF_BAND_LABEL_ID} className={`${padding} ${className}`.trim()}>
       {container === "none" ? body : <div className={container === "site" ? "container-site" : "container-gallery"}>{body}</div>}
     </section>
   );
