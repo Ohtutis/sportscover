@@ -9,7 +9,7 @@ import type { FreeProofArtMap } from "../../lib/intake/sport-art";
 import { REQUEST_ID, parseProofRequest, type ConsentKey, type SourceInfo, type StyleChoice } from "../../lib/intake/types";
 import { uploadToSignedUrl, type StorageEndpoint, type UploadTarget } from "../../lib/intake/upload";
 import { SUPPORT_EMAIL } from "../../lib/site";
-import { trackCustomize } from "../../lib/track";
+import { trackCustomize, trackFunnel } from "../../lib/track";
 import { PRIMARY_BUTTON_CLASS } from "../CtaPair";
 import { readEntry } from "../EntryAttribution";
 import { EtsyButton } from "../EtsyButton";
@@ -22,6 +22,7 @@ import {
   applyPrefill,
   artState,
   buildPayload,
+  chooseCategory,
   canPreview,
   captureSource,
   choiceStore,
@@ -39,6 +40,7 @@ import {
   statErrorsByRow,
   type ArtNoteData,
   type AthleteState,
+  type ProductCategory,
   type ContactState,
   type FormState,
   type Prefill,
@@ -97,7 +99,9 @@ type Failure = "invalid" | "bot" | "challenge" | "network" | "server" | "rate" |
 
 const EMPTY_SOURCE: SourceInfo = { landingPath: INTAKE_PATH, referrer: "", utm: {} };
 const MAILTO = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(UI.submit.mailtoSubject)}`;
-const STEP_TITLE_ID = { 1: "fp-s-sport", 2: "fp-s-products", 3: "fp-s-style", 4: "fp-s-athlete", 5: "fp-s-photos", 6: "fp-s-contact" } as const;
+const STEP_TITLE_ID = { 1: "fp-s-make", 2: "fp-s-athlete", 3: "fp-s-photos", 4: "fp-s-contact" } as const;
+/** Step 1's three parts (v8): the sport, the product, the look — each with its own small heading the controls are named by. */
+const PART_ID = { sport: "fp-s-sport", products: "fp-s-products", style: "fp-s-style" } as const;
 
 const SUBMIT_CLASS = `inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-ui px-10 py-3 text-center font-display text-[1.125rem] uppercase leading-tight tracking-[0.04em] transition-[color,background-color,border-color,filter] duration-hover ease-out disabled:cursor-progress sm:w-auto ${PRIMARY_BUTTON_CLASS}`;
 const KEY = "font-label text-label font-semibold uppercase tracking-[0.12em] text-muted-text";
@@ -121,6 +125,19 @@ function Step({ n, title, support, children }: { n: keyof typeof STEP_TITLE_ID; 
       {support ? <p className="mt-4 max-w-[60ch] font-body text-[1.125rem] font-bold text-pretty md:text-sub">{support}</p> : null}
       <div className="mt-8 lg:mt-10">{children}</div>
     </section>
+  );
+}
+
+/** One part of step 1 (v8): a small heading in the display face, one line, the controls — ruled off from the next part. */
+function Part({ id, title, line, children }: { id: string; title: string; line?: string; children: ReactNode }) {
+  return (
+    <div data-step-part="" className="border-t border-hairline pt-6 first:border-t-0 first:pt-0 [&+&]:mt-10">
+      <h3 id={id} className="font-display text-h3 uppercase text-ink">
+        {title}
+      </h3>
+      {line ? <p className="mt-2 max-w-[60ch] font-body text-body text-muted-text">{line}</p> : null}
+      <div className="mt-5">{children}</div>
+    </div>
   );
 }
 
@@ -281,9 +298,24 @@ export function IntakeForm({
 
   // --- section handlers -----------------------------------------------------------------------------
 
+  // Funnel events (ads brief §17): ProofStart once, on the first touch of the form; Lead stays on the thanks page.
+  const started = useRef(false);
+  const start = () => {
+    if (started.current) return;
+    started.current = true;
+    trackFunnel("ProofStart");
+  };
   const onSport = (slug: string) => {
     setForm((f) => chooseSport(f, slug));
     touched();
+    start();
+    trackFunnel("SportSelected", { content_ids: [slug] });
+  };
+  const onCategory = (category: ProductCategory) => {
+    setForm((f) => chooseCategory(f, category));
+    touched();
+    start();
+    trackCustomize({ content_category: "product", content_ids: [category] });
   };
   const onSportOther = (sportOther: string) => {
     setForm((f) => ({ ...f, athlete: { ...f.athlete, sportOther } }));
@@ -292,6 +324,7 @@ export function IntakeForm({
   const onToggle = (key: ProductKey, selected: boolean) => {
     setForm((f) => ({ ...f, products: { ...f.products, [key]: { ...f.products[key], selected } } }));
     touched();
+    start();
     if (selected) trackCustomize({ content_category: "product", content_ids: [key] });
   };
   const onOption = (key: ProductKey, option: string) => {
@@ -339,6 +372,10 @@ export function IntakeForm({
     );
     setPhotos((prev) => [...prev, ...accepted.map(makeItem)]);
     setNotes(rejected.map((r) => UI.photos.rejectedLine(r.name, UI.photos.rejected[r.reason])));
+    if (accepted.length) {
+      start();
+      trackFunnel("PhotoUpload", { num_items: accepted.length });
+    }
     touched();
   };
   const onRemovePhoto = (id: string) => {
@@ -502,7 +539,8 @@ export function IntakeForm({
   const note: ArtNoteData = { state: artState(art, sportSlug), sport: sportLabel, example: exampleName(art, example) };
   const withArt = useMemo(() => new Set(Object.keys(art).filter((slug) => sportArt(art, slug))), [art]);
   const summary = { products, state: form.products, styles, style: form.style, art: entry, sport: sportLabel };
-  const steps = INTAKE_COPY.steps6;
+  const steps = INTAKE_COPY.steps4;
+  const make = INTAKE_COPY.make;
 
   return (
     <div className={`lg:grid lg:grid-cols-[minmax(0,1fr)_17.5rem] lg:items-start lg:gap-x-10 ${className}`.trim()}>
@@ -511,38 +549,39 @@ export function IntakeForm({
       </Suspense>
       <form ref={formRef} noValidate onSubmit={onSubmit} className="min-w-0">
         <fieldset disabled={busy} className="min-w-0">
-          <Step n={1} title={steps.sport.title} support={steps.sport.support}>
-            <SportPicker
-              sports={sports}
-              value={sportSlug}
-              other={sportOther}
-              onChange={onSport}
-              onOther={onSportOther}
-              withArt={withArt}
-              example={note.example}
-              labelledBy={STEP_TITLE_ID[1]}
-              errors={errors}
-            />
+          <Step n={1} title={steps.make.title} support={steps.make.support}>
+            <Part id={PART_ID.sport} title={make.sport} line={make.sportLine}>
+              <SportPicker
+                sports={sports}
+                value={sportSlug}
+                other={sportOther}
+                onChange={onSport}
+                onOther={onSportOther}
+                withArt={withArt}
+                example={note.example}
+                labelledBy={PART_ID.sport}
+                errors={errors}
+              />
+            </Part>
+            <Part id={PART_ID.products} title={make.product} line={make.productLine}>
+              <ProductPicker
+                products={products}
+                state={form.products}
+                onToggle={onToggle}
+                onOption={onOption}
+                onCategory={onCategory}
+                art={entry}
+                style={form.style}
+                note={note}
+                error={errors.products}
+              />
+            </Part>
+            <Part id={PART_ID.style} title={make.look} line={make.lookLine}>
+              <StylePicker styles={styles} value={form.style} onChange={onStyle} labelledBy={PART_ID.style} art={entry} note={note} error={errors.style} />
+            </Part>
           </Step>
 
-          <Step n={2} title={steps.product.title} support={steps.product.support}>
-            <ProductPicker
-              products={products}
-              state={form.products}
-              onToggle={onToggle}
-              onOption={onOption}
-              art={entry}
-              style={form.style}
-              note={note}
-              error={errors.products}
-            />
-          </Step>
-
-          <Step n={3} title={steps.style.title} support={steps.style.support}>
-            <StylePicker styles={styles} value={form.style} onChange={onStyle} labelledBy={STEP_TITLE_ID[3]} art={entry} note={note} error={errors.style} />
-          </Step>
-
-          <Step n={4} title={steps.athlete.title} support={steps.athlete.support}>
+          <Step n={2} title={steps.athlete.title} support={steps.athlete.support}>
             <AthleteFields
               athlete={form.athlete}
               onChange={onAthlete}
@@ -556,7 +595,14 @@ export function IntakeForm({
             />
           </Step>
 
-          <Step n={5} title={steps.photos.title} support={photosSubhead}>
+          <Step n={3} title={steps.photos.title} support={photosSubhead}>
+            <div className="mb-6 flex max-w-[60ch] flex-col gap-1">
+              {INTAKE_COPY.photosLines.map((line) => (
+                <p key={line} className="font-body text-body font-medium text-ink">
+                  {line}
+                </p>
+              ))}
+            </div>
             <PhotoUploader
               photos={photos}
               crest={crest}
@@ -573,11 +619,17 @@ export function IntakeForm({
             />
           </Step>
 
-          <Step n={6} title={steps.contact.title} support={steps.contact.support}>
+          <Step n={4} title={steps.contact.title} support={steps.contact.support}>
             <ContactFields contact={form.contact} onChange={onContact} errors={errors} />
           </Step>
 
-          <div className="pt-2 md:pt-4">
+          {/* The human line before the formal permissions (ads brief §6): what we do with the photos, in plain words.
+              The consent sentences under it are unchanged. */}
+          <div data-privacy-box="" className="rounded-[20px] border border-hairline bg-white p-5 sm:p-6">
+            <p className="font-display text-[1.375rem] uppercase leading-none text-ink">{INTAKE_COPY.privacyBox.title}</p>
+            <p className="mt-3 max-w-[60ch] font-body text-body text-pretty text-ink">{INTAKE_COPY.privacyBox.line}</p>
+          </div>
+          <div className="pt-6 md:pt-8">
             <ConsentFields crest={Boolean(crest)} onChange={onConsent} errors={errors} titleId="fp-s-consent" />
           </div>
 

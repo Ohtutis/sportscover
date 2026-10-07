@@ -151,15 +151,43 @@ export const INTAKE_COPY = {
   /** The wide card's three outcomes, one tick each. */
   promise: ["Free watermarked proof first", "Not happy? Nothing to pay", "Love it? Pay, and the files and prints follow"],
 
-  /** v4 (2026-10-06): six numbered steps, the sport first; permissions and the conversion card come after step 6. */
-  stepLabel: (n: number): string => `STEP ${n} OF 6`,
-  steps6: {
-    sport: { title: "THEIR SPORT.", support: "Pick it once. Every example on this page follows it." },
-    product: { title: "WHAT TO MAKE.", support: "Pick one or more. Every printed option includes the digital files." },
-    style: { title: "PICK YOUR LOOK.", support: "Six finishes and the Senior Night edition. Not sure? Let us choose." },
-    athlete: { title: "ABOUT THE ATHLETE.", support: "Only what goes on the card. Long names are fine — the type scales, it never shortens." },
-    photos: { title: "UPLOAD YOUR PHOTOS." },
-    contact: { title: "ALMOST DONE.", support: "Where should we send your free proof?" },
+  /**
+   * v8 (the ads landing brief, 2026-10-07): FOUR steps a parent reads as questions — what, who, the photos,
+   * where — the sport, the product and the look together in the first. Formats, sizes and quantities are not
+   * asked before the proof (defaults carry them); the permissions and the submit card follow step 4.
+   */
+  stepLabel: (n: number): string => `STEP ${n} OF 4`,
+  steps4: {
+    make: { title: "WHAT ARE WE MAKING?", support: "Their sport, then what to make. Sizes and formats can wait until you've seen the proof." },
+    athlete: { title: "WHO ARE WE CREATING?", support: "Only what goes on the card. Long names are fine; the type scales, it never shortens." },
+    photos: { title: "UPLOAD THEIR PHOTOS." },
+    contact: { title: "WHERE SHOULD WE SEND YOUR PROOF?", support: "We'll email your custom preview when it's ready." },
+  },
+  /** Step 1's three parts, in order, and the product categories (ads brief §5: cards and posters lead; the rest is "more"). */
+  make: {
+    sport: "Their sport",
+    sportLine: "Pick it once. Every example on this page follows it.",
+    product: "What to make",
+    productLine: "Pick one. Every printed option includes the digital files.",
+    categories: [
+      { key: "card", name: "Trading card", line: "Front and back, square-cut, with a registered card ID and the card's own page." },
+      { key: "poster", name: "Poster", line: "Art for the wall. The stats stay on the card." },
+      { key: "set", name: "Complete set", line: "The card and the poster together, priced as a bundle.", badge: "Best value" },
+    ],
+    more: "More to make",
+    formats: "Choose formats and sizes now (optional)",
+    formatsLine: "You can decide after you see the proof. Until then every product is the digital edition.",
+    look: "The look",
+    lookLine: "Not sure? Leave it to us. You see the finish on the proof.",
+    recommendedTag: "Recommended",
+    own: "Or choose the look yourself",
+  },
+  /** Step 3, over the uploader (ads brief §5, step 3). */
+  photosLines: ["Phone photos are completely fine. We'll choose the best ones for the design.", "Not sure which to choose? Upload more and we'll pick the best ones."],
+  /** Before the permissions (ads brief §6): the human line, separated from the formal consent sentences, which are unchanged. */
+  privacyBox: {
+    title: "YOUR PHOTOS STAY PRIVATE.",
+    line: "Used only to create and review your custom artwork. We never publish your photos or use them in advertising without separate permission.",
   },
   requiredTag: "Required",
   optionalTag: "Optional",
@@ -200,7 +228,7 @@ export const INTAKE_COPY = {
   previewCaption: "Text preview — your proof is composed from your photos; the layout follows the finish.",
 
   /** v2 style tiles: the "let us choose" tile is a premium dark tile, not an empty question. */
-  chooseForMeTitle: "YOU CHOOSE FOR ME",
+  chooseForMeTitle: "Choose the best style for me",
   chooseForMeLine: "We pick the finish that suits the photos and the sport. You see it on the proof.",
 
   /** v2 upload zone — two to three times the height of a field. */
@@ -215,8 +243,8 @@ export const INTAKE_COPY = {
     title: "YOUR FIRST PROOF IS FREE.",
     todayLabel: "Today",
     line: "You only pay after approving your proof.",
-    button: "Get my free proof →",
-    note: "No card required",
+    button: "Create my free proof →",
+    note: "No payment information required.",
   },
 
   /** v2 sticky summary. */
@@ -389,18 +417,17 @@ export const INTAKE_COPY = {
   etsyAltShort: "Prefer Etsy? Same proof, same process.",
 
   thanks: {
-    title: "Photos Received",
-    h1: "PHOTOS RECEIVED.",
-    lead: `Your proof is in the queue. We check the photos first and email the watermarked proof within ${PROOF_CLOCK}.`,
+    title: "Your Free Proof Is in the Works",
+    h1: "YOUR FREE PROOF IS IN THE WORKS.",
+    lead: `We've received your photos and athlete details. Your custom Game Day Edition proof goes to the email you gave us within ${PROOF_CLOCK}.`,
     referenceLabel: "Reference",
     next: [
-      "We check the photos within one business day and email you if one more angle would help.",
-      `The watermarked proof arrives by email within ${PROOF_CLOCK}.`,
-      "Approve it and pay by secure payment link or on our Etsy shop. Want a change? One revision is included.",
-      `The watermark comes off: digital files within ${digitalMin}–${digitalMax} business days of payment, printed items ship within ${printMin}–${printMax}.`,
+      "We review your photos and email you if one more angle would help.",
+      "We create your athlete's edition and send the watermarked proof.",
+      `You decide. Love it? Pay by secure payment link or on our Etsy shop and the watermark comes off: digital files within ${digitalMin}–${digitalMax} business days, printed items ship within ${printMin}–${printMax}. Not for you? Nothing to pay.`,
     ],
     reply: "To add photos or details, reply to the confirmation email — it carries your reference.",
-    nothingToPay: "Nothing to pay now. If the proof isn't right and we can't fix it, there's nothing to pay at all.",
+    nothingToPay: "Nothing has been charged, and nothing is charged unless you approve the proof.",
   },
 
   errors: {

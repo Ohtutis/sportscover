@@ -16,6 +16,15 @@ export function trackLead(payload: { content_category?: string; content_ids?: st
   fbq()?.("track", "Lead", payload);
 }
 
+/**
+ * The funnel's own custom events (ads brief §17, 2026-10-07) — `trackCustom`, so they never collide with Meta's
+ * standard ones: ProofStart (the first touch of the form), SportSelected, PhotoUpload. Product and style choices
+ * stay on the standard CustomizeProduct; the conversion stays Lead, fired on the thanks page only.
+ */
+export function trackFunnel(event: "ProofStart" | "SportSelected" | "PhotoUpload", payload: { content_ids?: string[]; num_items?: number } = {}): void {
+  fbq()?.("trackCustom", event, payload);
+}
+
 /** A product tile or a style tile was chosen on the form. */
 export function trackCustomize(payload: { content_category?: string; content_ids?: string[] } = {}): void {
   fbq()?.("track", "CustomizeProduct", payload);
