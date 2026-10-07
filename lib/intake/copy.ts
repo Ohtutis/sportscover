@@ -195,20 +195,29 @@ export const INTAKE_COPY = {
   moreThanOne: "Need more than one? Say so when you see the proof.",
   /**
    * Pricing v1 (owner, 2026-10-07: "if they add more than one … the price goes down — show someone a big
-   * discount"): the bundle ladder under the product cards. Every figure is prices.ts BUNDLE_STEPS /
-   * bundleTotal, computed from the current choice; the comparison is always the same items bought
-   * separately — never a former price, a sale, a date or "limited time".
+   * discount") and v2 (the same evening: "if everything chosen is digital the saving must be bigger than on
+   * printed — the first 19.99, then 5 each"): the bundle ladder under the product cards, two rows — what
+   * the products cost together as digital files, what printed products save by their number. Every figure
+   * is prices.ts BUNDLE_STEPS / allDigitalTotal / bundleTotal, computed from the current choice; the
+   * comparison is always the same items bought separately — never a former price, a sale, a date or
+   * "limited time". `addon` is prices.ts DIGITAL_ADDON, formatted — never typed here.
    */
   bundle: {
     title: "BUNDLE AND SAVE",
-    /** One rung: "2 products −15%" … "all 4 −25%" (the last rung names every product). */
+    rowDigital: "Digital files",
+    rowPrinted: "Printed",
+    /** A digital rung: "2 products 24.99" … "all 4 34.99" — the total, formatted (the last rung names every product). */
+    stepDigital: (count: number, last: boolean, total: string): string => `${last ? `all ${count}` : `${count} products`} ${total}`,
+    /** A printed rung: "2 products −15%" … "all 4 −25%". */
     step: (count: number, last: boolean, percent: string): string => `${last ? `all ${count}` : `${count} products`} \u2212${percent}`,
     /** Before a choice: what the ladder is. */
-    lead: "Two or more products in one order: the whole order saves.",
-    /** The next rung, from the current choice: the first product not yet chosen, at the option its card holds. */
+    lead: (addon: string): string => `Every extra product as digital files is ${addon} more. Printed products save by their number.`,
+    /** The next product, from the current choice: the first not yet chosen, at the option its card holds — digital files, the add-on; printed, the saving. */
+    nudgeDigital: (add: string, addon: string): string => `Add ${add} as digital files for ${addon} more.`,
     nudgeFirst: (add: string, saving: string): string => `Add ${add}: save ${saving} on the order.`,
     nudgeMore: (add: string, saving: string): string => `Add ${add}: save another ${saving}.`,
     top: (percent: string): string => `All four chosen: the whole order saves ${percent}.`,
+    topDigital: (total: string): string => `All four as digital files: ${total} together.`,
     addName: { cards: "trading cards", poster: "a poster", banner: "a banner", blanket: "a blanket" },
   },
   /** v3 (owner, 2026-10-06): the caption under the live text preview in "Your order". */
@@ -225,7 +234,11 @@ export const INTAKE_COPY = {
   exampleGood: "Clear face, good light",
   exampleBad: "Blurry, tiny, heavily filtered",
 
-  /** v2 conversion card at the end of the form. */
+  /**
+   * v2 conversion card at the end of the form. Beside "Today" it shows the after-approval sum the way the
+   * rail does (owner, 2026-10-07: "where we show at the end what it will cost if they approve the proof —
+   * like we have the price on the side"); the labels are `summary`'s.
+   */
   ctaCard: {
     title: "YOUR FIRST PROOF IS FREE.",
     todayLabel: "Today",

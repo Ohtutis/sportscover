@@ -150,11 +150,12 @@ function ChoiceList({ items, style, sport }: { items: Line[]; style: { name: str
  * The figures under "Today" (pricing v1, 2026-10-07), all from prices.ts `bundleTotal` through the model:
  * one product → "After approval" and its price; two or more → "Bought separately" struck through, "Bundle
  * saving −$X (15%)" with the figure on the accent (ink on orange — never orange text), then "After approval"
- * and the bundle total. The comparison is the same items bought separately, never a former price.
+ * and the bundle total. The comparison is the same items bought separately, never a former price. The
+ * conversion card at the end of the form renders the same figures (owner, 2026-10-07).
  */
-function Figures({ total }: { total: BundleTotal }) {
+export function Figures({ total }: { total: BundleTotal }) {
   const s = INTAKE_COPY.summary;
-  const bundled = total.discountRate > 0;
+  const bundled = total.discount > 0;
   return (
     <>
       {bundled ? (
@@ -181,6 +182,40 @@ function Figures({ total }: { total: BundleTotal }) {
         <dd className="font-label text-[1.125rem] font-semibold tabular-nums text-ink">{formatUsd(total.total)}</dd>
       </div>
     </>
+  );
+}
+
+/**
+ * The conversion card's figures (owner, 2026-10-07: "where we show at the end what it will cost if they
+ * approve the proof — like the price on the side"): "Today" with the zero-due figure, and beside it — once
+ * a product is chosen — "After approval" with the bundle total at the same size, and under it, when the
+ * order saves, the same items bought separately struck through and the saving on the accent (ink on
+ * orange). The same bundleTotal as the rail, so the two can never disagree.
+ */
+export function CtaFigures({ total }: { total: BundleTotal | null }) {
+  const s = INTAKE_COPY.summary;
+  return (
+    <dl className="mt-6 flex flex-wrap items-start gap-x-10 gap-y-4">
+      <div>
+        <dt className={KEY}>{INTAKE_COPY.ctaCard.todayLabel}</dt>
+        <dd className="mt-1 font-display text-price tabular-nums text-ink">{DUE_TODAY_LABEL}</dd>
+      </div>
+      {total ? (
+        <div data-cta-total="">
+          <dt className={KEY}>{s.afterApproval}</dt>
+          <dd className="mt-1 font-display text-price tabular-nums text-ink">{formatUsd(total.total)}</dd>
+          {total.discount > 0 ? (
+            <dd data-cta-saving="" className="mt-1 flex flex-wrap items-center gap-2 font-label text-[0.9375rem] font-semibold tabular-nums text-muted-text">
+              <span className="sr-only">{s.separately} </span>
+              <s>{formatUsd(total.alaCarte)}</s>
+              <span className="inline-flex h-6 items-center whitespace-nowrap rounded-pill bg-accent px-2 text-[0.875rem] text-ink">
+                {s.savingValue(formatUsd(total.discount), formatPercent(total.discountRate))}
+              </span>
+            </dd>
+          ) : null}
+        </div>
+      ) : null}
+    </dl>
   );
 }
 

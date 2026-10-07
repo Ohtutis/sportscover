@@ -24,10 +24,10 @@ const { IntakeForm } = await import("../components/intake/IntakeForm");
 const { INTAKE_COPY, INTAKE_PATH, INTAKE_THANKS_PATH, PROOF_CLOCK } = await import("../lib/intake/copy");
 const { CONSENTS, CONSENT_ORDER, PHOTO_RULES, parseProofRequest } = await import("../lib/intake/types");
 const { PRODUCTS, optionPrice, optionPriceLabel, productFromLabel, setFromLabel } = await import("../lib/intake/products");
-const { BUNDLE_STEPS, DUE_TODAY_LABEL, bundleTotal, formatPercent, formatUsd } = await import("../lib/catalog/prices");
+const { BUNDLE_STEPS, DIGITAL_ADDON, DUE_TODAY_LABEL, allDigitalTotal, bundleTotal, formatPercent, formatUsd, formatUsdShort } = await import("../lib/catalog/prices");
 const { styles } = await import("../lib/catalog/styles");
 const { CANON, PROOF_PATH_LABEL } = await import("../lib/copy/canon");
-const { CardTextPreview, SummaryRail } = await import("../components/intake/SummaryRail");
+const { CardTextPreview, CtaFigures, SummaryRail } = await import("../components/intake/SummaryRail");
 const { ProductPicker } = await import("../components/intake/ProductPicker");
 const { StylePicker } = await import("../components/intake/StylePicker");
 const { SportPicker } = await import("../components/intake/SportPicker");
@@ -99,10 +99,18 @@ function controls(fragment: string): { id: string; type: string; hidden: boolean
   return out;
 }
 
+const optOf = (product: string, option: string) => PRODUCTS.find((p) => p.key === product)!.options.find((o) => o.key === option)!;
 /** An option's site price, through the products helper (prices.ts underneath). */
-const priceOf = (product: string, option: string): number => optionPrice(PRODUCTS.find((p) => p.key === product)!.options.find((o) => o.key === option)!);
+const priceOf = (product: string, option: string): number => optionPrice(optOf(product, option));
 /** The bundle a set of choices makes, computed here straight from bundleTotal — the figure the page must show. */
-const bundleOf = (choices: [string, string][]) => bundleTotal(choices.map(([product, option]) => ({ product, price: priceOf(product, option) })));
+const bundleOf = (choices: [string, string][]) => bundleTotal(choices.map(([product, option]) => ({ product, price: priceOf(product, option), digital: !optOf(product, option).printed })));
+/** The ladder's two rows: each row's rungs as [count, text] and the reached rung (the regex match: count, class), or null. */
+const ladderRows = (html: string) =>
+  [...html.matchAll(/<div data-bundle-row="(digital|printed)"[^>]*>((?:(?!<\/ol>)[\s\S])*)<\/ol>/g)].map((m) => ({
+    row: m[1],
+    rungs: [...m[2].matchAll(/<li data-bundle-step="(\d)"[^>]*>([^<]*)<\/li>/g)].map((r) => [Number(r[1]), r[2]] as [number, string]),
+    reached: /<li data-bundle-step="(\d)" data-reached="" aria-current="step" class="([^"]*)"/.exec(m[2]),
+  }));
 
 /** A small art map for the rendering tests: two sports with art, so "no other sport's art" can be checked by src. */
 const pic = (slug: string, what: string, w = 600, h = 840) => ({ src: `/images/free-proof/${slug}/${slug}-${what}.webp`, w, h, alt: `Custom ${slug} ${what} — example artwork, fictional athlete` });
@@ -467,22 +475,33 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     expect(html).not.toContain("One more");
     expect(html).toMatch(new RegExp(`<p data-more-than-one="" class="[^"]*text-muted-text">${esc(INTAKE_COPY.moreThanOne)}</p>`));
     expect(INTAKE_COPY.moreThanOne).toBe("Need more than one? Say so when you see the proof.");
-    // Pricing v1 (2026-10-07): under the cards, the bundle ladder — three rungs from BUNDLE_STEPS, none reached
-    // on arrival, and the line that says what the ladder is. No set line any more.
+    // Pricing v1 (2026-10-07) and v2 (the same evening): under the cards, the bundle ladder in two rows — the digital
+    // row carries the total of that many products as digital files (allDigitalTotal), the printed row the ladder's
+    // rates — none reached on arrival, and the line that says what the ladder is. No set line any more.
     expect(html).not.toContain("data-set-note");
     const ladder = between('data-bundle-ladder=""', 'data-more-than-one=""');
     expect(html.indexOf('data-bundle-ladder=""')).toBeGreaterThan(html.indexOf('id="fp-product-blanket"'));
     expect(html.indexOf('data-bundle-ladder=""')).toBeLessThan(html.indexOf('id="fp-s-style"'));
     expect(ladder).toContain(`>${INTAKE_COPY.bundle.title}</p>`);
-    const rungs = [...ladder.matchAll(/<li data-bundle-step="(\d)"[^>]*>([^<]*)<\/li>/g)].map((m) => [Number(m[1]), m[2]]);
-    expect(rungs).toEqual(BUNDLE_STEPS.map((st, i) => [st.count, INTAKE_COPY.bundle.step(st.count, i === BUNDLE_STEPS.length - 1, formatPercent(st.percent / 100))]));
-    expect(rungs.map((r) => r[1])).toEqual(["2 products \u221215%", "3 products \u221220%", "all 4 \u221225%"]);
+    const rows = ladderRows(ladder);
+    expect(rows.map((r) => r.row)).toEqual(["digital", "printed"]);
+    expect(ladder).toContain(`>${INTAKE_COPY.bundle.rowDigital}</span>`);
+    expect(ladder).toContain(`>${INTAKE_COPY.bundle.rowPrinted}</span>`);
+    const last = BUNDLE_STEPS.length - 1;
+    expect(rows[0].rungs).toEqual(BUNDLE_STEPS.map((st, i) => [st.count, INTAKE_COPY.bundle.stepDigital(st.count, i === last, formatUsd(allDigitalTotal(st.count)))]));
+    expect(rows[0].rungs.map((r) => r[1])).toEqual(["2 products $24.99", "3 products $29.99", "all 4 $34.99"]);
+    expect(rows[1].rungs).toEqual(BUNDLE_STEPS.map((st, i) => [st.count, INTAKE_COPY.bundle.step(st.count, i === last, formatPercent(st.percent / 100))]));
+    expect(rows[1].rungs.map((r) => r[1])).toEqual(["2 products \u221215%", "3 products \u221220%", "all 4 \u221225%"]);
     expect(ladder).not.toContain("data-reached");
     expect(ladder).not.toContain("bg-accent");
-    expect(ladder).toMatch(new RegExp(`<p data-bundle-nudge="" aria-live="polite"[^>]*>${esc(INTAKE_COPY.bundle.lead)}</p>`));
+    const addon = formatUsdShort(DIGITAL_ADDON);
+    expect(ladder).toMatch(new RegExp(`<p data-bundle-nudge="" aria-live="polite"[^>]*>${esc(INTAKE_COPY.bundle.lead(addon))}</p>`));
+    expect(INTAKE_COPY.bundle.lead(addon)).toBe("Every extra product as digital files is $5 more. Printed products save by their number.");
     // Every dollar figure on the page is a helper's output (or the zero-due figure from prices.ts).
     const allowed = new Set([
       ...PRODUCTS.flatMap((p) => [...p.options.map((o) => optionPriceLabel(o)), productFromLabel(p)]).map((l) => l.replace(/^from /, "")),
+      ...BUNDLE_STEPS.map((st) => formatUsd(allDigitalTotal(st.count))),
+      addon,
       DUE_TODAY_LABEL,
     ]);
     const prices = html.match(/\$\d+(\.\d{2})?/g) ?? [];
@@ -514,32 +533,48 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     expect(cards).toMatch(/<p id="fp-product-cards-option-p24-detail" hidden=""/);
     // On a wide card the opened options take the line's place beside the picture.
     expect(cards).toMatch(/id="fp-product-cards-blurb" class="[^"]*@md:hidden"/);
-    // The bundle ladder follows the choice: the reached rung on the accent (ink on orange), and the nudge for
-    // the next product — the first not chosen, at the option its card holds — computed from bundleTotal.
+    // The bundle ladder follows the choice: the reached rung on the accent (ink on orange) on the row the order is
+    // on, and the nudge for the next product — the first not chosen, at the option its card holds: digital files,
+    // the add-on (pricing v2); printed, what it saves — computed from bundleTotal.
     const nudge = (html: string) => /<p data-bundle-nudge="" aria-live="polite"[^>]*>([^<]*)<\/p>/.exec(html)?.[1];
-    const reached = (html: string) => [...html.matchAll(/<li data-bundle-step="(\d)" data-reached=""[^>]*class="([^"]*)"/g)].map((m) => [Number(m[1]), m[2]]);
+    const reached = (html: string) => ladderRows(html).flatMap((r) => (r.reached ? [[r.row, Number(r.reached[1]), r.reached[2]] as const] : []));
     const saving = (from: [string, string][], to: [string, string][]) => formatUsd(Math.round((bundleOf(to).discount - bundleOf(from).discount) * 100) / 100);
+    const addon = formatUsdShort(DIGITAL_ADDON);
     expect(reached(one)).toEqual([]);
-    expect(nudge(one)).toBe(INTAKE_COPY.bundle.nudgeFirst("a poster", saving([["cards", "p12"]], [["cards", "p12"], ["poster", "digital"]])));
-    expect(nudge(one)).toBe(`Add a poster: save ${formatUsd(bundleOf([["cards", "p12"], ["poster", "digital"]]).discount)} on the order.`);
+    expect(nudge(one)).toBe(INTAKE_COPY.bundle.nudgeDigital("a poster", addon));
+    expect(nudge(one)).toBe("Add a poster as digital files for $5 more.");
+    // The poster card holding a printed option: the printed saving instead.
+    const onePrinted = render({ ...state, cards: { selected: true, option: "p12" }, poster: { selected: false, option: "p1824" } });
+    expect(nudge(onePrinted)).toBe(INTAKE_COPY.bundle.nudgeFirst("a poster", saving([["cards", "p12"]], [["cards", "p12"], ["poster", "p1824"]])));
+    expect(nudge(onePrinted)).toBe(`Add a poster: save ${formatUsd(bundleOf([["cards", "p12"], ["poster", "p1824"]]).discount)} on the order.`);
     const pair = render({ ...state, cards: { selected: true, option: "p12" }, poster: { selected: true, option: "p1824" } });
     expect(reached(pair)).toHaveLength(1);
-    expect(reached(pair)[0][0]).toBe(2);
-    expect(reached(pair)[0][1]).toMatch(/\bbg-accent text-ink\b/);
+    expect(reached(pair)[0][0]).toBe("printed");
+    expect(reached(pair)[0][1]).toBe(2);
+    expect(reached(pair)[0][2]).toMatch(/\bbg-accent text-ink\b/);
     expect(pair).toMatch(/<li data-bundle-step="2" data-reached="" aria-current="step"/);
-    const two: [string, string][] = [["cards", "p12"], ["poster", "p1824"]];
-    expect(nudge(pair)).toBe(INTAKE_COPY.bundle.nudgeMore("a banner", saving(two, [...two, ["banner", "digital"]])));
+    expect(nudge(pair)).toBe(INTAKE_COPY.bundle.nudgeDigital("a banner", addon));
     const three = render({ ...state, cards: { selected: true, option: "p12" }, poster: { selected: true, option: "p1824" }, banner: { selected: true, option: "2x4" } });
-    expect(reached(three).map((r) => r[0])).toEqual([3]);
+    expect(reached(three).map((r) => [r[0], r[1]])).toEqual([["printed", 3]]);
     // An unchosen blanket holds its first option, the digital files (2026-10-07), like every other product.
-    expect(nudge(three)).toBe(INTAKE_COPY.bundle.nudgeMore("a blanket", saving([...two, ["banner", "2x4"]], [...two, ["banner", "2x4"], ["blanket", "digital"]])));
+    expect(nudge(three)).toBe(INTAKE_COPY.bundle.nudgeDigital("a blanket", addon));
     const all = render({ cards: { selected: true, option: "p12" }, poster: { selected: true, option: "p1824" }, banner: { selected: true, option: "2x4" }, blanket: { selected: true, option: "50x60" } });
-    expect(reached(all).map((r) => r[0])).toEqual([4]);
-    expect(nudge(all)).toBe(INTAKE_COPY.bundle.top(formatPercent(0.25)));
-    // Banner + blanket are a bundle like any other pair; the nudge then names the first product not chosen.
+    expect(reached(all).map((r) => [r[0], r[1]])).toEqual([["printed", 4]]);
+    const allPrinted: [string, string][] = [["cards", "p12"], ["poster", "p1824"], ["banner", "2x4"], ["blanket", "50x60"]];
+    expect(nudge(all)).toBe(INTAKE_COPY.bundle.top(formatPercent(bundleOf(allPrinted).discountRate)));
+    expect(nudge(all)).toBe("All four chosen: the whole order saves 25%.");
+    // All digital (pricing v2): the digital row lights by the count; with all four, the top line is their figure.
+    const digitalPair = render({ ...state, cards: { selected: true, option: "digital" }, poster: { selected: true, option: "digital" } });
+    expect(reached(digitalPair).map((r) => [r[0], r[1]])).toEqual([["digital", 2]]);
+    expect(nudge(digitalPair)).toBe(INTAKE_COPY.bundle.nudgeDigital("a banner", addon));
+    const allDigital = render({ cards: { selected: true, option: "digital" }, poster: { selected: true, option: "digital" }, banner: { selected: true, option: "digital" }, blanket: { selected: true, option: "digital" } });
+    expect(reached(allDigital).map((r) => [r[0], r[1]])).toEqual([["digital", 4]]);
+    expect(nudge(allDigital)).toBe(INTAKE_COPY.bundle.topDigital(formatUsd(allDigitalTotal(4))));
+    expect(nudge(allDigital)).toBe("All four as digital files: $34.99 together.");
+    // A mixed pair (one printed product): no rung lit on either row yet; the nudge is still the add-on.
     const others = render({ ...state, banner: { selected: true, option: "digital" }, blanket: { selected: true, option: "30x40" } });
-    expect(reached(others).map((r) => r[0])).toEqual([2]);
-    expect(nudge(others)).toBe(INTAKE_COPY.bundle.nudgeMore("trading cards", saving([["banner", "digital"], ["blanket", "30x40"]], [["cards", "digital"], ["banner", "digital"], ["blanket", "30x40"]])));
+    expect(reached(others)).toEqual([]);
+    expect(nudge(others)).toBe(INTAKE_COPY.bundle.nudgeDigital("trading cards", addon));
     // The blanket is priced now: its "from" and every size row carry a price.
     expect(others).toMatch(new RegExp(`id="fp-product-blanket-from" class="[^"]*">${esc(productFromLabel(PRODUCTS[3]))}</span>`));
     for (const o of PRODUCTS[3].options) expect(others).toContain(`>${optionPriceLabel(o)}</span>`);
@@ -710,8 +745,8 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     const card = between('aria-labelledby="fp-cta-title"', 'href="/go/etsy/GDE-ANY-SET"');
     const parts = [
       `>${INTAKE_COPY.ctaCard.title}</h2>`,
-      `>${INTAKE_COPY.ctaCard.todayLabel}</span>`,
-      `>${DUE_TODAY_LABEL}</span>`,
+      `>${INTAKE_COPY.ctaCard.todayLabel}</dt>`,
+      `>${DUE_TODAY_LABEL}</dd>`,
       INTAKE_COPY.ctaCard.line,
       `>${INTAKE_COPY.ctaCard.button}</button>`,
       `>${INTAKE_COPY.ctaCard.note}</p>`,
@@ -723,6 +758,8 @@ describe("/free-proof — the page a Meta ad lands on", () => {
       at = next;
     }
     expect(card).toMatch(/<button id="fp-submit" type="submit"[^>]*class="[^"]*\bbg-accent\b/);
+    // Nothing chosen on arrival: the "Today" figure only — no after-approval sum yet.
+    expect(card).not.toContain("data-cta-total");
     expect(html.indexOf(`>${INTAKE_COPY.ctaCard.button}</button>`)).toBeGreaterThan(html.indexOf(CONSENTS.license.text));
     expect(INTAKE_COPY.ctaCard.button).toBe("Create my free proof →");
     expect(INTAKE_COPY.ctaCard.note).toBe("No payment information required.");
@@ -757,6 +794,32 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     expect(srcs(rail![2])).toEqual([SHOW.cards.SN!.src]);
     // Nothing chosen yet: no "after approval" figure.
     expect(rail?.[2]).not.toContain(INTAKE_COPY.summary.afterApproval);
+  });
+
+  it("the conversion card's figures (owner, 2026-10-07): beside Today, the after-approval sum the rail shows — the total, and with a saving the same items bought separately struck and the saving on the accent", () => {
+    const render = (total: ReturnType<typeof bundleOf> | null) => decode(renderToStaticMarkup(createElement(CtaFigures, { total })));
+    const none = render(null);
+    expect(none).toContain(`>${INTAKE_COPY.ctaCard.todayLabel}</dt>`);
+    expect(none).toContain(`>${DUE_TODAY_LABEL}</dd>`);
+    expect(none).not.toContain("data-cta-total");
+    // One product: its price after approval, nothing struck, no saving.
+    const one = render(bundleOf([["poster", "p1824"]]));
+    expect(one).toMatch(new RegExp(`<div data-cta-total=""><dt[^>]*>${INTAKE_COPY.summary.afterApproval}</dt><dd[^>]*>${esc(formatUsd(priceOf("poster", "p1824")))}</dd></div>`));
+    expect(one).not.toContain("data-cta-saving");
+    // All four as digital files: the owner's figure, the four bought separately struck, the saving on the accent (never orange text).
+    const b = bundleOf([["cards", "digital"], ["poster", "digital"], ["banner", "digital"], ["blanket", "digital"]]);
+    const out = render(b);
+    expect(out).toMatch(new RegExp(`data-cta-total=""><dt[^>]*>${INTAKE_COPY.summary.afterApproval}</dt><dd[^>]*>${esc(formatUsd(b.total))}</dd>`));
+    expect(out).toMatch(
+      new RegExp(
+        `<dd data-cta-saving=""[^>]*><span class="sr-only">${INTAKE_COPY.summary.separately} </span><s>${esc(formatUsd(b.alaCarte))}</s><span class="[^"]*\\bbg-accent\\b[^"]*\\btext-ink\\b[^"]*">${esc(INTAKE_COPY.summary.savingValue(formatUsd(b.discount), formatPercent(b.discountRate)))}</span></dd>`,
+      ),
+    );
+    expect(formatUsd(b.total)).toBe("$34.99");
+    expect(INTAKE_COPY.summary.savingValue(formatUsd(b.discount), formatPercent(b.discountRate))).toBe("\u2212$44.97 (56%)");
+    expect(out).not.toMatch(/\btext-accent\b/);
+    // The sizes: the two figures at the same display size, side by side.
+    expect(out.match(/font-display text-price tabular-nums text-ink/g)).toHaveLength(2);
   });
 
   it("'Your order' with two or more products (pricing v1): bought separately struck, the bundle saving on the accent, the total — and Today stays $0", () => {
@@ -1097,8 +1160,8 @@ describe("the form model (components/intake/model.ts)", () => {
     expect(model.orderTotal(products, s.products)!.total).toBe(priceOf("cards", "p12"));
     s.products.poster = { selected: true, option: "p1824" };
     expect(model.chosenLines(products, s.products)).toEqual([
-      { product: "cards", price: priceOf("cards", "p12") },
-      { product: "poster", price: priceOf("poster", "p1824") },
+      { product: "cards", price: priceOf("cards", "p12"), digital: false },
+      { product: "poster", price: priceOf("poster", "p1824"), digital: false },
     ]);
     // Cards + poster at the printed-set options cost exactly the Printed Set (the set tier is the same bundle).
     expect(model.orderTotal(products, s.products)!.total).toBe(bundleOf([["cards", "p12"], ["poster", "p1824"]]).total);
@@ -1108,7 +1171,12 @@ describe("the form model (components/intake/model.ts)", () => {
     s.products.banner = { selected: true, option: "3x6" };
     const four = model.orderTotal(products, s.products)!;
     expect(four).toEqual(bundleOf([["cards", "p12"], ["poster", "digital"], ["banner", "3x6"], ["blanket", "50x60"]]));
-    expect(four.discountRate).toBe(0.25);
+    // Pricing v2: the three printed products are the printed ladder; the poster's files are the add-on on top.
+    expect(four.total).toBe(Math.round((bundleOf([["cards", "p12"], ["banner", "3x6"], ["blanket", "50x60"]]).total + DIGITAL_ADDON) * 100) / 100);
+    expect(four.discountRate).toBeCloseTo(four.discount / four.alaCarte, 10);
+    // All four as digital files: the owner's figure.
+    for (const key of ["cards", "poster", "banner", "blanket"] as const) s.products[key] = { selected: true, option: "digital" };
+    expect(model.orderTotal(products, s.products)!.total).toBe(allDigitalTotal(4));
   });
 
   it("the ladder's rung and nudge (pricing v1): the reached step by product count, the next product and what it saves on top", () => {
@@ -1116,17 +1184,34 @@ describe("the form model (components/intake/model.ts)", () => {
     const products = PRODUCTS.map((p) => ({ key: p.key, options: p.options.map((o) => ({ key: o.key, printed: o.printed, price: optionPrice(o) })) }));
     const s = model.initialState().products;
     expect(model.bundleNudge(products, s)).toBeNull();
+    expect(model.ladderRungs(products, s)).toEqual({ digital: -1, printed: -1 });
     s.poster = { selected: true, option: "p2436" };
-    // The first product not chosen, at the option its card holds (cards → digital until switched).
-    expect(model.bundleNudge(products, s)).toEqual({ add: "cards", saving: bundleOf([["poster", "p2436"], ["cards", "digital"]]).discount, first: true });
+    expect(model.ladderRungs(products, s)).toEqual({ digital: -1, printed: -1 });
+    // The first product not chosen, at the option its card holds (cards → digital until switched): the add-on line.
+    expect(model.bundleNudge(products, s)).toEqual({ add: "cards", digital: true, saving: bundleOf([["poster", "p2436"], ["cards", "digital"]]).discount, first: true });
+    s.cards = { selected: false, option: "p24" };
+    expect(model.bundleNudge(products, s)).toEqual({ add: "cards", digital: false, saving: bundleOf([["poster", "p2436"], ["cards", "p24"]]).discount, first: true });
     s.cards = { selected: true, option: "p24" };
+    expect(model.ladderRungs(products, s)).toEqual({ digital: -1, printed: 0 });
     const before = bundleOf([["cards", "p24"], ["poster", "p2436"]]).discount;
     const after = bundleOf([["cards", "p24"], ["poster", "p2436"], ["banner", "digital"]]).discount;
-    expect(model.bundleNudge(products, s)).toEqual({ add: "banner", saving: Math.round((after - before) * 100) / 100, first: false });
+    expect(model.bundleNudge(products, s)).toEqual({ add: "banner", digital: true, saving: Math.round((after - before) * 100) / 100, first: false });
     expect(model.bundleNudge(products, s)!.saving).toBeGreaterThan(0);
     s.banner = { selected: true, option: "1x2" };
     s.blanket = { selected: true, option: "60x80" };
     expect(model.bundleNudge(products, s)).toBeNull();
+    expect(model.ladderRungs(products, s)).toEqual({ digital: -1, printed: 2 });
+    // The digital row (pricing v2): an all-digital order by its count; a mixed order lights neither until two are printed.
+    const d = model.initialState().products;
+    d.cards = { selected: true, option: "digital" };
+    expect(model.ladderRungs(products, d)).toEqual({ digital: -1, printed: -1 });
+    d.poster = { selected: true, option: "digital" };
+    expect(model.ladderRungs(products, d)).toEqual({ digital: 0, printed: -1 });
+    d.banner = { selected: true, option: "digital" };
+    d.blanket = { selected: true, option: "digital" };
+    expect(model.ladderRungs(products, d)).toEqual({ digital: 2, printed: -1 });
+    d.poster = { selected: true, option: "p1824" };
+    expect(model.ladderRungs(products, d)).toEqual({ digital: -1, printed: -1 });
   });
 
   describe("the live text preview in 'Your order' (owner, 2026-10-06)", () => {

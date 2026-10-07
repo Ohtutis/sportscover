@@ -624,10 +624,11 @@ describe("storage paths and the summary", () => {
     expect(lines[1]).toMatch(/^- Poster · Digital files — \$\d+\.99$/);
     expect(lines[2]).toMatch(/^- Banner · 3 × 6 ft printed — \$\d+\.99$/);
     const three = orderBundle(choices)!;
-    expect(three.discountRate).toBe(0.2);
+    // Pricing v2: two printed products (the 15 % rung) and the poster's files as the add-on.
+    expect(three.discount).toBeGreaterThan(0);
     expect(lines.slice(3)).toEqual([
       `Bought separately: ${formatUsd(three.alaCarte)}`,
-      `Bundle saving (3 products, 20%): \u2212${formatUsd(three.discount)}`,
+      `Bundle saving (3 products, ${formatPercent(three.discountRate)}): \u2212${formatUsd(three.discount)}`,
       `Total after approval: ${formatUsd(three.total)}`,
     ]);
     // One product: its total, no bundle lines.

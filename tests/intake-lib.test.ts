@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { blanketTiers, bundleTotal, formatUsd, getTier, sitePrice } from "../lib/catalog/prices";
+import { DIGITAL_ADDON, allDigitalTotal, blanketTiers, bundleTotal, formatPercent, formatUsd, getTier, sitePrice } from "../lib/catalog/prices";
 import { INTAKE_COPY } from "../lib/intake/copy";
 import { PRODUCTS, choiceLabel, optionPrice, optionPriceLabel, orderBundle, productFromLabel, setFromLabel } from "../lib/intake/products";
 import { CONSENTS, CONSENT_ORDER, PHOTO_RULES, REQUEST_ID, SPORT_OTHER, SPORT_OTHER_MAX, makeRequestId, parseProofRequest } from "../lib/intake/types";
@@ -49,7 +49,7 @@ describe("intake products (lib/intake/products.ts)", () => {
   it("orderBundle: the chosen options through bundleTotal — distinct products, a stored quantity counts each copy", () => {
     const price = (product: string, option: string) => optionPrice(PRODUCTS.find((p) => p.key === product)!.options.find((o) => o.key === option)!);
     expect(orderBundle([])).toBeNull();
-    expect(orderBundle([{ product: "cards", option: "p12" }])).toEqual(bundleTotal([{ product: "cards", price: price("cards", "p12") }]));
+    expect(orderBundle([{ product: "cards", option: "p12" }])).toEqual(bundleTotal([{ product: "cards", price: price("cards", "p12"), digital: false }]));
     const four = orderBundle([
       { product: "cards", option: "p12" },
       { product: "poster", option: "p1824" },
@@ -57,8 +57,13 @@ describe("intake products (lib/intake/products.ts)", () => {
       { product: "blanket", option: "50x60" },
     ])!;
     expect(four.productCount).toBe(4);
-    expect(four.discountRate).toBe(0.25);
+    expect(four.discountRate).toBeGreaterThanOrEqual(0.25);
+    expect(formatPercent(four.discountRate)).toBe("25%");
     expect(four.alaCarte).toBe(Math.round((price("cards", "p12") + price("poster", "p1824") + price("banner", "2x4") + price("blanket", "50x60")) * 100) / 100);
+    // Pricing v2: every product as digital files — the first at its price, the rest at the add-on; a digital line on a printed order is the add-on.
+    const digital = orderBundle(["cards", "poster", "banner", "blanket"].map((product) => ({ product, option: "digital" })))!;
+    expect(digital.total).toBe(allDigitalTotal(4));
+    expect(orderBundle([{ product: "poster", option: "p1824" }, { product: "cards", option: "digital" }])!.total).toBe(Math.round((price("poster", "p1824") + DIGITAL_ADDON) * 100) / 100);
     const twoOfOne = orderBundle([{ product: "blanket", option: "50x60", quantity: 2 }, { product: "cards", option: "digital", quantity: 1 }])!;
     expect(twoOfOne.productCount).toBe(2);
     expect(twoOfOne.alaCarte).toBe(Math.round((2 * price("blanket", "50x60") + price("cards", "digital")) * 100) / 100);
@@ -204,11 +209,16 @@ describe("intake copy", () => {
     // The bundle copy compares with buying separately — never a sale, a former price or a clock (FTC / Omnibus).
     const bundle = [
       INTAKE_COPY.bundle.title,
-      INTAKE_COPY.bundle.lead,
+      INTAKE_COPY.bundle.rowDigital,
+      INTAKE_COPY.bundle.rowPrinted,
+      INTAKE_COPY.bundle.lead("$5"),
       ...[2, 3, 4].map((n) => INTAKE_COPY.bundle.step(n, n === 4, "15%")),
+      ...[2, 3, 4].map((n) => INTAKE_COPY.bundle.stepDigital(n, n === 4, "$1.00")),
+      INTAKE_COPY.bundle.nudgeDigital("a poster", "$5"),
       INTAKE_COPY.bundle.nudgeFirst("a poster", "$1.00"),
       INTAKE_COPY.bundle.nudgeMore("a banner", "$1.00"),
       INTAKE_COPY.bundle.top("25%"),
+      INTAKE_COPY.bundle.topDigital("$1.00"),
       INTAKE_COPY.summary.separately,
       INTAKE_COPY.summary.bundleSaving,
       INTAKE_COPY.summary.savingValue("$1.00", "15%"),
