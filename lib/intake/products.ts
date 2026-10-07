@@ -3,9 +3,9 @@
 //
 // Prices come ONLY from lib/catalog/prices.ts: every option names a tier `sku` and shows that tier's site
 // price (pricing v1, 2026-10-07: digital DIGITAL_PRICE, printed Etsy × 1.10 up to .99 — cards, posters,
-// banners and blankets). A product's "from" line is its cheapest
-// option, and two or more products together are priced by prices.ts `bundleTotal` (orderBundle below).
-// Never type a price here.
+// banners and blankets). A product's "from" line is its cheapest option, and two or more products together
+// are priced by prices.ts `bundleTotal` (orderBundle below) — the printed ladder for printed options, the
+// digital add-on for digital ones (pricing v2). Never type a price here.
 
 import { bundleTotal, formatUsd, fromPrice, getTier, sitePrice, type BundleTotal, type Tier } from "../catalog/prices";
 
@@ -166,7 +166,7 @@ export function orderBundle(choices: readonly ProductChoice[]): BundleTotal | nu
     const product = productByKey(c.product);
     const option = product ? optionOf(product, c.option) : undefined;
     if (!product || !option) return [];
-    return Array.from({ length: Math.max(1, c.quantity ?? 1) }, () => ({ product: product.key, price: optionPrice(option) }));
+    return Array.from({ length: Math.max(1, c.quantity ?? 1) }, () => ({ product: product.key, price: optionPrice(option), digital: !option.printed }));
   });
   return lines.length ? bundleTotal(lines) : null;
 }

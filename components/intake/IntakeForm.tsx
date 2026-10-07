@@ -2,7 +2,6 @@
 
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { DUE_TODAY_LABEL } from "../../lib/catalog/prices";
 import { INTAKE_COPY, INTAKE_PATH, INTAKE_THANKS_PATH } from "../../lib/intake/copy";
 import type { ProductKey } from "../../lib/intake/products";
 import type { FreeProofArtMap } from "../../lib/intake/sport-art";
@@ -37,6 +36,7 @@ import {
   sportArt,
   sportName,
   statErrorsByRow,
+  orderTotal,
   type ArtNoteData,
   type AthleteState,
   type ContactState,
@@ -48,7 +48,7 @@ import { PrefillFromUrl } from "./PrefillFromUrl";
 import { ProductPicker, type ProductTileData } from "./ProductPicker";
 import { SportPicker, type SportChoiceData } from "./SportPicker";
 import { StylePicker, type StyleTileData } from "./StylePicker";
-import { SummaryRail } from "./SummaryRail";
+import { CtaFigures, SummaryRail } from "./SummaryRail";
 import { TurnstileWidget } from "./TurnstileWidget";
 import { UI } from "./strings";
 
@@ -531,6 +531,8 @@ export function IntakeForm({
   const note: ArtNoteData = { state: artState(art, sportSlug), sport: sportLabel, example: exampleName(art, example) };
   const withArt = useMemo(() => new Set(Object.keys(art).filter((slug) => sportArt(art, slug))), [art]);
   const summary = { products, state: form.products, styles, style: form.style, art: entry, sport: sportLabel };
+  /** The conversion card's after-approval sum: the same bundleTotal the rail shows, null before a product is chosen. */
+  const ctaTotal = orderTotal(products, form.products);
   const steps = INTAKE_COPY.steps4;
   const make = INTAKE_COPY.make;
 
@@ -641,7 +643,10 @@ export function IntakeForm({
 
         <SummaryRail {...summary} variant="bar" className="mt-12 md:mt-14 lg:hidden" />
 
-        {/* The conversion card (owner review 2026-10-04, point 14): the form's one submit lives here. */}
+        {/* The conversion card (owner review 2026-10-04, point 14): the form's one submit lives here. Beside "Today"
+            the after-approval sum the rail shows (owner, 2026-10-07: "where we show at the end what it will cost if
+            they approve the proof — like the price on the side"): the bundle total, and with a saving the same items
+            bought separately struck through and the saving on the accent. Nothing chosen → the "Today" figure only. */}
         <section
           aria-labelledby="fp-cta-title"
           className="mt-12 rounded-[20px] border border-hairline bg-white p-6 shadow-[var(--shadow-card-stock)] sm:p-8 md:mt-14 lg:p-10"
@@ -649,10 +654,7 @@ export function IntakeForm({
           <h2 id="fp-cta-title" className="max-w-[20ch] font-display text-h2 uppercase text-balance">
             {INTAKE_COPY.ctaCard.title}
           </h2>
-          <p className="mt-6 flex items-baseline gap-3">
-            <span className={KEY}>{INTAKE_COPY.ctaCard.todayLabel}</span>
-            <span className="font-display text-price tabular-nums text-ink">{DUE_TODAY_LABEL}</span>
-          </p>
+          <CtaFigures total={ctaTotal} />
           <p className="mt-2 max-w-[60ch] font-body text-body font-medium text-pretty text-ink">{INTAKE_COPY.ctaCard.line}</p>
           {turnstileSiteKey ? (
             <div className="mt-6">
