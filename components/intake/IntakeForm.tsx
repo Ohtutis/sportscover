@@ -22,7 +22,6 @@ import {
   applyPrefill,
   artState,
   buildPayload,
-  chooseCategory,
   canPreview,
   captureSource,
   choiceStore,
@@ -40,7 +39,6 @@ import {
   statErrorsByRow,
   type ArtNoteData,
   type AthleteState,
-  type ProductCategory,
   type ContactState,
   type FormState,
   type Prefill,
@@ -311,12 +309,6 @@ export function IntakeForm({
     start();
     trackFunnel("SportSelected", { content_ids: [slug] });
   };
-  const onCategory = (category: ProductCategory) => {
-    setForm((f) => chooseCategory(f, category));
-    touched();
-    start();
-    trackCustomize({ content_category: "product", content_ids: [category] });
-  };
   const onSportOther = (sportOther: string) => {
     setForm((f) => ({ ...f, athlete: { ...f.athlete, sportOther } }));
     touched();
@@ -569,7 +561,6 @@ export function IntakeForm({
                 state={form.products}
                 onToggle={onToggle}
                 onOption={onOption}
-                onCategory={onCategory}
                 art={entry}
                 style={form.style}
                 note={note}

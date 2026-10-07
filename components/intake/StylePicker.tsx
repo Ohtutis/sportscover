@@ -57,47 +57,11 @@ export function StylePicker({ styles, value, onChange, labelledBy, art = null, n
   const recommendId = styleId(STYLE_RECOMMEND);
   const recommendChecked = value === STYLE_RECOMMEND;
   const idle = error ? "ring-1 ring-fail" : "hover:ring-1 hover:ring-ink/25";
-  const m = INTAKE_COPY.make;
   return (
     <div>
       <FieldError id={errorId("style")} message={error} className="mb-4" />
       <div role="radiogroup" aria-labelledby={labelledBy} aria-describedby={error ? errorId("style") : undefined}>
-        {/* v8 (ads brief §5): "choose the best style for me" is the answer by default — a full-width card first; the
-            seven tiles stay in view under "or choose the look yourself", an option rather than a gate. */}
-        <label
-          htmlFor={recommendId}
-          data-style-recommended=""
-          className={`flex cursor-pointer items-start gap-4 rounded-[20px] border bg-white p-4 transition-[border-color,box-shadow] duration-hover ease-out sm:p-5 ${
-            recommendChecked ? "border-ink ring-1 ring-ink shadow-[var(--shadow-card-stock)]" : "border-ink/15 hover:border-ink/50"
-          }`}
-        >
-          <input
-            id={recommendId}
-            type="radio"
-            name={`${FIELD_PREFIX}style`}
-            value={STYLE_RECOMMEND}
-            checked={recommendChecked}
-            onChange={() => onChange(STYLE_RECOMMEND)}
-            aria-labelledby={`${recommendId}-name`}
-            aria-describedby={`${recommendId}-detail`}
-            className={`mt-1 ${RADIO}`}
-          />
-          <span className="min-w-0">
-            <span className="flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span id={`${recommendId}-name`} className="font-display text-[1.375rem] uppercase leading-none text-ink">
-                {INTAKE_COPY.chooseForMeTitle}
-              </span>
-              <span className="inline-flex h-6 items-center rounded-pill bg-ink px-2.5 font-display text-[0.75rem] uppercase leading-none tracking-[0.06em] text-white">
-                {m.recommendedTag}
-              </span>
-            </span>
-            <span id={`${recommendId}-detail`} className="mt-1.5 block max-w-[60ch] font-body text-small text-muted-text">
-              {INTAKE_COPY.chooseForMeLine}
-            </span>
-          </span>
-        </label>
-        <p className="mt-6 font-label text-label font-semibold uppercase tracking-[0.12em] text-muted-text">{m.own}</p>
-        <ul className="mt-3 grid grid-cols-2 gap-x-3 gap-y-6 md:grid-cols-3 md:gap-x-4 md:gap-y-8 lg:grid-cols-4">
+        <ul className="grid grid-cols-2 gap-x-3 gap-y-6 md:grid-cols-3 md:gap-x-4 md:gap-y-8 lg:grid-cols-4">
           {styles.map((tile, i) => {
             const id = styleId(tile.code);
             const checked = value === tile.code;
@@ -133,6 +97,36 @@ export function StylePicker({ styles, value, onChange, labelledBy, art = null, n
               </li>
             );
           })}
+          <li className="min-w-0">
+            <label
+              htmlFor={recommendId}
+              className={`relative flex h-full cursor-pointer flex-col rounded-ui p-2 transition-[box-shadow] duration-hover ease-out ${recommendChecked ? CHOSEN : idle}`}
+            >
+              {recommendChecked ? <Badge className="absolute -top-3 right-3 z-10">{INTAKE_COPY.selectedBadge}</Badge> : null}
+              {/* The dark tile fills the same box a card face and its two lines fill beside it — square-cut, like the faces. */}
+              <span data-surface="arena" className="flex flex-1 flex-col bg-arena p-4 text-white shadow-[var(--shadow-card-stock)] sm:p-5">
+                <input
+                  id={recommendId}
+                  type="radio"
+                  name={`${FIELD_PREFIX}style`}
+                  value={STYLE_RECOMMEND}
+                  checked={recommendChecked}
+                  onChange={() => onChange(STYLE_RECOMMEND)}
+                  aria-labelledby={`${recommendId}-name`}
+                  aria-describedby={`${recommendId}-detail`}
+                  className="size-5 shrink-0 accent-white"
+                />
+                <span className="mt-auto pt-6">
+                  <span id={`${recommendId}-name`} className="block max-w-[8ch] font-display text-[1.75rem] uppercase leading-[0.95] text-white sm:text-[2.25rem]">
+                    {INTAKE_COPY.chooseForMeTitle}
+                  </span>
+                  <span id={`${recommendId}-detail`} className="mt-3 block font-body text-small text-arena-muted">
+                    {INTAKE_COPY.chooseForMeLine}
+                  </span>
+                </span>
+              </span>
+            </label>
+          </li>
         </ul>
       </div>
       {note ? <ArtNote state={note.state} sport={note.sport} example={note.example} className="mt-6" /> : null}

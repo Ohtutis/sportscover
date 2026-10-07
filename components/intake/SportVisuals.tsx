@@ -2,7 +2,6 @@
 
 import { useSyncExternalStore } from "react";
 import type { FreeProofArtMap } from "../../lib/intake/sport-art";
-import { BracketFrame } from "../BracketFrame";
 import { FictionalLabel } from "../FictionalLabel";
 import { INTAKE_COPY } from "../../lib/intake/copy";
 import { SHOWCASE_SPORT, artState, cardImage, choiceStore, exampleName, previewFinish, shownArt, sportArt, sportName, type PageChoice } from "./model";
@@ -36,23 +35,25 @@ const useChoice = (): PageChoice => useSyncExternalStore(choiceStore.subscribe, 
 
 /** Where each "your photo" lands, as fractions of the visual's own box, so the hand keeps its shape at every width. */
 const HAND = [
-  { place: "left-[2%] bottom-[7%] -rotate-[9deg]", z: "z-10" },
-  { place: "left-[9%] bottom-[3%] -rotate-[2deg]", z: "z-20" },
-  { place: "left-[16%] bottom-0 rotate-[5deg]", z: "z-30" },
+  { place: "left-0 bottom-[6%] -rotate-[9deg]", z: "z-30" },
+  { place: "left-[8%] bottom-[2%] -rotate-[2deg]", z: "z-[31]" },
+  { place: "left-[16%] bottom-0 rotate-[5deg]", z: "z-[32]" },
 ] as const;
 
-/** The poster is 60 % and the card 49 % of the sheet's height; the sheet is the right half of the gallery from lg. */
-const HERO_PHOTO_SIZES = "(min-width: 1360px) 150px, (min-width: 1024px) 11vw, (min-width: 640px) 130px, 22vw";
-const HERO_POSTER_SIZES = "(min-width: 1360px) 240px, (min-width: 1024px) 18vw, (min-width: 640px) 220px, 40vw";
-const HERO_CARD_SIZES = "(min-width: 1360px) 200px, (min-width: 1024px) 15vw, (min-width: 640px) 180px, 33vw";
+/** The poster is 52 % and the card 34 % of the column's width; the column is the right half of the gallery from lg. */
+const HERO_PHOTO_SIZES = "(min-width: 1360px) 160px, (min-width: 1024px) 12vw, (min-width: 640px) 140px, 24vw";
+const HERO_POSTER_SIZES = "(min-width: 1360px) 340px, (min-width: 1024px) 26vw, (min-width: 640px) 300px, 52vw";
+const HERO_CARD_SIZES = "(min-width: 1360px) 230px, (min-width: 1024px) 17vw, (min-width: 640px) 200px, 34vw";
+const PILL = "inline-flex h-7 items-center whitespace-nowrap rounded-[4px] px-2.5 font-label text-label font-semibold uppercase tracking-[0.12em]";
 
 /**
- * "This is what you get" — the hero's right half: your photos become their edition. An example proof sheet in
- * the bracket frame with its file-tab label (the sport's poster and card front side by side under one PROOF
- * stamp), and three of that athlete's phone photos lying over its lower-left corner with their own label. Nothing
- * to choose here (v6, owner 2026-10-07: "the first visual must say what happens, why they came and what they
- * get, not ask them to pick"). Before a sport is chosen (or for a sport with no example yet) it is the page's
- * example sport, and the line under the frame says so. C13 sits in the frame while real art shows.
+ * "This is what you get" — the hero's right half, v9 (owner, 2026-10-07: "I wanted it completely redone"; and the
+ * house rule of 2026-09-07: products float on the page with a soft shadow, never in a box). No sheet, no bracket
+ * frame: the sport's poster stands large with the card front over its lower-right corner, the two labelled
+ * ("THEIR EDITION" on the poster, C13 on the card), one PROOF stamp across the art, and three of that athlete's
+ * phone photos fanned in front of the poster's lower-left corner with "Your photos →" on the front print — the
+ * transformation read without a word of copy. Before a sport is chosen (or for a sport with no example yet) it is
+ * the page's example sport, and the line under it says so.
  */
 export function HeroVisual({ art, example = SHOWCASE_SPORT, className = "" }: { art: FreeProofArtMap; example?: string; className?: string }) {
   return <HeroVisualView art={art} choice={useChoice()} example={example} className={className} />;
@@ -79,35 +80,31 @@ export function HeroVisualView({
   const front = HAND.length - 1;
   return (
     <div>
-      <div data-hero-visual="" data-sport={choice.sport || undefined} data-example={state === "art" ? undefined : example} className={`relative mx-auto w-full max-w-[560px] lg:max-w-none ${className}`.trim()}>
-        {/* The padding is the ground the photos hang into: 13 % on the left, 14 % of the width below. */}
-        <div className="pb-[14%] pl-[13%]">
-          <BracketFrame label={INTAKE_COPY.heroVisual.frameLabel}>
-            <div className="relative aspect-[1400/1077] w-full overflow-hidden rounded-none bg-white shadow-[var(--shadow-card-stock)]">
-              <div className="absolute inset-0 flex items-center justify-center gap-[4%] px-[5%]">
-                <span className="relative block aspect-[3/4] h-[80%] shrink-0 overflow-hidden rounded-none shadow-[var(--shadow-card-stock)]">
-                  {poster ? <ArtImage image={poster} sizes={HERO_POSTER_SIZES} eager /> : <NeutralArt shape="poster" className="h-full w-full" />}
-                </span>
-                <span className="relative block aspect-[5/7] h-[68%] shrink-0 overflow-hidden rounded-none shadow-[var(--shadow-card-stock)]">
-                  {card ? <ArtImage image={card} sizes={HERO_CARD_SIZES} eager /> : <NeutralArt shape="card" finish={choice.style ? finish : undefined} className="h-full w-full" />}
-                </span>
-              </div>
-              <Watermark variant="stamp" />
-              {/* C13 once, bottom-RIGHT (the photos cover the left corner) — only over real art. */}
-              {poster || card ? <FictionalLabel inFrame compact className="left-auto! right-3!" /> : null}
-            </div>
-          </BracketFrame>
+      <div
+        data-hero-visual=""
+        data-sport={choice.sport || undefined}
+        data-example={state === "art" ? undefined : example}
+        className={`relative mx-auto aspect-[10/7.6] w-full max-w-[600px] lg:max-w-none ${className}`.trim()}
+      >
+        {/* The art: the poster large, the card over its lower-right corner, one PROOF stamp across both. */}
+        <div data-hero-art="" className="absolute inset-x-0 top-0 h-[92%]">
+          <span className="absolute left-[24%] top-0 block aspect-[3/4] w-[52%] -rotate-[2deg] overflow-hidden rounded-none shadow-[var(--shadow-card-stock)]">
+            {poster ? <ArtImage image={poster} sizes={HERO_POSTER_SIZES} eager /> : <NeutralArt shape="poster" className="h-full w-full" />}
+            <span className={`${PILL} absolute left-3 top-3 z-10 bg-ink text-white`}>{INTAKE_COPY.heroVisual.frameLabel}</span>
+          </span>
+          <span className="absolute right-0 top-[24%] z-20 block aspect-[5/7] w-[34%] rotate-[3deg] overflow-hidden rounded-none shadow-[var(--shadow-card-stock)]">
+            {card ? <ArtImage image={card} sizes={HERO_CARD_SIZES} eager /> : <NeutralArt shape="card" finish={choice.style ? finish : undefined} className="h-full w-full" />}
+            {/* C13 once, on the card — only over real art. */}
+            {poster || card ? <FictionalLabel inFrame compact /> : null}
+          </span>
+          <Watermark variant="stamp" />
         </div>
         {HAND.map((hand, i) => (
-          <div key={i} className={`absolute w-[22%] ${hand.place} ${hand.z}`}>
+          <div key={i} className={`absolute w-[24%] ${hand.place} ${hand.z}`}>
             {photos?.[i] ? <PhotoPrint image={photos[i]} sizes={HERO_PHOTO_SIZES} ring="ring-[5px]" decorative={i < front} eager /> : <PhotoPlaceholder ring="ring-[5px]" />}
-            {/* The label hangs off the front print: the fan is the parent's photos, the sheet what they become. */}
+            {/* The label hangs off the front print: the fan is the parent's photos, the art what they become. */}
             {i === front ? (
-              <span
-                aria-hidden="true"
-                data-photos-label=""
-                className="absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-[4px] bg-ink px-2 py-1 font-label text-label font-semibold uppercase tracking-[0.12em] text-white"
-              >
+              <span aria-hidden="true" data-photos-label="" className={`${PILL} absolute -bottom-3 left-1/2 -translate-x-1/2 bg-ink text-white`}>
                 {INTAKE_COPY.heroVisual.photosLabel}
               </span>
             ) : null}
@@ -115,7 +112,7 @@ export function HeroVisualView({
         ))}
       </div>
       {/* The transformation in nine words, for a reader who skips the copy (ads brief §2). */}
-      <p data-hero-micro="" className="mt-6 font-display text-[1.0625rem] uppercase leading-snug tracking-[0.02em] text-ink">
+      <p data-hero-micro="" className="mt-8 font-display text-[1.0625rem] uppercase leading-snug tracking-[0.02em] text-ink">
         {INTAKE_COPY.heroVisual.microLine}
       </p>
       <ArtNote state={state} sport={sportName(choice.sport, choice.sportOther)} example={exampleName(art, example)} label={false} className="mt-3" />

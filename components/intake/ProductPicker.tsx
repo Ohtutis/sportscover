@@ -1,12 +1,11 @@
-import { useState } from "react";
-import { BUNDLE_STEPS, bundleTotal, formatPercent, formatUsd } from "../../lib/catalog/prices";
+import { BUNDLE_STEPS, formatPercent, formatUsd } from "../../lib/catalog/prices";
 import { INTAKE_COPY } from "../../lib/intake/copy";
 import type { ProductKey } from "../../lib/intake/products";
-import type { FreeProofSportArt } from "../../lib/intake/sport-art";
+import type { FreeProofImage, FreeProofSportArt } from "../../lib/intake/sport-art";
 import type { StyleChoice } from "../../lib/intake/types";
 import { Badge } from "./Badge";
 import { CHECK, FieldError, RADIO } from "./fields";
-import { FIELD_PREFIX, bundleNudge, bundleStepIndex, categoryOf, errorId, orderTotal, productImage, type ArtNoteData, type ProductCategory, type ProductState } from "./model";
+import { FIELD_PREFIX, bundleNudge, bundleStepIndex, errorId, orderTotal, productImage, type ArtNoteData, type ProductState } from "./model";
 import { UI } from "./strings";
 import { ArtImage, ArtNote, NeutralArt, type NeutralShape } from "./visuals";
 
@@ -37,8 +36,6 @@ export interface ProductPickerProps {
   state: Record<ProductKey, ProductState>;
   onToggle: (key: ProductKey, selected: boolean) => void;
   onOption: (key: ProductKey, option: string) => void;
-  /** v8: the card / poster / set choice sets the card and poster flags together. */
-  onCategory: (category: ProductCategory) => void;
   /** The chosen sport's art (null before a sport, or for a sport with no example): each tile's picture. */
   art?: FreeProofSportArt | null;
   /** The chosen look — the cards tile shows the card in it when the sport has that finish. */
@@ -49,10 +46,31 @@ export interface ProductPickerProps {
 }
 
 const productId = (key: string) => `${FIELD_PREFIX}product-${key}`;
-const KEY = "font-label text-label font-semibold uppercase tracking-[0.12em] text-muted-text";
 const SHAPE: Record<ProductKey, Exclude<NeutralShape, "photo">> = { cards: "card", poster: "poster", banner: "banner", blanket: "blanket" };
 
+/**
+ * The picture box: square, 112 px on a phone, 128 px once the card is 320 px wide, 200 px once it is 448 px
+ * (the 2 × 2 grid at 1440). The art is contained in it, never cropped (a card is never cropped); before a
+ * sport is chosen it is the grey example of the product.
+ */
+const MEDIA =
+  "relative row-span-1 block size-28 shrink-0 cursor-pointer self-start overflow-hidden rounded-[10px] bg-hairline/60 @xs:size-32 @md:row-span-2 @md:size-50";
 const MEDIA_SIZES = "(min-width: 1280px) 200px, 128px";
+
+function Media({ image, product, selected }: { image: FreeProofImage | null; product: ProductTileData; selected: boolean }) {
+  const shape = SHAPE[product.key];
+  return (
+    <span data-product-media={image ? "art" : "neutral"} className="absolute inset-[7%] flex items-center justify-center">
+      {image ? (
+        <ArtImage image={image} sizes={MEDIA_SIZES} />
+      ) : (
+        <NeutralArt shape={shape} className={shape === "banner" ? "w-full" : "h-full"} />
+      )}
+      {/* The chip sits ON the picture's corner, so it appearing moves nothing. */}
+      {selected ? <Badge className="absolute -right-1 -top-1 z-10">{INTAKE_COPY.selectedBadge}</Badge> : null}
+    </span>
+  );
+}
 
 /**
  * One container, one border. The card is a grid: the picture on the left, the name (with its checkbox),
@@ -69,9 +87,14 @@ const card = (selected: boolean, error: boolean): string =>
     selected ? "border-ink ring-1 ring-ink shadow-[var(--shadow-card-stock)]" : error ? "border-fail" : "border-ink/15 hover:border-ink/50"
   }`;
 
+const GRID = "grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 p-3 @xs:p-4";
+const HEAD = "col-start-2 row-start-1 flex min-w-0 cursor-pointer flex-col";
 const NAME = "block font-display text-[1.375rem] uppercase leading-none text-ink @md:text-h3";
 const BLURB = "mt-2 block max-w-[60ch] font-body text-small text-muted-text";
 const FROM = "mt-3 block font-label text-[0.9375rem] font-semibold uppercase tracking-[0.06em] tabular-nums text-ink";
+/** The rows: full width under the picture on a narrow card, beside it on a wide one. */
+const OPTIONS = "col-span-2 row-start-2 mt-3 min-w-0 border-t border-hairline @md:col-span-1 @md:col-start-2 @md:mt-3";
+const DETAIL = "col-span-2 row-start-3 mt-3 min-w-0";
 
 /**
  * The product step (owner review 2026-10-04, points 4–5; 2026-10-06): four cards — trading cards, the
@@ -84,205 +107,92 @@ const FROM = "mt-3 block font-label text-[0.9375rem] font-semibold uppercase tra
  * top. Every figure is prices.ts BUNDLE_STEPS / bundleTotal through the model, from the prices the server
  * page handed over; the comparison is always "bought separately", never a former price.
  */
-export function ProductPicker({ products, state, onToggle, onOption, onCategory, art = null, style = "", note, error }: ProductPickerProps) {
+export function ProductPicker({ products, state, onToggle, onOption, art = null, style = "", note, error }: ProductPickerProps) {
   const describedError = error ? errorId("products") : "";
-  const m = INTAKE_COPY.make;
-  const category = categoryOf(state);
-  const byKey = Object.fromEntries(products.map((p) => [p.key, p])) as Partial<Record<ProductKey, ProductTileData>>;
-  const [formatsOpen, setFormatsOpen] = useState(false);
-  const cheapest = (key: ProductKey): number | null => {
-    const prices = byKey[key]?.options.map((o) => o.price) ?? [];
-    return prices.length ? Math.min(...prices) : null;
-  };
-  // The set's "from": the cheapest card and poster together, through the same bundle rule as every total.
-  const cardFrom = cheapest("cards");
-  const posterFrom = cheapest("poster");
-  const fromOf: Record<ProductCategory, string> = {
-    card: byKey.cards?.fromLabel ?? "",
-    poster: byKey.poster?.fromLabel ?? "",
-    set:
-      cardFrom !== null && posterFrom !== null
-        ? `from ${formatUsd(bundleTotal([{ product: "cards", price: cardFrom }, { product: "poster", price: posterFrom }]).total)}`
-        : "",
-  };
-  const cardArt = productImage(art, "cards", style);
-  const posterArt = productImage(art, "poster", style);
 
-  /** The category's picture: the card face, the poster, or both (the poster behind, the card in front). */
-  const categoryMedia = (key: ProductCategory) => {
-    if (key === "set") {
-      return (
-        <span data-product-media={cardArt || posterArt ? "art" : "neutral"} className="absolute inset-[6%] flex items-end justify-center gap-[4%]">
-          <span className="relative block aspect-[3/4] h-full overflow-hidden">
-            {posterArt ? <ArtImage image={posterArt} sizes={MEDIA_SIZES} /> : <NeutralArt shape="poster" className="h-full" />}
-          </span>
-          <span className="relative block aspect-[5/7] h-[82%] overflow-hidden shadow-[var(--shadow-card-stock)]">
-            {cardArt ? <ArtImage image={cardArt} sizes={MEDIA_SIZES} /> : <NeutralArt shape="card" className="h-full" />}
-          </span>
-        </span>
-      );
-    }
-    const image = key === "card" ? cardArt : posterArt;
-    return (
-      <span data-product-media={image ? "art" : "neutral"} className="absolute inset-[7%] flex items-center justify-center">
-        {image ? <ArtImage image={image} sizes={MEDIA_SIZES} /> : <NeutralArt shape={key === "card" ? "card" : "poster"} className="h-full" />}
-      </span>
-    );
-  };
-
-  const categoryCard = (c: (typeof m.categories)[number]) => {
-    const on = category === c.key;
-    const id = `${FIELD_PREFIX}category-${c.key}`;
-    return (
-      <li key={c.key} data-category-card={c.key} className={card(on, Boolean(error))}>
-        <label htmlFor={id} className="flex h-full cursor-pointer flex-col p-3 @xs:p-4">
-          <span className="relative block aspect-[4/3] w-full overflow-hidden rounded-[10px] bg-hairline/60">
-            {categoryMedia(c.key)}
-            {on ? <Badge className="absolute right-2 top-2 z-10">{INTAKE_COPY.selectedBadge}</Badge> : null}
-            {"badge" in c && c.badge && !on ? (
-              <span className="absolute right-2 top-2 z-10 inline-flex h-6 items-center whitespace-nowrap rounded-pill bg-ink px-2.5 font-display text-[0.75rem] uppercase leading-none tracking-[0.06em] text-white">
-                {c.badge}
-              </span>
-            ) : null}
-          </span>
-          <span className="mt-4 flex items-start gap-3">
-            <input
-              id={id}
-              type="radio"
-              name={`${FIELD_PREFIX}category`}
-              value={c.key}
-              checked={on}
-              onChange={() => onCategory(c.key)}
-              aria-labelledby={`${id}-name ${id}-from`}
-              aria-describedby={[`${id}-blurb`, describedError].filter(Boolean).join(" ")}
-              data-fp-invalid={error && c.key === "card" ? "" : undefined}
-              className={`mt-0.5 ${RADIO}`}
-            />
-            <span id={`${id}-name`} className={NAME}>
-              {c.name}
-            </span>
-          </span>
-          <span id={`${id}-blurb`} className={BLURB}>
-            {c.line}
-          </span>
-          <span id={`${id}-from`} className={FROM}>
-            {fromOf[c.key]}
-          </span>
-        </label>
-      </li>
-    );
-  };
-
-  /** "More to make": the banner and the blanket as compact checkbox tiles, untouched by the category. */
-  const moreTile = (product: ProductTileData) => {
+  const productCard = (product: ProductTileData) => {
     const chosen = state[product.key];
+    const selected = chosen.selected;
     const id = productId(product.key);
     const image = productImage(art, product.key, style);
+    // Opened on a wide card, the options take the line's place: the blurb (and the "from" price, which
+    // every row now carries) step aside.
+    const aside = selected ? "@md:hidden" : "";
     return (
-      <li key={product.key} data-product-card="" className={card(chosen.selected, false)}>
-        <label htmlFor={id} className="flex cursor-pointer items-center gap-4 p-3">
-          <span className="relative block size-16 shrink-0 overflow-hidden rounded-[8px] bg-hairline/60">
-            <span data-product-media={image ? "art" : "neutral"} className="absolute inset-[7%] flex items-center justify-center">
-              {image ? <ArtImage image={image} sizes="64px" /> : <NeutralArt shape={SHAPE[product.key]} className={SHAPE[product.key] === "banner" ? "w-full" : "h-full"} />}
+      <li key={product.key} data-product-card="" className={card(selected, Boolean(error))}>
+        <div className={GRID}>
+          <label htmlFor={id} className={MEDIA}>
+            <Media image={image} product={product} selected={selected} />
+          </label>
+          <label htmlFor={id} className={HEAD}>
+            <span className="flex items-start gap-3">
+              <input
+                id={id}
+                type="checkbox"
+                checked={selected}
+                onChange={(e) => onToggle(product.key, e.target.checked)}
+                aria-labelledby={`${id}-name ${id}-from`}
+                aria-describedby={[`${id}-blurb`, describedError].filter(Boolean).join(" ")}
+                aria-invalid={error ? true : undefined}
+                data-fp-invalid={error ? "" : undefined}
+                className={`mt-0.5 ${CHECK}`}
+              />
+              <span id={`${id}-name`} className={NAME}>
+                {product.name}
+              </span>
             </span>
-          </span>
-          <input
-            id={id}
-            type="checkbox"
-            checked={chosen.selected}
-            onChange={(e) => onToggle(product.key, e.target.checked)}
-            aria-labelledby={`${id}-name ${id}-from`}
-            aria-describedby={`${id}-blurb`}
-            className={CHECK}
-          />
-          <span className="min-w-0 flex-1">
-            <span id={`${id}-name`} className="block font-display text-[1.125rem] uppercase leading-none text-ink">
-              {product.name}
-            </span>
-            <span id={`${id}-blurb`} className="mt-1 block font-body text-small text-muted-text">
+            <span id={`${id}-blurb`} className={`${BLURB} ${aside}`.trim()}>
               {product.blurb}
             </span>
-          </span>
-          <span id={`${id}-from`} className="shrink-0 font-label text-[0.875rem] font-semibold uppercase tracking-[0.04em] tabular-nums text-ink">
-            {product.fromLabel}
-          </span>
-        </label>
+            <span id={`${id}-from`} className={`${FROM} ${aside}`.trim()}>
+              {product.fromLabel}
+            </span>
+          </label>
+          <div hidden={!selected} data-product-options="" className={OPTIONS}>
+            <fieldset className="min-w-0">
+              <legend className="sr-only">{UI.products.optionsLegend(product.name)}</legend>
+              <ul>
+                {product.options.map((o) => {
+                  const oid = `${id}-option-${o.key}`;
+                  return (
+                    <li key={o.key} className="border-b border-hairline last:border-b-0">
+                      <label htmlFor={oid} className="grid min-h-11 cursor-pointer grid-cols-[1.25rem_minmax(0,1fr)_auto] items-center gap-x-2.5 py-1.5">
+                        <input
+                          id={oid}
+                          type="radio"
+                          name={`${id}-option`}
+                          value={o.key}
+                          checked={chosen.option === o.key}
+                          onChange={() => onOption(product.key, o.key)}
+                          aria-describedby={`${oid}-detail`}
+                          className={RADIO}
+                        />
+                        <span className="min-w-0 font-body text-[0.875rem] font-bold leading-tight text-ink">{o.label}</span>
+                        <span className="whitespace-nowrap font-label text-[0.875rem] font-semibold uppercase tracking-[0.04em] tabular-nums text-ink">{o.priceLabel}</span>
+                      </label>
+                    </li>
+                  );
+                })}
+              </ul>
+            </fieldset>
+          </div>
+          {/* Every option's description is in the page (each radio names its own); only the chosen one shows. */}
+          <div hidden={!selected} data-product-detail="" className={DETAIL}>
+            {product.options.map((o) => (
+              <p key={o.key} id={`${id}-option-${o.key}-detail`} hidden={chosen.option !== o.key} className="max-w-[60ch] font-body text-small text-muted-text">
+                {o.detail}
+              </p>
+            ))}
+          </div>
+        </div>
       </li>
     );
   };
 
-  /** The option rows of one chosen product (v8: behind "choose formats and sizes now"; the defaults carry otherwise). */
-  const formats = (product: ProductTileData) => {
-    const chosen = state[product.key];
-    const id = productId(product.key);
-    return (
-      <fieldset key={product.key} data-product-options="" className="min-w-0 rounded-[20px] border border-hairline bg-white p-4">
-        <legend className="px-1 font-display text-[1.125rem] uppercase leading-none text-ink">{UI.products.optionsLegend(product.name)}</legend>
-        <ul className="mt-2">
-          {product.options.map((o) => {
-            const oid = `${id}-option-${o.key}`;
-            return (
-              <li key={o.key} className="border-b border-hairline last:border-b-0">
-                <label htmlFor={oid} className="grid min-h-11 cursor-pointer grid-cols-[1.25rem_minmax(0,1fr)_auto] items-center gap-x-2.5 py-1.5">
-                  <input
-                    id={oid}
-                    type="radio"
-                    name={`${id}-option`}
-                    value={o.key}
-                    checked={chosen.option === o.key}
-                    onChange={() => onOption(product.key, o.key)}
-                    aria-describedby={`${oid}-detail`}
-                    className={RADIO}
-                  />
-                  <span className="min-w-0 font-body text-[0.875rem] font-bold leading-tight text-ink">{o.label}</span>
-                  <span className="whitespace-nowrap font-label text-[0.875rem] font-semibold uppercase tracking-[0.04em] tabular-nums text-ink">{o.priceLabel}</span>
-                </label>
-              </li>
-            );
-          })}
-        </ul>
-        {/* Every option's description is in the page (each radio names its own); only the chosen one shows. */}
-        <div data-product-detail="" className="mt-3">
-          {product.options.map((o) => (
-            <p key={o.key} id={`${id}-option-${o.key}-detail`} hidden={chosen.option !== o.key} className="max-w-[60ch] font-body text-small text-muted-text">
-              {o.detail}
-            </p>
-          ))}
-        </div>
-      </fieldset>
-    );
-  };
-
-  const selectedProducts = products.filter((p) => state[p.key].selected);
   return (
     <div>
       <FieldError id={errorId("products")} message={error} className="mb-6" />
-      <fieldset className="min-w-0">
-        <legend className="sr-only">{m.product}</legend>
-        <ul className="grid items-stretch gap-y-4 md:grid-cols-3 md:gap-x-4">{m.categories.map(categoryCard)}</ul>
-      </fieldset>
-      <div data-more-products="" className="mt-6">
-        <p className={KEY}>{m.more}</p>
-        <ul className="mt-3 grid gap-3 sm:grid-cols-2">{products.filter((p) => p.key === "banner" || p.key === "blanket").map(moreTile)}</ul>
-      </div>
-      <div data-formats="" className="mt-6">
-        <button
-          type="button"
-          aria-expanded={formatsOpen}
-          aria-controls={`${FIELD_PREFIX}formats`}
-          onClick={() => setFormatsOpen((o) => !o)}
-          className="inline-flex min-h-11 items-center gap-2 font-body text-[0.9375rem] font-bold text-ink underline decoration-ink/30 underline-offset-4 hover:decoration-ink"
-        >
-          <span aria-hidden="true" className={`inline-block transition-transform duration-hover ${formatsOpen ? "rotate-90" : ""}`}>
-            ›
-          </span>
-          {m.formats}
-        </button>
-        <p className="mt-1 max-w-[60ch] font-body text-small text-muted-text">{m.formatsLine}</p>
-        <div id={`${FIELD_PREFIX}formats`} hidden={!formatsOpen} className="mt-4 grid gap-4 md:grid-cols-2">
-          {selectedProducts.length ? selectedProducts.map(formats) : <p className="font-body text-small text-muted-text">{INTAKE_COPY.summary.empty}</p>}
-        </div>
-      </div>
+      <ul className="grid items-start gap-y-4 md:grid-cols-2 md:gap-x-4">{products.map(productCard)}</ul>
       <BundleLadder products={products} state={state} />
       <p data-more-than-one="" className="mt-2 max-w-[60ch] font-body text-small text-muted-text">
         {INTAKE_COPY.moreThanOne}

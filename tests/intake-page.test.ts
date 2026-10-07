@@ -175,12 +175,13 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     }
   });
 
-  it("five how-it-works cards in order — the picture filling the top, then numeral, title and line; the fifth the promise bar — in the site's shared band, AFTER the form (v8)", () => {
-    // v8 (ads brief §3–§4): the three-beat strip is what sits between the hero and the form; the band follows the form.
-    expect(html.indexOf('data-proof-strip=""')).toBeLessThan(html.indexOf('id="create"'));
-    expect(html.indexOf('id="step-1"')).toBeLessThan(html.indexOf('data-proof-band=""'));
-    expect(html.indexOf('data-proof-band=""')).toBeLessThan(html.indexOf('id="examples"'));
-    const band = between('data-proof-band=""', 'id="examples"');
+  it("five how-it-works cards in order — the picture filling the top, then numeral, title and line; the fifth the promise bar — in the site's shared band under the hero, before the form", () => {
+    // v9 (owner, 2026-10-07): the five-card band sits right under the hero again (the brief's text strip read weaker), the form after it.
+    expect(html).not.toContain('data-proof-strip=""');
+    expect(html.indexOf('data-proof-band=""')).toBeGreaterThan(html.indexOf('data-hero-visual=""'));
+    expect(html.indexOf('data-proof-band=""')).toBeLessThan(html.indexOf('id="create"'));
+    expect(html.indexOf('id="create"')).toBeLessThan(html.indexOf('id="step-1"'));
+    const band = between('data-proof-band=""', 'id="create"');
     expect(html).toContain('<section id="how-it-works" data-proof-band=""');
     expect(band).toContain(`>${PROOF_PATH_LABEL}</p>`);
     let at = 0;
@@ -261,14 +262,17 @@ describe("/free-proof — the page a Meta ad lands on", () => {
   });
 
   it("the hero: the copy, and the example sport's proof with three of its athlete's phone photos over the corner — real art before any choice", () => {
-    const hero = between(`aria-labelledby="free-proof-title"`, 'data-proof-strip=""');
+    const hero = between(`aria-labelledby="free-proof-title"`, 'data-proof-band=""');
     expect(hero).toContain("lg:grid lg:grid-cols-12");
     expect(hero.match(/lg:col-span-6/g)?.length).toBe(2);
     const visual = hero.slice(hero.indexOf('data-hero-visual=""'));
+    // v9: no sheet, no bracket frame — the poster large with its "Their edition" pill, the card over its corner with C13.
+    expect(visual).not.toContain("aspect-[1400/1077]");
+    expect(visual).not.toContain("border-accent");
+    expect(visual).toMatch(new RegExp(`<span class="[^"]*bg-ink text-white">${esc(INTAKE_COPY.heroVisual.frameLabel)}</span>`));
+    expect(visual).toContain('data-hero-art=""');
     expect(hero.indexOf('data-hero-visual=""')).toBeGreaterThan(hero.indexOf(INTAKE_COPY.heroCta));
-    // The exhibit: the bracket frame and its file-tab label, the sheet at the proof's ratio, the CSS watermark.
     expect(visual).toContain(`>${INTAKE_COPY.heroVisual.frameLabel}</span>`);
-    expect(visual).toContain("aspect-[1400/1077]");
     // v6: one PROOF stamp across the sheet, not the tiled watermark — the edition reads as the product first.
     expect(visual).toContain('data-watermark="stamp"');
     expect(visual).not.toContain('data-watermark=""');
@@ -283,7 +287,7 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     expect(visual).toContain(CANON.fictionalLabel);
     // v6: the exhibit reads "your photos → their edition": the label on the front print, the file tab on the sheet.
     expect(visual).toMatch(new RegExp(`data-photos-label=""[^>]*>${esc(INTAKE_COPY.heroVisual.photosLabel)}</span>`));
-    expect(INTAKE_COPY.heroVisual.frameLabel).toBe("THEIR EDITION · FREE PROOF");
+    expect(INTAKE_COPY.heroVisual.frameLabel).toBe("Their edition");
     // v6: nothing to choose in the hero (owner: "the first visual must say what happens, not ask them to pick") —
     // no button, no sport strip, no radio; the sport is asked once, in step 1.
     expect(hero).not.toMatch(/<button|data-strip-sport|name="fp-sport"/);
@@ -425,30 +429,38 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     for (const line of [...Object.values(INTAKE_COPY.sportStep), INTAKE_COPY.art.pick("Football"), INTAKE_COPY.art.noExampleOther("Football"), INTAKE_COPY.art.noExample("Golf", "Football"), INTAKE_COPY.moreThanOne]) expect(line).not.toContain("—");
   });
 
-  it("what to make (v8): three category cards as radios — trading card, poster, complete set (best value) — banner and blanket as 'more to make', formats behind a disclosure, prices only from the helpers, no quantity", () => {
-    for (const c of INTAKE_COPY.make.categories) {
-      expect(html).toMatch(new RegExp(`<input[^>]*id="fp-category-${c.key}"[^>]*type="radio"[^>]*name="fp-category"`));
-      expect(html).toContain(c.name);
-      expect(html).toContain(c.line);
+  it("four product cards in a 2 × 2 grid — real checkboxes, options as compact rows inside the card, prices only from the helpers, no quantity", () => {
+    for (const p of PRODUCTS) {
+      expect(html).toMatch(new RegExp(`<input[^>]*id="fp-product-${p.key}"[^>]*type="checkbox"`));
+      expect(html).toContain(p.name);
+      expect(html).toContain(p.blurb);
+      expect(html).toContain(productFromLabel(p));
+      for (const o of p.options) {
+        expect(html).toMatch(new RegExp(`<input[^>]*id="fp-product-${p.key}-option-${o.key}"[^>]*type="radio"`));
+        expect(html).toContain(o.detail);
+      }
     }
-    expect(INTAKE_COPY.make.categories.map((c) => c.key)).toEqual(["card", "poster", "set"]);
-    // The set's badge is ink, never the accent; SELECTED appears only once something is chosen.
-    expect(html).toMatch(/bg-ink px-2\.5 font-display[^"]*text-white">Best value</);
-    expect(html).not.toContain(`>${INTAKE_COPY.selectedBadge}</span>`);
-    // The banner and the blanket stay, as "more to make": two real checkboxes under the three cards.
-    expect(count(/<input[^>]*id="fp-product-[a-z]+"[^>]*type="checkbox"/g)).toBe(2);
-    expect(html).toMatch(/<input[^>]*id="fp-product-banner"[^>]*type="checkbox"/);
-    expect(html).toMatch(/<input[^>]*id="fp-product-blanket"[^>]*type="checkbox"/);
-    expect(html.indexOf('id="fp-product-banner"')).toBeGreaterThan(html.indexOf('id="fp-category-set"'));
-    expect(html).toContain(`>${INTAKE_COPY.make.more}</p>`);
+    // Owner, 2026-10-06: "a bundle must never duplicate the single products" — exactly the four products.
+    expect(PRODUCTS.map((p) => p.key)).toEqual(["cards", "poster", "banner", "blanket"]);
+    expect(count(/<input[^>]*id="fp-product-[a-z]+"[^>]*type="checkbox"/g)).toBe(4);
     expect(html).not.toContain('id="fp-product-set"');
+    expect(html).not.toContain("Cards + poster set");
     expect(html).not.toContain(">MOST POPULAR</span>");
-    // Formats and sizes wait behind a closed disclosure; nothing chosen on arrival, so no option row is in the page.
-    expect(html).toMatch(new RegExp(`<button type="button" aria-expanded="false" aria-controls="fp-formats"[^>]*>(?:<span[^>]*>›</span>)?${esc(INTAKE_COPY.make.formats)}</button>`));
-    expect(html).toMatch(/<div id="fp-formats" hidden=""/);
-    expect(html).not.toMatch(/id="fp-product-[a-z]+-option-[a-z0-9]+"/);
-    // Three across from md, one column on a phone.
-    expect(html).toMatch(/<ul class="grid items-stretch gap-y-4 md:grid-cols-3 md:gap-x-4">/);
+    const order = PRODUCTS.map((p) => html.indexOf(`id="fp-product-${p.key}"`));
+    expect([...order].sort((a, b) => a - b)).toEqual(order);
+    // 2 × 2 from md, one column on a phone — never four narrow columns ("sausages").
+    expect(html).toMatch(/<ul class="grid items-start gap-y-4 md:grid-cols-2 md:gap-x-4">/);
+    expect(html).not.toMatch(/xl:grid-cols-4">[^]*?data-product-card/);
+    // Each card is a container (its layout answers its own width), the options inside it, behind `hidden` until chosen.
+    expect(count(/<li data-product-card="" class="@container [^"]*rounded-\[20px\] border[^"]*">/g)).toBe(4);
+    expect(count(/<div hidden="" data-product-options="" class="[^"]*border-t border-hairline[^"]*"><fieldset/g)).toBe(4);
+    for (const p of PRODUCTS) {
+      const at = html.indexOf(`id="fp-product-${p.key}"`);
+      const open = html.lastIndexOf('<li data-product-card=""', at);
+      const last = html.indexOf(`id="fp-product-${p.key}-option-${p.options[p.options.length - 1].key}-detail"`);
+      const next = html.indexOf('<li data-product-card=""', open + 1);
+      expect(next === -1 || next > last, `${p.key}: its options sit inside its own card`).toBe(true);
+    }
     // No quantity anywhere: no stepper, no output, no word — one muted line under the cards instead.
     expect(html).not.toMatch(/quantity/i);
     expect(html).not.toMatch(/<output/);
@@ -469,39 +481,39 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     expect(ladder).not.toContain("bg-accent");
     expect(ladder).toMatch(new RegExp(`<p data-bundle-nudge="" aria-live="polite"[^>]*>${esc(INTAKE_COPY.bundle.lead)}</p>`));
     // Every dollar figure on the page is a helper's output (or the zero-due figure from prices.ts).
-    const cheapest = (key: string) => Math.min(...PRODUCTS.find((p) => p.key === key)!.options.map(optionPrice));
     const allowed = new Set([
       ...PRODUCTS.flatMap((p) => [...p.options.map((o) => optionPriceLabel(o)), productFromLabel(p)]).map((l) => l.replace(/^from /, "")),
-      formatUsd(bundleTotal([{ product: "cards", price: cheapest("cards") }, { product: "poster", price: cheapest("poster") }]).total),
       DUE_TODAY_LABEL,
     ]);
     const prices = html.match(/\$\d+(\.\d{2})?/g) ?? [];
     expect(prices.length).toBeGreaterThan(5);
     for (const p of prices) expect(allowed, p).toContain(p);
-    // Nothing is chosen on arrival: no SELECTED badge.
-    expect(html).not.toContain(`>${INTAKE_COPY.selectedBadge}</span>`);
+    // On arrival only the look is chosen (Stadium Night, the default): one SELECTED badge, on that tile.
+    expect(html.match(new RegExp(`>${INTAKE_COPY.selectedBadge}</span>`, "g"))).toHaveLength(1);
+    expect(html).toMatch(new RegExp(`<label for="fp-style-SN"[^>]*>(?:(?!</label>)[\\s\\S])*>${INTAKE_COPY.selectedBadge}</span>`));
     expect(setFromLabel()).toMatch(/^from \$/);
   });
 
-  it("a chosen category shows SELECTED on its picture; its option rows wait in the formats box (one row per option, the chosen description only); the bundle ladder follows the choice", () => {
+  it("a chosen card shows SELECTED on its picture and opens one row per option (radio · name · price), the chosen option's description only; the bundle ladder follows the choice", () => {
     const products = tiles();
     const state = model.initialState().products;
     const render = (s: typeof state) =>
-      decode(renderToStaticMarkup(createElement(ProductPicker, { products, state: s, onToggle: () => {}, onOption: () => {}, onCategory: () => {} })));
+      decode(renderToStaticMarkup(createElement(ProductPicker, { products, state: s, onToggle: () => {}, onOption: () => {} })));
     const one = render({ ...state, cards: { selected: true, option: "p12" } });
-    const cards = one.slice(one.indexOf('<li data-category-card="card"'), one.indexOf('<li data-category-card="poster"'));
-    expect(cards).toMatch(/<input[^>]*id="fp-category-card"[^>]*checked=""/);
-    expect(cards).toMatch(new RegExp(`<span class="[^"]*absolute right-2 top-2 z-10[^"]*">${INTAKE_COPY.selectedBadge}</span>`));
+    const cards = one.slice(one.indexOf('<li data-product-card=""'), one.indexOf('<li data-product-card=""', one.indexOf('<li data-product-card=""') + 1));
+    expect(cards).toMatch(/data-product-media="neutral"[^>]*>(?:(?!<\/label>)[\s\S])*<span class="[^"]*absolute -right-1 -top-1[^"]*">SELECTED<\/span>/);
+    expect(cards).toMatch(/<div data-product-options="" class="[^"]*border-t border-hairline/);
     expect(cards).toMatch(/border-ink ring-1 ring-ink shadow-\[var\(--shadow-card-stock\)\]/);
-    expect(one).not.toMatch(/id="fp-category-poster"[^>]*checked=""/);
-    // The chosen product's option rows live in the formats box (closed by default): the radio, the name and the price, 44 px.
-    const formats = one.slice(one.indexOf('<div id="fp-formats"'));
-    const rows = formats.match(/<label for="fp-product-cards-option-[a-z0-9]+" class="([^"]*)">/g) ?? [];
+    // One line per option: the radio, the name and the price in one three-column row, 44 px.
+    const rows = cards.match(/<label for="fp-product-cards-option-[a-z0-9]+" class="([^"]*)">/g) ?? [];
     expect(rows).toHaveLength(3);
     for (const row of rows) expect(row).toMatch(/grid min-h-11 [^"]*grid-cols-\[1\.25rem_minmax\(0,1fr\)_auto\] items-center/);
-    expect(formats).toMatch(/<p id="fp-product-cards-option-p12-detail" class="[^"]*text-muted-text">/);
-    expect(formats).toMatch(/<p id="fp-product-cards-option-digital-detail" hidden=""/);
-    expect(formats).not.toMatch(/fp-product-poster-option/);
+    // The chosen option's description shows; the others are in the page (each radio names its own) but hidden.
+    expect(cards).toMatch(/<p id="fp-product-cards-option-p12-detail" class="[^"]*text-muted-text">/);
+    expect(cards).toMatch(/<p id="fp-product-cards-option-digital-detail" hidden=""/);
+    expect(cards).toMatch(/<p id="fp-product-cards-option-p24-detail" hidden=""/);
+    // On a wide card the opened options take the line's place beside the picture.
+    expect(cards).toMatch(/id="fp-product-cards-blurb" class="[^"]*@md:hidden"/);
     // The bundle ladder follows the choice: the reached rung on the accent (ink on orange), and the nudge for
     // the next product — the first not chosen, at the option its card holds — computed from bundleTotal.
     const nudge = (html: string) => /<p data-bundle-nudge="" aria-live="polite"[^>]*>([^<]*)<\/p>/.exec(html)?.[1];
@@ -528,14 +540,14 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     const others = render({ ...state, banner: { selected: true, option: "digital" }, blanket: { selected: true, option: "30x40" } });
     expect(reached(others).map((r) => r[0])).toEqual([2]);
     expect(nudge(others)).toBe(INTAKE_COPY.bundle.nudgeMore("trading cards", saving([["banner", "digital"], ["blanket", "30x40"]], [["cards", "digital"], ["banner", "digital"], ["blanket", "30x40"]])));
-    // The blanket is priced now: its "from" on the tile and every size row (in the formats box) carries a price.
+    // The blanket is priced now: its "from" and every size row carry a price.
     expect(others).toMatch(new RegExp(`id="fp-product-blanket-from" class="[^"]*">${esc(productFromLabel(PRODUCTS[3]))}</span>`));
     for (const o of PRODUCTS[3].options) expect(others).toContain(`>${optionPriceLabel(o)}</span>`);
     // Honest comparison only: no sale, no former price, no clock.
     for (const html of [one, pair, three, all, others]) expect(html.replace(/<[^>]*>/g, " ")).not.toMatch(/\bsale\b|\bwas\b|regular price|limited time|\bends?\b|% off/i);
   });
 
-  it("the product pictures are the shown sport's — the card, the poster, both on the set, the banner and the blanket tiles — the grey product where it has none, and never another sport", () => {
+  it("the product pictures are the shown sport's — card, poster, banner, blanket — the grey product where it has none, and never another sport", () => {
     const products = tiles();
     const state = model.initialState().products;
     const render = (art: (typeof ART)[keyof typeof ART] | null, style = "") =>
@@ -546,7 +558,6 @@ describe("/free-proof — the page a Meta ad lands on", () => {
             state,
             onToggle: () => {},
             onOption: () => {},
-            onCategory: () => {},
             art: art as never,
             style: style as never,
             note: { state: art ? "art" : "pick", sport: null, example: "Football" },
@@ -554,29 +565,28 @@ describe("/free-proof — the page a Meta ad lands on", () => {
         ),
       );
     const football = render(ART.football, "HE");
-    // card · poster · set (poster, then card) · banner; the blanket has no file in the fixture.
-    expect(srcs(football)).toEqual([ART.football.cards.HE.src, ART.football.poster.src, ART.football.poster.src, ART.football.cards.HE.src, ART.football.banner.src]);
+    expect(srcs(football).sort()).toEqual([ART.football.cards.HE.src, ART.football.poster.src, ART.football.banner.src].sort());
     expect(football.match(/data-product-media="neutral"/g)).toHaveLength(1);
     expect(football).not.toContain("volleyball");
     expect(football).toContain('data-art-note="art"');
     const volleyball = render(ART.volleyball);
-    expect(srcs(volleyball)).toEqual([ART.volleyball.cards.SN.src, ART.volleyball.poster.src, ART.volleyball.poster.src, ART.volleyball.cards.SN.src, ART.volleyball.blanket.src]);
+    expect(srcs(volleyball).sort()).toEqual([ART.volleyball.cards.SN.src, ART.volleyball.poster.src, ART.volleyball.blanket.src].sort());
     expect(volleyball).not.toContain("football");
-    // No art handed in at all: grey products everywhere (the component's fallback; the page always hands one in).
+    // No art handed in at all: the four grey products (the component's fallback; the page always hands one in).
     const grey = render(null);
     expect(grey).not.toMatch(/<img /);
-    expect(grey.match(/data-product-media="neutral"/g)).toHaveLength(5);
+    expect(grey.match(/data-product-media="neutral"/g)).toHaveLength(4);
     for (const shape of ["card", "poster", "banner", "blanket"]) expect(grey).toContain(`data-neutral="${shape}"`);
     expect(grey).toContain('data-art-note="pick"');
-    // v5: the page itself, before a sport is chosen, shows the example sport everywhere — nothing grey.
-    const part = between('id="fp-s-products"', 'id="fp-s-style"');
-    expect(part).not.toContain('data-product-media="neutral"');
-    expect(srcs(part)).toEqual([SHOW.cards.SN!.src, SHOW.poster!.src, SHOW.poster!.src, SHOW.cards.SN!.src, SHOW.banner!.src, SHOW.blanket!.src]);
-    expect(part).toContain('data-art-note="pick"');
-    expect(part).toContain(CANON.fictionalLabel);
+    // v5: the page itself, before a sport is chosen, shows the example sport's four products — nothing grey.
+    const step2 = between('id="fp-s-products"', 'id="fp-s-style"');
+    expect(step2).not.toContain('data-product-media="neutral"');
+    expect(srcs(step2).sort()).toEqual([SHOW.cards.SN!.src, SHOW.poster!.src, SHOW.banner!.src, SHOW.blanket!.src].sort());
+    expect(step2).toContain('data-art-note="pick"');
+    expect(step2).toContain(CANON.fictionalLabel);
   });
 
-  it("the look (v8): 'choose the best style for me' first and chosen by default, then the seven tiles with the chosen sport's card in each finish — one radio group", () => {
+  it("eight style tiles, one radio group: the chosen sport's card in each finish (the grey card framed in the finish before a sport), and the dark 'you choose for me' tile", () => {
     expect(count(/name="fp-style"/g)).toBe(8);
     expect(styles).toHaveLength(7);
     for (const s of styles) {
@@ -584,18 +594,17 @@ describe("/free-proof — the page a Meta ad lands on", () => {
       expect(html).toMatch(new RegExp(`id="fp-style-${s.code}-name"[^>]*>${esc(s.name)}</span>`));
       expect(html).toMatch(new RegExp(`id="fp-style-${s.code}-detail"[^>]*>${esc(s.material)}</span>`));
     }
-    // The recommended card comes first, full width, checked on arrival (model.initialState().style), with its tag; no dark tile any more.
-    const recommended = /<label for="fp-style-recommend" data-style-recommended="" class="([^"]*)">/.exec(html);
-    expect(recommended?.[1]).toMatch(/border-ink ring-1 ring-ink/);
-    expect(html).toMatch(/<input[^>]*id="fp-style-recommend"[^>]*checked=""/);
+    const dark = /<label for="fp-style-recommend"[^>]*>(?:<span[^>]*>SELECTED<\/span>)?<span data-surface="arena" class="([^"]*)"/.exec(html);
+    expect(dark?.[1]).toMatch(/\bbg-arena\b/);
     expect(html).toMatch(new RegExp(`id="fp-style-recommend-name"[^>]*font-display[^>]*>${esc(INTAKE_COPY.chooseForMeTitle)}</span>`));
-    expect(html).toContain(`>${INTAKE_COPY.make.recommendedTag}</span>`);
     expect(html).toContain(INTAKE_COPY.chooseForMeLine);
-    expect(html.indexOf('id="fp-style-recommend"')).toBeLessThan(html.indexOf('id="fp-style-SN"'));
-    expect(html).toContain(`>${INTAKE_COPY.make.own}</p>`);
-    expect(model.initialState().style).toBe("recommend");
     // v5: before a sport, the example sport's card in each of the seven finishes, and the pick line under them.
     const step3 = between('id="fp-s-style"', 'id="step-2"');
+    // The look starts on Stadium Night (owner, 2026-10-07); "you choose for me" is one tile among the eight, after Senior Night, never the default.
+    expect(model.initialState().style).toBe("SN");
+    expect(step3).toMatch(/<input[^>]*id="fp-style-SN"[^>]*checked=""/);
+    expect(step3).not.toMatch(/<input[^>]*id="fp-style-recommend"[^>]*checked=""/);
+    expect(step3.indexOf('id="fp-style-recommend"')).toBeGreaterThan(step3.indexOf('id="fp-style-SR"'));
     expect(step3.match(/data-style-face="art"/g)).toHaveLength(7);
     expect(step3).not.toContain('data-style-face="neutral"');
     expect(srcs(step3).sort()).toEqual(Object.values(SHOW.cards).map((c) => c!.src).sort());
@@ -736,9 +745,9 @@ describe("/free-proof — the page a Meta ad lands on", () => {
     expect(rail?.[1]).toMatch(/rounded-\[20px\]/);
     expect(rail?.[1]).toMatch(/\bbg-white\b/);
     expect(rail?.[1]).toMatch(/border-hairline/);
-    // v8: the look is answered on arrival ("choose the best style for me"), so the rail already lists it; no empty line.
+    // v9: the look starts on Stadium Night, so the rail already lists it; no empty line.
     expect(rail?.[2]).not.toContain(INTAKE_COPY.summary.empty);
-    expect(rail?.[2]).toContain(UI.summary.recommend);
+    expect(rail?.[2]).toContain("Stadium Night");
     expect(rail?.[2]).toContain(`>${INTAKE_COPY.summary.today}</dt>`);
     expect(rail?.[2]).toContain(`>${DUE_TODAY_LABEL}</dd>`);
     for (const check of INTAKE_COPY.summary.checks) expect(rail?.[2]).toContain(`<span>${check}</span>`);
@@ -787,16 +796,12 @@ describe("/free-proof — the page a Meta ad lands on", () => {
 
   it("orange only where the owner allows it: the three CTAs to the form, the submit and the three summary ticks", () => {
     const fills = html.match(/class="[^"]*\bbg-accent\b[^"]*"/g) ?? [];
-    // hero CTA + closing CTA + the sticky bar's CTA + submit + 3 ticks; SELECTED badges appear only once something is chosen.
-    expect(fills).toHaveLength(7);
+    // hero CTA + closing CTA + the sticky bar's CTA + submit + 3 ticks + the SELECTED badge on the default look (Stadium Night).
+    expect(fills).toHaveLength(8);
     expect(html).not.toContain("MOST POPULAR");
     expect(html).not.toMatch(/\btext-accent\b/);
-    // The one other orange: the four bracket corners of the proof exhibit in the hero (DESIGN §4.6), and nowhere else.
-    const corners = html.match(/class="[^"]*\bborder-accent\b[^"]*"/g) ?? [];
-    expect(corners).toHaveLength(4);
-    for (const c of corners) expect(c).toMatch(/pointer-events-none absolute size-7 border-accent/);
-    const visual = between('data-hero-visual=""', 'data-proof-strip=""');
-    expect(visual.match(/\bborder-accent\b/g)).toHaveLength(4);
+    // v9: no bracket frame on the page any more (the hero's art floats without a box), so no accent corners.
+    expect(html.match(/class="[^"]*\bborder-accent\b[^"]*"/g) ?? []).toHaveLength(0);
     // The finish swatches are gradients of the finishes, never the accent token.
     expect(html).not.toMatch(/style="[^"]*var\(--color-accent\)/);
     // Native controls are ink; the one accent-accent left is ConsentRow's own class, overridden by the quiet panel.
@@ -861,7 +866,7 @@ describe("/free-proof/for/<sport> — the per-sport twin next.config.ts rewrites
   it("is /free-proof with the link's sport as the example: every picture in it from the first byte, nothing from football", async () => {
     const out = decode(renderToStaticMarkup((await twin.default({ params: Promise.resolve({ sport: "basketball" }) })) as ReactElement));
     const bk = REAL.basketball;
-    const hero = out.slice(out.indexOf('data-hero-visual=""'), out.indexOf('data-proof-strip=""'));
+    const hero = out.slice(out.indexOf('data-hero-visual=""'), out.indexOf('data-proof-band=""'));
     expect(srcs(hero)).toEqual([bk.poster!.src, bk.cards.SN!.src, ...bk.photos!.map((p) => p.src)]);
     expect(hero).toContain('data-example="basketball"');
     expect(hero).toContain(INTAKE_COPY.art.pick("Basketball"));
@@ -1269,9 +1274,8 @@ describe("the form model (components/intake/model.ts)", () => {
     expect(model.parsePrefill(get("campaign=senior-night&style=CA")).style).toBe("CA");
     expect(model.parsePrefill(get("campaign=black-friday")).style).toBeUndefined();
     const set = model.applyPrefill(model.initialState(), model.parsePrefill(get("sport=football&product=complete-set")));
-    expect(model.categoryOf(set.products)).toBe("set");
-    expect(model.categoryOf(model.chooseCategory(set, "poster").products)).toBe("poster");
-    expect(model.chooseCategory(set, "card").products.blanket.selected).toBe(false);
+    expect(set.products.cards.selected && set.products.poster.selected).toBe(true);
+    expect(set.products.blanket.selected).toBe(false);
     const applied = model.applyPrefill(model.initialState(), model.parsePrefill(get("option=p1824&style=sr")));
     expect(applied.products.poster).toEqual({ selected: true, option: "p1824" });
     expect(applied.style).toBe("SR");
