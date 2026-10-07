@@ -891,7 +891,19 @@ and women", "05 must be stronger". Still no model call.
   dark proof sheet under the CSS watermark, composed in code) follow the shown sport. **05** runs the full width on
   the arena surface: "Pay only if you love it", the three checks "Your order" makes, and `$0 due today` (prices.ts
   DUE_TODAY_LABEL). The money pages' band keeps Marcus for 03–04 (his real proof sheet at 04).
-- **Hero**: the sentence under the H1 names the product; the sheet is labelled "THEIR EDITION · WATERMARKED PROOF",
-  the front print "Your photos →"; the watermark is 24 tiles at 40 % instead of 48 at 50 % (it sat on every face);
-  and a strip of the nine sports with their own pages (each chip wearing its Stadium Night card face) asks the form
-  for that sport through `sportRequestStore`, so one tap switches the hero, the band, the tiles and step 1 together.
+- **Hero**: the sentence under the H1 names the product; the sheet is labelled "THEIR EDITION · FREE PROOF", the
+  front print "Your photos →". A strip of sport chips under the exhibit was tried the same day and removed within
+  the hour (owner: "the first visual must say what happens, why they came and what they get — not ask them to
+  pick"); the hero asks for nothing. Its watermark is ONE "PROOF" stamp across the sheet (`Watermark
+  variant="stamp"`); the band's proof sheet keeps the 24-tile version.
+
+### v7, the same evening (owner review of the live page)
+
+- **Card 03 = two likeness packs**, fixed on every page like 01 and 02: Tui (football) and Jaslene (volleyball),
+  identity plate + kit plate each (`LIKENESS_SPORTS`). Only card 04 follows the chosen sport now.
+- **Card lines are sentences** (10+ words each, tested): what to choose, which photos, "not a template … rebuilt
+  and checked", the proof by email, and 05 "no payment before you approve; don't like it, pay nothing; love it, pay
+  then". **No `$0` on 05** (owner: "after the proof they still pay — it is about no payment before approval");
+  the rail keeps "Today $0" as the due-now fact, and its figures now sit ABOVE the choices.
+- The art note under the tiles renders only its current line (a reserved slot read as "an empty gap"), and the
+  steps sit 32/48 px closer (`py-8 md:py-12`).

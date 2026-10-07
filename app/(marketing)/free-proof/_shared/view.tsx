@@ -47,19 +47,14 @@ export function FreeProofView({ example = SHOWCASE_SPORT }: { example?: string }
   const products = intakeProducts();
   const art = freeProofArtMap();
   const sportChoices = intakeSports();
-  // The band's pictures 03–04 follow the shown sport (client islands); 01 (the fan of sports and finishes), 02
-  // (the mix of phone photos) and 05 (the promise) are the band's own defaults on every page.
-  const bandVisuals = [
-    null,
-    null,
-    <FreeProofStepVisual key="03" step={2} art={art} example={example} />,
-    <FreeProofStepVisual key="04" step={3} art={art} example={example} />,
-    null,
-  ];
+  // Only the band's 04 (the proof sheet) follows the shown sport (a client island); 01 (the fan of sports and
+  // finishes), 02 (the mix of phone photos), 03 (the two likeness packs) and 05 (the promise) are the band's own
+  // defaults on every page.
+  const bandVisuals = [null, null, null, <FreeProofStepVisual key="04" step={3} art={art} example={example} />, null];
   return (
     <>
       <div className="container-gallery">
-        <IntakeHero art={art} example={example} sports={sportChoices} />
+        <IntakeHero art={art} example={example} />
       </div>
       {/* The band's own top padding is the hero's bottom air; step 1 opens on its own rule right under it. */}
       <ProofPathBand flushBottom visuals={bandVisuals} after={<FreeProofBandNote art={art} example={example} />} />

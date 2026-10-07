@@ -57,7 +57,7 @@ import { HANG_HEIGHT_IN, SHEET, ToScaleSheet, boxStyle, posterCentreIn } from ".
 import { PhotoChecklist } from "../components/PhotoChecklist";
 import { FICTIONAL_LABEL_SHORT, FictionalLabel } from "../components/FictionalLabel";
 import { PROOF_BAND_LABEL_ID, ProofPath, ProofPathBand, STEP_FAN_KEYS, STEP_LIKENESS_KEYS, STEP_PHOTO_KEYS, STEP_PROOF_KEY } from "../components/ProofPath";
-import { FAN_SPORTS, MIX_PHOTOS, PHOTO_SHOT_NUMBER } from "../components/intake/visuals";
+import { FAN_SPORTS, LIKENESS_SPORTS, MIX_PHOTOS, PHOTO_SHOT_NUMBER } from "../components/intake/visuals";
 import { DUE_TODAY_LABEL } from "../lib/catalog/prices";
 import { INTAKE_COPY } from "../lib/intake/copy";
 import { SITE_ASSETS } from "../lib/assets";
@@ -625,20 +625,23 @@ describe("ProofPath (D29) — one component, the cards and the list", () => {
     expect(cards.match(/data-step-visual="" class="relative h-\[8\.75rem\] w-full shrink-0 sm:h-40 lg:h-44 xl:h-\[12\.5rem\]"/g)?.length).toBe(4);
     for (const card of cards.split('<li data-step-card=""').slice(1)) expect(card.indexOf("data-step-visual")).toBeLessThan(card.indexOf("font-display"));
     // The fifth (owner, 2026-10-07: "pay as an extra across the whole width, so it is clear they risk nothing … it must
-    // be stronger"): the dark promise bar — numeral and promise in Anton, the three checks "Your order" makes, and the
-    // zero-due figure with its label (the one dollar literal outside the ladder). No picture box, no accent.
+    // be stronger … a zero does not apply, they still pay after the proof"): the dark promise bar — numeral and promise
+    // in Anton, the line with both outcomes, and the three outcomes with white ticks. No picture box, no accent, no figure.
     const wide = cards.split('<li data-step-card=""')[5];
-    expect(wide).toMatch(/^ data-step-wide="" data-surface="arena" class="col-span-full grid min-w-0 gap-6 rounded-\[20px\] bg-arena p-5 text-white sm:grid-cols-\[minmax\(0,1\.4fr\)_minmax\(0,1fr\)_auto\]/);
+    expect(wide).toMatch(/^ data-step-wide="" data-surface="arena" class="col-span-full grid min-w-0 gap-6 rounded-\[20px\] bg-arena p-5 text-white sm:grid-cols-\[minmax\(0,1\.3fr\)_minmax\(0,1fr\)\]/);
     expect(wide).toContain(`>${INTAKE_COPY.stepCards[4].title}</p>`);
     expect(wide).toContain(INTAKE_COPY.stepCards[4].line);
-    for (const check of INTAKE_COPY.summary.checks) expect(wide).toContain(`<span>${check}</span>`);
-    expect(wide).toMatch(new RegExp(`data-due-today=""[\\s\\S]*?>${DUE_TODAY_LABEL.replace("$", "\\$")}</span><span[^>]*>${INTAKE_COPY.dueToday}</span>`));
+    for (const line of INTAKE_COPY.promise) expect(wide).toContain(`<span>${line}</span>`);
     expect(wide).not.toContain("data-step-visual");
+    expect(wide).not.toContain(DUE_TODAY_LABEL);
     expect(INTAKE_COPY.stepCards[4].title).toBe("Pay only if you love it");
-    expect(INTAKE_COPY.stepCards[4].line).toMatch(/Nothing to pay now/);
-    expect(INTAKE_COPY.stepCards[4].line).toMatch(/only if you like the result/);
+    expect(INTAKE_COPY.stepCards[4].line).toMatch(/^No payment before you approve\./);
+    expect(INTAKE_COPY.stepCards[4].line).toMatch(/you pay nothing/i);
+    expect(INTAKE_COPY.promise).toHaveLength(3);
+    // Every line of the five says what happens (owner: "a glance at the five must say what the process is").
+    for (const card of INTAKE_COPY.stepCards) expect(card.line.split(" ").length, card.n).toBeGreaterThanOrEqual(10);
   });
-  it("cards: the fan of four sports in four finishes, the mix of five phone photos, Marcus's identity and kit plates, his real proof sheet", () => {
+  it("cards: the fan of four sports in four finishes, the mix of five phone photos, the two likeness packs, Marcus's real proof sheet", () => {
     const out = (key: string) => encodeURIComponent(SITE_ASSETS[key].out);
     const stepOf = (i: number) => cards.split('<li data-step-card=""')[i + 1];
     // 01 (owner, 2026-10-07: "show several sports in different styles" — and "not the cheer card"): four sports, four different finishes, in order.
@@ -667,18 +670,25 @@ describe("ProofPath (D29) — one component, the cards and the list", () => {
       expect(i, key).toBeGreaterThan(at);
       at = i;
     }
-    // 03: the identity plate and the kit plate of the same athlete.
-    expect(STEP_LIKENESS_KEYS).toEqual(["free-proof.basketball.identity", "free-proof.basketball.kit"]);
-    expect(stepOf(2)).toMatch(new RegExp(`data-likeness="identity"[^>]*>[\\s\\S]*?${out(STEP_LIKENESS_KEYS[0]).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
-    expect(stepOf(2)).toMatch(new RegExp(`data-likeness="kit"[^>]*>[\\s\\S]*?${out(STEP_LIKENESS_KEYS[1]).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
+    // 03 (owner: "a couple of identity and kit packs, one with a boy, one with a girl"): two athletes' plates and kits, in order.
+    expect(LIKENESS_SPORTS).toEqual(["football", "volleyball"]);
+    expect(STEP_LIKENESS_KEYS).toEqual(["free-proof.football.identity", "free-proof.football.kit", "free-proof.volleyball.identity", "free-proof.volleyball.kit"]);
+    expect(stepOf(2).match(/data-likeness="identity"/g)).toHaveLength(2);
+    expect(stepOf(2).match(/data-likeness="kit"/g)).toHaveLength(2);
+    at = -1;
+    for (const key of STEP_LIKENESS_KEYS) {
+      const i = stepOf(2).indexOf(out(key));
+      expect(i, key).toBeGreaterThan(at);
+      at = i;
+    }
     // 04: his real proof sheet — the watermark is the point: never cropped, its own ratio in the box.
     expect(stepOf(3)).toContain(out(STEP_PROOF_KEY));
     expect(SITE_ASSETS[STEP_PROOF_KEY].note).toContain("GDE-SN-BKB-2026-12");
     expect(stepOf(3)).toMatch(/object-contain/);
     expect(stepOf(3)).toContain("aspect-[1400/1077]");
-    // 05: the promise bar — three white ticks (one per check), no picture.
-    const tick = render(createElement(CheckCircleIcon, { size: 20, className: "shrink-0 text-white" }));
-    expect(stepOf(4).split(tick)).toHaveLength(INTAKE_COPY.summary.checks.length + 1);
+    // 05: the promise bar — three white ticks (one per outcome), no picture.
+    const tick = render(createElement(CheckCircleIcon, { size: 22, className: "shrink-0 text-white" }));
+    expect(stepOf(4).split(tick)).toHaveLength(INTAKE_COPY.promise.length + 1);
     expect(stepOf(4)).toContain(INTAKE_COPY.stepCards[4].line);
   });
   it("cards: a page may hand in its own pictures (/free-proof: the chosen sport); a null slot keeps the default", () => {
@@ -696,7 +706,7 @@ describe("ProofPath (D29) — one component, the cards and the list", () => {
     expect(band).not.toContain(CANON.fictionalLabel);
   });
   it("cards: decorative, lazy, accent-free, nothing to press, never a typed price (the zero-due figure is the ladder's own literal)", () => {
-    expect(cards.match(/<img /g)?.length).toBe(12);
+    expect(cards.match(/<img /g)?.length).toBe(14);
     for (const img of cards.match(/<img [^>]*>/g) ?? []) {
       expect(img).toContain('alt=""');
       expect(img).toContain('loading="lazy"');

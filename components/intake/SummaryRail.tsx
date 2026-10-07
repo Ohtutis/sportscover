@@ -242,7 +242,8 @@ export function SummaryRail(props: SummaryProps & { variant: "rail" | "bar"; cla
           </div>
           {caption}
         </div>
-        <div className="mt-5">{items.length || style || sport ? <ChoiceList items={items} style={style} sport={sport} /> : <p className="font-body text-small text-muted-text">{s.empty}</p>}</div>
+        {/* The figures sit ABOVE the choices (owner, 2026-10-07): with four products chosen the rail outgrows the
+            screen, and the amount must be the first thing seen, not the last. */}
         <dl className="mt-5 flex flex-col gap-2 border-t border-hairline pt-4">
           <div className="flex items-baseline justify-between gap-4">
             <dt className={KEY}>{s.today}</dt>
@@ -250,6 +251,9 @@ export function SummaryRail(props: SummaryProps & { variant: "rail" | "bar"; cla
           </div>
           {after}
         </dl>
+        <div className="mt-5 border-t border-hairline pt-4">
+          {items.length || style || sport ? <ChoiceList items={items} style={style} sport={sport} /> : <p className="font-body text-small text-muted-text">{s.empty}</p>}
+        </div>
         <ul className="mt-5 flex flex-col gap-2.5 border-t border-hairline pt-4 font-body text-small text-ink">
           {s.checks.map((check) => (
             <li key={check} className="flex items-center gap-2.5">
