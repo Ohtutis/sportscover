@@ -38,19 +38,12 @@ export const INTAKE_COPY = {
    * not ask them to pick something already").
    */
   heroVisual: {
-    // Short enough for one line on a 375 px phone (the sheet itself carries the PROOF stamp).
-    frameLabel: "THEIR EDITION · FREE PROOF",
+    /** The pill on the poster (v9: no sheet, no frame — the art carries its own label). */
+    frameLabel: "Their edition",
     photosLabel: "Your photos →",
     /** Under the exhibit: the transformation in nine words, for a reader who skips the copy. */
     microLine: "Your photos. Their face. Their uniform. Their edition.",
   },
-
-  /** The three-beat strip under the hero (ads brief §3): what to do, what we do, what they get — one sentence each. */
-  strip: [
-    { title: "Upload photos", line: `Send us ${PHOTO_RULES.min}–${PHOTO_RULES.max} photos from your phone.` },
-    { title: "We create it", line: "Our team builds your athlete's own edition from them." },
-    { title: "See it first", line: (from: string): string => `Love it? Then you decide. Digital editions from ${from}.` },
-  ],
 
   /** Over the form (ads brief §4): the form starts right after the strip, with a plain promise of effort and cost. */
   formIntro: { title: "LET'S CREATE YOUR ATHLETE.", line: "Takes about 2 minutes. Nothing to pay today." },
@@ -158,29 +151,23 @@ export const INTAKE_COPY = {
    */
   stepLabel: (n: number): string => `STEP ${n} OF 4`,
   steps4: {
-    make: { title: "WHAT ARE WE MAKING?", support: "Their sport, then what to make. Sizes and formats can wait until you've seen the proof." },
+    make: { title: "WHAT ARE WE MAKING?", support: "Their sport, then what to make and the look." },
     athlete: { title: "WHO ARE WE CREATING?", support: "Only what goes on the card. Long names are fine; the type scales, it never shortens." },
     photos: { title: "UPLOAD THEIR PHOTOS." },
     contact: { title: "WHERE SHOULD WE SEND YOUR PROOF?", support: "We'll email your custom preview when it's ready." },
   },
-  /** Step 1's three parts, in order, and the product categories (ads brief §5: cards and posters lead; the rest is "more"). */
+  /**
+   * Step 1's three parts, in order. The product cards and the style tiles are the ones that shipped this morning
+   * (owner, 2026-10-07, on a category rewrite: "the choices were good, no complete set here; you-choose-for-me is
+   * one tile after Senior Night, not the default — the default is Stadium Night").
+   */
   make: {
     sport: "Their sport",
     sportLine: "Pick it once. Every example on this page follows it.",
     product: "What to make",
-    productLine: "Pick one. Every printed option includes the digital files.",
-    categories: [
-      { key: "card", name: "Trading card", line: "Front and back, square-cut, with a registered card ID and the card's own page." },
-      { key: "poster", name: "Poster", line: "Art for the wall. The stats stay on the card." },
-      { key: "set", name: "Complete set", line: "The card and the poster together, priced as a bundle.", badge: "Best value" },
-    ],
-    more: "More to make",
-    formats: "Choose formats and sizes now (optional)",
-    formatsLine: "You can decide after you see the proof. Until then every product is the digital edition.",
+    productLine: "Pick one or more. Every printed option includes the digital files.",
     look: "The look",
-    lookLine: "Not sure? Leave it to us. You see the finish on the proof.",
-    recommendedTag: "Recommended",
-    own: "Or choose the look yourself",
+    lookLine: "Six finishes and the Senior Night edition. Not sure? Let us choose.",
   },
   /** Step 3, over the uploader (ads brief §5, step 3). */
   photosLines: ["Phone photos are completely fine. We'll choose the best ones for the design.", "Not sure which to choose? Upload more and we'll pick the best ones."],
@@ -228,7 +215,7 @@ export const INTAKE_COPY = {
   previewCaption: "Text preview — your proof is composed from your photos; the layout follows the finish.",
 
   /** v2 style tiles: the "let us choose" tile is a premium dark tile, not an empty question. */
-  chooseForMeTitle: "Choose the best style for me",
+  chooseForMeTitle: "YOU CHOOSE FOR ME",
   chooseForMeLine: "We pick the finish that suits the photos and the sport. You see it on the proof.",
 
   /** v2 upload zone — two to three times the height of a field. */

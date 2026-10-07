@@ -209,3 +209,15 @@ complete-set|set|banner|blanket` (`PRODUCT_LINK_KEYS`), `campaign=senior-night` 
 (`CAMPAIGN_STYLES`); `style=` wins. Pixel: `trackCustom` ProofStart (first touch), SportSelected, PhotoUpload; the
 Lead stays on the thanks page. On the funnel the header shows How it works / Examples / FAQ (`FUNNEL_LINKS`).
 Thanks page: "Your free proof is in the works." with the three next steps.
+
+## v9 — the owner's review of v8 (2026-10-07, evening)
+
+Three corrections, all live in one PR: (1) the product step is the four cards with their option rows again — "the
+choices were good, no complete set here"; the category radios, "more to make" and the formats disclosure are gone.
+(2) The look: Stadium Night is the default (`initialState().style = "SN"`), and "You choose for me" is the dark tile
+after Senior Night again, never pre-selected — the full-width recommended card had become "the strongest button on the
+page". (3) The brief's three-beat text strip under the hero read weaker than the five-card band, so the band is back
+directly under the hero and the strip is deleted; the form follows the band. The hero itself was remade (the owner:
+"I wanted it completely redone"): no sheet, no bracket frame — the poster stands large with a "Their edition" pill,
+the card over its corner with C13, one PROOF stamp across the art, the phone-photo fan in front with "Your photos →".
+The four-step form, the privacy box, the funnel header, the link mapping and the funnel events from stage B stay.
