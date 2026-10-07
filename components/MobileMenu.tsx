@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
-import type { NavLink } from "../lib/nav";
+import { FUNNEL_LINKS, isFunnelPath, type NavLink } from "../lib/nav";
 import { CloseIcon, MenuIcon } from "./icons";
 
 const isCurrent = (pathname: string, href: string) => pathname === href || pathname.startsWith(`${href}/`);
@@ -17,8 +17,9 @@ const isCurrent = (pathname: string, href: string) => pathname === href || pathn
  * primary CTA alone) and 20 px from 1280 px up (where the container is capped at 1200 px and the
  * outline CTA joins it). Wrapping put the `aria-current` underline under the second word only.
  */
-export function HeaderNav({ links, className = "" }: { links: NavLink[]; className?: string }) {
+export function HeaderNav({ links: given, className = "" }: { links: NavLink[]; className?: string }) {
   const pathname = usePathname() ?? "";
+  const links = isFunnelPath(pathname) ? FUNNEL_LINKS : given;
   return (
     <nav aria-label="Main" className={className || undefined}>
       <ul className="flex items-center gap-3 xl:gap-5">
@@ -58,9 +59,13 @@ export interface MobileMenuProps {
  * (`aria-expanded`, `aria-controls`), focus moves to the first link on open, Tab is trapped, Esc
  * closes, focus returns to the button, the sheet closes on navigation. No dependencies beyond icons.
  */
-export function MobileMenu({ links, extraLinks = [], children, className = "" }: MobileMenuProps) {
+export function MobileMenu({ links: given, extraLinks: givenExtra = [], children, className = "" }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname() ?? "";
+  // The funnel keeps its three anchors and the CTA pair; the shop links wait until the proof is on its way.
+  const funnel = isFunnelPath(pathname);
+  const links = funnel ? FUNNEL_LINKS : given;
+  const extraLinks = funnel ? [] : givenExtra;
   const [seenPathname, setSeenPathname] = useState(pathname);
   if (pathname !== seenPathname) {
     // Adjusting state during render (React docs pattern) — closes the sheet after a navigation.

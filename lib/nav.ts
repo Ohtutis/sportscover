@@ -22,6 +22,19 @@ export const HEADER_LINKS: NavLink[] = [
   { label: "About", href: "/about" },
 ];
 
+/**
+ * On /free-proof (the ads landing, brief §14, 2026-10-07) the header keeps the parent in the funnel: three
+ * anchors on the page instead of the shop links. The CTA pair and the footer are unchanged.
+ */
+export const FUNNEL_LINKS: NavLink[] = [
+  { label: "How it works", href: "/free-proof#how-it-works" },
+  { label: "Examples", href: "/free-proof#examples" },
+  { label: "FAQ", href: "/free-proof#faq" },
+];
+
+/** Whether a pathname is the free-proof funnel (the form, its per-sport twins, the thanks page). */
+export const isFunnelPath = (pathname: string): boolean => pathname === "/free-proof" || pathname.startsWith("/free-proof/");
+
 /** The links the mobile sheet adds under the main nav (the sheet's own CTA pair carries the free proof). */
 export const MOBILE_EXTRA_LINKS: NavLink[] = [
   { label: "Banners", href: "/banners" },

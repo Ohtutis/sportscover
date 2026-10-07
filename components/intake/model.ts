@@ -89,7 +89,9 @@ export function initialState(): FormState {
       ProductKey,
       ProductState
     >,
-    style: "",
+    // v8: the look is answered by default — "choose the best style for me" — so no decision stands between a
+    // parent and the proof; the tiles under it are an option, not a gate.
+    style: STYLE_RECOMMEND,
     athlete: {
       firstName: "",
       lastName: "",
@@ -137,10 +139,28 @@ const list = (v: string | null): string[] =>
  * `option` is a list of option keys (each applies to every chosen product that has it) or
  * `product:option` pairs. Unknown values are ignored, never an error: an ad link can't break the form.
  */
+/**
+ * What an ad link may say in `product=`: the catalog keys and the words an ad writer uses (v8, ads brief §16 —
+ * `card`, `poster`, `complete-set`). Extend here, never in the parser.
+ */
+export const PRODUCT_LINK_KEYS: Readonly<Record<string, readonly ProductKey[]>> = {
+  cards: ["cards"],
+  card: ["cards"],
+  "trading-card": ["cards"],
+  poster: ["poster"],
+  set: ["cards", "poster"],
+  "complete-set": ["cards", "poster"],
+  banner: ["banner"],
+  blanket: ["blanket"],
+};
+
+/** `campaign=` → the look it implies (ads brief §16: `campaign=senior-night`); `style=` on the same link still wins. */
+export const CAMPAIGN_STYLES: Readonly<Record<string, StyleChoice>> = { "senior-night": "SR", "senior-night-set": "SR" };
+
 export function parsePrefill(get: (key: string) => string | null): Prefill {
   const products = list(get("product"))
     .map((k) => k.toLowerCase())
-    .filter((k): k is ProductKey => (PRODUCT_KEYS as readonly string[]).includes(k));
+    .flatMap((k) => PRODUCT_LINK_KEYS[k] ?? []);
   const unique = [...new Set(products)];
   const options: Partial<Record<ProductKey, string>> = {};
   for (const entry of list(get("option"))) {
@@ -161,11 +181,31 @@ export function parsePrefill(get: (key: string) => string | null): Prefill {
   }
   const sport = sportBySlug((get("sport") ?? "").trim().toLowerCase())?.slug;
   const styleRaw = (get("style") ?? "").trim();
+  const campaign = (get("campaign") ?? "").trim().toLowerCase();
   const style: StyleChoice | undefined =
-    styleRaw.toLowerCase() === STYLE_RECOMMEND ? STYLE_RECOMMEND : styles.find((s) => s.code === styleRaw.toUpperCase())?.code;
+    styleRaw.toLowerCase() === STYLE_RECOMMEND
+      ? STYLE_RECOMMEND
+      : (styles.find((s) => s.code === styleRaw.toUpperCase())?.code ?? CAMPAIGN_STYLES[campaign]);
   const classRaw = (get("classOf") ?? get("classof") ?? get("class") ?? "").trim();
   const classOf = CLASS_YEARS.includes(classRaw) ? classRaw : undefined;
   return { products: unique, options, sport, style, classOf };
+}
+
+/** Step 1's product choice as one of three categories (v8): the card, the poster, or both as the set. */
+export type ProductCategory = "card" | "poster" | "set";
+
+export function categoryOf(products: Record<ProductKey, ProductState>): ProductCategory | "" {
+  const c = products.cards.selected;
+  const p = products.poster.selected;
+  return c && p ? "set" : c ? "card" : p ? "poster" : "";
+}
+
+/** Choosing a category sets the card and poster flags; the banner and blanket ("more to make") are untouched. */
+export function chooseCategory(state: FormState, category: ProductCategory): FormState {
+  const want: readonly ProductKey[] = category === "set" ? ["cards", "poster"] : category === "card" ? ["cards"] : ["poster"];
+  const products = { ...state.products };
+  for (const key of ["cards", "poster"] as const) products[key] = { ...products[key], selected: want.includes(key) };
+  return { ...state, products };
 }
 
 export function applyPrefill(state: FormState, prefill: Prefill): FormState {

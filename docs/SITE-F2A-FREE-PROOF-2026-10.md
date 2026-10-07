@@ -193,3 +193,19 @@ the brief: no "$0" wording (owner, 2026-10-07: a zero reads as "free overall"), 
 rather than under the hero CTA (owner, 2026-09-07), banners and blankets stay on the page. Stage B (the four-step
 form, defaults instead of early decisions, the privacy box, the thanks page, `product=card|poster|complete-set`
 links, funnel events) is its own PR.
+
+## v8 stage B — the four-step form (2026-10-07)
+
+UI and state only; `onSubmit`, the start/complete calls, the uploads, the payload (`buildPayload`) and the consent
+sentences are untouched. Four steps: 1 WHAT ARE WE MAKING? (three parts under one heading: their sport; what to
+make — three category radios card / poster / complete set that set the card and poster flags (`chooseCategory`),
+"more to make" with the banner and the blanket as checkboxes, "choose formats and sizes now (optional)" that reveals
+the old option rows for chosen products, the bundle ladder; the look — "choose the best style for me" first and
+chosen by default (`initialState().style = "recommend"`), the seven tiles under "or choose the look yourself"),
+2 WHO ARE WE CREATING? (unchanged fields), 3 UPLOAD THEIR PHOTOS (two reassurance lines over the uploader),
+4 WHERE SHOULD WE SEND YOUR PROOF? Then the privacy box ("Your photos stay private."), the three unchanged
+confirmations, "Create my free proof →" / "No payment information required." Ad links: `product=card|poster|
+complete-set|set|banner|blanket` (`PRODUCT_LINK_KEYS`), `campaign=senior-night` → the Senior Night look
+(`CAMPAIGN_STYLES`); `style=` wins. Pixel: `trackCustom` ProofStart (first touch), SportSelected, PhotoUpload; the
+Lead stays on the thanks page. On the funnel the header shows How it works / Examples / FAQ (`FUNNEL_LINKS`).
+Thanks page: "Your free proof is in the works." with the three next steps.

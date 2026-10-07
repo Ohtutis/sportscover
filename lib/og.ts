@@ -23,15 +23,34 @@ export const OG_COLORS = {
 const TTF_USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0";
 const fontCache = new Map<string, Promise<ArrayBuffer>>();
 
+/**
+ * A fetch that survives a dropped connection: three attempts, 800 ms apart. The GitHub runner failed
+ * `npm run build` three times on 2026-10-07 with `TypeError: fetch failed` from this very call while the
+ * Vercel build of the same commit succeeded — a network blip, not a font problem. An HTTP error is not
+ * retried (it would be the same answer), only a thrown fetch.
+ */
+async function fetchWithRetry(url: string, init?: RequestInit, attempts = 3): Promise<Response> {
+  let lastError: unknown;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await fetch(url, init);
+    } catch (error) {
+      lastError = error;
+      if (i < attempts - 1) await new Promise((r) => setTimeout(r, 800 * (i + 1)));
+    }
+  }
+  throw lastError instanceof Error ? lastError : new Error(`loadGoogleFont: fetch failed for ${url}`);
+}
+
 async function fetchGoogleFont(family: OgFontFamily, weight: OgFontWeight, text?: string): Promise<ArrayBuffer> {
   // Anton ships one weight; asking css2 for `:wght@` on it is unnecessary.
   const spec = family === "Anton" ? "Anton" : `${family.replace(/ /g, "+")}:wght@${weight}`;
   const url = `https://fonts.googleapis.com/css2?family=${spec}${text ? `&text=${encodeURIComponent(text)}` : ""}`;
-  const css = await fetch(url, { headers: { "User-Agent": TTF_USER_AGENT } });
+  const css = await fetchWithRetry(url, { headers: { "User-Agent": TTF_USER_AGENT } });
   if (!css.ok) throw new Error(`loadGoogleFont: ${family} ${weight} → HTTP ${css.status}`);
   const match = /src:\s*url\(([^)]+)\)\s*format\(['"](?:truetype|opentype|woff)['"]\)/.exec(await css.text());
   if (!match) throw new Error(`loadGoogleFont: no TTF/OTF/WOFF source in the CSS for ${family} ${weight}`);
-  const file = await fetch(match[1]);
+  const file = await fetchWithRetry(match[1]);
   if (!file.ok) throw new Error(`loadGoogleFont: font file for ${family} ${weight} → HTTP ${file.status}`);
   return file.arrayBuffer();
 }
