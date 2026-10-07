@@ -210,9 +210,9 @@ export function sportName(slug: string, other = ""): string | null {
 }
 
 /**
- * What the pictures on the page can show for the chosen sport (owner, 2026-10-06: "one sport on the whole
- * page"): `art` — the sport has example art; `none` — a sport (or "Other") with no example yet, built to
- * order from the photos; `pick` — nothing chosen yet. Never another sport's picture.
+ * Why the pictures on the page show what they show (owner, 2026-10-06: "one sport on the whole page"): `art` —
+ * the chosen sport has example art; `none` — a sport (or "Other") with no example yet, built to order from the
+ * photos; `pick` — nothing chosen yet. In both of the last two the page shows its example sport (`shownArt`).
  */
 export type ArtState = "art" | "none" | "pick";
 
@@ -226,6 +226,35 @@ export function artState(art: FreeProofArtMap, slug: string): ArtState {
   if (!slug) return "pick";
   return sportArt(art, slug) ? "art" : "none";
 }
+
+/**
+ * The page's example sport (owner review 2026-10-07: "too many faceless grey cards until you pick a sport — the
+ * page has to hook with the visuals at once and sell the idea that THEIR child ends up on the poster"). Before a
+ * sport is chosen every picture on /free-proof shows this one sport's real art, never a grey silhouette and never
+ * two sports at once. Football: senior night season, and the sport the most US families play under lights.
+ * A link that names a sport (`?sport=…`, served by the per-sport page) shows that sport instead.
+ */
+export const SHOWCASE_SPORT = "football";
+
+/**
+ * The art every picture on the page shows: the chosen sport's when it has any; otherwise the example sport's
+ * (`example` — the link's sport on a per-sport page — then SHOWCASE_SPORT). `artState` still says WHY: `art` (their
+ * sport), `pick` (nothing chosen yet, the example shows), `none` (their sport has no example yet, the example shows).
+ */
+export function shownArt(art: FreeProofArtMap, chosen: string, example: string = SHOWCASE_SPORT): FreeProofSportArt | null {
+  return sportArt(art, chosen) ?? sportArt(art, example) ?? sportArt(art, SHOWCASE_SPORT);
+}
+
+/** What the line under a group of pictures needs: why they show what they show, their sport's name, the example's. */
+export interface ArtNoteData {
+  state: ArtState;
+  sport: string | null;
+  example: string;
+}
+
+/** The example sport's name for the line under the pictures ("Football"). */
+export const exampleName = (art: FreeProofArtMap, example: string = SHOWCASE_SPORT): string =>
+  sportName(sportArt(art, example) ? example : SHOWCASE_SPORT) ?? "Football";
 
 /** The finish codes a card front may be shown in, in lineup order (then Senior Night). */
 const CARD_ORDER = ["SN", "CA", "FS", "HE", "SS", "PR", "SR"] as const;
@@ -277,6 +306,26 @@ export const choiceStore = {
   subscribe(l: () => void): () => void {
     choiceListeners.add(l);
     return () => choiceListeners.delete(l);
+  },
+};
+
+/**
+ * A sport asked for OUTSIDE the form — the hero's sport strip (v6, 2026-10-07). The form subscribes and treats a
+ * request exactly like a tap on a step-1 chip, so the strip, step 1 and every picture agree. A counter, not a flag,
+ * so asking for the same sport twice (after "Other" was chosen in between) still lands.
+ */
+let sportRequest: { slug: string; n: number } = { slug: "", n: 0 };
+const requestListeners = new Set<() => void>();
+
+export const sportRequestStore = {
+  get: (): { slug: string; n: number } => sportRequest,
+  request(slug: string): void {
+    sportRequest = { slug, n: sportRequest.n + 1 };
+    for (const l of requestListeners) l();
+  },
+  subscribe(l: () => void): () => void {
+    requestListeners.add(l);
+    return () => requestListeners.delete(l);
   },
 };
 

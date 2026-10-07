@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-06T20:54:40.791Z",
+  "generatedAt": "2026-10-06T22:34:07.756Z",
   "script": "scripts/site-assets.ts",
   "entries": {
     "/images/cards/basketball-trading-card-back-registered-stadium-night.webp": {
@@ -175,6 +175,76 @@
       ],
       "generatedAt": "2026-10-06T20:53:39.681Z"
     },
+    "/images/free-proof/baseball/baseball-identity-three-views.webp": {
+      "out": "/images/free-proof/baseball/baseball-identity-three-views.webp",
+      "source": "art-pipeline/out/athletes/baseball/_identity.png",
+      "sourceSha256": "afec30d674c59f19af7bcbc6d739e90a98e7b73c78b0b2f4593e001dbfcc9c53",
+      "sha256": "62c3e6bbccf11ea5c7cf866edf8ce54a492545c00d0f409f60fa9cc410659605",
+      "width": 600,
+      "height": 448,
+      "kind": "plate",
+      "keys": [
+        "free-proof.baseball.identity"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:33:53.697Z"
+    },
+    "/images/free-proof/baseball/baseball-kit-plate.webp": {
+      "out": "/images/free-proof/baseball/baseball-kit-plate.webp",
+      "source": "art-pipeline/out/athletes/baseball/_kit.png",
+      "sourceSha256": "3b465c8fbe6a7d1847d82cff49b99df77d7da2bf5ad5354fbdca98abfcb7523c",
+      "sha256": "ec671e8a76a2db630bf46ef0fad36f1846e9c6b864c8f912fdb88085fe4d8df6",
+      "width": 480,
+      "height": 480,
+      "kind": "plate",
+      "keys": [
+        "free-proof.baseball.kit"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:33:54.177Z"
+    },
+    "/images/free-proof/baseball/baseball-phone-photo-1.webp": {
+      "out": "/images/free-proof/baseball/baseball-phone-photo-1.webp",
+      "source": "art-pipeline/out/athletes/baseball/before/photo1.png",
+      "sourceSha256": "3bebfe59ae31de1c3ab3e8d5353f12e05f191a398fe1219b32fe45f44db30205",
+      "sha256": "b76732c38c198e0d8ced60311801d08b65e6feab5d8cf59dbd845d4b01c7bb5b",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.baseball.photo.1"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:03.897Z"
+    },
+    "/images/free-proof/baseball/baseball-phone-photo-2.webp": {
+      "out": "/images/free-proof/baseball/baseball-phone-photo-2.webp",
+      "source": "art-pipeline/out/athletes/baseball/before/photo2.png",
+      "sourceSha256": "5a162f5e52a20a79cdf4666ae3255d631c70e3328bb5b3bbb435e9839e2ffb83",
+      "sha256": "22292c564707086f0cf431026983f4694f0624332379f2243d9fb947d02b3826",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.baseball.photo.2"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:04.886Z"
+    },
+    "/images/free-proof/baseball/baseball-phone-photo-4.webp": {
+      "out": "/images/free-proof/baseball/baseball-phone-photo-4.webp",
+      "source": "art-pipeline/out/athletes/baseball/before/photo4.png",
+      "sourceSha256": "25f19db440df96852e798f34ab8455fabeb4c09cb951d9c85db00a10668a2749",
+      "sha256": "a71599259789bdffdb0bb9d1ffb854e6e586739b3b9114fa6c60dab49e89a96e",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.baseball.photo.4"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:04.379Z"
+    },
     "/images/free-proof/baseball/baseball-poster-chrome-all-star.webp": {
       "out": "/images/free-proof/baseball/baseball-poster-chrome-all-star.webp",
       "source": "etsy/listing-images/02-baseball-poster/src/BB-CA-poster.png",
@@ -311,6 +381,76 @@
         "free-proof.basketball.blanket"
       ],
       "generatedAt": "2026-10-06T20:53:29.298Z"
+    },
+    "/images/free-proof/basketball/basketball-identity-three-views.webp": {
+      "out": "/images/free-proof/basketball/basketball-identity-three-views.webp",
+      "source": "art-pipeline/out/athletes/basketball/_identity.png",
+      "sourceSha256": "e985f95f4790b28149e9029feecf0cdbf895e42c5998be98b8ce6941235cc195",
+      "sha256": "e1a1a2f07de21298a161917465c03a774e9f6c19a7a89b7fe390c49a93d737eb",
+      "width": 600,
+      "height": 448,
+      "kind": "plate",
+      "keys": [
+        "free-proof.basketball.identity"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:33:51.729Z"
+    },
+    "/images/free-proof/basketball/basketball-kit-plate.webp": {
+      "out": "/images/free-proof/basketball/basketball-kit-plate.webp",
+      "source": "art-pipeline/out/athletes/basketball/_kit.png",
+      "sourceSha256": "ddfa506d39c05427ed2a8f88383d3f2133372d39f04c93b578343b41907728d8",
+      "sha256": "78dfd9005fb6532a0fdb2ae66b06fb8a60c48acfa7db064e0a7c59a2d382861f",
+      "width": 480,
+      "height": 480,
+      "kind": "plate",
+      "keys": [
+        "free-proof.basketball.kit"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:33:52.219Z"
+    },
+    "/images/free-proof/basketball/basketball-phone-photo-1.webp": {
+      "out": "/images/free-proof/basketball/basketball-phone-photo-1.webp",
+      "source": "art-pipeline/out/athletes/basketball/before/photo1.png",
+      "sourceSha256": "fa0298da36699673a25593e4ade576fb1d1723137085b901e2c34d64c883f6e4",
+      "sha256": "f6be276345b3e4acc4eab4851ab9bae382a51dc172b0f262632b31ba2cd89baf",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.basketball.photo.1"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:00.919Z"
+    },
+    "/images/free-proof/basketball/basketball-phone-photo-2.webp": {
+      "out": "/images/free-proof/basketball/basketball-phone-photo-2.webp",
+      "source": "art-pipeline/out/athletes/basketball/before/photo2.png",
+      "sourceSha256": "d8b6939c89995ed0e7ccc2c9240cb4039e3893403f71d99a524ed4a3ce9fb869",
+      "sha256": "e629fcde15c0712d585d4f042fcd42f14e6953d73e350b3376786d67580f779f",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.basketball.photo.2"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:01.944Z"
+    },
+    "/images/free-proof/basketball/basketball-phone-photo-4.webp": {
+      "out": "/images/free-proof/basketball/basketball-phone-photo-4.webp",
+      "source": "art-pipeline/out/athletes/basketball/before/photo4.png",
+      "sourceSha256": "50cd8e28888aaa6b3d20a48f976ba252f4bfad5a409d107e48316399bfc1bce4",
+      "sha256": "43f3e41e5ba37cdc158c4d72df25036c5678ed8fca0cb61080685a5a7ab7888c",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.basketball.photo.4"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:01.437Z"
     },
     "/images/free-proof/basketball/basketball-poster-stadium-night.webp": {
       "out": "/images/free-proof/basketball/basketball-poster-stadium-night.webp",
@@ -449,6 +589,76 @@
       ],
       "generatedAt": "2026-10-06T20:54:15.032Z"
     },
+    "/images/free-proof/cheerleading/cheerleading-identity-three-views.webp": {
+      "out": "/images/free-proof/cheerleading/cheerleading-identity-three-views.webp",
+      "source": "art-pipeline/out/athletes/cheerleading/_identity.png",
+      "sourceSha256": "fa4f75c788f81e24c5c7b57d4e5cf5becdf178d5953b584496ce255834f76b5a",
+      "sha256": "a48c6ed3040680e133400dedebfe3f4091fc8fc583da581548c287b51e18d382",
+      "width": 600,
+      "height": 448,
+      "kind": "plate",
+      "keys": [
+        "free-proof.cheerleading.identity"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:34:00.458Z"
+    },
+    "/images/free-proof/cheerleading/cheerleading-kit-plate.webp": {
+      "out": "/images/free-proof/cheerleading/cheerleading-kit-plate.webp",
+      "source": "art-pipeline/out/athletes/cheerleading/_kit.png",
+      "sourceSha256": "4a2c40556890f850031b6a0477619c713e00b300967aeb260923f70ba24c0732",
+      "sha256": "3884f02026c87e7d2ef51959b1b7a17730797ff1e70edff39526ebc2a205e76f",
+      "width": 480,
+      "height": 480,
+      "kind": "plate",
+      "keys": [
+        "free-proof.cheerleading.kit"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:34:00.912Z"
+    },
+    "/images/free-proof/cheerleading/cheerleading-phone-photo-1.webp": {
+      "out": "/images/free-proof/cheerleading/cheerleading-phone-photo-1.webp",
+      "source": "art-pipeline/out/athletes/cheerleading/before/photo1.png",
+      "sourceSha256": "bc7a8b81093d0a75b041f20510385b1d2a42b7d46dcdf4f0d46edbe978913122",
+      "sha256": "172ad746f230a05b6f491b049c7e96ea272b8e24e6052442bcdc302a5ceef794",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.cheerleading.photo.1"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:14.174Z"
+    },
+    "/images/free-proof/cheerleading/cheerleading-phone-photo-2.webp": {
+      "out": "/images/free-proof/cheerleading/cheerleading-phone-photo-2.webp",
+      "source": "art-pipeline/out/athletes/cheerleading/before/photo2.png",
+      "sourceSha256": "ab1621bee9ebbaa633aa58acca614b80b1ba94639f8a8ab735ba84739b9619da",
+      "sha256": "ad1f8d966767005a37d5342ce141d3594a826f1d2e44fce7f454f24ab658957e",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.cheerleading.photo.2"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:15.069Z"
+    },
+    "/images/free-proof/cheerleading/cheerleading-phone-photo-4.webp": {
+      "out": "/images/free-proof/cheerleading/cheerleading-phone-photo-4.webp",
+      "source": "art-pipeline/out/athletes/cheerleading/before/photo4.png",
+      "sourceSha256": "0fe377d9f18734a0a3437eac8c9df6540e099dc61065207381a7cee9de8599da",
+      "sha256": "f0747622c8af4cce8ceec84089d4cb5ba3b500e9ee45c49c88b1fa0663dda9a8",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.cheerleading.photo.4"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:14.621Z"
+    },
     "/images/free-proof/cheerleading/cheerleading-poster-signature-spotlight.webp": {
       "out": "/images/free-proof/cheerleading/cheerleading-poster-signature-spotlight.webp",
       "source": "etsy/listing-images/02-cheerleading-poster/src/CH-SS-poster.png",
@@ -586,6 +796,76 @@
       ],
       "generatedAt": "2026-10-06T20:53:34.510Z"
     },
+    "/images/free-proof/football/football-identity-three-views.webp": {
+      "out": "/images/free-proof/football/football-identity-three-views.webp",
+      "source": "art-pipeline/out/athletes/football/_identity.png",
+      "sourceSha256": "178f5bb52c528d4dc6461e10b12e4005936868f51132bfc8098863c7f4a95dfb",
+      "sha256": "78a405e155e4a3d4d8ba3e7bc967e312643ddc474f6f22d4d2475343829415f8",
+      "width": 600,
+      "height": 448,
+      "kind": "plate",
+      "keys": [
+        "free-proof.football.identity"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:33:52.715Z"
+    },
+    "/images/free-proof/football/football-kit-plate.webp": {
+      "out": "/images/free-proof/football/football-kit-plate.webp",
+      "source": "art-pipeline/out/athletes/football/_kit.png",
+      "sourceSha256": "77a9a6e93df9501e220d908ecbf8f56ced599cbe41ff0a156d918bab57103256",
+      "sha256": "73d101959b5ebd0f6fbf81e636b8598a15cfa29565d17af52bc21deae8d70167",
+      "width": 480,
+      "height": 480,
+      "kind": "plate",
+      "keys": [
+        "free-proof.football.kit"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:33:53.191Z"
+    },
+    "/images/free-proof/football/football-phone-photo-1.webp": {
+      "out": "/images/free-proof/football/football-phone-photo-1.webp",
+      "source": "art-pipeline/out/athletes/football/before/photo1.png",
+      "sourceSha256": "16ddf60897693b93ebe95f44e05008d19088b266b08afdb97ab5f026a23a7e60",
+      "sha256": "6f13b26a14722142d299007f482be0ce0992d8c59a61a54b2afac4c05456b113",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.football.photo.1"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:02.437Z"
+    },
+    "/images/free-proof/football/football-phone-photo-2.webp": {
+      "out": "/images/free-proof/football/football-phone-photo-2.webp",
+      "source": "art-pipeline/out/athletes/football/before/photo2.png",
+      "sourceSha256": "47dba12d9e8afc7cde7ccbd275400435d0eccb359bee23a5a68190955720683b",
+      "sha256": "0b28c023b9b9b28861529b4ffa407e60958ae0d1bd764d5db25fbce273512abe",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.football.photo.2"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:03.427Z"
+    },
+    "/images/free-proof/football/football-phone-photo-4.webp": {
+      "out": "/images/free-proof/football/football-phone-photo-4.webp",
+      "source": "art-pipeline/out/athletes/football/before/photo4.png",
+      "sourceSha256": "fe67f371d01370f068526843678a517354cc00351e28d23c3bf2c3e31ea0a3a4",
+      "sha256": "7da9ff4a5c80e0b66241c8d890459cb6a8d0f82a55a350aa4609a67f6e168419",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.football.photo.4"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:02.924Z"
+    },
     "/images/free-proof/football/football-poster-heritage.webp": {
       "out": "/images/free-proof/football/football-poster-heritage.webp",
       "source": "etsy/listing-images/02-football-poster/src/FB-HE-poster.png",
@@ -697,6 +977,76 @@
       "quality": 72,
       "generatedAt": "2026-10-06T20:53:29.808Z"
     },
+    "/images/free-proof/golf/golf-identity-three-views.webp": {
+      "out": "/images/free-proof/golf/golf-identity-three-views.webp",
+      "source": "art-pipeline/out/athletes/golf/_identity.png",
+      "sourceSha256": "f530980068cea8fe36a4328edafb3c69b002354320a03f958b7cf194e10edef8",
+      "sha256": "13fb7bcecaddba5b6e5bb33536bb2553f754ec63ccf7b9c5270f9be617c7236d",
+      "width": 600,
+      "height": 448,
+      "kind": "plate",
+      "keys": [
+        "free-proof.golf.identity"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:34:05.392Z"
+    },
+    "/images/free-proof/golf/golf-kit-plate.webp": {
+      "out": "/images/free-proof/golf/golf-kit-plate.webp",
+      "source": "art-pipeline/out/athletes/golf/_kit.png",
+      "sourceSha256": "f01243c7dd68597fb7955315e98981381de659ebaee6396d0e79b5665abf78bf",
+      "sha256": "513f79aa6a6033b70b96b33c910f23e955fe2fe3106807a71e14c70db258517a",
+      "width": 480,
+      "height": 480,
+      "kind": "plate",
+      "keys": [
+        "free-proof.golf.kit"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:34:05.856Z"
+    },
+    "/images/free-proof/golf/golf-phone-photo-1.webp": {
+      "out": "/images/free-proof/golf/golf-phone-photo-1.webp",
+      "source": "art-pipeline/out/athletes/golf/before/photo1.png",
+      "sourceSha256": "caa9c18a6ab4bbd9d94d686463df75d7497707810f4a16ea243213c40cbea417",
+      "sha256": "afa1d9ddab7ee6ee662dfff5c59cff62945e75876641dd528b4211536832a1b5",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.golf.photo.1"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:20.988Z"
+    },
+    "/images/free-proof/golf/golf-phone-photo-2.webp": {
+      "out": "/images/free-proof/golf/golf-phone-photo-2.webp",
+      "source": "art-pipeline/out/athletes/golf/before/photo2.png",
+      "sourceSha256": "b6d380f2c4118064ca457bd184eee753a327feb5fc45e65c45dc5513ca5edba5",
+      "sha256": "ad39253c3af87061efecf82ade5180f16fd3a65ac88f0fc23206b9b16df7f51b",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.golf.photo.2"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:21.890Z"
+    },
+    "/images/free-proof/golf/golf-phone-photo-4.webp": {
+      "out": "/images/free-proof/golf/golf-phone-photo-4.webp",
+      "source": "art-pipeline/out/athletes/golf/before/photo4.png",
+      "sourceSha256": "e11bc37631af19735abd6f88fd8ecb1c7399e4d8e1e55f0c620683c2011e3240",
+      "sha256": "2bd33788daa265d6c1873603da31eaae96807af0c8557470cd199c65107ab712",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.golf.photo.4"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:21.433Z"
+    },
     "/images/free-proof/golf/golf-poster-stadium-night.webp": {
       "out": "/images/free-proof/golf/golf-poster-stadium-night.webp",
       "source": "etsy/listing-images/02-golf-poster/src/GF-SN-poster.png",
@@ -793,6 +1143,76 @@
       ],
       "quality": 72,
       "generatedAt": "2026-10-06T20:54:30.579Z"
+    },
+    "/images/free-proof/gymnastics/gymnastics-identity-three-views.webp": {
+      "out": "/images/free-proof/gymnastics/gymnastics-identity-three-views.webp",
+      "source": "art-pipeline/out/athletes/gymnastics/_identity.png",
+      "sourceSha256": "719ecbd70488840dae22e00b114555591bf51c1ed80a3e47dd248c36354fa7e5",
+      "sha256": "39b5d8f428195921d84a58d9db3f4f28f1687c66740cb3c48a8c0fbf885fa167",
+      "width": 600,
+      "height": 448,
+      "kind": "plate",
+      "keys": [
+        "free-proof.gymnastics.identity"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:34:01.468Z"
+    },
+    "/images/free-proof/gymnastics/gymnastics-kit-plate.webp": {
+      "out": "/images/free-proof/gymnastics/gymnastics-kit-plate.webp",
+      "source": "art-pipeline/out/athletes/gymnastics/_kit.png",
+      "sourceSha256": "df324a3468aaf1c6ce6b28ddd216485fb1aa01110f2189c62e1e74c211cc36c9",
+      "sha256": "5540647787bb05ca5101605167e1a299a5269ed9ac92431c363f8ff5cf64433e",
+      "width": 480,
+      "height": 480,
+      "kind": "plate",
+      "keys": [
+        "free-proof.gymnastics.kit"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:34:01.998Z"
+    },
+    "/images/free-proof/gymnastics/gymnastics-phone-photo-1.webp": {
+      "out": "/images/free-proof/gymnastics/gymnastics-phone-photo-1.webp",
+      "source": "art-pipeline/out/athletes/gymnastics/before/photo1.png",
+      "sourceSha256": "cf848639d3319a2420457ef3887609120c59f43a758e6cbb787a61aa1ba54443",
+      "sha256": "78057f200a54108ced9c751e26cfccc63c68dc64ae978d326bca19d568ae0c54",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.gymnastics.photo.1"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:15.533Z"
+    },
+    "/images/free-proof/gymnastics/gymnastics-phone-photo-2.webp": {
+      "out": "/images/free-proof/gymnastics/gymnastics-phone-photo-2.webp",
+      "source": "art-pipeline/out/athletes/gymnastics/before/photo2.png",
+      "sourceSha256": "93950b0986153303f47ac6c530baf712d3936e5817671485339f54f5d4be7630",
+      "sha256": "bb717fe18667f4f9559c0f805c0bdc0c69b56223621ed8df7d2d5ced746b062a",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.gymnastics.photo.2"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:16.439Z"
+    },
+    "/images/free-proof/gymnastics/gymnastics-phone-photo-4.webp": {
+      "out": "/images/free-proof/gymnastics/gymnastics-phone-photo-4.webp",
+      "source": "art-pipeline/out/athletes/gymnastics/before/photo4.png",
+      "sourceSha256": "a0d51785cd4957504f8648efe812b807a966a0820df658b4e8a26a5c462c134e",
+      "sha256": "11ad5899af823cc0c11773f2598d3971606c170e00ee3ade614cd7aa38706c83",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.gymnastics.photo.4"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:15.987Z"
     },
     "/images/free-proof/gymnastics/gymnastics-poster-heritage.webp": {
       "out": "/images/free-proof/gymnastics/gymnastics-poster-heritage.webp",
@@ -917,6 +1337,76 @@
       ],
       "generatedAt": "2026-10-06T20:53:55.013Z"
     },
+    "/images/free-proof/ice-hockey/ice-hockey-identity-three-views.webp": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-identity-three-views.webp",
+      "source": "art-pipeline/out/athletes/ice-hockey/_identity.png",
+      "sourceSha256": "a2258737a567912e59260fab6c7ad582713f691a2b54671f1bf716b0798f47cc",
+      "sha256": "6c58664585d81e264589533d90445ff75d1bedee32260395b13a039873339f7c",
+      "width": 600,
+      "height": 448,
+      "kind": "plate",
+      "keys": [
+        "free-proof.ice-hockey.identity"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:33:56.588Z"
+    },
+    "/images/free-proof/ice-hockey/ice-hockey-kit-plate.webp": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-kit-plate.webp",
+      "source": "art-pipeline/out/athletes/ice-hockey/_kit.png",
+      "sourceSha256": "a9dfee8c0781e47ad73dd3cd3abeda497523a7eaa3eadb60b17e3bea08f8ae70",
+      "sha256": "9f5188ed083c5a359b9512b00ce5407e6db01e303819741f14fcf4eac85d24e2",
+      "width": 480,
+      "height": 480,
+      "kind": "plate",
+      "keys": [
+        "free-proof.ice-hockey.kit"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:33:57.073Z"
+    },
+    "/images/free-proof/ice-hockey/ice-hockey-phone-photo-1.webp": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-phone-photo-1.webp",
+      "source": "art-pipeline/out/athletes/ice-hockey/before/photo1.png",
+      "sourceSha256": "b0ff1eb083cad45dcef6fa7da9c3f16107d1e4b93f1abe1825d528250e4161b4",
+      "sha256": "448c8fd127869d4f1e252add3ac9078d2eb16c0b0efe72c2476b5b9cab5ebf21",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.ice-hockey.photo.1"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:08.397Z"
+    },
+    "/images/free-proof/ice-hockey/ice-hockey-phone-photo-2.webp": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-phone-photo-2.webp",
+      "source": "art-pipeline/out/athletes/ice-hockey/before/photo2.png",
+      "sourceSha256": "282b0b4a69e0a873b7aba646d50e377df9ab98023414ec4e2f79e1bdb3177357",
+      "sha256": "8f2065d2ec5eba3a46b881e40cdd6aeb3e6260373b3b4cb460ab16aeb779d914",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.ice-hockey.photo.2"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:09.406Z"
+    },
+    "/images/free-proof/ice-hockey/ice-hockey-phone-photo-4.webp": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-phone-photo-4.webp",
+      "source": "art-pipeline/out/athletes/ice-hockey/before/photo4.png",
+      "sourceSha256": "3552c175280cd016b8baa96399258b7dd8ed0bd42164666d7065a899f5e7cc98",
+      "sha256": "55d01e4f5f77af1c4d87ce1f79b7f5999b35451bac47ec68c8a8342c8ebe5a31",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.ice-hockey.photo.4"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:08.896Z"
+    },
     "/images/free-proof/ice-hockey/ice-hockey-poster-stadium-night.webp": {
       "out": "/images/free-proof/ice-hockey/ice-hockey-poster-stadium-night.webp",
       "source": "etsy/listing-images/02-ice-hockey-poster/src/IH-SN-poster.png",
@@ -1040,6 +1530,76 @@
       ],
       "generatedAt": "2026-10-06T20:54:05.014Z"
     },
+    "/images/free-proof/lacrosse/lacrosse-identity-three-views.webp": {
+      "out": "/images/free-proof/lacrosse/lacrosse-identity-three-views.webp",
+      "source": "art-pipeline/out/athletes/lacrosse/_identity.png",
+      "sourceSha256": "f0be158dd1fc249d32cc16da74cd7fd119307775361f50c607de121e25e309ae",
+      "sha256": "23a603cc53cbdf161c3a8b2ef4a8d957f69fac0d831daf1ede5383f6ced8ac63",
+      "width": 600,
+      "height": 448,
+      "kind": "plate",
+      "keys": [
+        "free-proof.lacrosse.identity"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:33:58.574Z"
+    },
+    "/images/free-proof/lacrosse/lacrosse-kit-plate.webp": {
+      "out": "/images/free-proof/lacrosse/lacrosse-kit-plate.webp",
+      "source": "art-pipeline/out/athletes/lacrosse/_kit.png",
+      "sourceSha256": "ac7de9850ae10a2f6ad459cbb5ea67b3cf7dec4fca0cd18a63ce2deb227e7010",
+      "sha256": "e0746d2474ddbf1a3717e2652a4be2f01a4cbf7dd9be8a41a56fb182c375a442",
+      "width": 480,
+      "height": 480,
+      "kind": "plate",
+      "keys": [
+        "free-proof.lacrosse.kit"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:33:59.062Z"
+    },
+    "/images/free-proof/lacrosse/lacrosse-phone-photo-1.webp": {
+      "out": "/images/free-proof/lacrosse/lacrosse-phone-photo-1.webp",
+      "source": "art-pipeline/out/athletes/lacrosse/before/photo1.png",
+      "sourceSha256": "16f524d5387e963f583a6bc1282e013051b1b4c4edf0dfa14bb7b735def8e58b",
+      "sha256": "108c7061aaea7117dfddd84d2ed1bdb1deade2db191e56029ca799751b1b60bf",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.lacrosse.photo.1"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:11.360Z"
+    },
+    "/images/free-proof/lacrosse/lacrosse-phone-photo-2.webp": {
+      "out": "/images/free-proof/lacrosse/lacrosse-phone-photo-2.webp",
+      "source": "art-pipeline/out/athletes/lacrosse/before/photo2.png",
+      "sourceSha256": "94e7baabb6e87699e347ad8df64be767540ccacae31eda03a7a3cdccf1b65ca7",
+      "sha256": "97a201e69e9f2dbcbbc361349b788a7912cf2259833a13180e76cac3c21e30ba",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.lacrosse.photo.2"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:12.370Z"
+    },
+    "/images/free-proof/lacrosse/lacrosse-phone-photo-4.webp": {
+      "out": "/images/free-proof/lacrosse/lacrosse-phone-photo-4.webp",
+      "source": "art-pipeline/out/athletes/lacrosse/before/photo4.png",
+      "sourceSha256": "32b4656bd2284f076e7344ea4034aabe48c7282bfa6ddb78a2671ca38390ebb0",
+      "sha256": "54714196005bfcbc62d0cbd2345cff1c59c6f5b53bb77bf88bca80ff8c92b491",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.lacrosse.photo.4"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:11.864Z"
+    },
     "/images/free-proof/lacrosse/lacrosse-poster-prism-rush.webp": {
       "out": "/images/free-proof/lacrosse/lacrosse-poster-prism-rush.webp",
       "source": "etsy/listing-images/02-lacrosse-poster/src/LX-PR-poster.png",
@@ -1137,6 +1697,76 @@
       "quality": 72,
       "generatedAt": "2026-10-06T20:54:00.770Z"
     },
+    "/images/free-proof/other-sport/skateboarding-identity-three-views.webp": {
+      "out": "/images/free-proof/other-sport/skateboarding-identity-three-views.webp",
+      "source": "art-pipeline/out/athletes/other-sport/_identity.png",
+      "sourceSha256": "415658060bbb77902d8b35215b94f5432ed9c184d64602826e285d470dd9faac",
+      "sha256": "a8e400c160e4a3c8595cd888e3cc9a3325aab4c810cd1c2c95b692f91b9376dd",
+      "width": 600,
+      "height": 448,
+      "kind": "plate",
+      "keys": [
+        "free-proof.other-sport.identity"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:34:07.312Z"
+    },
+    "/images/free-proof/other-sport/skateboarding-kit-plate.webp": {
+      "out": "/images/free-proof/other-sport/skateboarding-kit-plate.webp",
+      "source": "art-pipeline/out/athletes/other-sport/_kit.png",
+      "sourceSha256": "76259c0804ae872517c1e86fbaff136020e8400564e8201c570158115f19a2ce",
+      "sha256": "7da83586ddf2b29f0f682e4ec36dd212394ec04aabaea4a9ae572754285703cf",
+      "width": 480,
+      "height": 480,
+      "kind": "plate",
+      "keys": [
+        "free-proof.other-sport.kit"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:34:07.755Z"
+    },
+    "/images/free-proof/other-sport/skateboarding-phone-photo-1.webp": {
+      "out": "/images/free-proof/other-sport/skateboarding-phone-photo-1.webp",
+      "source": "art-pipeline/out/athletes/other-sport/before/photo1.png",
+      "sourceSha256": "8cfd6bb9cb5d7293516e9903518edfd078b2744b93e3a15b1f396eb3d90123ae",
+      "sha256": "422ec674faaaf0be165a4e6ef0d47a0b61162dcd38f35fe5de3669234dffab1a",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.other-sport.photo.1"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:23.722Z"
+    },
+    "/images/free-proof/other-sport/skateboarding-phone-photo-2.webp": {
+      "out": "/images/free-proof/other-sport/skateboarding-phone-photo-2.webp",
+      "source": "art-pipeline/out/athletes/other-sport/before/photo2.png",
+      "sourceSha256": "9150a2c6c0bc02d8d0d80b5477bbc59b47c19ff7179bb924465e80787a5a41c1",
+      "sha256": "2b0882dc7cb473949655ff0f38abff2936b3db92209ea9d202fb3c88487b3b50",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.other-sport.photo.2"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:24.620Z"
+    },
+    "/images/free-proof/other-sport/skateboarding-phone-photo-4.webp": {
+      "out": "/images/free-proof/other-sport/skateboarding-phone-photo-4.webp",
+      "source": "art-pipeline/out/athletes/other-sport/before/photo4.png",
+      "sourceSha256": "5f7006d51d14088ea750549acb196234f0fdc595530fb2e3aa4259aaf9c827b7",
+      "sha256": "5193a4cf26f89923b11307ef2dd6715de2e520a55a181916b759440b728973b0",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.other-sport.photo.4"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:24.173Z"
+    },
     "/images/free-proof/other-sport/skateboarding-poster-chrome-all-star.webp": {
       "out": "/images/free-proof/other-sport/skateboarding-poster-chrome-all-star.webp",
       "source": "etsy/listing-images/02-other-sport-poster/src/SK-CA-poster.png",
@@ -1233,6 +1863,76 @@
       ],
       "quality": 72,
       "generatedAt": "2026-10-06T20:54:37.788Z"
+    },
+    "/images/free-proof/pickleball/pickleball-identity-three-views.webp": {
+      "out": "/images/free-proof/pickleball/pickleball-identity-three-views.webp",
+      "source": "art-pipeline/out/athletes/pickleball-youth/_identity.png",
+      "sourceSha256": "5443a840fece24ceead901e29b4b9f86cc256a093898cd2a64e6131b1e534005",
+      "sha256": "99a029cc7333c66166ef161b3cec377e82c979e452b7f15c41d45394b260c817",
+      "width": 600,
+      "height": 448,
+      "kind": "plate",
+      "keys": [
+        "free-proof.pickleball.identity"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:34:06.363Z"
+    },
+    "/images/free-proof/pickleball/pickleball-kit-plate.webp": {
+      "out": "/images/free-proof/pickleball/pickleball-kit-plate.webp",
+      "source": "art-pipeline/out/athletes/pickleball-youth/_kit.png",
+      "sourceSha256": "05574aaed1b97afd80eba122252aa96eda83610e84449fa4c8678965ccedbf61",
+      "sha256": "0fdafec2d83488211acce0d7790d259c455eef4b715f8a7fd46f1ea55555ab6f",
+      "width": 480,
+      "height": 480,
+      "kind": "plate",
+      "keys": [
+        "free-proof.pickleball.kit"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:34:06.840Z"
+    },
+    "/images/free-proof/pickleball/pickleball-phone-photo-1.webp": {
+      "out": "/images/free-proof/pickleball/pickleball-phone-photo-1.webp",
+      "source": "art-pipeline/out/athletes/pickleball-youth/before/photo1.png",
+      "sourceSha256": "4ac17834ae2b821d2f0aefb804e68d0a7e521600749fc690058b10183f5df157",
+      "sha256": "bb235dcf70ca616435ba8da5b3adaa8ad0f85133758b863fd1ba4592a1158550",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.pickleball.photo.1"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:22.342Z"
+    },
+    "/images/free-proof/pickleball/pickleball-phone-photo-2.webp": {
+      "out": "/images/free-proof/pickleball/pickleball-phone-photo-2.webp",
+      "source": "art-pipeline/out/athletes/pickleball-youth/before/photo2.png",
+      "sourceSha256": "c54275a7cd8ba96d6250688082924e8d61fb4b0d1a3e156df048562bc74d1b1e",
+      "sha256": "753450959a49f50b0e811db961022f2f8fb1ce75dc0e0065e76405f9187bc2fb",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.pickleball.photo.2"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:23.264Z"
+    },
+    "/images/free-proof/pickleball/pickleball-phone-photo-4.webp": {
+      "out": "/images/free-proof/pickleball/pickleball-phone-photo-4.webp",
+      "source": "art-pipeline/out/athletes/pickleball-youth/before/photo4.png",
+      "sourceSha256": "b6744c60e1f1bb9fcc0fe78611719a6f71962dedf40680011d7cdfba83f5e8b0",
+      "sha256": "5a5e910c867f596df173c73b005ef6a05dad8479da920529ad6e48dbb7a5e364",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.pickleball.photo.4"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:22.815Z"
     },
     "/images/free-proof/pickleball/pickleball-poster-chrome-all-star.webp": {
       "out": "/images/free-proof/pickleball/pickleball-poster-chrome-all-star.webp",
@@ -1356,6 +2056,76 @@
         "free-proof.soccer.blanket"
       ],
       "generatedAt": "2026-10-06T20:53:50.252Z"
+    },
+    "/images/free-proof/soccer/soccer-identity-three-views.webp": {
+      "out": "/images/free-proof/soccer/soccer-identity-three-views.webp",
+      "source": "art-pipeline/out/athletes/soccer/_identity.png",
+      "sourceSha256": "4341ae604c4db4c0bf4e3a5d821daea68b9a49c81a2addd183dc4eecb3be232d",
+      "sha256": "1b9715263d7228b9f6923ae3b2f5d87ce4f27bdd96f1f670c9a19193b88c42cb",
+      "width": 600,
+      "height": 448,
+      "kind": "plate",
+      "keys": [
+        "free-proof.soccer.identity"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:33:55.593Z"
+    },
+    "/images/free-proof/soccer/soccer-kit-plate.webp": {
+      "out": "/images/free-proof/soccer/soccer-kit-plate.webp",
+      "source": "art-pipeline/out/athletes/soccer/_kit.png",
+      "sourceSha256": "1c17dff7b63085652c86c794d55a5165cf44f28ac69234c54ae31e46920d44c8",
+      "sha256": "5967532333c48334354f239a5c7ce63b18771ac267f0026e80cfa8b5a1dd0a3d",
+      "width": 480,
+      "height": 480,
+      "kind": "plate",
+      "keys": [
+        "free-proof.soccer.kit"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:33:56.094Z"
+    },
+    "/images/free-proof/soccer/soccer-phone-photo-1.webp": {
+      "out": "/images/free-proof/soccer/soccer-phone-photo-1.webp",
+      "source": "art-pipeline/out/athletes/soccer/before/photo1.png",
+      "sourceSha256": "1b10704354b0b10d023e24a54c02c9fdb0493140e0c1c4d50115d7e0029d77b4",
+      "sha256": "10e5a2dcd5cc3d950a00d5112a20c67afb1f85153b4e4797b67eaa6852ba8d2c",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.soccer.photo.1"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:06.892Z"
+    },
+    "/images/free-proof/soccer/soccer-phone-photo-2.webp": {
+      "out": "/images/free-proof/soccer/soccer-phone-photo-2.webp",
+      "source": "art-pipeline/out/athletes/soccer/before/photo2.png",
+      "sourceSha256": "671b466ed39296cc23adc9083e9a6a0f734e8f757588f8dad5cebabd669b112e",
+      "sha256": "072a484c6e2db0c96c615fff4afb0175cffb1ed06aa3701df417c19e95435bde",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.soccer.photo.2"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:07.899Z"
+    },
+    "/images/free-proof/soccer/soccer-phone-photo-4.webp": {
+      "out": "/images/free-proof/soccer/soccer-phone-photo-4.webp",
+      "source": "art-pipeline/out/athletes/soccer/before/photo4.png",
+      "sourceSha256": "2422b54630a2cac66e299027ff83fec8d314b6cb237954cc765753da251b9922",
+      "sha256": "65ada9647b84cc892ccbbc729c818e09dd68b6f1eec02a44b96ec480f3d99eab",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.soccer.photo.4"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:07.390Z"
     },
     "/images/free-proof/soccer/soccer-poster-fire-and-smoke.webp": {
       "out": "/images/free-proof/soccer/soccer-poster-fire-and-smoke.webp",
@@ -1494,6 +2264,76 @@
       ],
       "generatedAt": "2026-10-06T20:53:45.120Z"
     },
+    "/images/free-proof/softball/softball-identity-three-views.webp": {
+      "out": "/images/free-proof/softball/softball-identity-three-views.webp",
+      "source": "art-pipeline/out/athletes/softball/_identity.png",
+      "sourceSha256": "0f11a3c4d5d3cac4a515bfd0d2329eb6ed49980eda9cf204e7964dfdd9a7cd53",
+      "sha256": "135362c17e0175c5885cad370ddcdfacd1a7211236ea1b297ac04d8897f566aa",
+      "width": 600,
+      "height": 448,
+      "kind": "plate",
+      "keys": [
+        "free-proof.softball.identity"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:33:54.679Z"
+    },
+    "/images/free-proof/softball/softball-kit-plate.webp": {
+      "out": "/images/free-proof/softball/softball-kit-plate.webp",
+      "source": "art-pipeline/out/athletes/softball/_kit.png",
+      "sourceSha256": "4d6d048c07e1c9f0c60fa9904fd0bc5e6a2add769242021ba3c8c6bbb736a600",
+      "sha256": "028e12b47701afdbc078143ff3395ee0c61951a5e8cb13c2c2ba9cb1d2bb5ce3",
+      "width": 480,
+      "height": 480,
+      "kind": "plate",
+      "keys": [
+        "free-proof.softball.kit"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:33:55.101Z"
+    },
+    "/images/free-proof/softball/softball-phone-photo-1.webp": {
+      "out": "/images/free-proof/softball/softball-phone-photo-1.webp",
+      "source": "art-pipeline/out/athletes/softball/before/photo1.png",
+      "sourceSha256": "68d2aa90076e9e02a7dcc3c12026e66e40a46620a340b4af05e96e905d7bbdfc",
+      "sha256": "c1437970f34bd2c886444d93b4ab36f909196a82555da037070cd0460e7b6e0b",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.softball.photo.1"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:05.392Z"
+    },
+    "/images/free-proof/softball/softball-phone-photo-2.webp": {
+      "out": "/images/free-proof/softball/softball-phone-photo-2.webp",
+      "source": "art-pipeline/out/athletes/softball/before/photo2.png",
+      "sourceSha256": "34284e315a5759c5e6a7dfa193e696250ef8889de4e5572e9f82b40b0c864267",
+      "sha256": "62601dd2cdc77e0d59dbf0eded0d8104cdae5ecf44f56dcf185164ca17efbd73",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.softball.photo.2"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:06.389Z"
+    },
+    "/images/free-proof/softball/softball-phone-photo-4.webp": {
+      "out": "/images/free-proof/softball/softball-phone-photo-4.webp",
+      "source": "art-pipeline/out/athletes/softball/before/photo4.png",
+      "sourceSha256": "99cb4033b5647ee8bbda3b93b25f281ae616dc3e3889b2acee2a6cf0d80bb7a8",
+      "sha256": "b21af08f2489a57c36f776f856ace1dcdbcc2b56ab69e0f7df0c2f2fe3555534",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.softball.photo.4"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:05.887Z"
+    },
     "/images/free-proof/softball/softball-poster-stadium-night.webp": {
       "out": "/images/free-proof/softball/softball-poster-stadium-night.webp",
       "source": "etsy/listing-images/02-softball-poster/src/SF-SN-poster.png",
@@ -1605,6 +2445,76 @@
       "quality": 72,
       "generatedAt": "2026-10-06T20:53:40.240Z"
     },
+    "/images/free-proof/swimming/swimming-identity-three-views.webp": {
+      "out": "/images/free-proof/swimming/swimming-identity-three-views.webp",
+      "source": "art-pipeline/out/athletes/swimming/_identity.png",
+      "sourceSha256": "ac178159cc01cf6d44a827442d3d6a0dcd52598e40e588ec092e37be8409dcec",
+      "sha256": "f3a70854b5c11f9ceacff8b8d12a762b7d395a58ae5509e8fc999bff3e46c4fb",
+      "width": 600,
+      "height": 448,
+      "kind": "plate",
+      "keys": [
+        "free-proof.swimming.identity"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:34:03.462Z"
+    },
+    "/images/free-proof/swimming/swimming-kit-plate.webp": {
+      "out": "/images/free-proof/swimming/swimming-kit-plate.webp",
+      "source": "art-pipeline/out/athletes/swimming/_kit.png",
+      "sourceSha256": "9552efa0745088fda991ece72aaf8c1cf51b63fd38eb3e1372c5bb1b1265c70a",
+      "sha256": "2de23e0dc42c2903c6320def4bcd3925723b9855a1109c28b62abe33c38cda5a",
+      "width": 480,
+      "height": 480,
+      "kind": "plate",
+      "keys": [
+        "free-proof.swimming.kit"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:34:03.992Z"
+    },
+    "/images/free-proof/swimming/swimming-phone-photo-1.webp": {
+      "out": "/images/free-proof/swimming/swimming-phone-photo-1.webp",
+      "source": "art-pipeline/out/athletes/swimming/before/photo1.png",
+      "sourceSha256": "5e1c6a9f469a0afb19f3847764aa6df4ed99f1be108f9794d368bc1c4e91d87d",
+      "sha256": "91b04cf8363683c74d2ca5fa83685965c742b1165f9fa7df6eff2ea1a4907a49",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.swimming.photo.1"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:18.269Z"
+    },
+    "/images/free-proof/swimming/swimming-phone-photo-2.webp": {
+      "out": "/images/free-proof/swimming/swimming-phone-photo-2.webp",
+      "source": "art-pipeline/out/athletes/swimming/before/photo2.png",
+      "sourceSha256": "fdee0f5c4bd6ba513efc5b83770e70f7c15cd84f8e9cf981063a221709ce304e",
+      "sha256": "a073eb0493f6d6b4c04076e70032bab3f03bdc1256eac2e3afcb7ee82f7167a0",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.swimming.photo.2"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:19.172Z"
+    },
+    "/images/free-proof/swimming/swimming-phone-photo-4.webp": {
+      "out": "/images/free-proof/swimming/swimming-phone-photo-4.webp",
+      "source": "art-pipeline/out/athletes/swimming/before/photo4.png",
+      "sourceSha256": "a84d8faa6c1d6c3b9820e3ff641ac0d30198b6ba9d4186cc9dc92831f4f9b7e3",
+      "sha256": "4d12a07ea1b44d6e22d15f670c5f39675cab40457094b917bece07fbcee5598c",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.swimming.photo.4"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:18.725Z"
+    },
     "/images/free-proof/swimming/swimming-poster-signature-spotlight.webp": {
       "out": "/images/free-proof/swimming/swimming-poster-signature-spotlight.webp",
       "source": "etsy/listing-images/02-swimming-poster/src/SW-SS-poster.png",
@@ -1701,6 +2611,76 @@
       ],
       "quality": 72,
       "generatedAt": "2026-10-06T20:54:23.563Z"
+    },
+    "/images/free-proof/tennis/tennis-identity-three-views.webp": {
+      "out": "/images/free-proof/tennis/tennis-identity-three-views.webp",
+      "source": "art-pipeline/out/athletes/tennis/_identity.png",
+      "sourceSha256": "50af547f59bda2c98b08d478c1b775072dddc0b0d55af401e05544c8e71c5ba1",
+      "sha256": "e484b928ebd70f2023465efd8311afdfb344d8d6c1a53c20cb4fc34ff2fe383e",
+      "width": 600,
+      "height": 448,
+      "kind": "plate",
+      "keys": [
+        "free-proof.tennis.identity"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:34:04.471Z"
+    },
+    "/images/free-proof/tennis/tennis-kit-plate.webp": {
+      "out": "/images/free-proof/tennis/tennis-kit-plate.webp",
+      "source": "art-pipeline/out/athletes/tennis/_kit.png",
+      "sourceSha256": "453373c5aa6b2e35647ff510caa96e5506e728a56234c89bcaa2a89a56724663",
+      "sha256": "bb826c5c9692d24c9ed4a617621842347aad9abe953065aa6d967103c63985d4",
+      "width": 480,
+      "height": 480,
+      "kind": "plate",
+      "keys": [
+        "free-proof.tennis.kit"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:34:04.918Z"
+    },
+    "/images/free-proof/tennis/tennis-phone-photo-1.webp": {
+      "out": "/images/free-proof/tennis/tennis-phone-photo-1.webp",
+      "source": "art-pipeline/out/athletes/tennis/before/photo1.png",
+      "sourceSha256": "71baef353b105ba215d8870b2ac5c934801ced88ea0fe535cefca43c16dcccfd",
+      "sha256": "0e5353e86fc69686eabd0a0377c282c3d4795bd1c3231b8d21c89fe4bbf7c0ef",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.tennis.photo.1"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:19.621Z"
+    },
+    "/images/free-proof/tennis/tennis-phone-photo-2.webp": {
+      "out": "/images/free-proof/tennis/tennis-phone-photo-2.webp",
+      "source": "art-pipeline/out/athletes/tennis/before/photo2.png",
+      "sourceSha256": "a6063976dd30d2a031a4552f70af24b7ffe9e767d3202c23379a88742a73faa5",
+      "sha256": "b11bf0cd38ba913af43807dedca30a105c86220e4c4ca5184249f6184085a34b",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.tennis.photo.2"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:20.538Z"
+    },
+    "/images/free-proof/tennis/tennis-phone-photo-4.webp": {
+      "out": "/images/free-proof/tennis/tennis-phone-photo-4.webp",
+      "source": "art-pipeline/out/athletes/tennis/before/photo4.png",
+      "sourceSha256": "40291140608f73fee7fd0bed16f65de903e14b7150b927524bfca527d060f402",
+      "sha256": "4cc5de696cf263cf1017cfb3553d8b0228430ec9b0917adbbbc8e921ccdb5985",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.tennis.photo.4"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:20.078Z"
     },
     "/images/free-proof/tennis/tennis-poster-signature-spotlight.webp": {
       "out": "/images/free-proof/tennis/tennis-poster-signature-spotlight.webp",
@@ -1825,6 +2805,76 @@
       ],
       "generatedAt": "2026-10-06T20:54:23.066Z"
     },
+    "/images/free-proof/track-field/track-and-field-identity-three-views.webp": {
+      "out": "/images/free-proof/track-field/track-and-field-identity-three-views.webp",
+      "source": "art-pipeline/out/athletes/track-field/_identity.png",
+      "sourceSha256": "6eb628eddd512f1ddb0f9a8063adb090f880ad8caa0b0a458d2011ecda7805c3",
+      "sha256": "a0e80f0cd57e6a57ec287bad12955b09eb49a5f097a9b2c14277371c39004ac6",
+      "width": 600,
+      "height": 448,
+      "kind": "plate",
+      "keys": [
+        "free-proof.track-field.identity"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:34:02.513Z"
+    },
+    "/images/free-proof/track-field/track-and-field-kit-plate.webp": {
+      "out": "/images/free-proof/track-field/track-and-field-kit-plate.webp",
+      "source": "art-pipeline/out/athletes/track-field/_kit.png",
+      "sourceSha256": "b868aabd8e612a78f26c0e77b1ec2facb30bb17fa47b227994b65df1e88876ea",
+      "sha256": "b54acb8cc5631a699beff669342b6a00083cad53ff201ebad634fc43c66fe574",
+      "width": 480,
+      "height": 480,
+      "kind": "plate",
+      "keys": [
+        "free-proof.track-field.kit"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:34:02.959Z"
+    },
+    "/images/free-proof/track-field/track-and-field-phone-photo-1.webp": {
+      "out": "/images/free-proof/track-field/track-and-field-phone-photo-1.webp",
+      "source": "art-pipeline/out/athletes/track-field/before/photo1.png",
+      "sourceSha256": "7fd3ed8ad2ddd1b2decd11c8d2684f1ba5b10a2d919b1e25d9d73d910f9601a8",
+      "sha256": "9c11bd1ec853fd34b903cd057c9a99049a80a050f994e69fd045e5678d38a094",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.track-field.photo.1"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:16.905Z"
+    },
+    "/images/free-proof/track-field/track-and-field-phone-photo-2.webp": {
+      "out": "/images/free-proof/track-field/track-and-field-phone-photo-2.webp",
+      "source": "art-pipeline/out/athletes/track-field/before/photo2.png",
+      "sourceSha256": "ff60f0d673db8ceab839285a4d6c600171b6e37800cce224982fe49fc1303376",
+      "sha256": "fc893000d6d9bb5facf58da77157cbf148e4978376a62d45c9dc2fb548ffca9a",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.track-field.photo.2"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:17.814Z"
+    },
+    "/images/free-proof/track-field/track-and-field-phone-photo-4.webp": {
+      "out": "/images/free-proof/track-field/track-and-field-phone-photo-4.webp",
+      "source": "art-pipeline/out/athletes/track-field/before/photo4.png",
+      "sourceSha256": "b19e9c8a11a21019de2c3e150b7c0131289721c9976bff19d7bb1120cee64f43",
+      "sha256": "1273d415f8e625303c9b831df4080c97496808364780af9816a84511e2513ad8",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.track-field.photo.4"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:17.358Z"
+    },
     "/images/free-proof/track-field/track-and-field-poster-fire-and-smoke.webp": {
       "out": "/images/free-proof/track-field/track-and-field-poster-fire-and-smoke.webp",
       "source": "etsy/listing-images/02-track-field-poster/src/TF-FS-poster.png",
@@ -1947,6 +2997,76 @@
         "free-proof.volleyball.blanket"
       ],
       "generatedAt": "2026-10-06T20:54:00.265Z"
+    },
+    "/images/free-proof/volleyball/volleyball-identity-three-views.webp": {
+      "out": "/images/free-proof/volleyball/volleyball-identity-three-views.webp",
+      "source": "art-pipeline/out/athletes/volleyball/_identity.png",
+      "sourceSha256": "2e99dde97fa57a52cec13c51966b610b648eee6f06f0dce781d45b671dcf0e76",
+      "sha256": "fb1099c75271c99f35ffc335566a1fa8b8a069ce1e84406b7d0493674ca7ae54",
+      "width": 600,
+      "height": 448,
+      "kind": "plate",
+      "keys": [
+        "free-proof.volleyball.identity"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:33:57.565Z"
+    },
+    "/images/free-proof/volleyball/volleyball-kit-plate.webp": {
+      "out": "/images/free-proof/volleyball/volleyball-kit-plate.webp",
+      "source": "art-pipeline/out/athletes/volleyball/_kit.png",
+      "sourceSha256": "43ce59d6cd057cc2448db6942bc50239ba5b75952c82ecc969db79da310f2347",
+      "sha256": "673be5f5f57e781866def8372fc96d14ec84d9a70b53902628a4a1bb9af39b4a",
+      "width": 480,
+      "height": 480,
+      "kind": "plate",
+      "keys": [
+        "free-proof.volleyball.kit"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:33:58.069Z"
+    },
+    "/images/free-proof/volleyball/volleyball-phone-photo-1.webp": {
+      "out": "/images/free-proof/volleyball/volleyball-phone-photo-1.webp",
+      "source": "art-pipeline/out/athletes/volleyball/before/photo1.png",
+      "sourceSha256": "d81f52bad568512b66c13cc4735c73d0aef0690daaa001fa085da351d191ac25",
+      "sha256": "b538703c87f423b0a17e02243772d92cad1f50d09cf4ac968aef257eb1b0e8c0",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.volleyball.photo.1"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:09.899Z"
+    },
+    "/images/free-proof/volleyball/volleyball-phone-photo-2.webp": {
+      "out": "/images/free-proof/volleyball/volleyball-phone-photo-2.webp",
+      "source": "art-pipeline/out/athletes/volleyball/before/photo2.png",
+      "sourceSha256": "bb5343c8cda8dbba113c7d4c79d1f94c08ae2aa96b98ac1a9fc0bf4948838013",
+      "sha256": "7ca2607c721cb74e8d64fbfe3e84e42f1bb371e955e09f448239e1c51a6f744a",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.volleyball.photo.2"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:10.867Z"
+    },
+    "/images/free-proof/volleyball/volleyball-phone-photo-4.webp": {
+      "out": "/images/free-proof/volleyball/volleyball-phone-photo-4.webp",
+      "source": "art-pipeline/out/athletes/volleyball/before/photo4.png",
+      "sourceSha256": "754e4524321495cf2a6f0e4831bc8b1dba69b8ec5de112c3eac3f0183e6dc0e8",
+      "sha256": "1f7d354d2f1752b845ae73248cda96594291de7fd6912d530ddbbf548e1436db",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.volleyball.photo.4"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:10.380Z"
     },
     "/images/free-proof/volleyball/volleyball-poster-prism-rush.webp": {
       "out": "/images/free-proof/volleyball/volleyball-poster-prism-rush.webp",
@@ -2084,6 +3204,76 @@
         "free-proof.wrestling.blanket"
       ],
       "generatedAt": "2026-10-06T20:54:09.929Z"
+    },
+    "/images/free-proof/wrestling/wrestling-identity-three-views.webp": {
+      "out": "/images/free-proof/wrestling/wrestling-identity-three-views.webp",
+      "source": "art-pipeline/out/athletes/wrestling/_identity.png",
+      "sourceSha256": "28cf51ff640cd2b4b0a43a2a350683dddb1608a458aae4f51d282bfd593f55d2",
+      "sha256": "c84081237f67daeba3c2b1b565e6b33defbb67fa111fd21679388d0bb3936106",
+      "width": 600,
+      "height": 448,
+      "kind": "plate",
+      "keys": [
+        "free-proof.wrestling.identity"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:33:59.535Z"
+    },
+    "/images/free-proof/wrestling/wrestling-kit-plate.webp": {
+      "out": "/images/free-proof/wrestling/wrestling-kit-plate.webp",
+      "source": "art-pipeline/out/athletes/wrestling/_kit.png",
+      "sourceSha256": "c857585abf749bf49e6010603ed9d8e33da1694e8fd41067c2f1765ab8e5d858",
+      "sha256": "dec44cc19e8953e0251021c55a99cf55c356581ff3edac4f6b99ef86047344de",
+      "width": 480,
+      "height": 480,
+      "kind": "plate",
+      "keys": [
+        "free-proof.wrestling.kit"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:33:59.986Z"
+    },
+    "/images/free-proof/wrestling/wrestling-phone-photo-1.webp": {
+      "out": "/images/free-proof/wrestling/wrestling-phone-photo-1.webp",
+      "source": "art-pipeline/out/athletes/wrestling/before/photo1.png",
+      "sourceSha256": "519cacdfdf311f0e4a351c0a3490ad5a8ae7662639f6c42d690f386705ba688f",
+      "sha256": "85171f2bdba7fca9e7c0ee3c0f6e23c10ee951119ca7dcf79d3f9c5815c7543d",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.wrestling.photo.1"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:12.820Z"
+    },
+    "/images/free-proof/wrestling/wrestling-phone-photo-2.webp": {
+      "out": "/images/free-proof/wrestling/wrestling-phone-photo-2.webp",
+      "source": "art-pipeline/out/athletes/wrestling/before/photo2.png",
+      "sourceSha256": "b4c3dc30497d85f07299ce02abd3ea105eef127d8fac9d11eeb2394d478034a9",
+      "sha256": "0204e479963b913d740a197e5478ed16c5afbc992c36f1356e5052443e6eb75e",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.wrestling.photo.2"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:13.717Z"
+    },
+    "/images/free-proof/wrestling/wrestling-phone-photo-4.webp": {
+      "out": "/images/free-proof/wrestling/wrestling-phone-photo-4.webp",
+      "source": "art-pipeline/out/athletes/wrestling/before/photo4.png",
+      "sourceSha256": "fd6275da24745853776374034f0ca09b3e2b77e99ca05dfdab48e6cfcdf1521a",
+      "sha256": "6b00f7424ff24da9d0e92b9a71de672d2ef9c945c9995fe54590ed03c57586fa",
+      "width": 336,
+      "height": 450,
+      "kind": "photo",
+      "keys": [
+        "free-proof.wrestling.photo.4"
+      ],
+      "quality": 72,
+      "generatedAt": "2026-10-06T22:06:13.268Z"
     },
     "/images/free-proof/wrestling/wrestling-poster-heritage.webp": {
       "out": "/images/free-proof/wrestling/wrestling-poster-heritage.webp",
@@ -3712,6 +4902,26 @@
       "out": "/images/free-proof/baseball/baseball-trading-card-front-signature-spotlight.webp",
       "status": "verified"
     },
+    "free-proof.baseball.identity": {
+      "out": "/images/free-proof/baseball/baseball-identity-three-views.webp",
+      "status": "verified"
+    },
+    "free-proof.baseball.kit": {
+      "out": "/images/free-proof/baseball/baseball-kit-plate.webp",
+      "status": "verified"
+    },
+    "free-proof.baseball.photo.1": {
+      "out": "/images/free-proof/baseball/baseball-phone-photo-1.webp",
+      "status": "verified"
+    },
+    "free-proof.baseball.photo.2": {
+      "out": "/images/free-proof/baseball/baseball-phone-photo-2.webp",
+      "status": "verified"
+    },
+    "free-proof.baseball.photo.4": {
+      "out": "/images/free-proof/baseball/baseball-phone-photo-4.webp",
+      "status": "verified"
+    },
     "free-proof.baseball.poster": {
       "out": "/images/free-proof/baseball/baseball-poster-chrome-all-star.webp",
       "status": "verified"
@@ -3750,6 +4960,26 @@
     },
     "free-proof.basketball.card.SS": {
       "out": "/images/free-proof/basketball/basketball-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.basketball.identity": {
+      "out": "/images/free-proof/basketball/basketball-identity-three-views.webp",
+      "status": "verified"
+    },
+    "free-proof.basketball.kit": {
+      "out": "/images/free-proof/basketball/basketball-kit-plate.webp",
+      "status": "verified"
+    },
+    "free-proof.basketball.photo.1": {
+      "out": "/images/free-proof/basketball/basketball-phone-photo-1.webp",
+      "status": "verified"
+    },
+    "free-proof.basketball.photo.2": {
+      "out": "/images/free-proof/basketball/basketball-phone-photo-2.webp",
+      "status": "verified"
+    },
+    "free-proof.basketball.photo.4": {
+      "out": "/images/free-proof/basketball/basketball-phone-photo-4.webp",
       "status": "verified"
     },
     "free-proof.basketball.poster": {
@@ -3792,6 +5022,26 @@
       "out": "/images/free-proof/cheerleading/cheerleading-trading-card-front-signature-spotlight.webp",
       "status": "verified"
     },
+    "free-proof.cheerleading.identity": {
+      "out": "/images/free-proof/cheerleading/cheerleading-identity-three-views.webp",
+      "status": "verified"
+    },
+    "free-proof.cheerleading.kit": {
+      "out": "/images/free-proof/cheerleading/cheerleading-kit-plate.webp",
+      "status": "verified"
+    },
+    "free-proof.cheerleading.photo.1": {
+      "out": "/images/free-proof/cheerleading/cheerleading-phone-photo-1.webp",
+      "status": "verified"
+    },
+    "free-proof.cheerleading.photo.2": {
+      "out": "/images/free-proof/cheerleading/cheerleading-phone-photo-2.webp",
+      "status": "verified"
+    },
+    "free-proof.cheerleading.photo.4": {
+      "out": "/images/free-proof/cheerleading/cheerleading-phone-photo-4.webp",
+      "status": "verified"
+    },
     "free-proof.cheerleading.poster": {
       "out": "/images/free-proof/cheerleading/cheerleading-poster-signature-spotlight.webp",
       "status": "verified"
@@ -3832,6 +5082,26 @@
       "out": "/images/free-proof/football/football-trading-card-front-signature-spotlight.webp",
       "status": "verified"
     },
+    "free-proof.football.identity": {
+      "out": "/images/free-proof/football/football-identity-three-views.webp",
+      "status": "verified"
+    },
+    "free-proof.football.kit": {
+      "out": "/images/free-proof/football/football-kit-plate.webp",
+      "status": "verified"
+    },
+    "free-proof.football.photo.1": {
+      "out": "/images/free-proof/football/football-phone-photo-1.webp",
+      "status": "verified"
+    },
+    "free-proof.football.photo.2": {
+      "out": "/images/free-proof/football/football-phone-photo-2.webp",
+      "status": "verified"
+    },
+    "free-proof.football.photo.4": {
+      "out": "/images/free-proof/football/football-phone-photo-4.webp",
+      "status": "verified"
+    },
     "free-proof.football.poster": {
       "out": "/images/free-proof/football/football-poster-heritage.webp",
       "status": "verified"
@@ -3860,6 +5130,26 @@
       "out": "/images/free-proof/golf/golf-trading-card-front-signature-spotlight.webp",
       "status": "verified"
     },
+    "free-proof.golf.identity": {
+      "out": "/images/free-proof/golf/golf-identity-three-views.webp",
+      "status": "verified"
+    },
+    "free-proof.golf.kit": {
+      "out": "/images/free-proof/golf/golf-kit-plate.webp",
+      "status": "verified"
+    },
+    "free-proof.golf.photo.1": {
+      "out": "/images/free-proof/golf/golf-phone-photo-1.webp",
+      "status": "verified"
+    },
+    "free-proof.golf.photo.2": {
+      "out": "/images/free-proof/golf/golf-phone-photo-2.webp",
+      "status": "verified"
+    },
+    "free-proof.golf.photo.4": {
+      "out": "/images/free-proof/golf/golf-phone-photo-4.webp",
+      "status": "verified"
+    },
     "free-proof.golf.poster": {
       "out": "/images/free-proof/golf/golf-poster-stadium-night.webp",
       "status": "verified"
@@ -3886,6 +5176,26 @@
     },
     "free-proof.gymnastics.card.SS": {
       "out": "/images/free-proof/gymnastics/gymnastics-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.gymnastics.identity": {
+      "out": "/images/free-proof/gymnastics/gymnastics-identity-three-views.webp",
+      "status": "verified"
+    },
+    "free-proof.gymnastics.kit": {
+      "out": "/images/free-proof/gymnastics/gymnastics-kit-plate.webp",
+      "status": "verified"
+    },
+    "free-proof.gymnastics.photo.1": {
+      "out": "/images/free-proof/gymnastics/gymnastics-phone-photo-1.webp",
+      "status": "verified"
+    },
+    "free-proof.gymnastics.photo.2": {
+      "out": "/images/free-proof/gymnastics/gymnastics-phone-photo-2.webp",
+      "status": "verified"
+    },
+    "free-proof.gymnastics.photo.4": {
+      "out": "/images/free-proof/gymnastics/gymnastics-phone-photo-4.webp",
       "status": "verified"
     },
     "free-proof.gymnastics.poster": {
@@ -3924,6 +5234,26 @@
       "out": "/images/free-proof/ice-hockey/ice-hockey-trading-card-front-signature-spotlight.webp",
       "status": "verified"
     },
+    "free-proof.ice-hockey.identity": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-identity-three-views.webp",
+      "status": "verified"
+    },
+    "free-proof.ice-hockey.kit": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-kit-plate.webp",
+      "status": "verified"
+    },
+    "free-proof.ice-hockey.photo.1": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-phone-photo-1.webp",
+      "status": "verified"
+    },
+    "free-proof.ice-hockey.photo.2": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-phone-photo-2.webp",
+      "status": "verified"
+    },
+    "free-proof.ice-hockey.photo.4": {
+      "out": "/images/free-proof/ice-hockey/ice-hockey-phone-photo-4.webp",
+      "status": "verified"
+    },
     "free-proof.ice-hockey.poster": {
       "out": "/images/free-proof/ice-hockey/ice-hockey-poster-stadium-night.webp",
       "status": "verified"
@@ -3960,6 +5290,26 @@
       "out": "/images/free-proof/lacrosse/lacrosse-trading-card-front-signature-spotlight.webp",
       "status": "verified"
     },
+    "free-proof.lacrosse.identity": {
+      "out": "/images/free-proof/lacrosse/lacrosse-identity-three-views.webp",
+      "status": "verified"
+    },
+    "free-proof.lacrosse.kit": {
+      "out": "/images/free-proof/lacrosse/lacrosse-kit-plate.webp",
+      "status": "verified"
+    },
+    "free-proof.lacrosse.photo.1": {
+      "out": "/images/free-proof/lacrosse/lacrosse-phone-photo-1.webp",
+      "status": "verified"
+    },
+    "free-proof.lacrosse.photo.2": {
+      "out": "/images/free-proof/lacrosse/lacrosse-phone-photo-2.webp",
+      "status": "verified"
+    },
+    "free-proof.lacrosse.photo.4": {
+      "out": "/images/free-proof/lacrosse/lacrosse-phone-photo-4.webp",
+      "status": "verified"
+    },
     "free-proof.lacrosse.poster": {
       "out": "/images/free-proof/lacrosse/lacrosse-poster-prism-rush.webp",
       "status": "verified"
@@ -3988,6 +5338,26 @@
       "out": "/images/free-proof/other-sport/skateboarding-trading-card-front-signature-spotlight.webp",
       "status": "verified"
     },
+    "free-proof.other-sport.identity": {
+      "out": "/images/free-proof/other-sport/skateboarding-identity-three-views.webp",
+      "status": "verified"
+    },
+    "free-proof.other-sport.kit": {
+      "out": "/images/free-proof/other-sport/skateboarding-kit-plate.webp",
+      "status": "verified"
+    },
+    "free-proof.other-sport.photo.1": {
+      "out": "/images/free-proof/other-sport/skateboarding-phone-photo-1.webp",
+      "status": "verified"
+    },
+    "free-proof.other-sport.photo.2": {
+      "out": "/images/free-proof/other-sport/skateboarding-phone-photo-2.webp",
+      "status": "verified"
+    },
+    "free-proof.other-sport.photo.4": {
+      "out": "/images/free-proof/other-sport/skateboarding-phone-photo-4.webp",
+      "status": "verified"
+    },
     "free-proof.other-sport.poster": {
       "out": "/images/free-proof/other-sport/skateboarding-poster-chrome-all-star.webp",
       "status": "verified"
@@ -4014,6 +5384,26 @@
     },
     "free-proof.pickleball.card.SS": {
       "out": "/images/free-proof/pickleball/pickleball-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.pickleball.identity": {
+      "out": "/images/free-proof/pickleball/pickleball-identity-three-views.webp",
+      "status": "verified"
+    },
+    "free-proof.pickleball.kit": {
+      "out": "/images/free-proof/pickleball/pickleball-kit-plate.webp",
+      "status": "verified"
+    },
+    "free-proof.pickleball.photo.1": {
+      "out": "/images/free-proof/pickleball/pickleball-phone-photo-1.webp",
+      "status": "verified"
+    },
+    "free-proof.pickleball.photo.2": {
+      "out": "/images/free-proof/pickleball/pickleball-phone-photo-2.webp",
+      "status": "verified"
+    },
+    "free-proof.pickleball.photo.4": {
+      "out": "/images/free-proof/pickleball/pickleball-phone-photo-4.webp",
       "status": "verified"
     },
     "free-proof.pickleball.poster": {
@@ -4056,6 +5446,26 @@
       "out": "/images/free-proof/soccer/soccer-trading-card-front-signature-spotlight.webp",
       "status": "verified"
     },
+    "free-proof.soccer.identity": {
+      "out": "/images/free-proof/soccer/soccer-identity-three-views.webp",
+      "status": "verified"
+    },
+    "free-proof.soccer.kit": {
+      "out": "/images/free-proof/soccer/soccer-kit-plate.webp",
+      "status": "verified"
+    },
+    "free-proof.soccer.photo.1": {
+      "out": "/images/free-proof/soccer/soccer-phone-photo-1.webp",
+      "status": "verified"
+    },
+    "free-proof.soccer.photo.2": {
+      "out": "/images/free-proof/soccer/soccer-phone-photo-2.webp",
+      "status": "verified"
+    },
+    "free-proof.soccer.photo.4": {
+      "out": "/images/free-proof/soccer/soccer-phone-photo-4.webp",
+      "status": "verified"
+    },
     "free-proof.soccer.poster": {
       "out": "/images/free-proof/soccer/soccer-poster-fire-and-smoke.webp",
       "status": "verified"
@@ -4096,6 +5506,26 @@
       "out": "/images/free-proof/softball/softball-trading-card-front-signature-spotlight.webp",
       "status": "verified"
     },
+    "free-proof.softball.identity": {
+      "out": "/images/free-proof/softball/softball-identity-three-views.webp",
+      "status": "verified"
+    },
+    "free-proof.softball.kit": {
+      "out": "/images/free-proof/softball/softball-kit-plate.webp",
+      "status": "verified"
+    },
+    "free-proof.softball.photo.1": {
+      "out": "/images/free-proof/softball/softball-phone-photo-1.webp",
+      "status": "verified"
+    },
+    "free-proof.softball.photo.2": {
+      "out": "/images/free-proof/softball/softball-phone-photo-2.webp",
+      "status": "verified"
+    },
+    "free-proof.softball.photo.4": {
+      "out": "/images/free-proof/softball/softball-phone-photo-4.webp",
+      "status": "verified"
+    },
     "free-proof.softball.poster": {
       "out": "/images/free-proof/softball/softball-poster-stadium-night.webp",
       "status": "verified"
@@ -4124,6 +5554,26 @@
       "out": "/images/free-proof/swimming/swimming-trading-card-front-signature-spotlight.webp",
       "status": "verified"
     },
+    "free-proof.swimming.identity": {
+      "out": "/images/free-proof/swimming/swimming-identity-three-views.webp",
+      "status": "verified"
+    },
+    "free-proof.swimming.kit": {
+      "out": "/images/free-proof/swimming/swimming-kit-plate.webp",
+      "status": "verified"
+    },
+    "free-proof.swimming.photo.1": {
+      "out": "/images/free-proof/swimming/swimming-phone-photo-1.webp",
+      "status": "verified"
+    },
+    "free-proof.swimming.photo.2": {
+      "out": "/images/free-proof/swimming/swimming-phone-photo-2.webp",
+      "status": "verified"
+    },
+    "free-proof.swimming.photo.4": {
+      "out": "/images/free-proof/swimming/swimming-phone-photo-4.webp",
+      "status": "verified"
+    },
     "free-proof.swimming.poster": {
       "out": "/images/free-proof/swimming/swimming-poster-signature-spotlight.webp",
       "status": "verified"
@@ -4150,6 +5600,26 @@
     },
     "free-proof.tennis.card.SS": {
       "out": "/images/free-proof/tennis/tennis-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.tennis.identity": {
+      "out": "/images/free-proof/tennis/tennis-identity-three-views.webp",
+      "status": "verified"
+    },
+    "free-proof.tennis.kit": {
+      "out": "/images/free-proof/tennis/tennis-kit-plate.webp",
+      "status": "verified"
+    },
+    "free-proof.tennis.photo.1": {
+      "out": "/images/free-proof/tennis/tennis-phone-photo-1.webp",
+      "status": "verified"
+    },
+    "free-proof.tennis.photo.2": {
+      "out": "/images/free-proof/tennis/tennis-phone-photo-2.webp",
+      "status": "verified"
+    },
+    "free-proof.tennis.photo.4": {
+      "out": "/images/free-proof/tennis/tennis-phone-photo-4.webp",
       "status": "verified"
     },
     "free-proof.tennis.poster": {
@@ -4186,6 +5656,26 @@
     },
     "free-proof.track-field.card.SS": {
       "out": "/images/free-proof/track-field/track-and-field-trading-card-front-signature-spotlight.webp",
+      "status": "verified"
+    },
+    "free-proof.track-field.identity": {
+      "out": "/images/free-proof/track-field/track-and-field-identity-three-views.webp",
+      "status": "verified"
+    },
+    "free-proof.track-field.kit": {
+      "out": "/images/free-proof/track-field/track-and-field-kit-plate.webp",
+      "status": "verified"
+    },
+    "free-proof.track-field.photo.1": {
+      "out": "/images/free-proof/track-field/track-and-field-phone-photo-1.webp",
+      "status": "verified"
+    },
+    "free-proof.track-field.photo.2": {
+      "out": "/images/free-proof/track-field/track-and-field-phone-photo-2.webp",
+      "status": "verified"
+    },
+    "free-proof.track-field.photo.4": {
+      "out": "/images/free-proof/track-field/track-and-field-phone-photo-4.webp",
       "status": "verified"
     },
     "free-proof.track-field.poster": {
@@ -4228,6 +5718,26 @@
       "out": "/images/free-proof/volleyball/volleyball-trading-card-front-signature-spotlight.webp",
       "status": "verified"
     },
+    "free-proof.volleyball.identity": {
+      "out": "/images/free-proof/volleyball/volleyball-identity-three-views.webp",
+      "status": "verified"
+    },
+    "free-proof.volleyball.kit": {
+      "out": "/images/free-proof/volleyball/volleyball-kit-plate.webp",
+      "status": "verified"
+    },
+    "free-proof.volleyball.photo.1": {
+      "out": "/images/free-proof/volleyball/volleyball-phone-photo-1.webp",
+      "status": "verified"
+    },
+    "free-proof.volleyball.photo.2": {
+      "out": "/images/free-proof/volleyball/volleyball-phone-photo-2.webp",
+      "status": "verified"
+    },
+    "free-proof.volleyball.photo.4": {
+      "out": "/images/free-proof/volleyball/volleyball-phone-photo-4.webp",
+      "status": "verified"
+    },
     "free-proof.volleyball.poster": {
       "out": "/images/free-proof/volleyball/volleyball-poster-prism-rush.webp",
       "status": "verified"
@@ -4262,6 +5772,26 @@
     },
     "free-proof.wrestling.card.SR": {
       "out": "/images/free-proof/wrestling/wrestling-trading-card-front-senior-night.webp",
+      "status": "verified"
+    },
+    "free-proof.wrestling.identity": {
+      "out": "/images/free-proof/wrestling/wrestling-identity-three-views.webp",
+      "status": "verified"
+    },
+    "free-proof.wrestling.kit": {
+      "out": "/images/free-proof/wrestling/wrestling-kit-plate.webp",
+      "status": "verified"
+    },
+    "free-proof.wrestling.photo.1": {
+      "out": "/images/free-proof/wrestling/wrestling-phone-photo-1.webp",
+      "status": "verified"
+    },
+    "free-proof.wrestling.photo.2": {
+      "out": "/images/free-proof/wrestling/wrestling-phone-photo-2.webp",
+      "status": "verified"
+    },
+    "free-proof.wrestling.photo.4": {
+      "out": "/images/free-proof/wrestling/wrestling-phone-photo-4.webp",
       "status": "verified"
     },
     "free-proof.wrestling.poster": {

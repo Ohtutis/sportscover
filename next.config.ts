@@ -11,6 +11,7 @@
 //   rewrites()   — `beforeFiles`, one entry per DELETED card, pointing at `/api/gone` so the response
 //                  is a real 410. `redirects()` refuses non-3xx status codes and a page component can
 //                  only produce 404, so the rewrite is the only way to serve 410 from a static route.
+//                  Also `/free-proof?sport=<slug>` → its prerendered per-sport twin (2026-10-07).
 //
 // The card paths come from `lib/registry/cards.ts` — Next's config loader transpiles this file, so a
 // relative TS import works. If that import ever breaks the build, the fallback is
@@ -18,6 +19,7 @@
 
 import type { NextConfig } from "next";
 import { deletedCardPaths, privateCardPaths, unlistedCardPaths } from "./lib/registry/cards";
+import { freeProofSportSlugs } from "./lib/intake/sport-art";
 
 const securityHeaders = [
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
@@ -79,7 +81,17 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return {
       // Empty while no card has been deleted; the mechanism ships with the test.
-      beforeFiles: deletedCardPaths().map((source) => ({ source, destination: "/api/gone" })),
+      beforeFiles: [
+        ...deletedCardPaths().map((source) => ({ source, destination: "/api/gone" })),
+        // /free-proof?sport=<slug> → its prerendered twin (owner review 2026-10-07): the first paint shows the
+        // sport the link names, not the showcase sport. The address bar keeps /free-proof?sport=…; the other
+        // query keys (product, style, utm_*) pass through untouched. An unknown slug is not rewritten.
+        {
+          source: "/free-proof",
+          has: [{ type: "query" as const, key: "sport", value: `(?<sport>${freeProofSportSlugs().join("|")})` }],
+          destination: "/free-proof/for/:sport",
+        },
+      ],
       afterFiles: [],
       fallback: [],
     };

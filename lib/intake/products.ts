@@ -3,7 +3,7 @@
 //
 // Prices come ONLY from lib/catalog/prices.ts: every option names a tier `sku` and shows that tier's site
 // price (pricing v1, 2026-10-07: digital DIGITAL_PRICE, printed Etsy × 1.10 up to .99 — cards, posters,
-// banners and, since the blanket ladder, the three blanket sizes). A product's "from" line is its cheapest
+// banners and blankets). A product's "from" line is its cheapest
 // option, and two or more products together are priced by prices.ts `bundleTotal` (orderBundle below).
 // Never type a price here.
 
@@ -108,9 +108,18 @@ export const PRODUCTS: readonly Product[] = [
     name: "Blanket",
     blurb: "A plush blanket printed with their artwork — bedroom, dorm or the bleachers.",
     options: [
-      { key: "30x40", label: "30 × 40 in", detail: "Soft plush blanket, printed on one side.", sku: "GDE-ANY-BLK-3040", printed: true },
-      { key: "50x60", label: "50 × 60 in", detail: "Soft plush blanket, printed on one side.", sku: "GDE-ANY-BLK-5060", printed: true },
-      { key: "60x80", label: "60 × 80 in", detail: "Soft plush blanket, printed on one side.", sku: "GDE-ANY-BLK-6080", printed: true },
+      // The Etsy listing's four variants (etsy/BLANKET-ROLLOUT-2026-10.md): the files in all three sizes, or a printed size
+      // that includes them ("plus all files" on Etsy — every printed option on the site includes its digital files).
+      {
+        key: "digital",
+        label: "Digital files",
+        detail: "Print-ready blanket art in all three sizes, plus social graphics and phone and desktop wallpapers.",
+        sku: "GDE-ANY-BLK-DIG",
+        printed: false,
+      },
+      { key: "30x40", label: "30 × 40 in", detail: "Soft plush blanket, printed on one side, plus every digital file. Shipped free in the US.", sku: "GDE-ANY-BLK-3040", printed: true },
+      { key: "50x60", label: "50 × 60 in", detail: "Soft plush blanket, printed on one side, plus every digital file. Shipped free in the US.", sku: "GDE-ANY-BLK-5060", printed: true },
+      { key: "60x80", label: "60 × 80 in", detail: "Soft plush blanket, printed on one side, plus every digital file. Shipped free in the US.", sku: "GDE-ANY-BLK-6080", printed: true },
     ],
   },
 ];

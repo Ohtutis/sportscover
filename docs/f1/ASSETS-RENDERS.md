@@ -851,3 +851,47 @@ banner listing. A missing key is simply absent from the map and the form shows i
     while read k; do npx tsx scripts/site-assets.ts --key "$k"; done < <(npx tsx -e 'import("./lib/assets.ts").then(m=>console.log(Object.keys(m.SITE_ASSETS).filter(k=>k.startsWith("free-proof.")).join("\n")))')
     npx tsx scripts/site-assets.ts --check
 Total on disk: 148 files, 6 669 700 bytes (faces 4 768 074, posters 780 360, banners 629 556, blankets 491 710).
+
+### Phone photos and the example sport (v5, 2026-10-07)
+
+Owner review 2026-10-07: "too many faceless grey cards until you pick a sport — the page has to hook with the
+visuals at once and sell the idea that their child ends up on the poster". Two changes, still no model call:
+
+- **51 keys `free-proof.<slug>.photo.<n>`**, n = 1, 4, 2: three of the roster athlete's four generated "before"
+  photos (`art-pipeline/out/athletes/<athlete>/before/photo<n>.png`, 1792 × 2400) as 336 × 450 WebP q72, ~18 KB
+  each (932 KB for all). The athlete is the one on the sport's card and poster — checked side by side for all 17
+  (contact sheets in the session scratchpad); pickleball reads `pickleball-youth` (Nadia Rahimi, the card's athlete).
+  Order = the hero's fan, back to front: everyday snapshot, smile, in uniform on top. The map carries them as
+  `photos`; the JSON grew to ~43 KB (budget raised to 48 KB). Never a customer folder (`Order 0x`, `order-*`).
+- **The example sport.** Before a choice every picture on `/free-proof` (hero, how-it-works 01–03, product and style
+  tiles, "Your order") shows ONE sport's real art — `SHOWCASE_SPORT` = football in `components/intake/model.ts` — and
+  the line under it says "Example shown: Football." A sport chosen with no example ("Other") keeps showing the
+  example with the built-to-order line. `next.config.ts` rewrites `/free-proof?sport=<slug>` to the prerendered twin
+  `/free-proof/for/<slug>` (canonical `/free-proof`, not in the sitemap), so a link from a sport page or an ad paints
+  that sport in the first byte. The shared how-it-works band on other pages shows Marcus's phone photos at step 02
+  (`hero.story.1.before.4` / `.1`, the athlete whose proof step 03 shows). The grey "your photo" print remains only
+  as the fallback where no photo exists.
+
+### Hero v6 and the five how-it-works cards (2026-10-07, later the same day)
+
+Owner, watching the preview: "the hero is too weak … it has to sell what they get", then on the band: "visually four is
+better, but we explain too little about how we are different", "the four main ones and pay as an extra across the
+whole width", "not the cheer card", "upload: more photos, a couple of athletes mixed, kits and everyday clothes, men
+and women", "05 must be stronger". Still no model call.
+
+- **34 keys `free-proof.<slug>.identity` / `.kit`**: the roster athlete's `_identity.png` (three views, 2400 × 1792 →
+  600 × 448, q72) and `_kit.png` (2048 × 2048, softball 900 × 900 → 480 × 480, q72), kind `plate`, 568 KB for all.
+  Card 03 "We build them" shows them for the shown sport. Alts say built from the photos and checked — never "a
+  perfect copy" (the likeness is measured by the ArcFace gate, not promised).
+- **Card 01** is a fan of four posters in four finishes — football HE, volleyball PR, basketball SN, baseball CA
+  (`FAN_SPORTS`, components/intake/visuals.tsx) — the same on every page: the one picture that mixes sports, because
+  it IS the sport-and-style choice. **Card 02** is a fixed mix of five phone photos (`MIX_PHOTOS`: Tui laughing,
+  Jaslene in kit, Brooke in a hoodie, Marcus in his jersey, Casey in kit) — three in kit, two in everyday clothes,
+  three boys, two girls — so the upload card works whatever sport is chosen. 03 (plates) and 04 (poster + card on a
+  dark proof sheet under the CSS watermark, composed in code) follow the shown sport. **05** runs the full width on
+  the arena surface: "Pay only if you love it", the three checks "Your order" makes, and `$0 due today` (prices.ts
+  DUE_TODAY_LABEL). The money pages' band keeps Marcus for 03–04 (his real proof sheet at 04).
+- **Hero**: the sentence under the H1 names the product; the sheet is labelled "THEIR EDITION · WATERMARKED PROOF",
+  the front print "Your photos →"; the watermark is 24 tiles at 40 % instead of 48 at 50 % (it sat on every face);
+  and a strip of the nine sports with their own pages (each chip wearing its Stadium Night card face) asks the form
+  for that sport through `sportRequestStore`, so one tap switches the hero, the band, the tiles and step 1 together.

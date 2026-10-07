@@ -65,8 +65,10 @@ describe("intake products (lib/intake/products.ts)", () => {
     // An unknown choice is left out, never priced.
     expect(orderBundle([{ product: "mug", option: "x" }])).toBeNull();
   });
-  it("blanket sizes are the three the listing sells; banner options are the live listings' four variants", () => {
-    expect(PRODUCTS.find((p) => p.key === "blanket")!.options.map((o) => o.key)).toEqual(["30x40", "50x60", "60x80"]);
+  it("blanket options are the listing's digital files and three sizes; banner options are the live listings' four variants", () => {
+    expect(PRODUCTS.find((p) => p.key === "blanket")!.options.map((o) => [o.key, o.sku])).toEqual([
+      ["digital", "GDE-ANY-BLK-DIG"], ["30x40", "GDE-ANY-BLK-3040"], ["50x60", "GDE-ANY-BLK-5060"], ["60x80", "GDE-ANY-BLK-6080"],
+    ]);
     expect(PRODUCTS.find((p) => p.key === "banner")!.options.map((o) => [o.key, o.sku])).toEqual([
       ["digital", "GDE-ANY-BAN-DIG"], ["1x2", "GDE-ANY-BAN-1X2"], ["2x4", "GDE-ANY-BAN-2X4"], ["3x6", "GDE-ANY-BAN-3X6"],
     ]);

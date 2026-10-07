@@ -87,7 +87,7 @@ export const post: BlogPost = {
             ft, or the print-ready file at full size. Printed banners ship separately, in 1–2 weeks.
           </>,
           <>
-            <strong className="font-medium">A blanket.</strong> {productByKey("blanket")?.blurb} New, in three sizes, each priced on the free-proof form.
+            <strong className="font-medium">A blanket.</strong> {productByKey("blanket")?.blurb} New, in three sizes or as a digital file, each priced on the free-proof form.
           </>,
         ]}
       />

@@ -91,17 +91,19 @@ describe("single items: digital is DIGITAL_PRICE, printed is Etsy × 1.10 up to 
       "GDE-ANY-BAN-1X2": 38.99,
       "GDE-ANY-BAN-2X4": 57.99,
       "GDE-ANY-BAN-3X6": 84.99,
+      "GDE-ANY-BLK-DIG": 19.99,
       "GDE-ANY-BLK-3040": 53.99,
       "GDE-ANY-BLK-5060": 76.99,
       "GDE-ANY-BLK-6080": 109.99,
     };
     for (const [sku, price] of Object.entries(table)) expect(p(sku), sku).toBe(price);
   });
-  it("the blanket ladder: physical, enabled, Etsy's buyer prices, etsyBase = etsySale ÷ 0.7 on the .99", () => {
-    expect(blanketTiers.map((t) => t.etsySale)).toEqual([48.99, 69.29, 99.39]);
+  it("the blanket ladder: the Etsy listing's four variants (digital first), Etsy's buyer prices, etsyBase = etsySale ÷ 0.7 on the .99", () => {
+    expect(blanketTiers.map((t) => t.etsySale)).toEqual([17.49, 48.99, 69.29, 99.39]);
+    expect(blanketTiers.map((t) => t.physical)).toEqual([false, true, true, true]);
     for (const t of blanketTiers) {
       expect(t.family).toBe("blanket");
-      expect(t.physical && t.enabled).toBe(true);
+      expect(t.enabled).toBe(true);
       expect(Math.abs(t.etsyBase - t.etsySale / 0.7)).toBeLessThan(0.01);
       expect(String(t.etsyBase)).toMatch(/\.99$/);
       expect(getTier(t.sku)).toBe(t);
@@ -155,7 +157,7 @@ describe("the bundle: 2 → 15 %, 3 → 20 %, all 4 → 25 %, total down to .99"
     cards: ["GDE-ANY-CARD-DIG", "GDE-ANY-CARD-P12", "GDE-ANY-CARD-P24"],
     poster: ["GDE-ANY-POST-DIG", "GDE-ANY-POST-P1824", "GDE-ANY-POST-P2436"],
     banner: ["GDE-ANY-BAN-DIG", "GDE-ANY-BAN-1X2", "GDE-ANY-BAN-2X4", "GDE-ANY-BAN-3X6"],
-    blanket: ["GDE-ANY-BLK-3040", "GDE-ANY-BLK-5060", "GDE-ANY-BLK-6080"],
+    blanket: ["GDE-ANY-BLK-DIG", "GDE-ANY-BLK-3040", "GDE-ANY-BLK-5060", "GDE-ANY-BLK-6080"],
   };
   function* combos(keys: string[]): Generator<{ product: string; price: number }[]> {
     if (!keys.length) {

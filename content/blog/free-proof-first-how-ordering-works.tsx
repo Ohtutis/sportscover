@@ -93,7 +93,7 @@ export const post: BlogPost = {
             ft: {detail("banner", "2x4")}
           </>,
           <>
-            <strong className="font-medium">Blanket.</strong> {blanket?.blurb} New, in three sizes, each priced on the form.
+            <strong className="font-medium">Blanket.</strong> {blanket?.blurb} New, in three sizes or as a digital file, each priced on the form.
           </>,
         ]}
       />

@@ -4,7 +4,7 @@ import type { FreeProofSportArt } from "../../lib/intake/sport-art";
 import { STYLE_RECOMMEND, type StyleChoice } from "../../lib/intake/types";
 import { Badge } from "./Badge";
 import { FieldError, RADIO } from "./fields";
-import { FIELD_PREFIX, cardImage, errorId, type ArtState } from "./model";
+import { FIELD_PREFIX, cardImage, errorId, type ArtNoteData } from "./model";
 import { ArtImage, ArtNote, NeutralArt } from "./visuals";
 
 /** One look as the server page hands it over. Its picture is the chosen sport's card in that finish. */
@@ -22,7 +22,7 @@ export interface StylePickerProps {
   /** The chosen sport's art — each tile shows its card front in that finish, or the grey card framed in the finish. */
   art?: FreeProofSportArt | null;
   /** The line under the tiles: C13 over art, "pick a sport", or built to order. */
-  note?: { state: ArtState; sport: string | null };
+  note?: ArtNoteData;
   error?: string;
 }
 
@@ -129,7 +129,7 @@ export function StylePicker({ styles, value, onChange, labelledBy, art = null, n
           </li>
         </ul>
       </div>
-      {note ? <ArtNote state={note.state} sport={note.sport} className="mt-6" /> : null}
+      {note ? <ArtNote state={note.state} sport={note.sport} example={note.example} className="mt-6" /> : null}
     </div>
   );
 }

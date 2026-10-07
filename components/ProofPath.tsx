@@ -1,10 +1,12 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { assetOrNull, type ImageSpec } from "../lib/assets";
+import { DUE_TODAY_LABEL } from "../lib/catalog/prices";
 import { PROOF_PATH, PROOF_PATH_LABEL } from "../lib/copy/canon";
 import { INTAKE_COPY } from "../lib/intake/copy";
 import { FictionalLabel } from "./FictionalLabel";
-import { StepPhotos, StepTick } from "./intake/visuals";
+import { CheckCircleIcon } from "./icons";
+import { FAN_SPORTS, MIX_PHOTOS, PHOTO_SHOT_NUMBER, StepFan, StepLikeness, StepPhotos, StepTick } from "./intake/visuals";
 
 /**
  * The proof-first path, four steps (D29 — owner, 2026-10-04: "make everything much clearer … the parent
@@ -18,11 +20,16 @@ import { StepPhotos, StepTick } from "./intake/visuals";
  *   its detail. Nothing to press, no accent, no image.
  *
  * v4 (owner review 2026-10-06, evening: "the pictures are far too small"): each picture fills the top of
- * its card — 140 px tall on a phone, 200 px at 1440 (it was 64 / 96 px beside the numeral) — and the
- * parent's photos (02) are always the grey "your photo" prints drawn in code, never another child. On
- * /free-proof the page hands its own pictures in (`visuals`): the chosen sport's poster and card (01), the
- * same card under a CSS watermark (03). Every other page keeps the defaults below: the product tiles (01)
- * and the real watermarked proof sheet (03).
+ * its card — 140 px tall on a phone, 200 px at 1440 (it was 64 / 96 px beside the numeral).
+ *
+ * v6 (owner, 2026-10-07: "visually four is better, but we explain too little about how we are different",
+ * and "the four main ones, and pay as an extra across the whole width, so it is clear they risk nothing"):
+ * FIVE cards — 01 the choice (a fan of four sports in four finishes, the one picture that mixes sports on
+ * purpose), 02 the phone photos (the athlete's everyday ones), 03 what makes the work ours (the identity and
+ * kit plates the athlete was rebuilt from), 04 the proof — and 05, the full width of the row, the promise:
+ * pay only if you love it, nothing due today (prices.ts DUE_TODAY_LABEL). On /free-proof the page hands 02–04
+ * in for the shown sport (`visuals`); every page keeps the defaults below for the rest — Marcus Ellison's
+ * photos, plates and real watermarked proof sheet, one athlete across the row.
  *
  * `ProofPathBand` is how the money pages mount it (owner review 2026-10-06: the list wedged under the
  * hero CTA "looks dropped in"): its own band directly under the hero, the section rule with the label in
@@ -32,10 +39,17 @@ import { StepPhotos, StepTick } from "./intake/visuals";
  * carries the meaning) and sits in a box of fixed size, so nothing shifts when it arrives.
  */
 
-/** Step 03 by default: the real watermarked proof sheet (Marcus Ellison's, `show.proof.basketball`). */
+/** Card 04 by default: the real watermarked proof sheet (Marcus Ellison's, `show.proof.basketball`). */
 export const STEP_PROOF_KEY = "show.proof.basketball";
-/** Step 01 by default: the product tiles of /free-proof's product step (lib/assets.ts `product.*`). */
-export const STEP_PRODUCT_KEYS = ["product.cards", "product.poster"] as const;
+/** Card 01 by default: the posters of the four fan sports, each in its lead finish (lib/assets.ts `free-proof.*.poster`). */
+export const STEP_FAN_KEYS = FAN_SPORTS.map((slug) => `free-proof.${slug}.poster`);
+/**
+ * Card 02 on every page: the mix of five phone photos (components/intake/visuals.tsx MIX_PHOTOS — five athletes,
+ * kits and everyday clothes, boys and girls). A grey "your photo" print stands in for any key not verified.
+ */
+export const STEP_PHOTO_KEYS = MIX_PHOTOS.map(({ slug, shot }) => `free-proof.${slug}.photo.${PHOTO_SHOT_NUMBER[shot]}`);
+/** Card 03 by default: Marcus's identity plate (three views) and kit plate. */
+export const STEP_LIKENESS_KEYS = ["free-proof.basketball.identity", "free-proof.basketball.kit"] as const;
 
 export type ProofPathVariant = "cards" | "list";
 
@@ -69,23 +83,21 @@ function Thumb({ image, className, sizes = THUMB_SIZES, contain = false }: { ima
   );
 }
 
-/** The default picture for step `i` (0-based), or null when its keys are not verified. */
+/** The default picture for card `i` (0-based), or null when its keys are not verified. */
 function stepVisual(i: number): { node: ReactNode; fictional: boolean } | null {
   if (i === 0) {
-    const [cards, poster] = STEP_PRODUCT_KEYS.map(maybe);
-    if (!cards || !poster) return null;
-    return {
-      fictional: cards.fictional || poster.fictional,
-      node: (
-        <>
-          <Thumb image={poster} className="left-[8%] top-[3%] aspect-square h-[74%] -rotate-3" />
-          <Thumb image={cards} className="bottom-[3%] right-[8%] aspect-square h-[74%] rotate-3" />
-        </>
-      ),
-    };
+    const posters = STEP_FAN_KEYS.map(maybe);
+    return { fictional: posters.some((p) => p?.fictional), node: <StepFan posters={posters} /> };
   }
-  if (i === 1) return { fictional: false, node: <StepPhotos /> };
+  if (i === 1) {
+    const photos = STEP_PHOTO_KEYS.map(maybe);
+    return { fictional: photos.some((p) => p?.fictional), node: <StepPhotos photos={photos} /> };
+  }
   if (i === 2) {
+    const [identity, kit] = STEP_LIKENESS_KEYS.map(maybe);
+    return { fictional: Boolean(identity?.fictional || kit?.fictional), node: <StepLikeness identity={identity} kit={kit} /> };
+  }
+  if (i === 3) {
     const proof = maybe(STEP_PROOF_KEY);
     if (!proof) return null;
     // The proof sheet at its own ratio (1.3 : 1): never cropped — the watermark is the point.
@@ -98,10 +110,12 @@ function Cards({ className, visuals }: { className: string; visuals?: readonly (
   return (
     <ol
       aria-label={PROOF_PATH_LABEL}
-      className={`grid auto-rows-fr grid-cols-1 gap-3 min-[375px]:grid-cols-2 sm:gap-4 lg:grid-cols-4 ${className}`.trim()}
+      // Equal rows for the picture cards (a ragged row reads as a mistake); the fifth, wide row takes only its content.
+      className={`grid grid-cols-1 gap-3 [grid-template-rows:repeat(4,1fr)_auto] min-[375px]:grid-cols-2 min-[375px]:[grid-template-rows:1fr_1fr_auto] sm:gap-4 lg:grid-cols-4 lg:[grid-template-rows:1fr_auto] ${className}`.trim()}
     >
       {INTAKE_COPY.stepCards.map((card, i) => {
         const node = visuals?.[i] ?? stepVisual(i)?.node ?? null;
+        if ("wide" in card && card.wide) return <WideCard key={card.n} card={card} />;
         return (
           <li key={card.n} data-step-card="" className="flex min-w-0 flex-col rounded-[20px] border border-hairline bg-white p-4 sm:p-5 lg:p-6">
             {node ? (
@@ -118,6 +132,45 @@ function Cards({ className, visuals }: { className: string; visuals?: readonly (
         );
       })}
     </ol>
+  );
+}
+
+/**
+ * The fifth card, the full width of the row — the promise, on the dark surface so it is the loudest thing in the
+ * band (owner, 2026-10-07: "pay as an extra across the whole width, so it is clear they risk nothing"; then "05
+ * must be stronger, it is blank"). Three columns from `sm`: the numeral and the promise set in Anton, the three
+ * checks "Your order" makes (INTAKE_COPY.summary.checks — one list, two places), and the zero-due figure
+ * (DUE_TODAY_LABEL, the one dollar literal outside the ladder) with its label, so "nothing to risk" is read as
+ * a number as well as a sentence. White ticks, no accent: the page's orange stays on its two buttons.
+ */
+function WideCard({ card }: { card: { n: string; title: string; line: string } }) {
+  return (
+    <li
+      data-step-card=""
+      data-step-wide=""
+      data-surface="arena"
+      className="col-span-full grid min-w-0 gap-6 rounded-[20px] bg-arena p-5 text-white sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_auto] sm:items-center sm:gap-8 sm:p-6 lg:p-8"
+    >
+      <div className="min-w-0">
+        <span aria-hidden="true" className="font-display text-[2rem] leading-none tabular-nums text-arena-muted md:text-[2.5rem]">
+          {card.n}
+        </span>
+        <p className="mt-2 font-display text-[1.75rem] uppercase leading-none text-balance md:text-[2.25rem]">{card.title}</p>
+        <p className="mt-3 max-w-[44ch] font-body text-small text-arena-muted text-pretty">{card.line}</p>
+      </div>
+      <ul className="grid gap-2.5 border-t border-arena-hairline pt-5 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0">
+        {INTAKE_COPY.summary.checks.map((check) => (
+          <li key={check} className="flex items-center gap-3 font-body text-[0.9375rem] font-medium leading-snug">
+            <CheckCircleIcon size={20} className="shrink-0 text-white" />
+            <span>{check}</span>
+          </li>
+        ))}
+      </ul>
+      <p data-due-today="" className="border-t border-arena-hairline pt-5 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0 sm:text-right">
+        <span className="block font-display text-[3rem] leading-none tabular-nums md:text-[3.5rem]">{DUE_TODAY_LABEL}</span>
+        <span className="mt-1 block font-label text-label font-semibold uppercase tracking-[0.12em] text-arena-muted">{INTAKE_COPY.dueToday}</span>
+      </p>
+    </li>
   );
 }
 

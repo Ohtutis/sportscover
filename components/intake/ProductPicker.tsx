@@ -5,7 +5,7 @@ import type { FreeProofImage, FreeProofSportArt } from "../../lib/intake/sport-a
 import type { StyleChoice } from "../../lib/intake/types";
 import { Badge } from "./Badge";
 import { CHECK, FieldError, RADIO } from "./fields";
-import { FIELD_PREFIX, bundleNudge, bundleStepIndex, errorId, orderTotal, productImage, type ArtState, type ProductState } from "./model";
+import { FIELD_PREFIX, bundleNudge, bundleStepIndex, errorId, orderTotal, productImage, type ArtNoteData, type ProductState } from "./model";
 import { UI } from "./strings";
 import { ArtImage, ArtNote, NeutralArt, type NeutralShape } from "./visuals";
 
@@ -41,7 +41,7 @@ export interface ProductPickerProps {
   /** The chosen look — the cards tile shows the card in it when the sport has that finish. */
   style?: StyleChoice | "";
   /** The line under the tiles: C13 over art, "pick a sport", or built to order. */
-  note?: { state: ArtState; sport: string | null };
+  note?: ArtNoteData;
   error?: string;
 }
 
@@ -198,7 +198,7 @@ export function ProductPicker({ products, state, onToggle, onOption, art = null,
         {INTAKE_COPY.moreThanOne}
       </p>
       {/* Last in the step: the slot is as tall as its longest line, so any spare height falls into the step's own air. */}
-      {note ? <ArtNote state={note.state} sport={note.sport} className="mt-6" /> : null}
+      {note ? <ArtNote state={note.state} sport={note.sport} example={note.example} className="mt-6" /> : null}
     </div>
   );
 }

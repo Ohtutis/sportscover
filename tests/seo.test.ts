@@ -28,6 +28,7 @@ import { SITE_ASSETS } from "../lib/assets";
 import { SITE_URL } from "../lib/site";
 import { blogPages } from "../lib/blog";
 import { INTAKE_PATH, INTAKE_THANKS_PATH } from "../lib/intake/copy";
+import { freeProofSportSlugs } from "../lib/intake/sport-art";
 
 const ROOT = path.resolve(__dirname, "..");
 
@@ -39,7 +40,10 @@ const pathsWith = (v: string): string[] =>
 const headerRules = await nextConfig.headers!();
 const redirectRules = await nextConfig.redirects!();
 const rewriteRules = await nextConfig.rewrites!();
-const beforeFiles = (Array.isArray(rewriteRules) ? rewriteRules : rewriteRules.beforeFiles) ?? [];
+const allBeforeFiles = (Array.isArray(rewriteRules) ? rewriteRules : rewriteRules.beforeFiles) ?? [];
+/** The deleted-card rules (410). The /free-proof?sport= rewrite to its per-sport twin is tested on its own below. */
+const beforeFiles = allBeforeFiles.filter((r) => r.source !== "/free-proof");
+const freeProofRewrites = allBeforeFiles.filter((r) => r.source === "/free-proof");
 
 /** Every route that has a page.tsx on disk, with the `(group)` segments stripped. */
 function routesOnDisk(dir = path.join(ROOT, "app"), route = ""): string[] {
@@ -361,6 +365,19 @@ describe("next.config rewrites() — 410 for deleted cards", () => {
     const deleted = pathsWith("deleted");
     expect(beforeFiles.map((r) => r.source).sort()).toEqual([...deleted].sort());
     for (const rule of beforeFiles) expect(rule.destination).toBe("/api/gone");
+  });
+
+  it("/free-proof?sport=<slug> goes to its prerendered twin, for exactly the sports that have one (2026-10-07)", () => {
+    expect(freeProofRewrites).toHaveLength(1);
+    const [rule] = freeProofRewrites as { source: string; destination: string; has?: { type: string; key: string; value?: string }[] }[];
+    expect(rule.destination).toBe("/free-proof/for/:sport");
+    expect(rule.has).toHaveLength(1);
+    const [has] = rule.has!;
+    expect([has.type, has.key]).toEqual(["query", "sport"]);
+    const re = new RegExp(`^${has.value}$`);
+    for (const slug of freeProofSportSlugs()) expect(re.test(slug), slug).toBe(true);
+    for (const bad of ["", "other", "nonsense", "football2", "basketball|x"]) expect(re.test(bad), bad).toBe(false);
+    expect(freeProofSportSlugs().length).toBe(17);
   });
 
   it("never rewrites a card that still renders", () => {
