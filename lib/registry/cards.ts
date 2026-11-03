@@ -208,6 +208,31 @@ export const cards: CardRecord[] = [
     channel: "demo-etsy",
   },
 
+  // A real customer's edition: a Heritage ice-hockey card + sealed foil pack, a gift for Bruce Andrews' 80th birthday
+  // (bought by his daughter, 2026-11-02; face approved by her 2026-11-03). Season 1964 is the season the card
+  // remembers; 2026 in the id is the edition year. His shirt number is not known, so the 80 is the printed edition
+  // number for the 80th birthday, and as an adult /c prints no "#" (showsJerseyNumber). Her three career highlights are
+  // achievements, not numbers, so `stats` stays empty; the hometown printed on the back is not stored (no city here).
+  {
+    cardId: "GDE-HE-ICH-2026-80",
+    athleteId: "gde-he-ich-2026-80",
+    firstName: "Bruce",
+    lastName: "Andrews",
+    jerseyNumber: "80",
+    position: "All-Position All-Star",
+    team: "Naicam Midgets",
+    teamColors: { primary: "#2B241C", secondary: "#E6D8BF" },
+    season: "1964",
+    stats: [],
+    sportCode: "ICH",
+    styleName: "Heritage",
+    playerHighlight: "Big Guy Andrews 80th Season",
+    createdAt: "2026-11-03",
+    visibility: "unlisted",
+    channel: "etsy",
+    ageBand: "adult",
+  },
+
   // A real customer's edition (Etsy order #4175354383, 2026-09-26): Niamh Southgate, Wirral
   // Gymnastics Club, Stadium Night poster + card. Gymnastics is numberless, so the 02 in the id is
   // the printed edition number and /c prints no "#" (showsJerseyNumber reads the sport, and she is
