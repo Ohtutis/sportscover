@@ -185,6 +185,19 @@ export const DEMO_ART_SOURCES: Record<string, ArtSource> = {
     note: "The 08-26 export fails the corner audit at all four corners (white ground), and its back encodes the Nia URL. Blocked until a square-cut 2x re-export from Figma iLHCW0lDPPYW5BNpriGL8r; the page renders without the flip section meanwhile.",
   },
 
+  "GDE-HE-ICH-2026-80": {
+    front: "orders/4218335943/final/card-FRONT-1500x2100.png",
+    back: "orders/4218335943/final/card-BACK-1500x2100.png",
+    sourceKind: "order",
+    note: "Bruce Andrews (Etsy 4218335943). Faces live in ~/gde-work/orders/4218335943/final (outside the repo); not built into public/cards yet — the page renders without the flip section until cards:assets --allow-orders runs on them.",
+  },
+  "GDE-HE-PKB-2026-19": {
+    front: "orders/4233009055/final/card-FRONT-1500x2100.png",
+    back: "orders/4233009055/final/card-BACK-1500x2100.png",
+    sourceKind: "order",
+    note: "Dan Leo (Etsy 4233009055). 2x faces exported 2026-11-16 (Figma sz6zikv15PalwJX7x05uiQ, FRONT 4015:158 / BACK 4015:183); the back decodes to this id. Faces live in ~/gde-work/orders/4233009055/final; not built into public/cards yet.",
+  },
+
   // ---- Ticket F1-ART-08 — the eighteen listing demo cards (registry deploy 2026-09-23), target paths pre-declared ----
   "GDE-CA-ICH-2026-17": {
     front: `${A}/ice-hockey-ca/card-front.png`,
