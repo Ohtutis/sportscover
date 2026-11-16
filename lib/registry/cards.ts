@@ -233,6 +233,33 @@ export const cards: CardRecord[] = [
     ageBand: "adult",
   },
 
+  // A real customer's edition (Etsy order #4233009055, 2026-11-15): a Heritage pickleball card + sealed foil pack for
+  // Dan Leo, singles player from Long Island, New York — approved by the buyer 2026-11-16. Pickleball is numberless, so
+  // the 19 in the id is the printed edition number (his 19 golds) and /c prints no "#". Stats as she wrote them.
+  {
+    cardId: "GDE-HE-PKB-2026-19",
+    athleteId: "gde-he-pkb-2026-19",
+    firstName: "Dan",
+    lastName: "Leo",
+    jerseyNumber: "",
+    position: "Singles",
+    team: "Long Island, New York",
+    teamColors: { primary: "#C9A227", secondary: "#000000" },
+    season: "2026",
+    stats: [
+      { label: "GOLDS", value: "19" },
+      { label: "MEDALS", value: "45" },
+      { label: "SEASONS", value: "4" },
+    ],
+    playerHighlight: "Never Fold \u00b7 It's not just a game. It's personal.",
+    sportCode: "PKB",
+    styleName: "Heritage",
+    createdAt: "2026-11-16",
+    visibility: "unlisted",
+    channel: "etsy",
+    ageBand: "adult",
+  },
+
   // A real customer's edition (Etsy order #4175354383, 2026-09-26): Niamh Southgate, Wirral
   // Gymnastics Club, Stadium Night poster + card. Gymnastics is numberless, so the 02 in the id is
   // the printed edition number and /c prints no "#" (showsJerseyNumber reads the sport, and she is
