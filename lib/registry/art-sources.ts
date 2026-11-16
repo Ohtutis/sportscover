@@ -846,6 +846,13 @@ export const DEMO_ART_SOURCES: Record<string, ArtSource> = {
     pending: "F1-ART-09",
     note: "Square-cut 2x export of FRONT and BACK from the skateboarding sport file (Prism Rush page). This id is printed beside the QR on the listing's card back; rebind the #qr layer before exporting — the back on disk encodes GDE-SN-BKB-2026-23 (F1-QR-01).",
   },
+  // ---- Order #4190925708 — Bobby Bond, unlisted; read only with --allow-orders (GAPS #9) ----
+  "GDE-SN-FTB-2026-25": {
+    front: "orders/4190925708/print/GDE-SN-FTB-2026-25-CARD-FRONT-816x1110.png",
+    back: "orders/4190925708/print/GDE-SN-FTB-2026-25-CARD-BACK-816x1110.png",
+    sourceKind: "order",
+    note: "816×1110 print files from the approved state (proof #2 approved 2026-10-05); the back's QR decodes to this id. Built only into this customer's own public/cards/<id>/, never committed.",
+  },
   // card:new sources insert above
 };
 
