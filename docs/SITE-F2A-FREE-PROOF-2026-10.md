@@ -221,3 +221,39 @@ directly under the hero and the strip is deleted; the form follows the band. The
 "I wanted it completely redone"): no sheet, no bracket frame — the poster stands large with a "Their edition" pill,
 the card over its corner with C13, one PROOF stamp across the art, the phone-photo fan in front with "Your photos →".
 The four-step form, the privacy box, the funnel header, the link mapping and the funnel events from stage B stay.
+
+## Pricing v2 — the digital add-on (2026-10-07, evening)
+
+Owner: "if everything chosen is digital, a bigger digital saving must apply than on printed — the files cost me
+nothing extra and the sale needs the harder push. The first 19.99, the second, third and fourth 5 each." Implemented
+in the one bundle function, `lib/catalog/prices.ts` `bundleTotal`, so the form's ladder, "Your order", the conversion
+card, the request emails and the set tiers all move together:
+
+- A `BundleLine` now says whether it is the product's digital files (`digital`). `DIGITAL_ADDON = 5`.
+- **All digital:** the first product `DIGITAL_PRICE` (19.99), every further product `DIGITAL_ADDON` — 2 products 24.99,
+  3 products 29.99, all 4 **34.99** (bought separately 79.96, saving 44.97 = 56 %). `allDigitalTotal(count)`.
+- **Printed:** unchanged — the printed ladder by the number of PRINTED products (2 → 15 %, 3 → 20 %, 4 → 25 %, the
+  printed total rounded down to .99).
+- **Mixed (my decision, consistent with the rule — the owner named only the all-digital case):** the printed
+  products are the printed ladder by their own count, and every digital product in the order is the add-on. A printed
+  poster + the cards' files = 46.99 + 5 = 51.99; two printed at 15 % + two digital = 72.99 + 10 = 82.99. Adding a
+  product never lowers the total, and moving a product from files to print never lowers it either (both tested over
+  every combination of options). The alternative — the printed rate by the TOTAL product count with digital at the
+  add-on — made "add the cards' files" cost less than the poster alone, so it was rejected.
+- `discountRate` is now the effective share saved (discount ÷ à-la-carte); `formatPercent` rounds DOWN so a chip beside
+  a "2 products −15%" rung never reads "16%" (the .99 rounding lifts 15 % to 15.5 % on the Deluxe pair).
+- **The digital Complete Set** (`GDE-ANY-SET-DIG`, the bundle of its two digital parts) is therefore **24.99** (was
+  33.99) — still above Etsy's digital set buyer price of 24.49, so the site never undercuts Etsy (tested).
+- **The ladder under the product cards** has two rows: "Digital files — 2 products $24.99 · 3 products $29.99 · all 4
+  $34.99" and "Printed — 2 products −15% · 3 products −20% · all 4 −25%"; an all-digital order lights the digital row
+  by its count, printed products light the printed row by theirs. The live line: before a choice "Every extra product
+  as digital files is $5 more. Printed products save by their number."; next product as files → "Add a poster as
+  digital files for $5 more."; next product printed → the saving as before; all four digital → "All four as digital
+  files: $34.99 together."; all four otherwise → "…the whole order saves 25%."
+- **The conversion card** (owner, the same evening: "where we show at the end what it will cost if they approve the
+  proof — like we have the price on the side"): beside "Today $0", once a product is chosen, "After approval" with the
+  bundle total at the same size, and under it the same items bought separately struck through and the saving chip —
+  `CtaFigures` in `components/intake/SummaryRail.tsx`, the same `bundleTotal` as the rail. Nothing chosen → "Today"
+  only.
+- Emails: the three bundle lines are unchanged in shape; the percent is the effective one.
+- Untouched: option prices, the submission flow, the payload, the consents.

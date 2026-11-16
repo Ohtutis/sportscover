@@ -1,11 +1,11 @@
-import { BUNDLE_STEPS, formatPercent, formatUsd } from "../../lib/catalog/prices";
+import { BUNDLE_STEPS, DIGITAL_ADDON, allDigitalTotal, formatPercent, formatUsd, formatUsdShort } from "../../lib/catalog/prices";
 import { INTAKE_COPY } from "../../lib/intake/copy";
 import type { ProductKey } from "../../lib/intake/products";
 import type { FreeProofImage, FreeProofSportArt } from "../../lib/intake/sport-art";
 import type { StyleChoice } from "../../lib/intake/types";
 import { Badge } from "./Badge";
 import { CHECK, FieldError, RADIO } from "./fields";
-import { FIELD_PREFIX, bundleNudge, bundleStepIndex, errorId, orderTotal, productImage, type ArtNoteData, type ProductState } from "./model";
+import { FIELD_PREFIX, bundleNudge, errorId, ladderRungs, orderTotal, productImage, type ArtNoteData, type ProductState } from "./model";
 import { UI } from "./strings";
 import { ArtImage, ArtNote, NeutralArt, type NeutralShape } from "./visuals";
 
@@ -101,11 +101,13 @@ const DETAIL = "col-span-2 row-start-3 mt-3 min-w-0";
  * poster, the banner, the blanket — in a 2 × 2 grid from md (one column on a phone), never an empty slot.
  * Each card is a real checkbox (one, several or all); a chosen card gets the ink edge, the card shadow and
  * the SELECTED chip, and opens its options. No quantity anywhere (v4): one muted line under the grid says
- * where "more than one" is settled. Under the cards (pricing v1, 2026-10-07) the bundle ladder — "2
- * products −15% · 3 products −20% · all 4 −25%" — with the rung the choice has reached on the accent, and
- * one live line: what the next product (the first not chosen, at the option its card holds) would save on
- * top. Every figure is prices.ts BUNDLE_STEPS / bundleTotal through the model, from the prices the server
- * page handed over; the comparison is always "bought separately", never a former price.
+ * where "more than one" is settled. Under the cards (pricing v1, 2026-10-07; v2 the same evening) the
+ * bundle ladder in two rows — digital files "2 products 24.99 · 3 products 29.99 · all 4 34.99", printed
+ * "2 products −15% · 3 products −20% · all 4 −25%" — with the rung the choice has reached on the accent,
+ * and one live line: what the next product (the first not chosen, at the option its card holds) costs as
+ * digital files or saves printed. Every figure is prices.ts BUNDLE_STEPS / allDigitalTotal / bundleTotal
+ * through the model, from the prices the server page handed over; the comparison is always "bought
+ * separately", never a former price.
  */
 export function ProductPicker({ products, state, onToggle, onOption, art = null, style = "", note, error }: ProductPickerProps) {
   const describedError = error ? errorId("products") : "";
@@ -203,26 +205,14 @@ export function ProductPicker({ products, state, onToggle, onOption, art = null,
   );
 }
 
-/**
- * The bundle ladder (pricing v1, 2026-10-07): three rungs on one line, the reached rung on the accent (ink on
- * orange, 6.3 : 1 — never orange text), and one live line under it: before a choice what the ladder is; with
- * one to three products the next product and what it saves on top; with all four, the top rung. The figures
- * come from the model's bundle helpers over the prices the page handed over — nothing typed.
- */
-function BundleLadder({ products, state }: { products: ProductTileData[]; state: Record<ProductKey, ProductState> }) {
-  const b = INTAKE_COPY.bundle;
-  const total = orderTotal(products, state);
-  const reached = bundleStepIndex(total?.productCount ?? 0);
-  const nudge = bundleNudge(products, state);
-  const line = !total
-    ? b.lead
-    : nudge
-      ? (nudge.first ? b.nudgeFirst : b.nudgeMore)(b.addName[nudge.add], formatUsd(nudge.saving))
-      : b.top(formatPercent(total.discountRate));
+const LADDER_LABEL = "font-label text-label font-semibold uppercase tracking-[0.12em] text-muted-text";
+
+/** One row of the ladder: its label and the three rungs, the reached one on the accent (ink on orange, 6.3 : 1 — never orange text). */
+function LadderRow({ row, label, reached, rung }: { row: "digital" | "printed"; label: string; reached: number; rung: (count: number, last: boolean) => string }) {
   return (
-    <div data-bundle-ladder="" className="mt-6 rounded-[20px] border border-hairline bg-white p-4 sm:p-5">
-      <p className="font-label text-label font-semibold uppercase tracking-[0.12em] text-muted-text">{b.title}</p>
-      <ol className="mt-3 flex flex-wrap gap-2">
+    <div data-bundle-row={row} className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
+      <span className={`${LADDER_LABEL} w-[6.5rem] shrink-0`}>{label}</span>
+      <ol className="flex flex-wrap gap-2">
         {BUNDLE_STEPS.map((step, i) => {
           const on = i === reached;
           return (
@@ -235,11 +225,45 @@ function BundleLadder({ products, state }: { products: ProductTileData[]; state:
                 on ? "border-accent bg-accent text-ink" : "border-ink/15 text-ink"
               }`}
             >
-              {b.step(step.count, i === BUNDLE_STEPS.length - 1, formatPercent(step.percent / 100))}
+              {rung(step.count, i === BUNDLE_STEPS.length - 1)}
             </li>
           );
         })}
       </ol>
+    </div>
+  );
+}
+
+/**
+ * The bundle ladder (pricing v1, 2026-10-07; v2 the same evening): two rows of three rungs — the digital
+ * row carries the TOTAL of that many products as digital files (DIGITAL_PRICE, then DIGITAL_ADDON each:
+ * the saving the owner wants pushed, the files cost nothing extra), the printed row the printed ladder's
+ * rates. The reached rung on each row is on the accent (an all-digital order lights the digital row by
+ * its count; the printed row lights by the number of printed products). One live line under them: before
+ * a choice what the ladder is; with one to three products the next product — as digital files, the
+ * add-on; printed, what it saves on top; with all four, the top rung. Every figure comes from the model's
+ * bundle helpers over the prices the page handed over — nothing typed.
+ */
+function BundleLadder({ products, state }: { products: ProductTileData[]; state: Record<ProductKey, ProductState> }) {
+  const b = INTAKE_COPY.bundle;
+  const total = orderTotal(products, state);
+  const rungs = ladderRungs(products, state);
+  const nudge = bundleNudge(products, state);
+  const addon = formatUsdShort(DIGITAL_ADDON);
+  const line = !total
+    ? b.lead(addon)
+    : nudge
+      ? nudge.digital
+        ? b.nudgeDigital(b.addName[nudge.add], addon)
+        : (nudge.first ? b.nudgeFirst : b.nudgeMore)(b.addName[nudge.add], formatUsd(nudge.saving))
+      : rungs.digital >= 0
+        ? b.topDigital(formatUsd(total.total))
+        : b.top(formatPercent(total.discountRate));
+  return (
+    <div data-bundle-ladder="" className="mt-6 rounded-[20px] border border-hairline bg-white p-4 sm:p-5">
+      <p className={LADDER_LABEL}>{b.title}</p>
+      <LadderRow row="digital" label={b.rowDigital} reached={rungs.digital} rung={(count, last) => b.stepDigital(count, last, formatUsd(allDigitalTotal(count)))} />
+      <LadderRow row="printed" label={b.rowPrinted} reached={rungs.printed} rung={(count, last) => b.step(count, last, formatPercent(BUNDLE_STEPS.find((s) => s.count === count)!.percent / 100))} />
       <p data-bundle-nudge="" aria-live="polite" className="mt-3 max-w-[60ch] font-body text-small font-medium text-pretty text-ink">
         {line}
       </p>

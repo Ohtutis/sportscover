@@ -416,7 +416,7 @@ export function chosenLines(products: PricedProducts, state: Record<ProductKey, 
     .filter((p) => state[p.key]?.selected)
     .map((p) => {
       const o = p.options.find((x) => x.key === state[p.key].option) ?? p.options[0];
-      return { product: p.key, price: o.price };
+      return { product: p.key, price: o.price, digital: !o.printed };
     });
 }
 
@@ -434,13 +434,27 @@ export function orderTotal(products: PricedProducts, state: Record<ProductKey, P
 export const bundleStepIndex = (productCount: number): number => BUNDLE_STEPS.filter((step) => productCount >= step.count).length - 1;
 
 /**
+ * The ladder's two rows (pricing v2): the rung reached on the digital row — an all-digital order, by its
+ * number of products — and on the printed row, by the number of printed products. -1 = none reached. A
+ * mixed order lights the printed row only; its digital add-ons are what the live line explains.
+ */
+export function ladderRungs(products: PricedProducts, state: Record<ProductKey, ProductState>): { digital: number; printed: number } {
+  const lines = chosenLines(products, state);
+  const printedCount = new Set(lines.filter((l) => !l.digital).map((l) => l.product)).size;
+  return { digital: lines.length && !printedCount ? bundleStepIndex(lines.length) : -1, printed: bundleStepIndex(printedCount) };
+}
+
+/**
  * The nudge under the ladder: the first product (in PRODUCTS order) not yet chosen, at the option its card
  * holds, and what adding it would save on top of what the order already saves — "Add a poster: save
- * another $X". `first` is true while the order saves nothing yet. Null before a choice and once all four
+ * another $X". `digital` is true when the card holds the product's digital files: the line then says the
+ * add-on ("Add a poster as digital files for 5 more"), the figure every further digital product costs
+ * (pricing v2). `first` is true while the order saves nothing yet. Null before a choice and once all four
  * are chosen.
  */
 export interface BundleNudge {
   add: ProductKey;
+  digital: boolean;
   saving: number;
   first: boolean;
 }
@@ -451,7 +465,8 @@ export function bundleNudge(products: PricedProducts, state: Record<ProductKey, 
   if (!current || !next) return null;
   const after = orderTotal(products, { ...state, [next.key]: { ...state[next.key], selected: true } });
   if (!after) return null;
-  return { add: next.key, saving: Math.round((after.discount - current.discount) * 100) / 100, first: current.discountRate === 0 };
+  const held = next.options.find((o) => o.key === state[next.key]?.option) ?? next.options[0];
+  return { add: next.key, digital: !held.printed, saving: Math.round((after.discount - current.discount) * 100) / 100, first: current.discount === 0 };
 }
 
 // --- the live text preview (owner, 2026-10-06) -------------------------------------------------------

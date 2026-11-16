@@ -7,11 +7,15 @@
 //   • Printed: Etsy's buyer price × SITE_MARKUP, rounded UP to the next .99. Etsy's buyer price is
 //     `etsySale` — the shop-wide -30 % is permanent on Etsy (renewed continuously), so the site never
 //     switches on a date and never shows a "regular" price beside a single item.
-//   • Bundle: two or more different products in one order are priced together — 2 products save 15 %,
-//     3 save 20 %, all 4 save 25 % (`bundleDiscountRate`). The bundle total is rounded DOWN to .99
-//     (`floorTo99`), so the saving is never smaller than the rate it states. The comparison is always
-//     "the same items bought separately": the à-la-carte total is the ONLY struck-through number the
-//     site shows, and only beside a bundle total.
+//   • Bundle: the products of one order are priced together (`bundleTotal`). PRINTED products save by
+//     their number — 2 save 15 %, 3 save 20 %, all 4 save 25 % (`bundleDiscountRate`), the printed total
+//     rounded DOWN to .99 (`floorTo99`) so the saving is never smaller than the rate it states. DIGITAL
+//     files cost nothing extra to make (pricing v2, owner 2026-10-07 evening: "if everything chosen is
+//     digital the saving must be bigger than on printed — the first 19.99, the second, third and fourth
+//     5 each"), so after the first product every further product as digital files is DIGITAL_ADDON: all
+//     four as digital files are DIGITAL_PRICE + 3 × DIGITAL_ADDON, and a digital product added to a
+//     printed order is DIGITAL_ADDON. The comparison is always "the same items bought separately": the
+//     à-la-carte total is the ONLY struck-through number the site shows, and only beside a bundle total.
 //   • The set tiers (/complete-set) are that bundle of their two parts — never an Etsy number.
 //
 // Etsy-facing data (`etsyBase`, `etsySale`, the SKUs) is the Etsy listings' own and stays as it is; the
@@ -40,6 +44,11 @@ export interface Tier {
 export const SITE_MARKUP = 1.1;
 /** Every digital option on the site, whatever the product (owner, 2026-10-07). */
 export const DIGITAL_PRICE = 19.99;
+/**
+ * What every product after the first costs as digital files in one order (pricing v2, owner 2026-10-07
+ * evening): the files cost nothing extra to make, so the digital saving is the one to push.
+ */
+export const DIGITAL_ADDON = 5;
 
 export const tiers: Tier[] = [
   { sku: "GDE-ANY-CARD-DIG", family: "cards", tierKey: "DIG", name: "Digital Card Files", etsyBase: 24.99, etsySale: 17.49, physical: false, enabled: true },
@@ -125,8 +134,9 @@ export function sitePrice(t: Tier): number {
 // --- the bundle ------------------------------------------------------------------------------------
 
 /**
- * The bundle ladder: how much the whole order saves by the number of DIFFERENT products in it (cards,
- * poster, banner, blanket — each at the option chosen, digital or printed). One product saves nothing.
+ * The printed ladder: how much the PRINTED products of an order save by their number (cards, poster,
+ * banner, blanket at a printed option). One printed product saves nothing; digital products are priced
+ * by the add-on rule (bundleTotal) and never count here.
  */
 export const BUNDLE_STEPS: readonly { count: number; percent: number }[] = [
   { count: 2, percent: 15 },
@@ -140,10 +150,14 @@ const bundlePercent = (productCount: number): number =>
 /** 1 → 0, 2 → 0.15, 3 → 0.2, 4 → 0.25. */
 export const bundleDiscountRate = (productCount: number): number => bundlePercent(productCount) / 100;
 
-/** One priced line of an order: which product it is (bundles count distinct products) and its site price. */
+/**
+ * One priced line of an order: which product it is (bundles count distinct products), its site price, and
+ * whether it is the product's digital files (the add-on rule) or a printed option (the printed ladder).
+ */
 export interface BundleLine {
   product: string;
   price: number;
+  digital: boolean;
 }
 
 export interface BundleTotal {
@@ -151,30 +165,55 @@ export interface BundleTotal {
   productCount: number;
   /** The same items bought separately — the one struck-through figure the site may show. */
   alaCarte: number;
-  /** 0, 0.15, 0.2 or 0.25. */
+  /**
+   * The share of alaCarte the order saves (discount ÷ alaCarte): 0 for one product; a printed-only order's
+   * is its ladder rate or a hair above it (the printed total rounds DOWN to .99); with digital add-ons it
+   * is whatever the add-on rule saves (four digital products save over half).
+   */
   discountRate: number;
-  /** alaCarte − total: never less than alaCarte × discountRate (the total rounds DOWN to .99). */
+  /** alaCarte − total. */
   discount: number;
   total: number;
 }
 
+const toCents = (n: number): number => Math.round(n * 100);
+/** `cents` less `percent` %, rounded DOWN to .99 — integer cents throughout, so a figure that lands ON .99 stays there. */
+const lessPercentTo99 = (cents: number, percent: number): number => Math.floor((cents * (100 - percent) - 9900) / 10000) * 100 + 99;
+
 /**
  * The one bundle function: the form's product step, "Your order", the request email and the set tiers
- * all price through it. A single product (or nothing) is its à-la-carte sum, untouched.
+ * all price through it. The printed lines are the printed ladder by the number of DIFFERENT printed
+ * products; the digital lines are the add-on rule — the first product of the order at its own price,
+ * every further one at DIGITAL_ADDON (with a printed product in the order, every digital line is the
+ * add-on). A single product (or nothing) is its à-la-carte sum, untouched.
  */
 export function bundleTotal(lines: readonly BundleLine[]): BundleTotal {
-  const alaCarteCents = Math.round(lines.reduce((sum, l) => sum + l.price, 0) * 100);
+  const alaCarteCents = lines.reduce((sum, l) => sum + toCents(l.price), 0);
   const productCount = new Set(lines.map((l) => l.product)).size;
-  const percent = bundlePercent(productCount);
-  // Integer cents throughout: alaCarteCents × (100 − percent) is exact, so a total that lands ON .99 stays there.
-  const totalCents = percent > 0 ? Math.floor((alaCarteCents * (100 - percent) - 9900) / 10000) * 100 + 99 : alaCarteCents;
+  const printed = lines.filter((l) => !l.digital);
+  const digital = [...lines.filter((l) => l.digital)].sort((a, b) => b.price - a.price);
+  const printedCents = printed.reduce((sum, l) => sum + toCents(l.price), 0);
+  const printedPercent = bundlePercent(new Set(printed.map((l) => l.product)).size);
+  const printedTotal = printedPercent > 0 ? lessPercentTo99(printedCents, printedPercent) : printedCents;
+  const addOns = printed.length ? digital.length : Math.max(0, digital.length - 1);
+  const digitalTotal = (printed.length || !digital.length ? 0 : toCents(digital[0].price)) + addOns * toCents(DIGITAL_ADDON);
+  const totalCents = printedTotal + digitalTotal;
   return {
     productCount,
     alaCarte: alaCarteCents / 100,
-    discountRate: percent / 100,
+    discountRate: alaCarteCents > 0 ? (alaCarteCents - totalCents) / alaCarteCents : 0,
     discount: (alaCarteCents - totalCents) / 100,
     total: totalCents / 100,
   };
+}
+
+/**
+ * What `count` different products cost together as digital files — DIGITAL_PRICE, then DIGITAL_ADDON
+ * each: the digital rungs of the ladder under the product cards. The same figure bundleTotal gives
+ * `count` digital lines (tested).
+ */
+export function allDigitalTotal(count: number): number {
+  return count <= 0 ? 0 : (toCents(DIGITAL_PRICE) + (count - 1) * toCents(DIGITAL_ADDON)) / 100;
 }
 
 /** The product a tier is part of when an order is bundled: the four things the form sells. */
@@ -213,7 +252,7 @@ export function setBundle(t: Tier): BundleTotal {
     parts.map((sku) => {
       const part = getTier(sku);
       if (!part) throw new Error(`setBundle: ${t.sku} lists ${sku}, which is not on a ladder`);
-      return { product: bundleProductOf(part), price: sitePrice(part) };
+      return { product: bundleProductOf(part), price: sitePrice(part), digital: !part.physical };
     }),
   );
 }
@@ -231,8 +270,14 @@ export function priceDisplay(t: Tier): { current: number; bundle?: BundleTotal }
 }
 
 export const formatUsd = (n: number): string => `$${n.toFixed(2)}`;
-/** 0.15 → "15%". */
-export const formatPercent = (rate: number): string => `${Math.round(rate * 100)}%`;
+/** A whole-dollar figure without the cents — "$5" for the add-on; anything else as formatUsd. */
+export const formatUsdShort = (n: number): string => (Number.isInteger(n) ? `$${n}` : formatUsd(n));
+/**
+ * 0.15 → "15%". Whole percents, rounded DOWN (0.1551 → "15%"): a saving chip never states more than the
+ * order saves — the printed total's rounding to .99 lifts a 15 % rung a hair above 15 %, and the chip
+ * beside a "2 products −15%" rung must not read "16%".
+ */
+export const formatPercent = (rate: number): string => `${Math.floor(rate * 100 + 1e-9)}%`;
 
 export const tiersFor = (family: Family, includeDisabled = false): Tier[] =>
   tiers.filter((t) => t.family === family && (includeDisabled || t.enabled));
