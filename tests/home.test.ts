@@ -176,7 +176,7 @@ describe("home — truth lint", () => {
   });
 
   it("says nothing the ban list forbids", () => {
-    for (const re of [/\byouth\b/i, /\binstant(ly)?\b/i, /rounded corners/i, /\bvintage\b/i, /\bpdf\b/i, /\b(10|22|25) cards\b/i, /18\s*\+\s*4/]) {
+    for (const re of [/\byouth\b/i, /\binstant(ly)?\b/i, /rounded corners/i, /\bvintage\b/i, /\bpdf\b/i, /\b(18|22|11|25) cards\b/i, /18\s*\+\s*4/, /10\s*\+\s*1/]) {
       expect(PAGE_TEXT, `forbidden: ${re}`).not.toMatch(re);
     }
   });

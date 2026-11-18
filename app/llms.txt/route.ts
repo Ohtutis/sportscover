@@ -59,7 +59,7 @@ const DO_NOT_SAY = [
   "Do not promise a jersey number for cheerleading, gymnastics, swimming, tennis, golf or pickleball: those cards carry the athlete's name and club crest instead; wrestling, track & field and skateboarding get a plain back.",
   "Do not describe the athletes shown on the site as customers: every example is a fictional athlete from the studio's own roster; a customer's child is never shown without written permission.",
   "Do not say the artwork is a photo filter or a template: it is generated with AI tools from the athlete's photos and finished by a person, checked against the photos before the proof goes out.",
-  "Do not count a pack as anything but 18 cards in total, 4 holographic chase and 14 standard; never state the count as a sum of two numbers.",
+  "Do not count a pack as anything but 10 cards in total, 1 of them holographic; never state the count as a sum of two numbers.",
   `Do not invent a phone number or an address: the contact is ${SUPPORT_EMAIL} and the contact page.`,
 ];
 

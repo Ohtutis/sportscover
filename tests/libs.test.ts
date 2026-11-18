@@ -325,7 +325,7 @@ describe("seasons / shipping / trust / canon / reviews / checklist", () => {
   it("trust line has three segments until Vertex is verified; canon strings are exact", () => {
     expect(trustLineSegments()).toEqual([...TRUST_SEGMENTS]);
     expect(CANON.trustLine).toBe("Never posted without your OK · Deleted after delivery, on a schedule you can see · Parent/guardian consent required");
-    expect(CANON.packLine).toBe("18 cards — 4 holographic chase, 14 standard");
+    expect(CANON.packLine).toBe("10 cards — 1 of them holographic");
     expect(CANON.packLine).not.toContain("+");
     expect(CANON.fictionalLabel).toBe("Example — fictional athlete · photo and artwork generated");
     expect(CANON.registeredIdLine).not.toMatch(/numbered/i);
