@@ -12,7 +12,7 @@ const [proofMin, proofMax] = LEAD_TIMES.digitalBusinessDays;
 
 export const CANON = {
   /** C7 — the pack line. Never a plus sign, never a different count. */
-  packLine: "18 cards — 4 holographic chase, 14 standard",
+  packLine: "10 cards — 1 of them holographic",
   /** C8 — the registered-ID line (S10: never "numbered"). */
   registeredIdLine: "Every card carries its registered card ID on the back.",
   /** C9 — the numberless line. */

@@ -19,7 +19,7 @@ const FORBIDDEN: Array<[RegExp, string]> = [
   [/\bpdf\b/i, "deliverables are PNG only"],
   [/\bverified (edition|card|athlete|review|buyer|purchase|customer|seller)s?\b|>\s*verified\s*</i, "'Verified' badge wording — the registry says Registered (§8)"],
   [/\b(customer|verified|real|5-star) reviews?\b|\b\d(\.\d)? ?stars\b|\b\d\.\d\/5\b/i, "review / star-rating claim (§8: none until real ones exist)"],
-  [/\b(10|22) (collectible )?cards\b/i, "pack is 18 cards total"],
+  [/\b(18|22|11) (collectible )?cards\b/i, "pack is 10 cards total, 1 of them holographic"],
   [/stripe payment link/i, "stale process copy"],
   [/(?<![-\w])16 ?pt\b(?![-\w])/i, "unconfirmed stock claim"],
   [/semi-?gloss/i, "unconfirmed stock claim"],

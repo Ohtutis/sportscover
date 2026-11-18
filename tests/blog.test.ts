@@ -130,7 +130,7 @@ const FORBIDDEN: Array<[RegExp, string]> = [
   [/\bverified\b/i, "'Verified' — the registry says Registered (D9)"],
   [/\bnumbered\b/i, "cards carry a registered card ID, never 'numbered' (S10, D21)"],
   [/\b(customer|verified|real|5-star) reviews?\b|\b\d(\.\d)? ?stars\b|\b\d\.\d\/5\b/i, "review / star claim"],
-  [/\b(10|22) (collectible )?cards\b/i, "pack is 18 cards total"],
+  [/\b(18|22|11) (collectible )?cards\b/i, "pack is 10 cards total, 1 of them holographic"],
   [/stripe/i, "provider name — 'secure payment link'"],
   [/(?<![-\w])16 ?pt\b(?![-\w])|semi-?gloss/i, "unconfirmed stock claim"],
   [/\bcheaper\b|same price on etsy/i, "Etsy comparison wording"],

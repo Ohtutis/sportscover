@@ -47,14 +47,14 @@ export const deliverables: Record<Family, string[]> = {
 export const tierNotes: Record<string, string[]> = {
   "GDE-ANY-CARD-P12": ["12 printed cards — square-cut, UV-coated, 2.5 × 3.5 in", "Free printed Certificate of Authenticity", "Printed and shipped free in the US"],
   "GDE-ANY-CARD-P24": ["24 printed cards — square-cut, UV-coated, 2.5 × 3.5 in", "Free printed Certificate of Authenticity", "Printed and shipped free in the US"],
-  "GDE-ANY-CARD-PACK": ["Sealed pack: 18 cards — 4 holographic chase, 14 standard", "Ships separately from our pack partner, 3–4 weeks"],
+  "GDE-ANY-CARD-PACK": ["Sealed pack: 10 cards — 1 of them holographic", "Ships separately from our pack partner, 3–4 weeks"],
   // Posters DO ship with the certificate (GAPS #5: every live poster listing promises it).
   "GDE-ANY-POST-P1824": ["18 × 24 in matte poster, 189 g/m²", "Free printed Certificate of Authenticity", "Printed and shipped free in the US"],
   "GDE-ANY-POST-P2436": ["24 × 36 in matte poster, 189 g/m²", "Free printed Certificate of Authenticity", "Printed and shipped free in the US"],
   "GDE-ANY-POST-P3040": ["30 × 40 in matte poster, 189 g/m² — printed package only; digital orders receive the two sizes above", "Free printed Certificate of Authenticity", "Printed and shipped free in the US"],
   "GDE-ANY-SET-PRINT": ["12 printed cards + 18 × 24 poster + printed certificate", "Every digital file included", "Printed and shipped free in the US"],
   "GDE-ANY-SET-DLX": ["24 printed cards + 24 × 36 poster + printed certificate", "Every digital file included", "Printed and shipped free in the US"],
-  "GDE-ANY-SET-ULT": ["Deluxe Set + sealed foil pack (18 cards — 4 holographic chase, 14 standard)", "Ships in three tracked packages"],
+  "GDE-ANY-SET-ULT": ["Deluxe Set + sealed foil pack (10 cards — 1 of them holographic)", "Ships in three tracked packages"],
   // Banner processing is the listing's own promise (1–2 weeks), not the poster/card chip.
   "GDE-ANY-BAN-1X2": ["1 × 2 ft printed vinyl banner + the digital file", "Ships separately, 1–2 weeks"],
   "GDE-ANY-BAN-2X4": ["2 × 4 ft printed vinyl banner + the digital file", "Ships separately, 1–2 weeks"],

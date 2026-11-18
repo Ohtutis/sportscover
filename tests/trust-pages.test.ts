@@ -253,7 +253,7 @@ describe("trust-pages — budgets and the ban list", () => {
     [/\bcheaper\b|same price on etsy/i, "Etsy comparison"],
     [/\bverified (edition|card|athlete|review|buyer|purchase|customer|seller)s?\b/i, "'Verified' badge wording"],
     [/\b(customer|verified|real|5-star) reviews?\b|\b\d(\.\d)? ?stars\b|\b\d\.\d\/5\b/i, "review / star claim"],
-    [/\b(10|22) (collectible )?cards\b/i, "pack is 18 cards total"],
+    [/\b(18|22|11) (collectible )?cards\b/i, "pack is 10 cards total, 1 of them holographic"],
     [/\byouth\b/i, "never 'youth'"],
   ];
 
